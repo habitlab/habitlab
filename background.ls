@@ -268,4 +268,4 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
 
 
 # open the options page on first run
-chrome.tabs.create {url: 'options.html'}
+#chrome.tabs.create {url: 'options.html'}

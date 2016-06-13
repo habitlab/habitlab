@@ -317,7 +317,4 @@
     });
     return true;
   });
-  chrome.tabs.create({
-    url: 'options.html'
-  });
 }).call(this);

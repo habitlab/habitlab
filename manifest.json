@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "HabitLab",
   "short_name": "habitlab",
-  "description": "Build better habits online! Just tell the system your goals, and our behavioral-experimentation platform will determine the appropriate interventions.",
+  "description": "Build better habits online! Tell HabitLab your goals, and it will determine the appropriate interventions via experimentation.",
   "version": "1.0.11",
   "permissions": [
     "tabs",
@@ -42,6 +42,18 @@
         "feedlearn.js"
       ],
       "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "http://youtube.com/*",
+        "https://youtube.com/*",
+        "http://www.youtube.com/*",
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "bower_components/jquery/dist/jquery.min.js",
+        "youtube_aftervideo.js"
+      ]
     }
   ],
   "browser_action": {

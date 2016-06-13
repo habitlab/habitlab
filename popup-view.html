@@ -1,0 +1,51 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<dom-module id="popup-view">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <div>
+      <img src="popup.png" style="width: 100%" on-click="open_options_page">
+      <!--
+      <div style="display: table; width: 100%; margin-bottom: 10px">
+        <div style="text-align: left; display: table-cell">Where do you spend your time online?</div>
+        <div style="display: table-cell; text-align: right">
+          <paper-button raised style="background: #4285f4; color: #fff" on-click="open_slacking_survey">View Results</paper-button>
+        </div>
+      </div>
+      <div style="display: table; width: 100%; margin-bottom: 10px">
+        <div style="text-align: left; display: table-cell">Facebook data</div>
+        <div style="display: table-cell; text-align: right">
+          <paper-button raised style="background: #4285f4; color: #fff" on-click="open_facebook_survey">View Results</paper-button>
+        </div>
+      </div>
+      <div style="display: table; width: 100%; margin-bottom: 10px">
+        <div style="text-align: left; display: table-cell">Google searches</div>
+        <div style="display: table-cell; text-align: right">
+          <paper-button raised style="background: #4285f4; color: #fff" on-click="open_google_survey">View Results</paper-button>
+        </div>
+      </div>
+      <div style="display: table; width: 100%; margin-bottom: 10px">
+        <div style="text-align: left; display: table-cell">Bing searches</div>
+        <div style="display: table-cell; text-align: right">
+          <paper-button raised style="background: #4285f4; color: #fff" on-click="open_bing_survey">View Results</paper-button>
+        </div>
+      </div>
+
+
+      <br>
+      <br>
+      <template is="dom-repeat" items="{{experiment_list}}" as="experiment">
+        <exp-description title="{{experiment.title}}" description="{{experiment.description}}"></exp-description>
+        <br>
+      </template>
+      -->
+    </div>
+  </template>
+  <script src="popup-view.js"></script>
+</dom-module>

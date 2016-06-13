@@ -1,0 +1,58 @@
+{
+  "name": "jquery.documentsize",
+  "version": "1.2.3",
+  "homepage": "https://github.com/hashchange/jquery.documentsize",
+  "authors": [
+    "Michael Heim <heim@zeilenwechsel.de>"
+  ],
+  "description": "Detects the real width and height of the document.",
+  "main": "dist/jquery.documentsize.js",
+  "keywords": [
+    "jquery",
+    "jquery-plugin",
+    "document",
+    "dimensions",
+    "width",
+    "height",
+    "size",
+    "viewport",
+    "window",
+    "overflow",
+    "scroll",
+    "scrollbar",
+    "container",
+    "dom",
+    "html",
+    "hidden",
+    "hide",
+    "visible",
+    "visibility",
+    "display",
+    "show",
+    "element"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "public",
+    "reports",
+    "demo",
+    "lib-other",
+    "web-mocha",
+    "spec",
+    "src",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "devDependencies": {
+    "jquery-legacy": "jquery#^1"
+  }
+}

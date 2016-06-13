@@ -1,0 +1,66 @@
+manifest_version: 2
+name: HabitLab
+short_name: habitlab
+description: Build better habits online! Just tell the system your goals, and our behavioral-experimentation platform will determine the appropriate interventions.
+version: '1.0.11'
+permissions:
+  - tabs
+  - webNavigation
+  - unlimitedStorage
+  - history
+  - idle
+  - 'http://*/'
+  - 'https://*/'
+background:
+  persistent: true
+  scripts:
+    - bower_components/jquery/dist/jquery.min.js
+    - bower_components/async/dist/async.min.js
+    - bower_components/js-yaml/dist/js-yaml.min.js
+    - prelude.js
+    #- minimongo.js
+    - memoize.js
+    #- sizeof.compressed.js
+    - background_common.js
+    - fields/computed_fields.js
+    - fields/get_field.js
+    - background.js
+    - background_utils.js
+content_scripts:
+  - matches:
+    - 'http://facebook.com/*'
+    - 'https://facebook.com/*'
+    - 'http://www.facebook.com/*'
+    - 'https://www.facebook.com/*'
+    js:
+      - bower_components/jquery/dist/jquery.min.js
+      - bower_components/jquery.isinview/dist/jquery.isinview.min.js
+      - feedlearn.js
+    run_at: document_end
+#content_scripts:
+#  - matches:
+#      - 'https://*/*'
+#      - 'http://*/*'
+#    js:
+#      - bower_components/sweetalert/dist/sweetalert.min.js
+#      - content_script.js
+#    css:
+#      - bower_components/sweetalert/dist/sweetalert.css
+#    run_at: document_end
+#page_action:
+browser_action:
+  default_icon:
+    19: icon_19.png
+    38: icon_38.png
+  default_popup: popup.html
+options_ui:
+  page: options.html
+  chrome_style: false
+  open_in_tab: true
+externally_connectable:
+  #ids:
+  #  - lmhkdhimjgolapmhllfodcmmibjmmdoi
+  matches:
+    - '*://localhost:*/*'
+    - '*://autosurvey.pancakeapps.com/*'
+    - '*://tmi.netlify.com/*'

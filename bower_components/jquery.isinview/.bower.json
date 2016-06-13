@@ -1,0 +1,64 @@
+{
+  "name": "jquery.isinview",
+  "version": "1.0.3",
+  "homepage": "https://github.com/hashchange/jquery.isinview",
+  "authors": [
+    "Michael Heim <heim@zeilenwechsel.de>"
+  ],
+  "description": "Detects if elements are in view - inside of the viewport, an iframe, or other containers. Extremely fast.",
+  "main": "dist/jquery.isinview.js",
+  "keywords": [
+    "jquery",
+    "jquery-plugin",
+    "view",
+    "viewport",
+    "window",
+    "visible",
+    "visibility",
+    "display",
+    "show",
+    "overflow",
+    "scroll",
+    "scrollbar",
+    "container",
+    "dom",
+    "element",
+    "hidden",
+    "hide",
+    "nested",
+    "recursive"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "public",
+    "reports",
+    "demo",
+    "lib-other",
+    "web-mocha",
+    "spec",
+    "src",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "package.json"
+  ],
+  "devDependencies": {},
+  "dependencies": {
+    "jquery": ">=1.9.0 <2.2",
+    "jquery.documentsize": "^1.1.0"
+  },
+  "_release": "1.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.3",
+    "commit": "ab7f095ee2c32e8eb6c96c13c78ad6d3f4f46ddd"
+  },
+  "_source": "https://github.com/hashchange/jquery.isinview.git",
+  "_target": "^1.0.3",
+  "_originalSource": "jquery.isinview",
+  "_direct": true
+}

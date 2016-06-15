@@ -1,0 +1,45 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+
+<dom-module id="options-interventions">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <div style="margin: 10px">
+      <!-- <img src="options-goals.png" style="width: 100%"> -->
+      <p>HabitLab automatically manages your interventions by default to maximize their effectiveness. You do not need to modify any settings on this page. However, if you particularly like/dislike an intervention, you can set it to be permanently enabled or disabled.</p>
+
+      <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
+
+      <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
+
+      <h1>Facebook</h1>
+
+      <paper-checkbox>Inject messages into feed telling you how long you have spent on Facebook</paper-checkbox>
+
+      <h1>Youtube</h1>
+
+      <paper-checkbox>Hide recommendations for videos</paper-checkbox>
+      
+      <br><br>
+
+      <paper-checkbox>Show me how much time I have spent on youtube after I finish watching a video</paper-checkbox>
+      
+      <br><br>
+
+      <paper-checkbox>Show me how much time I have spent on youtube and how much time this video will take before I watch a video</paper-checkbox><br><br>
+
+      <h1>Duolingo</h1>
+
+      <paper-checkbox>Inject messages into Facebook feed reminding you to do a lesson on Duolingo if you haven't yet done one</paper-checkbox>
+
+
+    </div>
+  </template>
+  <script src="options-interventions.js"></script>
+</dom-module>

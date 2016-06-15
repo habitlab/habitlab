@@ -8,6 +8,29 @@ export getExperimentInfo = (experiment_name, callback) ->
   experiment_info = jsyaml.safeLoad experiment_info_text
   callback experiment_info
 
+export getInterventionInfo = (intervention_name, callback) ->
+  intervention_info_text <- $.get "/interventions/#{intervention_name}/info.yaml"
+  intervention_info = jsyaml.safeLoad intervention_info_text
+  callback intervention_info
+
+export get_interventions = memoizeSingleAsync (callback) ->
+  $.get '/interventions/interventions.yaml', (interventions_list_text) ->
+    interventions_list = jsyaml.safeLoad interventions_list_text
+    output = {}
+    errors,results <- async.mapSeries interventions_list, (intervention_name, ncallback) ->
+      intervention_info <- getInterventionInfo intervention_name
+      if not intervention_info.nomatches?
+        intervention_info.nomatches = []
+      if not intervention_info.matches?
+        intervention_info.matches = []
+      if not intervention_info.scripts?
+        intervention_info.scripts = []
+      intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
+      intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
+      output[intervention_name] = intervention_info
+      ncallback null, null
+    callback output
+
 export get_experiments = memoizeSingleAsync (callback) ->
   $.get '/experiments/experiments_list.yaml', (experiments_list_text) ->
     experiments_list = jsyaml.safeLoad experiments_list_text
@@ -18,8 +41,8 @@ export get_experiments = memoizeSingleAsync (callback) ->
         experiment_info.nomatches = []
       if not experiment_info.matches?
         experiment_info.matches = []
-      if not experiment_info.scripts?
-        experiment_info.scripts = []
+      if not experiment_info.content_scripts?
+        experiment_info.content_scripts = []
       if not experiment_info.css?
         experiment_info.css = []
       experiment_info.match_regexes = [new RegExp(x) for x in experiment_info.matches]
@@ -27,6 +50,26 @@ export get_experiments = memoizeSingleAsync (callback) ->
       output[experiment_name] = experiment_info
       ncallback null, null
     callback output
+
+export list_available_interventions_for_location = (location, callback) ->
+  all_interventions <- get_interventions()
+  possible_interventions = []
+  for intervention_name,intervention_info of all_interventions
+    blacklisted = false
+    for regex in intervention_info.nomatch_regexes
+      if regex.test(location)
+        blacklisted = true
+        break
+    if blacklisted
+      continue
+    matches = false
+    for regex in intervention_info.match_regexes
+      if regex.test(location)
+        matches = true
+        break
+    if matches
+      possible_interventions.push intervention_name
+  callback possible_interventions
 
 export list_available_experiments_for_location = (location, callback) ->
   all_experiments <- get_experiments()
@@ -142,3 +185,10 @@ export clear_all = (callback) ->
   ]
   if callback?
     callback()
+
+export printcb = (x) -> console.log(x)
+
+export printfunc = (func, ...args) ->
+  nargs = [x for x in args]
+  nargs.push printcb
+  func.apply({}, nargs)

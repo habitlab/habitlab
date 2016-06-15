@@ -55,8 +55,8 @@ content_scripts:
 #    css:
 #      - bower_components/sweetalert/dist/sweetalert.css
 #    run_at: document_end
-#page_action:
-browser_action:
+#browser_action:
+page_action:
   default_icon:
     19: icon_19.png
     38: icon_38.png

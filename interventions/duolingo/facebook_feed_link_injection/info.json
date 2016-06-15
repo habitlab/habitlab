@@ -1,0 +1,9 @@
+{
+  "description": "Insert links to Duolingo into my Facebook feed",
+  "matches": [
+    "www.facebook.com"
+  ],
+  "content_scripts": [
+    "index.js"
+  ]
+}

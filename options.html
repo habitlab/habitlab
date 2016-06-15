@@ -6,16 +6,12 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="bower_components/polymer/polymer.html">
-  <link rel="import" href="bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="bower_components/polymer-themes/ice.html">
+  <!--<link rel="import" href="bower_components/iron-demo-helpers/demo-pages-shared-styles.html">-->
   <link rel="import" href="bower_components/iron-pages/iron-pages.html">
   <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
-
-  <style is="custom-style" include="demo-pages-shared-styles">
-    paper-tabs, paper-toolbar {
-      background-color: var(--paper-blue-900);
-      color: #fff;
-    }
-  </style>
+  <link rel="import" href="options-goals.html">
+  <link rel="import" href="options-interventions.html">
 </head>
 <body>
   <template is="dom-bind">
@@ -25,15 +21,8 @@
     </paper-tabs>
 
     <iron-pages selected="{{selected}}">
-      <!-- Goals -->
-      <div>
-        <img src="options-goals.png" style="width: 100%">
-      </div>
-
-      <!-- Interventions -->
-      <div>
-        <img src="options-interventions.png" style="width: 100%">
-      </div>
+      <options-goals></options-goals>
+      <options-interventions></options-interventions>
     </iron-pages>
   </template>
 </body>

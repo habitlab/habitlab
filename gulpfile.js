@@ -1,11 +1,13 @@
 (function(){
-  var gulp, gulpChanged, gulpUtil, gulpPrint, gulpLivescript, lspattern;
+  var gulp, gulpChanged, gulpUtil, gulpPrint, gulpLivescript, gulpYaml, lspattern, yamlpattern;
   gulp = require('gulp');
   gulpChanged = require('gulp-changed');
   gulpUtil = require('gulp-util');
   gulpPrint = require('gulp-print');
   gulpLivescript = require('gulp-livescript');
-  lspattern = ['app.ls', '*.ls', 'fields/*.ls'];
+  gulpYaml = require('gulp-yaml');
+  lspattern = ['app.ls', '*.ls', 'fields/*.ls', 'interventions/**/*.ls'];
+  yamlpattern = ['manifest.yaml', 'interventions/**/*.yaml'];
   gulp.task('livescript', function(){
     gulp.src(lspattern, {
       base: './'
@@ -17,9 +19,21 @@
       colors: false
     })).pipe(gulp.dest('.'));
   });
-  gulp.task('build', ['livescript']);
+  gulp.task('yaml', function(){
+    gulp.src(yamlpattern, {
+      base: './'
+    }).pipe(gulpChanged('.', {
+      extension: '.json'
+    })).pipe(gulpYaml({
+      space: 2
+    })).on('error', gulpUtil.log).pipe(gulpPrint({
+      colors: false
+    })).pipe(gulp.dest('.'));
+  });
+  gulp.task('build', ['livescript', 'yaml']);
   gulp.task('watch', function(){
-    return gulp.watch(lspattern, ['build']);
+    gulp.watch(lspattern, ['livescript']);
+    gulp.watch(yamlpattern, ['yaml']);
   });
   gulp.task('default', ['build', 'watch']);
 }).call(this);

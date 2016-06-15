@@ -1,0 +1,49 @@
+{
+  "name": "polymer-themes",
+  "version": "1.0.1",
+  "homepage": "http://polymerthemes.com/",
+  "authors": [
+    "team@polymerthemes.com"
+  ],
+  "description": "Free Polymer Themes and Templates",
+  "keywords": [
+    "Polymer",
+    "Web",
+    "Components",
+    "Themes",
+    "Templates"
+  ],
+  "license": "BSD",
+  "ignore": [
+    "**/.*"
+  ],
+  "devDependencies": {
+    "polymer": "Polymer/polymer#1.0.3",
+    "paper-behaviors": "PolymerElements/paper-behaviors#1.0.2",
+    "paper-button": "PolymerElements/paper-button#1.0.1",
+    "paper-checkbox": "PolymerElements/paper-checkbox#1.0.3",
+    "paper-dialog": "PolymerElements/paper-dialog#1.0.0",
+    "paper-dialog-behavior": "PolymerElements/paper-dialog-behavior#1.0.2",
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#1.0.1",
+    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#1.0.2",
+    "paper-fab": "PolymerElements/paper-fab#1.0.2",
+    "paper-header-panel": "PolymerElements/paper-header-panel#1.0.2",
+    "paper-icon-button": "polymerelements/paper-icon-button#1.0.2",
+    "paper-input": "PolymerElements/paper-input#1.0.3",
+    "paper-item": "PolymerElements/paper-item#1.0.1",
+    "paper-material": "PolymerElements/paper-material#1.0.0",
+    "paper-menu": "PolymerElements/paper-menu#1.0.0",
+    "paper-progress": "PolymerElements/paper-progress#1.0.0",
+    "paper-radio-button": "PolymerElements/paper-radio-button#1.0.3",
+    "paper-radio-group": "PolymerElements/paper-radio-group#1.0.2",
+    "paper-ripple": "PolymerElements/paper-ripple#1.0.1",
+    "paper-scroll-header-panel": "PolymerElements/paper-scroll-header-panel#1.0.2",
+    "paper-slider": "PolymerElements/paper-slider#1.0.2",
+    "paper-spinner": "PolymerElements/paper-spinner#1.0.1",
+    "paper-styles": "PolymerElements/paper-styles#1.0.4",
+    "paper-tabs": "PolymerElements/paper-tabs#1.0.0",
+    "paper-toast": "PolymerElements/paper-toast#1.0.0",
+    "paper-toggle-button": "PolymerElements/paper-toggle-button#1.0.3",
+    "paper-toolbar": "PolymerElements/paper-toolbar#1.0.2"
+  }
+}

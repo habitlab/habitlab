@@ -26,6 +26,7 @@ running_background_scripts = {}
 load_background_script = (options, intervention_info, callback) ->
   if running_background_scripts[options.path]?
     # already running
+    return
   background_script_text <- $.get options.path
   background_script_function = new Function('env', background_script_text)
   env = {

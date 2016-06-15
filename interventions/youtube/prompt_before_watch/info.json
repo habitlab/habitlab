@@ -1,0 +1,13 @@
+{
+  "description": "Prompt the user before watching a Youtube video",
+  "matches": [
+    "www.youtube.com"
+  ],
+  "content_scripts": [
+    "/bower_components/jquery/dist/jquery.min.js",
+    "frontend.js"
+  ],
+  "background_scripts": [
+    "backend.js"
+  ]
+}

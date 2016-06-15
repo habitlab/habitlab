@@ -27,16 +27,16 @@ background:
     - fields/get_field.js
     - background.js
     - background_utils.js
-    - close_tab.js
-content_scripts:
-  - matches:
-    - 'http://youtube.com/*'
-    - 'https://youtube.com/*'
-    - 'http://www.youtube.com/*'
-    - 'https://www.youtube.com/*'
-    js:
-      - bower_components/jquery/dist/jquery.min.js
-      - youtube_aftervideo.js
+    #- close_tab.js
+#content_scripts:
+#  - matches:
+#    - 'http://youtube.com/*'
+#    - 'https://youtube.com/*'
+#    - 'http://www.youtube.com/*'
+#    - 'https://www.youtube.com/*'
+#    js:
+#      - bower_components/jquery/dist/jquery.min.js
+#      - youtube_aftervideo.js
 #content_scripts:
 #  - matches:
 #      - 'https://*/*'

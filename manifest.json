@@ -26,24 +26,9 @@
       "fields/computed_fields.js",
       "fields/get_field.js",
       "background.js",
-      "background_utils.js",
-      "close_tab.js"
+      "background_utils.js"
     ]
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "http://youtube.com/*",
-        "https://youtube.com/*",
-        "http://www.youtube.com/*",
-        "https://www.youtube.com/*"
-      ],
-      "js": [
-        "bower_components/jquery/dist/jquery.min.js",
-        "youtube_aftervideo.js"
-      ]
-    }
-  ],
   "page_action": {
     "default_icon": {
       "19": "icon_19.png",

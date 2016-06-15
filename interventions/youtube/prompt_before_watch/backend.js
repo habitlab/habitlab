@@ -1,3 +1,4 @@
+console.log('youtube prompt before watch loaded backend')
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 	if (request.greeting === "closeTab") {
@@ -7,4 +8,3 @@ chrome.runtime.onMessage.addListener(
 		});
 	}
 });
-

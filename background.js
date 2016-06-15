@@ -1,5 +1,5 @@
 (function(){
-  var root, execute_content_script, insert_css, load_background_script, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
+  var root, execute_content_script, insert_css, running_background_scripts, load_background_script, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
   root = typeof exports != 'undefined' && exports !== null ? exports : this;
   execute_content_script = function(tabid, options, callback){
     if (options.run_at == null) {
@@ -29,7 +29,11 @@
       return callback();
     }
   };
+  running_background_scripts = {};
   load_background_script = function(options, intervention_info, callback){
+    if (running_background_scripts[options.path] != null) {
+      return;
+    }
     return $.get(options.path, function(background_script_text){
       var background_script_function, env;
       background_script_function = new Function('env', background_script_text);

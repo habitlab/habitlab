@@ -2,4 +2,6 @@ description: Insert links to Duolingo into my Facebook feed
 matches:
   - www.facebook.com
 content_scripts:
+  - /bower_components/jquery/dist/jquery.min.js
+  - /bower_components/jquery.isinview/dist/jquery.isinview.min.js
   - index.js

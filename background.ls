@@ -31,7 +31,7 @@ export load_intervention = (intervention_name, callback) ->
     if typeof options == 'string'
       options = {path: options}
     if options.path[0] == '/'
-      options.path = 'interventions' + options.path
+      options.path = options.path.substr(1)
     else
       options.path = "interventions/#{intervention_name}/#{options.path}"
     execute_content_script tabid, options, ncallback
@@ -207,6 +207,10 @@ chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
   if tab.url
     #console.log 'tabs updated!'
     #console.log tab.url
+    # TODO implement the following approach
+    # http://stackoverflow.com/questions/8859622/chrome-extension-how-to-detect-that-content-script-is-already-loaded-into-a-tab
+    if changeInfo.status != 'complete'
+      return
     possible_interventions <- list_available_interventions_for_location(tab.url)
     if possible_interventions.length > 0
       chrome.pageAction.show(tabId)

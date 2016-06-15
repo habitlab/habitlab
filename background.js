@@ -47,7 +47,7 @@
             };
           }
           if (options.path[0] === '/') {
-            options.path = 'interventions' + options.path;
+            options.path = options.path.substr(1);
           } else {
             options.path = "interventions/" + intervention_name + "/" + options.path;
           }
@@ -320,6 +320,9 @@
   };
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
     if (tab.url) {
+      if (changeInfo.status !== 'complete') {
+        return;
+      }
       return list_available_interventions_for_location(tab.url, function(possible_interventions){
         if (possible_interventions.length > 0) {
           chrome.pageAction.show(tabId);

@@ -2,7 +2,6 @@
 function removeSidebar() {
 	//remove the links on the sidebar
 	var sidebarLink = document.querySelectorAll('.watch-sidebar-section');
-
 	for (var i = 0; i < sidebarLink.length; i++) {
 		var link = sidebarLink[i];
 		link.parentNode.removeChild(link);
@@ -38,8 +37,9 @@ function divOverVideo(status) {
 							'top': '50%',
 							'left': '50%',
 							'transform': 'translateX(-50%) translateY(-50%)'});
-	var $text1 = $('<h1>');	
 
+	//Message to user
+	var $text1 = $('<h1>');	
 	if (status === 'begin') {
 		$text1.text("Are you sure you want to play the video?");
 	} else {
@@ -72,12 +72,14 @@ function divOverVideo(status) {
 	$('.whiteOverlay').append($contentContainer);	
 }
 
+//Remove the white div
 function removeDiv() {
 	$('.whiteOverlay').remove();
 	var play = document.querySelector('video');
 	play.play();	
 }
 
+//Close the current tab
 function closeTab() {
 	chrome.runtime.sendMessage({greeting: "closeTab"}, function(response) {});
 }
@@ -87,8 +89,7 @@ function endWarning() {
 	/*
 	$('video').on('ended', function() {
 		console.log("executing");
-		divOverVideoEnd();
-		
+		divOverVideoEnd();		
 	});
 	*/
 	overlayBox = document.querySelector('video');
@@ -98,7 +99,7 @@ function endWarning() {
 	}		
 }
 
-//Method calls go here
+//All method calls
 function main() {
 	removeSidebar();
 	divOverVideo("begin");
@@ -107,18 +108,20 @@ function main() {
 	setInterval(endWarning, 250); //Loop every second to test the status of the video until near the end
 }
 
-//Link Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
+//Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
 function afterNavigate() {
     if ('/watch' === location.pathname) {
         $(document).ready(main);
     }
 }
 
+//Youtube specific call for displaying the white div/message when the red top slider transitions
+//(Solution from link above)
 (document.body || document.documentElement).addEventListener('transitionend',
   function(/*TransitionEvent*/ event) {
     if (event.propertyName === 'width' && event.target.id === 'progress') {
         afterNavigate();
     }
 }, true);
-// After page load
+//Executed after page load
 afterNavigate();

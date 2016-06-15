@@ -26,6 +26,7 @@ background:
     - fields/get_field.js
     - background.js
     - background_utils.js
+    - close_tab.js
 content_scripts:
   - matches:
     - 'http://youtube.com/*'

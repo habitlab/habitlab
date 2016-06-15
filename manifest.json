@@ -25,7 +25,8 @@
       "fields/computed_fields.js",
       "fields/get_field.js",
       "background.js",
-      "background_utils.js"
+      "background_utils.js",
+      "close_tab.js"
     ]
   },
   "content_scripts": [

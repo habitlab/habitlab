@@ -79,17 +79,12 @@ function removeDiv() {
 }
 
 function closeTab() {
-	console.log("hello");
-	chrome.tabs.getSelected(function(tab) {
-		console.log(tab.id);
-		chrome.tabs.remove(tab.id);
-	});
+	chrome.runtime.sendMessage({greeting: "closeTab"}, function(response) {});
 }
 
 //TODO: Make event listener for end of video instead of checking every second if the video is finished	
 function endWarning() {	
 	/*
-	console.log('Hello');
 	$('video').on('ended', function() {
 		console.log("executing");
 		divOverVideoEnd();

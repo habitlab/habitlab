@@ -21,7 +21,7 @@ insert_css = (css_path, callback) ->
   if callback?
     callback()
 
-export load_intervention = (intervention_name, callback) ->
+load_intervention = (intervention_name, callback) ->
   console.log 'start load_intervention ' + intervention_name
   all_interventions <- get_interventions()
   intervention_info = all_interventions[intervention_name]
@@ -35,41 +35,14 @@ export load_intervention = (intervention_name, callback) ->
     else
       options.path = "interventions/#{intervention_name}/#{options.path}"
     execute_content_script tabid, options, ncallback
-  console.log 'done load_experiment ' + intervention_name
+  console.log 'done load_intervention ' + intervention_name
   callback?!
-
-load_experiment = (experiment_name, callback) ->
-  console.log 'start load_experiment ' + experiment_name
-  all_experiments <- get_experiments()
-  experiment_info = all_experiments[experiment_name]
-  tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
-  tabid = tabs[0].id
-  <- async.eachSeries experiment_info.scripts, (options, ncallback) ->
-    if typeof options == 'string'
-      options = {path: options}
-    if options.path[0] == '/'
-      options.path = 'experiments' + options.path
-    else
-      options.path = "experiments/#{experiment_name}/#{options.path}"
-    execute_content_script tabid, options, ncallback
-  # <- async.eachSeries experiment_info.css, (css_name, ncallback) ->
-  #   insert_css "experiments/#{experiment_name}/#{css_name}", ncallback
-  console.log 'done load_experiment ' + experiment_name
-  if callback?
-    callback()
 
 load_intervention_for_location = (location, callback) ->
   possible_interventions <- list_available_interventions_for_location(location)
   errors, results <- async.eachSeries possible_interventions, (intervention, ncallback) ->
     load_intervention intervention, ncallback
   callback?!
-
-load_experiment_for_location = (location, callback) ->
-  possible_experiments <- list_available_experiments_for_location(location)
-  errors, results <- async.eachSeries possible_experiments, (experiment, ncallback) ->
-    load_experiment experiment, ncallback
-  if callback?
-    callback()
 
 getLocation = (callback) ->
   #sendTab 'getLocation', {}, callback
@@ -145,14 +118,6 @@ message_handlers = {
       console.log 'getLocation background page:'
       console.log location
       callback location
-  'load_experiment': (data, callback) ->
-    {experiment_name} = data
-    load_experiment experiment_name, ->
-      callback()
-  'load_experiment_for_location': (data, callback) ->
-    {location} = data
-    load_experiment_for_location location, ->
-      callback()
   'load_intervention': (data, callback) ->
     {intervention_name} = data
     load_intervention intervention_name, ->

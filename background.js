@@ -1,5 +1,5 @@
 (function(){
-  var root, execute_content_script, insert_css, load_intervention, load_experiment, load_intervention_for_location, load_experiment_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
+  var root, execute_content_script, insert_css, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
   root = typeof exports != 'undefined' && exports !== null ? exports : this;
   execute_content_script = function(tabid, options, callback){
     if (options.run_at == null) {
@@ -29,7 +29,7 @@
       return callback();
     }
   };
-  out$.load_intervention = load_intervention = function(intervention_name, callback){
+  load_intervention = function(intervention_name, callback){
     console.log('start load_intervention ' + intervention_name);
     return get_interventions(function(all_interventions){
       var intervention_info;
@@ -53,40 +53,8 @@
           }
           return execute_content_script(tabid, options, ncallback);
         }, function(){
-          console.log('done load_experiment ' + intervention_name);
+          console.log('done load_intervention ' + intervention_name);
           return typeof callback == 'function' ? callback() : void 8;
-        });
-      });
-    });
-  };
-  load_experiment = function(experiment_name, callback){
-    console.log('start load_experiment ' + experiment_name);
-    return get_experiments(function(all_experiments){
-      var experiment_info;
-      experiment_info = all_experiments[experiment_name];
-      return chrome.tabs.query({
-        active: true,
-        lastFocusedWindow: true
-      }, function(tabs){
-        var tabid;
-        tabid = tabs[0].id;
-        return async.eachSeries(experiment_info.scripts, function(options, ncallback){
-          if (typeof options === 'string') {
-            options = {
-              path: options
-            };
-          }
-          if (options.path[0] === '/') {
-            options.path = 'experiments' + options.path;
-          } else {
-            options.path = "experiments/" + experiment_name + "/" + options.path;
-          }
-          return execute_content_script(tabid, options, ncallback);
-        }, function(){
-          console.log('done load_experiment ' + experiment_name);
-          if (callback != null) {
-            return callback();
-          }
         });
       });
     });
@@ -97,17 +65,6 @@
         return load_intervention(intervention, ncallback);
       }, function(errors, results){
         return typeof callback == 'function' ? callback() : void 8;
-      });
-    });
-  };
-  load_experiment_for_location = function(location, callback){
-    return list_available_experiments_for_location(location, function(possible_experiments){
-      return async.eachSeries(possible_experiments, function(experiment, ncallback){
-        return load_experiment(experiment, ncallback);
-      }, function(errors, results){
-        if (callback != null) {
-          return callback();
-        }
       });
     });
   };
@@ -223,20 +180,6 @@
         console.log('getLocation background page:');
         console.log(location);
         return callback(location);
-      });
-    },
-    'load_experiment': function(data, callback){
-      var experiment_name;
-      experiment_name = data.experiment_name;
-      return load_experiment(experiment_name, function(){
-        return callback();
-      });
-    },
-    'load_experiment_for_location': function(data, callback){
-      var location;
-      location = data.location;
-      return load_experiment_for_location(location, function(){
-        return callback();
       });
     },
     'load_intervention': function(data, callback){

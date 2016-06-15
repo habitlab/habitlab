@@ -1,13 +1,3 @@
-export getSurveyInfo = (survey_name, callback) ->
-  survey_info_text <- $.get "/surveys/#{survey_name}.yaml"
-  survey_info = jsyaml.safeLoad survey_info_text
-  callback survey_info
-
-export getExperimentInfo = (experiment_name, callback) ->
-  experiment_info_text <- $.get "/experiments/#{experiment_name}/experiment.yaml"
-  experiment_info = jsyaml.safeLoad experiment_info_text
-  callback experiment_info
-
 export getInterventionInfo = (intervention_name, callback) ->
   intervention_info_text <- $.get "/interventions/#{intervention_name}/info.yaml"
   intervention_info = jsyaml.safeLoad intervention_info_text
@@ -23,31 +13,11 @@ export get_interventions = memoizeSingleAsync (callback) ->
         intervention_info.nomatches = []
       if not intervention_info.matches?
         intervention_info.matches = []
-      if not intervention_info.scripts?
-        intervention_info.scripts = []
+      if not intervention_info.content_scripts?
+        intervention_info.content_scripts = []
       intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
       intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
       output[intervention_name] = intervention_info
-      ncallback null, null
-    callback output
-
-export get_experiments = memoizeSingleAsync (callback) ->
-  $.get '/experiments/experiments_list.yaml', (experiments_list_text) ->
-    experiments_list = jsyaml.safeLoad experiments_list_text
-    output = {}
-    errors,results <- async.mapSeries experiments_list, (experiment_name, ncallback) ->
-      experiment_info <- getExperimentInfo experiment_name
-      if not experiment_info.nomatches?
-        experiment_info.nomatches = []
-      if not experiment_info.matches?
-        experiment_info.matches = []
-      if not experiment_info.content_scripts?
-        experiment_info.content_scripts = []
-      if not experiment_info.css?
-        experiment_info.css = []
-      experiment_info.match_regexes = [new RegExp(x) for x in experiment_info.matches]
-      experiment_info.nomatch_regexes = [new RegExp(x) for x in experiment_info.nomatches]
-      output[experiment_name] = experiment_info
       ncallback null, null
     callback output
 
@@ -70,26 +40,6 @@ export list_available_interventions_for_location = (location, callback) ->
     if matches
       possible_interventions.push intervention_name
   callback possible_interventions
-
-export list_available_experiments_for_location = (location, callback) ->
-  all_experiments <- get_experiments()
-  possible_experiments = []
-  for experiment_name,experiment_info of all_experiments
-    blacklisted = false
-    for regex in experiment_info.nomatch_regexes
-      if regex.test(location)
-        blacklisted = true
-        break
-    if blacklisted
-      continue
-    matches = false
-    for regex in experiment_info.match_regexes
-      if regex.test(location)
-        matches = true
-        break
-    if matches
-      possible_experiments.push experiment_name
-  callback possible_experiments
 
 export getDb = memoizeSingleAsync (callback) ->
   new minimongo.IndexedDb {namespace: 'autosurvey'}, callback

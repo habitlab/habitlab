@@ -1,11 +1,7 @@
-//TODO: Add eventlistener for onhashchange
-//http://stackoverflow.com/questions/32884909/my-chrome-extension-will-not-load-untill-i-reload-refresh-the-same-youtube-video
-
 //Nukes links on the sidebar
 function removeSidebar() {
 	//remove the links on the sidebar
 	var sidebarLink = document.querySelectorAll('.watch-sidebar-section');
-
 	for (var i = 0; i < sidebarLink.length; i++) {
 		var link = sidebarLink[i];
 		link.parentNode.removeChild(link);
@@ -20,8 +16,8 @@ function pauseVideo() {
 	}	
 }
 
-//Places a white box over the video and pauses the video
-function divOverVideoBegin() {
+//Places a white box over the video with a warning message
+function divOverVideo(status) {
 	//Constructs white overlay box
 	var $a = $('<div class="whiteOverlay">').css({'position': 'absolute'});
 	$a.width($('video').width());
@@ -35,14 +31,20 @@ function divOverVideoBegin() {
 	b.style.top = $('video').offset().top + 'px';
 	b.style.opacity = 0.9;
 
-	//Container for text in the white box
+	//Centered container for text in the white box
 	var $contentContainer = $('<div class="contentContainer">').css({
 							'position': 'absolute',							
 							'top': '50%',
 							'left': '50%',
 							'transform': 'translateX(-50%) translateY(-50%)'});
+
+	//Message to user
 	var $text1 = $('<h1>');	
-	$text1.text("Are you sure you want to play the video?");
+	if (status === 'begin') {
+		$text1.text("Are you sure you want to play the video?");
+	} else {
+		$text1.text("Are you sure you want to continue watching videos?");
+	}
 	$contentContainer.append($text1);
 	$contentContainer.append($('<p>'));
 
@@ -51,7 +53,7 @@ function divOverVideoBegin() {
 	$button1.text("Close Tab");
 	$button1.css({'cursor': 'pointer'});
 	$button1.click(function() {
-		removeDiv();
+		closeTab();
 		$button1.hide();
 	})	
 	$contentContainer.append($button1);
@@ -70,56 +72,56 @@ function divOverVideoBegin() {
 	$('.whiteOverlay').append($contentContainer);	
 }
 
-//TODO: Close current tab
-function divOverVideoEnd() {
-	var $a = $('<div class="whiteOverlay">').css({'position': 'absolute'});
-	$a.width($('video').width());
-	$a.height($('video').height());
-	$a.css({'background-color': 'white'});
-	$a.css('z-index', 30);	
-	$a.text();
-	$(body).append($a);
-	var b = $a[0];
-	b.style.left = $('video').offset().left + 'px';
-	b.style.top = $('video').offset().top + 'px';
-	b.style.opacity = 0.9;
-
-	var $button1 = $('<button>');
-	$button1.text("Close Tab");
-	$button1.css({'cursor': 'pointer'});
-	$button1.click(function() {
-		closeTab();
-	})	
-	$('.whiteOverlay').append($button1);
-}
-
+//Remove the white div
 function removeDiv() {
 	$('.whiteOverlay').remove();
 	var play = document.querySelector('video');
 	play.play();	
 }
 
+//Close the current tab
 function closeTab() {
-
+	chrome.runtime.sendMessage({greeting: "closeTab"}, function(response) {});
 }
 
-//TODO: Make event listener for end of video instead of checking every second if the video is finished
-function endWarning() {
-	var overlayBox = document.querySelector('video');
-	
-	console.log(overlayBox.currentTime);
-	console.log(overlayBox.duration);
-	if ((overlayBox.currentTime > (overlayBox.duration - 1)) && !overlayBox.paused) {
-		divOverVideoEnd();
-		overlayBox.pause();
-	}
+//TODO: Make event listener for end of video instead of checking every second if the video is finished	
+function endWarning() {	
+	/*
+	$('video').on('ended', function() {
+		console.log("executing");
+		divOverVideoEnd();		
+	});
+	*/
+	overlayBox = document.querySelector('video');
+	if ((overlayBox.currentTime > (overlayBox.duration - 0.25)) && !overlayBox.paused) {
+		divOverVideo("end");
+		//overlayBox.pause();
+	}		
 }
 
+//All method calls
 function main() {
 	removeSidebar();
-	divOverVideoBegin();
-	setTimeout(pauseVideo, 200); //Sets timeout, since video takes a little time to load
-	setInterval(endWarning, 1000); //Loop every second to test the status of the video until near the end
+	divOverVideo("begin");
+	pauseVideo();	
+	//endWarning();
+	setInterval(endWarning, 250); //Loop every second to test the status of the video until near the end
 }
 
-$(document).ready(main);
+//Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
+function afterNavigate() {
+    if ('/watch' === location.pathname) {
+        $(document).ready(main);
+    }
+}
+
+//Youtube specific call for displaying the white div/message when the red top slider transitions
+//(Solution from link above)
+(document.body || document.documentElement).addEventListener('transitionend',
+  function(/*TransitionEvent*/ event) {
+    if (event.propertyName === 'width' && event.target.id === 'progress') {
+        afterNavigate();
+    }
+}, true);
+//Executed after page load
+afterNavigate();

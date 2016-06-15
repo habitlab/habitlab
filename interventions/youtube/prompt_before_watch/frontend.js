@@ -20,7 +20,13 @@ function pauseVideo() {
 //Places a white box over the video with a warning message
 function divOverVideo(status) {
 	//Constructs white overlay box
-	var $a = $('<div class="whiteOverlay">').css({'position': 'absolute'});
+  if ($('video').length == 0) {
+    return
+  }
+  if (window.location.href.indexOf('watch') == -1) {
+    return
+  }
+  var $a = $('<div class="whiteOverlay">').css({'position': 'absolute'});
 	$a.width($('video').width());
 	$a.height($('video').height());
 	$a.css({'background-color': 'white'});
@@ -64,7 +70,7 @@ function divOverVideo(status) {
 	$button2.text("Watch Video");
 	$button2.css({'cursor': 'pointer', 'padding': '10px'});
 	$button2.click(function() {
-		removeDiv();
+		removeDivAndPlay();
 		$button2.hide();
 	})
 	$contentContainer.append($button2);
@@ -74,10 +80,15 @@ function divOverVideo(status) {
 }
 
 //Remove the white div
-function removeDiv() {
+function removeDivAndPlay() {
 	$('.whiteOverlay').remove();
 	var play = document.querySelector('video');
 	play.play();
+}
+
+//Remove the white div
+function removeDiv() {
+	$('.whiteOverlay').remove();
 }
 
 //Close the current tab
@@ -104,6 +115,8 @@ video_pauser = null
 
 //All method calls
 function main() {
+  console.log('main called')
+  removeDiv()
 	removeSidebar();
 	divOverVideo("begin");
   if (video_pauser == null) {
@@ -128,7 +141,8 @@ function afterNavigate() {
           clearInterval(video_pauser)
           video_pauser = null
         }
-        $(document).ready(main);
+        //$(document).ready(main);
+        main()
     }
 }
 
@@ -140,5 +154,8 @@ function afterNavigate() {
         afterNavigate();
     }
 }, true);
+
+$(document).ready(main);
+
 //Executed after page load
-afterNavigate();
+//afterNavigate();

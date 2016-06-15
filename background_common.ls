@@ -1,12 +1,21 @@
 export getInterventionInfo = (intervention_name, callback) ->
   intervention_info_text <- $.get "/interventions/#{intervention_name}/info.yaml"
   intervention_info = jsyaml.safeLoad intervention_info_text
+  intervention_info.name = intervention_name
   callback intervention_info
 
 export get_interventions = memoizeSingleAsync (callback) ->
   $.get '/interventions/interventions.yaml', (interventions_list_text) ->
     interventions_list = jsyaml.safeLoad interventions_list_text
     output = {}
+    fix_script_options = (options, intervention_name) ->
+      if typeof options == 'string'
+        options = {path: options}
+      if options.path[0] == '/'
+        options.path = options.path.substr(1)
+      else
+        options.path = "interventions/#{intervention_name}/#{options.path}"
+      return options
     errors,results <- async.mapSeries interventions_list, (intervention_name, ncallback) ->
       intervention_info <- getInterventionInfo intervention_name
       if not intervention_info.nomatches?
@@ -15,6 +24,10 @@ export get_interventions = memoizeSingleAsync (callback) ->
         intervention_info.matches = []
       if not intervention_info.content_scripts?
         intervention_info.content_scripts = []
+      if not intervention_info.background_scripts?
+        intervention_info.background_scripts = []
+      intervention_info.content_script_options = [fix_script_options(x, intervention_name) for x in intervention_info.content_scripts]
+      intervention_info.background_script_options = [fix_script_options(x, intervention_name) for x in intervention_info.background_scripts]
       intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
       intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
       output[intervention_name] = intervention_info

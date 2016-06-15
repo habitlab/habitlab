@@ -21,20 +21,34 @@ insert_css = (css_path, callback) ->
   if callback?
     callback()
 
+running_background_scripts = {}
+
+load_background_script = (options, intervention_info, callback) ->
+  if running_background_scripts[options.path]?
+    # already running
+  background_script_text <- $.get options.path
+  background_script_function = new Function('env', background_script_text)
+  env = {
+    intervention_info: intervention_info
+  }
+  background_script_function(env)
+  callback?!
+
 load_intervention = (intervention_name, callback) ->
   console.log 'start load_intervention ' + intervention_name
   all_interventions <- get_interventions()
   intervention_info = all_interventions[intervention_name]
   tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
   tabid = tabs[0].id
-  <- async.eachSeries intervention_info.content_scripts, (options, ncallback) ->
-    if typeof options == 'string'
-      options = {path: options}
-    if options.path[0] == '/'
-      options.path = options.path.substr(1)
-    else
-      options.path = "interventions/#{intervention_name}/#{options.path}"
+
+  # load background scripts
+  <- async.eachSeries intervention_info.background_script_options, (options, ncallback) ->
+    load_background_script options, intervention_info, ncallback
+
+  # load content scripts
+  <- async.eachSeries intervention_info.content_script_options, (options, ncallback) ->
     execute_content_script tabid, options, ncallback
+
   console.log 'done load_intervention ' + intervention_name
   callback?!
 

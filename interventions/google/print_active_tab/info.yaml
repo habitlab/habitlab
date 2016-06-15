@@ -1,0 +1,5 @@
+description: Prints info about the active tab
+matches:
+  - www.google.com
+background_scripts:
+  - backend.js

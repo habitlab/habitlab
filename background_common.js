@@ -4,14 +4,28 @@
     return $.get("/interventions/" + intervention_name + "/info.yaml", function(intervention_info_text){
       var intervention_info;
       intervention_info = jsyaml.safeLoad(intervention_info_text);
+      intervention_info.name = intervention_name;
       return callback(intervention_info);
     });
   };
   out$.get_interventions = get_interventions = memoizeSingleAsync(function(callback){
     return $.get('/interventions/interventions.yaml', function(interventions_list_text){
-      var interventions_list, output;
+      var interventions_list, output, fix_script_options;
       interventions_list = jsyaml.safeLoad(interventions_list_text);
       output = {};
+      fix_script_options = function(options, intervention_name){
+        if (typeof options === 'string') {
+          options = {
+            path: options
+          };
+        }
+        if (options.path[0] === '/') {
+          options.path = options.path.substr(1);
+        } else {
+          options.path = "interventions/" + intervention_name + "/" + options.path;
+        }
+        return options;
+      };
       return async.mapSeries(interventions_list, function(intervention_name, ncallback){
         return getInterventionInfo(intervention_name, function(intervention_info){
           var res$, i$, ref$, len$, x;
@@ -24,6 +38,21 @@
           if (intervention_info.content_scripts == null) {
             intervention_info.content_scripts = [];
           }
+          if (intervention_info.background_scripts == null) {
+            intervention_info.background_scripts = [];
+          }
+          res$ = [];
+          for (i$ = 0, len$ = (ref$ = intervention_info.content_scripts).length; i$ < len$; ++i$) {
+            x = ref$[i$];
+            res$.push(fix_script_options(x, intervention_name));
+          }
+          intervention_info.content_script_options = res$;
+          res$ = [];
+          for (i$ = 0, len$ = (ref$ = intervention_info.background_scripts).length; i$ < len$; ++i$) {
+            x = ref$[i$];
+            res$.push(fix_script_options(x, intervention_name));
+          }
+          intervention_info.background_script_options = res$;
           res$ = [];
           for (i$ = 0, len$ = (ref$ = intervention_info.matches).length; i$ < len$; ++i$) {
             x = ref$[i$];

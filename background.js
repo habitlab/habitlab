@@ -1,5 +1,5 @@
 (function(){
-  var root, execute_content_script, insert_css, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
+  var root, execute_content_script, insert_css, load_background_script, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
   root = typeof exports != 'undefined' && exports !== null ? exports : this;
   execute_content_script = function(tabid, options, callback){
     if (options.run_at == null) {
@@ -29,6 +29,17 @@
       return callback();
     }
   };
+  load_background_script = function(options, intervention_info, callback){
+    return $.get(options.path, function(background_script_text){
+      var background_script_function, env;
+      background_script_function = new Function('env', background_script_text);
+      env = {
+        intervention_info: intervention_info
+      };
+      background_script_function(env);
+      return typeof callback == 'function' ? callback() : void 8;
+    });
+  };
   load_intervention = function(intervention_name, callback){
     console.log('start load_intervention ' + intervention_name);
     return get_interventions(function(all_interventions){
@@ -40,21 +51,15 @@
       }, function(tabs){
         var tabid;
         tabid = tabs[0].id;
-        return async.eachSeries(intervention_info.content_scripts, function(options, ncallback){
-          if (typeof options === 'string') {
-            options = {
-              path: options
-            };
-          }
-          if (options.path[0] === '/') {
-            options.path = options.path.substr(1);
-          } else {
-            options.path = "interventions/" + intervention_name + "/" + options.path;
-          }
-          return execute_content_script(tabid, options, ncallback);
+        return async.eachSeries(intervention_info.background_script_options, function(options, ncallback){
+          return load_background_script(options, intervention_info, ncallback);
         }, function(){
-          console.log('done load_intervention ' + intervention_name);
-          return typeof callback == 'function' ? callback() : void 8;
+          return async.eachSeries(intervention_info.content_script_options, function(options, ncallback){
+            return execute_content_script(tabid, options, ncallback);
+          }, function(){
+            console.log('done load_intervention ' + intervention_name);
+            return typeof callback == 'function' ? callback() : void 8;
+          });
         });
       });
     });

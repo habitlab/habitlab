@@ -2,4 +2,4 @@ description: Make the Google background blue
 matches:
   - www.google.com
 content_scripts:
-  - index.js
+  - frontend.js

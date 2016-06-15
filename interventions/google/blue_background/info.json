@@ -4,6 +4,6 @@
     "www.google.com"
   ],
   "content_scripts": [
-    "index.js"
+    "frontend.js"
   ]
 }

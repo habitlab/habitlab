@@ -18,6 +18,18 @@
 
       <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
 
+      <template is="dom-repeat" items="{{sites_and_interventions}}" as="site_and_interventions">
+        <h1>{{site_and_interventions.sitename}}</h1>
+        <template is="dom-repeat" items="{{site_and_interventions.interventions}}" as="intervention">
+          <div>{{intervention.description}}</div>
+          <paper-checkbox checked="{{intervention.enabled}}" intervention="{{intervention}}" on-change="intervention_changed">Enabled</paper-checkbox>
+          <paper-checkbox>Automatically Managed (not yet implemented)</paper-checkbox>
+          <br><br>
+        </template>
+      </template>
+
+      <!--
+
       <h1>Facebook</h1>
 
       <paper-checkbox>Inject messages into feed telling you how long you have spent on Facebook</paper-checkbox>
@@ -25,11 +37,11 @@
       <h1>Youtube</h1>
 
       <paper-checkbox>Hide recommendations for videos</paper-checkbox>
-      
+
       <br><br>
 
       <paper-checkbox>Show me how much time I have spent on youtube after I finish watching a video</paper-checkbox>
-      
+
       <br><br>
 
       <paper-checkbox>Show me how much time I have spent on youtube and how much time this video will take before I watch a video</paper-checkbox><br><br>
@@ -37,7 +49,7 @@
       <h1>Duolingo</h1>
 
       <paper-checkbox>Inject messages into Facebook feed reminding you to do a lesson on Duolingo if you haven't yet done one</paper-checkbox>
-
+      -->
 
     </div>
   </template>

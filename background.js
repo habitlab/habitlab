@@ -91,7 +91,7 @@
     });
   };
   load_intervention_for_location = function(location, callback){
-    return list_available_interventions_for_location(location, function(possible_interventions){
+    return list_enabled_interventions_for_location(location, function(possible_interventions){
       return async.eachSeries(possible_interventions, function(intervention, ncallback){
         return load_intervention(intervention, ncallback);
       }, function(errors, results){

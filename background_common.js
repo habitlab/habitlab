@@ -1,5 +1,5 @@
 (function(){
-  var getInterventionInfo, get_interventions, list_available_interventions_for_location, getDb, getCollection, getVarsCollection, getListsCollection, setvar, getvar, clearvar, printvar, addtolist, getlist, clearlist, printlist, clear_all_lists, clear_all_vars, clear_all, printcb, printfunc, out$ = typeof exports != 'undefined' && exports || this;
+  var getInterventionInfo, get_enabled_interventions, set_enabled_interventions, set_intervention_enabled, set_intervention_disabled, is_intervention_enabled, get_interventions, list_enabled_interventions_for_location, list_available_interventions_for_location, getDb, getCollection, getVarsCollection, getListsCollection, setvar, getvar, clearvar, printvar, addtolist, getlist, clearlist, printlist, clear_all_lists, clear_all_vars, clear_all, printcb, printfunc, out$ = typeof exports != 'undefined' && exports || this;
   out$.getInterventionInfo = getInterventionInfo = function(intervention_name, callback){
     return $.get("/interventions/" + intervention_name + "/info.yaml", function(intervention_info_text){
       var intervention_info;
@@ -7,6 +7,42 @@
       intervention_info.name = intervention_name;
       return callback(intervention_info);
     });
+  };
+  out$.get_enabled_interventions = get_enabled_interventions = function(){
+    var enabled_interventions_str, enabled_interventions;
+    enabled_interventions_str = localStorage.getItem('enabled_interventions');
+    if (enabled_interventions_str == null) {
+      enabled_interventions = {};
+    } else {
+      enabled_interventions = JSON.parse(enabled_interventions_str);
+    }
+    return enabled_interventions;
+  };
+  out$.set_enabled_interventions = set_enabled_interventions = function(enabled_interventions){
+    return localStorage.setItem('enabled_interventions', JSON.stringify(enabled_interventions));
+  };
+  out$.set_intervention_enabled = set_intervention_enabled = function(intervention_name){
+    var enabled_interventions;
+    enabled_interventions = get_enabled_interventions();
+    if (enabled_interventions[intervention_name] != null) {
+      return;
+    }
+    enabled_interventions[intervention_name] = true;
+    return set_enabled_interventions(enabled_interventions);
+  };
+  out$.set_intervention_disabled = set_intervention_disabled = function(intervention_name){
+    var enabled_interventions;
+    enabled_interventions = get_enabled_interventions();
+    if (enabled_interventions[intervention_name] == null) {
+      return;
+    }
+    delete enabled_interventions[intervention_name];
+    return set_enabled_interventions(enabled_interventions);
+  };
+  out$.is_intervention_enabled = is_intervention_enabled = function(intervention_name){
+    var enabled_interventions;
+    enabled_interventions = get_enabled_interventions();
+    return enabled_interventions[intervention_name] != null;
   };
   out$.get_interventions = get_interventions = memoizeSingleAsync(function(callback){
     return $.get('/interventions/interventions.yaml', function(interventions_list_text){
@@ -92,6 +128,15 @@
       });
     });
   });
+  out$.list_enabled_interventions_for_location = list_enabled_interventions_for_location = function(location, callback){
+    return list_available_interventions_for_location(location, function(available_interventions){
+      var enabled_interventions;
+      enabled_interventions = get_enabled_interventions();
+      return callback(available_interventions.filter(function(x){
+        return enabled_interventions[x] != null;
+      }));
+    });
+  };
   out$.list_available_interventions_for_location = list_available_interventions_for_location = function(location, callback){
     return get_interventions(function(all_interventions){
       var possible_interventions, intervention_name, intervention_info, blacklisted, i$, ref$, len$, regex, matches;

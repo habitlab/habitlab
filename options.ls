@@ -1,2 +1,2 @@
 window.addEventListener 'WebComponentsReady', ->
-  document.querySelector('#optionstab').selected = 0
+  document.querySelector('#optionstab').selected = 1

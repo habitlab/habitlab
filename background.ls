@@ -113,7 +113,7 @@ load_intervention = (intervention_name, callback) ->
   callback?!
 
 load_intervention_for_location = (location, callback) ->
-  possible_interventions <- list_available_interventions_for_location(location)
+  possible_interventions <- list_enabled_interventions_for_location(location)
   errors, results <- async.eachSeries possible_interventions, (intervention, ncallback) ->
     load_intervention intervention, ncallback
   callback?!

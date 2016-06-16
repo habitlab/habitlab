@@ -1,13 +1,4 @@
 console.log('youtube prompt before watch loaded frontend')
-//Nukes links on the sidebar
-function removeSidebar() {
-	//remove the links on the sidebar
-	var sidebarLink = document.querySelectorAll('.watch-sidebar-section');
-	for (var i = 0; i < sidebarLink.length; i++) {
-		var link = sidebarLink[i];
-		link.parentNode.removeChild(link);
-	}
-}
 
 //Initially pauses the video when the page is loaded
 function pauseVideo() {
@@ -116,8 +107,7 @@ video_pauser = null
 //All method calls
 function main() {
   console.log('main called')
-  removeDiv()
-	removeSidebar();
+  removeDiv();
 	divOverVideo("begin");
   if (video_pauser == null) {
     video_pauser = setInterval(() => {
@@ -143,6 +133,8 @@ function afterNavigate() {
         }
         //$(document).ready(main);
         main()
+    } else {
+      removeDiv();
     }
 }
 

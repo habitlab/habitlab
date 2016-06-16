@@ -34,12 +34,34 @@ load_background_script = (options, intervention_info, callback) ->
   running_background_scripts[options.path] = env
   callback?!
 
+export wait_token_to_callback = {}
+
+export make_wait_token = ->
+  while true
+    wait_token = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+    if not wait_token_to_callback[wait_token]
+      return wait_token
+
+export wait_for_token = (wait_token, callback) ->
+  wait_token_to_callback[wait_token] = callback
+
+export finished_waiting = (wait_token, data) ->
+  callback = wait_token_to_callback[wait_token]
+  delete wait_token_to_callback[wait_token]
+  callback(data)
+
 execute_content_scripts = (content_script_options, callback) ->
   console.log 'calling execute_content_scripts'
   tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
   tabid = tabs[0].id
   # <- async.eachSeries intervention_info.content_script_options, (options, ncallback) ->
   #  execute_content_script tabid, options, ncallback
+
+  wait_token = make_wait_token()
+
+  wait_for_token wait_token, ->
+    console.log 'wait token released'
+    callback?!
 
   # based on the following
   # http://stackoverflow.com/questions/8859622/chrome-extension-how-to-detect-that-content-script-is-already-loaded-into-a-tab
@@ -50,6 +72,7 @@ execute_content_scripts = (content_script_options, callback) ->
       data: {
         content_script_options: #{JSON.stringify(content_script_options)},
         tabid: #{tabid},
+        wait_token: #{wait_token},
         loaded_scripts: window.loaded_scripts || {},
       },
     });
@@ -57,7 +80,7 @@ execute_content_scripts = (content_script_options, callback) ->
   """
   console.log content_script_code
   chrome.tabs.executeScript tabid, {code: content_script_code}
-  callback?! # technically incorrect, may be calling too early. TODO might break with multiple interventions
+  #callback?! # technically incorrect, may be calling too early. TODO might break with multiple interventions
   /*
   'load_content_script': (data, callback) ->
     {options, tabid, loaded_scripts} = data
@@ -178,7 +201,7 @@ message_handlers = {
     load_intervention_for_location location, ->
       callback()
   'load_content_scripts': (data, callback) ->
-    {content_script_options, tabid, loaded_scripts} = data
+    {content_script_options, tabid, wait_token, loaded_scripts} = data
     <- async.eachSeries content_script_options, (options, ncallback) ->
       if loaded_scripts[options.path]?
         return ncallback()
@@ -192,7 +215,8 @@ message_handlers = {
       window.loaded_scripts = #{JSON.stringify(new_loaded_scripts)}
     })();
     """
-    chrome.tabs.executeScript tabid, {code: content_script_code}
+    <- chrome.tabs.executeScript tabid, {code: content_script_code}
+    finished_waiting(wait_token)
 }
 
 ext_message_handlers = {

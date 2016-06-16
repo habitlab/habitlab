@@ -1,5 +1,5 @@
 (function(){
-  var root, insert_css, running_background_scripts, load_background_script, execute_content_scripts, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
+  var root, insert_css, running_background_scripts, load_background_script, wait_token_to_callback, make_wait_token, wait_for_token, finished_waiting, execute_content_scripts, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
   root = typeof exports != 'undefined' && exports !== null ? exports : this;
   /*
   execute_content_script = (tabid, options, callback) ->
@@ -33,20 +33,43 @@
       return typeof callback == 'function' ? callback() : void 8;
     });
   };
+  out$.wait_token_to_callback = wait_token_to_callback = {};
+  out$.make_wait_token = make_wait_token = function(){
+    var wait_token;
+    for (;;) {
+      wait_token = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+      if (!wait_token_to_callback[wait_token]) {
+        return wait_token;
+      }
+    }
+  };
+  out$.wait_for_token = wait_for_token = function(wait_token, callback){
+    return wait_token_to_callback[wait_token] = callback;
+  };
+  out$.finished_waiting = finished_waiting = function(wait_token, data){
+    var callback;
+    callback = wait_token_to_callback[wait_token];
+    delete wait_token_to_callback[wait_token];
+    return callback(data);
+  };
   execute_content_scripts = function(content_script_options, callback){
     console.log('calling execute_content_scripts');
     return chrome.tabs.query({
       active: true,
       lastFocusedWindow: true
     }, function(tabs){
-      var tabid, content_script_code;
+      var tabid, wait_token, content_script_code;
       tabid = tabs[0].id;
-      content_script_code = "(function(){\n  chrome.runtime.sendMessage({\n    type: 'load_content_scripts',\n    data: {\n      content_script_options: " + JSON.stringify(content_script_options) + ",\n      tabid: " + tabid + ",\n      loaded_scripts: window.loaded_scripts || {},\n    },\n  });\n})();";
+      wait_token = make_wait_token();
+      wait_for_token(wait_token, function(){
+        console.log('wait token released');
+        return typeof callback == 'function' ? callback() : void 8;
+      });
+      content_script_code = "(function(){\n  chrome.runtime.sendMessage({\n    type: 'load_content_scripts',\n    data: {\n      content_script_options: " + JSON.stringify(content_script_options) + ",\n      tabid: " + tabid + ",\n      wait_token: " + wait_token + ",\n      loaded_scripts: window.loaded_scripts || {},\n    },\n  });\n})();";
       console.log(content_script_code);
-      chrome.tabs.executeScript(tabid, {
+      return chrome.tabs.executeScript(tabid, {
         code: content_script_code
       });
-      return typeof callback == 'function' ? callback() : void 8;
     });
   };
   load_intervention = function(intervention_name, callback){
@@ -205,8 +228,8 @@
       });
     },
     'load_content_scripts': function(data, callback){
-      var content_script_options, tabid, loaded_scripts;
-      content_script_options = data.content_script_options, tabid = data.tabid, loaded_scripts = data.loaded_scripts;
+      var content_script_options, tabid, wait_token, loaded_scripts;
+      content_script_options = data.content_script_options, tabid = data.tabid, wait_token = data.wait_token, loaded_scripts = data.loaded_scripts;
       return async.eachSeries(content_script_options, function(options, ncallback){
         if (loaded_scripts[options.path] != null) {
           return ncallback();
@@ -233,6 +256,8 @@
         content_script_code = "(function() {\n  window.loaded_scripts = " + JSON.stringify(new_loaded_scripts) + "\n})();";
         return chrome.tabs.executeScript(tabid, {
           code: content_script_code
+        }, function(){
+          return finished_waiting(wait_token);
         });
       });
     }

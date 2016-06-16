@@ -1,3 +1,5 @@
+(function(){
+
 console.log('youtube prompt before watch loaded frontend')
 
 //Initially pauses the video when the page is loaded
@@ -106,7 +108,7 @@ video_pauser = null
 
 //All method calls
 function main() {
-  console.log('main called')
+  console.log('main called');
   removeDiv();
 	divOverVideo("begin");
   if (video_pauser == null) {
@@ -126,16 +128,19 @@ function main() {
 
 //Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
 function afterNavigate() {
-    if ('/watch' === location.pathname) {
-        if (video_pauser) {
-          clearInterval(video_pauser)
-          video_pauser = null
-        }
-        //$(document).ready(main);
-        main()
-    } else {
-      removeDiv();
+  console.log('afterNavigate')
+  if ('/watch' === location.pathname) {
+    console.log('youtube watch page')
+    if (video_pauser) {
+      clearInterval(video_pauser);
+      video_pauser = null;
     }
+    console.log('right before main gets called')
+    //$(document).ready(main);
+    main();
+  } else {
+    removeDiv();
+  }
 }
 
 //Youtube specific call for displaying the white div/message when the red top slider transitions
@@ -148,6 +153,9 @@ function afterNavigate() {
 }, true);
 
 $(document).ready(main);
+//main()
 
 //Executed after page load
 //afterNavigate();
+
+})();

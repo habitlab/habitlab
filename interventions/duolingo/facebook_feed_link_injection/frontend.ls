@@ -11,7 +11,7 @@ randstr = ->
 insertBeforeItem = (jfeeditem) ->
   #jfeeditem.before $('<div>').text('newfoobar')
   quizid = randstr()
-  jfeeditem.before $('<a style="width: 495px; height: 300px" href="https://www.duolingo.com/" target="_blank"><img src="https://habitlab.github.io/facebook-duolingo.png"></a>')
+  jfeeditem.before $('<a style="width: 495px; height: 300px" href="https://www.duolingo.com/" target="_blank"><img src="' + chrome.extension.getURL('interventions/duolingo/facebook_feed_link_injection/facebook-duolingo.png') + '"></a>')
   /*
   jfeeditem.before $('<iframe>').css({
     width: '495px'

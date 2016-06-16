@@ -2,11 +2,8 @@
 
 root = exports ? this
 
+/*
 execute_content_script = (tabid, options, callback) ->
-  if not options.run_at?
-    options.run_at = 'document_end' # document_start
-  if not options.all_frames?
-    options.all_frames = false
   #chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
   if not tabid?
     if callback?
@@ -15,40 +12,79 @@ execute_content_script = (tabid, options, callback) ->
   chrome.tabs.executeScript tabid, {file: options.path, allFrames: options.all_frames, runAt: options.run_at}, ->
     if callback?
       callback()
+*/
 
 insert_css = (css_path, callback) ->
   # todo does not do anything currently
   if callback?
     callback()
 
-running_background_scripts = {}
+export running_background_scripts = {}
 
 load_background_script = (options, intervention_info, callback) ->
   if running_background_scripts[options.path]?
     # already running
-    return
+    return callback?!
   background_script_text <- $.get options.path
   background_script_function = new Function('env', background_script_text)
   env = {
     intervention_info: intervention_info
   }
   background_script_function(env)
+  running_background_scripts[options.path] = env
   callback?!
+
+execute_content_scripts = (content_script_options, callback) ->
+  console.log 'calling execute_content_scripts'
+  tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
+  tabid = tabs[0].id
+  # <- async.eachSeries intervention_info.content_script_options, (options, ncallback) ->
+  #  execute_content_script tabid, options, ncallback
+
+  # based on the following
+  # http://stackoverflow.com/questions/8859622/chrome-extension-how-to-detect-that-content-script-is-already-loaded-into-a-tab
+  content_script_code = """
+  (function(){
+    chrome.runtime.sendMessage({
+      type: 'load_content_scripts',
+      data: {
+        content_script_options: #{JSON.stringify(content_script_options)},
+        tabid: #{tabid},
+        loaded_scripts: window.loaded_scripts || {},
+      },
+    });
+  })();
+  """
+  console.log content_script_code
+  chrome.tabs.executeScript tabid, {code: content_script_code}
+  callback?! # technically incorrect, may be calling too early. TODO might break with multiple interventions
+  /*
+  'load_content_script': (data, callback) ->
+    {options, tabid, loaded_scripts} = data
+    if loaded_scripts[options.path]?
+      return
+    chrome.tabs.executeScript tabid, {file: options.path, allFrames: options.all_frames, runAt: options.run_at}, ->
+      callback?!
+  */
+  #chrome.tabs.executeScript(tabid, {code: 'chrome.extension.sendRequest({type: "load_content_script", data: })'})
+  #callback?!
 
 load_intervention = (intervention_name, callback) ->
   console.log 'start load_intervention ' + intervention_name
   all_interventions <- get_interventions()
   intervention_info = all_interventions[intervention_name]
-  tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
-  tabid = tabs[0].id
+
+  console.log intervention_info
+  console.log 'start load background scripts ' + intervention_name
 
   # load background scripts
   <- async.eachSeries intervention_info.background_script_options, (options, ncallback) ->
     load_background_script options, intervention_info, ncallback
 
+  console.log 'start load content scripts ' + intervention_name
+
   # load content scripts
-  <- async.eachSeries intervention_info.content_script_options, (options, ncallback) ->
-    execute_content_script tabid, options, ncallback
+  <- execute_content_scripts intervention_info.content_script_options
 
   console.log 'done load_intervention ' + intervention_name
   callback?!
@@ -141,6 +177,22 @@ message_handlers = {
     {location} = data
     load_intervention_for_location location, ->
       callback()
+  'load_content_scripts': (data, callback) ->
+    {content_script_options, tabid, loaded_scripts} = data
+    <- async.eachSeries content_script_options, (options, ncallback) ->
+      if loaded_scripts[options.path]?
+        return ncallback()
+      chrome.tabs.executeScript tabid, {file: options.path, allFrames: options.all_frames, runAt: options.run_at}, ->
+        return ncallback()
+    new_loaded_scripts = {[k,v] for k,v of loaded_scripts}
+    for options in content_script_options
+      new_loaded_scripts[options.path] = true
+    content_script_code = """
+    (function() {
+      window.loaded_scripts = #{JSON.stringify(new_loaded_scripts)}
+    })();
+    """
+    chrome.tabs.executeScript tabid, {code: content_script_code}
 }
 
 ext_message_handlers = {
@@ -187,8 +239,6 @@ chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
   if tab.url
     #console.log 'tabs updated!'
     #console.log tab.url
-    # TODO implement the following approach
-    # http://stackoverflow.com/questions/8859622/chrome-extension-how-to-detect-that-content-script-is-already-loaded-into-a-tab
     if changeInfo.status != 'complete'
       return
     possible_interventions <- list_available_interventions_for_location(tab.url)
@@ -261,6 +311,7 @@ chrome.runtime.onMessageExternal.addListener (request, sender, sendResponse) ->
 
 chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   {type, data} = request
+  console.log 'onmessage'
   console.log type
   console.log data
   message_handler = message_handlers[type]

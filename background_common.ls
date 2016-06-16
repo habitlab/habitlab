@@ -8,7 +8,19 @@ export get_interventions = memoizeSingleAsync (callback) ->
   $.get '/interventions/interventions.yaml', (interventions_list_text) ->
     interventions_list = jsyaml.safeLoad interventions_list_text
     output = {}
-    fix_script_options = (options, intervention_name) ->
+    fix_content_script_options = (options, intervention_name) ->
+      if typeof options == 'string'
+        options = {path: options}
+      if options.path[0] == '/'
+        options.path = options.path.substr(1)
+      else
+        options.path = "interventions/#{intervention_name}/#{options.path}"
+      if not options.run_at?
+        options.run_at = 'document_end' # document_start
+      if not options.all_frames?
+        options.all_frames = false
+      return options
+    fix_background_script_options = (options, intervention_name) ->
       if typeof options == 'string'
         options = {path: options}
       if options.path[0] == '/'
@@ -26,8 +38,8 @@ export get_interventions = memoizeSingleAsync (callback) ->
         intervention_info.content_scripts = []
       if not intervention_info.background_scripts?
         intervention_info.background_scripts = []
-      intervention_info.content_script_options = [fix_script_options(x, intervention_name) for x in intervention_info.content_scripts]
-      intervention_info.background_script_options = [fix_script_options(x, intervention_name) for x in intervention_info.background_scripts]
+      intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
+      intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
       intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
       intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
       output[intervention_name] = intervention_info

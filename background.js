@@ -1,38 +1,26 @@
 (function(){
-  var root, execute_content_script, insert_css, running_background_scripts, load_background_script, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
+  var root, insert_css, running_background_scripts, load_background_script, execute_content_scripts, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
   root = typeof exports != 'undefined' && exports !== null ? exports : this;
-  execute_content_script = function(tabid, options, callback){
-    if (options.run_at == null) {
-      options.run_at = 'document_end';
-    }
-    if (options.all_frames == null) {
-      options.all_frames = false;
-    }
-    if (tabid == null) {
-      if (callback != null) {
-        callback();
-      }
-      return;
-    }
-    return chrome.tabs.executeScript(tabid, {
-      file: options.path,
-      allFrames: options.all_frames,
-      runAt: options.run_at
-    }, function(){
-      if (callback != null) {
-        return callback();
-      }
-    });
-  };
+  /*
+  execute_content_script = (tabid, options, callback) ->
+    #chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
+    if not tabid?
+      if callback?
+        callback()
+      return
+    chrome.tabs.executeScript tabid, {file: options.path, allFrames: options.all_frames, runAt: options.run_at}, ->
+      if callback?
+        callback()
+  */
   insert_css = function(css_path, callback){
     if (callback != null) {
       return callback();
     }
   };
-  running_background_scripts = {};
+  out$.running_background_scripts = running_background_scripts = {};
   load_background_script = function(options, intervention_info, callback){
     if (running_background_scripts[options.path] != null) {
-      return;
+      return typeof callback == 'function' ? callback() : void 8;
     }
     return $.get(options.path, function(background_script_text){
       var background_script_function, env;
@@ -41,6 +29,23 @@
         intervention_info: intervention_info
       };
       background_script_function(env);
+      running_background_scripts[options.path] = env;
+      return typeof callback == 'function' ? callback() : void 8;
+    });
+  };
+  execute_content_scripts = function(content_script_options, callback){
+    console.log('calling execute_content_scripts');
+    return chrome.tabs.query({
+      active: true,
+      lastFocusedWindow: true
+    }, function(tabs){
+      var tabid, content_script_code;
+      tabid = tabs[0].id;
+      content_script_code = "(function(){\n  chrome.runtime.sendMessage({\n    type: 'load_content_scripts',\n    data: {\n      content_script_options: " + JSON.stringify(content_script_options) + ",\n      tabid: " + tabid + ",\n      loaded_scripts: window.loaded_scripts || {},\n    },\n  });\n})();";
+      console.log(content_script_code);
+      chrome.tabs.executeScript(tabid, {
+        code: content_script_code
+      });
       return typeof callback == 'function' ? callback() : void 8;
     });
   };
@@ -49,21 +54,15 @@
     return get_interventions(function(all_interventions){
       var intervention_info;
       intervention_info = all_interventions[intervention_name];
-      return chrome.tabs.query({
-        active: true,
-        lastFocusedWindow: true
-      }, function(tabs){
-        var tabid;
-        tabid = tabs[0].id;
-        return async.eachSeries(intervention_info.background_script_options, function(options, ncallback){
-          return load_background_script(options, intervention_info, ncallback);
-        }, function(){
-          return async.eachSeries(intervention_info.content_script_options, function(options, ncallback){
-            return execute_content_script(tabid, options, ncallback);
-          }, function(){
-            console.log('done load_intervention ' + intervention_name);
-            return typeof callback == 'function' ? callback() : void 8;
-          });
+      console.log(intervention_info);
+      console.log('start load background scripts ' + intervention_name);
+      return async.eachSeries(intervention_info.background_script_options, function(options, ncallback){
+        return load_background_script(options, intervention_info, ncallback);
+      }, function(){
+        console.log('start load content scripts ' + intervention_name);
+        return execute_content_scripts(intervention_info.content_script_options, function(){
+          console.log('done load_intervention ' + intervention_name);
+          return typeof callback == 'function' ? callback() : void 8;
         });
       });
     });
@@ -204,6 +203,38 @@
       return load_intervention_for_location(location, function(){
         return callback();
       });
+    },
+    'load_content_scripts': function(data, callback){
+      var content_script_options, tabid, loaded_scripts;
+      content_script_options = data.content_script_options, tabid = data.tabid, loaded_scripts = data.loaded_scripts;
+      return async.eachSeries(content_script_options, function(options, ncallback){
+        if (loaded_scripts[options.path] != null) {
+          return ncallback();
+        }
+        return chrome.tabs.executeScript(tabid, {
+          file: options.path,
+          allFrames: options.all_frames,
+          runAt: options.run_at
+        }, function(){
+          return ncallback();
+        });
+      }, function(){
+        var new_loaded_scripts, res$, k, ref$, v, i$, len$, options, content_script_code;
+        res$ = {};
+        for (k in ref$ = loaded_scripts) {
+          v = ref$[k];
+          res$[k] = v;
+        }
+        new_loaded_scripts = res$;
+        for (i$ = 0, len$ = (ref$ = content_script_options).length; i$ < len$; ++i$) {
+          options = ref$[i$];
+          new_loaded_scripts[options.path] = true;
+        }
+        content_script_code = "(function() {\n  window.loaded_scripts = " + JSON.stringify(new_loaded_scripts) + "\n})();";
+        return chrome.tabs.executeScript(tabid, {
+          code: content_script_code
+        });
+      });
     }
   };
   ext_message_handlers = {
@@ -312,6 +343,7 @@
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
     var type, data, message_handler;
     type = request.type, data = request.data;
+    console.log('onmessage');
     console.log(type);
     console.log(data);
     message_handler = message_handlers[type];

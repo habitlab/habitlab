@@ -10,10 +10,29 @@
   };
   out$.get_interventions = get_interventions = memoizeSingleAsync(function(callback){
     return $.get('/interventions/interventions.yaml', function(interventions_list_text){
-      var interventions_list, output, fix_script_options;
+      var interventions_list, output, fix_content_script_options, fix_background_script_options;
       interventions_list = jsyaml.safeLoad(interventions_list_text);
       output = {};
-      fix_script_options = function(options, intervention_name){
+      fix_content_script_options = function(options, intervention_name){
+        if (typeof options === 'string') {
+          options = {
+            path: options
+          };
+        }
+        if (options.path[0] === '/') {
+          options.path = options.path.substr(1);
+        } else {
+          options.path = "interventions/" + intervention_name + "/" + options.path;
+        }
+        if (options.run_at == null) {
+          options.run_at = 'document_end';
+        }
+        if (options.all_frames == null) {
+          options.all_frames = false;
+        }
+        return options;
+      };
+      fix_background_script_options = function(options, intervention_name){
         if (typeof options === 'string') {
           options = {
             path: options
@@ -44,13 +63,13 @@
           res$ = [];
           for (i$ = 0, len$ = (ref$ = intervention_info.content_scripts).length; i$ < len$; ++i$) {
             x = ref$[i$];
-            res$.push(fix_script_options(x, intervention_name));
+            res$.push(fix_content_script_options(x, intervention_name));
           }
           intervention_info.content_script_options = res$;
           res$ = [];
           for (i$ = 0, len$ = (ref$ = intervention_info.background_scripts).length; i$ < len$; ++i$) {
             x = ref$[i$];
-            res$.push(fix_script_options(x, intervention_name));
+            res$.push(fix_background_script_options(x, intervention_name));
           }
           intervention_info.background_script_options = res$;
           res$ = [];

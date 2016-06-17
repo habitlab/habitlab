@@ -1,5 +1,8 @@
 root = exports ? this
 
+$ = require('jquery')
+require('jquery.isinview')
+
 randstr = ->
   chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz'
   output = ''

@@ -5,7 +5,8 @@
   "description": "",
   "main": "background.js",
   "dependencies": {
-    "jquery": "^3.0.0"
+    "jquery": "^3.0.0",
+    "jquery.isinview": "^1.0.4"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.4",

@@ -29,8 +29,11 @@ es6pattern = [
 lspattern = [
   'src/*.ls'
   'src/fields/*.ls'
-  'src/interventions/**/*.ls'
   'src/libs_frontend/**/*.ls'
+]
+
+lspattern_srcgen = [
+  'src/**/*.ls'
 ]
 
 yamlpattern = [
@@ -51,7 +54,7 @@ copypattern = [
 ]
 
 browserify_js_pattern = [
-  'src/interventions/**/*.js'
+  'src_gen/interventions/**/*.js'
 ]
 
 gulp.task 'eslint_frontend', ->
@@ -141,7 +144,7 @@ gulp.task 'livescript', ->
   return
 
 gulp.task 'livescript_srcgen', ->
-  gulp.src(lspattern, {base: 'src'})
+  gulp.src(lspattern_srcgen, {base: 'src'})
   .pipe(gulp-changed('src_gen', {extension: '.js'}))
   .pipe(gulp-livescript({bare: false}))
   .on('error', gulp-util.log)
@@ -173,7 +176,7 @@ gulp.task 'browserify_js', ->
         chunk.contents = b.bundle()
         this.push(chunk)
       callback()
-  return gulp.src(browserify_js_pattern, {base: 'src'})
+  return gulp.src(browserify_js_pattern, {base: 'src_gen'})
   .pipe(browserified())
   .pipe(gulp-changed('dist', {extension: '.js'}))
   .on('error', gulp-util.log)
@@ -228,8 +231,8 @@ gulp.task 'copy', ->
   return
 
 tasks_and_patterns = [
-  ['livescript_srcgen', lspattern]
   ['livescript', lspattern]
+  ['livescript_srcgen', lspattern_srcgen]
   #['typescript', tspattern]
   #['es6', es6pattern]
   ['yaml', yamlpattern]

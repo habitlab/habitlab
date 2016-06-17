@@ -1,4 +1,5 @@
-const $ = require('jquery')
+//const $ = require('jquery')
+const $ = require('zepto-browserify').$
 
 //Waits until the email page is loaded to begin executing the script
 var beginVar = null;
@@ -128,6 +129,7 @@ function removeEmails() {
         break;
       }
     }
+
     console.log("Amount of Emails to Remove: " + amountToRemove);
 
     //Repositions the email links within the time frame

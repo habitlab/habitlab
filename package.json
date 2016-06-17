@@ -6,7 +6,8 @@
   "main": "background.js",
   "dependencies": {
     "jquery": "^3.0.0",
-    "jquery.isinview": "^1.0.4"
+    "jquery.isinview": "^1.0.4",
+    "zepto-browserify": "^1.1.6-1"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.4",

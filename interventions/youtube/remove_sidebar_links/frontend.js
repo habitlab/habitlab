@@ -2,6 +2,13 @@
 
 (() => {
 
+const {
+  // libs_frontend/common_libs.ls
+  once_available,
+  run_only_one_at_a_time,
+  on_url_change,
+} = window
+
 console.log('youtube remove sidebar links loaded frontend')
 //Nukes links on the sidebar
 function removeSidebar() {
@@ -12,11 +19,18 @@ function removeSidebar() {
 	}
 }
 
-const removeSidebarOnceAvailable = runOnlyOneAtATime(() => {
-  once_available('.watch-sidebar-section', removeSidebar)
+const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
+  once_available('.watch-sidebar-section', () => {
+    removeSidebar()
+    callback()
+  })
 })
 
 removeSidebarOnceAvailable()
+
+on_url_change(() => {
+  removeSidebarOnceAvailable()
+})
 
 /*
 (document.body || document.documentElement).addEventListener('transitionend',
@@ -26,17 +40,5 @@ removeSidebarOnceAvailable()
     }
 }, true);
 */
-
-let prev_url = window.location.href
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  const {type, data} = msg
-  if (type == 'navigation_occurred') {
-    console.log('received navigation_occurred in remove_sidebar_links')
-    if (data.url != prev_url) {
-      prev_url = data.url
-      removeSidebarOnceAvailable()
-    }
-  }
-})
 
 })()

@@ -28,6 +28,7 @@ yamlpattern = [
 ]
 
 eslintpattern_frontend = [
+  'libs_frontend/**/*.js'
   'interventions/**/*.js'
 ]
 
@@ -37,6 +38,10 @@ gulp.task 'eslint_frontend', ->
     parser: 'babel-eslint'
     parserOptions: {
       sourceType: 'script'
+      ecmaVersion: 6
+      ecmaFeatures: {
+        'impliedStrict': true
+      }
     }
     extends: 'eslint:recommended'
     envs: [
@@ -51,8 +56,10 @@ gulp.task 'eslint_frontend', ->
       'exports': true
     }
     rules: {
-      'no-console': 0
-      'no-unused-vars': 0
+      'no-console': 'off'
+      'no-unused-vars': 'off'
+      #'no-unused-vars': ['warn', {args: 'none', vars: 'local'}]
+      'comma-dangle': ['warn', 'only-multiline']
       #'strict': 2
     }
   }))

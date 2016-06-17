@@ -37,7 +37,7 @@ export memoizeSingleAsync = (func) ->
       cached_val := result
       callback result
 
-export runOnlyOneAtATime = (func) ->
+export run_only_one_at_a_time = (func) ->
   # func is assumed to take 1 argument (finished callback) for the time being
   is_running = false
   return ->
@@ -47,3 +47,12 @@ export runOnlyOneAtATime = (func) ->
     func ->
       # finished
       is_running := false
+
+export on_url_change = (func) ->
+  prev_url = window.location.href
+  chrome.runtime.onMessage.addListener (msg, sender, sendResponse) ->
+    {type, data} = msg
+    if type == 'navigation_occurred'
+      if data.url != prev_url
+        prev_url = data.url
+        func()

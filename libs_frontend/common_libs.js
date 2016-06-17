@@ -1,5 +1,5 @@
 (function(){
-  var getUrlParameters, once_available, once_true, memoizeSingleAsync, runOnlyOneAtATime, out$ = typeof exports != 'undefined' && exports || this;
+  var getUrlParameters, once_available, once_true, memoizeSingleAsync, run_only_one_at_a_time, on_url_change, out$ = typeof exports != 'undefined' && exports || this;
   out$.getUrlParameters = getUrlParameters = function(){
     var url, hash, map, parts;
     url = window.location.href;
@@ -47,7 +47,7 @@
       });
     };
   };
-  out$.runOnlyOneAtATime = runOnlyOneAtATime = function(func){
+  out$.run_only_one_at_a_time = run_only_one_at_a_time = function(func){
     var is_running;
     is_running = false;
     return function(){
@@ -59,5 +59,19 @@
         return is_running = false;
       });
     };
+  };
+  out$.on_url_change = on_url_change = function(func){
+    var prev_url;
+    prev_url = window.location.href;
+    return chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
+      var type, data, prev_url;
+      type = msg.type, data = msg.data;
+      if (type === 'navigation_occurred') {
+        if (data.url !== prev_url) {
+          prev_url = data.url;
+          return func();
+        }
+      }
+    });
   };
 }).call(this);

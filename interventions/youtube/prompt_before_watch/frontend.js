@@ -1,10 +1,19 @@
-(function(){
+"use strict";
+
+(() => {
+
+const {
+  // libs_frontend/common_libs.ls
+  once_available,
+  run_only_one_at_a_time,
+  on_url_change,
+} = window
 
 console.log('youtube prompt before watch loaded frontend')
 
 //Initially pauses the video when the page is loaded
 function pauseVideo() {
-	var overlayBox = document.querySelector('video');
+	const overlayBox = document.querySelector('video');
 	if (!overlayBox.paused) {
 		overlayBox.pause();
 	}
@@ -19,27 +28,27 @@ function divOverVideo(status) {
   if (window.location.href.indexOf('watch') == -1) {
     return
   }
-  var $a = $('<div class="whiteOverlay">').css({'position': 'absolute'});
+  const $a = $('<div class="whiteOverlay">').css({'position': 'absolute'});
 	$a.width($('video').width());
 	$a.height($('video').height());
 	$a.css({'background-color': 'white'});
 	$a.css('z-index', 30);
 	$a.text();
 	$(document.body).append($a);
-	var b = $a[0];
+	const b = $a[0];
 	b.style.left = $('video').offset().left + 'px';
 	b.style.top = $('video').offset().top + 'px';
 	b.style.opacity = 0.9;
 
 	//Centered container for text in the white box
-	var $contentContainer = $('<div class="contentContainer">').css({
+	const $contentContainer = $('<div class="contentContainer">').css({
 							'position': 'absolute',
 							'top': '50%',
 							'left': '50%',
 							'transform': 'translateX(-50%) translateY(-50%)'});
 
 	//Message to user
-	var $text1 = $('<h1>');
+	const $text1 = $('<h1>');
 	if (status === 'begin') {
 		$text1.text("Are you sure you want to play the video?");
 	} else {
@@ -49,20 +58,20 @@ function divOverVideo(status) {
 	$contentContainer.append($('<p>'));
 
 	//Close tab button
-	var $button1 = $('<button>');
+	const $button1 = $('<button>');
 	$button1.text("Close Tab");
 	$button1.css({'cursor': 'pointer'});
-	$button1.click(function() {
+	$button1.click(() => {
 		closeTab();
 		$button1.hide();
 	})
 	$contentContainer.append($button1);
 
 	//Continue watching video button
-	var $button2 = $('<button>');
+	const $button2 = $('<button>');
 	$button2.text("Watch Video");
 	$button2.css({'cursor': 'pointer', 'padding': '10px'});
-	$button2.click(function() {
+	$button2.click(() => {
 		removeDivAndPlay();
 		$button2.hide();
 	})
@@ -75,7 +84,7 @@ function divOverVideo(status) {
 //Remove the white div
 function removeDivAndPlay() {
 	$('.whiteOverlay').remove();
-	var play = document.querySelector('video');
+	const play = document.querySelector('video');
 	play.play();
 }
 
@@ -86,7 +95,7 @@ function removeDiv() {
 
 //Close the current tab
 function closeTab() {
-	chrome.runtime.sendMessage({greeting: "closeTab"}, function(response) {});
+	chrome.runtime.sendMessage({greeting: "closeTab"}, (response) => {});
 }
 
 //TODO: Make event listener for end of video instead of checking every second if the video is finished
@@ -97,14 +106,14 @@ function endWarning() {
 		divOverVideoEnd();
 	});
 	*/
-	var overlayBox = document.querySelector('video');
+	const overlayBox = document.querySelector('video');
 	if ((overlayBox.currentTime > (overlayBox.duration - 0.25)) && !overlayBox.paused) {
 		divOverVideo("end");
 		//overlayBox.pause();
 	}
 }
 
-var video_pauser = null
+let video_pauser = null
 
 //All method calls
 function main() {
@@ -115,7 +124,7 @@ function main() {
     video_pauser = setInterval(() => {
       pauseVideo();
       console.log('video pauser running')
-      var video_elem = document.querySelector('video')
+      const video_elem = document.querySelector('video')
       if (video_elem && video_elem.paused) {
         clearInterval(video_pauser)
       }
@@ -146,7 +155,7 @@ function afterNavigate() {
 //Youtube specific call for displaying the white div/message when the red top slider transitions
 //(Solution from link above)
 (document.body || document.documentElement).addEventListener('transitionend',
-  function(/*TransitionEvent*/ event) {
+  (event) => {
     if (event.propertyName === 'width' && event.target.id === 'progress') {
         afterNavigate();
     }

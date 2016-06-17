@@ -5,9 +5,21 @@ require! {
   'gulp-print'
   'gulp-babel'
   'gulp-livescript'
+  'gulp-typescript'
   'gulp-yaml'
   'gulp-eslint'
+  #'browserify-gulp'
+  'browserify'
+  'browserify-livescript'
+  'vinyl-source-stream'
+  'vinyl-buffer'
+  'gulp-sourcemaps'
+  'tsify'
 }
+
+tspattern = [
+  'interventions/**/*.ts'
+]
 
 es6pattern = [
   'interventions/**/*.es6'
@@ -96,6 +108,15 @@ gulp.task 'es6', ->
   .pipe(gulp.dest('.'))
   return
 
+gulp.task 'typescript', ->
+  gulp.src(tspattern, {base: './'})
+  .pipe(gulp-changed('.', {extension: '.js'}))
+  .pipe(gulp-typescript({noImplicitAny: true}))
+  .on('error', gulp-util.log)
+  .pipe(gulp-print({colors: false}))
+  .pipe(gulp.dest('.'))
+  return
+
 gulp.task 'livescript', ->
   gulp.src(lspattern, {base: './'})
   .pipe(gulp-changed('.', {extension: '.js'}))
@@ -104,6 +125,51 @@ gulp.task 'livescript', ->
   .pipe(gulp-print({colors: false}))
   .pipe(gulp.dest('.'))
   return
+
+# TODO sourcemaps
+# https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-multiple-destination.md
+/*
+gulp.task 'livescript_browserify', ->
+  gulp.src(lspattern, {base: './'})
+  .pipe(gulp-changed('.', {extension: '.js'}))
+  .pipe(gulp-livescript({bare: false}))
+  .on('error', gulp-util.log)
+  .pipe(gulp-print({colors: false}))
+  .pipe(gulp.dest('.'))
+  return
+*/
+
+/*
+# based on
+# https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
+gulp.task 'livescript_browserify', ->
+  return browserify({
+    entries: ['./browserify_test/test.ls']
+    transform: ['browserify-livescript']
+    debug: true
+  })
+  .bundle()
+  .on('error', gulp-util.log.bind(gulp-util, 'Browserify Error'))
+  .pipe(vinyl-source-stream('./browserify_test/test.js'))
+  .pipe(vinyl-buffer()) # optional, remove if you don't need to buffer file contents
+  .pipe(gulp-sourcemaps.init({loadMaps: true})) # optional, remove if you don't want sourcemaps
+  .pipe(gulp-sourcemaps.write('.'))
+  .pipe(gulp.dest('.'))
+
+gulp.task 'typescript_browserify', ->
+  return browserify({
+    entries: ['./browserify_test/test.ts']
+    debug: true
+  })
+  .plugin(tsify, {noImplicitAny: false})
+  .bundle()
+  .on('error', gulp-util.log.bind(gulp-util, 'Browserify Error'))
+  .pipe(vinyl-source-stream('./browserify_test/test.js'))
+  .pipe(vinyl-buffer()) # optional, remove if you don't need to buffer file contents
+  .pipe(gulp-sourcemaps.init({loadMaps: true})) # optional, remove if you don't want sourcemaps
+  .pipe(gulp-sourcemaps.write('.'))
+  .pipe(gulp.dest('.'))
+*/
 
 gulp.task 'yaml', ->
   gulp.src(yamlpattern, {base: './'})
@@ -116,14 +182,19 @@ gulp.task 'yaml', ->
 
 tasks_and_patterns = [
   ['livescript', lspattern]
+  #['typescript', tspattern]
   #['es6', es6pattern]
   ['yaml', yamlpattern]
   ['eslint_frontend', eslintpattern_frontend]
+  #['livescript_browserify', lspattern_browserify]
 ]
 
 gulp.task 'build', tasks_and_patterns.map((.0))
 
-gulp.task 'watch', ->
+# TODO we can speed up the watch speed for browserify by using watchify
+# https://github.com/marcello3d/gulp-watchify/blob/master/examples/simple/gulpfile.js
+# https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
+gulp.task 'watch' ->
   for [task,pattern] in tasks_and_patterns
     gulp.watch pattern, [task]
   return

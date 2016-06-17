@@ -1,4 +1,11 @@
 const $ = require('jquery')
+const {
+  increment,
+  helloworld,
+} = require('libs_frontend/sample_js_lib')
+
+console.log(helloworld())
+console.log('if you increment 3 you get' + increment(3))
 
 var beginVar = null;
 function begin() {

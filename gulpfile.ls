@@ -46,6 +46,10 @@ eslintpattern_frontend = [
   'src/interventions/**/*.js'
 ]
 
+jspattern_srcgen = [
+  'src/**/*.js'
+]
+
 copypattern = [
   'src/**/*.html'
   'src/**/*.png'
@@ -230,15 +234,23 @@ gulp.task 'copy', ->
   .pipe(gulp.dest('dist'))
   return
 
+gulp.task 'js_srcgen', ->
+  gulp.src(jspattern_srcgen, {base: 'src'})
+  .pipe(gulp-changed('src_gen'))
+  .pipe(gulp.dest('src_gen'))
+  return
+
+
 tasks_and_patterns = [
   ['livescript', lspattern]
   ['livescript_srcgen', lspattern_srcgen]
+  ['js_srcgen', jspattern_srcgen]
   #['typescript', tspattern]
   #['es6', es6pattern]
   ['yaml', yamlpattern]
-  ['eslint_frontend', eslintpattern_frontend]
   ['browserify_js', browserify_js_pattern]
   ['copy', copypattern]
+  ['eslint_frontend', eslintpattern_frontend]
   #['livescript_browserify', lspattern_browserify]
 ]
 

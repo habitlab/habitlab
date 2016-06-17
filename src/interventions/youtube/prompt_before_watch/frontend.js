@@ -2,12 +2,14 @@
 
 (() => {
 
+const $ = require('jquery')
+
 const {
   // libs_frontend/common_libs.ls
   once_available,
   run_only_one_at_a_time,
   on_url_change,
-} = window
+} = require('libs_frontend/common_libs')
 
 console.log('youtube prompt before watch loaded frontend')
 

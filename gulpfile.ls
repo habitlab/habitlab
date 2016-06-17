@@ -5,7 +5,7 @@ require! {
   'gulp-print'
   'gulp-babel'
   'gulp-livescript'
-  'gulp-typescript'
+  #'gulp-typescript'
   'gulp-yaml'
   'gulp-eslint'
   #'browserify-gulp'
@@ -15,6 +15,7 @@ require! {
   'vinyl-buffer'
   'gulp-sourcemaps'
   'tsify'
+  'through2'
 }
 
 tspattern = [
@@ -49,6 +50,10 @@ copypattern = [
   'src/bower_components/**/*'
 ]
 
+browserify_js_pattern = [
+  'src/interventions/**/*.js'
+]
+
 gulp.task 'eslint_frontend', ->
   gulp.src(eslintpattern_frontend, {base: 'src'})
   .pipe(gulp-eslint({
@@ -68,7 +73,8 @@ gulp.task 'eslint_frontend', ->
       #'node'
     ]
     globals: {
-      '$': true
+      #'$': true
+      'require': true
       'env': true
       'exports': true
     }
@@ -134,6 +140,15 @@ gulp.task 'livescript', ->
   .pipe(gulp.dest('dist'))
   return
 
+gulp.task 'livescript_srcgen', ->
+  gulp.src(lspattern, {base: 'src'})
+  .pipe(gulp-changed('src_gen', {extension: '.js'}))
+  .pipe(gulp-livescript({bare: false}))
+  .on('error', gulp-util.log)
+  .pipe(gulp-print({colors: false}))
+  .pipe(gulp.dest('src_gen'))
+  return
+
 # TODO sourcemaps
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-multiple-destination.md
 /*
@@ -146,6 +161,24 @@ gulp.task 'livescript_browserify', ->
   .pipe(gulp.dest('.'))
   return
 */
+
+gulp.task 'browserify_js', ->
+  # from
+  # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
+  browserified = ->
+    return through2.obj (chunk, enc, callback) ->
+      if chunk.isBuffer()
+        b = browserify(chunk.path)
+        # any custom browserify stuff should go here
+        chunk.contents = b.bundle()
+        this.push(chunk)
+      callback()
+  return gulp.src(browserify_js_pattern, {base: 'src'})
+  .pipe(browserified())
+  .pipe(gulp-changed('dist', {extension: '.js'}))
+  .on('error', gulp-util.log)
+  .pipe(gulp-print({colors: false}))
+  .pipe(gulp.dest('dist'))
 
 /*
 # based on
@@ -195,11 +228,13 @@ gulp.task 'copy', ->
   return
 
 tasks_and_patterns = [
+  ['livescript_srcgen', lspattern]
   ['livescript', lspattern]
   #['typescript', tspattern]
   #['es6', es6pattern]
   ['yaml', yamlpattern]
   ['eslint_frontend', eslintpattern_frontend]
+  ['browserify_js', browserify_js_pattern]
   ['copy', copypattern]
   #['livescript_browserify', lspattern_browserify]
 ]

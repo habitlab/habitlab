@@ -80,12 +80,12 @@
       }
       visible_quiz_ids_map = res$;
       res$ = {};
-      for (i$ = 0, len$ = (ref$ = prev_visible_quiz_ids).length; i$ < len$; ++i$) {
+      for (i$ = 0, len$ = (ref$ = root.prev_visible_quiz_ids).length; i$ < len$; ++i$) {
         id = ref$[i$];
         res$[id] = true;
       }
       prev_visible_quiz_ids_map = res$;
-      shown_ids = keysInFirstButNotSecond(visible_quiz_ids_map, prev_visible_quiz_ids_map);
+      shown_ids = keysInFirstButNotSecond(visible_quiz_ids_map, root.prev_visible_quiz_ids_map);
       curtime = Date.now();
       showntimes = {};
       for (i$ = 0, len$ = shown_ids.length; i$ < len$; ++i$) {

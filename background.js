@@ -1,5 +1,5 @@
 (function(){
-  var root, insert_css, running_background_scripts, load_background_script, wait_token_to_callback, make_wait_token, wait_for_token, finished_waiting, execute_content_scripts, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, out$ = typeof exports != 'undefined' && exports || this;
+  var root, insert_css, running_background_scripts, load_background_script, wait_token_to_callback, make_wait_token, wait_for_token, finished_waiting, execute_content_scripts, load_intervention, load_intervention_for_location, getLocation, getTabInfo, sendTab, split_list_by_length, message_handlers, ext_message_handlers, confirm_permissions, navigation_occurred, out$ = typeof exports != 'undefined' && exports || this;
   root = typeof exports != 'undefined' && exports !== null ? exports : this;
   /*
   execute_content_script = (tabid, options, callback) ->
@@ -326,20 +326,33 @@
       }, callback);
     });
   };
+  navigation_occurred = function(url, tabId){
+    chrome.tabs.sendMessage(tabId, {
+      type: 'navigation_occurred',
+      data: {
+        url: url,
+        tabId: tabId
+      }
+    });
+    return list_available_interventions_for_location(url, function(possible_interventions){
+      if (possible_interventions.length > 0) {
+        chrome.pageAction.show(tabId);
+      } else {
+        chrome.pageAction.hide(tabId);
+      }
+      return load_intervention_for_location(url);
+    });
+  };
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
     if (tab.url) {
       if (changeInfo.status !== 'complete') {
         return;
       }
-      return list_available_interventions_for_location(tab.url, function(possible_interventions){
-        if (possible_interventions.length > 0) {
-          chrome.pageAction.show(tabId);
-        } else {
-          chrome.pageAction.hide(tabId);
-        }
-        return load_intervention_for_location(tab.url);
-      });
+      return navigation_occurred(tab.url, tabId);
     }
+  });
+  chrome.webNavigation.onHistoryStateUpdated.addListener(function(info){
+    return navigation_occurred(info.url, info.tabId);
   });
   chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse){
     var type, data, message_handler, whitelist, i$, len$, whitelisted_url, this$ = this;

@@ -259,19 +259,32 @@ confirm_permissions = (info, callback) ->
     field_info_list.push output
   sendTab 'confirm_permissions', {pagename, fields: field_info_list}, callback
 
+navigation_occurred = (url, tabId) ->
+  chrome.tabs.sendMessage tabId, {
+    type: 'navigation_occurred'
+    data: {
+      url: url
+      tabId: tabId
+    }
+  }
+  possible_interventions <- list_available_interventions_for_location(url)
+  if possible_interventions.length > 0
+    chrome.pageAction.show(tabId)
+  else
+    chrome.pageAction.hide(tabId)
+  #send_pageupdate_to_tab(tabId)
+  load_intervention_for_location url
+
 chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
   if tab.url
     #console.log 'tabs updated!'
     #console.log tab.url
     if changeInfo.status != 'complete'
       return
-    possible_interventions <- list_available_interventions_for_location(tab.url)
-    if possible_interventions.length > 0
-      chrome.pageAction.show(tabId)
-    else
-      chrome.pageAction.hide(tabId)
-    #send_pageupdate_to_tab(tabId)
-    load_intervention_for_location tab.url
+    navigation_occurred tab.url, tabId
+
+chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
+  navigation_occurred info.url, info.tabId
 
 chrome.runtime.onMessageExternal.addListener (request, sender, sendResponse) ->
   {type, data} = request

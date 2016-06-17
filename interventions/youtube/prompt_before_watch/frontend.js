@@ -25,7 +25,7 @@ function divOverVideo(status) {
 	$a.css({'background-color': 'white'});
 	$a.css('z-index', 30);
 	$a.text();
-	$(body).append($a);
+	$(document.body).append($a);
 	var b = $a[0];
 	b.style.left = $('video').offset().left + 'px';
 	b.style.top = $('video').offset().top + 'px';
@@ -97,14 +97,14 @@ function endWarning() {
 		divOverVideoEnd();
 	});
 	*/
-	overlayBox = document.querySelector('video');
+	var overlayBox = document.querySelector('video');
 	if ((overlayBox.currentTime > (overlayBox.duration - 0.25)) && !overlayBox.paused) {
 		divOverVideo("end");
 		//overlayBox.pause();
 	}
 }
 
-video_pauser = null
+var video_pauser = null
 
 //All method calls
 function main() {

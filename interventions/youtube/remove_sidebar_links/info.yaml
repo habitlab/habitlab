@@ -3,4 +3,5 @@ matches:
   - www.youtube.com
 content_scripts:
   - /bower_components/jquery/dist/jquery.min.js
+  - /libs_frontend/common_libs.js
   - frontend.js

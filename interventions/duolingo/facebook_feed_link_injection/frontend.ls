@@ -58,8 +58,8 @@ updateVisibleIds = ->
   visible_quiz_ids = [quiz.id for quiz in $('.feedlearnquiz').inViewport()]
   if not idArraysEqual(visible_quiz_ids, root.prev_visible_quiz_ids) # making assumption that inViewport will return arrays in same order
     visible_quiz_ids_map = {[id,true] for id in visible_quiz_ids}
-    prev_visible_quiz_ids_map = {[id,true] for id in prev_visible_quiz_ids}
-    shown_ids = keysInFirstButNotSecond(visible_quiz_ids_map, prev_visible_quiz_ids_map)
+    prev_visible_quiz_ids_map = {[id,true] for id in root.prev_visible_quiz_ids}
+    shown_ids = keysInFirstButNotSecond(visible_quiz_ids_map, root.prev_visible_quiz_ids_map)
     curtime = Date.now()
     showntimes = {}
     for newid in shown_ids

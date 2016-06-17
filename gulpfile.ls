@@ -18,34 +18,39 @@ require! {
 }
 
 tspattern = [
-  'interventions/**/*.ts'
+  'src/interventions/**/*.ts'
 ]
 
 es6pattern = [
-  'interventions/**/*.es6'
+  'src/interventions/**/*.es6'
 ]
 
 lspattern = [
-  'app.ls'
-  '*.ls'
-  'fields/*.ls'
-  'interventions/**/*.ls'
-  'libs_frontend/**/*.ls'
-  '!gulpfile.ls'
+  'src/*.ls'
+  'src/fields/*.ls'
+  'src/interventions/**/*.ls'
+  'src/libs_frontend/**/*.ls'
 ]
 
 yamlpattern = [
-  'manifest.yaml'
-  'interventions/**/*.yaml'
+  'src/manifest.yaml'
+  'src/interventions/**/*.yaml'
 ]
 
 eslintpattern_frontend = [
-  'libs_frontend/**/*.js'
-  'interventions/**/*.js'
+  'src/libs_frontend/**/*.js'
+  'src/interventions/**/*.js'
+]
+
+copypattern = [
+  'src/**/*.html'
+  'src/**/*.png'
+  'src/*.js'
+  'src/bower_components/**/*'
 ]
 
 gulp.task 'eslint_frontend', ->
-  gulp.src(eslintpattern_frontend, {base: './'})
+  gulp.src(eslintpattern_frontend, {base: 'src'})
   .pipe(gulp-eslint({
     parser: 'babel-eslint'
     parserOptions: {
@@ -77,7 +82,7 @@ gulp.task 'eslint_frontend', ->
   }))
   .pipe(gulp-eslint.formatEach('compact', process.stderr))
 
-
+/*
 gulp.task 'es6', ->
   gulp.src(es6pattern, {base: './'})
   .pipe(gulp-changed('.', {extension: '.js'}))
@@ -107,7 +112,9 @@ gulp.task 'es6', ->
   .pipe(gulp-print({colors: false}))
   .pipe(gulp.dest('.'))
   return
+*/
 
+/*
 gulp.task 'typescript', ->
   gulp.src(tspattern, {base: './'})
   .pipe(gulp-changed('.', {extension: '.js'}))
@@ -116,14 +123,15 @@ gulp.task 'typescript', ->
   .pipe(gulp-print({colors: false}))
   .pipe(gulp.dest('.'))
   return
+*/
 
 gulp.task 'livescript', ->
-  gulp.src(lspattern, {base: './'})
-  .pipe(gulp-changed('.', {extension: '.js'}))
+  gulp.src(lspattern, {base: 'src'})
+  .pipe(gulp-changed('dist', {extension: '.js'}))
   .pipe(gulp-livescript({bare: false}))
   .on('error', gulp-util.log)
   .pipe(gulp-print({colors: false}))
-  .pipe(gulp.dest('.'))
+  .pipe(gulp.dest('dist'))
   return
 
 # TODO sourcemaps
@@ -172,12 +180,18 @@ gulp.task 'typescript_browserify', ->
 */
 
 gulp.task 'yaml', ->
-  gulp.src(yamlpattern, {base: './'})
-  .pipe(gulp-changed('.', {extension: '.json'}))
+  gulp.src(yamlpattern, {base: 'src'})
+  .pipe(gulp-changed('dist', {extension: '.json'}))
   .pipe(gulp-yaml({space: 2}))
   .on('error', gulp-util.log)
   .pipe(gulp-print({colors: false}))
-  .pipe(gulp.dest('.'))
+  .pipe(gulp.dest('dist'))
+  return
+
+gulp.task 'copy', ->
+  gulp.src(copypattern, {base: 'src'})
+  .pipe(gulp-changed('dist'))
+  .pipe(gulp.dest('dist'))
   return
 
 tasks_and_patterns = [
@@ -186,6 +200,7 @@ tasks_and_patterns = [
   #['es6', es6pattern]
   ['yaml', yamlpattern]
   ['eslint_frontend', eslintpattern_frontend]
+  ['copy', copypattern]
   #['livescript_browserify', lspattern_browserify]
 ]
 

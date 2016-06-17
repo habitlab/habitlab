@@ -1,6 +1,6 @@
 export getInterventionInfo = (intervention_name, callback) ->
-  intervention_info_text <- $.get "/interventions/#{intervention_name}/info.yaml"
-  intervention_info = jsyaml.safeLoad intervention_info_text
+  intervention_info_text <- $.get "/interventions/#{intervention_name}/info.json"
+  intervention_info = JSON.parse intervention_info_text
   intervention_info.name = intervention_name
   callback intervention_info
 
@@ -34,8 +34,8 @@ export is_intervention_enabled = (intervention_name) ->
   return enabled_interventions[intervention_name]?
 
 export get_interventions = memoizeSingleAsync (callback) ->
-  $.get '/interventions/interventions.yaml', (interventions_list_text) ->
-    interventions_list = jsyaml.safeLoad interventions_list_text
+  $.get '/interventions/interventions.json', (interventions_list_text) ->
+    interventions_list = JSON.parse interventions_list_text
     output = {}
     fix_content_script_options = (options, intervention_name) ->
       if typeof options == 'string'

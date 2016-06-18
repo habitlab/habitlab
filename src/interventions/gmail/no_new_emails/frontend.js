@@ -1,5 +1,5 @@
 //const $ = require('jquery')
-const $ = require('zepto-browserify').$
+const $ = require('zepto')
 
 //Waits until the email page is loaded to begin executing the script
 var beginVar = null;

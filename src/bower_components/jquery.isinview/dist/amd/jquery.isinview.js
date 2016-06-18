@@ -1,5 +1,5 @@
-// jQuery.isInView, v1.0.3
-// Copyright (c)2015 Michael Heim, Zeilenwechsel.de
+// jQuery.isInView, v1.0.4
+// Copyright (c) 2014-2016 Michael Heim, Zeilenwechsel.de
 // Distributed under MIT license
 // http://github.com/hashchange/jquery.isinview
 

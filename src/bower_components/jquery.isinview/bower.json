@@ -1,6 +1,6 @@
 {
   "name": "jquery.isinview",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/hashchange/jquery.isinview",
   "authors": [
     "Michael Heim <heim@zeilenwechsel.de>"
@@ -48,7 +48,7 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "jquery": ">=1.9.0 <2.2",
+    "jquery": ">=1.9.0 <3.1",
     "jquery.documentsize": "^1.1.0"
   }
 }

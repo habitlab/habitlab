@@ -2,13 +2,19 @@
 
 <small>[Setup][setup] – [Example: Lazy loading][example] – [API][api] – [Browser support][browsers] – [Limitations][limitations] – [Performance tips][perftips] – [Build and test][build]</small>
 
-This jQuery plugin tells you if elements are in view inside a scrollable container, or inside a container hiding its overflow. It works with respect to the viewport, iframes, or other scrollable elements. 
+This jQuery plugin tells you if elements are in view inside a scrollable container, or inside a container hiding its overflow. It works with respect to the viewport, iframes, or other scrollable elements.
+
+**What sets jQuery.isInView apart?**
+
+A whole lot of other components aim to do the same job as jQuery.isInView. Most are a bit more lightweight, in terms of file size. They are good choices if you need to check just a few elements, and just occasionally, when timing is not critical.
+
+The main advantage of jQuery.isInView over them is speed. The methods of the plugin are optimized for performance and do their job faster, by orders of magnitude, than any other component I have been able to find (see this [live performance test][perftest-jsbin]). To give you an idea, filtering 1000 elements takes no more than 3ms on an elderly desktop running Chrome, and about 9ms on an underpowered mobile device.
+
+As a result, jQuery.isInView is suitable for event handlers which are called frequently – scroll and resize handlers, for instance –, and it can deal with large numbers of elements.
 
 **Core methods**
 
-You can choose between different ways to figure out which elements [are in view][api-core]. The plugin gives you [filters][] like `$elems.inView()`. You get an [`:inViewport` selector][api-selector], too. Or you can use [boolean queries][boolean-queries], such as [`$elem.isInView()`][api-fn.isInView]. 
-
-The methods of the plugin are optimized for performance and ridiculously fast: filtering 1000 elements takes no more than 3ms on an elderly desktop running Chrome, and about 9ms on an underpowered mobile device. As a result, jQuery.isInView is suitable for event handlers which are called frequently – scroll and resize handlers, for instance –, and it can deal with large numbers of elements.
+You can choose between different ways to figure out which elements [are in view][api-core]. The plugin gives you [filters][] like `$elems.inView()`. You get an [`:inViewport` selector][api-selector], too. Or you can use [boolean queries][boolean-queries], such as [`$elem.isInView()`][api-fn.isInView].
 
 **Useful helpers**
 
@@ -19,6 +25,14 @@ jQuery.isInView exposes a number of [useful helper functions][api-helpers] which
 **Tests**
 
 Browsers are a moving target for development, and they are full of quirks, too. In this environment, the plugin needs to prove that it works. It comes along with a massive [test suite][tests], auto-generated from diverse scenarios and a carefully crafted set of base tests. [Performance tests][perftests] are also part of the package.
+
+**Example and Demo**
+
+There is an interactive demo at [JS Bin][demo-jsbin] or [Codepen][demo-codepen] which you can play with. Or explore the [lazy-loading example, below][example].
+
+**Other**
+
+If you are a happy user of this project already, you can support its development by [donating to it][donations]. You absolutely don't have to, of course, but perhaps it is something you [might actually want to do][donations].
 
 ## Dependencies and setup
 
@@ -246,9 +260,9 @@ If the element is inside an iframe, `.ownerWindow()` returns the window represen
 
 jQuery.isInView has been tested with 
 
-- 2015 versions of Chrome, Firefox, Safari, and Opera on the Desktop
-- IE9+
-- Safari on iOS 8, Chrome on Android 5
+- 2015, 2016 versions of Chrome, Firefox, Safari, and Opera on the desktop
+- IE9+, Edge
+- Safari on iOS 8, iOS9; Chrome and Firefox on Android 5
 - PhantomJS, SlimerJS
 
 The plugin is not formally tested in IE8 (due to a limitation of the test suite), and for that reason, IE8 is not supported. That said, it appears to work there, too. Your mileage may vary – if you still have to support IE8, go ahead and use it, but keep your eyes open.
@@ -275,7 +289,7 @@ There are also a few limitations with regard to HTML elements and their styles:
 
 - The `<object>` tag is not supported as a container.
 
-In terms of weird edge cases, there is one for [`.hasScrollbar()`][api-fn.hasScrollbar]. If a browser displays scroll bars [of width 0][jQuery.documentSize-scrollbarWidth] – like those on iOS and Android – and the overflow setting of the documentElement is not "visible", and the overflow of the body is set to "auto", and you take the unusual step of querying the scroll bars [of the body itself][api-fn.hasScrollbar] (as opposed to the window), `.hasScrollbar()` fails to detect them. (You still there?) Just so you know that this won't (and can't) be fixed. 
+In terms of weird edge cases, there is one for [`.hasScrollbar()`][api-fn.hasScrollbar]. I only mention it for the sake of completeness – you are extremely unlikely to run into it in an actual application. It can only occur in browsers which display scroll bars [of width 0][jQuery.documentSize-scrollbarWidth], like those on iOS and Android. The overflow setting of the documentElement has to be different from the default, `"visible"`. The overflow of the body has to be set to `"auto"`. Then, if you take the unusual step of querying the scroll bars [of the body itself][api-fn.hasScrollbar] (as opposed to the window), `.hasScrollbar()` fails to detect them. That is not a bug, and can't be fixed. It is not possible to detect the presence of scroll bars in these circumstances.
 
 Finally, the plugin doesn't deal with multiple, nested scrolls yet. But it merely isn't aggregating the results for you. You can call it on each individual container and simply chain the results (with `&&` for boolean tests, or filter chaining).
 
@@ -311,7 +325,7 @@ If you'd like to test, fix, customize or otherwise improve jQuery.isInView: here
 
 ### Setup
 
-[npm][] and [Bower][] set up the environment for you. 
+[npm][] and [Bower][] set up the environment for you.
 
 - The only thing you've got to have on your machine is [Node.js]. Download the installer [here][Node.js].
 - Open a command prompt in the project directory.
@@ -326,13 +340,15 @@ Your test and build environment is ready now. If you want to test against specif
 
 Some tests are executed in a child window (aka pop-up window). Please _disable the pop-up blocker of the browser_ for the domain the tests are run under (usually localhost), or they will fail.
 
-To run the tests on remote clients (mobile devices), start a web server with `grunt interactive` and visit `http://[your-host-ip]:9400/web-mocha/` with the client browser. Running the tests in the browser like this takes a _long_ time, so it makes sense to disable the power-save/sleep/auto-lock timeout on the mobile device. 
+To run the tests on remote clients (e.g. mobile devices), start a web server with `grunt interactive` and visit `http://[your-host-ip]:9400/web-mocha/` with the client browser. Running the tests in a browser like this takes a _long_ time, so it makes sense to disable the power-save/sleep/auto-lock timeout on the mobile device. 
 
 Further, on iOS, you need to guide the tests along. Even with the pop-up blocker disabled, iOS displays a notification each time a child window is opened by a test, and you need to dismiss each notification manually. You have about a minute to hit OK before the related part of the test suite times out. These notifications show up multiple times, so keep an eye on your device until all tests are done.
 
 #### Performance tests
 
-You can examine the performance of jQuery.isInView, and compare it to some other popular plugins which have served as a benchmark during development. Spin up a server with `grunt demo` and navigate to the performance test page, `http://[your-host-ip]:9400/demo/perftest/`. 
+You can examine the performance of jQuery.isInView, and compare it to some other popular plugins which have served as a benchmark during development. Spin up a server with `grunt demo` and navigate to the performance test page, `http://[your-host-ip]:9400/demo/perftest/`.
+
+A live version of the test, showing data of a stable, published build, is available on [JS Bin][perftest-jsbin]. 
 
 #### Tool chain and commands
 
@@ -343,6 +359,7 @@ A handful of commands manage everything for you:
 - Run the tests in a terminal with `grunt test`.
 - Run the tests in a browser interactively, live-reloading the page when the source or the tests change: `grunt interactive`.
 - If the live reload bothers you, you can also run the tests in a browser without it: `grunt webtest`.
+- Run the linter only with `grunt lint` or `grunt hint`. (The linter is part of `grunt test` as well.)
 - Build the dist files (also running tests and linter) with `grunt build`, or just `grunt`.
 - Build continuously on every save with `grunt ci`.
 - Change the version number throughout the project with `grunt setver --to=1.2.3`. Or just increment the revision with `grunt setver --inc`. (Remember to rebuild the project with `grunt` afterwards.)
@@ -362,7 +379,23 @@ In case anything about the test and build process needs to be changed, have a lo
 
 New test files in the `spec` directory are picked up automatically, no need to edit the configuration for that.
 
+## Facilitating development
+
+To my own surprise, [a kind soul][donations-idea] wanted to donate to one of my projects, but there hadn't been a link. [Now there is.][donations-paypal-link]
+
+Please don't feel obliged in the slightest. The license here is [MIT][license], and so it's free. That said, if you do want to support the maintenance and development of this component, or any of my [other open-source projects][hashchange-projects-overview], I _am_ thankful for your contribution.
+
+Naturally, these things don't pay for themselves – not even remotely. The components I write aim to be well tested, performant, and reliable. These qualities may not seem particularly fascinating, but I put a lot of emphasis on them because they make all the difference in production. They are also rather costly to maintain, time-wise.
+
+That's why donations are welcome, and be it as nod of appreciation to keep spirits up. [Thank you!][donations-paypal-link]
+
+[![Donate with Paypal][donations-paypal-button]][donations-paypal-link]
+
 ## Release Notes
+
+### v1.0.4
+
+- Updated the jQuery dependency to jQuery 3
 
 ### v1.0.2
 
@@ -438,7 +471,7 @@ New test files in the `spec` directory are picked up automatically, no need to e
 
 MIT.
 
-Copyright (c) 2014, 2015 Michael Heim.
+Copyright (c) 2014-2016 Michael Heim.
 
 Code in the data provider test helper: (c) 2014 Box, Inc., Apache 2.0 license. [See file][data-provider.js].
 
@@ -448,7 +481,7 @@ Code in the data provider test helper: (c) 2014 Box, Inc., Apache 2.0 license. [
 [dist-amd-prod]: https://raw.github.com/hashchange/jquery.isinview/master/dist/amd/jquery.isinview.min.js "jquery.isinview.min.js, AMD build"
 
 [setup]: #dependencies-and-setup "Setup"
-[example]: #usage-by-example-lazy-loading "Example:"
+[example]: #usage-by-example-lazy-loading "Usage by example: Lazy loading"
 [api]: #api "API"
 [browsers]: #browser-support "Browser support"
 [limitations]: #limitations "Limitations"
@@ -482,6 +515,10 @@ Code in the data provider test helper: (c) 2014 Box, Inc., Apache 2.0 license. [
 [jQuery.documentSize]: https://github.com/hashchange/jquery.documentsize "jQuery.documentSize"
 [Underscore]: http://underscorejs.org/ "Underscore.js"
 
+[demo-jsbin]: http://jsbin.com/legice/6/edit?js,output "jQuery.isInView demo (AMD) – JSBin"
+[demo-codepen]: http://codepen.io/hashchange/pen/LVKqPK "jQuery.isInView demo (AMD) – Codepen"
+[perftest-jsbin]: http://jsbin.com/lisudi/3 "jQuery.isInView: Performance Test and Comparison (with isInViewport, jquery.visible, jquery_lazyload, hunt) - JS Bin"
+
 [throttled-scroll]: http://ejohn.org/blog/learning-from-twitter/ "John Resig: Learning from Twitter"
 [Underscore.throttle]: http://underscorejs.org/#throttle "Underscore.js: _.throttle()"
 [css-clipping-masking]: http://css-tricks.com/clipping-masking-css/ "CSS-Tricks: Clipping and Masking in CSS"
@@ -498,3 +535,10 @@ Code in the data provider test helper: (c) 2014 Box, Inc., Apache 2.0 license. [
 [Chai]: http://chaijs.com/ "Chai: a BDD / TDD assertion library"
 [Sinon]: http://sinonjs.org/ "Sinon.JS – Versatile standalone test spies, stubs and mocks for JavaScript"
 [JSHint]: http://www.jshint.com/ "JSHint, a JavaScript Code Quality Tool"
+
+[donations]: #facilitating-development "Facilitating development"
+[donations-idea]: https://github.com/hashchange/jquery.documentsize/issues/1 "jQuery.documentSize, issue #1: Thank you!"
+[donations-paypal-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BJY73NCT5YVVY "Donate with Paypal"
+[donations-paypal-button]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "Donate with Paypal"
+[license]: #license "License"
+[hashchange-projects-overview]: http://hashchange.github.io/ "Hacking the front end: Backbone, Marionette, jQuery and the DOM. An overview of open-source projects by @hashchange."

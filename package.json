@@ -3,15 +3,29 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "main": "background.js",
-  "dependencies": {
-    "jquery": "^3.0.0",
-    "jquery.isinview": "^1.0.4",
-    "zepto-browserify": "^1.1.6-1"
+  "browser": {
+    "jquery": "./src/bower_components/jquery/dist/jquery.min.js",
+    "jquery.isinview": "./src/bower_components/jquery.isinview/dist/jquery.isinview.min.js",
+    "zepto": "./src/bower_components/zepto/zepto.min.js"
   },
+  "browserify-shim": {
+    "jquery": {
+      "exports": null
+    },
+    "jquery.isinview": {
+      "depends": [
+        "jquery:$"
+      ]
+    },
+    "zepto": {
+      "exports": null
+    }
+  },
+  "dependencies": {},
   "devDependencies": {
     "browserify": "^13.0.1",
     "browserify-livescript": "^0.2.3",
+    "browserify-shim": "^3.8.12",
     "exorcist": "^0.4.0",
     "gulp": "^3.9.1",
     "gulp-changed": "^1.3.0",
@@ -22,19 +36,22 @@
     "gulp-yaml": "^1.0.1",
     "livescript": "^1.5.0",
     "mkdirp": "^0.5.1",
-    "through2": "^2.0.1"
+    "through2": "^2.0.1",
+    "watchify": "^3.7.0",
+    "webpack-stream": "^3.2.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "scripts/postinstall.js"
   },
   "browserify": {
-    "extension": [
+    "extensions": [
       ".js",
       ".ls"
     ],
     "transform": [
-      "browserify-livescript"
+      "browserify-livescript",
+      "browserify-shim"
     ]
   },
   "author": "Geza Kovacs (http://gkovacs.github.com)",

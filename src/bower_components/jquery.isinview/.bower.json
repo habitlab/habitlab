@@ -1,6 +1,6 @@
 {
   "name": "jquery.isinview",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/hashchange/jquery.isinview",
   "authors": [
     "Michael Heim <heim@zeilenwechsel.de>"
@@ -48,17 +48,17 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "jquery": ">=1.9.0 <2.2",
+    "jquery": ">=1.9.0 <3.1",
     "jquery.documentsize": "^1.1.0"
   },
-  "_release": "1.0.3",
+  "_release": "1.0.4",
   "_resolution": {
     "type": "version",
-    "tag": "1.0.3",
-    "commit": "ab7f095ee2c32e8eb6c96c13c78ad6d3f4f46ddd"
+    "tag": "1.0.4",
+    "commit": "b17373c1f933620895b13d50348f430f9a59a263"
   },
   "_source": "https://github.com/hashchange/jquery.isinview.git",
-  "_target": "^1.0.3",
+  "_target": "^1.0.4",
   "_originalSource": "jquery.isinview",
   "_direct": true
 }

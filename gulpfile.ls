@@ -16,6 +16,7 @@ require! {
   'gulp-sourcemaps'
   'tsify'
   'through2'
+  'gulp-ext-replace'
 }
 
 tspattern = [
@@ -58,7 +59,11 @@ copypattern = [
 ]
 
 browserify_js_pattern = [
-  'src_gen/interventions/**/*.js'
+  'src/interventions/**/*.js'
+]
+
+browserify_ls_pattern = [
+  'src/interventions/**/*.ls'
 ]
 
 gulp.task 'eslint_frontend', ->
@@ -169,6 +174,26 @@ gulp.task 'livescript_browserify', ->
   return
 */
 
+gulp.task 'browserify_ls', ->
+  browserified = ->
+    return through2.obj (chunk, enc, callback) ->
+      if chunk.isBuffer()
+        b = browserify(chunk.path, {
+          transform: ['browserify-livescript']
+          debug: true
+        })
+        # any custom browserify stuff should go here
+        chunk.contents = b.bundle()
+        this.push(chunk)
+      callback()
+  return gulp.src(browserify_ls_pattern, {base: 'src'})
+  .pipe(browserified())
+  .pipe(gulp-changed('dist', {extension: '.js'}))
+  .on('error', gulp-util.log)
+  .pipe(gulp-ext-replace('.js'))
+  .pipe(gulp-print({colors: false}))
+  .pipe(gulp.dest('dist'))
+
 gulp.task 'browserify_js', ->
   # from
   # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
@@ -180,7 +205,7 @@ gulp.task 'browserify_js', ->
         chunk.contents = b.bundle()
         this.push(chunk)
       callback()
-  return gulp.src(browserify_js_pattern, {base: 'src_gen'})
+  return gulp.src(browserify_js_pattern, {base: 'src'})
   .pipe(browserified())
   .pipe(gulp-changed('dist', {extension: '.js'}))
   .on('error', gulp-util.log)
@@ -249,6 +274,7 @@ tasks_and_patterns = [
   #['es6', es6pattern]
   ['yaml', yamlpattern]
   ['browserify_js', browserify_js_pattern]
+  ['browserify_ls', browserify_ls_pattern]
   ['copy', copypattern]
   ['eslint_frontend', eslintpattern_frontend]
   #['livescript_browserify', lspattern_browserify]

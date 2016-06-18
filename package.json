@@ -9,19 +9,12 @@
     "zepto": "./src/bower_components/zepto/zepto.min.js"
   },
   "browserify-shim": {
-    "jquery": {
-      "exports": null
-    },
-    "jquery.isinview": {
-      "depends": [
-        "jquery:$"
-      ]
-    },
-    "zepto": {
-      "exports": null
-    }
+    "jquery": {"exports": null},
+    "jquery.isinview": {"depends": ["jquery:$"]},
+    "zepto": "$"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "browserify": "^13.0.1",
     "browserify-livescript": "^0.2.3",
@@ -37,8 +30,7 @@
     "livescript": "^1.5.0",
     "mkdirp": "^0.5.1",
     "through2": "^2.0.1",
-    "watchify": "^3.7.0",
-    "webpack-stream": "^3.2.0"
+    "watchify": "^3.7.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

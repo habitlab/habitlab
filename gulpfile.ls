@@ -17,6 +17,10 @@ require! {
   'tsify'
   'through2'
   'gulp-ext-replace'
+  'path'
+  'exorcist'
+  'fs'
+  'mkdirp'
 }
 
 tspattern = [
@@ -68,6 +72,7 @@ browserify_ls_pattern = [
 
 gulp.task 'eslint_frontend', ->
   gulp.src(eslintpattern_frontend, {base: 'src'})
+  #.pipe(gulp-print( -> "eslint_frontend: #{it}" ))
   .pipe(gulp-eslint({
     parser: 'babel-eslint'
     parserOptions: {
@@ -146,18 +151,18 @@ gulp.task 'typescript', ->
 gulp.task 'livescript', ->
   gulp.src(lspattern, {base: 'src'})
   .pipe(gulp-changed('dist', {extension: '.js'}))
+  .pipe(gulp-print( -> "livescript: #{it}" ))
   .pipe(gulp-livescript({bare: false}))
   .on('error', gulp-util.log)
-  .pipe(gulp-print({colors: false}))
   .pipe(gulp.dest('dist'))
   return
 
 gulp.task 'livescript_srcgen', ->
   gulp.src(lspattern_srcgen, {base: 'src'})
   .pipe(gulp-changed('src_gen', {extension: '.js'}))
+  #.pipe(gulp-print( -> "livescript_srcgen: #{it}" ))
   .pipe(gulp-livescript({bare: false}))
   .on('error', gulp-util.log)
-  .pipe(gulp-print({colors: false}))
   .pipe(gulp.dest('src_gen'))
   return
 
@@ -175,42 +180,65 @@ gulp.task 'livescript_browserify', ->
 */
 
 gulp.task 'browserify_ls', ->
+  # from
+  # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
+  current_dir = process.cwd()
   browserified = ->
     return through2.obj (chunk, enc, callback) ->
       if chunk.isBuffer()
         b = browserify(chunk.path, {
-          transform: ['browserify-livescript']
+          #transform: ['browserify-livescript']
           debug: true
         })
-        # any custom browserify stuff should go here
-        chunk.contents = b.bundle()
-        this.push(chunk)
+        relative_path = path.relative(current_dir, chunk.path)
+        srcmap_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.ls$/, '.js.map')
+        srcmap_path = path.join(current_dir, srcmap_path_relative)
+        outfile_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.ls$/, '.js')
+        outfile_path = path.join(current_dir, outfile_path_relative)
+        outdir = path.dirname(outfile_path)
+        mkdirp.sync outdir
+        bundle = b.bundle()
+        .pipe(exorcist(srcmap_path))
+        .pipe(fs.createWriteStream(outfile_path), 'utf8')
+        #chunk.contents = bundle
+        #this.push(chunk)
       callback()
   return gulp.src(browserify_ls_pattern, {base: 'src'})
   .pipe(gulp-changed('dist', {extension: '.js'}))
+  .pipe(gulp-print( -> "browserify_ls: #{it}" ))
   .pipe(browserified())
   .on('error', gulp-util.log)
-  .pipe(gulp-ext-replace('.js'))
-  .pipe(gulp-print({colors: false}))
-  .pipe(gulp.dest('dist'))
+  #.pipe(gulp.dest('dist'))
 
 gulp.task 'browserify_js', ->
   # from
   # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
+  current_dir = process.cwd()
   browserified = ->
     return through2.obj (chunk, enc, callback) ->
       if chunk.isBuffer()
-        b = browserify(chunk.path)
-        # any custom browserify stuff should go here
-        chunk.contents = b.bundle()
-        this.push(chunk)
+        b = browserify(chunk.path, {
+          debug: true
+        })
+        relative_path = path.relative(current_dir, chunk.path)
+        srcmap_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.js$/, '.js.map')
+        srcmap_path = path.join(current_dir, srcmap_path_relative)
+        outfile_path_relative = relative_path.replace(/^src\//, 'dist/')
+        outfile_path = path.join(current_dir, outfile_path_relative)
+        outdir = path.dirname(outfile_path)
+        mkdirp.sync outdir
+        bundle = b.bundle()
+        .pipe(exorcist(srcmap_path))
+        .pipe(fs.createWriteStream(outfile_path), 'utf8')
+        #chunk.contents = bundle
+        #this.push(chunk)
       callback()
   return gulp.src(browserify_js_pattern, {base: 'src'})
   .pipe(gulp-changed('dist', {extension: '.js'}))
+  .pipe(gulp-print( -> "browserify_js: #{it}" ))
   .pipe(browserified())
   .on('error', gulp-util.log)
-  .pipe(gulp-print({colors: false}))
-  .pipe(gulp.dest('dist'))
+  #.pipe(gulp.dest('dist'))
 
 /*
 # based on
@@ -247,21 +275,23 @@ gulp.task 'typescript_browserify', ->
 gulp.task 'yaml', ->
   gulp.src(yamlpattern, {base: 'src'})
   .pipe(gulp-changed('dist', {extension: '.json'}))
+  .pipe(gulp-print( -> "yaml: #{it}" ))
   .pipe(gulp-yaml({space: 2}))
   .on('error', gulp-util.log)
-  .pipe(gulp-print({colors: false}))
   .pipe(gulp.dest('dist'))
   return
 
 gulp.task 'copy', ->
   gulp.src(copypattern, {base: 'src'})
   .pipe(gulp-changed('dist'))
+  #.pipe(gulp-print( -> "copy: #{it}" ))
   .pipe(gulp.dest('dist'))
   return
 
 gulp.task 'js_srcgen', ->
   gulp.src(jspattern_srcgen, {base: 'src'})
   .pipe(gulp-changed('src_gen'))
+  #.pipe(gulp-print( -> "js_srcgen: #{it}" ))
   .pipe(gulp.dest('src_gen'))
   return
 

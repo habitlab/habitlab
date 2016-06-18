@@ -27,6 +27,7 @@
     "gulp-util": "^3.0.7",
     "gulp-yaml": "^1.0.1",
     "livescript": "^1.5.0",
+    "mkdirp": "^0.5.1",
     "shelljs": "^0.7.0",
     "through2": "^2.0.1",
     "tsify": "^0.16.0",
@@ -36,6 +37,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "scripts/postinstall.js"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-livescript"
+    ]
   },
   "author": "Geza Kovacs (http://gkovacs.github.com)",
   "license": "MIT",

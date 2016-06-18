@@ -9,14 +9,16 @@ const folders = [
   'interventions',
 ]
 
+const srcdir = 'src' // src_gen
+
 for (let folder of folders) {
-  if (!fs.existsSync('src_gen')) {
-    fs.mkdirSync('src_gen')
+  if (!fs.existsSync(srcdir)) {
+    fs.mkdirSync(srcdir)
   }
-  if (!fs.existsSync('src_gen/' + folder)) {
-    fs.mkdirSync('src_gen/' + folder)
+  if (!fs.existsSync(`${srcdir}/${folder}`)) {
+    fs.mkdirSync(`${srcdir}/${folder}`)
   }
   if (!fs.existsSync('node_modules/' + folder)) {
-    fs.symlinkSync('../src_gen/' + folder, 'node_modules/' + folder, 'dir')
+    fs.symlinkSync(`../${srcdir}/${folder}`, `node_modules/${folder}`, 'dir')
   }
 }

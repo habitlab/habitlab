@@ -3,20 +3,12 @@ require! {
   'gulp-changed'
   'gulp-util'
   'gulp-print'
-  'gulp-babel'
   'gulp-livescript'
-  #'gulp-typescript'
   'gulp-yaml'
   'gulp-eslint'
-  #'browserify-gulp'
   'browserify'
   'browserify-livescript'
-  'vinyl-source-stream'
-  'vinyl-buffer'
-  'gulp-sourcemaps'
-  'tsify'
   'through2'
-  'gulp-ext-replace'
   'path'
   'exorcist'
   'fs'
@@ -74,7 +66,7 @@ gulp.task 'eslint_frontend', ->
   gulp.src(eslintpattern_frontend, {base: 'src'})
   #.pipe(gulp-print( -> "eslint_frontend: #{it}" ))
   .pipe(gulp-eslint({
-    parser: 'babel-eslint'
+    #parser: 'babel-eslint'
     parserOptions: {
       sourceType: 'script'
       ecmaVersion: 6
@@ -179,6 +171,15 @@ gulp.task 'livescript_browserify', ->
   return
 */
 
+empty_or_updated = (stream, cb, sourceFile, targetPath) ->
+  if not fs.existsSync(targetPath)
+    stream.push sourceFile
+    return cb!
+  if fs.statSync(targetPath).size == 0
+    stream.push sourceFile
+    return cb!
+  return gulp-changed.compareLastModifiedTime(stream, cb, sourceFile, targetPath)
+
 gulp.task 'browserify_ls', ->
   # from
   # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
@@ -186,10 +187,6 @@ gulp.task 'browserify_ls', ->
   browserified = ->
     return through2.obj (chunk, enc, callback) ->
       if chunk.isBuffer()
-        b = browserify(chunk.path, {
-          #transform: ['browserify-livescript']
-          debug: true
-        })
         relative_path = path.relative(current_dir, chunk.path)
         srcmap_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.ls$/, '.js.map')
         srcmap_path = path.join(current_dir, srcmap_path_relative)
@@ -197,6 +194,12 @@ gulp.task 'browserify_ls', ->
         outfile_path = path.join(current_dir, outfile_path_relative)
         outdir = path.dirname(outfile_path)
         mkdirp.sync outdir
+
+        b = browserify(chunk.path, {
+          #transform: ['browserify-livescript']
+          extensions: ['.js', '.ls']
+          debug: true
+        })
         bundle = b.bundle()
         .pipe(exorcist(srcmap_path))
         .pipe(fs.createWriteStream(outfile_path), 'utf8')
@@ -204,7 +207,7 @@ gulp.task 'browserify_ls', ->
         #this.push(chunk)
       callback()
   return gulp.src(browserify_ls_pattern, {base: 'src'})
-  .pipe(gulp-changed('dist', {extension: '.js'}))
+  .pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
   .pipe(gulp-print( -> "browserify_ls: #{it}" ))
   .pipe(browserified())
   .on('error', gulp-util.log)
@@ -217,9 +220,6 @@ gulp.task 'browserify_js', ->
   browserified = ->
     return through2.obj (chunk, enc, callback) ->
       if chunk.isBuffer()
-        b = browserify(chunk.path, {
-          debug: true
-        })
         relative_path = path.relative(current_dir, chunk.path)
         srcmap_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.js$/, '.js.map')
         srcmap_path = path.join(current_dir, srcmap_path_relative)
@@ -227,6 +227,12 @@ gulp.task 'browserify_js', ->
         outfile_path = path.join(current_dir, outfile_path_relative)
         outdir = path.dirname(outfile_path)
         mkdirp.sync outdir
+
+        b = browserify(chunk.path, {
+          #transform: ['browserify-livescript']
+          extensions: ['.js', '.ls']
+          debug: true
+        })
         bundle = b.bundle()
         .pipe(exorcist(srcmap_path))
         .pipe(fs.createWriteStream(outfile_path), 'utf8')
@@ -234,7 +240,7 @@ gulp.task 'browserify_js', ->
         #this.push(chunk)
       callback()
   return gulp.src(browserify_js_pattern, {base: 'src'})
-  .pipe(gulp-changed('dist', {extension: '.js'}))
+  .pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
   .pipe(gulp-print( -> "browserify_js: #{it}" ))
   .pipe(browserified())
   .on('error', gulp-util.log)
@@ -298,8 +304,8 @@ gulp.task 'js_srcgen', ->
 
 tasks_and_patterns = [
   ['livescript', lspattern]
-  ['livescript_srcgen', lspattern_srcgen]
-  ['js_srcgen', jspattern_srcgen]
+  #['livescript_srcgen', lspattern_srcgen]
+  #['js_srcgen', jspattern_srcgen]
   #['typescript', tspattern]
   #['es6', es6pattern]
   ['yaml', yamlpattern]

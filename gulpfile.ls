@@ -8,24 +8,14 @@ require! {
   'gulp-livescript'
   'gulp-yaml'
   'gulp-eslint'
-  'through2'
   'path'
   'fs'
-  'mkdirp'
   'webpack-stream'
   'vinyl-named'
   'webpack'
 }
 
-webpack_config = require('./webpack.config.ls')
-
-tspattern = [
-  'src/interventions/**/*.ts'
-]
-
-es6pattern = [
-  'src/interventions/**/*.es6'
-]
+webpack_config = require './webpack.config.ls'
 
 lspattern = [
   'src/*.ls'
@@ -78,14 +68,6 @@ webpack_pattern = [
   'src/backend/**/*.js'
 ]
 
-browserify_js_pattern = [
-  'src/interventions/**/*.js'
-]
-
-browserify_ls_pattern = [
-  'src/interventions/**/*.ls'
-]
-
 gulp.task 'eslint_frontend', ->
   gulp.src(eslintpattern_frontend, {base: 'src'})
   #.pipe(gulp-print( -> "eslint_frontend: #{it}" ))
@@ -121,49 +103,6 @@ gulp.task 'eslint_frontend', ->
   }))
   .pipe(gulp-eslint.formatEach('compact', process.stderr))
 
-/*
-gulp.task 'es6', ->
-  gulp.src(es6pattern, {base: './'})
-  .pipe(gulp-changed('.', {extension: '.js'}))
-  .pipe(gulp-babel({
-    #presets: ['es2015']
-    plugins: [
-      # this set of plugins will require chrome 51 or higher
-      # https://github.com/askmatey/babel-preset-modern
-
-      # the below are required by nodejs 6
-      'transform-es2015-modules-commonjs'
-
-      # the below are supported in chrome 52 and higher
-      'transform-es2015-destructuring'
-      'transform-es2015-function-name'
-
-      # the below are not supported in chrome
-      #'transform-exponentiation-operator'
-      #'transform-async-to-generator'
-
-      # the below are misc plugins
-      #'undeclared-variables-check'
-      'transform-strict-mode'
-    ]
-  }))
-  .on('error', gulp-util.log)
-  .pipe(gulp-print({colors: false}))
-  .pipe(gulp.dest('.'))
-  return
-*/
-
-/*
-gulp.task 'typescript', ->
-  gulp.src(tspattern, {base: './'})
-  .pipe(gulp-changed('.', {extension: '.js'}))
-  .pipe(gulp-typescript({noImplicitAny: true}))
-  .on('error', gulp-util.log)
-  .pipe(gulp-print({colors: false}))
-  .pipe(gulp.dest('.'))
-  return
-*/
-
 gulp.task 'livescript', ->
   gulp.src(lspattern, {base: 'src'})
   .pipe(gulp-changed('dist', {extension: '.js'}))
@@ -182,19 +121,6 @@ gulp.task 'livescript_srcgen', ->
   .pipe(gulp.dest('src_gen'))
   return
 
-# TODO sourcemaps
-# https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-multiple-destination.md
-/*
-gulp.task 'livescript_browserify', ->
-  gulp.src(lspattern, {base: './'})
-  .pipe(gulp-changed('.', {extension: '.js'}))
-  .pipe(gulp-livescript({bare: false}))
-  .on('error', gulp-util.log)
-  .pipe(gulp-print({colors: false}))
-  .pipe(gulp.dest('.'))
-  return
-*/
-
 empty_or_updated = (stream, cb, sourceFile, targetPath) ->
   if not fs.existsSync(targetPath)
     stream.push sourceFile
@@ -203,74 +129,6 @@ empty_or_updated = (stream, cb, sourceFile, targetPath) ->
     stream.push sourceFile
     return cb!
   return gulp-changed.compareLastModifiedTime(stream, cb, sourceFile, targetPath)
-
-/*
-gulp.task 'browserify_ls', ->
-  # from
-  # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
-  current_dir = process.cwd()
-  browserified = ->
-    return through2.obj (chunk, enc, callback) ->
-      if chunk.isBuffer()
-        relative_path = path.relative(current_dir, chunk.path)
-        srcmap_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.ls$/, '.js.map')
-        srcmap_path = path.join(current_dir, srcmap_path_relative)
-        outfile_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.ls$/, '.js')
-        outfile_path = path.join(current_dir, outfile_path_relative)
-        outdir = path.dirname(outfile_path)
-        mkdirp.sync outdir
-
-        b = browserify(chunk.path, {
-          #transform: ['browserify-livescript']
-          extensions: ['.js', '.ls']
-          debug: true
-        })
-        bundle = b.bundle()
-        .pipe(exorcist(srcmap_path))
-        .pipe(fs.createWriteStream(outfile_path), 'utf8')
-        #chunk.contents = bundle
-        #this.push(chunk)
-      callback()
-  return gulp.src(browserify_ls_pattern, {base: 'src'})
-  .pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
-  .pipe(gulp-print( -> "browserify_ls: #{it}" ))
-  .pipe(browserified())
-  .on('error', gulp-util.log)
-  #.pipe(gulp.dest('dist'))
-
-  gulp.task 'browserify_js', ->
-    # from
-    # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
-    current_dir = process.cwd()
-    browserified = ->
-      return through2.obj (chunk, enc, callback) ->
-        if chunk.isBuffer()
-          relative_path = path.relative(current_dir, chunk.path)
-          srcmap_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.js$/, '.js.map')
-          srcmap_path = path.join(current_dir, srcmap_path_relative)
-          outfile_path_relative = relative_path.replace(/^src\//, 'dist/')
-          outfile_path = path.join(current_dir, outfile_path_relative)
-          outdir = path.dirname(outfile_path)
-          mkdirp.sync outdir
-
-          b = browserify(chunk.path, {
-            #transform: ['browserify-livescript']
-            extensions: ['.js', '.ls']
-            debug: true
-          })
-          bundle = b.bundle()
-          .pipe(exorcist(srcmap_path))
-          .pipe(fs.createWriteStream(outfile_path), 'utf8')
-          #chunk.contents = bundle
-          #this.push(chunk)
-        callback()
-    return gulp.src(browserify_js_pattern, {base: 'src'})
-    .pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
-    .pipe(gulp-print( -> "browserify_js: #{it}" ))
-    .pipe(browserified())
-    .on('error', gulp-util.log)
-    #.pipe(gulp.dest('dist'))
-*/
 
 fromcwd = (x) ->
   path.join(process.cwd(), x)
@@ -317,38 +175,6 @@ gulp.task 'webpack_prod', ->
   .on('error', gulp-util.log)
   .pipe(gulp.dest('dist'))
 
-
-/*
-# based on
-# https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
-gulp.task 'livescript_browserify', ->
-  return browserify({
-    entries: ['./browserify_test/test.ls']
-    transform: ['browserify-livescript']
-    debug: true
-  })
-  .bundle()
-  .on('error', gulp-util.log.bind(gulp-util, 'Browserify Error'))
-  .pipe(vinyl-source-stream('./browserify_test/test.js'))
-  .pipe(vinyl-buffer()) # optional, remove if you don't need to buffer file contents
-  .pipe(gulp-sourcemaps.init({loadMaps: true})) # optional, remove if you don't want sourcemaps
-  .pipe(gulp-sourcemaps.write('.'))
-  .pipe(gulp.dest('.'))
-
-gulp.task 'typescript_browserify', ->
-  return browserify({
-    entries: ['./browserify_test/test.ts']
-    debug: true
-  })
-  .plugin(tsify, {noImplicitAny: false})
-  .bundle()
-  .on('error', gulp-util.log.bind(gulp-util, 'Browserify Error'))
-  .pipe(vinyl-source-stream('./browserify_test/test.js'))
-  .pipe(vinyl-buffer()) # optional, remove if you don't need to buffer file contents
-  .pipe(gulp-sourcemaps.init({loadMaps: true})) # optional, remove if you don't want sourcemaps
-  .pipe(gulp-sourcemaps.write('.'))
-  .pipe(gulp.dest('.'))
-*/
 
 gulp.task 'yaml', ->
   gulp.src(yamlpattern, {base: 'src'})

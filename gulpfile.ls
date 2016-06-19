@@ -133,13 +133,9 @@ empty_or_updated = (stream, cb, sourceFile, targetPath) ->
 fromcwd = (x) ->
   path.join(process.cwd(), x)
 
-# based on
-# https://github.com/webpack/webpack-with-common-libs/blob/master/gulpfile.js
-# https://github.com/shama/webpack-stream
-gulp.task 'webpack', ->
+run_gulp_webpack = (myconfig) ->
   current_dir = process.cwd()
-  myconfig = Object.create webpack_config
-  return gulp.src(webpack_pattern, {base: 'src'})
+  gulp.src(webpack_pattern, {base: 'src'})
   #.pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
   .pipe(gulp-print( -> "webpack: #{it}" ))
   .pipe(vinyl-named( (file) ->
@@ -151,8 +147,20 @@ gulp.task 'webpack', ->
   .on('error', gulp-util.log)
   .pipe(gulp.dest('dist'))
 
+# based on
+# https://github.com/webpack/webpack-with-common-libs/blob/master/gulpfile.js
+# https://github.com/shama/webpack-stream
+gulp.task 'webpack', ->
+  myconfig = Object.create webpack_config
+  myconfig.watch = false
+  run_gulp_webpack myconfig
+
+gulp.task 'webpack_watch', ->
+  myconfig = Object.create webpack_config
+  myconfig.watch = true
+  run_gulp_webpack myconfig
+
 gulp.task 'webpack_prod', ->
-  current_dir = process.cwd()
   myconfig = Object.create webpack_config
   myconfig.devtool = null
   myconfig.debug = false
@@ -163,18 +171,7 @@ gulp.task 'webpack_prod', ->
     loader: 'uglify-loader'
     exclude: [fromcwd('src')]
   }
-  return gulp.src(webpack_pattern, {base: 'src'})
-  #.pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
-  .pipe(gulp-print( -> "webpack: #{it}" ))
-  .pipe(vinyl-named( (file) ->
-    relative_path = path.relative(path.join(current_dir, 'src'), file.path)
-    relative_path_noext = relative_path.replace(/\.js$/, '').replace(/\.ls$/, '')
-    return relative_path_noext
-  ))
-  .pipe(webpack-stream(myconfig))
-  .on('error', gulp-util.log)
-  .pipe(gulp.dest('dist'))
-
+  run_gulp_webpack myconfig
 
 gulp.task 'yaml', ->
   gulp.src(yamlpattern, {base: 'src'})
@@ -214,16 +211,20 @@ tasks_and_patterns = [
   #['livescript_browserify', lspattern_browserify]
 ]
 
-gulp.task 'build', tasks_and_patterns.map((.0))
+gulp.task 'build_base', tasks_and_patterns.map((.0))
 
-gulp.task 'release', ['build', 'webpack_prod']
+gulp.task 'build', ['build_base', 'webpack']
+
+gulp.task 'release', ['build_base', 'webpack_prod']
 
 # TODO we can speed up the watch speed for browserify by using watchify
 # https://github.com/marcello3d/gulp-watchify/blob/master/examples/simple/gulpfile.js
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
-gulp.task 'watch' ->
+gulp.task 'watch_base' ->
   for [task,pattern] in tasks_and_patterns
     gulp.watch pattern, [task]
   return
 
-gulp.task 'default', ['build', 'watch', 'webpack']
+gulp.task 'watch', ['build_base', 'watch_base', 'webpack_watch']
+
+gulp.task 'default', ['build_base', 'watch_base', 'webpack_watch']

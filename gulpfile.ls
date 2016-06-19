@@ -1,4 +1,6 @@
 require! {
+  'livescript'
+  'livescript-loader'
   'gulp'
   'gulp-changed'
   'gulp-util'
@@ -13,7 +15,11 @@ require! {
   'exorcist'
   'fs'
   'mkdirp'
+  'webpack-stream'
+  'vinyl-named'
 }
+
+webpack_config = require('./webpack.config.ls')
 
 tspattern = [
   'src/interventions/**/*.ts'
@@ -52,6 +58,11 @@ copypattern = [
   'src/**/*.png'
   'src/*.js'
   'src/bower_components/**/*'
+]
+
+webpack_pattern = [
+  'src/interventions/**/*.js'
+  'src/interventions/**/*.ls'
 ]
 
 browserify_js_pattern = [
@@ -213,6 +224,24 @@ gulp.task 'browserify_ls', ->
   .on('error', gulp-util.log)
   #.pipe(gulp.dest('dist'))
 
+# based on
+# https://github.com/webpack/webpack-with-common-libs/blob/master/gulpfile.js
+# https://github.com/shama/webpack-stream
+gulp.task 'webpack', ->
+  current_dir = process.cwd()
+  myconfig = Object.create webpack_config
+  return gulp.src(webpack_pattern, {base: 'src'})
+  #.pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
+  .pipe(gulp-print( -> "webpack: #{it}" ))
+  .pipe(vinyl-named( (file) ->
+    relative_path = path.relative(path.join(current_dir, 'src'), file.path)
+    relative_path_noext = relative_path.replace(/\.js$/, '').replace(/\.ls$/, '')
+    return relative_path_noext
+  ))
+  .pipe(webpack-stream(myconfig))
+  .on('error', gulp-util.log)
+  .pipe(gulp.dest('dist'))
+
 gulp.task 'browserify_js', ->
   # from
   # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
@@ -309,8 +338,8 @@ tasks_and_patterns = [
   #['typescript', tspattern]
   #['es6', es6pattern]
   ['yaml', yamlpattern]
-  ['browserify_js', browserify_js_pattern]
-  ['browserify_ls', browserify_ls_pattern]
+  #['browserify_js', browserify_js_pattern]
+  #['browserify_ls', browserify_ls_pattern]
   ['copy', copypattern]
   ['eslint_frontend', eslintpattern_frontend]
   #['livescript_browserify', lspattern_browserify]
@@ -326,4 +355,4 @@ gulp.task 'watch' ->
     gulp.watch pattern, [task]
   return
 
-gulp.task 'default', ['build', 'watch']
+gulp.task 'default', ['build', 'watch', 'webpack']

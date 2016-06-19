@@ -6,17 +6,22 @@ require! {
 cwd = process.cwd()
 
 npmdir = (x) ->
-  return path.join(cwd, 'node_modules', x)
+  path.join(cwd, 'node_modules', x)
+
+fromcwd = (x) ->
+  path.join(cwd, x)
 
 module.exports = {
   devtool: 'sourcemap'
   debug: true
   watch: true
+  plugins: []
   module: {
     loaders: [
         {
           test: /\.ls$/
           loader: "livescript-loader"
+          include: [fromcwd('src')]
         }
     ]
   }
@@ -28,10 +33,10 @@ module.exports = {
       '.js'
     ]
     alias: {
-      #'zepto': npmdir('npm-zepto')
+      'zepto': npmdir 'npm-zepto'
     }
     fallback: [
-      path.join(process.cwd(), 'src')
+      fromcwd('src')
     ]
   }
 }

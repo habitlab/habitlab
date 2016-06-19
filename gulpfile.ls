@@ -8,15 +8,13 @@ require! {
   'gulp-livescript'
   'gulp-yaml'
   'gulp-eslint'
-  'browserify'
-  'browserify-livescript'
   'through2'
   'path'
-  'exorcist'
   'fs'
   'mkdirp'
   'webpack-stream'
   'vinyl-named'
+  'webpack'
 }
 
 webpack_config = require('./webpack.config.ls')
@@ -191,6 +189,7 @@ empty_or_updated = (stream, cb, sourceFile, targetPath) ->
     return cb!
   return gulp-changed.compareLastModifiedTime(stream, cb, sourceFile, targetPath)
 
+/*
 gulp.task 'browserify_ls', ->
   # from
   # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
@@ -224,6 +223,43 @@ gulp.task 'browserify_ls', ->
   .on('error', gulp-util.log)
   #.pipe(gulp.dest('dist'))
 
+  gulp.task 'browserify_js', ->
+    # from
+    # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
+    current_dir = process.cwd()
+    browserified = ->
+      return through2.obj (chunk, enc, callback) ->
+        if chunk.isBuffer()
+          relative_path = path.relative(current_dir, chunk.path)
+          srcmap_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.js$/, '.js.map')
+          srcmap_path = path.join(current_dir, srcmap_path_relative)
+          outfile_path_relative = relative_path.replace(/^src\//, 'dist/')
+          outfile_path = path.join(current_dir, outfile_path_relative)
+          outdir = path.dirname(outfile_path)
+          mkdirp.sync outdir
+
+          b = browserify(chunk.path, {
+            #transform: ['browserify-livescript']
+            extensions: ['.js', '.ls']
+            debug: true
+          })
+          bundle = b.bundle()
+          .pipe(exorcist(srcmap_path))
+          .pipe(fs.createWriteStream(outfile_path), 'utf8')
+          #chunk.contents = bundle
+          #this.push(chunk)
+        callback()
+    return gulp.src(browserify_js_pattern, {base: 'src'})
+    .pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
+    .pipe(gulp-print( -> "browserify_js: #{it}" ))
+    .pipe(browserified())
+    .on('error', gulp-util.log)
+    #.pipe(gulp.dest('dist'))
+*/
+
+fromcwd = (x) ->
+  path.join(process.cwd(), x)
+
 # based on
 # https://github.com/webpack/webpack-with-common-libs/blob/master/gulpfile.js
 # https://github.com/shama/webpack-stream
@@ -242,38 +278,30 @@ gulp.task 'webpack', ->
   .on('error', gulp-util.log)
   .pipe(gulp.dest('dist'))
 
-gulp.task 'browserify_js', ->
-  # from
-  # http://stackoverflow.com/questions/28441000/chain-gulp-glob-to-browserify-transform
+gulp.task 'webpack_prod', ->
   current_dir = process.cwd()
-  browserified = ->
-    return through2.obj (chunk, enc, callback) ->
-      if chunk.isBuffer()
-        relative_path = path.relative(current_dir, chunk.path)
-        srcmap_path_relative = relative_path.replace(/^src\//, 'dist/').replace(/\.js$/, '.js.map')
-        srcmap_path = path.join(current_dir, srcmap_path_relative)
-        outfile_path_relative = relative_path.replace(/^src\//, 'dist/')
-        outfile_path = path.join(current_dir, outfile_path_relative)
-        outdir = path.dirname(outfile_path)
-        mkdirp.sync outdir
-
-        b = browserify(chunk.path, {
-          #transform: ['browserify-livescript']
-          extensions: ['.js', '.ls']
-          debug: true
-        })
-        bundle = b.bundle()
-        .pipe(exorcist(srcmap_path))
-        .pipe(fs.createWriteStream(outfile_path), 'utf8')
-        #chunk.contents = bundle
-        #this.push(chunk)
-      callback()
-  return gulp.src(browserify_js_pattern, {base: 'src'})
-  .pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
-  .pipe(gulp-print( -> "browserify_js: #{it}" ))
-  .pipe(browserified())
+  myconfig = Object.create webpack_config
+  myconfig.devtool = null
+  myconfig.debug = false
+  myconfig.watch = false
+  #myconfig.plugins.push new webpack.optimize.UglifyJsPlugin()
+  myconfig.module.loaders.push {
+    test: /\.js$/
+    loader: 'uglify-loader'
+    exclude: [fromcwd('src')]
+  }
+  return gulp.src(webpack_pattern, {base: 'src'})
+  #.pipe(gulp-changed('dist', {extension: '.js', hasChanged: empty_or_updated}))
+  .pipe(gulp-print( -> "webpack: #{it}" ))
+  .pipe(vinyl-named( (file) ->
+    relative_path = path.relative(path.join(current_dir, 'src'), file.path)
+    relative_path_noext = relative_path.replace(/\.js$/, '').replace(/\.ls$/, '')
+    return relative_path_noext
+  ))
+  .pipe(webpack-stream(myconfig))
   .on('error', gulp-util.log)
-  #.pipe(gulp.dest('dist'))
+  .pipe(gulp.dest('dist'))
+
 
 /*
 # based on
@@ -346,6 +374,8 @@ tasks_and_patterns = [
 ]
 
 gulp.task 'build', tasks_and_patterns.map((.0))
+
+gulp.task 'release', ['build', 'webpack_prod']
 
 # TODO we can speed up the watch speed for browserify by using watchify
 # https://github.com/marcello3d/gulp-watchify/blob/master/examples/simple/gulpfile.js

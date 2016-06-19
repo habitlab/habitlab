@@ -31,6 +31,8 @@ lspattern = [
   'src/*.ls'
   'src/fields/*.ls'
   'src/libs_frontend/**/*.ls'
+  'src/libs_common/**/*.ls'
+  'src/libs_backend/**/*.ls'
 ]
 
 lspattern_srcgen = [
@@ -40,11 +42,22 @@ lspattern_srcgen = [
 yamlpattern = [
   'src/manifest.yaml'
   'src/interventions/**/*.yaml'
+  'src/fields/**/*.yaml'
 ]
 
 eslintpattern_frontend = [
   'src/libs_frontend/**/*.js'
+  'src/libs_common/**/*.js'
+  'src/libs_backend/**/*.js'
   'src/interventions/**/*.js'
+  'src/fields/**/*.js'
+  'src/backend/**/*.js'
+  'src_gen/libs_frontend/**/*.js'
+  'src_gen/libs_common/**/*.js'
+  'src_gen/libs_backend/**/*.js'
+  'src_gen/interventions/**/*.js'
+  'src_gen/fields/**/*.js'
+  'src_gen/backend/**/*.js'
 ]
 
 jspattern_srcgen = [
@@ -61,6 +74,8 @@ copypattern = [
 webpack_pattern = [
   'src/interventions/**/*.js'
   'src/interventions/**/*.ls'
+  'src/backend/**/*.ls'
+  'src/backend/**/*.js'
 ]
 
 browserify_js_pattern = [
@@ -361,7 +376,7 @@ gulp.task 'js_srcgen', ->
 
 tasks_and_patterns = [
   ['livescript', lspattern]
-  #['livescript_srcgen', lspattern_srcgen]
+  ['livescript_srcgen', lspattern_srcgen]
   #['js_srcgen', jspattern_srcgen]
   #['typescript', tspattern]
   #['es6', es6pattern]

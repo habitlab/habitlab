@@ -1,6 +1,29 @@
-# console.log 'weblab running in background'
+{
+  getvar
+  getfield
+  getfields
+  getfield_uncached
+  getfields_uncached
+  get_field_info
+} = require 'fields/get_field'
 
-root = exports ? this
+{
+  addtolist
+  getlist
+  setvar
+  get_interventions
+  list_enabled_interventions_for_location
+  list_available_interventions_for_location
+} = require 'libs_backend/background_common'
+
+require! {
+  async
+}
+
+$ = require 'jquery'
+
+
+# console.log 'weblab running in background'
 
 /*
 execute_content_script = (tabid, options, callback) ->
@@ -19,7 +42,7 @@ insert_css = (css_path, callback) ->
   if callback?
     callback()
 
-export running_background_scripts = {}
+running_background_scripts = {}
 
 load_background_script = (options, intervention_info, callback) ->
   if running_background_scripts[options.path]?
@@ -34,18 +57,18 @@ load_background_script = (options, intervention_info, callback) ->
   running_background_scripts[options.path] = env
   callback?!
 
-export wait_token_to_callback = {}
+wait_token_to_callback = {}
 
-export make_wait_token = ->
+make_wait_token = ->
   while true
     wait_token = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
     if not wait_token_to_callback[wait_token]
       return wait_token
 
-export wait_for_token = (wait_token, callback) ->
+wait_for_token = (wait_token, callback) ->
   wait_token_to_callback[wait_token] = callback
 
-export finished_waiting = (wait_token, data) ->
+finished_waiting = (wait_token, data) ->
   callback = wait_token_to_callback[wait_token]
   delete wait_token_to_callback[wait_token]
   callback(data)
@@ -143,7 +166,7 @@ sendTab = (type, data, callback) ->
       return
     chrome.tabs.sendMessage tabs[0].id, {type, data}, {}, callback
 
-export split_list_by_length = (list, len) ->
+split_list_by_length = (list, len) ->
   output = []
   curlist = []
   for x in list

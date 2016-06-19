@@ -17,19 +17,17 @@ web_accessible_resources:
 background:
   persistent: true
   scripts:
-    - bower_components/jquery/dist/jquery.min.js
-    - bower_components/async/dist/async.min.js
-    - bower_components/js-yaml/dist/js-yaml.min.js
-    - prelude.js
-    #- minimongo.js
-    - memoize.js
-    #- sizeof.compressed.js
-    - background_common.js
-    - fields/computed_fields.js
-    - fields/get_field.js
-    - background.js
-    - background_utils.js
-    #- close_tab.js
+    - backend/background.js
+    #- bower_components/jquery/dist/jquery.min.js
+    #- bower_components/async/dist/async.min.js
+    #- bower_components/js-yaml/dist/js-yaml.min.js
+    #- prelude.js
+    #- memoize.js
+    #- background_common.js
+    #- fields/computed_fields.js
+    #- fields/get_field.js
+    #- background.js
+    #- background_utils.js
 #content_scripts:
 #  - matches:
 #    - 'http://youtube.com/*'

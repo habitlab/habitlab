@@ -34,7 +34,20 @@ export string_to_function = (str) ->
   return new Function(lines.join('\n'))
 */
 
-root = exports ? this
+require! {
+  async
+}
+
+{memoizeSingleAsync} = require 'libs_common/memoize'
+
+{
+  getvar
+  getlist
+} = require 'libs_backend/background_common'
+
+{computed_fields} = require 'fields/computed_fields'
+
+$ = require 'jquery'
 
 special_aliases =
   'all_vars': (callback) ->
@@ -137,14 +150,14 @@ export getfield = (fieldname, callback) ->
   callback(val)
 */
 
-root.fields_cache = {}
+fields_cache = {}
 
 export getcomp = (fieldname, callback) ->
-  cached_val = root.fields_cache[fieldname]
+  cached_val = fields_cache[fieldname]
   if cached_val?
     return callback cached_val
   val <- getcomp_uncached fieldname
-  root.fields_cache[fieldname] = val
+  fields_cache[fieldname] = val
   callback val
 
 export getfield_uncached = (fieldname, callback) ->
@@ -158,11 +171,21 @@ export getfield_uncached = (fieldname, callback) ->
   callback val
 
 export getfield = (fieldname, callback) ->
-  cached_val = root.fields_cache[fieldname]
+  cached_val = fields_cache[fieldname]
   if cached_val?
     return callback cached_val
   val <- getfield_uncached fieldname
   callback(val)
+
+export getfields_uncached = (fieldname_list, callback) ->
+  output = {}
+  real_fieldname_list <- resolve_aliases fieldname_list
+  <- async.eachSeries real_fieldname_list, (name, ncallback) ->
+    val <- getfield_uncached name
+    output[name] = val
+    ncallback()
+  if callback?
+    callback output
 
 export getfields = (fieldname_list, callback) ->
   output = {}
@@ -175,6 +198,6 @@ export getfields = (fieldname_list, callback) ->
     callback output
 
 export get_field_info = memoizeSingleAsync (callback) ->
-  field_info_text <- $.get 'fields/field_info.yaml'
-  field_info = jsyaml.safeLoad field_info_text
+  field_info_text <- $.get 'fields/field_info.json'
+  field_info = JSON.parse field_info_text
   callback field_info

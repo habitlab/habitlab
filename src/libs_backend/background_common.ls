@@ -1,3 +1,11 @@
+$ = require 'jquery'
+{memoizeSingleAsync} = require 'libs_common/memoize'
+
+require! {
+  async
+  minimongo
+}
+
 export getInterventionInfo = (intervention_name, callback) ->
   intervention_info_text <- $.get "/interventions/#{intervention_name}/info.json"
   intervention_info = JSON.parse intervention_info_text

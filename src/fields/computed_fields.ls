@@ -1,3 +1,16 @@
+require! {
+  async
+  prelude
+}
+
+{
+  getlist
+} = require 'libs_backend/background_common'
+
+{
+  getcomp
+} = require 'fields/get_field'
+
 export computed_fields =
   
   google_queries: (callback) ->

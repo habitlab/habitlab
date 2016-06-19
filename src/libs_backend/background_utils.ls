@@ -1,3 +1,6 @@
+$ = require 'jquery'
+{get_field_info} = require 'fields/get_field'
+
 export import_data_from_json = (jsonfile) ->
   jsondata <- $.getJSON jsonfile
   field_info <- get_field_info()

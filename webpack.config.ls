@@ -34,6 +34,7 @@ module.exports = {
     ]
     alias: {
       'zepto': npmdir 'npm-zepto'
+      'prelude': npmdir 'prelude-ls'
     }
     fallback: [
       fromcwd('src')

@@ -4,14 +4,19 @@
   "private": true,
   "description": "",
   "dependencies": {
+    "async": "^2.0.0-rc.6",
     "jquery": "^3.0.0",
     "jquery.isinview": "^1.0.4",
-    "npm-zepto": "^1.1.7"
+    "levn": "^0.3.0",
+    "minimongo": "^3.8.2",
+    "npm-zepto": "^1.1.7",
+    "prelude-ls": "^1.1.2"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-changed": "^1.3.0",
     "gulp-eslint": "^2.0.0",
+    "gulp-lint-ls": "^0.1.0",
     "gulp-livescript": "^2.4.1",
     "gulp-print": "^1.2.0",
     "gulp-util": "^3.0.7",

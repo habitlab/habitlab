@@ -1,5 +1,6 @@
 <link rel="import" href="options-goals.html">
 <link rel="import" href="options-interventions.html">
+<link rel="improt" href="dashboard-view.html">
 
 <dom-module id="options-view">
   <style>
@@ -15,11 +16,13 @@
       <paper-tabs id="optionstab" selected="{{selected}}">
         <paper-tab>Goals</paper-tab>
         <paper-tab>Interventions</paper-tab>
+        <paper-tab>Dashboard</paper-tab>
       </paper-tabs>
 
       <iron-pages selected="{{selected}}">
         <options-goals></options-goals>
         <options-interventions></options-interventions>
+        <dashboard-view></dashboard-view>
       </iron-pages>
     </template>
 

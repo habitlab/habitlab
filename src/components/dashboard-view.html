@@ -1,0 +1,19 @@
+<link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+<!-- https://robdodson.github.io/chart-elements/components/chart-elements/ -->
+
+<dom-module id="dashboard-view">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+
+    <div>This is the dashboard-view component</div>
+    <chart-bar data="[[data]]" style="width: 800px"></chart-bar>
+
+  </template>
+  <script src="dashboard-view.js"></script>
+</dom-module>

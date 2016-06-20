@@ -1,0 +1,35 @@
+.square-chart {
+  width: 300px;
+  height: 300px;
+}
+
+.rectangular-chart {
+  width: 500px;
+  height: 300px;
+}
+
+.controls {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 64px;
+}
+
+.controls label {
+  display: block;
+  text-align: right;
+  margin-bottom: 8px;
+}
+
+.controls input {
+  margin-left: 8px;
+}
+
+.controls button {
+  float: right;
+}
+
+.control-group {
+  clear: both;
+  overflow: hidden;
+  margin-bottom: 32px;
+}

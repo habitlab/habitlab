@@ -2,6 +2,13 @@ require! {
   prelude
 }
 
+{
+  get_interventions
+  get_enabled_interventions
+  set_intervention_enabled
+  set_intervention_disabled
+} = require 'libs_backend/background_common'
+
 Polymer {
   is: 'options-interventions'
   properties: {

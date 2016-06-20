@@ -182,8 +182,16 @@ webpack_config_watch = with_created_object webpack_config, (o) ->
 webpack_config_nowatch = with_created_object webpack_config, (o) ->
   o.watch = false
 
-webpack_config_prod_nowatch = with_created_object webpack_config, (o) ->
+webpack_config_nosrcmap_watch = with_created_object webpack_config, (o) ->
   o.watch = true
+  o.devtool = null
+
+webpack_config_nosrcmap_nowatch = with_created_object webpack_config, (o) ->
+  o.watch = false
+  o.devtool = null
+
+webpack_config_prod_nowatch = with_created_object webpack_config, (o) ->
+  o.watch = false
   o.devtool = null
   o.debug = false
   o.module.loaders.push {
@@ -193,13 +201,13 @@ webpack_config_prod_nowatch = with_created_object webpack_config, (o) ->
   }
 
 gulp.task 'webpack_vulcanize', ['copy_vulcanize'], ->
-  run_gulp_webpack webpack_config_nowatch, {
+  run_gulp_webpack webpack_config_nosrcmap_nowatch, {
     src_pattern: webpack_vulcanize_pattern
     src_base: 'src_vulcanize'
   }
 
 gulp.task 'webpack_vulcanize_watch', ['copy_vulcanize'], ->
-  run_gulp_webpack webpack_config_watch, {
+  run_gulp_webpack webpack_config_nosrcmap_watch, {
     src_pattern: webpack_vulcanize_pattern
     src_base: 'src_vulcanize'
   }

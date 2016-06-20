@@ -42,12 +42,14 @@ eslintpattern_frontend = [
   'src/interventions/**/*.js'
   'src/fields/**/*.js'
   'src/backend/**/*.js'
+  'src/commonjs_compat/**/*.js'
   'src_gen/libs_frontend/**/*.js'
   'src_gen/libs_common/**/*.js'
   'src_gen/libs_backend/**/*.js'
   'src_gen/interventions/**/*.js'
   'src_gen/fields/**/*.js'
   'src_gen/backend/**/*.js'
+  'src_gen/commonjs_compat/**/*.js'
 ]
 
 jspattern_srcgen = [
@@ -62,10 +64,12 @@ copypattern = [
 ]
 
 webpack_pattern = [
-  'src/interventions/**/*.js'
   'src/interventions/**/*.ls'
+  'src/interventions/**/*.js'
   'src/backend/**/*.ls'
   'src/backend/**/*.js'
+  'src/commonjs_compat/**/*.ls'
+  'src/commonjs_compat/**/*.js'
 ]
 
 gulp.task 'eslint_frontend', ->

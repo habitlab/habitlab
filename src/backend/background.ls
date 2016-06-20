@@ -22,6 +22,7 @@ require! {
 
 $ = require 'jquery'
 
+{gexport} = require 'libs_common/gexport'
 
 # console.log 'weblab running in background'
 
@@ -395,3 +396,9 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
 
 # open the options page on first run
 #chrome.tabs.create {url: 'options.html'}
+
+eval_background = (str) -> eval(str)
+
+gexport {
+  eval_background
+}

@@ -6,6 +6,8 @@ require! {
   minimongo
 }
 
+{gexport} = require 'libs_common/gexport'
+
 export getInterventionInfo = (intervention_name, callback) ->
   intervention_info_text <- $.get "/interventions/#{intervention_name}/info.json"
   intervention_info = JSON.parse intervention_info_text
@@ -209,3 +211,9 @@ export printfunc = (func, ...args) ->
   nargs = [x for x in args]
   nargs.push printcb
   func.apply({}, nargs)
+
+eval_background_common = (str) -> eval(str)
+
+gexport {
+  eval_background_common
+}

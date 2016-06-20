@@ -17,7 +17,9 @@ web_accessible_resources:
 background:
   persistent: true
   scripts:
+    - global_exports.js
     - backend/background.js
+    - global_exports_post.js
     #- bower_components/jquery/dist/jquery.min.js
     #- bower_components/async/dist/async.min.js
     #- bower_components/js-yaml/dist/js-yaml.min.js

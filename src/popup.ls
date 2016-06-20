@@ -1,3 +1,15 @@
+getUrlParameters = ->
+  url = window.location.href
+  hash = url.lastIndexOf('#')
+  if hash != -1
+    url = url.slice(0, hash)
+  map = {}
+  parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m,key,value) ->
+    #map[key] = decodeURI(value).split('+').join(' ').split('%2C').join(',') # for whatever reason this seems necessary?
+    map[key] = decodeURIComponent(value).split('+').join(' ') # for whatever reason this seems necessary?
+  )
+  return map
+
 startPage = ->
   params = getUrlParameters()
   tagname = params.tag
@@ -7,25 +19,15 @@ startPage = ->
       tagname = survey + '-survey'
     else
       tagname = 'popup-view'
-  tag = $("<#{tagname}>")
+  tag = document.createElement(tagname)
   for k,v of params
     if k == 'tag'
       continue
     v = jsyaml.safeLoad(v)
-    tag.prop k, v
-  tag.appendTo '#contents'
+    tag[k] = v
+  document.getElementById('contents').appendChild(tag)
 
-$(document).ready ->
+window.addEventListener 'WebComponentsReady', ->
   console.log window.location
   startPage()
   return
-  facebook_name <- getvar 'facebook_name'
-  facebook_link <- getvar 'facebook_link'
-  facebook_birthdate <- getvar 'facebook_birthdate'
-  facebook_occupation <- getvar 'facebook_occupation'
-  $('#facebook_name').text facebook_name
-  $('#facebook_link').text facebook_link
-  $('#facebook_occupation').text facebook_occupation
-  $('#facebook_birthdate').text facebook_birthdate
-  console.log 'popup is getting rendered'
-  #$('<div>').text('Where do you spend your time online').appendTo $('#experiment_list')

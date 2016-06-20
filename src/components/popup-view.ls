@@ -16,6 +16,4 @@ Polymer {
   #  this.fire 'open-survey',
   ready: ->
     self = this
-    experiment_list_text <- $.get 'experiment_list.yaml'
-    self.experiment_list = jsyaml.safeLoad experiment_list_text
 }

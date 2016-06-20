@@ -54,9 +54,9 @@ page_action:
   default_icon:
     19: icons/icon_19.png
     38: icons/icon_38.png
-  default_popup: popup.html
+  default_popup: 'index.html?tag=popup-view&index_body_width=500px'
 options_ui:
-  page: options.html
+  page: 'index.html?tag=options-view'
   chrome_style: false
   open_in_tab: true
 externally_connectable:

@@ -13,21 +13,23 @@ getUrlParameters = ->
 startPage = ->
   params = getUrlParameters()
   tagname = params.tag
-  {survey} = params
+  {index_body_width, index_body_height} = params
   if not tagname?
-    if survey?
-      tagname = survey + '-survey'
-    else
-      tagname = 'popup-view'
+    tagname = 'debug-view'
   tag = document.createElement(tagname)
   for k,v of params
-    if k == 'tag'
+    if k == 'tag' or k == 'index_body_width' or k == 'index_body_height'
       continue
     v = jsyaml.safeLoad(v)
     tag[k] = v
-  document.getElementById('contents').appendChild(tag)
+  document.getElementById('index_contents').appendChild(tag)
+  index_body = document.getElementById('index_body')
+  if index_body_width?
+    index_body.style.width = index_body_width
+  if index_body_height
+    index_body.style.height = index_body_height
+  return
 
 window.addEventListener 'WebComponentsReady', ->
-  console.log window.location
   startPage()
   return

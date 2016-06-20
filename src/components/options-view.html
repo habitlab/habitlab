@@ -1,0 +1,28 @@
+<link rel="import" href="options-goals.html">
+<link rel="import" href="options-interventions.html">
+
+<dom-module id="options-view">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+
+    <template is="dom-bind">
+      <paper-tabs id="optionstab" selected="{{selected}}">
+        <paper-tab>Goals</paper-tab>
+        <paper-tab>Interventions</paper-tab>
+      </paper-tabs>
+
+      <iron-pages selected="{{selected}}">
+        <options-goals></options-goals>
+        <options-interventions></options-interventions>
+      </iron-pages>
+    </template>
+
+  </template>
+  <script src="options-view.js"></script>
+</dom-module>

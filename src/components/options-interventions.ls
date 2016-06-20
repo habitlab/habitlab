@@ -9,7 +9,9 @@ require! {
   set_intervention_disabled
 } = require 'libs_backend/background_common'
 
-Polymer {
+{polymer_ext} = require 'libs_frontend/polymer_utils'
+
+polymer_ext {
   is: 'options-interventions'
   properties: {
     sites_and_interventions: {

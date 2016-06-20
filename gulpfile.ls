@@ -58,7 +58,7 @@ copypattern = [
   'src/**/*.png'
   'src/*.js'
   'src/bower_components/**/*'
-  '!src/components.html'
+  '!src/components/components.html'
 ]
 
 webpack_pattern = [
@@ -71,19 +71,18 @@ webpack_pattern = [
 ]
 
 webpack_vulcanize_pattern = [
-  'src_vulcanize/components.js'
+  'src_vulcanize/components/components.js'
 ]
 
 vulcanize_html_pattern = [
-  'src_gen/components.html'
+  'src_gen/components/components.html'
 ]
 
 vulcanize_html_output_pattern = [
-  'src_vulcanize/components.html'
+  'src_vulcanize/components/components.html'
 ]
 
 vulcanize_watch_pattern = [
-  'src/components.html'
   'src/components/**/*.html'
   'src/components/**/*.js'
   'src/components/**/*.ls'

@@ -52,8 +52,8 @@ background:
 #browser_action:
 page_action:
   default_icon:
-    19: icon_19.png
-    38: icon_38.png
+    19: icons/icon_19.png
+    38: icons/icon_38.png
   default_popup: popup.html
 options_ui:
   page: options.html

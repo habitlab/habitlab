@@ -6,12 +6,14 @@ export_window = (list, lib) ->
 export_window [
   'get_interventions'
   'get_enabled_interventions'
+  'set_intervention_disabled'
+  'set_intervention_enabled'
 ], require('libs_backend/background_common')
 
 export_window [
   'memoizeSingleAsync'
 ], require('libs_common/memoize')
 
-window.prelude = require('prelude')
-window.async = require('async')
-window['$'] = window.jQuery = require('jquery')
+#window.prelude = require('prelude')
+#window.async = require('async')
+#window['$'] = window.jQuery = require('jquery')

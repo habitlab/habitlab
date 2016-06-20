@@ -1,3 +1,7 @@
+require! {
+  prelude
+}
+
 Polymer {
   is: 'options-interventions'
   properties: {

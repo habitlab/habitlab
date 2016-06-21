@@ -12,6 +12,19 @@ const {
 } = require('libs_frontend/common_libs')
 
 
+const messages = ["You've spent a questionable amount of time on Facebook.",
+                  "Please get off facebook. I'm begging you.",
+                  "You really shouldn't be spending time on Facebook.",
+                  "Get off Facebook. There are children starving in Africa.",
+                  "You know this is a waste of time, right?",
+                  "Why are you still on Facebook.",
+                  "An innocent animal dies every minute you spend on Facebook.",
+                  "Shouldn't you be doing something productive?",
+                  "Money isn't going to make itself! Get off Facebook!",
+                  "WHY ARE YOU STILL HERE. PLEASE LEAVE.",
+                  "Albert Einstein spent 0 minutes on Facebook, and he won a Nobel Prize.",
+                  ":( Why are you still here :("]
+
 //TODO: Sometimes the notification disappears X_____X
 var beginVar = null;
 function begin() {
@@ -59,12 +72,14 @@ function insertClickNotification() {
         if ($messages.length > 1) {
           console.log($messages);
 
-          //hopefully users have more than 1 message so that we can clone a message 
+          //hopefully users have at least 1 message so that we can clone a message 
           var $messageClone = $($messages[1]).clone();
 
           //Changes attributes to create the notification
+          $messageClone.addClass('jewelItemNew'); //Notification highlighted blue ('new')
           $messageClone.find('.author.fixemoji').text('HabitLab'); //Changes notification sender
-          $messageClone.find('.snippet.preview').text('You\'ve spent a questionable amount of time on facebook.'); //Changes text
+          const rand = Math.floor((Math.random() * messages.length));
+          $messageClone.find('.snippet.preview').text(messages[rand]); //Changes text
           $messageClone.find('.time').text('Just Now'); //Changes time sent
           $messageClone.find('._55lt').html('<img src="https://i.imgur.com/4G2qKQV.png" width="50" height="50" alt="" class="img">'); //Changes icon
           $messageClone.find('a[href]').attr('href', 'https://habitlab.github.io'); //redirects link to [link in 2nd arg of attr]

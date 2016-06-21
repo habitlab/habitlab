@@ -62,13 +62,14 @@ function insertClickNotification() {
           //hopefully users have more than 1 message so that we can clone a message 
           var $messageClone = $($messages[1]).clone();
 
-          $messageClone.find('.author.fixemoji').text('HabitLab'); //Changes notification 
-          $messageClone.find('.snippet.preview').text('You\'ve spent a questionable amount of time on facebook.');
-          $messageClone.find('.time').text('Just Now');
-          //TODO: Change picture shown to that of the beaker
-          //TODO: Change link that the messageClone directs to to nothing/another link
+          //Changes attributes to create the notification
+          $messageClone.find('.author.fixemoji').text('HabitLab'); //Changes notification sender
+          $messageClone.find('.snippet.preview').text('You\'ve spent a questionable amount of time on facebook.'); //Changes text
+          $messageClone.find('.time').text('Just Now'); //Changes time sent
+          $messageClone.find('._55lt').html('<img src="https://i.imgur.com/4G2qKQV.png" width="50" height="50" alt="" class="img">'); //Changes icon
+          $messageClone.find('a[href]').attr('href', 'https://habitlab.github.io'); //redirects link to [link in 2nd arg of attr]
 
-          //Adds the new message as a notification
+          //Adds the new message to the notifications list
           $($messages[1]).prepend($messageClone);
           
           selected = true;

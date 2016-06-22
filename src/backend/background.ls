@@ -236,6 +236,14 @@ message_handlers = {
     """
     <- chrome.tabs.executeScript tabid, {code: content_script_code}
     finished_waiting(wait_token)
+  'load_css_file': (data, callback) ->
+    {css_file, tab} = data
+    tabid = tab.id
+    console.log 'load_css called'
+    console.log css_file
+    console.log tabid
+    chrome.tabs.insertCSS tabid, {file: css_file}, ->
+      callback()
 }
 
 ext_message_handlers = {
@@ -372,13 +380,17 @@ chrome.runtime.onMessageExternal.addListener (request, sender, sendResponse) ->
 
 chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   {type, data} = request
+  data = {} <<< data
   console.log 'onmessage'
   console.log type
   console.log data
+  console.log sender
   message_handler = message_handlers[type]
   if not message_handler?
     return
   # tabId = sender.tab.id
+  if sender.tab? and not data.tab?
+    data.tab = sender.tab
   message_handler data, (response) ->
     #console.log 'message handler response:'
     #console.log response
@@ -391,8 +403,10 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
     # {requestId} = request
     # if requestId? # response requested
     #  chrome.tabs.sendMessage tabId, {event: 'backgroundresponse', requestId, response}
-  return true
-
+  if sendResponse?
+    return true
+  else
+    return false
 
 # open the options page on first run
 #chrome.tabs.create {url: 'options.html'}

@@ -3,6 +3,10 @@ window.jQuery = $
 require 'jquery.terminal'
 LiveScript = require('livescript15')
 
+{
+  load_css_file
+} = require 'libs_frontend/content_script_utils'
+
 export listen_for_eval = (eval_func) ->
   if window.eval_content_script_listener_loaded
     return
@@ -36,6 +40,8 @@ ls2js = (livescript_code) ->
   LiveScript.compile livescript_code, {bare: true, header: false}
 
 export insert_console = (eval_func, options) ->
+  <- load_css_file 'bower_components/jquery.terminal/css/jquer
+  y.terminal.min.css'
   options = {} <<< options
   $('body').append($('<div>').attr('id', 'content_script_terminal'))
   term_div = $('#content_script_terminal')
@@ -74,4 +80,5 @@ export insert_console = (eval_func, options) ->
     greetings: "content script debugger (#{lang})"
     width: css_options.width
     height: css_options.height
+    completion: true
   }

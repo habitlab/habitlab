@@ -40,9 +40,9 @@ ls2js = (livescript_code) ->
   LiveScript.compile livescript_code, {bare: true, header: false}
 
 export insert_console = (eval_func, options) ->
+  options = {} <<< options
   <- load_css_file 'bower_components/jquery.terminal/css/jquer
   y.terminal.min.css'
-  options = {} <<< options
   $('body').append($('<div>').attr('id', 'content_script_terminal'))
   term_div = $('#content_script_terminal')
   css_options = {
@@ -80,5 +80,5 @@ export insert_console = (eval_func, options) ->
     greetings: "content script debugger (#{lang})"
     width: css_options.width
     height: css_options.height
-    completion: true
+    #completion: true
   }

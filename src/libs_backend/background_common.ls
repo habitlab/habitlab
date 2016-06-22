@@ -85,8 +85,6 @@ export get_interventions = memoizeSingleAsync (callback) ->
       ncallback null, null
     callback output
 
-gexport {get_interventions}
-
 export list_enabled_interventions_for_location = (location, callback) ->
   available_interventions <- list_available_interventions_for_location(location)
   enabled_interventions = get_enabled_interventions()
@@ -136,9 +134,6 @@ export eval_content_script = (script, callback) ->
       console.log result
     callback?(result)
     return true
-
-gexport {eval_content_script}
-gexport {send_message_to_all_active_tabs}
 
 export send_message_to_tabid = (tabid, type, data, callback) ->
   chrome.tabs.sendMessage tabid, {type, data}, {}, callback
@@ -246,14 +241,14 @@ export clear_all = (callback) ->
 
 export printcb = (x) -> console.log(x)
 
-gexport {printcb}
-
 export printfunc = (func, ...args) ->
   nargs = [x for x in args]
   nargs.push printcb
   func.apply({}, nargs)
 
 eval_background_common = (str) -> eval(str)
+
+get_exports_background_common = -> module.exports
 
 gexport {
   eval_background_common

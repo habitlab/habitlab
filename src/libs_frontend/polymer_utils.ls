@@ -18,8 +18,6 @@ PropertyIntrospectionBehavior = {
 polymer_ext_registered_tags = []
 polymer_ext_tag_to_info = {}
 
-#gexport {polymer_ext_registered_tags}
-
 export list_polymer_ext_tags = ->
   return [x for x in polymer_ext_registered_tags]
 

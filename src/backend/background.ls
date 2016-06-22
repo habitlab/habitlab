@@ -145,8 +145,6 @@ load_intervention = (intervention_name, callback) ->
 list_loaded_interventions = (callback) ->
   send_message_to_active_tab 'list_loaded_interventions', {}, callback
 
-gexport {list_loaded_interventions}
-
 load_intervention_for_location = (location, callback) ->
   possible_interventions <- list_enabled_interventions_for_location(location)
   errors, results <- async.eachSeries possible_interventions, (intervention, ncallback) ->
@@ -412,6 +410,8 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
 #chrome.tabs.create {url: 'options.html'}
 
 eval_background = (str) -> eval(str)
+
+get_exports_background = -> module.exports
 
 gexport {
   eval_background

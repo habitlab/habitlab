@@ -40,4 +40,7 @@ module.exports = {
       fromcwd('src')
     ]
   }
+  node: {
+    fs: 'empty'
+  }
 }

@@ -85,6 +85,8 @@ export get_interventions = memoizeSingleAsync (callback) ->
       ncallback null, null
     callback output
 
+gexport {get_interventions}
+
 export list_enabled_interventions_for_location = (location, callback) ->
   available_interventions <- list_available_interventions_for_location(location)
   enabled_interventions = get_enabled_interventions()
@@ -109,6 +111,43 @@ export list_available_interventions_for_location = (location, callback) ->
     if matches
       possible_interventions.push intervention_name
   callback possible_interventions
+
+export send_message_to_active_tab = (type, data, callback) ->
+  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
+    if tabs.length == 0
+      return
+    chrome.tabs.sendMessage tabs[0].id, {type, data}, {}, callback
+
+send_message_to_all_active_tabs = (type, data, callback) ->
+  chrome.tabs.query {active: true}, (tabs) ->
+    if tabs.length == 0
+      return
+    outputs = []
+    <- async.eachSeries tabs, (tab, ncallback) ->
+      chrome.tabs.sendMessage tab.id, {type, data}, {}, (result) ->
+        outputs.push(result)
+        ncallback()
+        return true
+    callback(outputs)
+
+export eval_content_script = (script, callback) ->
+  send_message_to_all_active_tabs 'eval_content_script', script, (results) ->
+    for result in results
+      console.log result
+    callback?(result)
+    return true
+
+gexport {eval_content_script}
+gexport {send_message_to_all_active_tabs}
+
+export send_message_to_tabid = (tabid, type, data, callback) ->
+  chrome.tabs.sendMessage tabid, {type, data}, {}, callback
+
+export get_active_tab_info = (callback) ->
+  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
+    if tabs.length == 0
+      return
+    chrome.tabs.get tabs[0].id, callback
 
 export getDb = memoizeSingleAsync (callback) ->
   new minimongo.IndexedDb {namespace: 'autosurvey'}, callback
@@ -206,6 +245,8 @@ export clear_all = (callback) ->
     callback()
 
 export printcb = (x) -> console.log(x)
+
+gexport {printcb}
 
 export printfunc = (func, ...args) ->
   nargs = [x for x in args]

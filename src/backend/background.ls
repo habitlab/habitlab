@@ -14,7 +14,16 @@
   get_interventions
   list_enabled_interventions_for_location
   list_available_interventions_for_location
+  send_message_to_active_tab
+  send_message_to_tabid
+  get_active_tab_info
 } = require 'libs_backend/background_common'
+
+{
+  make_wait_token
+  wait_for_token
+  finished_waiting
+} = require 'libs_common/wait_utils'
 
 require! {
   async
@@ -58,23 +67,8 @@ load_background_script = (options, intervention_info, callback) ->
   running_background_scripts[options.path] = env
   callback?!
 
-wait_token_to_callback = {}
-
-make_wait_token = ->
-  while true
-    wait_token = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
-    if not wait_token_to_callback[wait_token]
-      return wait_token
-
-wait_for_token = (wait_token, callback) ->
-  wait_token_to_callback[wait_token] = callback
-
-finished_waiting = (wait_token, data) ->
-  callback = wait_token_to_callback[wait_token]
-  delete wait_token_to_callback[wait_token]
-  callback(data)
-
-execute_content_scripts = (content_script_options, callback) ->
+execute_content_scripts_for_intervention = (intervention_info, callback) ->
+  {content_script_options, name} = intervention_info
   console.log 'calling execute_content_scripts'
   tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
   tabid = tabs[0].id
@@ -91,6 +85,17 @@ execute_content_scripts = (content_script_options, callback) ->
   # http://stackoverflow.com/questions/8859622/chrome-extension-how-to-detect-that-content-script-is-already-loaded-into-a-tab
   content_script_code = """
   (function(){
+
+    console.log('execute_content_scripts_for_intervention called for intervention #{name}')
+
+    if (!window.loaded_interventions) {
+      window.loaded_interventions = []
+    }
+    if (window.loaded_interventions.includes('#{name}')) {
+      return
+    }
+    window.loaded_interventions.push('#{name}')
+
     chrome.runtime.sendMessage({
       type: 'load_content_scripts',
       data: {
@@ -100,6 +105,7 @@ execute_content_scripts = (content_script_options, callback) ->
         loaded_scripts: window.loaded_scripts || {},
       },
     });
+
   })();
   """
   console.log content_script_code
@@ -131,10 +137,15 @@ load_intervention = (intervention_name, callback) ->
   console.log 'start load content scripts ' + intervention_name
 
   # load content scripts
-  <- execute_content_scripts intervention_info.content_script_options
+  <- execute_content_scripts_for_intervention intervention_info
 
   console.log 'done load_intervention ' + intervention_name
   callback?!
+
+list_loaded_interventions = (callback) ->
+  send_message_to_active_tab 'list_loaded_interventions', {}, callback
+
+gexport {list_loaded_interventions}
 
 load_intervention_for_location = (location, callback) ->
   possible_interventions <- list_enabled_interventions_for_location(location)
@@ -143,29 +154,13 @@ load_intervention_for_location = (location, callback) ->
   callback?!
 
 getLocation = (callback) ->
-  #sendTab 'getLocation', {}, callback
+  #send_message_to_active_tab 'getLocation', {}, callback
   console.log 'calling getTabInfo'
-  getTabInfo (tabinfo) ->
+  get_active_tab_info (tabinfo) ->
     console.log 'getTabInfo results'
     console.log tabinfo
     console.log tabinfo.url
     callback tabinfo.url
-
-getTabInfo = (callback) ->
-  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
-    console.log 'getTabInfo results'
-    console.log tabs
-    if tabs.length == 0
-      return
-    chrome.tabs.get tabs[0].id, callback
-
-sendTab = (type, data, callback) ->
-  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
-    console.log 'sendTab results'
-    console.log tabs
-    if tabs.length == 0
-      return
-    chrome.tabs.sendMessage tabs[0].id, {type, data}, {}, callback
 
 split_list_by_length = (list, len) ->
   output = []
@@ -281,15 +276,19 @@ confirm_permissions = (info, callback) ->
     if field_info[x]? and field_info[x].description?
       output.description = field_info[x].description
     field_info_list.push output
-  sendTab 'confirm_permissions', {pagename, fields: field_info_list}, callback
+  send_message_to_active_tab 'confirm_permissions', {pagename, fields: field_info_list}, callback
+
+#tabid_to_current_location = {}
+
+#which_interventions_are_loaded = (tabId, callback) ->
 
 navigation_occurred = (url, tabId) ->
-  chrome.tabs.sendMessage tabId, {
-    type: 'navigation_occurred'
-    data: {
-      url: url
-      tabId: tabId
-    }
+  #if tabid_to_current_location[tabId] == url
+  #  return
+  #tabid_to_current_location[tabId] = url
+  send_message_to_tabid tabId, 'navigation_occurred', {
+    url: url
+    tabId: tabId
   }
   possible_interventions <- list_available_interventions_for_location(url)
   if possible_interventions.length > 0
@@ -297,6 +296,7 @@ navigation_occurred = (url, tabId) ->
   else
     chrome.pageAction.hide(tabId)
   #send_pageupdate_to_tab(tabId)
+  console.log "navigation_occurred to #{url}"
   load_intervention_for_location url
 
 chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->

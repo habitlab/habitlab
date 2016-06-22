@@ -30,6 +30,12 @@ background:
     #- fields/get_field.js
     #- background.js
     #- background_utils.js
+content_scripts:
+  - matches:
+      - 'http://www.google.com/*'
+      - 'https://www.google.com/*'
+    css:
+      - bower_components/jquery.terminal/css/jquery.terminal.min.css
 #content_scripts:
 #  - matches:
 #    - 'http://youtube.com/*'

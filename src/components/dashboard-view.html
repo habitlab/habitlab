@@ -1,4 +1,7 @@
+<link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
 <link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+<link rel="import" href="../bower_components/chart-elements/chart-line.html">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 <!-- https://robdodson.github.io/chart-elements/components/chart-elements/ -->
 
 <dom-module id="dashboard-view">
@@ -8,11 +11,54 @@
       width: 100%;
       height: 100%;
     }
+    .container {
+      text-align: center;
+    }
+    .title {
+      font-size: 3em;
+      padding-bottom: 0.5em;
+      font-family: 'Open Sans', sans-serif;
+      padding-top: 0.3em;
+    }
+    .description {
+      font-size: 1.8em;
+      font-family: 'Open Sans', sans-serif;
+    }
+    chart-bar {
+      padding-top: 0.5em;
+    }
+    .buttons {
+      text-align: center;
+      padding-top: 2em;
+      padding-bottom: 2em;
+    }
+    .button {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    .button2 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }    
   </style>
   <template>
 
-    <div>This is the dashboard-view component</div>
-    <chart-bar data="[[data]]" style="width: 800px"></chart-bar>
+    <div class="container">
+      <div class="title">HabitLab Analytics</div>
+
+      <div class="description">Number of Times Your Interventions Were Deployed Today</div>
+
+
+      <chart-bar data="[[bardata]]" style="width: 700px"></chart-bar>
+      <div class="buttons"><button class="button1">Compare with Yesterday</button></div>
+
+      <div class="description">Time Spent on 5 Most Visited Websites (In Minutes)</div>   
+      <chart-doughnut data="[[donutdata]]" style="width: 600px"></chart-doughnut>      
+      <div class="buttons"><button class="button2">Compare with Yesterday</button></div>
+
+    </div>
 
   </template>
   <script src="dashboard-view.js"></script>

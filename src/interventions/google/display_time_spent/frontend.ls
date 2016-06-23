@@ -31,13 +31,14 @@ insert_console ((x) -> eval(x)), {lang: 'livescript'}
 
 
 display_timespent_div = $('<div>').attr('id', 'seconds_spent_display').css({
-  position: 'absolute'
+  position: 'fixed' # absolute?
   'background-color': 'red'
   color: 'white'
   width: '100px'
   height: '50px'
   top: '0px'
   right: '0px'
+  'z-index': Number.MAX_SAFE_INTEGER
 })
 
 $('body').append(display_timespent_div)

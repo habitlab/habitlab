@@ -29,19 +29,16 @@
     }
     .buttons {
       text-align: center;
-      padding-top: 2em;
-      padding-bottom: 2em;
+      padding-top: 3em;
+      padding-bottom: 3em;
     }
-    .button {
+    button {
       position: absolute;
       left: 50%;
+      cursor: pointer;
       transform: translateX(-50%) translateY(-50%);
+      font-size: 1em;
     }
-    .button2 {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%);
-    }    
   </style>
   <template>
 
@@ -59,7 +56,6 @@
       <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>
       <chart-bar data="[[reductionEfficacyData]]" style="width: 600px"></chart-bar>      
       <div class="buttons"><button class="button3" value="neverClicked" on-click="buttonAction3">Compare with Average Efficacy</button></div>
-
 
     </div>
 

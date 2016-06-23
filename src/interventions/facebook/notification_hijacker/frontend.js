@@ -11,6 +11,7 @@ const {
   once_available,
 } = require('libs_frontend/common_libs')
 
+setTimeout(() => {
 
 const messages = ["You've spent a questionable amount of time on Facebook.",
                   "Please get off facebook. I'm begging you.",
@@ -22,21 +23,38 @@ const messages = ["You've spent a questionable amount of time on Facebook.",
                   "Shouldn't you be doing something productive?",
                   "Money isn't going to make itself! Get off Facebook!",
                   "WHY ARE YOU STILL HERE. PLEASE LEAVE.",
-                  "Albert Einstein spent 0 minutes on Facebook, and he won a Nobel Prize.",
+                  "Einstein didn't ever use Facebook, and he won a Nobel Prize.",
                   ":( Why are you still here :("]
+
+//Injects notification into Facebook feed every "minutes" mins
+function decideToInject(minutes) {
+  if (!localStorage.hasOwnProperty("lastTimeVisited")) {
+    localStorage.lastTimeVisited = Math.floor(Date.now() / 1000);
+    return false; //Won't inject notification
+  } else {
+    const mostRecentVisit = parseInt(Math.floor(Date.now() / 1000), 10);
+    //60 seconds = 1 minute
+    if ((parseInt(localStorage.lastTimeVisited, 10) + (minutes * 60)) > (mostRecentVisit)) {
+      return false
+    } else {
+      //replace most recent time visited
+      localStorage.lastTimeVisited = mostRecentVisit
+      return true
+    }
+  }
+}
 
 //TODO: Sometimes the notification disappears X_____X
 var beginVar = null;
 function begin() {
   //For some reason the once-available function doesn't work?
-
   //once_available('audio', function() {
   //  showAlert();
   //})
   
   if (beginVar == null) {
       const wait = setInterval(() => {
-      var getEmails = document.querySelector('audio'); //Last tag to be loaded      
+      var getEmails = document.querySelector('._2n_9'); //Tag containing notif element 
       if (getEmails) {
             clearInterval(wait);
             showAlert();
@@ -93,15 +111,19 @@ function insertClickNotification() {
         }
       }, 250);
     } else {
-      console.log("Already been selected");
-    }     
+      //Already been selected; do nothing
+    }
   });
 }
 
 function main() {
-  begin();
+  if (decideToInject(5)) { //Injects notifications every x minutes
+      begin();
+  }
 }
 
 $(document).ready(main());
+
+}, 3000)
 
 })()

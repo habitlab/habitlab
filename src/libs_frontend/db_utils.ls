@@ -10,3 +10,7 @@ export setvar = (key, val, callback) ->
 
 export addtovar = (key, val, callback) ->
   send_message_to_background 'addtovar', {key, val}, callback
+
+export getkey_dictdict = (name, key, key2, callback) ->
+  send_message_to_background 'getkey_dictdict', {name, key, key2}, callback
+

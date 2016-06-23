@@ -13,6 +13,8 @@
   getvar
   setvar
   addtovar
+  getkey_dictdict
+  addtokey_dictdict
 } = require 'libs_backend/dexie_utils'
 
 {
@@ -32,6 +34,7 @@
 
 require! {
   async
+  moment
 }
 
 $ = require 'jquery'
@@ -198,6 +201,9 @@ message_handlers = {
   'addtovar': (data, callback) ->
     {key, val} = data
     addtovar key, val, callback
+  'getkey_dictdict': (data, callback) ->
+    {name, key, key2} = data
+    getkey_dictdict name, key, key2, callback
   /*
   'setvars': (data, callback) ->
   <- async.forEachOfSeries data, (v, k, ncallback) ->
@@ -426,6 +432,52 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
 
 # open the options page on first run
 #chrome.tabs.create {url: 'options.html'}
+
+browser_focus_changed = (new_focused) ->
+  console.log "browser focus changed: #{new_focused}"
+
+current_idlestate = 'active'
+
+chrome.idle.onStateChanged.addListener (idlestate) ->
+  current_idlestate := idlestate
+  console.log "idle state changed: #{idlestate}"
+
+prev_browser_focused = false
+setInterval ->
+  chrome.windows.getCurrent (browser) ->
+    focused = browser.focused
+    if focused != prev_browser_focused
+      prev_browser_focused := focused
+      browser_focus_changed(focused)
+, 500
+
+export get_days_since_epoch = ->
+  start_of_epoch = moment().year(2016).month(0).date(1).hours(0).minutes(0).seconds(0).milliseconds(0)
+  return moment().diff(start_of_epoch, 'days')
+
+export url_to_domain = (url) ->
+  # http://stackoverflow.com/questions/8498592/extract-root-domain-name-from-string
+  # find & remove protocol (http, ftp, etc.) and get domain
+  if url.indexOf("://") > -1
+    domain = url.split('/')[2]
+  else
+    domain = url.split('/')[0]
+  # find & remove port number
+  domain = domain.split(':')[0]
+  return domain
+
+setInterval ->
+  if !prev_browser_focused
+    return
+  if current_idlestate != 'active'
+    return
+  active_tab <- get_active_tab_info()
+  current_domain = url_to_domain(active_tab.url)
+  current_day = get_days_since_epoch()
+  # console.log "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
+  addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
+    console.log "total seconds spent on #{current_domain} today is #{total_seconds}"
+, 1000
 
 eval_background = (str) -> eval(str)
 

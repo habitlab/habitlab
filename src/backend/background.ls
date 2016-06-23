@@ -32,6 +32,14 @@
   finished_waiting
 } = require 'libs_common/wait_utils'
 
+{
+  get_days_since_epoch
+} = require 'libs_common/time_utils'
+
+{
+  url_to_domain
+} = require 'libs_common/domain_utils'
+
 require! {
   async
   moment
@@ -450,21 +458,6 @@ setInterval ->
       prev_browser_focused := focused
       browser_focus_changed(focused)
 , 500
-
-export get_days_since_epoch = ->
-  start_of_epoch = moment().year(2016).month(0).date(1).hours(0).minutes(0).seconds(0).milliseconds(0)
-  return moment().diff(start_of_epoch, 'days')
-
-export url_to_domain = (url) ->
-  # http://stackoverflow.com/questions/8498592/extract-root-domain-name-from-string
-  # find & remove protocol (http, ftp, etc.) and get domain
-  if url.indexOf("://") > -1
-    domain = url.split('/')[2]
-  else
-    domain = url.split('/')[0]
-  # find & remove port number
-  domain = domain.split(':')[0]
-  return domain
 
 setInterval ->
   if !prev_browser_focused

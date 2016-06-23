@@ -13,13 +13,38 @@ console.log 'display time spent started'
 
 {
   get_seconds_spent_on_current_domain_today
-} = require 'libs_frontend/time_utils'
+  get_seconds_spent_on_domain_today
+} = require 'libs_frontend/time_spent_utils'
+
+{
+  printable_time_spent
+} = require 'libs_common/time_utils'
+
+require! {
+  moment
+}
+
+$ = require 'jquery'
 
 listen_for_eval ((x) -> eval(x))
 insert_console ((x) -> eval(x)), {lang: 'livescript'}
 
+
+display_timespent_div = $('<div>').attr('id', 'seconds_spent_display').css({
+  position: 'absolute'
+  'background-color': 'red'
+  color: 'white'
+  width: '100px'
+  height: '50px'
+  top: '0px'
+  right: '0px'
+})
+
+$('body').append(display_timespent_div)
+
 setInterval ->
   seconds_spent <- get_seconds_spent_on_current_domain_today()
+  $('#seconds_spent_display').html("seconds on www.google.com today: #{printable_time_spent(seconds_spent)}")
   console.log "seconds_spent: #{seconds_spent}"
 , 1000
 

@@ -11,6 +11,7 @@
 polymer_ext {
   is: 'dashboard-view'
   #Apparently this is syntax for polymer bindings... so it doesn't work exactly like js functions
+  /*
   buttonAction1: ->
     myButton = document.querySelector('.button1')
     if (myButton.value === "neverClicked")
@@ -27,6 +28,10 @@ polymer_ext {
       myButton.innerText = "Compare with Previous Day"
       myButton.value = "neverClicked"
       this.pop('bardata.datasets') #removes dataset
+  */
+  buttonAction1: ->
+    this.linedata.datasets[0].label = 'a new label'
+    this.$$('#linechart').chart.update()
 
   buttonAction2: ->
     myButton = document.querySelector('.button2')
@@ -74,6 +79,32 @@ polymer_ext {
       this.pop('reductionEfficacyData.datasets')
 
   ready: ->
+    this.linedata = {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [
+        {
+          label: "My First dataset",
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(75,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: "rgba(75,192,192,1)",
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: [65, 59, 80, 81, 56, 55, 40],
+        }
+      ]
+    }
     this.bardata = {
       labels: ["Duolingo", "Facebook", "Gmail", "Google", "Youtube"],
       datasets: [

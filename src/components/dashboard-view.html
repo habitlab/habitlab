@@ -49,14 +49,17 @@
       <div class="title">HabitLab Analytics</div>
 
       <div class="description">Number of Times Your Interventions Were Deployed Today</div>
-
-
-      <chart-bar data="[[bardata]]" style="width: 700px"></chart-bar>
-      <div class="buttons"><button class="button1">Compare with Yesterday</button></div>
+      <chart-bar data="[[bardata]]" style="width: 600px"></chart-bar>
+      <div class="buttons"><button class="button1" value="neverClicked" on-click="buttonAction1">Compare with Previous Day</button></div>
 
       <div class="description">Time Spent on 5 Most Visited Websites (In Minutes)</div>   
       <chart-doughnut data="[[donutdata]]" style="width: 600px"></chart-doughnut>      
-      <div class="buttons"><button class="button2">Compare with Yesterday</button></div>
+      <div class="buttons"><button class="button2" value="neverClicked" on-click="buttonAction2">Compare with Yesterday</button></div>
+
+      <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>
+      <chart-bar data="[[reductionEfficacyData]]" style="width: 600px"></chart-bar>      
+      <div class="buttons"><button class="button3" value="neverClicked" on-click="buttonAction3">Compare with Average Efficacy</button></div>
+
 
     </div>
 

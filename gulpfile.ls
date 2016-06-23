@@ -112,6 +112,7 @@ gulp.task 'eslint', ['livescript_srcgen', 'js_srcgen'] ->
       'require': true
       'env': true
       'exports': true
+      'module': true
       'global_exports': true
       'Polymer': true
       'jsyaml': true

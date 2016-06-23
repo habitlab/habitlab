@@ -1,9 +1,12 @@
 $ = require 'jquery'
-{memoizeSingleAsync} = require 'libs_common/memoize'
+{
+  memoizeSingleAsync
+  memoize
+} = require 'libs_common/memoize'
 
 require! {
   async
-  minimongo
+  dexie
 }
 
 {gexport} = require 'libs_common/gexport'
@@ -144,51 +147,85 @@ export get_active_tab_info = (callback) ->
       return
     chrome.tabs.get tabs[0].id, callback
 
-export getDb = memoizeSingleAsync (callback) ->
-  new minimongo.IndexedDb {namespace: 'autosurvey'}, callback
+export getDb = memoize ->
+  db = new dexie('habitlab')
+  db.version(1).stores({
+    vars: 'key,val'
+    lists: '++id,key,val'
+  })
+  return db
 
-export getCollection = (collection_name, callback) ->
-  db <- getDb()
-  collection = db.collections[collection_name]
-  if collection?
-    callback collection
+#export deleteDb = (callback) ->
+#  getDb().delete().then callback
+
+export getCollection = (collection_name) ->
+  db = getDb()
+  return db[collection_name]
+
+export getVarsCollection = memoize ->
+  getCollection 'vars'
+
+export getListsCollection = memoize ->
+  getCollection 'lists'
+
+export incvar = (key, val, callback) ->
+  data = getVarsCollection()
+  new_val = val
+  num_modified <- data.where(':id').equals(key).modify((x) ->
+    x.val += val
+    new_val := x.val
+  ).then
+  if num_modified == 1
+    if callback?
+      callback(new_val)
     return
-  <- db.addCollection collection_name
-  callback db.collections[collection_name]
+  if num_modified > 1
+    console.log "incvar #{key} matched more than 1"
+    if callback?
+      callback(new_val)
+    return
+  setvar key, val, callback
 
-export getVarsCollection = memoizeSingleAsync (callback) ->
-  getCollection 'vars', callback
-
-export getListsCollection = memoizeSingleAsync (callback) ->
-  getCollection 'lists', callback
-
-export setvar = (name, val, callback) ->
-  data <- getVarsCollection()
-  result <- data.upsert {_id: name, val: val}
+export setvar = (key, val, callback) ->
+  data = getVarsCollection()
+  <- data.put({key: key, val: val}).then
   if callback?
-    callback()
+    callback val
 
-export getvar = (name, callback) ->
-  data <- getVarsCollection()
-  result <- data.findOne {_id: name}
+export getvar = (key, callback) ->
+  data = getVarsCollection()
+  result <- data.get(key).then
   if result?
-    callback result.val
-    return
+    return callback result.val
   else
-    callback null
-    return
-  # if var is not set, return null instead
+    return callback null
 
-export clearvar = (name, callback) ->
-  data <- getVarsCollection()
-  <- data.remove name
-  if callback?
-    callback()
+export clearvar = (key, callback) ->
+  data = getVarsCollection()
+  num_deleted <- data.where(':id').equals(key).delete().then
+  callback?!
 
-export printvar = (name) ->
-  result <- getvar name
+export printvar = (key) ->
+  result <- getvar key
   console.log result
 
+export addtolist = (key, val, callback) ->
+  data = getListsCollection()
+  result <- data.add({'key': key, 'val': val}).then
+  callback?!
+
+export getlist = (key, callback) ->
+  data = getListsCollection()
+  result <- data.where('key').equals(key).toArray().then
+  callback [x.val for x in result]
+
+export clearlist = (key, callback) ->
+  data = getListsCollection()
+  num_deleted <- data.where('key').equals(key).delete().then
+  callback?!
+
+
+/*
 export addtolist = (name, val, callback) ->
   data <- getListsCollection()
   result <- data.upsert {name: name, val: val}
@@ -238,6 +275,7 @@ export clear_all = (callback) ->
   ]
   if callback?
     callback()
+*/
 
 export printcb = (x) -> console.log(x)
 

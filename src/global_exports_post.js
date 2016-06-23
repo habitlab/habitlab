@@ -2,16 +2,6 @@ for (const k of Object.keys(global_exports)) {
   this[k] = global_exports[k]
 }
 
-const gexport_background = ((str) => {
-  eval_background(`gexport({'${str}': ${str}})`)
-  this[str] = global_exports[str]
-}).bind(this)
-
-const gexport_background_common = ((str) => {
-  eval_background_common(`gexport({'${str}': ${str}})`)
-  this[str] = global_exports[str]
-}).bind(this)
-
 const gexport_item = ((pagename, str) => {
   const eval_page = this[`eval_${pagename}`]
   if (!eval_page) {

@@ -3,6 +3,7 @@
 - facebook/print_message
 - gmail/no_new_emails
 - google/blue_background
+- google/display_time_spent
 - google/print_active_tab
 - youtube/prompt_before_watch
 - youtube/remove_sidebar_links

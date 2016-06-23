@@ -10,7 +10,9 @@
 {
   addtolist
   getlist
+  getvar
   setvar
+  incvar
   get_interventions
   list_enabled_interventions_for_location
   list_available_interventions_for_location
@@ -173,11 +175,6 @@ split_list_by_length = (list, len) ->
   return output
 
 message_handlers = {
-  'setvars': (data, callback) ->
-    <- async.forEachOfSeries data, (v, k, ncallback) ->
-      <- setvar k, v
-      ncallback()
-    callback()
   'getfield': (name, callback) ->
     getfield name, callback
   'getfields': (namelist, callback) ->
@@ -190,8 +187,20 @@ message_handlers = {
   'requestfields_uncached': (info, callback) ->
     {fieldnames} = info
     getfields_uncached fieldnames, callback
-  'getvar': (name, callback) ->
-    getvar name, callback
+  'getvar': (key, callback) ->
+    getvar key, callback
+  'setvar': (data, callback) ->
+    {key, val} = data
+    setvar key, val, callback
+  'incvar': (data, callback) ->
+    {key, val} = data
+    incvar key, val, callback
+  /*
+  'setvars': (data, callback) ->
+  <- async.forEachOfSeries data, (v, k, ncallback) ->
+    <- setvar k, v
+    ncallback()
+  callback()
   'getvars': (namelist, callback) ->
     output = {}
     <- async.eachSeries namelist, (name, ncallback) ->
@@ -199,6 +208,7 @@ message_handlers = {
       output[name] = val
       ncallback()
     callback output
+  */
   'addtolist': (data, callback) ->
     {list, item} = data
     addtolist list, item, callback
@@ -376,9 +386,12 @@ chrome.runtime.onMessageExternal.addListener (request, sender, sendResponse) ->
       sendResponse response
   return true # async response
 
+message_handlers_requiring_tab = {
+  'load_css_file': true
+}
+
 chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   {type, data} = request
-  data = {} <<< data
   console.log 'onmessage'
   console.log type
   console.log data
@@ -387,8 +400,10 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   if not message_handler?
     return
   # tabId = sender.tab.id
-  if sender.tab? and not data.tab?
-    data.tab = sender.tab
+  if message_handlers_requiring_tab[type]
+    if typeof(data) == 'object' and data != null and sender.tab? and not data.tab?
+      data = {} <<< data
+      data.tab = sender.tab
   message_handler data, (response) ->
     #console.log 'message handler response:'
     #console.log response

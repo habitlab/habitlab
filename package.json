@@ -5,12 +5,12 @@
   "description": "",
   "dependencies": {
     "async": "^2.0.0-rc.6",
+    "dexie": "^1.4.1",
     "jquery": "^3.0.0",
     "jquery.isinview": "^1.0.4",
     "jquery.terminal": "^0.10.12",
     "levn": "^0.3.0",
     "livescript15": "^1.5.1",
-    "minimongo": "^3.8.2",
     "npm-zepto": "^1.1.7",
     "prelude-ls": "^1.1.2"
   },

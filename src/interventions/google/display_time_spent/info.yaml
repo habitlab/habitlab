@@ -1,0 +1,5 @@
+description: Display time spent
+matches:
+  - www.google.com
+content_scripts:
+  - frontend.js

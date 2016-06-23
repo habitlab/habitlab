@@ -1,12 +1,10 @@
 $ = require 'jquery'
 {
   memoizeSingleAsync
-  memoize
 } = require 'libs_common/memoize'
 
 require! {
   async
-  dexie
 }
 
 {gexport} = require 'libs_common/gexport'
@@ -147,136 +145,6 @@ export get_active_tab_info = (callback) ->
       return
     chrome.tabs.get tabs[0].id, callback
 
-export getDb = memoize ->
-  db = new dexie('habitlab')
-  db.version(1).stores({
-    vars: 'key,val'
-    lists: '++id,key,val'
-  })
-  return db
-
-#export deleteDb = (callback) ->
-#  getDb().delete().then callback
-
-export getCollection = (collection_name) ->
-  db = getDb()
-  return db[collection_name]
-
-export getVarsCollection = memoize ->
-  getCollection 'vars'
-
-export getListsCollection = memoize ->
-  getCollection 'lists'
-
-export incvar = (key, val, callback) ->
-  data = getVarsCollection()
-  new_val = val
-  num_modified <- data.where(':id').equals(key).modify((x) ->
-    x.val += val
-    new_val := x.val
-  ).then
-  if num_modified == 1
-    if callback?
-      callback(new_val)
-    return
-  if num_modified > 1
-    console.log "incvar #{key} matched more than 1"
-    if callback?
-      callback(new_val)
-    return
-  setvar key, val, callback
-
-export setvar = (key, val, callback) ->
-  data = getVarsCollection()
-  <- data.put({key: key, val: val}).then
-  if callback?
-    callback val
-
-export getvar = (key, callback) ->
-  data = getVarsCollection()
-  result <- data.get(key).then
-  if result?
-    return callback result.val
-  else
-    return callback null
-
-export clearvar = (key, callback) ->
-  data = getVarsCollection()
-  num_deleted <- data.where(':id').equals(key).delete().then
-  callback?!
-
-export printvar = (key) ->
-  result <- getvar key
-  console.log result
-
-export addtolist = (key, val, callback) ->
-  data = getListsCollection()
-  result <- data.add({'key': key, 'val': val}).then
-  callback?!
-
-export getlist = (key, callback) ->
-  data = getListsCollection()
-  result <- data.where('key').equals(key).toArray().then
-  callback [x.val for x in result]
-
-export clearlist = (key, callback) ->
-  data = getListsCollection()
-  num_deleted <- data.where('key').equals(key).delete().then
-  callback?!
-
-
-/*
-export addtolist = (name, val, callback) ->
-  data <- getListsCollection()
-  result <- data.upsert {name: name, val: val}
-  if callback?
-    callback()
-
-export getlist = (name, callback) ->
-  data <- getListsCollection()
-  result <- data.find({name: name}).fetch()
-  callback [x.val for x in result]
-
-export clearlist = (name, callback) ->
-  data <- getListsCollection()
-  result <- data.find({name: name}).fetch()
-  <- async.eachSeries result, (item, ncallback) ->
-    <- data.remove item['_id']
-    ncallback()
-  if callback?
-    callback()
-
-export printlist = (name) ->
-  result <- getlist name
-  console.log result
-
-export clear_all_lists = (callback) ->
-  data <- getListsCollection()
-  result <- data.find({}).fetch()
-  <- async.eachSeries result, (item, ncallback) ->
-    <- data.remove item['_id']
-    ncallback()
-  if callback?
-    callback()
-
-export clear_all_vars = (callback) ->
-  data <- getVarsCollection()
-  result <- data.find({}).fetch()
-  <- async.eachSeries result, (item, ncallback) ->
-    <- data.remove item['_id']
-    ncallback()
-  if callback?
-    callback()
-
-export clear_all = (callback) ->
-  <- async.series [
-    clear_all_vars
-    clear_all_lists
-  ]
-  if callback?
-    callback()
-*/
-
 export printcb = (x) -> console.log(x)
 
 export printfunc = (func, ...args) ->
@@ -285,8 +153,6 @@ export printfunc = (func, ...args) ->
   func.apply({}, nargs)
 
 eval_background_common = (str) -> eval(str)
-
-get_exports_background_common = -> module.exports
 
 gexport {
   eval_background_common

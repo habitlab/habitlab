@@ -8,5 +8,5 @@ export getvar = (key, callback) ->
 export setvar = (key, val, callback) ->
   send_message_to_background 'setvar', {key, val}, callback
 
-export incvar = (key, val, callback) ->
-  send_message_to_background 'incvar', {key, val}, callback
+export addtovar = (key, val, callback) ->
+  send_message_to_background 'addtovar', {key, val}, callback

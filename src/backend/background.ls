@@ -12,7 +12,10 @@
   getlist
   getvar
   setvar
-  incvar
+  addtovar
+} = require 'libs_backend/dexie_utils'
+
+{
   get_interventions
   list_enabled_interventions_for_location
   list_available_interventions_for_location
@@ -192,9 +195,9 @@ message_handlers = {
   'setvar': (data, callback) ->
     {key, val} = data
     setvar key, val, callback
-  'incvar': (data, callback) ->
+  'addtovar': (data, callback) ->
     {key, val} = data
-    incvar key, val, callback
+    addtovar key, val, callback
   /*
   'setvars': (data, callback) ->
   <- async.forEachOfSeries data, (v, k, ncallback) ->
@@ -425,8 +428,6 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
 #chrome.tabs.create {url: 'options.html'}
 
 eval_background = (str) -> eval(str)
-
-get_exports_background = -> module.exports
 
 gexport {
   eval_background

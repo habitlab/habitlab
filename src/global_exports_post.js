@@ -20,7 +20,7 @@ const gexport_all = ((pagename) => {
   if (!eval_page) {
     return
   }
-  const exports_page = eval_page(`get_exports_${pagename}()`)
+  const exports_page = eval_page('module.exports')
   this[`exports_${pagename}`] = exports_page
   for (const k of Object.keys(exports_page)) {
     this[k] = exports_page[k]
@@ -29,4 +29,5 @@ const gexport_all = ((pagename) => {
 
 gexport_all('background')
 gexport_all('background_common')
+gexport_all('dexie_utils')
 

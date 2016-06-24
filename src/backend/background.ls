@@ -215,6 +215,12 @@ message_handlers = {
   'getkey_dictdict': (data, callback) ->
     {name, key, key2} = data
     getkey_dictdict name, key, key2, callback
+  'getdict_for_key_dictdict': (data, callback) ->
+    {name, key} = data
+    getdict_for_key_dictdict name, key, callback
+  'getdict_for_key2_dictdict': (data, callback) ->
+    {name, key2} = data
+    getdict_for_key2_dictdict name, key2, callback
   /*
   'setvars': (data, callback) ->
   <- async.forEachOfSeries data, (v, k, ncallback) ->

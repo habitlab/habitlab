@@ -19,7 +19,7 @@ export getDb = memoize ->
     # composite index:
     # https://groups.google.com/forum/#!topic/dexiejs/G3_W5PssCGA
     dicts: '[name+key],name,key,val'
-    dictdicts: '[name+key+key2],name,key,key2,val'
+    dictdicts: '[name+key+key2],[name+key],[name+key2],name,key,key2,val'
   })
   return db
 
@@ -160,6 +160,32 @@ export cleardict = (name, callback) ->
   .equals(name)
   .delete().then
   callback?!
+
+export getdict_for_key_dictdict = (name, key, callback) ->
+  data = getDictDictsCollection()
+  result <- data
+  .where('[name+key]')
+  .equals([name, key])
+  .toArray().then
+  if result.length > 0
+    output = {}
+    for {key2, val} in result
+      output[key2] = val
+    return callback output
+  return callback {}
+
+export getdict_for_key2_dictdict = (name, key2, callback) ->
+  data = getDictDictsCollection()
+  result <- data
+  .where('[name+key2]')
+  .equals([name, key2])
+  .toArray().then
+  if result.length > 0
+    output = {}
+    for {key, val} in result
+      output[key] = val
+    return callback output
+  return callback {}
 
 export getkey_dictdict = (name, key, key2, callback) ->
   data = getDictDictsCollection()

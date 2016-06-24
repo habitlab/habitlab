@@ -1,0 +1,7 @@
+description: Displays A Rich Chrome notification
+matches:
+  - www.facebook.com
+content_scripts:
+  - frontend.js
+background_scripts:
+  - backend.js  

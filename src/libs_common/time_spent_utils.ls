@@ -17,10 +17,18 @@ require! {
 
 export get_seconds_spent_on_domain_today = (domain, callback) ->
   current_day = get_days_since_epoch()
-  getkey_dictdict "seconds_on_domain_per_day", domain, get_days_since_epoch(), callback
+  getkey_dictdict "seconds_on_domain_per_day", domain, get_days_since_epoch(), (result) ->
+    if result?
+      callback result
+    else
+      callback 0
 
 export get_seconds_spent_on_current_domain_today = (callback) ->
   current_domain = window.location.hostname
-  get_seconds_spent_on_domain_today current_domain, callback
+  get_seconds_spent_on_domain_today current_domain, (result) ->
+    if result?
+      callback result
+    else
+      callback 0
 
 gexport_module 'time_spent_utils', -> eval(it)

@@ -170,8 +170,12 @@ run_gulp_webpack = (myconfig, options) ->
     relative_path_noext = relative_path.replace(/\.jsx$/, '').replace(/\.js$/, '').replace(/\.ls$/, '')
     return relative_path_noext
   ))
+  #.pipe(webpack-stream(myconfig).on('error', gulp-util.log))
   .pipe(webpack-stream(myconfig))
-  .on('error', gulp-util.log)
+  .on('error', (err) ->
+    gulp-util.log(err.message)
+    this.emit('end')
+  )
   .pipe(gulp.dest('dist'))
 
 with_created_object = (orig_obj, func_to_apply) ->

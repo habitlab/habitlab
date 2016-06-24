@@ -22,11 +22,13 @@ module.exports = {
           test: /\.ls$/
           loader: "livescript-loader"
           include: [fromcwd('src')]
+          exclude: /(node_modules|bower_components)/
         }
         {
           test: /\.jsx$/
           loader: 'babel-loader'
           include: [fromcwd('src')]
+          exclude: /(node_modules|bower_components)/
           query: {
             plugins: [[
               'incremental-dom', {

@@ -11,13 +11,23 @@ export getUrlParameters = ->
   return map
 
 export once_available = (selector, callback) ->
-  current_result = document.querySelectorAll(selector)
-  if current_result.length > 0
+  current_result = document.querySelector(selector)
+  if current_result != null
     callback current_result
   else
     setTimeout ->
       once_available selector, callback
     , 100
+
+export once_available_multiselect = (selector, callback) ->
+  current_result = document.querySelectorAll(selector)
+  if current_result.length > 0
+    callback current_result
+  else
+    setTimeout ->
+      once_available_multiselect selector, callback
+    , 100
+
 
 export once_true = (condition, callback) ->
   if condition()

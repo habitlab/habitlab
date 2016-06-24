@@ -1,18 +1,43 @@
+var myNotifId = null;
+
 //Displays a rich notification to the user
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.type === "chrome-notification") {
-    console.log("It's this kind of notification!");
-    console.log("Inserting notif...")
     chrome.notifications.create('chrome-notification', {
       type: 'basic',
       iconUrl: chrome.extension.getURL("interventions/facebook/rich_notifications/rich_notif_icon.png"),
-      title: "Stop going on facebook!",
-      message: "Really.",
+      title: "Reminder",
+      message: "You've already spent " + request.timeSpent + " minutes on facebook.",
+      requireInteraction: false,
       buttons: [
-        { title: 'Mark' },
-        { title: 'Ignore' }
+        { title: 'Close Tab', iconUrl: chrome.extension.getURL('interventions/facebook/rich_notifications/close_tab.png')},
+        { title: 'Dismiss', iconUrl: chrome.extension.getURL('interventions/facebook/rich_notifications/dismiss.png')}
       ]
-    }, function callback(notificationId) {      
+    }, function callback(id) {      
+      myNotifId = id;
     });
   }
 });
+
+chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
+  if (notifId === myNotifId) {
+    if (btnIdx === 0) {
+      closeTab();
+      closeNotif(notifId);
+    } else if (btnIdx === 1) {
+      closeNotif(notifId);
+    }
+  }
+});
+
+function closeTab() {
+    chrome.tabs.getSelected(function(tab) {
+    console.log(tab.id);
+    chrome.tabs.remove(tab.id);
+  });
+}
+
+function closeNotif(notifId) {
+  chrome.notifications.clear(notifId, function callback(wasCleared) {        
+  });  
+}

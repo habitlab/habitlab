@@ -20,17 +20,7 @@ const {
 
 function insertRichNotification() {
   console.log("Inserting rich notification!");
-  //code to send message to open notification. This will eventually move into my extension logic
-
-  chrome.runtime.sendMessage({type: "chrome-notification"}, (response) => {});
-  /*
-  chrome.runtime.sendMessage({type: "chrome-notification", options: { 
-      type: "basic", 
-      title: "Stop going on facebook!",
-      message: "Really.",
-      iconUrl: chrome.extension.getURL("interventions/facebook/rich_notifications/rich_notif_icon.png")
-  }});
-  */
+  chrome.runtime.sendMessage({type: "chrome-notification", timeSpent: "30"}, (response) => {});
 }
 
 function main() {

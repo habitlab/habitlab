@@ -23,18 +23,32 @@ module.exports = {
           loader: "livescript-loader"
           include: [fromcwd('src')]
         }
+        {
+          test: /\.jsx$/
+          loader: 'babel-loader'
+          include: [fromcwd('src')]
+          query: {
+            plugins: [[
+              'incremental-dom', {
+                prefix: 'skate.vdom.IncrementalDOM'
+              }
+            ]]
+          }
+        }
     ]
   }
   resolve: {
     moduleDirectories: ['node_modules']
     extensions: [
       ''
+      '.jsx'
       '.ls'
       '.js'
     ]
     alias: {
       'zepto': npmdir 'npm-zepto'
       'prelude': npmdir 'prelude-ls'
+      'skatejs': npmdir 'skatejs1'
     }
     fallback: [
       fromcwd('src')

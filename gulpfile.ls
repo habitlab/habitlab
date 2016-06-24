@@ -68,6 +68,7 @@ webpack_pattern = [
   'src/backend/**/*.js'
   'src/commonjs_compat/**/*.ls'
   'src/commonjs_compat/**/*.js'
+  'src/components_skate/components_skate.js'
 ]
 
 webpack_vulcanize_pattern = [
@@ -166,7 +167,7 @@ run_gulp_webpack = (myconfig, options) ->
   .pipe(gulp-print( -> "webpack: #{it}" ))
   .pipe(vinyl-named( (file) ->
     relative_path = path.relative(path.join(current_dir, src_base), file.path)
-    relative_path_noext = relative_path.replace(/\.js$/, '').replace(/\.ls$/, '')
+    relative_path_noext = relative_path.replace(/\.jsx$/, '').replace(/\.js$/, '').replace(/\.ls$/, '')
     return relative_path_noext
   ))
   .pipe(webpack-stream(myconfig))

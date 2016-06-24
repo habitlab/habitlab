@@ -13,9 +13,13 @@
     "livescript15": "^1.5.1",
     "moment": "^2.13.0",
     "npm-zepto": "^1.1.7",
-    "prelude-ls": "^1.1.2"
+    "prelude-ls": "^1.1.2",
+    "skatejs1": "^1.0.0-beta.2"
   },
   "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-incremental-dom": "^3.4.0",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-changed": "^1.3.0",

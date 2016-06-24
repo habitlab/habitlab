@@ -6,8 +6,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.notifications.create('chrome-notification', {
       type: 'basic',
       iconUrl: chrome.extension.getURL("interventions/facebook/rich_notifications/rich_notif_icon.png"),
-      title: "Reminder",
-      message: "You've already spent " + request.timeSpent + " minutes on facebook.",
+      title: "Whoa there!",
+      message: "You've already spent " + request.timeSpent + " minutes on Facebook today.",
       requireInteraction: false,
       buttons: [
         { title: 'Close Tab', iconUrl: chrome.extension.getURL('interventions/facebook/rich_notifications/close_tab.png')},

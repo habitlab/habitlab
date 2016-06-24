@@ -81,15 +81,11 @@ function insertClickNotification() {
   var selected = false;
 
   $('.jewelButton')[1].addEventListener('click', function() {
-    console.log("Clicked");
-
     //Only adds message if message has never previously been added
     if (!selected) {
       const wait = setInterval(() => {
         const $messages = $('.jewelContent').find('li'); //Messages are loaded
         if ($messages.length > 1) {
-          console.log($messages);
-
           //hopefully users have at least 1 message so that we can clone a message 
           var $messageClone = $($messages[1]).clone();
 

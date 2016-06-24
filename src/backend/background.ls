@@ -15,6 +15,8 @@
   addtovar
   getkey_dictdict
   addtokey_dictdict
+  getdict_for_key_dictdict
+  getdict_for_key2_dictdict
 } = require 'libs_backend/dexie_utils'
 
 {

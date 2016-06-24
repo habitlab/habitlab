@@ -12,22 +12,19 @@ const gexport_item = ((pagename, str) => {
   this[str] = global_exports[str]
 }).bind(this)
 
-const gexport_item_background = (str) => gexport_item('background', str)
-const gexport_item_background_common = (str) => gexport_item('background_common', str)
-
-const gexport_all = ((pagename) => {
-  const eval_page = this[`eval_${pagename}`]
-  if (!eval_page) {
+const gexport_finish_exporting_modules = (() => {
+  if (!global_exports.gexport_eval_funcs) {
     return
   }
-  const exports_page = eval_page('module.exports')
-  this[`exports_${pagename}`] = exports_page
-  for (const k of Object.keys(exports_page)) {
-    this[k] = exports_page[k]
+  for (const pagename of Object.keys(global_exports.gexport_eval_funcs)) {
+    const eval_page = global_exports.gexport_eval_funcs[pagename]
+    const exports_page = eval_page('module.exports')
+    this[`exports_${pagename}`] = exports_page
+    for (const k of Object.keys(exports_page)) {
+      this[k] = exports_page[k]
+    }
+    this[`gexport_item_${pagename}`] = (str) => gexport_item(pagename, str)
   }
 }).bind(this)
 
-gexport_all('background')
-gexport_all('background_common')
-gexport_all('dexie_utils')
-
+gexport_finish_exporting_modules()

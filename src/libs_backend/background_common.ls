@@ -7,7 +7,10 @@ require! {
   async
 }
 
-{gexport} = require 'libs_common/gexport'
+{
+  gexport
+  gexport_module
+} = require 'libs_common/gexport'
 
 export getInterventionInfo = (intervention_name, callback) ->
   intervention_info_text <- $.get "/interventions/#{intervention_name}/info.json"
@@ -152,8 +155,4 @@ export printfunc = (func, ...args) ->
   nargs.push printcb
   func.apply({}, nargs)
 
-eval_background_common = (str) -> eval(str)
-
-gexport {
-  eval_background_common
-}
+gexport_module 'background_common', -> eval(it)

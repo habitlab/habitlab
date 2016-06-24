@@ -14,7 +14,7 @@ console.log 'display time spent started'
 {
   get_seconds_spent_on_current_domain_today
   get_seconds_spent_on_domain_today
-} = require 'libs_frontend/time_spent_utils'
+} = require 'libs_common/time_spent_utils'
 
 {
   printable_time_spent

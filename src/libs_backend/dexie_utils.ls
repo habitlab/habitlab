@@ -6,7 +6,10 @@ require! {
   dexie
 }
 
-{gexport} = require 'libs_common/gexport'
+{
+  gexport
+  gexport_module
+} = require 'libs_common/gexport'
 
 export getDb = memoize ->
   db = new dexie('habitlab')
@@ -247,8 +250,4 @@ export clear_all = (callback) ->
     callback()
 */
 
-eval_dexie_utils = (str) -> eval(str)
-
-gexport {
-  eval_dexie_utils
-}
+gexport_module 'dexie_utils', -> eval(it)

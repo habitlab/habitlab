@@ -47,7 +47,10 @@ require! {
 
 $ = require 'jquery'
 
-{gexport} = require 'libs_common/gexport'
+{
+  gexport
+  gexport_module
+} = require 'libs_common/gexport'
 
 # console.log 'weblab running in background'
 
@@ -472,8 +475,4 @@ setInterval ->
     console.log "total seconds spent on #{current_domain} today is #{total_seconds}"
 , 1000
 
-eval_background = (str) -> eval(str)
-
-gexport {
-  eval_background
-}
+gexport_module 'background', -> eval(it)

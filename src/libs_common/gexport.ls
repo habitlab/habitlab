@@ -5,3 +5,9 @@ export gexport = (vardict) ->
   for k,v of vardict
     global_exports[k] = v
   return
+
+export gexport_module = (module_name, eval_func) ->
+  global_exports['eval_' + module_name] = eval_func
+  if not global_exports.gexport_eval_funcs?
+    global_exports.gexport_eval_funcs = {}
+  global_exports.gexport_eval_funcs[module_name] = eval_func

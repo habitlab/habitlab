@@ -20,9 +20,10 @@ skate.define('time-spent-display', {
     seconds: { default: 0 },
   },
   render(elem) {
+    /*{Number.MAX_SAFE_INTEGER}*/
     return (
-      <div style="background-color: red; position: fixed; color: white; width: 100px; 50px; top: 0px; right: 0px; z-index: {Number.MAX_SAFE_INTEGER}">
-      You have spent {elem.seconds} seconds on {elem.site}
+      <div style="background-color: red; position: fixed; color: white; width: 100px; 50px; top: 0px; right: 0px; z-index: 99999">
+      Spent {elem.seconds} seconds on {elem.site}
       </div>
     )
   },

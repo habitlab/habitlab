@@ -14,12 +14,14 @@
     "moment": "^2.13.0",
     "npm-zepto": "^1.1.7",
     "prelude-ls": "^1.1.2",
-    "skatejs1": "^1.0.0-beta.2"
+    "skatejs1": "^1.0.0-beta.2",
+    "webcomponentsjs-custom-element-v1": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
     "babel-loader": "^6.2.4",
     "babel-plugin-incremental-dom": "^3.4.0",
+    "deepcopy": "^0.6.3",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-changed": "^1.3.0",
@@ -33,7 +35,6 @@
     "gulp-yaml": "^1.0.1",
     "livescript": "^1.5.0",
     "livescript-loader": "^0.1.5",
-    "object-merge": "^2.5.1",
     "uglify-loader": "^1.3.0",
     "vinyl-named": "^1.1.0",
     "watchify": "^3.7.0",

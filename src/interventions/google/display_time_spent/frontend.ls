@@ -4,8 +4,6 @@ if window.google_display_time_spent
   return
 window.google_display_time_spent = true
 
-console.log 'display time spent started'
-
 {
   listen_for_eval
   insert_console
@@ -26,11 +24,14 @@ require! {
 
 $ = require 'jquery'
 
-#require('components_skate/time-spent-display')
-
 listen_for_eval ((x) -> eval(x))
 insert_console ((x) -> eval(x)), {lang: 'livescript'}
 
+document.registerElement = null
+require('webcomponentsjs-custom-element-v1')
+require('components_skate/time-spent-display')
+
+/*
 display_timespent_div = $('<div>').attr('id', 'seconds_spent_display').css({
   position: 'fixed' # absolute?
   'background-color': 'red'
@@ -41,12 +42,14 @@ display_timespent_div = $('<div>').attr('id', 'seconds_spent_display').css({
   right: '0px'
   'z-index': Number.MAX_SAFE_INTEGER
 })
-
-#display_timespent_div = $('<time-spent-display>')
+*/
+display_timespent_div = $('<time-spent-display>')
 $('body').append(display_timespent_div)
 
+/*
 setInterval ->
   seconds_spent <- get_seconds_spent_on_current_domain_today()
   $('#seconds_spent_display').html("seconds on www.google.com: #{printable_time_spent(seconds_spent)}")
   console.log "seconds_spent: #{seconds_spent}"
 , 1000
+*/

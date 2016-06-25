@@ -16,6 +16,7 @@ require! {
   'gulp-vulcanize'
   'gulp-crisper'
   'del'
+  'deepcopy'
 }
 
 webpack_config = require './webpack.config.ls'
@@ -179,7 +180,7 @@ run_gulp_webpack = (myconfig, options) ->
   .pipe(gulp.dest('dist'))
 
 with_created_object = (orig_obj, func_to_apply) ->
-  new_obj = Object.create(orig_obj)
+  new_obj = deepcopy(orig_obj)
   func_to_apply(new_obj)
   return new_obj
 
@@ -204,7 +205,10 @@ webpack_config_prod_nowatch = with_created_object webpack_config, (o) ->
   o.module.loaders.push {
     test: /\.js$/
     loader: 'uglify-loader'
-    exclude: [fromcwd('src')]
+    exclude: [
+      fromcwd('src')
+      fromcwd('node_modules/webcomponentsjs-custom-element-v1')
+    ]
   }
 
 gulp.task 'webpack_vulcanize', ['copy_vulcanize'], ->

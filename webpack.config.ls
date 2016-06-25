@@ -20,22 +20,34 @@ module.exports = {
     loaders: [
         {
           test: /\.ls$/
-          loader: "livescript-loader"
+          # livescript with embedded jsx
+          # need the linked-src option according to
+          # https://github.com/appedemic/livescript-loader/issues/10
+          loader: 'babel-loader!livescript-loader?map=linked-src'
+          include: [fromcwd('src/components_skate')]
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('bower_components')
+          ]
+        }
+        {
+          test: /\.ls$/
+          loader: 'livescript-loader'
           include: [fromcwd('src')]
-          exclude: /(node_modules|bower_components)/
+          exclude: [
+            fromcwd('src/components_skate')
+            fromcwd('node_modules')
+            fromcwd('bower_components')
+          ]
         }
         {
           test: /\.jsx$/
           loader: 'babel-loader'
           include: [fromcwd('src')]
-          exclude: /(node_modules|bower_components)/
-          query: {
-            plugins: [[
-              'incremental-dom', {
-                prefix: 'skate.vdom.IncrementalDOM'
-              }
-            ]]
-          }
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('bower_components')
+          ]
         }
     ]
   }

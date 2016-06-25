@@ -42,6 +42,8 @@ yamlpattern = [
 eslintpattern = [
   'src/**/*.js'
   'src_gen/**/*.js'
+  'src/components_skate/**/*.jsx'
+  'src_gen/components_skate/**/*.js'
   '!src/bower_components/**/*.js'
   '!src_gen/bower_components/**/*.js'
 ]
@@ -100,6 +102,7 @@ gulp.task 'eslint', ['livescript_srcgen', 'js_srcgen'] ->
       ecmaVersion: 6
       ecmaFeatures: {
         'impliedStrict': true
+        'jsx': true
       }
     }
     extends: 'eslint:recommended'

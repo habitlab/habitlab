@@ -1,4 +1,4 @@
-skate = require('skatejs')
+const skate = require('skatejs')
 
 skate.define('time-display-example', {
   props: {

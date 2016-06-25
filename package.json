@@ -6,6 +6,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "dexie": "^1.4.1",
+    "enable-webcomponents-in-content-scripts": "^1.0.1",
     "jquery": "^3.0.0",
     "jquery.isinview": "^1.0.4",
     "jquery.terminal": "^0.10.12",
@@ -14,8 +15,7 @@
     "moment": "^2.13.0",
     "npm-zepto": "^1.1.7",
     "prelude-ls": "^1.1.2",
-    "skatejs1": "^1.0.0-beta.2",
-    "webcomponentsjs-custom-element-v1": "^1.0.0"
+    "skatejs1": "^1.0.0-beta.2"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",

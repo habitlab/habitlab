@@ -27,29 +27,9 @@ $ = require 'jquery'
 listen_for_eval ((x) -> eval(x))
 insert_console ((x) -> eval(x)), {lang: 'livescript'}
 
-document.registerElement = null
-require('webcomponentsjs-custom-element-v1')
+require('enable-webcomponents-in-content-scripts')
+
 require('components_skate/time-spent-display')
 
-/*
-display_timespent_div = $('<div>').attr('id', 'seconds_spent_display').css({
-  position: 'fixed' # absolute?
-  'background-color': 'red'
-  color: 'white'
-  width: '100px'
-  height: '50px'
-  top: '0px'
-  right: '0px'
-  'z-index': Number.MAX_SAFE_INTEGER
-})
-*/
 display_timespent_div = $('<time-spent-display>')
 $('body').append(display_timespent_div)
-
-/*
-setInterval ->
-  seconds_spent <- get_seconds_spent_on_current_domain_today()
-  $('#seconds_spent_display').html("seconds on www.google.com: #{printable_time_spent(seconds_spent)}")
-  console.log "seconds_spent: #{seconds_spent}"
-, 1000
-*/

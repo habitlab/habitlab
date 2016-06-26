@@ -13,7 +13,7 @@ polymer_ext {
   #Apparently this is syntax for polymer bindings... so it doesn't work exactly like js functions
   /*
   buttonAction1: ->
-    myButton = document.querySelector('.button1')
+    myButton = this.$$('.button1')
     if (myButton.value === "neverClicked")
       myButton.innerText = "View Today's Data"
       myButton.value = "clicked"
@@ -34,7 +34,7 @@ polymer_ext {
     this.$$('#linechart').chart.update()
 
   buttonAction2: ->
-    myButton = document.querySelector('.button2')
+    myButton = this.$$('.button2')
     if (myButton.value === "neverClicked")
       myButton.innerText = "View Today's Data"
       myButton.value = "clicked"
@@ -62,7 +62,7 @@ polymer_ext {
       this.pop('donutdata.datasets')
       
   buttonAction3: ->
-    myButton = document.querySelector('.button3')  
+    myButton = this.$$('.button3')  
     if (myButton.value === "neverClicked")
       myButton.innerText = "View Today's Data"
       myButton.value = "clicked"

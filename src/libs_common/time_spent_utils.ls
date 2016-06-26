@@ -20,6 +20,9 @@ require! {
 export get_seconds_spent_on_all_domains_today = (callback) ->
   getdict_for_key2_dictdict 'seconds_on_domain_per_day', get_days_since_epoch(), callback
 
+export get_seconds_spent_on_all_domains_days_since_today = (days_since, callback) ->
+  getdict_for_key2_dictdict 'seconds_on_domain_per_day', (get_days_since_epoch() - days_since), callback
+
 export get_seconds_spent_on_domain_today = (domain, callback) ->
   current_day = get_days_since_epoch()
   getkey_dictdict 'seconds_on_domain_per_day', domain, get_days_since_epoch(), (result) ->

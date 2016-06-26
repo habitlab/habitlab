@@ -21,7 +21,7 @@ skate.define('time-spent-display', {
   },
   render(elem) {
     return (
-      <div style="background-color: red">
+      <div style="background-color: red; position: fixed; color: white; width: 100px; 50px; top: 0px; right: 0px; z-index: {Number.MAX_SAFE_INTEGER}">
       You have spent {elem.seconds} seconds on {elem.site}
       </div>
     )

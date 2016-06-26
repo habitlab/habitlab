@@ -10,14 +10,13 @@ require! {
   'gulp-eslint'
   'path'
   'fs'
+  'webpack-stream'
   'vinyl-named'
   'webpack'
   'gulp-vulcanize'
   'gulp-crisper'
   'del'
 }
-
-webpack-stream = require 'webpack-stream-cache'
 
 webpack_config = require './webpack.config.ls'
 
@@ -70,17 +69,6 @@ webpack_pattern = [
   'src/commonjs_compat/**/*.ls'
   'src/commonjs_compat/**/*.js'
   'src/components_skate/components_skate.js'
-]
-
-webpack_watch_pattern = [
-  'src/interventions/**/*.ls'
-  'src/interventions/**/*.js'
-  'src/backend/**/*.ls'
-  'src/backend/**/*.js'
-  'src/commonjs_compat/**/*.ls'
-  'src/commonjs_compat/**/*.js'
-  'src/components_skate/**/*.jsx'
-  'src/components_skate/**/*.js'
 ]
 
 webpack_vulcanize_pattern = [
@@ -245,9 +233,6 @@ gulp.task 'webpack', ['build_base'], ->
 
 gulp.task 'webpack_watch', ['watch_base'], ->
   run_gulp_webpack webpack_config_watch
-
-#gulp.task 'webpack_watch_v2', ['watch_base'], ->
-#  gulp.watch webpack_pattern
 
 gulp.task 'webpack_prod', ['build_base'], ->
   run_gulp_webpack webpack_config_prod_nowatch

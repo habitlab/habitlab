@@ -22,8 +22,7 @@ function shouldInsert(secondsSpent, timeInterval) {
 
   const newestInterval = Math.floor(Math.floor(secondsSpent/60) / timeInterval)
   console.log(secondsSpent)
-  console.log(newestInterval)  
-
+  console.log(newestInterval)
 
   if (!localStorage.hasOwnProperty("currInterval")) {
     localStorage.currInterval = newestInterval
@@ -34,7 +33,7 @@ function shouldInsert(secondsSpent, timeInterval) {
       localStorage.currInterval = newestInterval
       return true
     } else if (newestInterval === parseInt(localStorage.currInterval, 10)) {
-      console.log("Not inserting notification")
+      console.log("Not inserting rich notification")
       return false
     } else { //newestInterval > localStorage.currInterval
       localStorage.currInterval = newestInterval;
@@ -43,12 +42,10 @@ function shouldInsert(secondsSpent, timeInterval) {
   }
 }
 
-function insertRichNotification() {
-  console.log("Inserting rich notification!");
-  
+function insertRichNotification() {  
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
     console.log(secondsSpent);
-    if (shouldInsert(secondsSpent, 10)) {
+    if (shouldInsert(secondsSpent, 5 /* In minutes */)) {
       chrome.runtime.sendMessage({type: "chrome-notification", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
     }
   })

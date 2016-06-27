@@ -142,14 +142,14 @@ export set_intervention_manually_managed = (intervention_name, callback) ->
   manually_managed_interventions <- get_manually_managed_interventions()
   if manually_managed_interventions[intervention_name]?
     return callback?!
-  enabled_interventions[intervention_name] = true
-  set_enabled_interventions enabled_interventions, callback
+  manually_managed_interventions[intervention_name] = true
+  set_manually_managed_interventions manually_managed_interventions, callback
 
 export set_intervention_automatically_managed = (intervention_name, callback) ->
   manually_managed_interventions <- get_manually_managed_interventions()
   if not manually_managed_interventions[intervention_name]?
     return callback?!
   delete manually_managed_interventions[intervention_name]
-  set_enabled_interventions manually_managed_interventions, callback
+  set_manually_managed_interventions manually_managed_interventions, callback
 
 gexport_module 'intervention_utils', -> eval(it)

@@ -1,0 +1,4 @@
+description: Spent less time on Facebook
+interventions:
+  - facebook/rich_notifications
+  - facebook/notification_hijacker

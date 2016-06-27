@@ -20,13 +20,16 @@
 } = require 'libs_backend/dexie_utils'
 
 {
-  get_interventions
-  list_enabled_interventions_for_location
-  list_available_interventions_for_location
   send_message_to_active_tab
   send_message_to_tabid
   get_active_tab_info
 } = require 'libs_backend/background_common'
+
+{
+  get_interventions
+  list_enabled_interventions_for_location
+  list_available_interventions_for_location
+} = require 'libs_backend/intervention_utils'
 
 {
   make_wait_token

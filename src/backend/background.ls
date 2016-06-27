@@ -32,6 +32,10 @@
 } = require 'libs_backend/intervention_utils'
 
 {
+  get_goals
+} = require 'libs_backend/goal_utils'
+
+{
   make_wait_token
   wait_for_token
   finished_waiting

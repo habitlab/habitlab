@@ -9,6 +9,10 @@ require! {
 }
 
 {
+  get_interventions_to_goals
+} = require 'libs_backend/goal_utils'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
@@ -19,80 +23,87 @@ export getInterventionInfo = (intervention_name, callback) ->
   intervention_info.name = intervention_name
   callback intervention_info
 
-export get_enabled_interventions = ->
+export get_enabled_interventions = (callback) ->
   enabled_interventions_str = localStorage.getItem('enabled_interventions')
   if not enabled_interventions_str?
     enabled_interventions = {}
   else
     enabled_interventions = JSON.parse enabled_interventions_str
-  return enabled_interventions
+  callback enabled_interventions
 
-export set_enabled_interventions = (enabled_interventions) ->
+export set_enabled_interventions = (enabled_interventions, callback) ->
   localStorage.setItem 'enabled_interventions', JSON.stringify(enabled_interventions)
+  callback?!
 
-export set_intervention_enabled = (intervention_name) ->
-  enabled_interventions = get_enabled_interventions()
+export set_intervention_enabled = (intervention_name, callback) ->
+  enabled_interventions <- get_enabled_interventions()
   if enabled_interventions[intervention_name]?
-    return
+    return callback?!
   enabled_interventions[intervention_name] = true
-  set_enabled_interventions enabled_interventions
+  set_enabled_interventions enabled_interventions, callback
 
-export set_intervention_disabled = (intervention_name) ->
-  enabled_interventions = get_enabled_interventions()
+export set_intervention_disabled = (intervention_name, callback) ->
+  enabled_interventions <- get_enabled_interventions()
   if not enabled_interventions[intervention_name]?
-    return
+    return callback?!
   delete enabled_interventions[intervention_name]
-  set_enabled_interventions enabled_interventions
+  set_enabled_interventions enabled_interventions, callback
 
-export is_intervention_enabled = (intervention_name) ->
-  enabled_interventions = get_enabled_interventions()
-  return enabled_interventions[intervention_name]?
+export is_intervention_enabled = (intervention_name, callback) ->
+  enabled_interventions <- get_enabled_interventions()
+  callback enabled_interventions[intervention_name]?
+
+export list_all_interventions = memoizeSingleAsync (callback) ->
+  interventions_list_text <- $.get '/interventions/interventions.json'
+  interventions_list = JSON.parse interventions_list_text
+  callback interventions_list
 
 export get_interventions = memoizeSingleAsync (callback) ->
-  $.get '/interventions/interventions.json', (interventions_list_text) ->
-    interventions_list = JSON.parse interventions_list_text
-    output = {}
-    fix_content_script_options = (options, intervention_name) ->
-      if typeof options == 'string'
-        options = {path: options}
-      if options.path[0] == '/'
-        options.path = options.path.substr(1)
-      else
-        options.path = "interventions/#{intervention_name}/#{options.path}"
-      if not options.run_at?
-        options.run_at = 'document_end' # document_start
-      if not options.all_frames?
-        options.all_frames = false
-      return options
-    fix_background_script_options = (options, intervention_name) ->
-      if typeof options == 'string'
-        options = {path: options}
-      if options.path[0] == '/'
-        options.path = options.path.substr(1)
-      else
-        options.path = "interventions/#{intervention_name}/#{options.path}"
-      return options
-    errors,results <- async.mapSeries interventions_list, (intervention_name, ncallback) ->
-      intervention_info <- getInterventionInfo intervention_name
-      if not intervention_info.nomatches?
-        intervention_info.nomatches = []
-      if not intervention_info.matches?
-        intervention_info.matches = []
-      if not intervention_info.content_scripts?
-        intervention_info.content_scripts = []
-      if not intervention_info.background_scripts?
-        intervention_info.background_scripts = []
-      intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
-      intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
-      intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
-      intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
-      output[intervention_name] = intervention_info
-      ncallback null, null
-    callback output
+  interventions_list <- list_all_interventions()
+  output = {}
+  fix_content_script_options = (options, intervention_name) ->
+    if typeof options == 'string'
+      options = {path: options}
+    if options.path[0] == '/'
+      options.path = options.path.substr(1)
+    else
+      options.path = "interventions/#{intervention_name}/#{options.path}"
+    if not options.run_at?
+      options.run_at = 'document_end' # document_start
+    if not options.all_frames?
+      options.all_frames = false
+    return options
+  fix_background_script_options = (options, intervention_name) ->
+    if typeof options == 'string'
+      options = {path: options}
+    if options.path[0] == '/'
+      options.path = options.path.substr(1)
+    else
+      options.path = "interventions/#{intervention_name}/#{options.path}"
+    return options
+  interventions_to_goals <- get_interventions_to_goals()
+  errors,results <- async.mapSeries interventions_list, (intervention_name, ncallback) ->
+    intervention_info <- getInterventionInfo intervention_name
+    if not intervention_info.nomatches?
+      intervention_info.nomatches = []
+    if not intervention_info.matches?
+      intervention_info.matches = []
+    if not intervention_info.content_scripts?
+      intervention_info.content_scripts = []
+    if not intervention_info.background_scripts?
+      intervention_info.background_scripts = []
+    intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
+    intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
+    intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
+    intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
+    intervention_info.goals = interventions_to_goals[intervention_name]
+    output[intervention_name] = intervention_info
+    ncallback null, null
+  callback output
 
 export list_enabled_interventions_for_location = (location, callback) ->
   available_interventions <- list_available_interventions_for_location(location)
-  enabled_interventions = get_enabled_interventions()
+  enabled_interventions <- get_enabled_interventions()
   callback available_interventions.filter((x) -> enabled_interventions[x]?)
 
 export list_available_interventions_for_location = (location, callback) ->
@@ -114,5 +125,31 @@ export list_available_interventions_for_location = (location, callback) ->
     if matches
       possible_interventions.push intervention_name
   callback possible_interventions
+
+export get_manually_managed_interventions = (callback) ->
+  manually_managed_interventions_str = localStorage.getItem('manually_managed_interventions')
+  if not manually_managed_interventions_str?
+    manually_managed_interventions = {}
+  else
+    manually_managed_interventions = JSON.parse manually_managed_interventions_str
+  callback manually_managed_interventions
+
+export set_manually_managed_interventions = (manually_managed_interventions, callback) ->
+  localStorage.setItem 'manually_managed_interventions', JSON.stringify(manually_managed_interventions)
+  callback?!
+
+export set_intervention_manually_managed = (intervention_name, callback) ->
+  manually_managed_interventions <- get_manually_managed_interventions()
+  if manually_managed_interventions[intervention_name]?
+    return callback?!
+  enabled_interventions[intervention_name] = true
+  set_enabled_interventions enabled_interventions, callback
+
+export set_intervention_automatically_managed = (intervention_name, callback) ->
+  manually_managed_interventions <- get_manually_managed_interventions()
+  if not manually_managed_interventions[intervention_name]?
+    return callback?!
+  delete manually_managed_interventions[intervention_name]
+  set_enabled_interventions manually_managed_interventions, callback
 
 gexport_module 'intervention_utils', -> eval(it)

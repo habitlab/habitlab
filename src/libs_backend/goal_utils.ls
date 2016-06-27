@@ -48,14 +48,33 @@ export is_goal_enabled = (goal_name) ->
   enabled_goals = get_enabled_goals()
   return enabled_goals[goal_name]?
 
-export get_goals = memoizeSingleAsync (callback) ->
+export list_all_goals = memoizeSingleAsync (callback) ->
   goals_list_text <- $.get '/goals/goals.json'
   goals_list = JSON.parse goals_list_text
+  callback goals_list
+
+export get_goals = memoizeSingleAsync (callback) ->
+  goals_list <- list_all_goals()
   output = {}
   errors,results <- async.mapSeries goals_list, (goal_name, ncallback) ->
     goal_info <- getGoalInfo goal_name
     output[goal_name] = goal_info
     ncallback!
   callback output
+
+export get_interventions_to_goals = memoizeSingleAsync (callback) ->
+  output = {}
+  goals <- get_goals()
+  for goal_name,goal_info of goals
+    for intervention_name in goal_info.interventions
+      if not output[intervention_name]?
+        output[intervention_name] = []
+      output[intervention_name].push goal_info
+  callback output
+
+export get_goals_for_intervention = (intervention_name, callback) ->
+  interventions_to_goals <- get_interventions_to_goals()
+  goals_for_intervention = interventions_to_goals[intervention_name] ? []
+  callback goals_for_intervention
 
 gexport_module 'goal_utils', -> eval(it)

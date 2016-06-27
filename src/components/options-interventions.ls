@@ -38,7 +38,7 @@ polymer_ext {
       sitename_to_interventions[sitename].push intervention_info
     list_of_sites_and_interventions = []
     list_of_sites = prelude.sort Object.keys(sitename_to_interventions)
-    enabled_interventions = get_enabled_interventions()
+    enabled_interventions <- get_enabled_interventions()
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.interventions = prelude.sort-by (.name), sitename_to_interventions[sitename]

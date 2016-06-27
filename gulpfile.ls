@@ -35,6 +35,7 @@ lspattern_srcgen = [
 
 yamlpattern = [
   'src/manifest.yaml'
+  'src/goals/**/*.yaml'
   'src/interventions/**/*.yaml'
   'src/fields/**/*.yaml'
 ]

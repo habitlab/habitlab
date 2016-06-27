@@ -1,0 +1,4 @@
+description: Spend less time on Youtube
+interventions:
+  - youtube/remove_sidebar_links
+  - youtube/prompt_before_watch

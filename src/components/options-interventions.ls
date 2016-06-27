@@ -7,7 +7,7 @@ require! {
   get_enabled_interventions
   set_intervention_enabled
   set_intervention_disabled
-} = require 'libs_backend/background_common'
+} = require 'libs_backend/intervention_utils'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 

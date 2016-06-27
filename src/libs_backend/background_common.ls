@@ -39,7 +39,12 @@ export get_active_tab_info = (callback) ->
   chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
     if tabs.length == 0
       return
-    chrome.tabs.get tabs[0].id, callback
+    callback tabs[0]
+    #chrome.tabs.get tabs[0].id, callback
+
+export get_active_tab_url = (callback) ->
+  active_tab_info <- get_active_tab_info
+  callback active_tab_info.url
 
 export printcb = (x) -> console.log(x)
 

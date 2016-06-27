@@ -32,7 +32,6 @@ chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
 
 function closeTab() {
     chrome.tabs.getSelected(function(tab) {
-    console.log(tab.id);
     chrome.tabs.remove(tab.id);
   });
 }

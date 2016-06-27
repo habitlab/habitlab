@@ -7,7 +7,7 @@
   get_seconds_spent_on_current_domain_today     # current domain
   get_seconds_spent_on_all_domains_today        # map for all domains
   get_seconds_spent_on_domain_today             # specific domain
-  get_seconds_spent_on_all_domains_since_today
+  get_seconds_spent_on_all_domains_days_since_today
   get_seconds_spent_on_domain_all_days
 } = require 'libs_common/time_spent_utils'
 
@@ -26,7 +26,7 @@ polymer_ext {
     this.linedata.datasets[0].label = 'a new label'
     this.$$('#linechart').chart.update()
   */
-  buttonAction1: ->
+  buttonAction1: ->  
     myButton = this.$$('.button1')
     if (myButton.value === "neverClicked")
       myButton.innerText = "View Today's Data"
@@ -43,13 +43,20 @@ polymer_ext {
       myButton.value = "neverClicked"
       this.pop('bardata.datasets') #removes dataset
   buttonAction2: ->
+    a <~ get_seconds_spent_on_all_domains_days_since_today(1)
+    sorted = bySortedValue(a)  
+    #accounts for visiting less than 5 websites
+    if sorted.length < 5 
+      for i from sorted.length to 4
+        sorted.push(["", 0])
+
     myButton = this.$$('.button2')
     if (myButton.value === "neverClicked")
       myButton.innerText = "View Today's Data"
       myButton.value = "clicked"
       this.push('donutdata.datasets', {
         label: "Yesterday",
-        data: [700, 650, 310, 310, 110],
+        data: [sorted[0][1], sorted[1][1], sorted[2][1], sorted[3][1], sorted[4][1]],
         backgroundColor: [
             "rgba(65,131,215,0.7)",
             "rgba(27,188,155,0.7)",
@@ -88,6 +95,7 @@ polymer_ext {
       this.pop('reductionEfficacyData.datasets')
 
   ready: ->
+    console.log "hey :)"
     a <~ get_seconds_spent_on_all_domains_today()
     sorted = bySortedValue(a)
     #accounts for visiting less than 5 websites

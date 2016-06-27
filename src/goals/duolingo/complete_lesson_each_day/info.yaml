@@ -1,4 +1,3 @@
 description: Complete a lesson on Duolingo each day
 interventions:
-  - facebook/rich_notifications
-  - facebook/notification_hijacker
+  - duolingo/facebook_feed_link_injection

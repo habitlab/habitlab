@@ -11,6 +11,11 @@ const {
   on_url_change,
 } = require('libs_frontend/common_libs')
 
+const {
+  get_seconds_spent_on_current_domain_today,
+  get_seconds_spent_on_domain_today,
+} = require('libs_common/time_spent_utils')
+
 console.log('youtube prompt before watch loaded frontend')
 
 //Initially pauses the video when the page is loaded
@@ -52,9 +57,16 @@ function divOverVideo(status) {
 	//Message to user
 	const $text1 = $('<h1>');
 	if (status === 'begin') {
-		$text1.text("Are you sure you want to play the video?");
+    const duration = Math.round($('video')[0].duration)
+    const minutes = Math.floor(duration / 60)
+    const seconds = (duration % 60)
+		$text1.html("This video is " + minutes + " minutes and " + seconds + " seconds long. <br>Are you sure you want to play it?");
 	} else {
-		$text1.text("Are you sure you want to continue watching videos?");
+      get_seconds_spent_on_domain_today('www.youtube.com', function(secondsSpent) {
+          const mins = Math.floor(secondsSpent/60)
+          const secs = secondsSpent % 60
+          $text1.html("You've spent " + mins + " minutes and " + secs + " seconds on Youtube today. <br>Are you sure you want to continue watching videos?");
+      })
 	}
 	$contentContainer.append($text1);
 	$contentContainer.append($('<p>'));

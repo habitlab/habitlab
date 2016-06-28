@@ -5,8 +5,11 @@ require! {
 {
   get_interventions
   get_enabled_interventions
+  get_manually_managed_interventions
   set_intervention_enabled
   set_intervention_disabled
+  set_intervention_automatically_managed
+  set_intervention_manually_managed
 } = require 'libs_backend/intervention_utils'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
@@ -27,6 +30,13 @@ polymer_ext {
       set_intervention_enabled intervention_name
     else
       set_intervention_disabled intervention_name
+  automatically_managed_changed: (evt) ->
+    checked = evt.target.checked
+    intervention_name = evt.target.intervention.name
+    if checked
+      set_intervention_automatically_managed intervention_name
+    else
+      set_intervention_manually_managed intervention_name
   ready: ->
     self = this
     intervention_name_to_info <- get_interventions()
@@ -39,11 +49,13 @@ polymer_ext {
     list_of_sites_and_interventions = []
     list_of_sites = prelude.sort Object.keys(sitename_to_interventions)
     enabled_interventions <- get_enabled_interventions()
+    manually_managed_interventions <- get_manually_managed_interventions()
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.interventions = prelude.sort-by (.name), sitename_to_interventions[sitename]
       for intervention in current_item.interventions
         intervention.enabled = (enabled_interventions[intervention.name] == true)
+        intervention.automatic = (manually_managed_interventions[intervention.name] != true)
       list_of_sites_and_interventions.push current_item
     self.sites_and_interventions = list_of_sites_and_interventions
 }

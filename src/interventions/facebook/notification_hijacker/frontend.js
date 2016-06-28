@@ -99,7 +99,7 @@ function insertClickNotification() {
           $messageClone.find('a[href]').attr('href', 'https://habitlab.github.io'); //redirects link to [link in 2nd arg of attr]
 
           //Adds the new message to the notifications list
-          $($messages[1]).prepend($messageClone);
+          $($messages[1]).parent().prepend($messageClone);
           
           selected = true;
           console.log("First Time Selected- Notification Injected");
@@ -113,9 +113,9 @@ function insertClickNotification() {
 }
 
 function main() {
-  //if (decideToInject(5)) { //Injects notifications every x minutes
+  if (decideToInject(10)) { //Injects notifications every x minutes
       begin();
-  //}
+  }
 }
 
 $(document).ready(main());

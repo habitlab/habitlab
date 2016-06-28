@@ -29,7 +29,7 @@ polymer_ext {
       for i from 1 to enabledInterventions.length - 1 by 1
         $messageClone = $('#enabledInterventions').clone();
         self.S('#enabledInterventions').text(enabledInterventions[i])
-        $('#enabledInterventions').append($messageClone);
+        $('#enabledInterventions').parent().append($messageClone);
           
 }, {
   source: require 'libs_frontend/polymer_methods'

@@ -32,7 +32,7 @@ polymer_ext {
     intervention_name_to_info <- get_interventions()
     sitename_to_interventions = {}
     for intervention_name,intervention_info of intervention_name_to_info
-      sitename = intervention_name.split('/')[0]
+      sitename = intervention_info.sitename
       if not sitename_to_interventions[sitename]?
         sitename_to_interventions[sitename] = []
       sitename_to_interventions[sitename].push intervention_info
@@ -43,7 +43,7 @@ polymer_ext {
       current_item = {sitename: sitename}
       current_item.interventions = prelude.sort-by (.name), sitename_to_interventions[sitename]
       for intervention in current_item.interventions
-        intervention.enabled = enabled_interventions[intervention.name]?
+        intervention.enabled = (enabled_interventions[intervention.name] == true)
       list_of_sites_and_interventions.push current_item
     self.sites_and_interventions = list_of_sites_and_interventions
 }

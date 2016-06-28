@@ -21,6 +21,7 @@ export getInterventionInfo = (intervention_name, callback) ->
   intervention_info_text <- $.get "/interventions/#{intervention_name}/info.json"
   intervention_info = JSON.parse intervention_info_text
   intervention_info.name = intervention_name
+  intervention_info.sitename = intervention_name.split('/')[0]
   callback intervention_info
 
 export get_enabled_interventions = (callback) ->

@@ -95,7 +95,6 @@ polymer_ext {
       this.pop('reductionEfficacyData.datasets')
 
   ready: ->
-    console.log "hey :)"
     a <~ get_seconds_spent_on_all_domains_today()
     sorted = bySortedValue(a)
     #accounts for visiting less than 5 websites

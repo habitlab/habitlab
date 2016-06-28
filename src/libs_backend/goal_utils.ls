@@ -55,6 +55,33 @@ export list_all_goals = memoizeSingleAsync (callback) ->
   goals_list = JSON.parse goals_list_text
   callback goals_list
 
+get_site_to_goals = memoizeSingleAsync (callback) ->
+  output = {}
+  goals <- get_goals
+  for goal_name,goal_info of goals
+    sitename = goal_info.sitename
+    if not output[sitename]?
+      output[sitename] = []
+    output[sitename].push goal_info
+  callback output
+
+export list_goals_for_site = (sitename, callback) ->
+  # sitename example: facebook
+  site_to_goals <- get_site_to_goals()
+  callback site_to_goals[sitename]
+
+export list_sites_for_which_goals_are_enabled = (callback) ->
+  goals <- get_goals()
+  enabled_goals <- get_enabled_goals()
+  output = []
+  output_set = {}
+  for goal_name,goal_info of goals
+    sitename = goal_info.sitename
+    if enabled_goals[goal_name]? and not output_set[sitename]?
+      output.push sitename
+      output_set[sitename] = true
+  callback output
+
 export get_goals = memoizeSingleAsync (callback) ->
   goals_list <- list_all_goals()
   output = {}

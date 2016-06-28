@@ -1,4 +1,4 @@
-getUrlParameters = ->
+export getUrlParameters = ->
   url = window.location.href
   hash = url.lastIndexOf('#')
   if hash != -1

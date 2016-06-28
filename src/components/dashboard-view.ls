@@ -15,11 +15,20 @@
   printable_time_spent
 } = require 'libs_common/time_utils'
 
+{
+  list_sites_for_which_goals_are_enabled
+} = require 'libs_backend/goal_utils'
+
 #d3 = require 'd3'
 #Chart = require 'chart.js'
 
 polymer_ext {
   is: 'dashboard-view'
+  properties: {
+    sites: {
+      type: Array
+    }
+  }
   #Apparently this is syntax for polymer bindings... so it doesn't work exactly like js functions
   /*
   buttonAction1: ->
@@ -96,6 +105,10 @@ polymer_ext {
       this.pop('reductionEfficacyData.datasets')
 
   ready: ->
+
+    sites <~ list_sites_for_which_goals_are_enabled()
+    this.sites = sites
+
     a <~ get_seconds_spent_on_all_domains_today()
     sorted = bySortedValue(a)
     #accounts for visiting less than 5 websites

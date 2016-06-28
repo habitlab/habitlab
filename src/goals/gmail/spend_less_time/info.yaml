@@ -1,3 +1,4 @@
 description: Spend less time on Gmail
+progress_description: Time spent on Gmail
 interventions:
   - gmail/no_new_emails

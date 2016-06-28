@@ -19,7 +19,8 @@ require! {
 
 export time_spent_progress_measurement = (site) ->
   (days_since_today, callback) ->
-    progress <- get_seconds_spent_on_domain_days_since_today site, days_since_today
+    seconds_spent <- get_seconds_spent_on_domain_days_since_today site, days_since_today
+    progress = seconds_spent / 60
     units = "minutes"
     message = "#{progress} #{units}"
     callback {

@@ -1,0 +1,21 @@
+<link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
+<link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+<link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
+<link rel="import" href="../bower_components/chart-elements/chart-line.html">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+<dom-module id="goal-progress-view">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+
+      <chart-line data="[[data]]" style="width: 500px"></chart-line>
+
+  </template>
+  <script src="goal-progress-view.js"></script>
+</dom-module>

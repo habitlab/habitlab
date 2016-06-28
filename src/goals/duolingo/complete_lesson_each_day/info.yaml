@@ -1,3 +1,4 @@
 description: Complete a lesson on Duolingo each day
+progress_description: Lessons completed
 interventions:
   - duolingo/facebook_feed_link_injection

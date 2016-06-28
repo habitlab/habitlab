@@ -4,6 +4,8 @@
 <link rel="import" href="../bower_components/chart-elements/chart-line.html">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
+<link rel="import" href="site-goal-view.html">
+
 <dom-module id="dashboard-view">
   <style>
     :host {
@@ -50,10 +52,12 @@
       <div class="buttons"><button class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">Compare with Yesterday</button></div>
 
       <div class="description">Your Goals</div>
+      
+      <template is="dom-repeat" items="{{sites}}" as="site">
+        <site-goal-view site="{{site}}"></site-goal-view>
+      </template>
+
       <chart-horizontal-bar data="[[goalOverviewData]]" style="width: 500px"></chart-horizontal-bar>
-      <dom module id = "facebook"><chart-line id="fbChart" data="[[facebookData]]" style="width: 500px"></chart-line></dom>
-      <dom module id = "youtube"><chart-line id="youtubeChart" data="[[youtubeData]]" style="width: 500px"></chart-line></dom>
-      <dom module id = "gmail"><chart-line id="gmailChart" data="[[gmailData]]" style="width: 500px"></chart-line></dom>
 
       <div class="description">Number of Times Your Interventions Were Deployed Today</div>
       <chart-horizontal-bar data="[[bardata]]" style="width: 600px"></chart-horizontal-bar>

@@ -61,6 +61,10 @@ $ = require 'jquery'
   gexport_module
 } = require 'libs_common/gexport'
 
+{
+  get_interventions_for_today
+} = require 'libs_backend/intervention_manager'
+
 # console.log 'weblab running in background'
 
 /*

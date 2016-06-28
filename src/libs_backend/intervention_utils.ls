@@ -153,4 +153,17 @@ export set_intervention_automatically_managed = (intervention_name, callback) ->
   delete manually_managed_interventions[intervention_name]
   set_manually_managed_interventions manually_managed_interventions, callback
 
+export list_available_interventions_for_enabled_goals = (callback) ->
+  # outputs a list of intervention names
+  interventions_to_goals <- get_interventions_to_goals()
+  enabled_goals <- get_enabled_goals()
+  output = []
+  output_set = {}
+  for intervention_name,goals of interventions_to_goals
+    for goal in goals
+      if enabled_goals[goal.name]? and not output_set[intervention_name]?
+        output.push intervention_name
+        output_set[intervention_name] = true
+  callback output
+
 gexport_module 'intervention_utils', -> eval(it)

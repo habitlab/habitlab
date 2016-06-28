@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
 
 <dom-module id="popup-view">
   <style>
@@ -7,10 +9,38 @@
       width: 100%;
       height: 100%;
     }
+    .box {
+      padding: 1em;
+    }
+
+    .title {
+      font-family: 'Open Sans', sans-serif;
+      padding-bottom: 1em;
+    }
+
+    #enabledInterventions {
+      padding-top: 0.2em;
+      padding-bottom: 0.2em;
+      font-family: 'Open Sans', sans-serif;
+    }
   </style>
   <template>
     <div>
+      <div class="box">
+        <div class="title"> Interventions Currently Active On This Page: </div>
+        <div id="enabledInterventions">None</div>
+      </div>
+      <!--
       <img src="popup-view.png" style="width: 100%" on-click="open_options_page">
+    
+      <div style="display: table; width: 100%; margin-bottom: 10px">
+        <div id="enabledInterventions" style="text-align: left; display: table-cell">Yeaaa</div>
+        <div style="display: table-cell; text-align: right">
+          <paper-button raised style="background: #4285f4; color: #fff" on-click="open_slacking_survey">View Results</paper-button>
+        </div>
+      </div>      
+      -->
+
       <!--
       <div style="display: table; width: 100%; margin-bottom: 10px">
         <div style="text-align: left; display: table-cell">Where do you spend your time online?</div>
@@ -36,14 +66,16 @@
           <paper-button raised style="background: #4285f4; color: #fff" on-click="open_bing_survey">View Results</paper-button>
         </div>
       </div>
+      -->
 
-
+      <!--
       <br>
       <br>
       <template is="dom-repeat" items="{{experiment_list}}" as="experiment">
         <exp-description title="{{experiment.title}}" description="{{experiment.description}}"></exp-description>
         <br>
       </template>
+      
       -->
     </div>
   </template>

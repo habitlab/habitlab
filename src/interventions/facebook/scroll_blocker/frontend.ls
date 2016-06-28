@@ -1,18 +1,30 @@
+<- (-> it!)
+
+if window.facebook_scroll_blocker
+  return
+window.facebook_scroll_blocker = true
 
 console.log 'scroll_blocker injected'
 
+{
+  listen_for_eval
+  insert_console
+} = require 'libs_frontend/content_script_debug'
+
 $ = require 'jquery'
 
-console.log 'scroll_blocker loaded'
+listen_for_eval ((x) -> eval(x))
+insert_console ((x) -> eval(x)), {lang: 'livescript'}
 
-scrolling_allowed = true
+
+window.scrolling_allowed = true
 
 setTimeout ->
-  scrolling_allowed := false
+  window.scrolling_allowed = false
 , 5000
 
 window.onwheel = (evt) ->
-  return scrolling_allowed
+  return window.scrolling_allowed
 
 /*
 $(window).scroll (evt) ->

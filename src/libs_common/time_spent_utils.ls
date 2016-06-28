@@ -31,9 +31,17 @@ export get_seconds_spent_on_domain_all_days = (domain, callback) ->
       output[today_day_num - k] = v
     callback output
 
+export get_seconds_spent_on_domain_days_since_today = (domain, days_since, callback) ->
+  current_day = get_days_since_epoch()
+  getkey_dictdict 'seconds_on_domain_per_day', domain, (current_day - days_since), (result) ->
+    if result?
+      callback result
+    else
+      callback 0
+
 export get_seconds_spent_on_domain_today = (domain, callback) ->
   current_day = get_days_since_epoch()
-  getkey_dictdict 'seconds_on_domain_per_day', domain, get_days_since_epoch(), (result) ->
+  getkey_dictdict 'seconds_on_domain_per_day', domain, current_day, (result) ->
     if result?
       callback result
     else

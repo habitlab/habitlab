@@ -65,6 +65,11 @@ $ = require 'jquery'
   get_interventions_for_today
 } = require 'libs_backend/intervention_manager'
 
+{
+  get_progress_on_enabled_goals_today
+} = require 'libs_backend/goal_progress'
+
+
 # console.log 'weblab running in background'
 
 /*

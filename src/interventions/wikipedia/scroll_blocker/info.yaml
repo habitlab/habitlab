@@ -1,0 +1,5 @@
+description: Prevents scrolling
+matches:
+  - en.wikipedia.org
+content_scripts:
+  - frontend.js

@@ -18,6 +18,7 @@ skate.define('jsx-features-example', {
   props: {
     site: { default: url_to_domain(window.location.href) },
     seconds: { default: 0 },
+    example_array: { default: ['foo', 'bar', 'baz', 'qux']},
   },
   render: (elem) => {
     const elem_style = {
@@ -33,7 +34,7 @@ skate.define('jsx-features-example', {
     <div style={elem_style}>
     Spent {elem.seconds} seconds on {elem.site}<br/>
     {
-      ['foo', 'bar', 'baz'].map((obj, idx) => {
+      elem.example_array.map((obj, idx) => {
         return <div>{obj} at index {idx}</div>
       })
     }

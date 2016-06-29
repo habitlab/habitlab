@@ -16,10 +16,10 @@ skate.define 'jsx-features-example-livescript', {
   props: {
     site: { default: url_to_domain(window.location.href) }
     seconds: { default: 0 }
+    example_array: { default: ['foo', 'bar', 'baz', 'qux']}
   }
   render: (elem) !->
-    ``
-    const elem_style = {
+    elem_style = {
       'background-color': 'red',
       'position': 'fixed',
       'color': 'white',
@@ -28,12 +28,12 @@ skate.define 'jsx-features-example-livescript', {
       'right': '0px',
       'z-index': 99999,
     }
-
+    ``
     return (
     <div style={elem_style}>
     Spent {elem.seconds} seconds on {elem.site}<br/>
     {
-      ['foo', 'bar', 'baz'].map((obj, idx) => {
+      elem.example_array.map((obj, idx) => {
         return <div>{obj} at index {idx}</div>
       })
     }

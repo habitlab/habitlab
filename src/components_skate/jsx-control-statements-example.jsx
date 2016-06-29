@@ -18,6 +18,7 @@ skate.define('jsx-control-statements-example', {
   props: {
     site: { default: url_to_domain(window.location.href) },
     seconds: { default: 0 },
+    example_array: { default: ['foo', 'bar', 'baz', 'qux']},
   },
   render: (elem) => {
     const elem_style = {
@@ -33,7 +34,7 @@ skate.define('jsx-control-statements-example', {
     <div style={elem_style}>
     Spent {elem.seconds} seconds on {elem.site}<br/>
     {
-      <For each="obj" index="idx" of={['foo', 'bar', 'baz']}>
+      <For each="obj" index="idx" of={elem.example_array}>
         <div>{obj} is at index {idx}</div>
       </For>
     }

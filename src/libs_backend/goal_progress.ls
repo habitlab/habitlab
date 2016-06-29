@@ -17,34 +17,20 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-export time_spent_progress_measurement = (site) ->
-  (days_since_today, callback) ->
-    seconds_spent <- get_seconds_spent_on_domain_days_since_today site, days_since_today
-    progress = seconds_spent / 60
-    units = "minutes"
-    message = "#{progress} #{units}"
-    callback {
-      progress
-      units
-      message
-    }
+measurement_functions = require 'goals/progress_measurement'
 
 # TODO this should probably be a seperate file for each goal under the goals hierarchy
 export get_progress_measurement_functions = memoizeSingleAsync (callback) ->
-  callback {
-    'duolingo/complete_lesson_each_day': (days_since_today, callback) ->
-      progress = 0 # fake
-      units = "lessons"
-      message = "#{progress} #{units}"
-      callback {
-        progress
-        units
-        message
-      }
-    'facebook/spend_less_time': time_spent_progress_measurement 'www.facebook.com'
-    'gmail/spend_less_time': time_spent_progress_measurement 'mail.google.com'
-    'youtube/spend_less_time': time_spent_progress_measurement 'www.youtube.com'
-  }
+  output = {}
+  goals <- get_goals()
+  for goal_name,goal_info of goals
+    if goal_info.measurement?
+      measurement_function = measurement_functions[goal_info.measurement]
+      if measurement_function?
+        output[goal_name] = measurement_function(goal_info)
+        continue
+    console.log "no measurement found for goal #{goal_name}"
+  callback output
 
 export get_progress_measurement_function_for_goal_name = (goal_name, callback) ->
   progress_measurement_functions <- get_progress_measurement_functions()

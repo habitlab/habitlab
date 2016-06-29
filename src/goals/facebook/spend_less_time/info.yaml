@@ -3,3 +3,5 @@ progress_description: Time spent on Facebook
 interventions:
   - facebook/rich_notifications
   - facebook/notification_hijacker
+measurement: time_spent_on_domain
+domain: www.facebook.com

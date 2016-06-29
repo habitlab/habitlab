@@ -11,6 +11,10 @@
   get_seconds_spent_on_domain_all_days
 } = require 'libs_common/time_spent_utils'
 
+require! {
+  async
+}
+
 {
   printable_time_spent
 } = require 'libs_common/time_utils'
@@ -55,7 +59,7 @@ polymer_ext {
       myButton.value = "clicked"
       this.push('donutdata.datasets', {
         label: "Yesterday",
-        data: [sorted[0][1], sorted[1][1], sorted[2][1], sorted[3][1], sorted[4][1]],
+        data: [sorted[0][1], sorted[1][1], sorted[2][1], sorted[3][1], sorted[4][1]],        
         backgroundColor: [
             "rgba(65,131,215,0.7)",
             "rgba(27,188,155,0.7)",
@@ -69,7 +73,7 @@ polymer_ext {
             "rgba(244,208,63,1)",
             "rgba(230,126,34,1)",
             "rgba(239,72,54,1)"          
-        ]      
+        ]              
       })
     else if (myButton.value === "clicked")
       myButton.innerText = "Compare with Previous Day"
@@ -77,14 +81,38 @@ polymer_ext {
       this.pop('donutdata.datasets')
 
   ready: ->
+    #MARK: Polymer tabbing
     self = this
     self.once_available '#graphsOfGoalsTab', ->
       self.S('#graphsOfGoalsTab').prop('selected', 0)
 
-    sites <~ list_sites_for_which_goals_are_enabled()
-    this.sites = sites
+    #MARK: Daily Overview Graph
+    goalsDataToday <- get_progress_on_enabled_goals_today();
+    goalKeys = Object.keys(goalsDataToday)
+    console.log goalKeys
+    
+    errors,results <- async.mapSeries goalKeys, (item, ncallback) ->
+      result <- getGoalInfo(item)
+      ncallback(null, result)    
 
-    a <~ get_seconds_spent_on_all_domains_today()
+    self.goalOverviewData = {
+      labels: results.map (.description)
+      datasets: [
+        {
+          label: "Today",
+          backgroundColor: "rgba(75,192,192,0.5)",
+          borderColor: "rgba(75,192,192,1)",
+          borderWidth: 1,
+          data: [v.progress for k, v of goalsDataToday]
+        }
+      ]
+    }
+
+    #MARK: Donut Graph
+    sites <- list_sites_for_which_goals_are_enabled()
+    self.sites = sites
+
+    a <- get_seconds_spent_on_all_domains_today()
     sorted = bySortedValue(a)
     #accounts for visiting less than 5 websites
     if sorted.length < 5 
@@ -93,7 +121,7 @@ polymer_ext {
     length = sorted.length
     #for i from 0 to sorted.length - 1 by 1
     #  console.log "Key: #{sorted[i][0]} Value: #{sorted[i][1]}"
-    this.donutdata = {
+    self.donutdata = {
       labels: [
           sorted[0][0],
           sorted[1][0],
@@ -104,10 +132,10 @@ polymer_ext {
       datasets: [
       {
           data: [sorted[0][1]/60, 
-                  sorted[1][1]/60, 
-                  sorted[2][1]/60, 
-                  sorted[3][1]/60, 
-                  sorted[4][1]/60
+                sorted[1][1]/60, 
+                sorted[2][1]/60, 
+                sorted[3][1]/60, 
+                sorted[4][1]/60
           ],
           backgroundColor: [
               "rgba(65,131,215,0.7)",
@@ -126,23 +154,6 @@ polymer_ext {
       }]
     }
 
-    goalsDataToday <~ get_progress_on_enabled_goals_today();
-    goalKeys = Object.keys(goalsDataToday)
-    info1 <~ getGoalInfo(goalKeys[0])
-    info2 <~ getGoalInfo(goalKeys[1])
-    info3 <~ getGoalInfo(goalKeys[2])
-    this.goalOverviewData = {
-      labels: [info1.description, info2.description, info3.description],
-      datasets: [
-        {
-          label: "Today",
-          backgroundColor: "rgba(89,171,227,0.7)",
-          borderColor: "rgba(89,171,227,1)",
-          borderWidth: 1,
-          data: [v.progress for k, v of goalsDataToday]
-        }
-      ]
-    }
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

@@ -32,7 +32,7 @@ export time_spent_progress_measurement = (site) ->
 # TODO this should probably be a seperate file for each goal under the goals hierarchy
 export get_progress_measurement_functions = memoizeSingleAsync (callback) ->
   callback {
-    'duolingo/complete_lesson_each_day': (callback) ->
+    'duolingo/complete_lesson_each_day': (days_since_today, callback) ->
       progress = 0 # fake
       units = "lessons"
       message = "#{progress} #{units}"

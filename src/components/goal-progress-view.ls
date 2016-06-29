@@ -23,10 +23,9 @@
   get_progress_on_goal_this_week
 } = require 'libs_backend/goal_progress'
 
-reversed = (arr) ->
-  arr = [x for x in arr]
-  arr.reverse()
-  return arr
+{
+  reverse
+} = require 'prelude'
 
 polymer_ext {
   is: 'goal-progress-view'
@@ -38,14 +37,12 @@ polymer_ext {
     }
   }
   goalChanged: ->
-    console.log 'goal is'
-    console.log this.goal
     goal_info <~ getGoalInfo(this.goal)
     goal_progress <~ get_progress_on_goal_this_week(this.goal)
     progress_values = goal_progress.map (.progress)
     progress_labels = [0 til goal_progress.length]
     this.data = {
-      labels: reversed progress_labels
+      labels: reverse progress_labels
       datasets: [
         {
           label: goal_info.progress_description
@@ -59,7 +56,7 @@ polymer_ext {
           pointHoverRadius: 5,
           pointHoverBackgroundColor: "rgba(75,192,192,1)",
           pointHoverBorderColor: "rgba(220,220,220,1)",
-          data: reversed progress_values
+          data: reverse progress_values
         }
       ]
     }

@@ -32,13 +32,13 @@ First, add a directory under the [`src/goals`](https://github.com/habitlab/habit
 
 ### Adding a SkateJS component
 
-A SkateJS component can be added by first creating a file under the [`src/components_skate`](https://github.com/habitlab/habitlab-chrome/tree/master/src/components_skate) directory. It can be written in either [JSX](https://facebook.github.io/jsx/) or [Livescript](http://livescript.net/) (with inline JSX); [`time-spent-display.jsx`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display.jsx) is an example of a component written in JSX, and [`time-spent-display-livescript.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display-livescript.ls) is an example of the same component written in Livescript. [`scroll-block-display-example.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/scroll-block-display-example.ls) is an example of a more complex component that fires events.
+A SkateJS component can be added by first creating a file under the [`src/components_skate`](https://github.com/habitlab/habitlab-chrome/tree/master/src/components_skate) directory. It can be written in either [JSX](https://facebook.github.io/jsx/) or [Livescript](http://livescript.net/) (with inline JSX); [`time-spent-display.jsx`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display.jsx) is an example of a component written in JSX, and [`time-spent-display-livescript.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display-livescript.ls) is an example of the same component written in Livescript. [`scroll-block-display-example.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/scroll-block-display-example.ls) is an example of a more complex component that emits events.
 
 Then, edit the file [`src/components_skate/components_skate.js`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/components_skate.js) and add the path to your component relative to the [`src`](https://github.com/habitlab/habitlab-chrome/tree/master/src) directory (you can leave off the `.jsx` or `.ls` extension).
 
 ### Previewing SkateJS components
 
-To preview your component visit [chrome://extensions](chrome://extensions) and click the options page for HabitLab, and substitute `options-view` in `index.html?tag=options-view` portion with the name of your component (ie, `index.html?tag=time-spent-display-livescript` for [`time-spent-display-livescript.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display-livescript.ls)))
+To preview your component visit [chrome://extensions](chrome://extensions) and click the options page for HabitLab, and substitute `options-view` in `index.html?tag=options-view` portion with the name of your component (ie, `index.html?tag=time-spent-display-livescript` for [`time-spent-display-livescript.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display-livescript.ls))
 
 If your component has properties (ie, the `site` property in [`time-spent-display-livescript.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display-livescript.ls)), you can pass them as URL parameters, such as `index.html?tag=time-spent-display-livescript&site=www.facebook.com`
 
@@ -62,13 +62,13 @@ See [`google/display_time_spent/frontend.ls`](https://github.com/habitlab/habitl
 
 ## Polymer components
 
-[Web components](http://webcomponents.org/) built using the [Polymer](https://www.polymer-project.org/) framework can be used in extension option pages, but not in content scripts. (The reason Polymer cannot be used in content scripts is because content scripts cannot include [HTML imports](http://www.html5rocks.com/en/tutorials/webcomponents/imports/), which is used by Polymer). If you want to use Web components in a content script, build them in [SkateJS](#skatejs-components) instead.
+[Web components](http://webcomponents.org/) built using the [Polymer](https://www.polymer-project.org/) framework can be used in extension option pages, but not in content scripts. (The reason Polymer cannot be used in content scripts is because content scripts cannot include [HTML imports](http://www.html5rocks.com/en/tutorials/webcomponents/imports/), which is used by Polymer). If you want to use a component in a content script, build it in [SkateJS](#skatejs-components) instead.
 
 ### Adding a Polymer component
 
 A Polymer component can be added by first adding 2 files under [`src/components`](https://github.com/habitlab/habitlab-chrome/tree/master/src/components) : a `.html` file (example: [`site-goal-view.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.html)), and a `.ls` ([Livescript](http://livescript.net/)) or `.js` (Javascript) file (example: [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls))
 
-Then, edit the file [`src/components/components.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/components.html) and add the path of the `.html` file relative to the [`src/components`](https://github.com/habitlab/habitlab-chrome/tree/master/src) directory.
+Then, edit the file [`src/components/components.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/components.html) and add the path of the `.html` file relative to the [`src/components`](https://github.com/habitlab/habitlab-chrome/tree/master/src/components) directory.
 
 Note that you should not directly use `document.querySelector` or `$` or `once_available` in the context of a Polymer component, as these break the [Shadow DOM](https://www.polymer-project.org/1.0/docs/devguide/local-dom). Instead, use one of the following methods, which are defined in [`libs_frontend/polymer_methods.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/polymer_methods.ls)
 
@@ -84,7 +84,7 @@ If you need to do iterations, use a [template](https://www.polymer-project.org/1
 
 ### Previewing Polymer components
 
-To preview your component to [chrome://extensions](chrome://extensions) and click the options page for HabitLab, and substitute `options-view` in `index.html?tag=options-view` portion with the name of your component (ie, `index.html?tag=site-goal-view` for [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls)))
+To preview your component to [chrome://extensions](chrome://extensions) and click the options page for HabitLab, and substitute `options-view` in `index.html?tag=options-view` portion with the name of your component (ie, `index.html?tag=site-goal-view` for [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls))
 
 If your component has properties (ie, the `site` property in [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls)), you can pass them as URL parameters, such as `index.html?tag=site-goal-view&site=youtube`
 

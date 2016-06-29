@@ -1,0 +1,5 @@
+description: Injects things into Facebook feed
+matches:
+  - www.facebook.com
+content_scripts:
+  - frontend.js

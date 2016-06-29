@@ -3,3 +3,5 @@ progress_description: Time spent on Youtube
 interventions:
   - youtube/remove_sidebar_links
   - youtube/prompt_before_watch
+measurement: time_spent_on_domain
+domain: www.youtube.com

@@ -1,3 +1,7 @@
+{
+  get_seconds_spent_on_domain_days_since_today
+} = require 'libs_common/time_spent_utils'
+
 export time_spent_on_domain = (goal_info) ->
   {domain} = goal_info
   return (days_since_today, callback) ->

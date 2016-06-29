@@ -7,10 +7,6 @@ require! {
   get_goals
 } = require 'libs_backend/goal_utils'
 
-{
-  get_seconds_spent_on_domain_days_since_today
-} = require 'libs_common/time_spent_utils'
-
 {memoizeSingleAsync} = require 'libs_common/memoize'
 
 {

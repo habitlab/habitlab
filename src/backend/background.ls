@@ -10,6 +10,7 @@
 {
   addtolist
   getlist
+  clearlist
   getvar
   setvar
   addtovar

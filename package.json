@@ -16,6 +16,7 @@
     "moment": "^2.13.0",
     "npm-zepto": "^1.1.7",
     "prelude-ls": "^1.1.2",
+    "shuffled": "^1.0.0",
     "skatejs1": "^1.0.0-beta.2"
   },
   "devDependencies": {

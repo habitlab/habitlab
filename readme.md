@@ -62,7 +62,7 @@ See [`google/display_time_spent/frontend.ls`](https://github.com/habitlab/habitl
 
 ## Polymer components
 
-[Web components](http://webcomponents.org/) built using the [Polymer](https://www.polymer-project.org/) framework can be used in extension option pages, but not in content scripts. (The reason Polymer cannot be used in content scripts is because content scripts cannot include [HTML imports](http://www.html5rocks.com/en/tutorials/webcomponents/imports/), which is used by Polymer).
+[Web components](http://webcomponents.org/) built using the [Polymer](https://www.polymer-project.org/) framework can be used in extension option pages, but not in content scripts. (The reason Polymer cannot be used in content scripts is because content scripts cannot include [HTML imports](http://www.html5rocks.com/en/tutorials/webcomponents/imports/), which is used by Polymer). If you want to use Web components in a content script, build them in [SkateJS](#skatejs-components) instead.
 
 ### Adding a Polymer component
 

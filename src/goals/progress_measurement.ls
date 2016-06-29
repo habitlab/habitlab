@@ -10,14 +10,3 @@ export time_spent_on_domain = (goal_info) ->
       units
       message
     }
-
-export lessons_completed_on_duolingo = (goal_info) ->
-  return (days_since_today, callback) ->
-    progress = 0 # TODO actually measure this
-    units = "lessons"
-    message = "#{progress} #{units}"
-    callback {
-      progress
-      units
-      message
-    }

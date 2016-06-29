@@ -4,6 +4,7 @@ require! {
 
 {
   get_enabled_goals
+  get_goals
 } = require 'libs_backend/goal_utils'
 
 {
@@ -18,8 +19,8 @@ require! {
 } = require 'libs_common/gexport'
 
 measurement_functions = require 'goals/progress_measurement'
+measurement_functions_generated = require 'goals/progress_measurement_generated'
 
-# TODO this should probably be a seperate file for each goal under the goals hierarchy
 export get_progress_measurement_functions = memoizeSingleAsync (callback) ->
   output = {}
   goals <- get_goals()
@@ -29,6 +30,10 @@ export get_progress_measurement_functions = memoizeSingleAsync (callback) ->
       if measurement_function?
         output[goal_name] = measurement_function(goal_info)
         continue
+    measurement_function = measurement_functions_generated[goal_name]
+    if measurement_function?
+      output[goal_name] = measurement_function(goal_info)
+      continue
     console.log "no measurement found for goal #{goal_name}"
   callback output
 

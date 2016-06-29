@@ -15,6 +15,7 @@
     }
     .container {
       text-align: center;
+      font-family: 'Open Sans', sans-serif;      
     }
     .title {
       font-size: 3em;
@@ -25,9 +26,6 @@
     .description {
       font-size: 1.8em;
       font-family: 'Open Sans', sans-serif;
-    }
-    chart-bar {
-      padding-top: 0.5em;
     }
     .buttons {
       text-align: center;
@@ -51,25 +49,25 @@
       <chart-doughnut data="[[donutdata]]" style="width: 600px"></chart-doughnut>      
       <div class="buttons"><button class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">Compare with Yesterday</button></div>
 
-      <div class="description">Your Goals</div>
-      
-      <template is="dom-repeat" items="{{sites}}" as="site">
-        <site-goal-view site="{{site}}"></site-goal-view>
-      </template>
+    <div class="description">Your Goals</div>
+      <center>
+        <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>
+          <paper-tab>overview</paper-tab>
+          <template is="dom-repeat" items="{{sites}}" as="site">
+            <paper-tab>{{site}}</paper-tab>
+          </template>
+        </paper-tabs>
+      </center>
 
-      <chart-horizontal-bar data="[[goalOverviewData]]" style="width: 500px"></chart-horizontal-bar>
-
-      <div class="description">Number of Times Your Interventions Were Deployed Today</div>
-      <chart-horizontal-bar data="[[bardata]]" style="width: 600px"></chart-horizontal-bar>
-      <div class="buttons"><button class="numTimesDeployedButton" value="neverClicked" on-click="numTimesDeployedButtonAction">Compare with Previous Day</button></div>
-
-      <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>
-      <chart-bar data="[[reductionEfficacyData]]" style="width: 600px"></chart-bar>      
-      <div class="buttons"><button class="timeSavedButton" value="neverClicked" on-click="timeSavedButtonAction">Compare with Average Efficacy</button></div>
-
-      <!--
-      <chart-line id="linechart" data="[[linedata]]"></chart-line>
-      -->
+      <iron-pages selected={{selected}}>
+        <div>
+          <h2>Daily Overview</h2>
+          <chart-horizontal-bar data="[[goalOverviewData]]" style="width: 500px"></chart-horizontal-bar>
+        </div>
+        <template is="dom-repeat" items="{{sites}}" as="site">
+          <div><site-goal-view site="{{site}}"></site-goal-view></div>
+        </template>
+      </iron-pages>
     </div>
 
   </template>

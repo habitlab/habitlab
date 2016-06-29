@@ -1,7 +1,12 @@
 {
-  "plugins": [[
-    "incremental-dom", {
-      "prefix": "skate.vdom.IncrementalDOM"
-    }
-  ]]
+  "plugins": [
+    [
+      "incremental-dom", {
+        "prefix": "skate.vdom.IncrementalDOM"
+      }
+    ],
+    [
+      "jsx-control-statements", {}
+    ],
+  ]
 }

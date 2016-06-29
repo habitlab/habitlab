@@ -106,7 +106,16 @@ gulp.task 'eslint', ['livescript_srcgen', 'js_srcgen'] ->
         'jsx': true
       }
     }
-    extends: 'eslint:recommended'
+    plugins: [
+      'jsx-control-statements'
+    ]
+    extends: [
+      'eslint:recommended'
+      #'plugin:jsx-control-statements/recommended'
+    ]
+    env: {
+      "jsx-control-statements/jsx-control-statements": true
+    }
     envs: [
       'es6'
       'browser'
@@ -129,6 +138,15 @@ gulp.task 'eslint', ['livescript_srcgen', 'js_srcgen'] ->
       #'no-unused-vars': ['warn', {args: 'none', vars: 'local'}]
       'comma-dangle': ['warn', 'only-multiline']
       #'strict': 2
+      "jsx-control-statements/jsx-choose-not-empty": 1
+      "jsx-control-statements/jsx-for-require-each": 1
+      "jsx-control-statements/jsx-for-require-of": 1
+      "jsx-control-statements/jsx-if-require-condition": 1
+      "jsx-control-statements/jsx-otherwise-once-last": 1
+      "jsx-control-statements/jsx-use-if-tag": 1
+      "jsx-control-statements/jsx-when-require-condition": 1
+      "jsx-control-statements/jsx-jcs-no-undef": 1
+      "no-undef": 0 # Replace this with jsx-jcs-no-undef
     }
   }))
   .pipe(gulp-eslint.formatEach('compact', process.stderr))

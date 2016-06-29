@@ -28,7 +28,7 @@ First, add a directory under the [`src/goals`](https://github.com/habitlab/habit
 
 ## SkateJS components
 
-Web components building the [SkateJS](https://github.com/skatejs/skatejs) framework can be used in either content scripts or extension options pages.
+[Web components](http://webcomponents.org/) built using the [SkateJS](https://github.com/skatejs/skatejs) framework can be used in either content scripts or extension options pages.
 
 ### Adding a SkateJS component
 
@@ -38,9 +38,9 @@ Then, edit the file [`src/components_skate/components_skate.js`](https://github.
 
 ### Previewing SkateJS components
 
-You can preview your component by visiting the URL [`index.html?tag=time-spent-display`](chrome-extension://lofmnmocmjaifdldockcnobclclaecmn/index.html?tag=time-spent-display) substituting `time-spent-display` with the tag name registered by your SkateJS component. (If the above link does not work, go to [chrome://extensions](chrome://extensions) and click the options page for HabitLab, and substitute the `index.html?tag=options-view` portion with the above string).
+To preview your component visit [chrome://extensions](chrome://extensions) and click the options page for HabitLab, and substitute `options-view` in `index.html?tag=options-view` portion with the name of your component (ie, `index.html?tag=time-spent-display-livescript` for [`time-spent-display-livescript.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display-livescript.ls)))
 
-If your component has properties (ie, the `site` property in [`time-spent-display.jsx`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display.jsx)), you can pass them as URL parameters, such as [`index.html?tag=time-spent-display&site=www.facebook.com`](chrome-extension://lofmnmocmjaifdldockcnobclclaecmn/index.html?tag=time-spent-display&site=www.facebook.com)
+If your component has properties (ie, the `site` property in [`time-spent-display-livescript.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/time-spent-display-livescript.ls)), you can pass them as URL parameters, such as `index.html?tag=time-spent-display-livescript&site=www.facebook.com`
 
 ### Using a SkateJS component in a content script
 
@@ -62,7 +62,7 @@ See [`google/display_time_spent/frontend.ls`](https://github.com/habitlab/habitl
 
 ## Polymer components
 
-Web components built using the [Polymer](https://www.polymer-project.org/) framework can be used in extension option pages, but not in content scripts. (The reason Polymer cannot be used in content scripts is because content scripts cannot include [HTML imports](http://www.html5rocks.com/en/tutorials/webcomponents/imports/), which is used by Polymer).
+[Web components](http://webcomponents.org/) built using the [Polymer](https://www.polymer-project.org/) framework can be used in extension option pages, but not in content scripts. (The reason Polymer cannot be used in content scripts is because content scripts cannot include [HTML imports](http://www.html5rocks.com/en/tutorials/webcomponents/imports/), which is used by Polymer).
 
 ### Adding a Polymer component
 
@@ -70,15 +70,23 @@ A Polymer component can be added by first adding 2 files under [`src/components`
 
 Then, edit the file [`src/components/components.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/components.html) and add the path of the `.html` file relative to the [`src/components`](https://github.com/habitlab/habitlab-chrome/tree/master/src) directory.
 
-Note that you should not directly use `document.querySelector` or `$` or `once_available` in the context of a Polymer component, as these break the [Shadow DOM](https://www.polymer-project.org/1.0/docs/devguide/local-dom). Instead, use the `this.S` (takes a pattern and returns a jQuery object of the first match), `this.SM` (takes a pattern and returns a jQuery object of all matches, equivalent of `$`), `this.$$` (takes a pattern and returns the first match as a DOM element, equivalent of `document.querySelector`), `this.$$$` (takes a pattern and returns all matching DOM elements, equivalent of `document.querySelectorAll`), and `this.once_available` methods, which are defined in [`libs_frontend/polymer_methods.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/polymer_methods.ls) (note that you will need to import these methods by passing a second parameter to the [`polymer_ext`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/polymer_utils.ls) function). The usage of the `this.S` and `this.once_available` methods is illustrated in [`options-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/options-view.ls).
+Note that you should not directly use `document.querySelector` or `$` or `once_available` in the context of a Polymer component, as these break the [Shadow DOM](https://www.polymer-project.org/1.0/docs/devguide/local-dom). Instead, use one of the following methods, which are defined in [`libs_frontend/polymer_methods.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/polymer_methods.ls)
+
+- `this.S` (takes a pattern and returns a jQuery object of the first match)
+- `this.SM` (takes a pattern and returns a jQuery object of all matches, equivalent of `$`)
+- `this.$$` (takes a pattern and returns the first match as a DOM element, equivalent of `document.querySelector`)
+- `this.$$$` (takes a pattern and returns all matching DOM elements, equivalent of `document.querySelectorAll`)
+- `this.once_available` methods
+
+Note that you will need to import these methods from [`libs_frontend/polymer_methods.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/polymer_methods.ls) by passing a second parameter to the [`polymer_ext`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/polymer_utils.ls) function). The importing and use of the `this.S` and `this.once_available` methods is illustrated in [`options-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/options-view.ls).
 
 If you need to do iterations, use a [template](https://www.polymer-project.org/1.0/docs/devguide/templates). Refer to [`options-goals.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/options-goals.html) for an example.
 
 ### Previewing Polymer components
 
-You can preview your component by visiting the URL [`index.html?tag=site-goal-view`](chrome-extension://lofmnmocmjaifdldockcnobclclaecmn/index.html?tag=site-goal-view) substituting `site-goal-view` with the tag name registered by your Polymer component. (If the above link does not work, go to [chrome://extensions](chrome://extensions) and click the options page for HabitLab, and substitute the `index.html?tag=options-view` portion with the above string).
+To preview your component to [chrome://extensions](chrome://extensions) and click the options page for HabitLab, and substitute `options-view` in `index.html?tag=options-view` portion with the name of your component (ie, `index.html?tag=site-goal-view` for [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls)))
 
-If your component has properties (ie, the `site` property in [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls)), you can pass them as URL parameters, such as [`index.html?tag=site-goal-view&site=youtube`](chrome-extension://lofmnmocmjaifdldockcnobclclaecmn/index.html?tag=site-goal-view&site=youtube)
+If your component has properties (ie, the `site` property in [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls)), you can pass them as URL parameters, such as `index.html?tag=site-goal-view&site=youtube`
 
 ### Using a Polymer component in an extension options page
 

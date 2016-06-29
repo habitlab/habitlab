@@ -76,7 +76,7 @@ Note that you should not directly use `document.querySelector` or `$` or `once_a
 - `this.SM` (takes a pattern and returns a jQuery object of all matches, equivalent of `$`)
 - `this.$$` (takes a pattern and returns the first match as a DOM element, equivalent of `document.querySelector`)
 - `this.$$$` (takes a pattern and returns all matching DOM elements, equivalent of `document.querySelectorAll`)
-- `this.once_available` methods
+- `this.once_available` (takes a pattern and a callback, repeatedly checks to see if the selecting the pattern is non-null, and calls the callback once the pattern is available on the page)
 
 Note that you will need to import these methods from [`libs_frontend/polymer_methods.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/polymer_methods.ls) by passing a second parameter to the [`polymer_ext`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/polymer_utils.ls) function). The importing and use of the `this.S` and `this.once_available` methods is illustrated in [`options-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/options-view.ls).
 

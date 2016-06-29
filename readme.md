@@ -101,3 +101,42 @@ If your component has properties (ie, the `site` property in [`site-goal-view.ls
 ### Using a Polymer component in an extension options page
 
 Refer to [`site-goal-view.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.html) for an example.
+
+## Using External Libraries
+
+You can use any [npm](https://www.npmjs.com/) modules as follows. (This example illustrates usage of the [moment](http://momentjs.com/docs/) package)
+
+1) Install the npm module, and save it (the `--save` option will modify [`package.json`](https://github.com/habitlab/habitlab-chrome/blob/master/package.json) and add it as a dependency)
+
+```
+npm install --save moment
+```
+
+2) Require the module and use it in any of the Javascript or Livescript files:
+
+```
+moment = require('moment')
+moment().format()
+```
+
+## Troubleshooting
+
+Did you recently do a `git pull`, or modified a file, and have errors along the lines of `module not found`? Make sure:
+
+1) All npm modules are installed:
+
+```
+npm install
+```
+
+2) All files are building correctly:
+
+```
+gulp
+```
+
+3) Should not be necessary, but running gulp clean might help:
+
+```
+gulp clean
+```

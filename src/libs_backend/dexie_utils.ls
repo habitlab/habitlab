@@ -197,6 +197,20 @@ export getkey_dictdict = (name, key, key2, callback) ->
     return callback result[0].val
   return callback!
 
+export setdict_for_key2_dictdict = (name, key2, dict, callback) ->
+  data = getDictDictsCollection()
+  items_to_add = [{name, key, key2, val} for key,val of dict]
+  result <- data.bulkPut(items_to_add).then
+  if callback?
+    callback dict
+
+export setdict_for_key_dictdict = (name, key, dict, callback) ->
+  data = getDictDictsCollection()
+  items_to_add = [{name, key, key2, val} for key2,val of dict]
+  result <- data.bulkPut(items_to_add).then
+  if callback?
+    callback dict
+
 export setkey_dictdict = (name, key, key2, val, callback) ->
   data = getDictDictsCollection()
   result <- data.put({name, key, key2, val}).then
@@ -223,6 +237,14 @@ export addtokey_dictdict = (name, key, key2, val, callback) ->
       callback(new_val)
     return
   setkey_dictdict name, key, key2, val, callback
+
+export clear_dictdict = (name, callback) ->
+  data = getDictDictsCollection()
+  num_deleted <- data
+  .where('name')
+  .equals(name)
+  .delete().then
+  callback?!
 
 /*
 export addtolist = (name, val, callback) ->

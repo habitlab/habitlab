@@ -25,7 +25,7 @@ export getInterventionInfo = (intervention_name, callback) ->
   intervention_info.sitename = intervention_name.split('/')[0]
   callback intervention_info
 
-export get_enabled_interventions = (callback) ->
+export get_enabled_interventions_localstorage = (callback) ->
   enabled_interventions_str = localStorage.getItem('enabled_interventions')
   if not enabled_interventions_str?
     enabled_interventions = {}
@@ -33,7 +33,9 @@ export get_enabled_interventions = (callback) ->
     enabled_interventions = JSON.parse enabled_interventions_str
   callback enabled_interventions
 
-export set_enabled_interventions = (enabled_interventions, callback) ->
+export get_enabled_interventions = get_enabled_interventions_localstorage
+
+export set_enabled_interventions_localstorage = (enabled_interventions, callback) ->
   localStorage.setItem 'enabled_interventions', JSON.stringify(enabled_interventions)
   callback?!
 
@@ -128,13 +130,15 @@ export list_available_interventions_for_location = (location, callback) ->
       possible_interventions.push intervention_name
   callback possible_interventions
 
-export get_manually_managed_interventions = (callback) ->
+export get_manually_managed_interventions_localstorage = (callback) ->
   manually_managed_interventions_str = localStorage.getItem('manually_managed_interventions')
   if not manually_managed_interventions_str?
     manually_managed_interventions = {}
   else
     manually_managed_interventions = JSON.parse manually_managed_interventions_str
   callback manually_managed_interventions
+
+export get_manually_managed_interventions = get_manually_managed_interventions_localstorage
 
 export set_manually_managed_interventions = (manually_managed_interventions, callback) ->
   localStorage.setItem 'manually_managed_interventions', JSON.stringify(manually_managed_interventions)

@@ -7,6 +7,7 @@ polymer_ext {
   }
   on_goal_changed: (evt) ->
     this.$$('#options-interventions').on_goal_changed(evt.detail)
+    this.$$('#dashboard-view').on_goal_changed(evt.detail)
   ready: ->
     self = this
     self.once_available '#optionstab', ->

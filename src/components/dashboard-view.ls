@@ -80,7 +80,11 @@ polymer_ext {
       myButton.value = "neverClicked"
       this.pop('donutdata.datasets')
 
+  on_goal_changed: (evt) ->
+    this.rerender()
   ready: ->
+    this.rerender()
+  rerender: ->
     #MARK: Polymer tabbing
     self = this
     self.once_available '#graphsOfGoalsTab', ->

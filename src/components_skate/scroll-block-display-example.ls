@@ -29,9 +29,9 @@ skate.define 'scroll-block-display-example', {
     return (
     <div style="display: table">
       <div id="clickme" style="display: table-cell; background-color: red; position: fixed; color: white; width: 100%; height: 50px; bottom: 0px; right: 0px; z-index: 99999; text-align: center">
-      <habitlab-logo></habitlab-logo>
-      <br/>
-      You have already spent {elem.seconds} seconds on {elem.site}. Click here to continue scrolling.
+        <habitlab-logo></habitlab-logo>
+        <br/>
+        You have already spent {elem.seconds} seconds on {elem.site}. Click here to continue scrolling.
       </div>
     </div>
     )

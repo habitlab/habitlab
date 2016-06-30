@@ -4,6 +4,12 @@ skate.define 'habitlab-logo', {
   props: {
 
   }
+
+  events: {
+    'click': (elem, eventObject) ->
+      console.log 'clicked the logo'
+  }
+
   render: (elem) !->
     elem_style = {
       'position': 'absolute',
@@ -15,7 +21,7 @@ skate.define 'habitlab-logo', {
     url = chrome.extension.getURL('icons/icon_38.png')
     ``
     return (
-    <img src= {url} style={elem_style} alt="icon"></img>
+    <img id="logo" src= {url} style={elem_style} alt="icon"></img>
     )
     ``
 }

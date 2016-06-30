@@ -66,13 +66,16 @@ copypattern = [
 ]
 
 webpack_pattern = [
-  'src/interventions/**/*.ls'
-  'src/interventions/**/*.js'
   'src/backend/**/*.ls'
   'src/backend/**/*.js'
   'src/commonjs_compat/**/*.ls'
   'src/commonjs_compat/**/*.js'
-  'src/components_skate/components_skate.js'
+  #'src/components_skate/components_skate.js'
+]
+
+webpack_pattern_content_scripts = [
+  'src/interventions/**/*.ls'
+  'src/interventions/**/*.js'
 ]
 
 webpack_vulcanize_pattern = [
@@ -131,6 +134,7 @@ gulp.task 'eslint', ['livescript_srcgen', 'js_srcgen'] ->
       'global_exports': true
       'Polymer': true
       'jsyaml': true
+      'IS_CONTENT_SCRIPT': true
     }
     rules: {
       'no-console': 'off'
@@ -208,22 +212,49 @@ with_created_object = (orig_obj, func_to_apply) ->
 
 webpack_config_watch = with_created_object webpack_config, (o) ->
   o.watch = true
+  o.plugins.push new webpack.DefinePlugin {
+    IS_CONTENT_SCRIPT: false
+  }
 
 webpack_config_nowatch = with_created_object webpack_config, (o) ->
   o.watch = false
+  o.plugins.push new webpack.DefinePlugin {
+    IS_CONTENT_SCRIPT: false
+  }
+
+webpack_config_watch_content_scripts = with_created_object webpack_config, (o) ->
+  o.watch = true
+  o.plugins.push new webpack.DefinePlugin {
+    IS_CONTENT_SCRIPT: true
+  }
+
+webpack_config_nowatch_content_scripts = with_created_object webpack_config, (o) ->
+  o.watch = false
+  o.plugins.push new webpack.DefinePlugin {
+    IS_CONTENT_SCRIPT: true
+  }
 
 webpack_config_nosrcmap_watch = with_created_object webpack_config, (o) ->
   o.watch = true
   o.devtool = null
+  o.plugins.push new webpack.DefinePlugin {
+    IS_CONTENT_SCRIPT: false
+  }
 
 webpack_config_nosrcmap_nowatch = with_created_object webpack_config, (o) ->
   o.watch = false
   o.devtool = null
+  o.plugins.push new webpack.DefinePlugin {
+    IS_CONTENT_SCRIPT: false
+  }
 
 webpack_config_prod_nowatch = with_created_object webpack_config, (o) ->
   o.watch = false
   o.devtool = null
   o.debug = false
+  o.plugins.push new webpack.DefinePlugin {
+    IS_CONTENT_SCRIPT: false
+  }
   o.module.loaders.push {
     test: /\.js$/
     loader: 'uglify-loader'
@@ -262,6 +293,22 @@ gulp.task 'webpack_watch', ['watch_base'], ->
 
 gulp.task 'webpack_prod', ['build_base'], ->
   run_gulp_webpack webpack_config_prod_nowatch
+
+gulp.task 'webpack_content_scripts', ['build_base'], ->
+  run_gulp_webpack webpack_config_nowatch, {
+    src_pattern: webpack_pattern_content_scripts
+  }
+
+gulp.task 'webpack_content_scripts_watch', ['watch_base'], ->
+  run_gulp_webpack webpack_config_watch_content_scripts, {
+    src_pattern: webpack_pattern_content_scripts
+  }
+
+gulp.task 'webpack_content_scripts_prod', ['build_base'], ->
+  run_gulp_webpack webpack_config_prod_nowatch_content_scripts, {
+    src_pattern: webpack_pattern_content_scripts
+  }
+
 
 gulp.task 'yaml', ->
   return gulp.src(yamlpattern, {base: 'src'})
@@ -324,9 +371,9 @@ tasks_and_patterns = [
 
 gulp.task 'build_base', tasks_and_patterns.map((.0))
 
-gulp.task 'build', ['webpack', 'webpack_vulcanize']
+gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
 
-gulp.task 'release', ['webpack_prod', 'webpack_vulcanize_prod']
+gulp.task 'release', ['webpack_prod', 'webpack_content_scripts_prod', 'webpack_vulcanize_prod']
 
 # TODO we can speed up the watch speed for browserify by using watchify
 # https://github.com/marcello3d/gulp-watchify/blob/master/examples/simple/gulpfile.js
@@ -348,6 +395,6 @@ gulp.task 'clean', ->
     'src_gen'
   ]
 
-gulp.task 'watch', ['webpack_watch', 'webpack_vulcanize_watch', 'lint_watch']
+gulp.task 'watch', ['webpack_watch', 'webpack_content_scripts_watch', 'webpack_vulcanize_watch', 'lint_watch']
 
 gulp.task 'default', ['watch']

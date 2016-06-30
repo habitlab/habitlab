@@ -98,7 +98,7 @@ export getlist = (name, callback) ->
   callback [x.val for x in result]
 
 export clearlist = (name, callback) ->
-  data = getListsCollection()
+  data = getCollection(name)
   num_deleted <- data.delete().then
   callback?!
 

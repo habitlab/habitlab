@@ -1,3 +1,11 @@
+{
+  set_intervention_enabled
+  set_intervention_disabled
+  set_intervention_automatically_managed
+  set_intervention_manually_managed
+} = require 'libs_backend/intervention_utils'
+
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 polymer_ext {

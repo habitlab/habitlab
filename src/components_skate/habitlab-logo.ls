@@ -7,7 +7,7 @@ skate.define 'habitlab-logo', {
   render: (elem) !->
     elem_style = {
       'position': 'fixed',
-      'top': '0px',
+      'top': '3px',
       'left': '0px',
       'z-index': 999999,
       'width': '30px'

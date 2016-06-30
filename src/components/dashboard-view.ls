@@ -93,7 +93,6 @@ polymer_ext {
     #MARK: Daily Overview Graph
     goalsDataToday <- get_progress_on_enabled_goals_today();
     goalKeys = Object.keys(goalsDataToday)
-    console.log goalKeys
     
     errors,results <- async.mapSeries goalKeys, (item, ncallback) ->
       result <- getGoalInfo(item)

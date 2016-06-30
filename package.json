@@ -6,7 +6,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "dexie": "^1.4.1",
-    "enable-webcomponents-in-content-scripts": "^1.0.1",
+    "enable-webcomponents-in-content-scripts": "^1.0.4",
     "jquery": "^3.0.0",
     "jquery.isinview": "^1.0.4",
     "jquery.terminal": "^0.10.12",

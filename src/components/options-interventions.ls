@@ -27,6 +27,8 @@ polymer_ext {
       notify: true
     }
   }
+  on_goal_changed: (evt) ->
+    this.rerender()
   intervention_changed: (evt) ->
     checked = evt.target.checked
     intervention_name = evt.target.intervention.name
@@ -42,7 +44,10 @@ polymer_ext {
     else
       set_intervention_manually_managed intervention_name
   ready: ->
+    this.rerender()
+  rerender: ->
     self = this
+    self.sites_and_interventions = []
     intervention_name_to_info <- get_interventions()
     sitename_to_interventions = {}
     for intervention_name,intervention_info of intervention_name_to_info

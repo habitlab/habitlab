@@ -24,10 +24,14 @@ polymer_ext {
   goal_changed: (evt) ->
     checked = evt.target.checked
     goal_name = evt.target.goal.name
-    if checked
-      set_goal_enabled goal_name
-    else
-      set_goal_disabled goal_name
+    self = this
+    change_goal = (ncallback) ->
+      if checked
+        set_goal_enabled goal_name, ncallback
+      else
+        set_goal_disabled goal_name, ncallback
+    <- change_goal()
+    self.fire 'goal_changed', {goal_name: goal_name}
   ready: ->
     self = this
     goal_name_to_info <- get_goals()

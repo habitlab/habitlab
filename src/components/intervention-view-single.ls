@@ -5,6 +5,7 @@ polymer_ext {
   properties: {
     intervention: {
       type: Object
+      notify: true
     }
   }
 }

@@ -1,4 +1,4 @@
-description: Sample for injection into the Facebook feed
+description: Injects timer into the Facebook feed
 matches:
   - www.facebook.com
 content_scripts:

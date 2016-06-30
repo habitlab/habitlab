@@ -38,4 +38,3 @@ polymer_ext {
     'once_available'
   ]
 }
-

@@ -13,6 +13,10 @@ require! {
 } = require 'libs_backend/intervention_utils'
 
 {
+  get_and_set_new_enabled_interventions_for_today
+} = require 'libs_backend/intervention_manager'
+
+{
   get_enabled_goals
 } = require 'libs_backend/goal_utils'
 

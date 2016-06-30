@@ -1,6 +1,11 @@
 //const $ = require('jquery')
 const $ = require('zepto')
 
+const {
+  log_impression,
+  log_action,
+} = require('libs_common/log_utils')
+
 //Waits until the email page is loaded to begin executing the script
 var beginVar = null;
 function begin(timeWindow) {
@@ -57,6 +62,7 @@ function displayTimeRemaining(timeWindow) {
   var message = $('<div class="message">').css({'padding-top': '2px', 'color': '#cf000f'});
   message.text(hours + ":" + minutes + ":" + seconds + " until your inbox refreshes.")
   appendBox.append(message);
+  log_impression('gmail/no_new_emails')
 }
 
 //Processes the emails

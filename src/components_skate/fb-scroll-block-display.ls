@@ -8,6 +8,8 @@ skate = require 'skatejs'
   get_seconds_spent_on_domain_today,
 } = require 'libs_common/time_spent_utils'
 
+require('components_skate/habitlab-logo')
+
 update_page = (elem) ->
   get_seconds_spent_on_domain_today elem.site, (seconds_spent) ->
     elem.seconds = seconds_spent
@@ -26,6 +28,7 @@ skate.define 'fb-scroll-block-display', {
     ``
     return (
     <div style="display: table; height: 50px; overflow: hidden">
+      <habitlab-logo></habitlab-logo>
       <div id="clickme" style="display: table-cell; background-color: red; position: fixed; color: white; width: 100%; top: 0px; right: 0px; z-index: 99999; text-align: center">
         <br/><div>You have already spent {elem.seconds} seconds on {elem.site}. Consider doing something more productive! Click here to continue scrolling.
 

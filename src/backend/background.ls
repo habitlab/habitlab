@@ -70,6 +70,11 @@ $ = require 'jquery'
   get_progress_on_enabled_goals_today
 } = require 'libs_backend/goal_progress'
 
+{
+  addtolog
+  getlog
+  clearlog
+} = require 'libs_common/log_utils'
 
 # console.log 'weblab running in background'
 
@@ -240,13 +245,20 @@ message_handlers = {
   'getdict_for_key2_dictdict': (data, callback) ->
     {name, key2} = data
     getdict_for_key2_dictdict name, key2, callback
-  'addtolist': (data, callback) ->
-    {name, val} = data
-    addtolist name, val, callback
+  'addtolist': (data_real, callback) ->
+    {name, data} = data_real
+    addtolist name, data, callback
   'getlist': (name, callback) ->
     getlist name, callback
   'clearlist': (name, callback) ->
     clearlist name, callback
+  'addtolog': (data_real, callback) ->
+    {name, data} = data_real
+    addtolog name, data, callback
+  'getlog': (name, callback) ->
+    getlog name, callback
+  'clearlog': (name, callback) ->
+    clearlog name, callback
   /*
   'setvars': (data, callback) ->
   <- async.forEachOfSeries data, (v, k, ncallback) ->

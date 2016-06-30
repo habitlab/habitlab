@@ -116,7 +116,7 @@ export get_interventions = memoizeSingleAsync (callback) ->
 export list_enabled_interventions_for_location = (location, callback) ->
   available_interventions <- list_available_interventions_for_location(location)
   enabled_interventions <- get_enabled_interventions()
-  callback available_interventions.filter((x) -> enabled_interventions[x]?)
+  callback available_interventions.filter((x) -> enabled_interventions[x])
 
 export list_available_interventions_for_location = (location, callback) ->
   all_interventions <- get_interventions()

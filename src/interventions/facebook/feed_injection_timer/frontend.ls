@@ -1,10 +1,8 @@
 <- (-> it!)
 
-/*
 if window.facebook_feed_injection_timer
   return
 window.facebook_feed_injection_timer = true
-*/
 
 {
   inject_into_feed

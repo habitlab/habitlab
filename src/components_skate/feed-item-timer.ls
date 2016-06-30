@@ -23,7 +23,7 @@ skate.define 'feed-item-timer', {
       'background-color': '#3498DB',
       'width': '500px',
       'height': '300px',
-      'color': 'white',     
+      'color': 'white',
       'font-size': '1.5em',
       'text-align': 'center',     /* Centering text horizontally and vertically */
       'display': 'table-cell',

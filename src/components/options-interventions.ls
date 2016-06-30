@@ -12,6 +12,10 @@ require! {
   set_intervention_manually_managed
 } = require 'libs_backend/intervention_utils'
 
+{
+  get_enabled_goals
+} = require 'libs_backend/goal_utils'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 polymer_ext {
@@ -49,11 +53,15 @@ polymer_ext {
     list_of_sites_and_interventions = []
     list_of_sites = prelude.sort Object.keys(sitename_to_interventions)
     enabled_interventions <- get_enabled_interventions()
+    enabled_goals <- get_enabled_goals()
     manually_managed_interventions <- get_manually_managed_interventions()
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.interventions = prelude.sort-by (.name), sitename_to_interventions[sitename]
       for intervention in current_item.interventions
+        intervention.enabled_goals = []
+        if intervention.goals?
+          intervention.enabled_goals = [goal for goal in intervention.goals when enabled_goals[goal.name]]
         intervention.enabled = (enabled_interventions[intervention.name] == true)
         intervention.automatic = (manually_managed_interventions[intervention.name] != true)
       list_of_sites_and_interventions.push current_item

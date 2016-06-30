@@ -1,0 +1,25 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+
+<dom-module id="intervention-view-single">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <div>{{intervention.description}}</div>
+    <template is="dom-if" if="{{intervention.enabled_goals.length}}">
+      <span>Supports your goals: </span>
+      <template is="dom-repeat" items="{{intervention.enabled_goals}}" as="goal">
+        <span>{{goal.description}}</span>
+      </template>
+      <br>
+    </template>
+    <paper-checkbox checked="{{intervention.enabled}}" intervention="{{intervention}}" on-change="intervention_changed">Enabled</paper-checkbox>
+    <paper-checkbox checked="{{intervention.automatic}}" intervention="{{intervention}}" on-change="automatically_managed_changed">Automatically Managed</paper-checkbox>
+  </template>
+  <script src="intervention-view-single.js"></script>
+</dom-module>

@@ -19,13 +19,13 @@ export addtovar = (key, val, callback) ->
 export getkey_dictdict = (name, key, key2, callback) ->
   send_message_to_background 'getkey_dictdict', {name, key, key2}, callback
 
-export addtolist = (key, val, callback) ->
-  send_message_to_background 'addtolist', {key, val}, callback
+export addtolist = (name, val, callback) ->
+  send_message_to_background 'addtolist', {name, val}, callback
 
-export getlist = (key, callback) ->
-  send_message_to_background 'getlist', key, callback
+export getlist = (name, callback) ->
+  send_message_to_background 'getlist', name, callback
 
-export clearlist = (key, callback) ->
-  send_message_to_background 'clearlist', key, callback
+export clearlist = (name, callback) ->
+  send_message_to_background 'clearlist', name, callback
 
 gexport_module 'db_utils', -> eval(it)

@@ -25,7 +25,8 @@ export getInterventionInfo = (intervention_name, callback) ->
   intervention_info.sitename = intervention_name.split('/')[0]
   callback intervention_info
 
-export get_enabled_interventions_localstorage = (callback) ->
+/*
+export get_enabled_interventions = (callback) ->
   enabled_interventions_str = localStorage.getItem('enabled_interventions')
   if not enabled_interventions_str?
     enabled_interventions = {}
@@ -33,29 +34,36 @@ export get_enabled_interventions_localstorage = (callback) ->
     enabled_interventions = JSON.parse enabled_interventions_str
   callback enabled_interventions
 
-export get_enabled_interventions = get_enabled_interventions_localstorage
-
 export set_enabled_interventions = (enabled_interventions, callback) ->
   localStorage.setItem 'enabled_interventions', JSON.stringify(enabled_interventions)
+  callback?!
+*/
+
+export get_enabled_interventions = (callback) ->
+  enabled_interventions <- intervention_manager.get_enabled_interventions_for_today()
+  callback enabled_interventions
+
+export set_enabled_interventions = (enabled_interventions, callback) ->
+  <- intervention_manager.set_enabled_interventions_for_today_manual enabled_interventions
   callback?!
 
 export set_intervention_enabled = (intervention_name, callback) ->
   enabled_interventions <- get_enabled_interventions()
-  if enabled_interventions[intervention_name]?
+  if enabled_interventions[intervention_name]
     return callback?!
   enabled_interventions[intervention_name] = true
   set_enabled_interventions enabled_interventions, callback
 
 export set_intervention_disabled = (intervention_name, callback) ->
   enabled_interventions <- get_enabled_interventions()
-  if not enabled_interventions[intervention_name]?
+  if not enabled_interventions[intervention_name]
     return callback?!
-  delete enabled_interventions[intervention_name]
+  enabled_interventions[intervention_name] = false
   set_enabled_interventions enabled_interventions, callback
 
 export is_intervention_enabled = (intervention_name, callback) ->
   enabled_interventions <- get_enabled_interventions()
-  callback enabled_interventions[intervention_name]?
+  callback enabled_interventions[intervention_name]
 
 export list_all_interventions = memoizeSingleAsync (callback) ->
   interventions_list_text <- $.get '/interventions/interventions.json'
@@ -153,9 +161,9 @@ export set_intervention_manually_managed = (intervention_name, callback) ->
 
 export set_intervention_automatically_managed = (intervention_name, callback) ->
   manually_managed_interventions <- get_manually_managed_interventions()
-  if not manually_managed_interventions[intervention_name]?
+  if not manually_managed_interventions[intervention_name]
     return callback?!
-  delete manually_managed_interventions[intervention_name]
+  manually_managed_interventions[intervention_name] = false
   set_manually_managed_interventions manually_managed_interventions, callback
 
 export list_available_interventions_for_enabled_goals = (callback) ->
@@ -170,5 +178,7 @@ export list_available_interventions_for_enabled_goals = (callback) ->
         output.push intervention_name
         output_set[intervention_name] = true
   callback output
+
+intervention_manager = require 'libs_backend/intervention_manager'
 
 gexport_module 'intervention_utils', -> eval(it)

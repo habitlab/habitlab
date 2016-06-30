@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="intervention-view-single.html">
 
@@ -19,6 +20,10 @@
       <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
 
       <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
+
+      <br><br>
+      <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
+      <br>
 
       <template is="dom-repeat" items="{{sites_and_interventions}}" as="site_and_interventions">
         <h1>{{site_and_interventions.sitename}}</h1>

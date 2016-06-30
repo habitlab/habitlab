@@ -27,22 +27,12 @@ polymer_ext {
       notify: true
     }
   }
+  select_new_interventions: (evt) ->
+    self = this
+    <- get_and_set_new_enabled_interventions_for_today()
+    self.rerender()
   on_goal_changed: (evt) ->
     this.rerender()
-  intervention_changed: (evt) ->
-    checked = evt.target.checked
-    intervention_name = evt.target.intervention.name
-    if checked
-      set_intervention_enabled intervention_name
-    else
-      set_intervention_disabled intervention_name
-  automatically_managed_changed: (evt) ->
-    checked = evt.target.checked
-    intervention_name = evt.target.intervention.name
-    if checked
-      set_intervention_automatically_managed intervention_name
-    else
-      set_intervention_manually_managed intervention_name
   ready: ->
     this.rerender()
   rerender: ->

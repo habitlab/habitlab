@@ -154,7 +154,7 @@ export set_manually_managed_interventions = (manually_managed_interventions, cal
 
 export set_intervention_manually_managed = (intervention_name, callback) ->
   manually_managed_interventions <- get_manually_managed_interventions()
-  if manually_managed_interventions[intervention_name]?
+  if manually_managed_interventions[intervention_name]
     return callback?!
   manually_managed_interventions[intervention_name] = true
   set_manually_managed_interventions manually_managed_interventions, callback

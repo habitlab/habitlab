@@ -53,4 +53,14 @@ export clearlog = (name, callback) ->
   num_deleted <- collection.delete().then
   callback?!
 
+export get_num_impressions = (name, callback) ->
+  collection <- getInterventionLogCollection(name)
+  num_impressions <- collection.where('type').equals('impression').count
+  callback num_impressions
+
+export get_num_actions = (name, callback) ->
+  collection <- getInterventionLogCollection(name)
+  num_actions <- collection.where('type').equals('action').count
+  callback num_actions
+
 gexport_module 'log_utils_backend', -> eval(it)

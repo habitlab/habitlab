@@ -1,8 +1,10 @@
 <- (-> it!)
 
-if window.facebook_feed_injection_example
+/*
+if window.facebook_feed_injection_timer
   return
-window.facebook_feed_injection_example = true
+window.facebook_feed_injection_timer = true
+*/
 
 {
   inject_into_feed
@@ -11,9 +13,9 @@ window.facebook_feed_injection_example = true
 $ = require 'jquery'
 
 require 'enable-webcomponents-in-content-scripts'
-require 'components_skate/feed-item-example'
+require 'components_skate/feed-item-timer'
 
 component_generator = ->
-  return $('<feed-item-example>')
+  return $('<feed-item-timer>')
 
 inject_into_feed(component_generator)

@@ -35,7 +35,7 @@ export get_enabled_interventions_localstorage = (callback) ->
 
 export get_enabled_interventions = get_enabled_interventions_localstorage
 
-export set_enabled_interventions_localstorage = (enabled_interventions, callback) ->
+export set_enabled_interventions = (enabled_interventions, callback) ->
   localStorage.setItem 'enabled_interventions', JSON.stringify(enabled_interventions)
   callback?!
 

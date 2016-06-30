@@ -80,7 +80,11 @@ polymer_ext {
       myButton.value = "neverClicked"
       this.pop('donutdata.datasets')
 
+  on_goal_changed: (evt) ->
+    this.rerender()
   ready: ->
+    this.rerender()
+  rerender: ->
     #MARK: Polymer tabbing
     self = this
     self.once_available '#graphsOfGoalsTab', ->
@@ -89,7 +93,6 @@ polymer_ext {
     #MARK: Daily Overview Graph
     goalsDataToday <- get_progress_on_enabled_goals_today();
     goalKeys = Object.keys(goalsDataToday)
-    console.log goalKeys
     
     errors,results <- async.mapSeries goalKeys, (item, ncallback) ->
       result <- getGoalInfo(item)

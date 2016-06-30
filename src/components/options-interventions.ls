@@ -12,6 +12,10 @@ require! {
   set_intervention_manually_managed
 } = require 'libs_backend/intervention_utils'
 
+{
+  get_enabled_goals
+} = require 'libs_backend/goal_utils'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 polymer_ext {
@@ -23,22 +27,17 @@ polymer_ext {
       notify: true
     }
   }
-  intervention_changed: (evt) ->
-    checked = evt.target.checked
-    intervention_name = evt.target.intervention.name
-    if checked
-      set_intervention_enabled intervention_name
-    else
-      set_intervention_disabled intervention_name
-  automatically_managed_changed: (evt) ->
-    checked = evt.target.checked
-    intervention_name = evt.target.intervention.name
-    if checked
-      set_intervention_automatically_managed intervention_name
-    else
-      set_intervention_manually_managed intervention_name
-  ready: ->
+  select_new_interventions: (evt) ->
     self = this
+    <- get_and_set_new_enabled_interventions_for_today()
+    self.rerender()
+  on_goal_changed: (evt) ->
+    this.rerender()
+  ready: ->
+    this.rerender()
+  rerender: ->
+    self = this
+    self.sites_and_interventions = []
     intervention_name_to_info <- get_interventions()
     sitename_to_interventions = {}
     for intervention_name,intervention_info of intervention_name_to_info
@@ -49,11 +48,15 @@ polymer_ext {
     list_of_sites_and_interventions = []
     list_of_sites = prelude.sort Object.keys(sitename_to_interventions)
     enabled_interventions <- get_enabled_interventions()
+    enabled_goals <- get_enabled_goals()
     manually_managed_interventions <- get_manually_managed_interventions()
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.interventions = prelude.sort-by (.name), sitename_to_interventions[sitename]
       for intervention in current_item.interventions
+        intervention.enabled_goals = []
+        if intervention.goals?
+          intervention.enabled_goals = [goal for goal in intervention.goals when enabled_goals[goal.name]]
         intervention.enabled = (enabled_interventions[intervention.name] == true)
         intervention.automatic = (manually_managed_interventions[intervention.name] != true)
       list_of_sites_and_interventions.push current_item

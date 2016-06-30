@@ -6,7 +6,6 @@ require! {
 {
   list_available_interventions_for_enabled_goals
   get_manually_managed_interventions
-  get_enabled_interventions_localstorage
   get_manually_managed_interventions_localstorage
   list_all_interventions
 } = require 'libs_backend/intervention_utils'

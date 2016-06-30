@@ -12,9 +12,10 @@ skate.define 'habitlab-logo', {
       'z-index': 999999,
       'width': '30px'
     }
+    url = chrome.extension.getURL('icons/icon_38.png')
     ``
     return (
-    <img src="./icons/icon_38.png" style={elem_style} alt="icon"></img>
+    <img src= {url} style={elem_style} alt="icon"></img>
     )
     ``
 }

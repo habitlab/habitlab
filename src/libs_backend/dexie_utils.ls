@@ -1,5 +1,6 @@
 {
   memoize
+  memoizeSingleAsync
 } = require 'libs_common/memoize'
 
 require! {
@@ -13,14 +14,6 @@ require! {
 
 export getDb = memoize ->
   db = new dexie('habitlab')
-  db.version(1).stores({
-    vars: 'key,val'
-    lists: '++,key,val'
-    # composite index:
-    # https://groups.google.com/forum/#!topic/dexiejs/G3_W5PssCGA
-    dicts: '[name+key],name,key,val'
-    dictdicts: '[name+key+key2],[name+key],[name+key2],name,key,key2,val'
-  })
   db.version(2).stores({
     vars: 'key'
     #lists: '++,key,val'
@@ -88,14 +81,14 @@ export printvar = (key) ->
 
 export addtolist = (name, val, callback) ->
   data = getCollection(name)
-  result <- data.add({'val': val}).then
+  result <- data.add(val).then
   if callback?
     callback val
 
 export getlist = (name, callback) ->
   data = getCollection(name)
   result <- data.toArray().then
-  callback [x.val for x in result]
+  callback result
 
 export clearlist = (name, callback) ->
   data = getCollection(name)

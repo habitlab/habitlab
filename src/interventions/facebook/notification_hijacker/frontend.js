@@ -11,6 +11,11 @@ const {
   once_available,
 } = require('libs_frontend/common_libs')
 
+const {
+  log_impression,
+  log_action,
+} = require('libs_common/log_utils')
+
 setTimeout(() => {
 
 const messages = ["You've spent a questionable amount of time on Facebook.",
@@ -103,6 +108,10 @@ function insertClickNotification() {
           
           selected = true;
           console.log("First Time Selected- Notification Injected");
+            
+          //Log the impression: The user viewed the message from habitlab
+          log_impression('facebook/notification_hijacker')
+
           clearInterval(wait);
         }
       }, 250);
@@ -113,7 +122,7 @@ function insertClickNotification() {
 }
 
 function main() {
-  if (decideToInject(10)) { //Injects notifications every x minutes
+  if (decideToInject(10 /*In minutes */)) { //Injects notifications every x minutes
       begin();
   }
 }

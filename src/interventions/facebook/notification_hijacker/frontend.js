@@ -122,9 +122,9 @@ function insertClickNotification() {
 }
 
 function main() {
-  //if (decideToInject(10 /*In minutes */)) { //Injects notifications every x minutes
+  if (decideToInject(5 /*In minutes */)) { //Injects notifications every x minutes
       begin();
-  //}
+  }
 }
 
 $(document).ready(main());

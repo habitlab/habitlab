@@ -180,8 +180,8 @@ polymer_ext {
       datasets: [
         {
           label: "Today",
-          backgroundColor: "rgba(75,192,192,0.5)",
-          borderColor: "rgba(75,192,192,1)",
+          backgroundColor: "rgba(65,131,215,0.5)",
+          borderColor: "rgba(65,131,215,1)",
           borderWidth: 1,
           data: enabledInterventionResults
         }

@@ -1,0 +1,5 @@
+description: Example of displaying the HabitLab logo
+matches:
+  - www.google.com
+content_scripts:
+  - frontend.js

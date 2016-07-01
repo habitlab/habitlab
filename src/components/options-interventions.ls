@@ -57,21 +57,12 @@ polymer_ext {
     list_of_goals_and_interventions = []
     enabled_interventions <- get_enabled_interventions()
     enabled_goals <- get_enabled_goals()
-    #list_of_goals = prelude.sort Object.keys(goal_to_interventions)
     list_of_goals = prelude.sort as_array(enabled_goals)
-    console.log 'list of goals is'
-    console.log list_of_goals
     all_goals <- get_goals()
     manually_managed_interventions <- get_manually_managed_interventions()
     for goalname in list_of_goals
       current_item = {goal: all_goals[goalname]}
-      console.log 'goal is'
-      console.log goal
-      console.log 'goal_to_interventions is'
-      console.log goal_to_interventions
       current_item.interventions = prelude.sort-by (.name), goal_to_interventions[goalname]
-      console.log 'current_item intervetnions is'
-      console.log current_item.interventions
       for intervention in current_item.interventions
         intervention.enabled_goals = []
         #if intervention.goals?

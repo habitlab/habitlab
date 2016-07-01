@@ -71,8 +71,11 @@
       <div class="buttons"><button class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">Compare with Yesterday</button></div>
 
 
-
-      <div class="description">Number of Times Your Interventions Were Deployed Today</div>
+      <div class="description">Number of Times Your Active Interventions Were Deployed Today</div>
+      <chart-horizontal-bar data="[[interventionFreqData]]" style="width: 500px"></chart-horizontal-bar>
+      <!--
+      <div class="buttons"><button class="interventionFreqButton" value="neverClicked" on-click="interventionFreqButtonAction">Compare with Yesterday</button></div>
+      -->
       <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>   
 
     </div>

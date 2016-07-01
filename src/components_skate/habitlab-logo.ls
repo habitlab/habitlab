@@ -40,13 +40,13 @@ set_position_equal_to_elem = (elem, invisible_div) ->
 
 skate.define 'habitlab-logo', {
   props: {
-    invisible_div_id: {default: generate_random_invisible_div_id()}
-    width: {default: '38px'}
-    height: {default: '38px'}
-    position: {default: 'absolute'}
-    top: {default: '0px'}
-    left: {default: '0px'}
-    'z-index': {default: 9999999}
+    invisible_div_id: {default: generate_random_invisible_div_id(), attribute: true}
+    width: {default: '38px', attribute: true}
+    height: {default: '38px', attribute: true}
+    position: {default: 'absolute', attribute: true}
+    top: {default: '0px', attribute: true}
+    left: {default: '0px', attribute: true}
+    'z-index': {default: 9999999, attribute:true}
   }
   attached: (elem) ->
     invisible_div = get_invisible_div(elem)

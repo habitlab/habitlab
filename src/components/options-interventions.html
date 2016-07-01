@@ -25,21 +25,12 @@
       <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
       <br>
 
-      <template is="dom-repeat" items="{{sites_and_interventions}}" as="site_and_interventions">
-        <h1>{{site_and_interventions.sitename}}</h1>
+      <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
+        <h1>{{goal_and_interventions.goal.description}}</h1>
         
-        <template is="dom-repeat" items="{{site_and_interventions.interventions}}" as="intervention">
-          <template is="dom-if" if="{{intervention.enabled_goals.length}}">
+        <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
             <intervention-view-single intervention="{{intervention}}"></intervention-view-single>
             <br><br>
-          </template>
-        </template>
-
-        <template is="dom-repeat" items="{{site_and_interventions.interventions}}" as="intervention">
-          <template is="dom-if" if="{{!intervention.enabled_goals.length}}">
-            <intervention-view-single intervention="{{intervention}}"></intervention-view-single>
-            <br><br>
-          </template>
         </template>
 
       </template>

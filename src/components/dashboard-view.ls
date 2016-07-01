@@ -170,14 +170,10 @@ polymer_ext {
     filtered = currentlyEnabledKeys.filter (key) ->
       return currEnabledInterventions[key]
 
-    console.log filtered
-
     #Retrieves the number of impressions for each enabled intervention        
     errors,all_enabled_intervention_results <- async.mapSeries filtered, (item, ncallback) ->
       enabledInterventionResults <- get_num_impressions(item)
       ncallback(null, enabledInterventionResults)
-    
-    console.log all_enabled_intervention_results    
 
     #displays onto the graph
     self.interventionFreqData = {

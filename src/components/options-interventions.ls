@@ -37,6 +37,7 @@ polymer_ext {
   }
   select_new_interventions: (evt) ->
     self = this
+    self.goals_and_interventions = []
     <- get_and_set_new_enabled_interventions_for_today()
     self.rerender()
   on_goal_changed: (evt) ->
@@ -45,8 +46,11 @@ polymer_ext {
     this.rerender()
   rerender: ->
     self = this
-    self.goals_and_interventions = []
     intervention_name_to_info <- get_interventions()
+    enabled_interventions <- get_enabled_interventions()
+    enabled_goals <- get_enabled_goals()
+    all_goals <- get_goals()
+    manually_managed_interventions <- get_manually_managed_interventions()
     goal_to_interventions = {}
     for intervention_name,intervention_info of intervention_name_to_info
       for goal in intervention_info.goals
@@ -55,11 +59,7 @@ polymer_ext {
           goal_to_interventions[goalname] = []
         goal_to_interventions[goalname].push intervention_info
     list_of_goals_and_interventions = []
-    enabled_interventions <- get_enabled_interventions()
-    enabled_goals <- get_enabled_goals()
     list_of_goals = prelude.sort as_array(enabled_goals)
-    all_goals <- get_goals()
-    manually_managed_interventions <- get_manually_managed_interventions()
     for goalname in list_of_goals
       current_item = {goal: all_goals[goalname]}
       current_item.interventions = prelude.sort-by (.name), goal_to_interventions[goalname]

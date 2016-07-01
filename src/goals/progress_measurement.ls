@@ -14,3 +14,15 @@ export time_spent_on_domain = (goal_info) ->
       units
       message
     }
+
+# this is a dummy progress measurement for debugging purposes
+export always_zero_progress = (goal_info) ->
+  return (days_since_today, callback) ->
+    progress = 0
+    units = "minutes"
+    message = "#{progress} #{units}"
+    callback {
+      progress
+      units
+      message
+    }

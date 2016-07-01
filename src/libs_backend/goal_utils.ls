@@ -13,7 +13,20 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
+getAllInterventionsGoalInfo = (callback) ->
+  goal_info = {
+    name: 'debug/all_interventions'
+    sitename: 'debug'
+    description: 'This goal is satisfied by all interventions'
+    measurement: 'always_zero_progress'
+  }
+  all_interventions <- intervention_utils.list_all_interventions()
+  goal_info.interventions = all_interventions
+  callback goal_info
+
 export getGoalInfo = (goal_name, callback) ->
+  if goal_name == 'debug/all_interventions'
+    return getAllInterventionsGoalInfo callback
   goal_info_text <- $.get "/goals/#{goal_name}/info.json"
   goal_info = JSON.parse goal_info_text
   goal_info.name = goal_name
@@ -105,5 +118,7 @@ export get_goals_for_intervention = (intervention_name, callback) ->
   interventions_to_goals <- get_interventions_to_goals()
   goals_for_intervention = interventions_to_goals[intervention_name] ? []
   callback goals_for_intervention
+
+intervention_utils = require 'libs_backend/intervention_utils'
 
 gexport_module 'goal_utils', -> eval(it)

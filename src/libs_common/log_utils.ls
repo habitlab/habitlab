@@ -1,15 +1,15 @@
-if chrome.windows # background page
-  {
-    addtolog
-    getlog
-    clearlog
-  } = require 'libs_backend/log_utils'
-else
+if IS_CONTENT_SCRIPT
   {
     addtolog
     getlog
     clearlog
   } = require 'libs_frontend/log_utils'
+else
+  {
+    addtolog
+    getlog
+    clearlog
+  } = require 'libs_backend/log_utils'
 
 {
   gexport

@@ -8,6 +8,11 @@ const {
   on_url_change,
 } = require('libs_frontend/common_libs')
 
+const {
+  log_impression,
+  log_action,
+} = require('libs_common/log_utils')
+
 console.log('youtube remove sidebar links loaded frontend')
 //Nukes links on the sidebar
 function removeSidebar() {
@@ -19,6 +24,7 @@ function removeSidebar() {
 }
 
 const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
+  log_impression('youtube/remove_sidebar_links')
   once_available('.watch-sidebar-section', () => {
     removeSidebar()
     callback()

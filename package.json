@@ -8,6 +8,7 @@
     "dexie": "^1.4.1",
     "enable-webcomponents-in-content-scripts": "^1.0.4",
     "jquery": "^3.0.0",
+    "jquery-contextmenu": "^2.2.0",
     "jquery.isinview": "^1.0.4",
     "jquery.terminal": "^0.10.12",
     "js-yaml": "^3.6.1",

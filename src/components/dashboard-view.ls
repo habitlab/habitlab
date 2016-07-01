@@ -3,6 +3,10 @@
   list_polymer_ext_tags_with_info
 } = require 'libs_frontend/polymer_utils'
 
+require! {
+  async
+}
+
 {
   get_seconds_spent_on_current_domain_today     # current domain
   get_seconds_spent_on_all_domains_today        # map for all domains
@@ -10,14 +14,6 @@
   get_seconds_spent_on_all_domains_days_since_today
   get_seconds_spent_on_domain_all_days
 } = require 'libs_common/time_spent_utils'
-
-require! {
-  async
-}
-
-{
-  printable_time_spent
-} = require 'libs_common/time_utils'
 
 {  
   list_sites_for_which_goals_are_enabled
@@ -29,6 +25,15 @@ require! {
   get_progress_on_enabled_goals_today
   get_progress_on_goal_today
 } = require 'libs_backend/goal_progress'
+
+{
+  get_enabled_interventions
+} = require 'libs_backend/intervention_utils'
+
+{
+  get_num_impressions
+  get_num_actions
+} = require 'libs_backend/log_utils'
 
 #d3 = require 'd3'
 #Chart = require 'chart.js'
@@ -156,6 +161,32 @@ polymer_ext {
           ]
       }]
     }
+
+    #MARK: Num Times Interventions Deployed Graph
+    #Retrieves all interventions
+    currEnabledInterventions <- get_enabled_interventions()
+    currentlyEnabledKeys = Object.keys(currEnabledInterventions)
+    #Filters by whether enabled or not
+    filtered = currentlyEnabledKeys.filter (key) ->
+      return currEnabledInterventions[key]
+    #Retrieves the number of impressions for each enabled intervention
+    errors,enabledInterventionResults <- async.mapSeries filtered, (item, ncallback) ->
+      enabledInterventionResults <- get_num_impressions(item)
+      ncallback(null, enabledInterventionResults)
+
+    #displays onto the graph
+    self.interventionFreqData = {
+      labels: filtered
+      datasets: [
+        {
+          label: "Today",
+          backgroundColor: "rgba(65,131,215,0.5)",
+          borderColor: "rgba(65,131,215,1)",
+          borderWidth: 1,
+          data: enabledInterventionResults
+        }
+      ]
+    }    
 
 }, {
   source: require 'libs_frontend/polymer_methods'

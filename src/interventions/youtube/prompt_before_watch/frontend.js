@@ -15,6 +15,11 @@ const {
   get_seconds_spent_on_domain_today,
 } = require('libs_common/time_spent_utils')
 
+const {
+  log_impression,
+  log_action,
+} = require('libs_common/log_utils')
+
 //console.log('youtube prompt before watch loaded frontend')
 
 //Initially pauses the video when the page is loaded
@@ -77,6 +82,7 @@ function divOverVideo(status) {
 	$button1.text("Close Tab");
 	$button1.css({'cursor': 'pointer'});
 	$button1.click(() => {
+    log_action('youtube/prompt_before_watch', {'positive': 'closedYoutube'})
 		closeTab();
 		$button1.hide();
 	})
@@ -87,6 +93,7 @@ function divOverVideo(status) {
 	$button2.text("Watch Video");
 	$button2.css({'cursor': 'pointer', 'padding': '10px'});
 	$button2.click(() => {
+    log_action('youtube/prompt_before_watch', {'negative': 'remainedOnYoutube'})
 		removeDivAndPlay();
 		$button2.hide();
 	})
@@ -94,6 +101,9 @@ function divOverVideo(status) {
 
 	//Adds text into the white box
 	$('.whiteOverlay').append($contentContainer);
+
+  //Logs impression
+  log_impression('youtube/prompt_before_watch');
 }
 
 //Remove the white div

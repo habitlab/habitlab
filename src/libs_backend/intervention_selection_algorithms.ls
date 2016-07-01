@@ -44,7 +44,16 @@ export each_intervention_enabled_with_probability_half = (callback) ->
   interventions <- list_available_interventions_for_enabled_goals()
   callback prelude.sort [x for x in interventions when Math.random() < 0.5]
 
+selection_algorithms = {
+  'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal
+  'each_intervention_enabled_with_probability_half': each_intervention_enabled_with_probability_half
+  'default': one_random_intervention_per_enabled_goal
+}
+
 export get_intervention_selection_algorithm = (callback) ->
-  callback each_intervention_enabled_with_probability_half
+  algorithm_name = localStorage.getItem('selection_algorithm')
+  if not (algorithm_name? and selection_algorithms[algorithm_name]?)
+    algorithm_name = 'default'
+  callback selection_algorithms[algorithm_name]
 
 gexport_module 'intervention_selection_algorithms', -> eval(it)

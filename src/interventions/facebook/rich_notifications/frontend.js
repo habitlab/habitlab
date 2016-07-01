@@ -16,13 +16,14 @@ const {
   printable_time_spent,
 } = require('libs_common/time_utils')
 
+const {
+  log_impression,
+  log_action,
+} = require('libs_common/log_utils')
+
 
 function shouldInsert(secondsSpent, timeInterval) {
-  console.log("in shouldInsert method");
-
   const newestInterval = Math.floor(Math.floor(secondsSpent/60) / timeInterval)
-  console.log(secondsSpent)
-  console.log(newestInterval)
 
   if (!localStorage.hasOwnProperty("currInterval")) {
     localStorage.currInterval = newestInterval
@@ -33,7 +34,6 @@ function shouldInsert(secondsSpent, timeInterval) {
       localStorage.currInterval = newestInterval
       return true
     } else if (newestInterval === parseInt(localStorage.currInterval, 10)) {
-      console.log("Not inserting rich notification")
       return false
     } else { //newestInterval > localStorage.currInterval
       localStorage.currInterval = newestInterval;
@@ -46,6 +46,7 @@ function insertRichNotification() {
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
     console.log(secondsSpent);
     if (shouldInsert(secondsSpent, 5 /* In minutes */)) {
+      log_impression('facebook/rich_notifications')
       chrome.runtime.sendMessage({type: "chrome-notification", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
     }
   })

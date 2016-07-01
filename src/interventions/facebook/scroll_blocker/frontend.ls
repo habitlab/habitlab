@@ -42,16 +42,22 @@ disable_scrolling_and_show_scroll_block = ->
   
 
 
-enable_scrolling_and_hide_scroll_block()
-disable_scrolling_and_show_scroll_block()
+enable_scrolling_and_hide_scroll_block!
+disable_scrolling_and_show_scroll_block!
 
 
 # when the scroll block display fires the continue_scrolling event, hide it and enable scrolling for 5 seconds
 scroll_block_display[0].addEventListener 'continue_scrolling', ->
   console.log 'got continue_scrolling event'
   nscrolls := 0
-  enable_scrolling_and_hide_scroll_block()
+  enable_scrolling_and_hide_scroll_block!
   
+scroll_block_display[0].addEventListener 'disable_intervention' ->
+  console.log 'intervention disabled'
+  console.log scroll_block_display
+  enable_scrolling_and_hide_scroll_block!
+  $(scroll_block_display).remove()
+  console.log 'intervention disabled'
 
 # these insert the debugging console at the bottom-right
 listen_for_eval ((x) -> eval(x))

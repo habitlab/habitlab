@@ -38,11 +38,15 @@ set_position_equal_to_elem = (elem, invisible_div) ->
   invisible_div.width logo.width()
   invisible_div.height logo.height()
 
+disable_callback = (elem) ->
+  console.log $('#habitlab-logo').parent()
+  skate.emit elem, 'disable_intervention'
+
 skate.define 'habitlab-logo', {
   props: {
     invisible_div_id: {default: generate_random_invisible_div_id(), attribute: true}
-    width: {default: '38px', attribute: true}
-    height: {default: '38px', attribute: true}
+    width: {default: '30px', attribute: true}
+    height: {default: '30px', attribute: true}
     position: {default: 'absolute', attribute: true}
     top: {default: '0px', attribute: true}
     left: {default: '0px', attribute: true}
@@ -51,6 +55,7 @@ skate.define 'habitlab-logo', {
   attached: (elem) ->
     invisible_div = get_invisible_div(elem)
     set_position_equal_to_elem(elem, invisible_div)
+    console.log elem
     #setInterval ->
     #  set_position_equal_to_elem(elem, invisible_div)
     #, 1000
@@ -65,22 +70,19 @@ skate.define 'habitlab-logo', {
       #  console.log 'options'
       #  console.log options
       items: {
-        "edit": {name: "Edit", icon: "edit"},
-        "cut": {name: "Cut", icon: "cut"},
-        "copy": {name: "Copy", icon: "copy"},
-        "paste": {name: "Paste", icon: "paste"},
-        "delete": {name: "Delete", icon: "delete"},
-        "sep1": "---------",
-        "quit": {name: "Quit", icon: ($element, key, item) -> 'context-menu-icon context-menu-icon-quit' }
+        "disable": {
+          name: "Disable this intervention",
+          callback: ->
+            disable_callback(elem)
+        },
+        "info": {name: "This intervention is ____"},
       }
     })
   events: {
     'mouseover #habitlab_logo': (elem, eventObject) ->
       invisible_div = get_invisible_div(elem)
       set_position_equal_to_elem(elem, invisible_div)
-  }
 
-  events: {
     'click': (elem, eventObject) ->
       console.log 'clicked the logo'
   }

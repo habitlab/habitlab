@@ -8,6 +8,11 @@ require 'jquery-contextmenu'
 
 load_css_file 'bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css'
 
+{
+  set_intervention_disabled
+  set_intervention_enabled
+} = require 'libs_common/intervention_utils'
+
 get_invisible_div = (elem) ->
   #console.log 'get_invisible_div'
   #console.log ('#' + elem.invisible_div_id)
@@ -41,6 +46,8 @@ set_position_equal_to_elem = (elem, invisible_div) ->
 disable_callback = (elem) ->
   console.log $('#habitlab-logo').parent()
   skate.emit elem, 'disable_intervention'
+  set_intervention_disabled elem.intervention, ->
+    console.log 'set_intervention_disabled complete for intervention ' + elem.intervention
 
 skate.define 'habitlab-logo', {
   props: {
@@ -50,7 +57,8 @@ skate.define 'habitlab-logo', {
     position: {default: 'absolute', attribute: true}
     top: {default: '0px', attribute: true}
     left: {default: '0px', attribute: true}
-    'z-index': {default: 9999999, attribute:true}
+    'z-index': {default: 9999999, attribute: true}
+    intervention: {default: '', attribute: true}
   }
   attached: (elem) ->
     invisible_div = get_invisible_div(elem)

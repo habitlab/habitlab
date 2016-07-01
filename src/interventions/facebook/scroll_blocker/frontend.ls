@@ -25,15 +25,17 @@ require('components_skate/fb-scroll-block-display')
 window.scrolling_allowed = true
 nscrolls = 0
 NSCROLLS_THRESHOLD = 51
+disabled = false
 
 window.onwheel = (evt) ->
-  nscrolls := nscrolls+1
-  console.log nscrolls
-  if nscrolls % NSCROLLS_THRESHOLD == 0
-    disable_scrolling_and_show_scroll_block()
-  return window.scrolling_allowed
+  if !disabled
+    nscrolls := nscrolls+1
+    console.log nscrolls
+    if nscrolls % NSCROLLS_THRESHOLD == 0
+      disable_scrolling_and_show_scroll_block()
+    return window.scrolling_allowed
 
-scroll_block_display = $('<fb-scroll-block-display>')
+scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker">')
 $('body').append(scroll_block_display)
 
 enable_scrolling_and_hide_scroll_block = ->
@@ -62,6 +64,7 @@ scroll_block_display[0].addEventListener 'disable_intervention' ->
   console.log scroll_block_display
   enable_scrolling_and_hide_scroll_block!
   $(scroll_block_display).remove()
+  disabled := true
   console.log 'intervention disabled'
 
 # these insert the debugging console at the bottom-right

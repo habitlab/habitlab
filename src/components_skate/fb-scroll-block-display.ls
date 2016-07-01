@@ -18,6 +18,7 @@ skate.define 'fb-scroll-block-display', {
   props: {
     site: { default: url_to_domain(window.location.href) }
     seconds: { default: 0 }
+    intervention: { default: '', attribute: true}
   }
   events: {
     'click #clickme': (elem, eventObject) ->
@@ -44,7 +45,7 @@ skate.define 'fb-scroll-block-display', {
     <div style="display: table; height: 50px">
       
       <div id="clickme" style={elem_style}>
-        <habitlab-logo></habitlab-logo>
+        <habitlab-logo intervention={elem.intervention}></habitlab-logo>
         <br/><div>You have already spent {elem.seconds} seconds on {elem.site}. Consider doing something more productive! Click here to continue scrolling.
 
       </div><br/>

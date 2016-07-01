@@ -17,6 +17,11 @@ window.google_logging_example = true
   insert_console
 } = require 'libs_frontend/content_script_debug'
 
+{
+  set_intervention_enabled
+  set_intervention_disabled
+} = require 'libs_common/intervention_utils'
+
 
 log_impression('google/logging_example')
 

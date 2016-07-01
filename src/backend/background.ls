@@ -30,6 +30,8 @@
   get_interventions
   list_enabled_interventions_for_location
   list_available_interventions_for_location
+  set_intervention_enabled
+  set_intervention_disabled
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -259,6 +261,10 @@ message_handlers = {
     getlog name, callback
   'clearlog': (name, callback) ->
     clearlog name, callback
+  'set_intervention_disabled': (name, callback) ->
+    set_intervention_disabled name, callback
+  'set_intervention_enabled': (name, callback) ->
+    set_intervention_enabled name, callback
   /*
   'setvars': (data, callback) ->
   <- async.forEachOfSeries data, (v, k, ncallback) ->

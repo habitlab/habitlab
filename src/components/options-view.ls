@@ -11,7 +11,7 @@ polymer_ext {
   ready: ->
     self = this
     self.once_available '#optionstab', ->
-      self.S('#optionstab').prop('selected', 1)
+      self.S('#optionstab').prop('selected', 0)
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

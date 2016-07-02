@@ -486,9 +486,6 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   else
     return false
 
-# open the options page on first run
-#chrome.tabs.create {url: 'options.html'}
-
 browser_focus_changed = (new_focused) ->
   console.log "browser focus changed: #{new_focused}"
 
@@ -519,5 +516,11 @@ setInterval ->
   addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
     console.log "total seconds spent on #{current_domain} today is #{total_seconds}"
 , 1000
+
+do ->
+  # open the options page on first run
+  if not localStorage.getItem('notfirstrun')
+    localStorage.setItem('notfirstrun', true)
+    chrome.tabs.create {url: 'index.html?tag=options-view'}
 
 gexport_module 'background', -> eval(it)

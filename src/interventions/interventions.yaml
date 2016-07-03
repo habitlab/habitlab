@@ -10,6 +10,7 @@
 - google/display_time_spent
 - google/logging_example
 - google/logo_display_example
+- google/polymer_example
 - google/print_active_tab
 - wikipedia/scroll_blocker
 - youtube/prompt_before_watch

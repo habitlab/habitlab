@@ -6,7 +6,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "dexie": "^1.4.1",
-    "enable-webcomponents-in-content-scripts": "^1.0.4",
+    "enable-webcomponents-in-content-scripts": "^1.0.5",
     "jquery": "^3.0.0",
     "jquery-contextmenu": "^2.2.0",
     "jquery.isinview": "^1.0.4",
@@ -18,7 +18,7 @@
     "npm-zepto": "^1.1.7",
     "prelude-ls": "^1.1.2",
     "shuffled": "^1.0.0",
-    "skatejs1": "^1.0.0-beta.2"
+    "skatejs1": "^1.0.0-beta.7"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
@@ -37,6 +37,7 @@
     "gulp-util": "^3.0.7",
     "gulp-vulcanize": "^6.1.0",
     "gulp-yaml": "^1.0.1",
+    "html-loader": "^0.4.3",
     "jsx-control-statements": "^3.1.2",
     "livescript": "^1.5.0",
     "livescript-loader": "^0.1.5",

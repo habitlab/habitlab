@@ -21,6 +21,9 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
+const {
+  on_url_change
+} = require('libs_frontend/common_libs')
 
 function removeFeed() {
   console.log("hello")
@@ -34,6 +37,11 @@ function removeFeed() {
   $('#pagelet_canvas_nav_content').remove();
 }
 
+on_url_change(() => {
+  console.log(`new url is ${window.location.href}`)
+})
+
+log_impression('facebook/remove_news_feed')
 window.setInterval(removeFeed, 200);
 
 })()

@@ -10,7 +10,7 @@ Ensure that you have [git](https://git-scm.com/) and [nodejs](https://nodejs.org
 git clone git@github.com:habitlab/habitlab-chrome.git
 cd habitlab-chrome
 npm install
-npm install -g gulp webpack
+npm install -g gulp webpack vulcanize cspify livescript
 gulp
 ```
 
@@ -123,7 +123,7 @@ Note that to require the component, you need to require a `.deps.js` file (you c
 
 See [`google/polymer_example/frontend.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/interventions/google/polymer_example/frontend.ls) for an example of an intervention that uses Polymer components in the content script.
 
-Note that if you add an external polymer component via bower, before using it you will have to run `cspify` (if you don't have this command, run `npm install -g cspify`) followed by `scripts/generate_polymer_dependencies --bower`
+Note that if you add an external polymer component via bower, before using it you will have to run `cspify` (if you don't have this command, first run `npm install -g cspify`) followed by `scripts/generate_polymer_dependencies --bower`
 
 ## Using External Libraries
 

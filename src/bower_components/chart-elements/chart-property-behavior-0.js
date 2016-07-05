@@ -1,7 +1,7 @@
 
-  var ChartBehaviors = ChartBehaviors || {};
+  window.ChartBehaviors = window.ChartBehaviors || {};
   /** @polymerBehavior */
-  ChartBehaviors.ChartPropertyBehavior = {
+  window.ChartBehaviors.ChartPropertyBehavior = {
 
     properties: {
 
@@ -48,4 +48,3 @@
     }
 
   };
-

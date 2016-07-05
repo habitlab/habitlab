@@ -1,0 +1,36 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="habitlab-logo-polymer">
+  <style>
+    :host {
+      /*display: block;*/
+      width: 100%;
+      height: 100%;
+    }
+    .helloworld {
+      background-color: yellow;
+    }
+    .helloworld_button {
+      background-color: red;
+    }
+  </style>
+  <template>
+
+
+    <paper-icon-button id="id_1" icon="favorite" alt="heart"></paper-icon-button>
+    <paper-tooltip for="id_1" offset="0">&lt;3 &lt;3 &lt;3 </paper-tooltip>
+
+    <img style="width: 38px; height: 38px" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
+    <paper-tooltip for="habitlab_logo" animation-delay="0">A tooltip</paper-tooltip>
+
+    <!--
+    <div class="helloworld" on-click="clicked">Hello world example</div>
+    <paper-button class="helloworld_button" on-click="buttonclicked">Click the button</paper-button>
+    -->
+
+  </template>
+  <script src="habitlab-logo-polymer.js"></script>
+</dom-module>

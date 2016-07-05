@@ -15,12 +15,18 @@ load_css_file 'node_modules/tooltipster/css/tooltipster.css'
   set_intervention_enabled
 } = require 'libs_common/intervention_utils'
 
+fn = !-> $('.tooltip').tooltipster!
+  
+
+$(document).ready fn
+
+
 get_invisible_div = (elem) ->
   #console.log 'get_invisible_div'
   #console.log ('#' + elem.invisible_div_id)
   invisible_div = $('#' + elem.invisible_div_id)
   if invisible_div.length == 0
-    invisible_div = $('<div>').attr('id', elem.invisible_div_id).css({
+    invisible_div = $('<div>').attr('id', elem.invisible_div_id).attr('title', 'hello').addClass('tooltip').css({
       'position': 'absolute'
       #'top': '50px'
       #'left': '50px'
@@ -63,6 +69,7 @@ skate.define 'habitlab-logo', {
     intervention: {default: '', attribute: true}
   }
   attached: (elem) ->
+    $(document).ready fn
     invisible_div = get_invisible_div(elem)
     set_position_equal_to_elem(elem, invisible_div)
     console.log elem
@@ -88,7 +95,7 @@ skate.define 'habitlab-logo', {
         "info": {name: "This intervention is ____"},
       }
     })
-    $('[data-toggle="tooltip"]').tooltip()
+
 
   events: {
     'mouseover #habitlab_logo': (elem, eventObject) ->
@@ -114,7 +121,7 @@ skate.define 'habitlab-logo', {
     url = chrome.extension.getURL('icons/icon_38.png')
     ``
     return (
-      <img id="habitlab_logo" src={url} style={elem_style} alt="icon"></img>
+      <img id="habitlab_logo" class="tooltip" title="This is a HabitLab intervention."src={url} style={elem_style} alt="icon"></img>
     )
     ``
 }

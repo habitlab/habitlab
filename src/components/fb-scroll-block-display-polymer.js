@@ -26,6 +26,7 @@ Polymer({
   },
   clicked: function() {
     console.log('habitlab-logo-polymer clicked');
+    this.fire('continue_scrolling', {})
   },
   buttonclicked: function() {
     console.log('habitlab-logo-polymer paper-button clicked');

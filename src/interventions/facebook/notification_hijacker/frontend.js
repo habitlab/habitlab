@@ -99,7 +99,7 @@ function insertClickNotification() {
           $messageClone.find('.author.fixemoji').text('HabitLab'); //Changes notification sender
           const rand = Math.floor((Math.random() * messages.length));
           $messageClone.find('.snippet.preview').text(messages[rand]); //Changes text
-          $messageClone.find('.time').text('Just Now'); //Changes time sent
+          $messageClone.find('.timestamp').text('Just Now'); //Changes time sent
           $messageClone.find('._55lt').html('<img src="https://i.imgur.com/4G2qKQV.png" width="50" height="50" alt="" class="img">'); //Changes icon
           $messageClone.find('a[href]').attr('href', 'https://habitlab.github.io'); //redirects link to [link in 2nd arg of attr]
 
@@ -122,8 +122,10 @@ function insertClickNotification() {
 }
 
 function main() {
-  if (decideToInject(5 /*In minutes */)) { //Injects notifications every x minutes
+  if (decideToInject(5 /*window.content_script_preview('')*/ /*In minutes */)) { //Injects notifications every x minutes
       begin();
+  } else {
+    console.log("Notification not injected");
   }
 }
 

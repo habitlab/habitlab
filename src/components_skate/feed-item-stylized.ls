@@ -51,6 +51,7 @@ get_styles = ->
       'width': '40px',
       'margin-right': '12px',
       'margin-bottom': '12px',
+      'float: left',
     }
     name: {
       'color': '#3b5998',
@@ -74,15 +75,20 @@ get_styles = ->
       'font-size': '13px',
     }
     container_info: {
-      'width': '100%',
+      'display: table',
+      'width: 100%', 
+      'margin-bottom: 10px',
     }
     align_left: {
-      'float: left',
-      'width: 50%',
+      'text-align: left',
+      'display: table-cell',
     }
     align_right: {
-      'float: right',
-      'width: 50%',
+      'text-align: right',
+      'display: table-cell',
+    }
+    clear_div: {
+      'clear: both',
     }
     /*
     'elem_style': {
@@ -112,7 +118,7 @@ skate.define 'feed-item-stylized', {
   }
   render: (elem) !->
     styles = get_styles()
-    styles.container_top_overlay_layout_row = merge_dictionaries(styles.container, styles.top_overlay, styles.layout_row)
+    styles.container_top_overlay = merge_dictionaries(styles.container, styles.top_overlay)
     styles.timer_line = merge_dictionaries(styles.timer, styles.line)
     url = chrome.extension.getURL('icons/icon_38.png')
     /*<img class="fake-profile" src="/img/effic-icon.png"></img>*/
@@ -123,6 +129,19 @@ skate.define 'feed-item-stylized', {
     ``
     return (
     <div style="width: 500px; height: 300px">
+      <div style={styles.container_top_overlay}>
+        <div style={styles.container_info}>
+          <div style={styles.align_left}>
+           <img style={styles.fake_profile} src={url}></img> 
+          </div> 
+          <div style={styles.align_right}>
+            <div style={styles.name}><a href="https://habitlab.github.io" style="color: #3b5998;text-decoration: none;">HabitLab</a></div>
+            <div style={styles.fbtimeposted}>Now</div>
+          </div>
+
+        </div>
+      </div>  
+      <div style={styles.clear_div}></div>  
       <div style={styles.container}>
         <div style={styles.time_container}>
           <div style={styles.spacer}></div>
@@ -134,17 +153,6 @@ skate.define 'feed-item-stylized', {
             <span style={styles.line}>Consider doing something more productive!</span>
           </div>
           <div style={styles.spacer}></div>
-        </div>
-      </div>
-      <div style={styles.container_top_overlay_layout_row}>
-        <div style={styles.container_info}>
-          <div style={styles.align_left}>
-            <img style={styles.fake_profile} src={url}></img>
-          </div>
-          <div style={styles.align_right}>
-            <div style={styles.name}><a href="https://habitlab.github.io" style="color: #3b5998;text-decoration: none;">HabitLab</a></div>
-            <div style={styles.fbtimeposted}>Now</div>
-          </div>
         </div>
       </div>
     </div>

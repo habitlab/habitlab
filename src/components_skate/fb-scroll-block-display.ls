@@ -8,7 +8,8 @@ skate = require 'skatejs'
   get_seconds_spent_on_domain_today,
 } = require 'libs_common/time_spent_utils'
 
-require('components_skate/habitlab-logo')
+#require('components_skate/habitlab-logo')
+require('components/habitlab-logo-polymer.deps')
 
 update_page = (elem) ->
   get_seconds_spent_on_domain_today elem.site, (seconds_spent) ->
@@ -28,7 +29,7 @@ skate.define 'fb-scroll-block-display', {
   render: (elem) !->
 
     elem_style = {
-    
+
       'display': 'table-cell',
       'background-color': 'red',
       'position': 'fixed',
@@ -43,9 +44,8 @@ skate.define 'fb-scroll-block-display', {
     ``
     return (
     <div style="display: table; height: 50px">
-      
+
       <div id="clickme" style={elem_style}>
-        <habitlab-logo intervention={elem.intervention}></habitlab-logo>
         <br/><div>You have already spent {elem.seconds} seconds on {elem.site}. Consider doing something more productive! Click here to continue scrolling.
 
       </div><br/>

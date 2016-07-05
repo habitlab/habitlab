@@ -20,7 +20,8 @@ $ = require 'jquery'
 
 
 require('enable-webcomponents-in-content-scripts')
-require('components_skate/fb-scroll-block-display')
+#require('components_skate/fb-scroll-block-display')
+require('components/fb-scroll-block-display-polymer.deps')
 
 window.scrolling_allowed = true
 nscrolls = 0
@@ -35,13 +36,13 @@ window.onwheel = (evt) ->
       disable_scrolling_and_show_scroll_block()
     return window.scrolling_allowed
 
-scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker">')
+scroll_block_display = $('<fb-scroll-block-display-polymer intervention="facebook/scroll_blocker">')
 $('body').append(scroll_block_display)
 
 enable_scrolling_and_hide_scroll_block = ->
   window.scrolling_allowed = true
   scroll_block_display.hide()
-  
+
 
 disable_scrolling_and_show_scroll_block = ->
   window.scrolling_allowed = false
@@ -58,7 +59,7 @@ scroll_block_display[0].addEventListener 'continue_scrolling', ->
   console.log 'got continue_scrolling event'
   nscrolls := 0
   enable_scrolling_and_hide_scroll_block!
-  
+
 scroll_block_display[0].addEventListener 'disable_intervention' ->
   console.log 'intervention disabled'
   console.log scroll_block_display
@@ -70,4 +71,3 @@ scroll_block_display[0].addEventListener 'disable_intervention' ->
 # these insert the debugging console at the bottom-right
 #listen_for_eval ((x) -> eval(x))
 #insert_console ((x) -> eval(x)), {lang: 'livescript'}
-

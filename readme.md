@@ -102,6 +102,27 @@ If your component has properties (ie, the `site` property in [`site-goal-view.ls
 
 Refer to [`site-goal-view.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.html) for an example.
 
+### Using a Polymer component in a content script
+
+Before you require the component, you must have the following line in your content script:
+
+```
+require('enable-webcomponents-in-content-scripts')
+```
+
+Then, require the Polymer component, and you can then create elements and add them to the body:
+
+```
+require('components/hello-world-example.deps')
+
+hello_world_example = $('<hello-world-example>')
+$('body').append(hello_world_example)
+```
+
+Note that to require the component, you need to require a `.deps.js` file (you can use `.deps` as shorthand). These files are generated using the [`scripts/generate_polymer_dependencies`](https://github.com/habitlab/habitlab-chrome/blob/master/scripts/generate_polymer_dependencies.ls) script from the corresponding `.html` files. The script is run automatically when you run gulp (but currently it is not re-run when files are changed, so you will have to re-run it manually).
+
+See [`google/polymer_example/frontend.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/interventions/google/polymer_example/frontend.ls) for an example of an intervention that uses Polymer components in the content script.
+
 ## Using External Libraries
 
 You can use any [npm](https://www.npmjs.com/) modules as follows. (This example illustrates usage of the [moment](http://momentjs.com/docs/) package)

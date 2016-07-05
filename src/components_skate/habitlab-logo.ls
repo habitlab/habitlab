@@ -8,6 +8,8 @@ require 'jquery-contextmenu'
 
 load_css_file 'bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css'
 
+load_css_file 'node_modules/tooltipster/css/tooltipster.css'
+
 {
   set_intervention_disabled
   set_intervention_enabled
@@ -86,6 +88,8 @@ skate.define 'habitlab-logo', {
         "info": {name: "This intervention is ____"},
       }
     })
+    $('[data-toggle="tooltip"]').tooltip()
+
   events: {
     'mouseover #habitlab_logo': (elem, eventObject) ->
       invisible_div = get_invisible_div(elem)

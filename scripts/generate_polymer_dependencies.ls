@@ -106,18 +106,14 @@ generate_dependencies_for_file = (filename_abs) ->
   params = {filepath_rel, filepath_abs, $}
   output = []
   dependencies = []
-  output.push "{import_dom_modules} = require('libs_frontend/dom_utils')"
-  output.push ''
+  output.push "const {import_dom_modules} = require('libs_frontend/dom_utils')"
   for tag in $('link[rel="import"]')
     dependencies.push get_html_import_abspath(tag, params)
     output.push html_import_deps(tag, params)
-  output.push ''
   output.push "import_dom_modules(require('html!#{filename_rel}'))"
-  output.push ''
   for tag in $('script')
     output.push script_deps(tag, params)
-  output.push ''
-  output = output.join "\n"
+  output = output.join("\n").split("\n").filter(-> it.length > 0).join("\n") + "\n"
   if options.tostdout
     console.log output
     return

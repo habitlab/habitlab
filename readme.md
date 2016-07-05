@@ -10,7 +10,7 @@ Ensure that you have [git](https://git-scm.com/) and [nodejs](https://nodejs.org
 git clone git@github.com:habitlab/habitlab-chrome.git
 cd habitlab-chrome
 npm install
-npm install -g gulp webpack vulcanize cspify livescript
+npm install -g gulp webpack vulcanize cspify crisper livescript
 gulp
 ```
 

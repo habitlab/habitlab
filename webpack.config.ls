@@ -19,6 +19,21 @@ module.exports = {
   module: {
     loaders: [
         {
+          # asset loader
+          test: /\.(woff|woff2|ttf|eot)$/,
+          loader: 'file-loader?name=[path][name]'
+        }
+        {
+          # image loader
+          test: /\.(jpe?g|png|gif|svg)$/i,
+          loader:'file-loader?name=[path][name]'
+        }
+        {
+          # html loader
+          test: /\.(jpe?g|png|gif|svg)$/i,
+          loader:'file-loader?name=[path][name]'
+        }
+        {
           test: /\.ls$/
           # livescript with embedded jsx
           # need the linked-src option according to

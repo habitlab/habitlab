@@ -78,13 +78,14 @@ webpack_pattern = [
   'src/backend/**/*.js'
   'src/commonjs_compat/**/*.ls'
   'src/commonjs_compat/**/*.js'
+  'src/index.ls'
   '!src/**/*.deps.js'
 ]
 
 webpack_pattern_content_scripts = [
   'src/interventions/**/*.ls'
   'src/interventions/**/*.js'
-  'src/components_skate/components_skate.js'
+  #'src/components_skate/components_skate.js'
   '!src/**/*.deps.js'
 ]
 
@@ -369,7 +370,7 @@ gulp.task 'copy_vulcanize', ['vulcanize'] ->
 
 tasks_and_patterns = [
   ['livescript', lspattern]
-  ['copy_vulcanize', vulcanize_watch_pattern]
+  #['copy_vulcanize', vulcanize_watch_pattern]
   #['typescript', tspattern]
   #['es6', es6pattern]
   ['yaml', yamlpattern]
@@ -382,7 +383,8 @@ tasks_and_patterns = [
 
 gulp.task 'build_base', tasks_and_patterns.map((.0))
 
-gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
+#gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
+gulp.task 'build', ['webpack', 'webpack_content_scripts']
 
 gulp.task 'release', ['webpack_prod', 'webpack_content_scripts_prod', 'webpack_vulcanize_prod']
 
@@ -406,6 +408,7 @@ gulp.task 'clean', ->
     'src_gen'
   ]
 
-gulp.task 'watch', ['webpack_watch', 'webpack_content_scripts_watch', 'webpack_vulcanize_watch', 'lint_watch']
+#gulp.task 'watch', ['webpack_watch', 'webpack_content_scripts_watch', 'webpack_vulcanize_watch', 'lint_watch']
+gulp.task 'watch', ['webpack_watch', 'webpack_content_scripts_watch', 'lint_watch']
 
 gulp.task 'default', ['watch']

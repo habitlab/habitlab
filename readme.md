@@ -98,6 +98,8 @@ To preview your component to [chrome://extensions](chrome://extensions) and clic
 
 If your component has properties (ie, the `site` property in [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls)), you can pass them as URL parameters, such as `index.html?tag=site-goal-view&site=youtube`
 
+If your component has custom styles (ie, the `--width` and `--height` custom styles in in [`habitlab-logo-polymer.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/habitlab-logo-polymer.html)) you can pass them as url parameters, such as `index.html?tag=habitlab-logo-polymer&customStyle.--width=200px&customStyle.--height=200px`. You can read more about custom styling in the [Polymer styling documentation](https://www.polymer-project.org/1.0/docs/devguide/styling#xscope-styling).
+
 ### Using a Polymer component in an extension options page
 
 Refer to [`site-goal-view.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.html) for an example.

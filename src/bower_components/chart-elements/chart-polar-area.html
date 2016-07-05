@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<html><head><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="chart-js-import.html">
 <link rel="import" href="chart-property-behavior.html">
@@ -43,7 +43,7 @@ This type of chart is often useful when we want to show a comparison data simila
 -->
 
 <link rel="import" href="chart-styles.html">
-<dom-module id="chart-polar-area">
+</head><body><dom-module id="chart-polar-area">
 
   <template>
 
@@ -55,22 +55,6 @@ This type of chart is often useful when we want to show a comparison data simila
 
   </template>
 
-  <script>
-    Polymer({
-
-      is: 'chart-polar-area',
-
-      behaviors: [
-        Polymer.IronResizableBehavior,
-        ChartBehaviors.ChartPropertyBehavior,
-        ChartBehaviors.ContextBehavior,
-        ChartBehaviors.ResizeBehavior
-      ],
-
-      ready: function() {
-        this._setType('polarArea');
-      }
-
-    });
-  </script>
+  <script src="chart-polar-area-0.js"></script>
 </dom-module>
+</body></html>

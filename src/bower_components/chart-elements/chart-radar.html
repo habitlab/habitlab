@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<html><head><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="chart-js-import.html">
 <link rel="import" href="chart-property-behavior.html">
@@ -49,7 +49,7 @@ They are often useful for comparing the points of two or more different data set
 -->
 
 <link rel="import" href="chart-styles.html">
-<dom-module id="chart-radar">
+</head><body><dom-module id="chart-radar">
 
   <template>
 
@@ -61,22 +61,6 @@ They are often useful for comparing the points of two or more different data set
 
   </template>
 
-  <script>
-    Polymer({
-
-      is: 'chart-radar',
-
-      behaviors: [
-        Polymer.IronResizableBehavior,
-        ChartBehaviors.ChartPropertyBehavior,
-        ChartBehaviors.ContextBehavior,
-        ChartBehaviors.ResizeBehavior
-      ],
-
-      ready: function() {
-        this._setType('radar');
-      }
-
-    });
-  </script>
+  <script src="chart-radar-0.js"></script>
 </dom-module>
+</body></html>

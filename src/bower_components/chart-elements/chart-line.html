@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<html><head><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="chart-js-import.html">
 <link rel="import" href="chart-property-behavior.html">
@@ -50,7 +50,7 @@ Often, it is used to show trend data, and the comparison of two data sets.
 -->
 
 <link rel="import" href="chart-styles.html">
-<dom-module id="chart-line">
+</head><body><dom-module id="chart-line">
 
   <template>
 
@@ -62,22 +62,6 @@ Often, it is used to show trend data, and the comparison of two data sets.
 
   </template>
 
-  <script>
-    Polymer({
-
-      is: 'chart-line',
-
-      behaviors: [
-        Polymer.IronResizableBehavior,
-        ChartBehaviors.ChartPropertyBehavior,
-        ChartBehaviors.ContextBehavior,
-        ChartBehaviors.ResizeBehavior
-      ],
-
-      ready: function() {
-        this._setType('line');
-      }
-
-    });
-  </script>
+  <script src="chart-line-0.js"></script>
 </dom-module>
+</body></html>

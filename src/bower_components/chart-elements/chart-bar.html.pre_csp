@@ -1,0 +1,76 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="chart-js-import.html">
+<link rel="import" href="chart-property-behavior.html">
+<link rel="import" href="context-behavior.html">
+<link rel="import" href="resize-behavior.html">
+
+<!--
+A bar chart is a way of showing data as bars.
+
+It is sometimes used to show trend data, and the comparison of multiple data sets side by side.
+
+##### Example
+
+    <chart-bar data="[[data]]"></chart-bar>
+
+    ...
+
+    this.data = {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [
+        {
+          label: "My First dataset",
+          backgroundColor: "rgba(220,220,220,0.2)",
+          borderColor: "rgba(220,220,220,1)",
+          borderWidth: 1,
+          data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+          label: "My Second dataset",
+          backgroundColor: "rgba(151,187,205,0.2)",
+          borderColor: "rgba(151,187,205,1)",
+          borderWidth: 1,
+          data: [28, 48, 40, 19, 86, 27, 90]
+        }
+      ]
+    };
+
+@group Chart Elements
+@element chart-bar
+@demo demo/chart-bar.html
+-->
+
+<link rel="import" href="chart-styles.html">
+<dom-module id="chart-bar">
+
+  <template>
+
+    <style include="chart-styles"></style>
+
+    <div>
+      <canvas id="canvas"></canvas>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'chart-bar',
+
+      behaviors: [
+        Polymer.IronResizableBehavior,
+        ChartBehaviors.ChartPropertyBehavior,
+        ChartBehaviors.ContextBehavior,
+        ChartBehaviors.ResizeBehavior
+      ],
+
+      ready: function() {
+        this._setType('bar');
+      }
+
+    });
+  </script>
+
+</dom-module>

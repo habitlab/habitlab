@@ -1,5 +1,4 @@
-<!doctype html>
-<!--
+<!DOCTYPE html><!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -7,10 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-<html>
-
-  <head>
+--><html><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>chart-elements Demo</title>
@@ -19,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="stylesheet" href="demo.css">
   </head>
 
-  <body unresolved>
+  <body unresolved="">
 
     <template is="dom-bind">
 
@@ -73,44 +69,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </template>
 
-    <script>
-      var scope = document.querySelector('template');
+    <script src="chart-doughnut-0.js"></script>
 
-      scope.data = {
-		labels: [
-			"Red",
-			"Green",
-			"Yellow"
-		],
-		datasets: [
-        {
-            data: [300, 50, 100],
-            backgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-            ],
-            hoverBackgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-            ]
-        }]
-	  };
+  
 
-      scope.addData = function() {
-        this.push('data.labels', this.$.newLabel.value);
-        this.push('data.datasets.0.hoverBackgroundColor', this.$.newHighlight.value);
-        this.push('data.datasets.0.backgroundColor', this.$.newColor.value);
-        this.push('data.datasets.0.data', this.$.newValue.value);
-      };
-
-      scope.resize = function() {
-        this.$.chart.style.width = this.$.newWidth.value;
-        this.$.chart.style.height = this.$.newHeight.value;
-        this.$.chart.resize();
-      };
-    </script>
-
-  </body>
-</html>
+</body></html>

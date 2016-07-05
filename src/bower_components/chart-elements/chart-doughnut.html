@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<html><head><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="chart-js-import.html">
 <link rel="import" href="chart-property-behavior.html">
@@ -48,7 +48,7 @@ They are also registered under two aliases in the Chart core. Other than their d
 -->
 
 <link rel="import" href="chart-styles.html">
-<dom-module id="chart-doughnut">
+</head><body><dom-module id="chart-doughnut">
 
   <template>
 
@@ -60,24 +60,7 @@ They are also registered under two aliases in the Chart core. Other than their d
 
   </template>
 
-  <script>
-    Polymer({
-
-      is: 'chart-doughnut',
-
-      behaviors: [
-        Polymer.IronResizableBehavior,
-        ChartBehaviors.ChartPropertyBehavior,
-        ChartBehaviors.ContextBehavior,
-        ChartBehaviors.ResizeBehavior
-      ],
-
-      ready: function() {
-        this._setType('doughnut');
-      }
-
-
-    });
-  </script>
+  <script src="chart-doughnut-0.js"></script>
 
 </dom-module>
+</body></html>

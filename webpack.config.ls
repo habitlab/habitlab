@@ -12,7 +12,7 @@ fromcwd = (x) ->
   path.join(cwd, x)
 
 module.exports = {
-  devtool: 'sourcemap'
+  devtool: 'eval-cheap-module-source-map'
   debug: true
   watch: true
   plugins: []

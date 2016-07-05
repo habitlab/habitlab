@@ -297,7 +297,17 @@ message_handlers = {
     <- async.eachSeries content_script_options, (options, ncallback) ->
       if loaded_scripts[options.path]?
         return ncallback()
-      chrome.tabs.executeScript tabid, {file: options.path, allFrames: options.all_frames, runAt: options.run_at}, ->
+      content_script_code <- $.get options.path
+      content_script_code = """
+      if (window['loaded_#{options.path}']) {
+        console.log('content script already loaded: #{options.path}');
+      } else {
+        window['loaded_#{options.path}'] = true;
+        console.log('executing content script: #{options.path}');
+        #{content_script_code}
+      }
+      """
+      chrome.tabs.executeScript tabid, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, ->
         return ncallback()
     new_loaded_scripts = {[k,v] for k,v of loaded_scripts}
     for options in content_script_options

@@ -22,6 +22,9 @@ startPage = ->
     if k == 'tag' or k == 'index_body_width' or k == 'index_body_height'
       continue
     v = js-yaml.safeLoad(v)
+    if k.startsWith('customStyle.')
+      tag.customStyle[k.replace('customStyle.', '')] = v
+      # tag.updateStyles() or Polymer.updateStyles() doesn't seem to be necessary
     tag[k] = v
   document.getElementById('index_contents').appendChild(tag)
   index_body = document.getElementById('index_body')

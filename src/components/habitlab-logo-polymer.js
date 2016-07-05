@@ -7,11 +7,24 @@ const {
 
 Polymer({
   is: 'habitlab-logo-polymer',
+  properties: {
+    width: {
+      type: String,
+      value: '38px',
+    },
+    height: {
+      type: String,
+      value: '38px',
+    }
+  },
   clicked: function() {
     console.log('habitlab-logo-polymer clicked');
   },
   buttonclicked: function() {
     console.log('habitlab-logo-polymer paper-button clicked');
+  },
+  get_img_style: function() {
+    return `width: ${this.width}; height: ${this.height};`
   },
   ready: function() {
     console.log('habitlab-logo-polymer ready');

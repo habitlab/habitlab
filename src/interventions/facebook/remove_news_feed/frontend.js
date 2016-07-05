@@ -26,7 +26,6 @@ const {
 } = require('libs_frontend/common_libs')
 
 function removeFeed() {
-  console.log("hello")
   /** Modified from Neal Wu's "Kill News Feed" */
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
   feed.children().remove();
@@ -37,9 +36,11 @@ function removeFeed() {
   $('#pagelet_canvas_nav_content').remove();
 }
 
+/*
 on_url_change(() => {
   console.log(`new url is ${window.location.href}`)
 })
+*/
 
 log_impression('facebook/remove_news_feed')
 window.setInterval(removeFeed, 200);

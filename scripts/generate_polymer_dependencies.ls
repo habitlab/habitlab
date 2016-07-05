@@ -23,7 +23,7 @@ do ->
       option: 'tostdout'
       type: 'Boolean'
       default: 'false'
-      description: 'Prints result to stdout instead of writing to file'
+      description: 'Prints result to stdout instead of writing to .deps.js file'
     }
     {
       option: 'verbose'
@@ -32,16 +32,22 @@ do ->
       description: 'Prints additional information to stdout'
     }
     {
+      option: 'bower'
+      type: 'Boolean'
+      default: 'false'
+      description: 'Include bower_components directory among those we generate .deps.js files for'
+    }
+    {
       option: 'regenerate'
       type: 'Boolean'
       default: 'true'
-      description: 'Regenerates files that already exist'
+      description: 'Regenerates .deps.js files that already exist'
     }
     {
       option: 'recursive'
       type: 'Boolean'
       default: 'true'
-      description: 'Generates files recursively'
+      description: 'Generates .deps.js files recursively'
     }
   ]
   option_parser = optionator {
@@ -162,7 +168,7 @@ do ->
     return
   else
     for filename in glob.sync(src_path + '/**/*.html')
-      if filename.indexOf('/bower_components/') != -1
+      if not options.bower and filename.indexOf('/bower_components/') != -1
         continue
       generate_dependencies_for_file(filename)
     return

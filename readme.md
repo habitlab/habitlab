@@ -123,6 +123,8 @@ Note that to require the component, you need to require a `.deps.js` file (you c
 
 See [`google/polymer_example/frontend.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/interventions/google/polymer_example/frontend.ls) for an example of an intervention that uses Polymer components in the content script.
 
+Note that if you add an external polymer component via bower, before using it you will have to run `cspify` (if you don't have this command, run `npm install -g cspify`) followed by `scripts/generate_polymer_dependencies --bower`
+
 ## Using External Libraries
 
 You can use any [npm](https://www.npmjs.com/) modules as follows. (This example illustrates usage of the [moment](http://momentjs.com/docs/) package)

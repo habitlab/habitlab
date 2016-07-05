@@ -1,0 +1,37 @@
+{
+  "name": "xp-device",
+  "license": "BSD-3-Clause",
+  "version": "0.10.0",
+  "main": "xp-device.html",
+  "description": "A custom element able to recognize the user's device",
+  "homepage": "http://expandjs.com/elements/xp-device",
+  "authors": [
+    "Giuliano Rullo <g.rullo@expandjs.com>",
+    "Maurizio Stefàno <m.stefano@expandjs.com>",
+    "Robert Manolea <r.manolea@expandjs.com>"
+  ],
+  "keywords": [
+    "expandjs",
+    "web app",
+    "custom elements",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "expandjs": "ExpandJS/expandjs#0.10.0",
+    "xp-array-behavior": "ExpandJS/xp-array-behavior#0.10.0",
+    "xp-script": "ExpandJS/xp-script#0.10.0",
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "_release": "0.10.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.10.0",
+    "commit": "a49981a0ed3f8a93a22f509db19c3a141f4eeae0"
+  },
+  "_source": "git://github.com/ExpandJS/xp-device.git",
+  "_target": "0.10.0",
+  "_originalSource": "ExpandJS/xp-device"
+}

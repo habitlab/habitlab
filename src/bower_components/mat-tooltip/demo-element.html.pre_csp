@@ -1,0 +1,35 @@
+<link rel="import" href="../mat-demo/mat-demo.html">
+<link rel="import" href="mat-tooltip.html">
+
+<dom-module id="mat-tooltip-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo name="mat-tooltip" type="element" url="http://expandjs.com/elements/mat-tooltip">
+
+            <mat-demo-panel label="Default">
+                <script type="text/html">
+                    <mat-tooltip tip="I am a tooltip">Hover, tap or focus me.</mat-tooltip>
+                </script>
+                <mat-tooltip tip="I am a tooltip">Hover, tap or focus me.</mat-tooltip>
+            </mat-demo-panel>
+
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-tooltip-demo'
+        });
+    </script>
+
+</dom-module>

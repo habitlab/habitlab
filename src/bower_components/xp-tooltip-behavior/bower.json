@@ -1,0 +1,27 @@
+{
+  "name": "xp-tooltip-behavior",
+  "license": "BSD-3-Clause",
+  "version": "0.10.0",
+  "main": "xp-tooltip-behavior.html",
+  "description": "A behavior used to add tooltip capabilities on a custom element",
+  "homepage": "http://expandjs.com/elements/xp-tooltip-behavior",
+  "authors": [
+    "Giuliano Rullo <g.rullo@expandjs.com>",
+    "Maurizio Stefàno <m.stefano@expandjs.com>",
+    "Robert Manolea <r.manolea@expandjs.com>"
+  ],
+  "keywords": [
+    "expandjs",
+    "web app",
+    "custom elements",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "expandjs": "ExpandJS/expandjs#0.10.0",
+    "xp-targeter-behavior": "ExpandJS/xp-targeter-behavior#0.10.0",
+    "polymer": "Polymer/polymer#^1.2.0"
+  }
+}

@@ -1,0 +1,165 @@
+<!--
+@license
+Copyright (c) 2015 The ExpandJS authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A behavior used to add device detection capabilities on a custom element.
+
+@behavior xp-device-behavior
+@description A behavior used to add device detection capabilities on a custom element
+@keywords expandjs, web app, custom elements, web-components
+@group behaviors
+@hot
+
+@homepage http://expandjs.com/elements/xp-device-behavior
+@repository https://github.com/ExpandJS/xp-device
+
+@behavior xp-array-behavior /bower_components/xp-array-behavior/xp-array-behavior.html
+
+@dependency polymer Polymer/polymer#^1.2.0
+@dependency expandjs ExpandJS/expandjs#0.10.0
+@dependency xp-script ExpandJS/xp-script#0.10.0
+@dependency xp-array-behavior ExpandJS/xp-array-behavior#0.10.0
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-array-behavior/xp-array-behavior.html">
+<link rel="import" href="../xp-script/xp-script.html">
+
+<script>
+    (function () {
+
+        // Vars
+        var state = 'idle';
+
+        // Prototype
+        Polymer.XPDeviceBehaviorImp = {
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The device's form factor.
+                 *
+                 * @attribute device
+                 * @type "app" | "desktop" | "feature-phone" | "other-mobile" | "other-non-mobile" | "robot" | "smart-tv" | "smartphone" | "tablet"
+                 * @notifies
+                 * @readonly
+                 */
+                device: {
+                    notify: true,
+                    observer: '_deviceObserver',
+                    readOnly: true,
+                    type: String,
+                    value: function () { return this.detectors[0] && this.detectors[0].device; }
+                },
+
+                /**
+                 * If set to true, the device is a mobile one.
+                 *
+                 * @attribute mobile
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 * @readonly
+                 */
+                mobile: {
+                    notify: true,
+                    readOnly: true,
+                    type: Boolean,
+                    value: function () { return this.detectors[0] && this.detectors[0].mobile; }
+                }
+            },
+
+            /**
+             * The list of detectors.
+             *
+             * @property detectors
+             * @type Array
+             * @default []
+             * @readonly
+             */
+            detectors: [],
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _deviceObserver: function () {
+
+                // Vars
+                var self  = this,
+                    first = self === self.detectors[0],
+                    html  = first && document.querySelector('html');
+
+                // Checking
+                if (!html) { return; }
+
+                // Setting
+                XP.setAttribute(html, 'mobile', self.mobile);
+                XP.setAttribute(html, 'device', self.device);
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            ready: function () {
+
+                // Vars
+                var self   = this,
+                    item   = !self.device && state === 'idle' && localStorage.getItem('device'),
+                    script = !self.device && state === 'idle' && !item && document.createElement('xp-script'),
+                    device = item && XP.parseJSON(item);
+
+                // Appending
+                self.append('detectors', self);
+
+                // Setting
+                if (device) { self._setMobile(device.mobile); }
+                if (device) { self._setDevice(device.type); }
+
+                // Checking
+                if (!script) { return; }
+
+                // Listening
+                self.listen(script, 'xp-script-load', '_detectHandler');
+                self.listen(script, 'xp-script-state', '_scriptHandler');
+
+                // Requesting
+                script.src = 'https://wurfl.io/wurfl.js';
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _detectHandler: function () {
+
+                // Vars
+                var self = this;
+
+                // Setting
+                XP.invoke(self.detectors, '_setMobile', WURFL.is_mobile);
+                XP.invoke(self.detectors, '_setDevice', WURFL.form_factor);
+
+                // Storing
+                localStorage.setItem('device', XP.toJSON({mobile: self.mobile, type: self.device}));
+            },
+
+            // HANDLER
+            _scriptHandler: function (event) {
+
+                // Setting
+                state = event.detail.state;
+            }
+        };
+
+        Polymer.XPDeviceBehavior = [
+            Polymer.XPArrayBehavior,
+            Polymer.XPDeviceBehaviorImp
+        ];
+    }());
+</script>

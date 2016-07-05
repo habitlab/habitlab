@@ -1,0 +1,149 @@
+<!--
+@license
+Copyright (c) 2015 The ExpandJS authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A behavior used to add tooltip capabilities on a custom element.
+
+@behavior xp-tooltip-behavior
+@description A behavior used to add tooltip capabilities on a custom element
+@keywords expandjs, web app, custom elements, web-components
+@group behaviors
+
+@homepage http://expandjs.com/elements/xp-tooltip-behavior
+@repository https://github.com/ExpandJS/xp-tooltip-behavior
+
+@behavior xp-targeter-behavior /bower_components/xp-targeter-behavior/xp-targeter-behavior.html
+
+@dependency polymer Polymer/polymer#^1.2.0
+@dependency expandjs ExpandJS/expandjs#0.10.0
+@dependency xp-targeter-behavior ExpandJS/xp-targeter-behavior#0.10.0
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-targeter-behavior/xp-targeter-behavior.html">
+
+<script>
+    Polymer.XPTooltipBehaviorImp = {
+
+        /**
+         * Hides the tooltip.
+         *
+         * @method hide
+         * @returns {Element}
+         */
+        hide: function () {
+            var self = this;
+            self.showed = false;
+            return self;
+        },
+
+        /**
+         * Shows the tooltip.
+         *
+         * @method show
+         * @returns {Element}
+         */
+        show: function () {
+            var self = this;
+            self.showed = true;
+            return self;
+        },
+
+        /**
+         * Toggles the tooltip.
+         *
+         * @method toggle
+         * @returns {Element}
+         */
+        toggle: function () {
+            var self = this;
+            self.showed = !self.showed;
+            return self;
+        },
+
+        /*********************************************************************/
+
+        // LISTENERS
+        listeners: {
+            'mouseout': 'hide',
+            'mouseover': 'show'
+        },
+
+        // PROPERTIES
+        properties: {
+
+            /**
+             * The tooltip's overlay.
+             *
+             * @attribute overlay
+             * @type Element
+             * @notifies
+             * @readonly
+             */
+            overlay: {
+                notify: true,
+                readOnly: true
+            },
+
+            /**
+             * A self reference.
+             *
+             * @attribute self
+             * @type Element
+             * @notifies
+             * @readonly
+             */
+            self: {
+                notify: true,
+                readOnly: true,
+                value: function () { return this; }
+            },
+
+            /**
+             * If set to true, the tooltip is showed.
+             *
+             * @attribute showed
+             * @type boolean
+             * @default false
+             * @notifies
+             */
+            showed: {
+                notify: true,
+                reflectToAttribute: true,
+                type: Boolean,
+                value: false
+            },
+
+            /**
+             * The tooltip's text.
+             *
+             * @attribute tip
+             * @type string
+             */
+            tip: {
+                reflectToAttribute: true,
+                type: String
+            }
+        },
+
+        /*********************************************************************/
+
+        // LISTENER
+        created: function () {
+
+            // Classifying
+            this.classList.add('tooltip');
+        }
+    };
+
+    Polymer.XPTooltipBehavior = [
+        Polymer.XPTargeterBehavior,
+        Polymer.XPTooltipBehaviorImp
+    ];
+</script>

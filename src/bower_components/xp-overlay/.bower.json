@@ -1,0 +1,37 @@
+{
+  "name": "xp-overlay",
+  "license": "BSD-3-Clause",
+  "version": "0.10.0",
+  "main": "xp-overlay.html",
+  "description": "A custom element used to display a container above others",
+  "homepage": "http://expandjs.com/elements/xp-overlay",
+  "authors": [
+    "Giuliano Rullo <g.rullo@expandjs.com>",
+    "Maurizio Stefàno <m.stefano@expandjs.com>",
+    "Robert Manolea <r.manolea@expandjs.com>"
+  ],
+  "keywords": [
+    "expandjs",
+    "web app",
+    "custom elements",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "expandjs": "ExpandJS/expandjs#0.10.0",
+    "xp-targeter-behavior": "ExpandJS/xp-targeter-behavior#0.10.0",
+    "xp-wrapper-behavior": "ExpandJS/xp-wrapper-behavior#0.10.0",
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "_release": "0.10.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.10.0",
+    "commit": "c8c643d7806231ad1c62d410eca5912cc281a72c"
+  },
+  "_source": "git://github.com/ExpandJS/xp-overlay.git",
+  "_target": "0.10.0",
+  "_originalSource": "ExpandJS/xp-overlay"
+}

@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/mat-tooltip/mat-tooltip.html">
 
 <dom-module id="habitlab-logo-polymer">
   <style>
@@ -23,8 +24,14 @@
     <paper-icon-button id="id_1" icon="favorite" alt="heart"></paper-icon-button>
     <paper-tooltip for="id_1" offset="0">&lt;3 &lt;3 &lt;3 </paper-tooltip>
 
+    <!--
     <img style="width: 38px; height: 38px" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
     <paper-tooltip for="habitlab_logo" animation-delay="0">A tooltip</paper-tooltip>
+    -->
+
+    <mat-tooltip tip="A tooltip">
+      <img style="width: 38px; height: 38px" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
+    </mat-tooltip>
 
     <!--
     <div class="helloworld" on-click="clicked">Hello world example</div>

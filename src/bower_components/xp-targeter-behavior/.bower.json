@@ -1,0 +1,35 @@
+{
+  "name": "xp-targeter-behavior",
+  "license": "BSD-3-Clause",
+  "version": "0.10.0",
+  "main": "xp-targeter-behavior.html",
+  "description": "A behavior used add targeting capabilities on a custom element",
+  "homepage": "http://expandjs.com/elements/xp-targeter-behavior",
+  "authors": [
+    "Giuliano Rullo <g.rullo@expandjs.com>",
+    "Maurizio Stefàno <m.stefano@expandjs.com>",
+    "Robert Manolea <r.manolea@expandjs.com>"
+  ],
+  "keywords": [
+    "expandjs",
+    "web app",
+    "custom elements",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "expandjs": "ExpandJS/expandjs#0.10.0",
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "_release": "0.10.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.10.0",
+    "commit": "778d56cb1c6f78cb141ed0809bdf5b3c031abc80"
+  },
+  "_source": "git://github.com/ExpandJS/xp-targeter-behavior.git",
+  "_target": "0.10.0",
+  "_originalSource": "ExpandJS/xp-targeter-behavior"
+}

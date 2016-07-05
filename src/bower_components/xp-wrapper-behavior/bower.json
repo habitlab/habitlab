@@ -1,0 +1,27 @@
+{
+  "name": "xp-wrapper-behavior",
+  "license": "BSD-3-Clause",
+  "version": "0.10.0",
+  "main": "xp-wrapper-behavior.html",
+  "description": "A behavior used to add wrapping capabilities on a custom element",
+  "homepage": "http://expandjs.com/elements/xp-wrapper-behavior",
+  "authors": [
+    "Giuliano Rullo <g.rullo@expandjs.com>",
+    "Maurizio Stefàno <m.stefano@expandjs.com>",
+    "Robert Manolea <r.manolea@expandjs.com>"
+  ],
+  "keywords": [
+    "expandjs",
+    "web app",
+    "custom elements",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "expandjs": "ExpandJS/expandjs#0.10.0",
+    "xp-refirer-behavior": "ExpandJS/xp-refirer-behavior#0.10.0",
+    "polymer": "Polymer/polymer#^1.2.0"
+  }
+}

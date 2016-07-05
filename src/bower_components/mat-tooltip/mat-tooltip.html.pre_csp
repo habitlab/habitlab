@@ -1,0 +1,114 @@
+<!--
+@license
+Copyright (c) 2015 The ExpandJS authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A custom element used to display a [Material Design tooltip](http://www.google.com/design/spec/components/tooltips.html#).
+
+It implements a tooltip centered under the content it contains.
+It will reveal itself either on hovering or on tap.
+
+```html
+<mat-tooltip tip="Hello!">
+    <mat-icon-button icon="social:person"></mat-icon-button>
+</mat-tooltip>
+```
+
+@element mat-tooltip
+@description A custom element used to display a Material Design tooltip
+@keywords material design, material tooltip, expandjs, web app, custom elements, web-components
+@group accessibility
+
+@homepage http://expandjs.com/elements/mat-tooltip
+@repository https://github.com/ExpandJS/mat-tooltip
+@demo http://expandjs.com/demo/mat-tooltip
+
+@behavior xp-tooltip-behavior /bower_components/xp-tooltip-behavior/xp-tooltip-behavior.html
+
+@dependency polymer Polymer/polymer#^1.2.0
+@dependency expandjs ExpandJS/expandjs#0.10.0
+@dependency xp-overlay ExpandJS/xp-overlay#0.10.0
+@dependency xp-device ExpandJS/xp-device#0.10.0
+@dependency xp-tooltip-behavior ExpandJS/xp-tooltip-behavior#0.10.0
+
+@devDependency mat-demo ExpandJS/mat-demo#0.10.0
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-overlay/xp-overlay.html">
+<link rel="import" href="../xp-device/xp-device.html">
+<link rel="import" href="../xp-tooltip-behavior/xp-tooltip-behavior.html">
+<link rel="import" href="../xp-tooltip-behavior/xp-tooltip-styles.html">
+
+<dom-module id="mat-tooltip">
+
+    <template strip-whitespace>
+
+        <style include="xp-tooltip-styles"></style>
+
+        <style>
+            :host .overlay {
+                margin: 8px;
+                transition: opacity 0.4s cubic-bezier(0.55, 0, 0.55, 0.2), visibility 0.4s cubic-bezier(0.55, 0, 0.55, 0.2);
+            }
+
+            :host .overlay[showed] {
+                transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            :host .tip {
+                border-radius: 2px 2px 50% 50%;
+                font-size: 10px;
+                font-weight: 500;
+                height: 22px;
+                letter-spacing: 0.02em;
+                line-height: 22px;
+                margin-top: var(--mat-tooltip-margin, 2px);
+                padding: 0 8px;
+                transform: translateY(-50%);
+                transition: border-radius 0.8s cubic-bezier(0.55, 0, 0.55, 0.2), transform 0.5s cubic-bezier(0.55, 0, 0.55, 0.2) 0.05s;
+            }
+
+            :host-context([mobile]) .tip {
+                font-size: 14px;
+                height: 32px;
+                letter-spacing: 0.01em;
+                line-height: 32px;
+                margin-top: var(--mat-tooltip-margin, 12px);
+                padding: 0 16px;
+            }
+
+            :host .overlay[showed] .tip {
+                border-radius: 2px;
+                transform: translateY(0%);
+                transition: border-radius 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+        </style>
+
+        <content></content>
+
+        <xp-overlay position="baseline" showed="{{showed}}" target="[[self]]" auto-center auto-hide-disabled>
+            <div class="tip">[[tip]]</div>
+        </xp-overlay>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-tooltip',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPTooltipBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

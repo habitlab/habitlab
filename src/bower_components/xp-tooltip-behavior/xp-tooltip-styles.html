@@ -1,0 +1,61 @@
+<!--
+@license
+Copyright (c) 2015 The ExpandJS authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A stylesheet used to stylize a tooltip element.
+
+@stylesheet xp-tooltip-styles
+@description A stylesheet used to stylize a tooltip element
+@keywords expandjs, web app, custom elements, web-components
+@group stylesheets
+
+@homepage http://expandjs.com/elements/xp-tooltip-styles
+@repository https://github.com/ExpandJS/xp-tooltip-behavior
+
+@dependency polymer Polymer/polymer#^1.2.0
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="xp-tooltip-styles">
+
+    <template strip-whitespace>
+
+        <style>
+            :host {
+                display: inline-block;
+            }
+
+            :host([tip=""]) .overlay,
+            :host(:not([tip])) .overlay {
+                display: none !important;
+            }
+
+            :host .overlay {
+                pointer-events: none !important;
+            }
+
+            :host .tip {
+                background: hsla(0, 0%, 38%, 0.9);
+                border-radius: 2px;
+                color: hsla(0, 0%, 100%, 1);
+                overflow: hidden;
+                padding: 4px 8px;
+                text-align: center;
+                text-overflow: ellipsis !important; /* override */
+                -moz-user-select: none;
+                -webkit-tap-highlight-color: transparent;
+                -webkit-user-select: none;
+                user-select: none;
+                white-space: nowrap !important; /* override */
+            }
+        </style>
+
+    </template>
+
+</dom-module>

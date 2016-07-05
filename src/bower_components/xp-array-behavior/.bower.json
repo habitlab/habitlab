@@ -1,0 +1,35 @@
+{
+  "name": "xp-array-behavior",
+  "license": "BSD-3-Clause",
+  "version": "0.10.0",
+  "main": "xp-array-behavior.html",
+  "description": "A behavior used to improve Polymer's array mutation API",
+  "homepage": "http://expandjs.com/elements/xp-array-behavior",
+  "authors": [
+    "Giuliano Rullo <g.rullo@expandjs.com>",
+    "Maurizio Stefàno <m.stefano@expandjs.com>",
+    "Robert Manolea <r.manolea@expandjs.com>"
+  ],
+  "keywords": [
+    "expandjs",
+    "web app",
+    "custom elements",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "expandjs": "ExpandJS/expandjs#0.10.0",
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "_release": "0.10.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.10.0",
+    "commit": "194404057d0f1ac3810f39732cb957bd4370eed8"
+  },
+  "_source": "git://github.com/ExpandJS/xp-array-behavior.git",
+  "_target": "0.10.0",
+  "_originalSource": "ExpandJS/xp-array-behavior"
+}

@@ -299,25 +299,19 @@ message_handlers = {
         return ncallback()
       content_script_code <- $.get options.path
       content_script_code = """
-      if (window['loaded_#{options.path}']) {
+      if (!window.loaded_scripts) {
+        window.loaded_scripts = {};
+      }
+      if (window.loaded_scripts['#{options.path}']) {
         console.log('content script already loaded: #{options.path}');
       } else {
-        window['loaded_#{options.path}'] = true;
+        window.loaded_scripts['#{options.path}'] = true;
         console.log('executing content script: #{options.path}');
         #{content_script_code}
       }
       """
       chrome.tabs.executeScript tabid, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, ->
         return ncallback()
-    new_loaded_scripts = {[k,v] for k,v of loaded_scripts}
-    for options in content_script_options
-      new_loaded_scripts[options.path] = true
-    content_script_code = """
-    (function() {
-      window.loaded_scripts = #{JSON.stringify(new_loaded_scripts)}
-    })();
-    """
-    <- chrome.tabs.executeScript tabid, {code: content_script_code}
     finished_waiting(wait_token)
   'load_css_file': (data, callback) ->
     {css_file, tab} = data

@@ -1,14 +1,15 @@
-export getUrlParameters = ->
-  url = window.location.href
-  hash = url.lastIndexOf('#')
-  if hash != -1
-    url = url.slice(0, hash)
-  map = {}
-  parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m,key,value) ->
-    #map[key] = decodeURI(value).split('+').join(' ').split('%2C').join(',') # for whatever reason this seems necessary?
-    map[key] = decodeURIComponent(value).split('+').join(' ') # for whatever reason this seems necessary?
-  )
-  return map
+require 'webcomponents.js/webcomponents-lite'
+
+require! {
+  'js-yaml'
+}
+
+{
+  getUrlParameters
+} = require 'libs_frontend/common_libs'
+
+require 'components/components.deps'
+require 'components_skate/components_skate'
 
 startPage = ->
   params = getUrlParameters()
@@ -20,7 +21,7 @@ startPage = ->
   for k,v of params
     if k == 'tag' or k == 'index_body_width' or k == 'index_body_height'
       continue
-    v = jsyaml.safeLoad(v)
+    v = js-yaml.safeLoad(v)
     tag[k] = v
   document.getElementById('index_contents').appendChild(tag)
   index_body = document.getElementById('index_body')

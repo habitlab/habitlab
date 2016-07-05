@@ -1,7 +1,7 @@
 
-  var ChartBehaviors = ChartBehaviors || {};
+  window.ChartBehaviors = window.ChartBehaviors || {};
   /** @polymerBehavior */
-  ChartBehaviors.ResizeBehavior = {
+  window.ChartBehaviors.ResizeBehavior = {
 
     listeners: {
       'iron-resize': '_onIronResize'
@@ -24,4 +24,3 @@
     }
 
   };
-

@@ -1,7 +1,7 @@
 
-  var ChartBehaviors = ChartBehaviors || {};
+  window.ChartBehaviors = window.ChartBehaviors || {};
   /** @polymerBehavior */
-  ChartBehaviors.ContextBehavior = {
+  window.ChartBehaviors.ContextBehavior = {
 
     _measure: function(cb) {
       function measure() {
@@ -56,4 +56,3 @@
     }
 
   };
-

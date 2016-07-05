@@ -3,3 +3,4 @@
 /dist
 /src_gen
 /src_vulcanize
+*.deps.js

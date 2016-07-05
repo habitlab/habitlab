@@ -1,0 +1,25 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="hello-world-example">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .helloworld {
+      background-color: yellow;
+    }
+    .helloworld_button {
+      background-color: red;
+    }
+  </style>
+  <template>
+
+    <div class="helloworld" on-click="clicked">Hello world example</div>
+    <paper-button class="helloworld_button" on-click="buttonclicked">Click the button</paper-button>
+
+  </template>
+  <script src="hello-world-example.js"></script>
+</dom-module>

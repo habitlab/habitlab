@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<html><head><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="chart-js-import.html">
 <link rel="import" href="chart-property-behavior.html">
@@ -42,7 +42,7 @@ It is sometimes used to show trend data, and the comparison of multiple data set
 -->
 
 <link rel="import" href="chart-styles.html">
-<dom-module id="chart-horizontal-bar">
+</head><body><dom-module id="chart-horizontal-bar">
 
   <template>
 
@@ -54,23 +54,7 @@ It is sometimes used to show trend data, and the comparison of multiple data set
 
   </template>
 
-  <script>
-    Polymer({
-
-      is: 'chart-horizontal-bar',
-
-      behaviors: [
-        Polymer.IronResizableBehavior,
-        ChartBehaviors.ChartPropertyBehavior,
-        ChartBehaviors.ContextBehavior,
-        ChartBehaviors.ResizeBehavior
-      ],
-
-      ready: function() {
-        this._setType('horizontalBar');
-      }
-
-    });
-  </script>
+  <script src="chart-horizontal-bar-0.js"></script>
 
 </dom-module>
+</body></html>

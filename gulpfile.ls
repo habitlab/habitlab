@@ -19,6 +19,11 @@ require! {
   'deepcopy'
 }
 
+{exec} = require 'shelljs'
+console.log 'running scripts/generate_polymer_dependencies'
+exec('scripts/generate_polymer_dependencies')
+console.log 'done running scripts/generate_polymer_dependencies'
+
 webpack_config = require './webpack.config.ls'
 
 lspattern = [
@@ -47,10 +52,12 @@ eslintpattern = [
   'src_gen/components_skate/**/*.js'
   '!src/bower_components/**/*.js'
   '!src_gen/bower_components/**/*.js'
+  '!src/**/*.deps.js'
 ]
 
 jspattern_srcgen = [
   'src/**/*.js'
+  '!src/**/*.deps.js'
 ]
 
 htmlpattern_srcgen = [
@@ -63,6 +70,7 @@ copypattern = [
   'src/*.js'
   'src/bower_components/**/*'
   '!src/components/components.html'
+  '!src/**/*.deps.js'
 ]
 
 webpack_pattern = [
@@ -70,12 +78,14 @@ webpack_pattern = [
   'src/backend/**/*.js'
   'src/commonjs_compat/**/*.ls'
   'src/commonjs_compat/**/*.js'
+  '!src/**/*.deps.js'
 ]
 
 webpack_pattern_content_scripts = [
   'src/interventions/**/*.ls'
   'src/interventions/**/*.js'
   'src/components_skate/components_skate.js'
+  '!src/**/*.deps.js'
 ]
 
 webpack_vulcanize_pattern = [
@@ -94,6 +104,7 @@ vulcanize_watch_pattern = [
   'src/components/**/*.html'
   'src/components/**/*.js'
   'src/components/**/*.ls'
+  '!src/**/*.deps.js'
 ]
 
 gulp.task 'eslint', ['livescript_srcgen', 'js_srcgen'] ->

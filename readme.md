@@ -119,7 +119,7 @@ hello_world_example = $('<hello-world-example>')
 $('body').append(hello_world_example)
 ```
 
-Note that to require the component, you need to require a `.deps.js` file (you can use `.deps` as shorthand). These files are generated using the [`scripts/generate_polymer_dependencies`](https://github.com/habitlab/habitlab-chrome/blob/master/scripts/generate_polymer_dependencies.ls) script from the corresponding `.html` files. The script is run automatically when you run gulp (but currently it is not re-run when files are changed, so you will have to re-run it manually).
+Note that to require the component, you need to require a `.deps.js` file (you can use `.deps` as shorthand). These files are generated using the [`scripts/generate_polymer_dependencies`](https://github.com/habitlab/habitlab-chrome/blob/master/scripts/generate_polymer_dependencies.ls) script from the corresponding `.html` files. The script is run automatically when you run `gulp` (but currently it is not re-run when the `.html` files are changed, so you will have to re-run `gulp` manually if you added new components or new html imports).
 
 See [`google/polymer_example/frontend.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/interventions/google/polymer_example/frontend.ls) for an example of an intervention that uses Polymer components in the content script.
 

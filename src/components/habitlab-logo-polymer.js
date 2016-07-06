@@ -10,9 +10,9 @@ const {
   set_intervention_enabled
 } = require('libs_common/intervention_utils')
 
+const {polymer_ext} = require('libs_frontend/polymer_utils');
 
-
-Polymer({
+polymer_ext({
   is: 'habitlab-logo-polymer',
   properties: {
     width: {
@@ -22,7 +22,11 @@ Polymer({
     height: {
       type: String,
       value: '38px',
-    }
+    },
+    intervention: {
+      type: String,
+      value: '',
+    },
   },
   clicked: function() {
     console.log('habitlab-logo-polymer clicked');
@@ -33,21 +37,24 @@ Polymer({
   get_img_style: function() {
     return `width: ${this.width}; height: ${this.height};`
   },
-
-  
-
+  disable_callback: function() {
+    const self = this;
+    this.fire('disable_intervention');
+    set_intervention_disabled(this.intervention, () => {
+      console.log (`disabled ${self.intervention}`)
+    })
+  },
   ready: function() {
+    const self = this;
     console.log('habitlab-logo-polymer ready');
     load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
-    disable_callback = function(elem) {
-      console.log('disabled intervention from');
-      console.log(elem);
-    };
+
     $.contextMenu({
       selector: '#habitlab_logo',
       trigger: 'left',
       items: {
-        "disable": {name: "Disable this intervention", callback: function() {disable_callback(this);}}
+        "disable": {name: "Disable this intervention", callback: function() {self.disable_callback()}
+        }
       }
     });
   },

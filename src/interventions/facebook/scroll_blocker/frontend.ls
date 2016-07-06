@@ -61,7 +61,7 @@ scroll_block_display[0].addEventListener 'continue_scrolling', ->
   enable_scrolling_and_hide_scroll_block!
 
 scroll_block_display[0].addEventListener 'disable_intervention' ->
-  console.log 'intervention disabled'
+  console.log 'intervention disabled inside the frontend'
   console.log scroll_block_display
   enable_scrolling_and_hide_scroll_block!
   $(scroll_block_display).remove()
@@ -69,5 +69,5 @@ scroll_block_display[0].addEventListener 'disable_intervention' ->
   console.log 'intervention disabled'
 
 # these insert the debugging console at the bottom-right
-#listen_for_eval ((x) -> eval(x))
-#insert_console ((x) -> eval(x)), {lang: 'livescript'}
+listen_for_eval ((x) -> eval(x))
+insert_console ((x) -> eval(x)), {lang: 'livescript'}

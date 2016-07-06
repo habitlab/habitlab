@@ -125,7 +125,32 @@ Note that to require the component, you need to require a `.deps.js` file (you c
 
 See [`google/polymer_example/frontend.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/interventions/google/polymer_example/frontend.ls) for an example of an intervention that uses Polymer components in the content script.
 
-Note that if you add an external polymer component via bower, before using it you will have to run `cspify` (if you don't have this command, first run `npm install -g cspify`) followed by `scripts/generate_polymer_dependencies --bower`
+### Using an external Polymer component in a content script
+
+If you add an external polymer component, first ensure you have bower and cspify installed (you may need to run this command with sudo)
+
+```
+npm install -g bower cspify
+```
+
+Then install the component via bower, run cspify, and generate the `.deps.js` file:
+
+```
+bower install paper-button
+cspify
+./scripts/generate_polymer_dependencies --bower
+```
+
+The last command will generate many errors, you can ignore them. Just verify that the file `bower_components/paper-button/paper-button.deps.js` exists. Now you can include it by adding to your content script:
+
+```
+require('enable-webcomponents-in-content-scripts')
+
+require('bower_components/paper-button/paper-button.deps')
+
+paper_button_example = $('<paper-button>Click me</paper-button>')
+$('body').append(paper_button_example)
+```
 
 ## Using External Libraries
 

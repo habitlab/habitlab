@@ -25,6 +25,9 @@ const {
   on_url_change
 } = require('libs_frontend/common_libs')
 
+require('enable-webcomponents-in-content-scripts')
+//require('components/habitlab-logo-polymer.deps')
+
 function removeFeed() {
   /** Modified from Neal Wu's "Kill News Feed" */
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
@@ -34,6 +37,19 @@ function removeFeed() {
   $('#pagelet_games_rhc').remove();
   $('#pagelet_trending_tags_and_topics').remove();
   $('#pagelet_canvas_nav_content').remove();
+
+  var habitlab_logo = $('<habitlab-logo-polymer intervention="facebook/remove_news_feed">');
+  var message = $('<h1>')
+            .attr('id', 'distracted')
+            .text("Don't get distracted by Facebook!")
+            .css('font-size', '30px')
+            .css('font-family', "'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif")
+            .css('position', 'relative')
+            .css('top', '75px')
+            .css('z-index', '9999999');
+
+  $('[data-location=maincolumn]').append(message);
+  //$('[data-location=maincolumn]').append(habitlab_logo);
 }
 
 /*

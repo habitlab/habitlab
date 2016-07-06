@@ -5,6 +5,7 @@
   "description": "",
   "dependencies": {
     "async": "^2.0.0-rc.6",
+    "async-debounce-jt": "^1.0.1",
     "dexie": "^1.4.1",
     "enable-webcomponents-in-content-scripts": "^1.0.5",
     "jquery": "^3.0.0",
@@ -19,6 +20,7 @@
     "prelude-ls": "^1.1.2",
     "shuffled": "^1.0.0",
     "skatejs1": "^1.0.0-beta.7",
+    "underscore": "^1.8.3",
     "webcomponents.js": "^0.7.22"
   },
   "devDependencies": {

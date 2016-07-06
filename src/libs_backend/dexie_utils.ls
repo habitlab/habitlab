@@ -12,6 +12,9 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
+export get_db_major_version_db = -> '1'
+export get_db_minor_version_db = -> '1'
+
 export get_current_schema_db = ->
   result = localStorage.getItem('current_schema_db')
   if not result?
@@ -24,7 +27,18 @@ export get_current_dbver_db = ->
     return 0
   return parseInt result
 
+export delete_db_if_outdated_db = (callback) ->
+  if localStorage.getItem('db_minor_version_db') != get_db_minor_version_db()
+    localStorage.setItem('db_minor_version_db', get_db_minor_version_db())
+  if localStorage.getItem('db_major_version_db') != get_db_major_version_db()
+    deleteDb ->
+      localStorage.setItem('db_major_version_db', get_db_major_version_db())
+      return callback()
+  else
+    return callback()
+
 export getDb = memoizeSingleAsync (callback) ->
+  <- delete_db_if_outdated_db()
   db = new dexie('habitlab', {autoOpen: false})
   dbver = get_current_dbver_db()
   prev_schema = get_current_schema_db()
@@ -61,6 +75,7 @@ export getDb = memoizeSingleAsync (callback) ->
   callback realdb
 
 export deleteDb = (callback) ->
+  console.log 'deleteDb called'
   localStorage.removeItem('current_schema_db')
   localStorage.removeItem('current_dbver_db')
   db = new dexie('habitlab')

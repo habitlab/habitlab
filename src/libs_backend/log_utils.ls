@@ -16,6 +16,19 @@ require! {
   dexie
 }
 
+export get_db_major_version_interventionlogdb = -> '1'
+export get_db_minor_version_interventionlogdb = -> '1'
+
+export delete_db_if_outdated_interventionlogdb = (callback) ->
+  if localStorage.getItem('db_minor_version_interventionlogdb') != get_db_minor_version_interventionlogdb()
+    localStorage.setItem('db_minor_version_interventionlogdb', get_db_minor_version_interventionlogdb())
+  if localStorage.getItem('db_major_version_interventionlogdb') != get_db_major_version_interventionlogdb()
+    deleteInterventionLogDb ->
+      localStorage.setItem('db_major_version_interventionlogdb', get_db_major_version_interventionlogdb())
+      return callback()
+  else
+    return callback()
+
 export get_current_schema_interventionlogdb = ->
   result = localStorage.getItem('current_schema_interventionlogdb')
   if not result?
@@ -29,6 +42,7 @@ export get_current_dbver_interventionlogdb = ->
   return parseInt result
 
 export getInterventionLogDb = memoizeSingleAsync (callback) ->
+  <- delete_db_if_outdated_interventionlogdb()
   interventions_list <- list_all_interventions()
   db = new dexie('interventionlog', {autoOpen: false})
   dbver = get_current_dbver_interventionlogdb()
@@ -51,6 +65,7 @@ export getInterventionLogDb = memoizeSingleAsync (callback) ->
   callback realdb
 
 export deleteInterventionLogDb = (callback) ->
+  console.log 'deleteInterventionLogDb called'
   localStorage.removeItem('current_schema_interventionlogdb')
   localStorage.removeItem('current_dbver_interventionlogdb')
   db = new dexie('interventionlog')

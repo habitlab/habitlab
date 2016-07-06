@@ -9,9 +9,12 @@ const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')
 
+//Polymer Component
 require('bower_components/paper-slider/paper-slider.deps')
 require('bower_components/paper-input/paper-input.deps')
 
+//SkateJS Component
+require('components_skate/time-spent-display')
 
 const {
   get_seconds_spent_on_current_domain_today,
@@ -27,7 +30,7 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
-function addDialog() {
+function addDialog(message) {
   //Adds dialog that covers entire screen
   const $whiteDiv = $('<div class="whiteOverlay">').css({
               'position': 'fixed',
@@ -35,7 +38,7 @@ function addDialog() {
               'left': '0%',
               'width': '100%',
               'height': '100%',
-              'background-color': '#ccf3ff',
+              'background-color': '#f2fcff',
               'opacity': '0.97',
               'z-index': 350
   });
@@ -53,11 +56,11 @@ function addDialog() {
   const $timeText = $('<div class="titleText">').css({
     'font-size': '1.3em'
   });
-  $timeText.html("How many minutes do you want to spend on Facebook today?")
+  $timeText.html(message)
   $contentContainer.append($timeText)
   $contentContainer.append($('<p>'))
 
-  const $slider = $('<paper-input label="minutes" auto-validate allowed-pattern="[0-9]" style="background-color: #33cfff"></paper-input>')
+  const $slider = $('<paper-input label="minutes" auto-validate allowed-pattern="[0-9]" style="background-color: #94e6ff"></paper-input>')
   $contentContainer.append($slider)
   $contentContainer.append($('<p>'))
 
@@ -65,7 +68,20 @@ function addDialog() {
   $okButton.text("Restrict My Minutes!");
   $okButton.css({'cursor': 'pointer', 'padding': '5px'});
   $okButton.click(() => {
-    $('.whiteOverlay').remove()
+    var minutes = document.querySelector("paper-input").value
+    if (minutes === "") {
+      if ($('.wrongInputText').length === 0) {
+        const $wrongInputText = $('<div class="wrongInputText">').css({
+          'color': 'red'
+        })
+        $wrongInputText.html("You must input a number.")
+        $wrongInputText.insertAfter($slider)          
+      }    
+    } else {
+      $('.whiteOverlay').remove()
+      const display_timespent_div = $('<time-spent-display>')
+      $('body').append(display_timespent_div)      
+    }
   })
 
   const $center = $('<center>')
@@ -95,10 +111,9 @@ function isVisited() {
 }
 
 function main() {
-  console.log('in block_after_interval method')
-  addDialog()
+  addDialog("How many minutes would you like to spend on Facebook today?")
 }
 
-$(document).ready(main);
+main();
 
 })()

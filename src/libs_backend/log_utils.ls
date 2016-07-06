@@ -37,16 +37,16 @@ export getInterventionLogDb = memoizeSingleAsync (callback) ->
   for intervention in interventions_list
     if not prev_schema[intervention]?
       stores_to_create[intervention] = '++,type'
+  new_schema = {[k,v] for k,v of prev_schema}
   if Object.keys(stores_to_create).length > 0
     db.version(dbver).stores(prev_schema)
     dbver += 1
-    new_schema = {[k,v] for k,v of prev_schema}
     for k,v of stores_to_create
       new_schema[k] = v
     db.on 'ready', ->
       localStorage.setItem 'current_schema_interventionlogdb', JSON.stringify(new_schema)
       localStorage.setItem 'current_dbver_interventionlogdb', dbver
-  db.version(dbver).stores(stores_to_create)
+  db.version(dbver).stores(new_schema)
   realdb <- db.open().then
   callback realdb
 

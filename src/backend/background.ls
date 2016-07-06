@@ -145,10 +145,10 @@ execute_content_scripts_for_intervention = (intervention_info, callback) ->
       type: 'load_content_scripts',
       data: {
         content_script_options: #{JSON.stringify(content_script_options)},
-        intervention_name: '#{name}',
+        intervention_info: '#{JSON.stringify(intervention_info)}',
         tabid: #{tabid},
         wait_token: #{wait_token},
-        loaded_scripts: window.loaded_scripts || {},
+        loaded_content_scripts: window.loaded_content_scripts || {},
       },
     });
 
@@ -294,19 +294,19 @@ message_handlers = {
     load_intervention_for_location location, ->
       callback()
   'load_content_scripts': (data, callback) ->
-    {content_script_options, intervention_name, tabid, wait_token, loaded_scripts} = data
+    {content_script_options, tabid, wait_token, loaded_content_scripts} = data
     <- async.eachSeries content_script_options, (options, ncallback) ->
-      if loaded_scripts[options.path]?
+      if loaded_content_scripts[options.path]?
         return ncallback()
       content_script_code <- $.get options.path
       content_script_code = """
-      if (!window.loaded_scripts) {
-        window.loaded_scripts = {};
+      if (!window.loaded_content_scripts) {
+        window.loaded_content_scripts = {};
       }
-      if (window.loaded_scripts['#{options.path}']) {
+      if (window.loaded_content_scripts['#{options.path}']) {
         console.log('content script already loaded: #{options.path}');
       } else {
-        window.loaded_scripts['#{options.path}'] = true;
+        window.loaded_content_scripts['#{options.path}'] = true;
         console.log('executing content script: #{options.path}');
         #{content_script_code}
       }
@@ -368,7 +368,18 @@ confirm_permissions = (info, callback) ->
 
 #which_interventions_are_loaded = (tabId, callback) ->
 
+prev_domain = ''
+
+domain_changed = (new_domain) ->
+  prev_domain := new_domain
+  current_day = get_days_since_epoch()
+  addtokey_dictdict 'visits_to_domain_per_day', new_domain, current_day, 1, (total_visits) ->
+    console.log "total visits to #{new_domain} today is #{total_visits}"
+
 navigation_occurred = (url, tabId) ->
+  new_domain = url_to_domain(url)
+  if new_domain != prev_domain
+    domain_changed(new_domain)
   #if tabid_to_current_location[tabId] == url
   #  return
   #tabid_to_current_location[tabId] = url

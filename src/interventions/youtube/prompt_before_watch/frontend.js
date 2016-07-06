@@ -61,12 +61,16 @@ function divOverVideo(status) {
 	//Message to user
 	const $text1 = $('<h1>');
 	if (status === 'begin') {
-    once_available('video', function() {
+    const wait = setInterval(() => {
+      const getEmails = document.querySelector('video');
       const duration = Math.round($('video')[0].duration)
-      const minutes = Math.floor(duration / 60)
-      const seconds = (duration % 60)
-      $text1.html("This video is " + minutes + " minutes and " + seconds + " seconds long. <br>Are you sure you want to play it?");
-    })
+      if (!isNaN(duration) ) {
+        const minutes = Math.floor(duration / 60)
+        const seconds = (duration % 60)
+        $text1.html("This video is " + minutes + " minutes and " + seconds + " seconds long. <br>Are you sure you want to play it?");
+        clearInterval(wait);
+      }
+    }, 100);
 	} else {
       get_seconds_spent_on_domain_today('www.youtube.com', function(secondsSpent) {
           const mins = Math.floor(secondsSpent/60)

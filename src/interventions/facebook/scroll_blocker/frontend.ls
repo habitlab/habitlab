@@ -25,7 +25,7 @@ require('components/fb-scroll-block-display-polymer.deps')
 
 window.scrolling_allowed = true
 nscrolls = 0
-NSCROLLS_THRESHOLD = 51
+NSCROLLS_THRESHOLD = 750
 disabled = false
 
 window.onwheel = (evt) ->
@@ -49,7 +49,7 @@ disable_scrolling_and_show_scroll_block = ->
   scroll_block_display.show()
 
 enable_scrolling_and_hide_scroll_block!
-disable_scrolling_and_show_scroll_block!
+#disable_scrolling_and_show_scroll_block!
 
 
 # when the scroll block display fires the continue_scrolling event, hide it and enable scrolling for 5 seconds

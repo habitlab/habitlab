@@ -16,6 +16,10 @@ const {
 Polymer({
   is: 'fb-scroll-block-display-polymer',
   properties: {
+    intervention: {
+      type: String,
+      value: '',
+    },
     minutes: {
       type: Number,
     },
@@ -23,6 +27,9 @@ Polymer({
       type: String,
       value: url_to_domain(window.location.href),
     },
+    visits: {
+      type: Number,
+    }
   },
   clicked: function() {
     console.log('habitlab-logo-polymer clicked');

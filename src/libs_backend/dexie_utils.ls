@@ -12,9 +12,24 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-export getDb = memoize ->
-  db = new dexie('habitlab')
-  db.version(2).stores({
+export get_current_schema_db = ->
+  result = localStorage.getItem('current_schema_db')
+  if not result?
+    return {}
+  return JSON.parse result
+
+export get_current_dbver_db = ->
+  result = localStorage.getItem('current_dbver_db')
+  if not result?
+    return 0
+  return parseInt result
+
+export getDb = memoizeSingleAsync (callback) ->
+  db = new dexie('habitlab', {autoOpen: false})
+  dbver = get_current_dbver_db()
+  prev_schema = get_current_schema_db()
+  stores_to_create = {}
+  current_collections = {
     vars: 'key'
     #lists: '++,key,val'
     # composite index:
@@ -27,19 +42,36 @@ export getDb = memoize ->
     interventions_enabled_each_day: '[key+key2],key,key2'
     interventions_manually_managed_each_day: '[key+key2],key,key2'
     seconds_on_domain_per_day: '[key+key2],key,key2'
-  })
-  return db
+  }
+  for k,v of current_collections
+    if not prev_schema[k]?
+      stores_to_create[k] = v
+  if Object.keys(stores_to_create).length > 0
+    db.version(dbver).stores(prev_schema)
+    dbver += 1
+    new_schema = {[k,v] for k,v of prev_schema}
+    for k,v of stores_to_create
+      new_schema[k] = v
+    db.on 'ready', ->
+      localStorage.setItem 'current_schema_db', JSON.stringify(new_schema)
+      localStorage.setItem 'current_dbver_db', dbver
+  db.version(dbver).stores(stores_to_create)
+  realdb <- db.open().then
+  callback realdb
 
 export deleteDb = (callback) ->
-  getDb().delete().then ->
+  localStorage.removeItem('current_schema_db')
+  localStorage.removeItem('current_dbver_db')
+  db = new dexie('habitlab')
+  db.delete().then ->
     callback?!
 
-export getCollection = (collection_name) ->
-  db = getDb()
-  return db[collection_name]
+export getCollection = (collection_name, callback) ->
+  db <- getDb()
+  callback db[collection_name]
 
 export addtovar = (key, val, callback) ->
-  data = getCollection('vars')
+  data <- getCollection('vars')
   new_val = val
   num_modified <- data.where('key').equals(key).modify((x) ->
     x.val += val
@@ -57,13 +89,13 @@ export addtovar = (key, val, callback) ->
   setvar key, val, callback
 
 export setvar = (key, val, callback) ->
-  data = getCollection('vars')
+  data <- getCollection('vars')
   <- data.put({key: key, val: val}).then
   if callback?
     callback val
 
 export getvar = (key, callback) ->
-  data = getCollection('vars')
+  data <- getCollection('vars')
   result <- data.get(key).then
   if result?
     return callback result.val
@@ -71,7 +103,7 @@ export getvar = (key, callback) ->
     return callback null
 
 export clearvar = (key, callback) ->
-  data = getCollection('vars')
+  data <- getCollection('vars')
   num_deleted <- data.where('key').equals(key).delete().then
   callback?!
 
@@ -80,29 +112,29 @@ export printvar = (key) ->
   console.log result
 
 export addtolist = (name, val, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data.add(val).then
   if callback?
     callback val
 
 export getlist = (name, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data.toArray().then
   callback result
 
 export clearlist = (name, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   num_deleted <- data.delete().then
   callback?!
 
 export setkey_dict = (name, key, val, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data.put({key, val}).then
   if callback?
     callback val
 
 export addtokey_dict = (name, key, val, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   new_val = val
   num_modified <- data
   .where('key')
@@ -123,7 +155,7 @@ export addtokey_dict = (name, key, val, callback) ->
   setkey_dict name, key, val, callback
 
 export getkey_dict = (name, key, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data
   .where('key')
   .equals(key)
@@ -133,7 +165,7 @@ export getkey_dict = (name, key, callback) ->
   return callback!
 
 export delkey_dict = (name, key, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   num_deleted <- data
   .where('key')
   .equals(key)
@@ -141,19 +173,19 @@ export delkey_dict = (name, key, callback) ->
   callback?!
 
 export getdict = (name, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data
   .toArray().then
   callback {[key, val] for {key, val} in result}
 
 export cleardict = (name, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   num_deleted <- data
   .delete().then
   callback?!
 
 export getdict_for_key_dictdict = (name, key, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data
   .where('key')
   .equals(key)
@@ -166,7 +198,7 @@ export getdict_for_key_dictdict = (name, key, callback) ->
   return callback {}
 
 export getdict_for_key2_dictdict = (name, key2, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data
   .where('key2')
   .equals(key2)
@@ -179,7 +211,7 @@ export getdict_for_key2_dictdict = (name, key2, callback) ->
   return callback {}
 
 export getkey_dictdict = (name, key, key2, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data
   .where('[key+key2]')
   .equals([key, key2])
@@ -189,27 +221,27 @@ export getkey_dictdict = (name, key, key2, callback) ->
   return callback!
 
 export setdict_for_key2_dictdict = (name, key2, dict, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   items_to_add = [{key, key2, val} for key,val of dict]
   result <- data.bulkPut(items_to_add).then
   if callback?
     callback dict
 
 export setdict_for_key_dictdict = (name, key, dict, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   items_to_add = [{key, key2, val} for key2,val of dict]
   result <- data.bulkPut(items_to_add).then
   if callback?
     callback dict
 
 export setkey_dictdict = (name, key, key2, val, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   result <- data.put({key, key2, val}).then
   if callback?
     callback val
 
 export addtokey_dictdict = (name, key, key2, val, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   new_val = val
   num_modified <- data
   .where('[key+key2]')
@@ -230,7 +262,7 @@ export addtokey_dictdict = (name, key, key2, val, callback) ->
   setkey_dictdict name, key, key2, val, callback
 
 export clear_dictdict = (name, callback) ->
-  data = getCollection(name)
+  data <- getCollection(name)
   num_deleted <- data
   .delete().then
   callback?!

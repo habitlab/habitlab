@@ -51,7 +51,8 @@ export get_enabled_interventions_for_today = (callback) ->
   get_enabled_interventions_for_days_since_today 0, callback
 
 get_last_day_with_intervention_enabled_data = (callback) ->
-  last_intervention_set_item <- getCollection('interventions_enabled_each_day').orderBy('key2').last()
+  collection <- getCollection('interventions_enabled_each_day')
+  last_intervention_set_item <- collection.orderBy('key2').last()
   if not last_intervention_set_item?
     return callback()
   callback last_intervention_set_item.key2 # this is the day, in epoch time, that the most recent intervention set occurred

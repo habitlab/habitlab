@@ -140,7 +140,7 @@ polymer_ext {
       datasets: [
       {
           data: [sorted[0][1]/60, 
-                sorted[1][1]/60, 
+                sorted[1][1]/60,
                 sorted[2][1]/60, 
                 sorted[3][1]/60, 
                 sorted[4][1]/60
@@ -187,7 +187,22 @@ polymer_ext {
           data: all_enabled_intervention_results
         }
       ]
-    }    
+    }
+
+    #MARK: Time saved daily due to interventions Graph
+    self.timeSavedData = {
+      labels: ['temp1', 'temp2', 'temp3']
+      datasets: [
+        {
+          label: "Today",
+          backgroundColor: "rgba(65,131,215,0.5)",
+          borderColor: "rgba(65,131,215,1)",
+          borderWidth: 1,
+          data: [1, 2, 3]
+        }
+      ]
+
+    }
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

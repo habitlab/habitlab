@@ -16,20 +16,59 @@ require! {
   dexie
 }
 
+export get_db_major_version_interventionlogdb = -> '1'
+export get_db_minor_version_interventionlogdb = -> '1'
+
+export delete_db_if_outdated_interventionlogdb = (callback) ->
+  if localStorage.getItem('db_minor_version_interventionlogdb') != get_db_minor_version_interventionlogdb()
+    localStorage.setItem('db_minor_version_interventionlogdb', get_db_minor_version_interventionlogdb())
+  if localStorage.getItem('db_major_version_interventionlogdb') != get_db_major_version_interventionlogdb()
+    deleteInterventionLogDb ->
+      localStorage.setItem('db_major_version_interventionlogdb', get_db_major_version_interventionlogdb())
+      return callback()
+  else
+    return callback()
+
+export get_current_schema_interventionlogdb = ->
+  result = localStorage.getItem('current_schema_interventionlogdb')
+  if not result?
+    return {}
+  return JSON.parse result
+
+export get_current_dbver_interventionlogdb = ->
+  result = localStorage.getItem('current_dbver_interventionlogdb')
+  if not result?
+    return 0
+  return parseInt result
+
 export getInterventionLogDb = memoizeSingleAsync (callback) ->
+  <- delete_db_if_outdated_interventionlogdb()
   interventions_list <- list_all_interventions()
-  db = new dexie('interventionlog')
-  verno = db.verno
+  db = new dexie('interventionlog', {autoOpen: false})
+  dbver = get_current_dbver_interventionlogdb()
+  prev_schema = get_current_schema_interventionlogdb()
+  stores_to_create = {}
   for intervention in interventions_list
-    if not db[intervention]?
-      verno += 1
-      new_store = {}
-      new_store[intervention] = '++,type'
-      db.version(verno).stores(new_store)
-  callback db
+    if not prev_schema[intervention]?
+      stores_to_create[intervention] = '++,type'
+  new_schema = {[k,v] for k,v of prev_schema}
+  if Object.keys(stores_to_create).length > 0
+    db.version(dbver).stores(prev_schema)
+    dbver += 1
+    for k,v of stores_to_create
+      new_schema[k] = v
+    db.on 'ready', ->
+      localStorage.setItem 'current_schema_interventionlogdb', JSON.stringify(new_schema)
+      localStorage.setItem 'current_dbver_interventionlogdb', dbver
+  db.version(dbver).stores(new_schema)
+  realdb <- db.open().then
+  callback realdb
 
 export deleteInterventionLogDb = (callback) ->
-  db <- getInterventionLogDb()
+  console.log 'deleteInterventionLogDb called'
+  localStorage.removeItem('current_schema_interventionlogdb')
+  localStorage.removeItem('current_dbver_interventionlogdb')
+  db = new dexie('interventionlog')
   db.delete().then ->
     callback?
 

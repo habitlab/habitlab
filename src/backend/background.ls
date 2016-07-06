@@ -131,15 +131,15 @@ execute_content_scripts_for_intervention = (intervention_info, callback) ->
   content_script_code = """
   (function(){
 
-    console.log('execute_content_scripts_for_intervention called for intervention #{name}')
+    console.log('execute_content_scripts_for_intervention called for intervention #{name}');
 
     if (!window.loaded_interventions) {
-      window.loaded_interventions = []
+      window.loaded_interventions = {};
     }
-    if (window.loaded_interventions.includes('#{name}')) {
-      return
+    if (window.loaded_interventions['#{name}']) {
+      return;
     }
-    window.loaded_interventions.push('#{name}')
+    window.loaded_interventions['#{name}'] = true;
 
     chrome.runtime.sendMessage({
       type: 'load_content_scripts',

@@ -55,4 +55,20 @@ export get_seconds_spent_on_current_domain_today = (callback) ->
     else
       callback 0
 
+export get_visits_to_domain_today = (domain, callback) ->
+  current_day = get_days_since_epoch()
+  getkey_dictdict 'visits_to_domain_per_day', domain, current_day, (result) ->
+    if result?
+      callback result
+    else
+      callback 0
+
+export get_visits_to_current_domain_today = (callback) ->
+  current_domain = window.location.hostname
+  get_visits_to_domain_today current_domain, (result) ->
+    if result?
+      callback result
+    else
+      callback 0
+
 gexport_module 'time_spent_utils', -> eval(it)

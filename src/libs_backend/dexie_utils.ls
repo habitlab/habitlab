@@ -57,6 +57,7 @@ export getDb = memoizeSingleAsync (callback) ->
     interventions_manually_managed_each_day: '[key+key2],key,key2'
     seconds_on_domain_per_day: '[key+key2],key,key2'
     intervention_to_options: 'key'
+    visits_to_domain_per_day: '[key+key2],key,key2'
   }
   for k,v of current_collections
     if not prev_schema[k]?

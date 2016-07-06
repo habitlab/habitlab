@@ -368,7 +368,18 @@ confirm_permissions = (info, callback) ->
 
 #which_interventions_are_loaded = (tabId, callback) ->
 
+prev_domain = ''
+
+domain_changed = (new_domain) ->
+  prev_domain := new_domain
+  current_day = get_days_since_epoch()
+  addtokey_dictdict 'visits_to_domain_per_day', new_domain, current_day, 1, (total_visits) ->
+    console.log "total visits to #{new_domain} today is #{total_visits}"
+
 navigation_occurred = (url, tabId) ->
+  new_domain = url_to_domain(url)
+  if new_domain != prev_domain
+    domain_changed(new_domain)
   #if tabid_to_current_location[tabId] == url
   #  return
   #tabid_to_current_location[tabId] = url

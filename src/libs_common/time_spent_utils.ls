@@ -47,6 +47,14 @@ export get_seconds_spent_on_domain_today = (domain, callback) ->
     else
       callback 0
 
+export get_minutes_spent_on_domain_today = (domain, callback) ->
+  current_day = get_days_since_epoch()
+  getkey_dictdict 'seconds_on_domain_per_day', domain, current_day, (result) ->
+    if result?
+      callback Math.floor(result/60.0)
+    else
+      callback 0
+
 export get_seconds_spent_on_current_domain_today = (callback) ->
   current_domain = window.location.hostname
   get_seconds_spent_on_domain_today current_domain, (result) ->

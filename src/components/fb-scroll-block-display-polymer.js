@@ -6,7 +6,7 @@ const {
 } = require('libs_frontend/content_script_utils')
 
 const {
-  get_seconds_spent_on_domain_today,
+  get_minutes_spent_on_domain_today,
 } = require('libs_common/time_spent_utils');
 
 const {
@@ -16,7 +16,7 @@ const {
 Polymer({
   is: 'fb-scroll-block-display-polymer',
   properties: {
-    seconds: {
+    minutes: {
       type: Number,
     },
     site: {
@@ -35,8 +35,9 @@ Polymer({
     console.log('fb-scroll-block-display-polymer ready');
     const self = this;
     setInterval(() => {
-      get_seconds_spent_on_domain_today(self.site, (seconds_spent) => {
-        self.seconds = seconds_spent;
+      get_minutes_spent_on_domain_today(self.site, (minutes_spent) => {
+        self.minutes = minutes_spent;
+        console.log(minutes_spent);
       });
     }, 1000);
   },

@@ -70,7 +70,7 @@ export deleteInterventionLogDb = (callback) ->
   localStorage.removeItem('current_dbver_interventionlogdb')
   db = new dexie('interventionlog')
   db.delete().then ->
-    callback?
+    callback?!
 
 export getInterventionLogCollection = (name, callback) ->
   db <- getInterventionLogDb()

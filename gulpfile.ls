@@ -24,7 +24,7 @@ console.log 'running scripts/generate_polymer_dependencies'
 exec('scripts/generate_polymer_dependencies')
 console.log 'done running scripts/generate_polymer_dependencies'
 
-webpack_config = require './webpack.config.ls'
+webpack_config = require './webpack_config.ls'
 
 lspattern = [
   'src/*.ls'

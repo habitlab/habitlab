@@ -109,6 +109,9 @@ export get_interventions = memoizeSingleAsync (callback) ->
       intervention_info.content_scripts = []
     if not intervention_info.background_scripts?
       intervention_info.background_scripts = []
+    if not intervention_info.parameters?
+      intervention_info.parameters = []
+    intervention_info.params = {[x.name, x] for x in intervention_info.parameters}
     intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
     intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
     intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]

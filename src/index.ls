@@ -1,6 +1,12 @@
-# force the usage of polyfills
-#require 'enable-webcomponents-in-content-scripts'
-#document.registerElement = null
+{
+  getUrlParameters
+} = require 'libs_frontend/common_libs'
+
+use_polyfill = getUrlParameters().polyfill
+if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
+  # force the usage of polyfills
+  document.registerElement = null
+
 #require 'webcomponents.js/webcomponents-lite'
 require 'webcomponentsjs-custom-element-v0'
 #require 'webcomponents.js/webcomponents'
@@ -9,17 +15,13 @@ require 'webcomponentsjs-custom-element-v0'
 window.Polymer = {
   dom: 'shady',
   #dom: 'shadow',
-  lazyRegister: false,
+  lazyRegister: true,
 }
 
 
 require! {
   'js-yaml'
 }
-
-{
-  getUrlParameters
-} = require 'libs_frontend/common_libs'
 
 require 'components/components.deps'
 require 'components_skate/components_skate'

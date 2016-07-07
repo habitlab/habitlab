@@ -135,7 +135,7 @@ function displayCountdown() {
     display_timespent_div.text("You have " + Math.floor(remainingTime/60) + " minute(s) and " + remainingTime%60 + " seconds left on Facebook")
     if (remainingTime < 0) {
       $('.timeSpent').remove()
-      addEndDialog("Your time today is up!")
+      addEndDialog("Your time this visit is up!")
       clearInterval(countdownTimer)
     }  
   }, 1000);

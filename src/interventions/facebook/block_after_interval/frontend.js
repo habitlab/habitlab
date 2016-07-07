@@ -82,13 +82,7 @@ function addDialog(message) {
       //Save time in database
       localStorage.timeLimit =  minutes * 60 //time limit stored in seconds
       $('.whiteOverlay').remove()
-      const display_timespent_div = $('<div class="timeSpent" style="background-color: green; position: fixed; color: white; width: 150px; height: 43px; top: 0px; right: 0px; z-index: 10000">')
-      $('body').append(display_timespent_div)
-
-      setInterval(() => getRemainingTimeDaily(function(timeRemaining) {
-        console.log(timeRemaining)
-        display_timespent_div.text("You have " + timeRemaining + " seconds left on Facebook")
-      }), 1000)
+      displayCountdown()
     }
   })
 
@@ -109,11 +103,11 @@ function getRemainingTimeDaily(callback) {
 
 //Executed only the first time a user visits Facebook
 function firstTimeOnly() {
-  //if (!wasVisited()) {
+  if (!wasVisited()) {
     addDialog("How many minutes would you like to spend on Facebook today?")
-  //} else {
-  //  showCountdownOrBlock()
-  //}
+  } else {
+    displayCountdown()
+  }
 }
 
 function everyTime() {
@@ -133,16 +127,23 @@ function getTimeSpent(callback) {
   })
 }
 
-/*
-function wasVisited() {
+function wasVisited(callback) {
+  /*
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
-    return secondsSpent < 2 ? true : false
+    callback(secondsSpent < 2 ? true : false)
   })
+  */
+  return true;
 }
-*/
 
-function showCountdownOrBlock() {
 
+function displayCountdown() {
+  const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 50px; bottom: 0px; left: 0px; z-index: 10000">')
+  $('body').append(display_timespent_div)
+
+  setInterval(() => getRemainingTimeDaily(function(timeRemaining) {
+    display_timespent_div.text("You have " + Math.floor(timeRemaining/60) + " minute(s) and " + timeRemaining%60 + " seconds left on Facebook")
+  }), 1000)
 }
 
 function main() {

@@ -1,4 +1,17 @@
-require 'webcomponents.js/webcomponents-lite'
+# force the usage of polyfills
+#require 'enable-webcomponents-in-content-scripts'
+#document.registerElement = null
+#require 'webcomponents.js/webcomponents-lite'
+require 'webcomponentsjs-custom-element-v0'
+#require 'webcomponents.js/webcomponents'
+
+# this script must run before Polymer is imported
+window.Polymer = {
+  dom: 'shady',
+  #dom: 'shadow',
+  lazyRegister: false,
+}
+
 
 require! {
   'js-yaml'

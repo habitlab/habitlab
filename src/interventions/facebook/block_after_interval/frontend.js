@@ -30,6 +30,7 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
+//Adds a dialog that prompts user for the amount of time they would like to be on Facebook
 function addDialog(message) {
   //Adds dialog that covers entire screen
   const $whiteDiv = $('<div class="whiteOverlay">').css({
@@ -76,42 +77,76 @@ function addDialog(message) {
         })
         $wrongInputText.html("You must input a number.")
         $wrongInputText.insertAfter($slider)          
-      }    
+      }
     } else {
+      //Save time in database
+      localStorage.timeLimit =  minutes * 60 //time limit stored in seconds
       $('.whiteOverlay').remove()
-      const display_timespent_div = $('<time-spent-display>')
-      $('body').append(display_timespent_div)      
+      const display_timespent_div = $('<div class="timeSpent" style="background-color: green; position: fixed; color: white; width: 150px; height: 43px; top: 0px; right: 0px; z-index: 10000">')
+      $('body').append(display_timespent_div)
+
+      setInterval(() => getRemainingTimeDaily(function(timeRemaining) {
+        console.log(timeRemaining)
+        display_timespent_div.text("You have " + timeRemaining + " seconds left on Facebook")
+      }), 1000)
     }
   })
 
   const $center = $('<center>')
   $center.append($okButton)
-
   $contentContainer.append($center);
 
   $whiteDiv.append($contentContainer)
 }
 
-function firstTimeOnly() {
-
-}
-
-function everyTime() {
-
-}
-
-function noPrompting() {
-
-}
-
-function isVisited() {
-  get_seconds_spent_on_current_domain_today(function(secondsSpent) {
-    return secondsSpent < 2 ? true : false;
+//Retrieves the remaining time left for the user to spend on facebook
+function getRemainingTimeDaily(callback) {
+  getTimeSpent(function(timeSpent) {
+    const timeLimit   = parseInt(localStorage.timeLimit, 10)
+    callback(timeLimit - timeSpent)
   })
 }
 
+//Executed only the first time a user visits Facebook
+function firstTimeOnly() {
+  //if (!wasVisited()) {
+    addDialog("How many minutes would you like to spend on Facebook today?")
+  //} else {
+  //  showCountdownOrBlock()
+  //}
+}
+
+function everyTime() {
+  addDialog("How many minutes would you like to spend on Facebook this visit?")
+}
+
+function noPrompting() {
+}
+
+function resetLocalStorage() {
+  localStorage.remove(timeLimit)
+}
+
+function getTimeSpent(callback) {
+  get_seconds_spent_on_current_domain_today(function(secondsSpent) {
+    callback(secondsSpent);
+  })
+}
+
+/*
+function wasVisited() {
+  get_seconds_spent_on_current_domain_today(function(secondsSpent) {
+    return secondsSpent < 2 ? true : false
+  })
+}
+*/
+
+function showCountdownOrBlock() {
+
+}
+
 function main() {
-  addDialog("How many minutes would you like to spend on Facebook today?")
+  firstTimeOnly()
 }
 
 main();

@@ -82,7 +82,7 @@ function addBeginDialog(message) {
       }
     } else {
       //Save time in database
-      localStorage.timeLimit =  minutes * 60 //time limit stored in seconds
+      localStorage.setItem('timeLimit', minutes * 60) //localStorage.timeLimit =  minutes * 60 //time limit stored in seconds
       $('.whiteOverlay').remove()
       displayCountdownOrBlock()
     }
@@ -128,32 +128,13 @@ function addEndDialog(message) {
 //Retrieves the remaining time left for the user to spend on facebook
 function getRemainingTimeDaily(callback) {
   getTimeSpent(function(timeSpent) {
-    const timeLimit = parseInt(localStorage.timeLimit, 10)
+    const timeLimit = parseInt(localStorage.timeLimit)
     callback(timeLimit - timeSpent)
   })
 }
 
-//Executed only the first time a user visits Facebook
-function firstTimeOnly() {
-  numTimesVisited(function(numberVisits) {
-    console.log("Number of times visited: " + numberVisits)
-    if (numberVisits <= 1) {
-      addBeginDialog("How many minutes would you like to spend on Facebook today?")
-    } else {
-      displayCountdownOrBlock()
-    }
-  })
-}
-
-function everyTime() {
-  addBeginDialog("How many minutes would you like to spend on Facebook this visit?")
-}
-
-function noPrompting() {
-}
-
 function resetLocalStorage() {
-  localStorage.remove(timeLimit)
+  localStorage.removeItem(timeLimit)
 }
 
 function getTimeSpent(callback) {
@@ -185,7 +166,14 @@ function displayCountdownOrBlock() {
 }
 
 function main() {
-  firstTimeOnly()
+  numTimesVisited(function(numberVisits) {
+    console.log("Number of times visited: " + numberVisits)
+    if (numberVisits <= 1) {
+      addBeginDialog("How many minutes would you like to spend on Facebook today?")
+    } else {
+      displayCountdownOrBlock()
+    }
+  })
 }
 
 main();

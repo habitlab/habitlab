@@ -141,6 +141,9 @@ generate_dependencies_for_file = (filename_abs) ->
   output.push '// instead, edit the corresponding .html file and re-run the script'
   output.push "const {import_dom_modules} = require('libs_frontend/dom_utils')"
   for tag in $('link[rel="import"]')
+    if options.verbose
+      if tag.type == 'css'
+        console.log 'has css import via html imports: ' + filename_abs
     dependency_file = get_html_import_abspath(tag, params)
     if not dependency_file?
       console.log "html import does not exist for #{filename_abs}"
@@ -148,6 +151,17 @@ generate_dependencies_for_file = (filename_abs) ->
     dependencies.push dependency_file
     output.push html_import_deps(tag, params)
   output.push "import_dom_modules(require('html!#{filename_rel}'))"
+  for tag in $('link[rel="stylesheet"]')
+    if options.verbose
+      console.log 'has stylesheet: ' + filename_abs
+  if options.verbose
+    for tag in $('style')
+      if not tag.parentNode?
+        console.log 'has style with no dom-module parent: ' + filename_abs
+      if tag.parentNode?
+        console.log tag.parentNode.name
+      #if tag.parentNode.nodeName != 'DOM-MODULE'
+      #  console.log 'has style with no dom-module parent: ' + filename_abs
   for tag in $('script')
     output.push script_deps(tag, params)
   output = output.join("\n").split("\n").filter(-> it.length > 0).join("\n") + "\n"

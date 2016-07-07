@@ -4,6 +4,8 @@ require! {
 
 paper_button_html = require('html!./dom_utils_test_files/paper-button.html')
 paper_slider_html = require('html!./dom_utils_test_files/paper-slider.html')
+iron_flex_layout_html = require('html!./dom_utils_test_files/iron-flex-layout.html')
+default_theme_html = require('html!./dom_utils_test_files/default-theme.html')
 
 describe 'libs_frontend/dom-utils', ->
   sandbox = null
@@ -75,3 +77,19 @@ describe 'libs_frontend/dom-utils', ->
       spy = sandbox.spy_internal dom_utils, 'recreateDomModule'
       result = dom_utils.import_dom_modules(paper_slider_html)
       spy.callCount.should.equal(1)
+    specify 'default-theme dom-module imported', ->
+      spy = sandbox.spy_internal dom_utils, 'recreateDomModule'
+      spy2 = sandbox.spy_internal dom_utils, 'recreateCustomStyle'
+      spy3 = sandbox.spy_internal dom_utils, 'recreateGlobalStyle'
+      result = dom_utils.import_dom_modules(default_theme_html)
+      spy.callCount.should.equal(0)
+      spy2.callCount.should.equal(1)
+      spy3.callCount.should.equal(0)
+    specify 'iron-flex-layout custom-style and global style imported', ->
+      spy = sandbox.spy_internal dom_utils, 'recreateDomModule'
+      spy2 = sandbox.spy_internal dom_utils, 'recreateCustomStyle'
+      spy3 = sandbox.spy_internal dom_utils, 'recreateGlobalStyle'
+      result = dom_utils.import_dom_modules(iron_flex_layout_html)
+      spy.callCount.should.equal(0)
+      spy2.callCount.should.equal(1)
+      spy3.callCount.should.equal(1)

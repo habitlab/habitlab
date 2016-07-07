@@ -16,6 +16,8 @@ require('bower_components/paper-input/paper-input.deps')
 //SkateJS Component
 require('components_skate/time-spent-display')
 
+require('components/interstitial-screen-polymer.deps')
+
 const {
   get_seconds_spent_on_current_domain_today,
   get_seconds_spent_on_domain_today,
@@ -31,6 +33,9 @@ const {
 } = require('libs_common/log_utils')
 
 function addDialog(message) {
+
+
+
   //Adds dialog that covers entire screen
   const $whiteDiv = $('<div class="whiteOverlay">').css({
               'position': 'fixed',

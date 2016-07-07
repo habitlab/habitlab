@@ -1,0 +1,60 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="interstitial-screen-polymer">
+  <style>
+    :host {
+      position: fixed;
+      display: block;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: #f2fcff;
+      opacity: 0.97;
+      z-index: 35000000;
+    }
+
+    .contentContainer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    .titleText {
+      font-size: 1.3em;
+    }
+
+    .whiteDiv {
+      position: fixed;
+      display: block;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: #f2fcff;
+      opacity: 0.97;
+      z-index: 35000000;
+    }
+    .okButton {
+      cursor: pointer;
+      padding: 5px;
+    }
+    
+
+  </style>
+
+  <template>
+    <div class="whiteDiv">
+      <div class="contentContainer">
+        <div class="titleText"></div>
+        <p>
+        <center><button class="okButton" on-click="buttonclicked"></button></center>
+      </div>
+    </div>
+
+  </template>
+  
+  <script src="interstitial-screen-polymer.js"></script>
+
+</dom-module>

@@ -35,9 +35,6 @@ Polymer({
     console.log('habitlab-logo-polymer clicked');
     this.fire('continue_scrolling', {})
   },
-  buttonclicked: function() {
-    console.log('habitlab-logo-polymer paper-button clicked');
-  },
   ready: function() {
     console.log('fb-scroll-block-display-polymer ready');
     const self = this;

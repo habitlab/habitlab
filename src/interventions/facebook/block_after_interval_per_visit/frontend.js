@@ -1,9 +1,9 @@
 (() => {
 
-if (window.block_after_interval) {
+if (window.block_after_interval_per_visit) {
   return
 }
-window.block_after_interval = true
+window.block_after_interval_per_visit = true
 
 const $ = require('jquery')
 
@@ -19,19 +19,12 @@ require('components_skate/time-spent-display')
 require('components/interstitial-screen-polymer.deps')
 
 const {
-  get_seconds_spent_on_current_domain_today,
-  get_seconds_spent_on_domain_today,
-  get_visits_to_current_domain_today,
-} = require('libs_common/time_spent_utils')
-
-const {
-  printable_time_spent,
-} = require('libs_common/time_utils')
-
-const {
   log_impression,
   log_action,
 } = require('libs_common/log_utils')
+
+var timeLimitThisVisit;
+var timeBegun;
 
 //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
 function addBeginDialog(message) {
@@ -81,10 +74,11 @@ function addBeginDialog(message) {
         $wrongInputText.insertAfter($slider)          
       }
     } else {
-      //Save time in database
-      localStorage.setItem('timeLimit', minutes * 60) //localStorage.timeLimit =  minutes * 60 //time limit stored in seconds
+      timeBegun = Math.floor(Date.now() / 1000)
+      timeLimitThisVisit = minutes * 60
+
       $('.whiteOverlay').remove()
-      displayCountdownOrBlock()
+      displayCountdown()
     }
   })
 
@@ -126,54 +120,29 @@ function addEndDialog(message) {
 }
 
 //Retrieves the remaining time left for the user to spend on facebook
-function getRemainingTimeDaily(callback) {
-  getTimeSpent(function(timeSpent) {
-    const timeLimit = parseInt(localStorage.timeLimit)
-    callback(timeLimit - timeSpent)
-  })
+function getRemainingTimeThisVisit() {
+  const timeSpent = Math.floor(Date.now() / 1000) - timeBegun 
+  return timeLimitThisVisit - timeSpent
 }
 
-function resetLocalStorage() {
-  localStorage.removeItem(timeLimit)
-}
-
-function getTimeSpent(callback) {
-  get_seconds_spent_on_current_domain_today(function(secondsSpent) {
-    callback(secondsSpent)
-  })
-}
-
-function numTimesVisited(callback) {
-  get_visits_to_current_domain_today(function(numVisits) {
-    callback(numVisits)
-  })
-}
-
-function displayCountdownOrBlock() {
+//Displays the countdown on the bottom left corner of the Facebook page
+function displayCountdown() {
   const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 50px; bottom: 0px; left: 0px; z-index: 99999">')
   $('body').append(display_timespent_div)
 
   const countdownTimer = setInterval(() => {
-    getRemainingTimeDaily(function(timeRemaining) {
-      display_timespent_div.text("You have " + Math.floor(timeRemaining/60) + " minute(s) and " + timeRemaining%60 + " seconds left on Facebook")
-      if (timeRemaining < 0) {
-        $('.timeSpent').remove()
-        addEndDialog("Your time today is up!")
-        clearInterval(countdownTimer)
-      }
-    })
+    const remainingTime = getRemainingTimeThisVisit()
+    display_timespent_div.text("You have " + Math.floor(remainingTime/60) + " minute(s) and " + remainingTime%60 + " seconds left on Facebook")
+    if (remainingTime < 0) {
+      $('.timeSpent').remove()
+      addEndDialog("Your time today is up!")
+      clearInterval(countdownTimer)
+    }  
   }, 1000);
 }
 
 function main() {
-  numTimesVisited(function(numberVisits) {
-    console.log("Number of times visited: " + numberVisits)
-    if (numberVisits <= 1) {
-      addBeginDialog("How many minutes would you like to spend on Facebook today?")
-    } else {
-      displayCountdownOrBlock()
-    }
-  })
+  addBeginDialog("How many minutes would you like to spend on Facebook this visit?")
 }
 
 main();

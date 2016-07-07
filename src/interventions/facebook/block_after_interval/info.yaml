@@ -1,5 +1,0 @@
-description: Blocks facebook after a certain amount of time
-matches:
-  - www.facebook.com
-content_scripts:
-  - frontend.js

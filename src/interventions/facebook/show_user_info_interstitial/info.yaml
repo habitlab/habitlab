@@ -1,0 +1,7 @@
+description: Displays an interstitial page showing user time spent/visit count
+matches:
+  - www.facebook.com
+content_scripts:
+  - frontend.js
+background_scripts:
+  - backend.js

@@ -103,11 +103,13 @@ function getRemainingTimeDaily(callback) {
 
 //Executed only the first time a user visits Facebook
 function firstTimeOnly() {
-  if (!wasVisited()) {
-    addDialog("How many minutes would you like to spend on Facebook today?")
-  } else {
-    displayCountdown()
-  }
+  wasVisited(function(userHasVisited) {
+    if (!userHasVisited) {
+      addDialog("How many minutes would you like to spend on Facebook today?")
+    } else {
+      displayCountdown()
+    }
+  })
 }
 
 function everyTime() {
@@ -128,12 +130,9 @@ function getTimeSpent(callback) {
 }
 
 function wasVisited(callback) {
-  /*
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
-    callback(secondsSpent < 2 ? true : false)
+    callback(secondsSpent < 2 ? false : true)
   })
-  */
-  return true;
 }
 
 

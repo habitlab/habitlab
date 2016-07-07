@@ -14,7 +14,7 @@ const update_page = (elem) => {
   })
 }
 
-skate.define('time-spent-display', {
+skate.define('countdown-display', {
   props: {
     site: { default: url_to_domain(window.location.href) },
     seconds: { default: 0 },

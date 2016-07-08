@@ -20,6 +20,9 @@ Polymer({
     },
     visits: {
       type: Number
+    },
+    intervention: {
+      type: String
     }
 
   },
@@ -31,6 +34,7 @@ Polymer({
     console.log('interstitial-polymer ready')
     this.$.okbutton.textContent = this.btnTxt
     this.$.titletext.textContent = this.titleText
+    console.log(this.$.titletext.textContent)
 
   },
 });

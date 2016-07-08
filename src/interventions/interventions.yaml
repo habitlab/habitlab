@@ -1,5 +1,7 @@
 - duolingo/facebook_feed_link_injection
-- facebook/block_after_interval
+- facebook/block_after_interval_daily
+- facebook/block_after_interval_no_prompt
+- facebook/block_after_interval_per_visit
 - facebook/feed_injection_example
 - facebook/feed_injection_timer
 - facebook/notification_hijacker

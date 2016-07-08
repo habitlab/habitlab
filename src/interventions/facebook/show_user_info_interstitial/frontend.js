@@ -35,10 +35,10 @@
       titleString += ' \n Take this chance to do something more valuable with your time!'
       var buttonText = 'Click to continue to Facebook'
       console.log(buttonText)
-      var interst_screen = $('<interstitial-screen-polymer btn-txt="hollla">')
+      var interst_screen = $('<interstitial-screen-polymer">')
       interst_screen.attr('btn-txt', buttonText)
       interst_screen.attr('title-text', titleString)
-      interst_screen.attr('intervention', 'facebook/show_user_info_interstitial')
+      //interst_screen.attr('intervention', 'facebook/show_user_info_interstitial')
       $(document.body).append(interst_screen)
     })
   });

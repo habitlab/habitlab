@@ -12,6 +12,8 @@ const {
 
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 
+//const sweetalert = require('../node_modules/sweetalert/dist/sweetalert.min.js')
+
 polymer_ext({
   is: 'habitlab-logo-polymer',
   properties: {
@@ -25,7 +27,7 @@ polymer_ext({
     },
     intervention: {
       type: String,
-      value: '',
+      value: window.intervention.name,
     },
   },
   clicked: function() {
@@ -42,6 +44,7 @@ polymer_ext({
     this.fire('disable_intervention');
     set_intervention_disabled(this.intervention, () => {
       console.log (`disabled ${self.intervention}`)
+      sweetalert({title: "hello"})
     })
   },
   ready: function() {

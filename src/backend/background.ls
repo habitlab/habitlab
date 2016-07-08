@@ -317,11 +317,20 @@ message_handlers = {
   'load_css_file': (data, callback) ->
     {css_file, tab} = data
     tabid = tab.id
-    console.log 'load_css called'
+    console.log 'load_css_file called'
     console.log css_file
     console.log tabid
     chrome.tabs.insertCSS tabid, {file: css_file}, ->
       callback()
+  'load_css_code': (data, callback) ->
+    {css_code, tab} = data
+    tabid = tab.id
+    console.log 'load_css_code called'
+    console.log css_code
+    console.log tabid
+    chrome.tabs.insertCSS tabid, {code: css_code}, ->
+      callback()
+
 }
 
 ext_message_handlers = {
@@ -469,6 +478,7 @@ chrome.runtime.onMessageExternal.addListener (request, sender, sendResponse) ->
 
 message_handlers_requiring_tab = {
   'load_css_file': true
+  'load_css_code': true
 }
 
 chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->

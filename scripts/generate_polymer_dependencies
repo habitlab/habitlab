@@ -153,6 +153,11 @@
     output.push("const {import_dom_modules} = require('libs_frontend/dom_utils')");
     for (i$ = 0, len$ = (ref$ = $('link[rel="import"]')).length; i$ < len$; ++i$) {
       tag = ref$[i$];
+      if (options.verbose) {
+        if (tag.type === 'css') {
+          console.log('has css import via html imports: ' + filename_abs);
+        }
+      }
       dependency_file = get_html_import_abspath(tag, params);
       if (dependency_file == null) {
         console.log("html import does not exist for " + filename_abs);
@@ -162,6 +167,23 @@
       output.push(html_import_deps(tag, params));
     }
     output.push("import_dom_modules(require('html!" + filename_rel + "'))");
+    for (i$ = 0, len$ = (ref$ = $('link[rel="stylesheet"]')).length; i$ < len$; ++i$) {
+      tag = ref$[i$];
+      if (options.verbose) {
+        console.log('has stylesheet: ' + filename_abs);
+      }
+    }
+    if (options.verbose) {
+      for (i$ = 0, len$ = (ref$ = $('style')).length; i$ < len$; ++i$) {
+        tag = ref$[i$];
+        if (tag.parentNode == null) {
+          console.log('has style with no dom-module parent: ' + filename_abs);
+        }
+        if (tag.parentNode != null) {
+          console.log(tag.parentNode.name);
+        }
+      }
+    }
     for (i$ = 0, len$ = (ref$ = $('script')).length; i$ < len$; ++i$) {
       tag = ref$[i$];
       output.push(script_deps(tag, params));

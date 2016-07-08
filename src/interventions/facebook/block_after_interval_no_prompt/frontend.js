@@ -94,7 +94,6 @@ function displayCountdownOrBlock() {
 
 function main() {
   numTimesVisited(function(numberVisits) {
-    console.log("Number of times visited: " + numberVisits)
     if (numberVisits <= 1) {
       setTime(30)
     } 

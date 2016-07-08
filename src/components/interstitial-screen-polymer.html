@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="habitlab-logo-polymer.html">
 
 <dom-module id="interstitial-screen-polymer">
   <style>
@@ -23,6 +24,7 @@
 
     .titleText {
       font-size: 1.3em;
+      text-align: center;
     }
 
     .whiteDiv {
@@ -39,6 +41,7 @@
     .okButton {
       cursor: pointer;
       padding: 5px;
+      margin-top: 100px;
       
     }
     
@@ -47,9 +50,10 @@
 
   <template>
     <div class="whiteDiv">
+      <habitlab-logo-polymer intervention={{intervention}}></habitlab-logo-polymer>
       <div class="contentContainer">
         <div id="titletext" class="titleText">hi</div>
-        <p>
+        <p><p>
         <center><button id="okbutton" class="okButton" on-click="buttonclicked">default</button></center>
       </div>
     </div>

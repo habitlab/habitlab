@@ -145,7 +145,7 @@ execute_content_scripts_for_intervention = (intervention_info, callback) ->
       type: 'load_content_scripts',
       data: {
         content_script_options: #{JSON.stringify(content_script_options)},
-        intervention_info: '#{JSON.stringify(intervention_info)}',
+        intervention_info: #{JSON.stringify(intervention_info)},
         tabid: #{tabid},
         wait_token: #{wait_token},
         loaded_content_scripts: window.loaded_content_scripts || {},
@@ -294,7 +294,7 @@ message_handlers = {
     load_intervention_for_location location, ->
       callback()
   'load_content_scripts': (data, callback) ->
-    {content_script_options, tabid, wait_token, loaded_content_scripts} = data
+    {content_script_options, intervention_info, tabid, wait_token, loaded_content_scripts} = data
     <- async.eachSeries content_script_options, (options, ncallback) ->
       if loaded_content_scripts[options.path]?
         return ncallback()
@@ -308,6 +308,7 @@ message_handlers = {
       } else {
         window.loaded_content_scripts['#{options.path}'] = true;
         console.log('executing content script: #{options.path}');
+        window.intervention = #{JSON.stringify(intervention_info)};
         #{content_script_code}
       }
       """

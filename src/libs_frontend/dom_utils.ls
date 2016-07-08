@@ -1,5 +1,8 @@
-if IS_CONTENT_SCRIPT
-  {load_css_code} = require 'libs_frontend/content_script_utils'
+#if IS_CONTENT_SCRIPT
+#  {load_css_code} = require 'libs_frontend/content_script_utils'
+
+if not window.all_imported_custom_styles?
+  window.all_imported_custom_styles = []
 
 export import_dom_modules = (element_dom) !->
   element_dom_parsed_list = parseHTML(element_dom)
@@ -11,9 +14,14 @@ export import_dom_modules = (element_dom) !->
 
 recreateDomModule = (element_dom_parsed) !->
   DOM_MODULE = document.createElement('dom-module')
+  for style_parsed in window.all_imported_custom_styles
+    if element_dom_parsed.firstChild
+      element_dom_parsed.insertBefore(style_parsed, element_dom_parsed.firstChild)
+    else
+      element_dom_parsed.appendChild(style_parsed)
   DOM_MODULE.innerHTML = element_dom_parsed.innerHTML
   DOM_MODULE.id = element_dom_parsed.id
-  document.getElementsByTagName("head")[0].appendChild(DOM_MODULE)
+  #document.getElementsByTagName("head")[0].appendChild(DOM_MODULE)
   DOM_MODULE.createdCallback?!
 
 recreateStyle = (style_parsed) !->
@@ -23,6 +31,9 @@ recreateStyle = (style_parsed) !->
     recreateGlobalStyle(style_parsed)
 
 recreateCustomStyle = (style_parsed) !->
+  window.all_imported_custom_styles.push(style_parsed)
+  return
+  /*
   STYLES = document.createElement('style', 'custom-style')
   console.log 'recreateCustomStyle called'
   #STYLES.textContent = style_parsed.textContent
@@ -39,10 +50,11 @@ recreateCustomStyle = (style_parsed) !->
     document.documentElement.appendChild(STYLES)
   #document.head.appendChild(STYLES)
   #document.getElementsByTagName("head")[0].appendChild(STYLES)
+  */
 
 recreateGlobalStyle = (style_parsed) !->
-  console.log 'recreateGlobalStyle is not doing anything at the moment'
   return
+  /*
   STYLES = document.createElement('style')
   console.log 'recreateGlobalStyle called'
   #STYLES.textContent = style_parsed.textContent
@@ -53,6 +65,7 @@ recreateGlobalStyle = (style_parsed) !->
   document.documentElement.appendChild(STYLES)
   #document.head.appendChild(STYLES)
   #document.getElementsByTagName("head")[0].appendChild(STYLES)
+  */
 
 parseHTML = (str) ->
   tmp = document.implementation.createHTMLDocument()

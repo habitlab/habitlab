@@ -12,7 +12,8 @@ const {
 
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 
-//const sweetalert = require('../node_modules/sweetalert/dist/sweetalert.min.js')
+const swal = require('sweetalert')//require('../node_modules/sweetalert/dist/sweetalert.min.js')
+//const swal = require('bower_components/sweetalert/dist/sweetalert.min.js')
 
 polymer_ext({
   is: 'habitlab-logo-polymer',
@@ -42,23 +43,34 @@ polymer_ext({
   disable_callback: function() {
     const self = this;
     this.fire('disable_intervention');
+    
     set_intervention_disabled(this.intervention, () => {
       console.log (`disabled ${self.intervention}`)
+      swal("This intervention has been disabled!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
     })
   },
   ready: function() {
     const self = this;
     console.log('habitlab-logo-polymer ready');
-    load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
+    load_css_file('bower_components/sweetalert/dist/sweetalert.css', function() {
+      console.log('css file loaded for sweetalert');
 
-    $.contextMenu({
-      selector: '#habitlab_logo',
-      trigger: 'left',
-      items: {
-        "disable": {name: "Disable this intervention", callback: function() {self.disable_callback()}
-        }
-      }
-    });
+      load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css', function() {
+        console.log('css file loaded for jquery contextmenu');
+
+        $.contextMenu({
+          selector: '#habitlab_logo',
+          trigger: 'left',
+          items: {
+            "disable": {name: "Disable this intervention", callback: function() {self.disable_callback()}
+            }
+          }
+        });
+
+      });
+    })
+
+
   },
   get_url: function() {
     console.log('url called')

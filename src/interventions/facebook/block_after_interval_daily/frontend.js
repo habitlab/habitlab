@@ -60,18 +60,16 @@ function addBeginDialog(message) {
     'font-size': '1.3em'
   });
   $timeText.html(message)
-  $contentContainer.append($timeText)
-  $contentContainer.append($('<p>'))
 
-  const $slider = $('<paper-input label="minutes" auto-validate allowed-pattern="[0-9]" style="background-color: #94e6ff"></paper-input>')
-  $contentContainer.append($slider)
-  $contentContainer.append($('<p>'))
+  //const $slider = $('<paper-input label="minutes" auto-validate allowed-pattern="[0-9]" style="background-color: #94e6ff"></paper-input>')
+  const $slider = $('<paper-slider id="ratings" pin snaps min="5" max="45" max-markers="30" step="1" value="25" style="width: 500px"></paper-slider>')
+
 
   const $okButton = $('<button>');
   $okButton.text("Restrict My Minutes!");
   $okButton.css({'cursor': 'pointer', 'padding': '5px'});
   $okButton.click(() => {
-    var minutes = document.querySelector("paper-input").value
+    var minutes = document.querySelector("paper-slider").value
     if (minutes === "") {
       if ($('.wrongInputText').length === 0) {
         const $wrongInputText = $('<div class="wrongInputText">').css({
@@ -89,6 +87,10 @@ function addBeginDialog(message) {
   })
 
   const $center = $('<center>')
+  $center.append($timeText)
+  $center.append($('<p>'))  
+  $center.append($slider)
+  $center.append($('<p>'))  
   $center.append($okButton)
   $contentContainer.append($center);
 

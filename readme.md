@@ -22,6 +22,12 @@ First add an directory under the [`src/interventions`](https://github.com/habitl
 
 Then, edit the file [`src/interventions/interventions.yaml`](https://github.com/habitlab/habitlab-chrome/blob/master/src/interventions/interventions.yaml) and add the path to your intervention relative to the [`src/interventions`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions) directory.
 
+### Logging Intervention Impressions
+
+To log impressions (that is, instances of when your intervention has been deployed) that are used in data visualizations on the dashboard, as well as to measure intervention efficacy and user progress, there are several useful methods: log_impression and log_action; examples of these in action can be seen under [`src/interventions/google/logging_example`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/google/logging_example). 
+
+These methods, along with a vast library of useful methods for retrieving values from the database, are available in [`src/libs_backend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_backend), [`src/libs_common`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_common), and [`src/libs_frontend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_frontend).
+
 ## Adding a goal
 
 First, add a directory under the [`src/goals`](https://github.com/habitlab/habitlab-chrome/tree/master/src/goals) directory. It should contain a file `info.yaml` and may contain a file `measurement.ls`. Follow [`facebook/spend_less_time`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/facebook/spend_less_time) as an example of what a goal of the form "spend less time on site X" should look like, and [`duolingo/complete_lesson_each_day`](https://github.com/habitlab/habitlab-chrome/tree/master/src/goals/duolingo/complete_lesson_each_day) as an example of how a goal with a custom measurement function should look like.

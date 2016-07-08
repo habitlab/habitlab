@@ -1,5 +1,7 @@
 - duolingo/facebook_feed_link_injection
-- facebook/block_after_interval
+- facebook/block_after_interval_daily
+- facebook/block_after_interval_no_prompt
+- facebook/block_after_interval_per_visit
 - facebook/feed_injection_example
 - facebook/feed_injection_timer
 - facebook/notification_hijacker
@@ -7,6 +9,7 @@
 - facebook/rich_notifications
 - facebook/remove_news_feed
 - facebook/scroll_blocker
+- facebook/show_user_info_interstitial
 - gmail/no_new_emails
 - google/blue_background
 - google/display_time_spent

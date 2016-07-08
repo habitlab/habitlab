@@ -1,0 +1,16 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<dom-module id="intervention-parameter-view">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <paper-input id="parameter_input" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
+  </template>
+  <script src="intervention-parameter-view.js"></script>
+</dom-module>

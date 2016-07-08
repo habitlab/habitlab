@@ -42,6 +42,15 @@ export getUrlParameters = ->
   return map
 */
 
+set_nested_property = (tag, property_name, property_value) ->
+  dot_index = property_name.indexOf('.')
+  if dot_index == -1
+    tag[property_name] = property_value
+    return
+  property_name_start = property_name.substr(0, dot_index)
+  property_name_remainder = property_name.substr(dot_index + 1)
+  set_nested_property tag[property_name_start], property_name_remainder, property_value
+
 startPage = ->
   params = getUrlParameters()
   tagname = params.tag
@@ -53,10 +62,15 @@ startPage = ->
     if k == 'tag' or k == 'index_body_width' or k == 'index_body_height'
       continue
     v = js-yaml.safeLoad(v)
-    if k.startsWith('customStyle.')
-      tag.customStyle[k.replace('customStyle.', '')] = v
-      # tag.updateStyles() or Polymer.updateStyles() doesn't seem to be necessary
-    tag[k] = v
+    set_nested_property tag, k, v
+    #if k.startsWith('style.')
+    #  tag.customStyle[k.replace('style.', '')] = v
+    #  continue
+    #if k.startsWith('customStyle.')
+    #  tag.customStyle[k.replace('customStyle.', '')] = v
+    #  continue
+    #  #tag.updateStyles() or Polymer.updateStyles() doesn't seem to be necessary
+    #tag[k] = v
   document.getElementById('index_contents').appendChild(tag)
   index_body = document.getElementById('index_body')
   if index_body_width?

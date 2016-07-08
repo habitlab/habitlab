@@ -191,11 +191,29 @@ export list_available_interventions_for_enabled_goals = (callback) ->
 export set_intervention_parameter = (intervention_name, parameter_name, parameter_value, callback) ->
   setkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, parameter_value, callback
 
+export get_intervention_parameter_default = (intervention_name, parameter_name, callback) ->
+  interventions <- get_interventions()
+  intervention_info = interventions[intervention_name]
+  callback intervention_info.params[parameter_name].default
+
+export get_intervention_parameters_default = (intervention_name, callback) ->
+  interventions <- get_interventions()
+  intervention_info = interventions[intervention_name]
+  callback {[x.name, x.default] for x in intervention_info.parameters}
+
 export get_intervention_parameter = (intervention_name, parameter_name, callback) ->
-  getkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, callback
+  result <- getkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name
+  if result?
+    return callback result
+  return get_intervention_parameter_default(intervention_name, parameter_name, callback)
 
 export get_intervention_parameters = (intervention_name, callback) ->
-  getdict_for_key_dictdict 'intervention_to_parameters', intervention_name, callback
+  results <- getdict_for_key_dictdict 'intervention_to_parameters', intervention_name
+  default_parameters <- get_intervention_parameters_default(intervention_name)
+  output = {}
+  for k,v of default_parameters
+    output[k] = results[k] ? default_parameters[k]
+  callback output
 
 intervention_manager = require 'libs_backend/intervention_manager'
 

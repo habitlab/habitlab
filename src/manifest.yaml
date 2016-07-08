@@ -2,7 +2,7 @@ manifest_version: 2
 name: HabitLab
 short_name: habitlab
 description: Build better habits online! Tell HabitLab your goals, and it will determine the appropriate interventions via experimentation.
-version: '1.0.15'
+version: '1.0.16'
 permissions:
   - tabs
   - webNavigation

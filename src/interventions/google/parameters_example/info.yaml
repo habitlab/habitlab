@@ -1,0 +1,14 @@
+description: Example of a using parameters in an intervention
+matches:
+  - www.google.com
+content_scripts:
+  - frontend.js
+# parameters is a list of param_info
+# params is a dictionary going from name -> param_info
+parameters:
+  - name: message
+    description: Message that will be displayed to users
+    default: Hello world
+  - name: message2
+    description: Second message that will be displayed to users
+    default: Hello again world

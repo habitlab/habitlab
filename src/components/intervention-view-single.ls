@@ -3,6 +3,8 @@
   set_intervention_disabled
   set_intervention_automatically_managed
   set_intervention_manually_managed
+  get_intervention_parameters
+  set_intervention_parameter
 } = require 'libs_backend/intervention_utils'
 
 debounce = require('async-debounce-jt')
@@ -19,7 +21,7 @@ polymer_ext {
     intervention: {
       type: Object
       notify: true
-      observer: 'intervention_property_changed'
+      #observer: 'intervention_property_changed'
     }
   }
   intervention_changed: (evt) ->
@@ -40,12 +42,12 @@ polymer_ext {
     value = evt.target.value
     intervention_name = this.intervention.name
     #set_intervention_options_debounced(intervention_name, value)
-  intervention_property_changed: ->
-    self = this
-    if not self.intervention? or not self.intervention.name?
-      return
-    #get_intervention_options self.intervention.name, (options_text) ->
-    #  self.$$('#options_input').value = options_text
-  ready: ->
-    this.intervention_property_changed()
+  #intervention_property_changed: ->
+  #  self = this
+  #  if not self.intervention? or not self.intervention.name?
+  #    return
+  #  get_intervention_parameters self.intervention.name, (parameters) ->
+  #    self.$$('#options_input').value = JSON.stringify(parameters)
+  #ready: ->
+  #  this.intervention_property_changed()
 }

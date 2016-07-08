@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="intervention-parameter-view.html">
 
 <dom-module id="intervention-view-single">
   <style>
@@ -21,7 +21,9 @@
     </template>
     <paper-checkbox checked="{{intervention.enabled}}" on-change="intervention_changed">Enabled</paper-checkbox>
     <paper-checkbox checked="{{intervention.automatic}}" on-change="automatically_managed_changed">Automatically Managed</paper-checkbox>
-    <paper-input id="options_input" label="Options" on-input="options_changed"></paper-input>
+    <template is="dom-repeat" items="{{intervention.parameters}}" as="parameter">
+      <intervention-parameter-view intervention="{{intervention}}" parameter="{{parameter}}"></intervention-parameter-view>
+    </template>
   </template>
   <script src="intervention-view-single.js"></script>
 </dom-module>

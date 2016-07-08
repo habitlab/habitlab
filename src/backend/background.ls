@@ -126,6 +126,13 @@ execute_content_scripts_for_intervention = (intervention_info, callback) ->
     console.log 'wait token released'
     callback?!
 
+  intervention_info_copy = JSON.parse JSON.stringify intervention_info
+  parameter_values <- get_intervention_parameters(intervention_info.name)
+  for i in [0 til intervention_info_copy.parameters.length]
+    parameter = intervention_info_copy.parameters[i]
+    parameter.value = parameter_values[parameter.name]
+    intervention_info_copy.params[parameter.name].value = parameter_values[parameter.name]
+
   # based on the following
   # http://stackoverflow.com/questions/8859622/chrome-extension-how-to-detect-that-content-script-is-already-loaded-into-a-tab
   content_script_code = """
@@ -145,7 +152,7 @@ execute_content_scripts_for_intervention = (intervention_info, callback) ->
       type: 'load_content_scripts',
       data: {
         content_script_options: #{JSON.stringify(content_script_options)},
-        intervention_info: #{JSON.stringify(intervention_info)},
+        intervention_info: #{JSON.stringify(intervention_info_copy)},
         tabid: #{tabid},
         wait_token: #{wait_token},
         loaded_content_scripts: window.loaded_content_scripts || {},
@@ -154,7 +161,6 @@ execute_content_scripts_for_intervention = (intervention_info, callback) ->
 
   })();
   """
-  console.log content_script_code
   chrome.tabs.executeScript tabid, {code: content_script_code}
   #callback?! # technically incorrect, may be calling too early. TODO might break with multiple interventions
   /*
@@ -331,7 +337,6 @@ message_handlers = {
     console.log tabid
     chrome.tabs.insertCSS tabid, {code: css_code}, ->
       callback()
-
 }
 
 ext_message_handlers = {

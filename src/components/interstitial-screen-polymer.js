@@ -37,5 +37,11 @@ Polymer({
     console.log(this.$.titletext.textContent)
 
   },
+
+  attributeChanged: function() {
+    this.$.okbutton.textContent = this.btnTxt
+    this.$.titletext.textContent = this.titleText
+    console.log(this.$.titletext.textContent)
+  }
 });
 

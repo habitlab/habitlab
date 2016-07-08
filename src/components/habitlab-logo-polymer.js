@@ -27,7 +27,7 @@ polymer_ext({
     },
     intervention: {
       type: String,
-      value: window.intervention.name,
+      value: window.intervention ? window.intervention.name : '',
     },
   },
   clicked: function() {
@@ -44,7 +44,6 @@ polymer_ext({
     this.fire('disable_intervention');
     set_intervention_disabled(this.intervention, () => {
       console.log (`disabled ${self.intervention}`)
-      sweetalert({title: "hello"})
     })
   },
   ready: function() {

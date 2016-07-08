@@ -14,8 +14,9 @@ require! {
 } = require 'libs_backend/goal_utils'
 
 {
-  setkey_dict
-  getkey_dict
+  setkey_dictdict
+  getkey_dictdict
+  getdict_for_key_dictdict
 } = require 'libs_backend/dexie_utils'
 
 {
@@ -187,12 +188,14 @@ export list_available_interventions_for_enabled_goals = (callback) ->
         output_set[intervention_name] = true
   callback output
 
-export set_intervention_options = (intervention_name, options_text, callback) ->
-  setkey_dict 'intervention_to_options', intervention_name, options_text, ->
-    callback?!
+export set_intervention_parameter = (intervention_name, parameter_name, parameter_value, callback) ->
+  setkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, parameter_value, callback
 
-export get_intervention_options = (intervention_name, callback) ->
-  getkey_dict 'intervention_to_options', intervention_name, callback
+export get_intervention_parameter = (intervention_name, parameter_name, callback) ->
+  getkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, callback
+
+export get_intervention_parameters = (intervention_name, callback) ->
+  getdict_for_key_dictdict 'intervention_to_parameters', intervention_name, callback
 
 intervention_manager = require 'libs_backend/intervention_manager'
 

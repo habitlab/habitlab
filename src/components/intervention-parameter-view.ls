@@ -4,22 +4,31 @@
   set_intervention_parameter
 } = require 'libs_backend/intervention_utils'
 
-debounce = require('async-debounce-jt')
+# debounce = require('async-debounce-jt')
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
+/*
 set_intervention_parameter_debounced = debounce (args, callback) ->
   [intervention_name, parameter_name, parameter_value] = args
   set_intervention_parameter(intervention_name, parameter_name, parameter_value, callback)
+*/
 
+/*
 parameters_changed_debounced = debounce (args, callback) ->
   [self] = args
+  console.log 'self.intervention'
+  console.log self.intervention
+  console.log 'self.parameter'
+  console.log self.parameter
   if not self.intervention? or not self.parameter?
     return callback?!
   parameter_value <- get_intervention_parameter self.intervention.name, self.parameter.name
   self.$$('#parameter_input').value = parameter_value
   console.log 'parameters_changed_debounced called'
+  console.log "parameter #{self.parameter.name} for intervention #{self.intervention.name} is #{parameter_value}"
   return callback?!
+*/
 
 polymer_ext {
   is: 'intervention-parameter-view'
@@ -35,18 +44,31 @@ polymer_ext {
       observer: 'parameter_changed'
     }
   }
+  get_validation_pattern: (parameter) ->
+    if not parameter? or not parameter.type?
+      return '.*'
+    if parameter.type.toLowerCase().startsWith('str')
+      return '.*'
+    if parameter.type.toLowerCase().startsWith('int')
+      return '[0-9]*'
+    if parameter.type.toLowerCase().startsWith('float')
+      # from http://www.regular-expressions.info/floatingpoint.html
+      # [-+]?[0-9]*\.?[0-9]+
+      return '[0-9]*\.?[0-9]+'
+    return '.*'
   parameter_changed: ->
     self = this
-    <- parameters_changed_debounced(self)
+    if not self.intervention? or not self.parameter?
+      return callback?!
+    parameter_value <- get_intervention_parameter self.intervention.name, self.parameter.name
+    self.$$('#parameter_input').value = parameter_value
   parameter_value_changed: (evt) ->
     self = this
-    console.log "parameter_value_changed to"
-    console.log evt
-    console.log evt.target
+    if self.$$('#parameter_input').invalid
+      return
     {value} = evt.target
-    console.log value
-    <- set_intervention_parameter_debounced self.intervention.name, self.parameter.name, value
+    <- set_intervention_parameter self.intervention.name, self.parameter.name, value
   ready: ->
     self = this
-    <- parameters_changed_debounced(self)
+    <- self.parameter_changed(self)
 }

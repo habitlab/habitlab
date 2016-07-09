@@ -9,6 +9,16 @@ parameters:
   - name: message
     description: Message that will be displayed to users
     default: Hello world
+    type: string
   - name: message2
     description: Second message that will be displayed to users
     default: Hello again world
+    type: string
+  - name: message3
+    description: An integer
+    default: 6
+    type: int
+  - name: message4
+    description: A floating point number
+    default: 3.6
+    type: float

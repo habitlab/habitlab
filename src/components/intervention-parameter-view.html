@@ -10,7 +10,7 @@
     }
   </style>
   <template>
-    <paper-input id="parameter_input" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
+    <paper-input id="parameter_input" auto-validate pattern="{{get_validation_pattern(parameter)}}" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
   </template>
   <script src="intervention-parameter-view.js"></script>
 </dom-module>

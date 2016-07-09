@@ -315,7 +315,7 @@ message_handlers = {
       } else {
         window.loaded_content_scripts['#{options.path}'] = true;
         console.log('executing content script: #{options.path}');
-        window.intervention = #{JSON.stringify(intervention_info)};
+        const intervention = #{JSON.stringify(intervention_info)};
         #{content_script_code}
       }
       """

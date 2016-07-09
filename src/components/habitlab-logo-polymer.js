@@ -28,7 +28,7 @@ polymer_ext({
     },
     intervention: {
       type: String,
-      value: window.intervention ? window.intervention.name : '',
+      value: (typeof(intervention) != 'undefined' && intervention) ? intervention.name : '',
     },
   },
   clicked: function() {
@@ -43,7 +43,7 @@ polymer_ext({
   disable_callback: function() {
     const self = this;
     this.fire('disable_intervention');
-    
+
     set_intervention_disabled(this.intervention, () => {
       console.log (`disabled ${self.intervention}`)
       swal("This intervention has been disabled!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
@@ -78,4 +78,3 @@ polymer_ext({
     return chrome.extension.getURL('icons/icon_38.png');
   },
 });
-

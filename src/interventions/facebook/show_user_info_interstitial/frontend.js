@@ -29,17 +29,14 @@
     
     get_visits_to_domain_today(url_to_domain(window.location.href), function(numVisits) {
       
-
-
       console.log(numVisits)
       var titleString = 'You have visited ' + url_to_domain(window.location.href) +' ' + numVisits + ' times and spent '+ numMins + ' minutes there today.'
-      titleString += ' \n Take this chance to do something more valuable with your time!'
       var buttonText = 'Click to continue to Facebook'
       console.log(buttonText)
       var interst_screen = $('<interstitial-screen-polymer>')
       interst_screen.attr('btn-txt', buttonText)
       interst_screen.attr('title-text', titleString)
-      
+      log_impression(window.intervention.name, () =>{})
       $(document.body).append(interst_screen)
     })
   });

@@ -26,6 +26,10 @@ Polymer({
     }
 
   },
+
+  listeners: {
+    'disable_intervention': 'disableIntervention'
+  },
   buttonclicked: function() {
     console.log('ok button clicked in polymer')
     $(this).hide()
@@ -37,7 +41,10 @@ Polymer({
     console.log(this.$.titletext.textContent)
 
   },
-
+  disableIntervention: function() {
+    console.log('interstitial got callback')
+    $(this).hide()
+  },
   attributeChanged: function() {
     this.$.okbutton.textContent = this.btnTxt
     this.$.titletext.textContent = this.titleText

@@ -1,0 +1,5 @@
+description: Makes user wait
+matches:
+  - www.facebook.com
+content_scripts:
+  - frontend.js

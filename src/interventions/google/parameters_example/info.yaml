@@ -22,3 +22,7 @@ parameters:
     description: A floating point number
     default: 3.6
     type: float
+  - name: message5
+    description: A boolean option
+    default: false
+    type: bool

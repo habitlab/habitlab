@@ -114,9 +114,13 @@ export get_interventions = memoizeSingleAsync (callback) ->
     if curtype.startsWith('int')
       parameter.type = 'int'
       return
-    if curtype.startsWith('float') or curtype.startsWith('real') or curtype.startsWith('double')
+    if curtype.startsWith('float') or curtype.startsWith('real') or curtype.startsWith('double') or curtype.startsWith('num')
       parameter.type = 'float'
       return
+    if curtype.startsWith('bool')
+      parameter.type = 'bool'
+      return
+    console.log "warning: invalid parameter.type #{curtype} for intervention #{intervention_info.name}"
   interventions_to_goals <- get_interventions_to_goals()
   errors,results <- async.mapSeries interventions_list, (intervention_name, ncallback) ->
     intervention_info <- getInterventionInfo intervention_name
@@ -208,13 +212,22 @@ export list_available_interventions_for_enabled_goals = (callback) ->
         output_set[intervention_name] = true
   callback output
 
-export cast_to_type = (parameter_value, type_name) ->
+cast_to_bool = (parameter_value) ->
+  if typeof(parameter_value) != 'string'
+    return Boolean(parameter_value)
+  if parameter_value.toLowerCase() == 'false'
+    return false
+  return true
+
+cast_to_type = (parameter_value, type_name) ->
   if type_name == 'string'
     return parameter_value.toString()
   if type_name == 'int'
     return parseInt(parameter_value)
   if type_name == 'float'
     return parseFloat(parameter_value)
+  if type_name == 'bool'
+    return cast_to_bool(parameter_value)
   return parameter_value
 
 export set_intervention_parameter = (intervention_name, parameter_name, parameter_value, callback) ->

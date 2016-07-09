@@ -44,6 +44,10 @@ polymer_ext {
       observer: 'parameter_changed'
     }
   }
+  is_parameter_type_bool: (parameter) ->
+    return parameter.type == 'bool'
+  is_parameter_type_not_bool: (parameter) ->
+    return parameter.type != 'bool'
   get_error_message: (parameter) ->
     if not parameter? or not parameter.type?
       return ''
@@ -73,7 +77,14 @@ polymer_ext {
     if not self.intervention? or not self.parameter?
       return
     parameter_value <- get_intervention_parameter self.intervention.name, self.parameter.name
-    self.$$('#parameter_input').value = parameter_value
+    if self.parameter.type == 'bool'
+      self.$$('#parameter_checkbox_input').checked = parameter_value
+    else
+      self.$$('#parameter_input').value = parameter_value
+  parameter_checkbox_value_changed: (evt) ->
+    self = this
+    {checked} = evt.target
+    <- set_intervention_parameter self.intervention.name, self.parameter.name, checked
   parameter_value_changed: (evt) ->
     self = this
     if self.$$('#parameter_input').invalid

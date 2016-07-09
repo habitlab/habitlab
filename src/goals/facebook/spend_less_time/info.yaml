@@ -8,5 +8,6 @@ interventions:
   - facebook/scroll_blocker
   - facebook/block_after_interval
   - facebook/show_user_info_interstitial
+  - facebook/make_user_wait
 measurement: time_spent_on_domain
 domain: www.facebook.com

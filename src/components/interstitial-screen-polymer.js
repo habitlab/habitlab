@@ -41,6 +41,7 @@ Polymer({
     console.log('interstitial-polymer ready')
     this.$.okbutton.textContent = this.btnTxt
     this.$.titletext.textContent = this.titleText
+    this.$.messagetext.textContent = this.messageText
     console.log(this.$.titletext.textContent)
 
   },
@@ -49,7 +50,8 @@ Polymer({
     $(this).hide()
   },
   attributeChanged: function() {
-    this.$.okbutton.textContent = this.btnTxt
+    this.$.okbutton.textContent = this.btnTxt 
+    this.$.messagetext.textContent = this.messageText
     this.$.titletext.textContent = this.titleText
     console.log(this.$.titletext.textContent)
   }

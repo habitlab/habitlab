@@ -62,7 +62,9 @@ polymer_ext({
           selector: '#habitlab_logo',
           trigger: 'left',
           items: {
+            "name": {name: window.intervention.name, disabled: true},
             "disable": {name: "Disable this intervention", callback: function() {self.disable_callback()}
+          
             }
           }
         });

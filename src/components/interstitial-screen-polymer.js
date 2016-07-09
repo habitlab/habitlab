@@ -23,6 +23,9 @@ Polymer({
     },
     intervention: {
       type: String
+    },
+    messageText: {
+      type: String
     }
 
   },

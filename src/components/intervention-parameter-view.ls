@@ -59,7 +59,7 @@ polymer_ext {
   parameter_changed: ->
     self = this
     if not self.intervention? or not self.parameter?
-      return callback?!
+      return
     parameter_value <- get_intervention_parameter self.intervention.name, self.parameter.name
     self.$$('#parameter_input').value = parameter_value
   parameter_value_changed: (evt) ->

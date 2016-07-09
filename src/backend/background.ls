@@ -32,6 +32,7 @@
   list_available_interventions_for_location
   set_intervention_enabled
   set_intervention_disabled
+  get_intervention_parameters
 } = require 'libs_backend/intervention_utils'
 
 {

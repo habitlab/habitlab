@@ -99,6 +99,24 @@ export get_interventions = memoizeSingleAsync (callback) ->
     else
       options.path = "interventions/#{intervention_name}/#{options.path}"
     return options
+  fix_intervention_parameter = (parameter, intervention_info) ->
+    if not parameter.name?
+      console.log "warning: missing parameter.name for intervention #{intervention_info.name}"
+    if not parameter.default?
+      console.log "warning: missing parameter.default for intervention #{intervention_info.name}"
+    if not parameter.type?
+      parameter.type = 'string'
+      return
+    curtype = parameter.type.toLowerCase()
+    if curtype.startsWith('str')
+      parameter.type = 'string'
+      return
+    if curtype.startsWith('int')
+      parameter.type = 'int'
+      return
+    if curtype.startsWith('float') or curtype.startsWith('real') or curtype.startsWith('double')
+      parameter.type = 'float'
+      return
   interventions_to_goals <- get_interventions_to_goals()
   errors,results <- async.mapSeries interventions_list, (intervention_name, ncallback) ->
     intervention_info <- getInterventionInfo intervention_name
@@ -112,6 +130,8 @@ export get_interventions = memoizeSingleAsync (callback) ->
       intervention_info.background_scripts = []
     if not intervention_info.parameters?
       intervention_info.parameters = []
+    for parameter in intervention_info.parameters
+      fix_intervention_parameter(parameter, intervention_info)
     intervention_info.params = {[x.name, x] for x in intervention_info.parameters}
     intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
     intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
@@ -188,31 +208,53 @@ export list_available_interventions_for_enabled_goals = (callback) ->
         output_set[intervention_name] = true
   callback output
 
+export cast_to_type = (parameter_value, type_name) ->
+  if type_name == 'string'
+    return parameter_value.toString()
+  if type_name == 'int'
+    return parseInt(parameter_value)
+  if type_name == 'float'
+    return parseFloat(parameter_value)
+  return parameter_value
+
 export set_intervention_parameter = (intervention_name, parameter_name, parameter_value, callback) ->
   setkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, parameter_value, callback
+
+get_intervention_parameter_type = (intervention_name, parameter_name, callback) ->
+  interventions <- get_interventions()
+  intervention_info = interventions[intervention_name]
+  parameter_type = intervention_info.params[parameter_name].type
+  callback parameter_type
 
 export get_intervention_parameter_default = (intervention_name, parameter_name, callback) ->
   interventions <- get_interventions()
   intervention_info = interventions[intervention_name]
-  callback intervention_info.params[parameter_name].default
+  parameter_type = intervention_info.params[parameter_name].type
+  parameter_value = intervention_info.params[parameter_name].default
+  callback cast_to_type(parameter_value, parameter_type)
 
 export get_intervention_parameters_default = (intervention_name, callback) ->
   interventions <- get_interventions()
   intervention_info = interventions[intervention_name]
-  callback {[x.name, x.default] for x in intervention_info.parameters}
+  callback {[x.name, cast_to_type(x.default, x.type)] for x in intervention_info.parameters}
 
 export get_intervention_parameter = (intervention_name, parameter_name, callback) ->
   result <- getkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name
+  parameter_type <- get_intervention_parameter_type(intervention_name, parameter_name)
   if result?
-    return callback result
+    return callback cast_to_type(result, parameter_type)
   return get_intervention_parameter_default(intervention_name, parameter_name, callback)
 
 export get_intervention_parameters = (intervention_name, callback) ->
   results <- getdict_for_key_dictdict 'intervention_to_parameters', intervention_name
   default_parameters <- get_intervention_parameters_default(intervention_name)
+  interventions <- get_interventions()
+  intervention_info = interventions[intervention_name]
   output = {}
   for k,v of default_parameters
-    output[k] = results[k] ? default_parameters[k]
+    parameter_value = results[k] ? default_parameters[k]
+    parameter_type = intervention_info.params[k].type
+    output[k] = cast_to_type(parameter_value, parameter_type)
   callback output
 
 intervention_manager = require 'libs_backend/intervention_manager'

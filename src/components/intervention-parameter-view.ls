@@ -44,14 +44,26 @@ polymer_ext {
       observer: 'parameter_changed'
     }
   }
+  get_error_message: (parameter) ->
+    if not parameter? or not parameter.type?
+      return ''
+    if parameter.type == 'string'
+      return '.*'
+    if parameter.type == 'int'
+      return 'Need an integer'
+    if parameter.type == 'float'
+      # from http://www.regular-expressions.info/floatingpoint.html
+      # [-+]?[0-9]*\.?[0-9]+
+      return 'Need a floating-point number'
+    return ''
   get_validation_pattern: (parameter) ->
     if not parameter? or not parameter.type?
       return '.*'
-    if parameter.type.toLowerCase().startsWith('str')
+    if parameter.type == 'string'
       return '.*'
-    if parameter.type.toLowerCase().startsWith('int')
-      return '[0-9]*'
-    if parameter.type.toLowerCase().startsWith('float')
+    if parameter.type == 'int'
+      return '[0-9]+'
+    if parameter.type == 'float'
       # from http://www.regular-expressions.info/floatingpoint.html
       # [-+]?[0-9]*\.?[0-9]+
       return '[0-9]*\.?[0-9]+'

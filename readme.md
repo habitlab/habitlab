@@ -10,7 +10,7 @@ Ensure that you have [git](https://git-scm.com/) and [nodejs](https://nodejs.org
 git clone git@github.com:habitlab/habitlab-chrome.git
 cd habitlab-chrome
 npm install
-npm install -g gulp webpack vulcanize cspify crisper livescript
+npm install -g gulp-cli karma-cli webpack vulcanize cspify crisper livescript
 gulp
 ```
 
@@ -24,7 +24,7 @@ Then, edit the file [`src/interventions/interventions.yaml`](https://github.com/
 
 ### Logging Intervention Impressions
 
-To log impressions (that is, instances of when your intervention has been deployed) that are used in data visualizations on the dashboard, as well as to measure intervention efficacy and user progress, there are several useful methods: log_impression and log_action; examples of these in action can be seen under [`src/interventions/google/logging_example`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/google/logging_example). 
+To log impressions (that is, instances of when your intervention has been deployed) that are used in data visualizations on the dashboard, as well as to measure intervention efficacy and user progress, there are several useful methods: log_impression and log_action; examples of these in action can be seen under [`src/interventions/google/logging_example`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/google/logging_example).
 
 These methods, along with a vast library of useful methods for retrieving values from the database, are available in [`src/libs_backend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_backend), [`src/libs_common`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_common), and [`src/libs_frontend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_frontend).
 

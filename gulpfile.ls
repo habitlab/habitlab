@@ -1,4 +1,5 @@
 require! {
+  'livescript'
   'gulp'
   'gulp-changed'
   'gulp-util'
@@ -15,9 +16,9 @@ require! {
   'gulp-crisper'
   'del'
   'deepcopy'
-  'gulp-shell'
 }
 
+gen_deps = require './scripts/generate_polymer_dependencies_lib.ls'
 webpack_config = require './webpack.config.ls'
 
 lspattern = [
@@ -326,11 +327,11 @@ gulp.task 'copy_build', ->
   #.pipe(gulp-print( -> "copy: #{it}" ))
   .pipe(gulp.dest('dist'))
 
-gulp.task 'generate_polymer_dependencies', gulp-shell.task [
-  'echo "running scripts/generate_polymer_dependencies"'
-  'scripts/generate_polymer_dependencies'
-  'echo "done running scripts/generate_polymer_dependencies"'
-]
+gulp.task 'generate_polymer_dependencies', (done) ->
+  gen_deps.set_src_path(path.join(process.cwd(), 'src'))
+  gen_deps.set_options()
+  gen_deps.generate_dependencies_for_all_files_in_src_path()
+  done()
 
 gulp.task 'build_base', gulp.parallel('generate_polymer_dependencies', 'yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
 

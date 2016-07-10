@@ -44,16 +44,6 @@ export once_true = yfy (condition, callback) ->
       once_true(condition, callback)
     , 100
 
-export memoizeSingleAsync = (func) ->
-  cached_val = null
-  return (callback) ->
-    if cached_val?
-      callback(cached_val)
-      return
-    func (result) ->
-      cached_val := result
-      callback result
-
 export run_only_one_at_a_time = (func) ->
   # func is assumed to take 1 argument (finished callback) for the time being
   is_running = false

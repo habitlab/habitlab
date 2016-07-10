@@ -1,4 +1,9 @@
-export send_message_to_background = (type, data, callback) ->
+{
+  cfy
+  yfy
+} = require 'cfy'
+
+send_message_to_background_rawcb = (type, data, callback) ->
   chrome.runtime.sendMessage {
     type
     data
@@ -7,23 +12,26 @@ export send_message_to_background = (type, data, callback) ->
       callback(result)
   return true
 
+export send_message_to_background = cfy (type, data) ->*
+  yield yfy(send_message_to_background_rawcb)(type, data)
+
 if IS_CONTENT_SCRIPT
 
-  export load_css_file = (filename, callback) ->
-    send_message_to_background 'load_css_file', {css_file: filename}, callback
+  export load_css_file = cfy (filename) ->*
+    yield send_message_to_background 'load_css_file', {css_file: filename}
 
-  export load_css_code = (css_code, callback) ->
-    send_message_to_background 'load_css_code', {css_code: css_code}, callback
+  export load_css_code = cfy (css_code) ->*
+    yield send_message_to_background 'load_css_code', {css_code: css_code}
 
 else
 
   $ = require 'jquery'
 
-  export load_css_file = (filename, callback) ->
-    css_code <- $.get filename
-    load_css_code css_code, callback
+  export load_css_file = cfy (filename) ->*
+    css_code = yield yfy($.get)(filename)
+    yield load_css_code(css_code)
 
-  export load_css_code = (css_code, callback) ->
+  export load_css_code = cfy (css_code) ->*
     STYLES = document.createElement('style')
     #STYLES.textContent = style_parsed.textContent
     if STYLES.styleSheet
@@ -31,4 +39,3 @@ else
     else
       STYLES.appendChild(document.createTextNode(css_code))
     document.documentElement.appendChild(STYLES)
-    callback?!

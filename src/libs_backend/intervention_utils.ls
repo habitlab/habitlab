@@ -4,10 +4,6 @@ $ = require 'jquery'
   memoizeSingleAsync
 } = require 'libs_common/memoize'
 
-require! {
-  async
-}
-
 {
   get_interventions_to_goals
   get_enabled_goals

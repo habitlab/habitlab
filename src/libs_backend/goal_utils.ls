@@ -4,10 +4,6 @@ $ = require 'jquery'
   memoizeSingleAsync
 } = require 'libs_common/memoize'
 
-require! {
-  async
-}
-
 {
   gexport
   gexport_module

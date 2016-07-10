@@ -1,6 +1,4 @@
 require! {
-  'livescript'
-  'livescript-loader'
   'gulp'
   'gulp-changed'
   'gulp-util'
@@ -17,14 +15,8 @@ require! {
   'gulp-crisper'
   'del'
   'deepcopy'
+  'gulp-shell'
 }
-
-{cfy, yfy} = require 'cfy'
-
-{exec} = require 'shelljs'
-console.log 'running scripts/generate_polymer_dependencies'
-exec('scripts/generate_polymer_dependencies')
-console.log 'done running scripts/generate_polymer_dependencies'
 
 webpack_config = require './webpack.config.ls'
 
@@ -184,7 +176,7 @@ gulp.task 'eslint', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'),
   }))
   .pipe(gulp-eslint.formatEach('compact', process.stderr))
 
-gulp.task 'livescript', ->
+gulp.task 'livescript_build', ->
   gulp.src(lspattern, {base: 'src'})
   .pipe(gulp-changed('dist', {extension: '.js'}))
   .pipe(gulp-print( -> "livescript: #{it}" ))
@@ -334,7 +326,13 @@ gulp.task 'copy_build', ->
   #.pipe(gulp-print( -> "copy: #{it}" ))
   .pipe(gulp.dest('dist'))
 
-gulp.task 'build_base', gulp.parallel('yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
+gulp.task 'generate_polymer_dependencies', gulp-shell.task [
+  'echo "running scripts/generate_polymer_dependencies"'
+  'scripts/generate_polymer_dependencies'
+  'echo "done running scripts/generate_polymer_dependencies"'
+]
+
+gulp.task 'build_base', gulp.parallel('generate_polymer_dependencies', 'yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
 
 
 # based on
@@ -392,7 +390,7 @@ gulp.task 'copy_vulcanize', gulp.series 'vulcanize', ->
 
 /*
 tasks_and_patterns = [
-  #['livescript', lspattern]
+  #['livescript_build', lspattern]
   #['copy_vulcanize', vulcanize_watch_pattern]
   #['typescript', tspattern]
   #['es6', es6pattern]

@@ -17,66 +17,52 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-export get_seconds_spent_on_all_domains_today = (callback) ->
-  getdict_for_key2_dictdict 'seconds_on_domain_per_day', get_days_since_epoch(), callback
+{cfy} = require 'cfy'
 
-export get_seconds_spent_on_all_domains_days_since_today = (days_since, callback) ->
-  getdict_for_key2_dictdict 'seconds_on_domain_per_day', (get_days_since_epoch() - days_since), callback
+export get_seconds_spent_on_all_domains_today = cfy ->*
+  yield getdict_for_key2_dictdict 'seconds_on_domain_per_day', get_days_since_epoch()
 
-export get_seconds_spent_on_domain_all_days = (domain, callback) ->
-  getdict_for_key_dictdict 'seconds_on_domain_per_day', domain, (results) ->
-    today_day_num = get_days_since_epoch()
-    output = {}
-    for k,v of results
-      output[today_day_num - k] = v
-    callback output
+export get_seconds_spent_on_all_domains_days_since_today = cfy (days_since) ->*
+  yield getdict_for_key2_dictdict 'seconds_on_domain_per_day', (get_days_since_epoch() - days_since)
 
-export get_seconds_spent_on_domain_days_since_today = (domain, days_since, callback) ->
+export get_seconds_spent_on_domain_all_days = cfy (domain) ->*
+  results = yield getdict_for_key_dictdict 'seconds_on_domain_per_day', domain
+  today_day_num = get_days_since_epoch()
+  output = {}
+  for k,v of results
+    output[today_day_num - k] = v
+  return output
+
+export get_seconds_spent_on_domain_days_since_today = cfy (domain, days_since) ->*
   current_day = get_days_since_epoch()
-  getkey_dictdict 'seconds_on_domain_per_day', domain, (current_day - days_since), (result) ->
-    if result?
-      callback result
-    else
-      callback 0
+  result = yield getkey_dictdict 'seconds_on_domain_per_day', domain, (current_day - days_since)
+  return result ? 0
 
-export get_seconds_spent_on_domain_today = (domain, callback) ->
+export get_seconds_spent_on_domain_today = cfy (domain) ->*
   current_day = get_days_since_epoch()
-  getkey_dictdict 'seconds_on_domain_per_day', domain, current_day, (result) ->
-    if result?
-      callback result
-    else
-      callback 0
+  result = yield getkey_dictdict 'seconds_on_domain_per_day', domain, current_day
+  return result ? 0
 
-export get_minutes_spent_on_domain_today = (domain, callback) ->
+export get_minutes_spent_on_domain_today = cfy (domain) ->*
   current_day = get_days_since_epoch()
-  getkey_dictdict 'seconds_on_domain_per_day', domain, current_day, (result) ->
-    if result?
-      callback Math.floor(result/60.0)
-    else
-      callback 0
+  result = yield getkey_dictdict 'seconds_on_domain_per_day', domain, current_day
+  if result?
+    return Math.floor(result/60.0)
+  return 0
 
-export get_seconds_spent_on_current_domain_today = (callback) ->
+export get_seconds_spent_on_current_domain_today = cfy ->*
   current_domain = window.location.hostname
-  get_seconds_spent_on_domain_today current_domain, (result) ->
-    if result?
-      callback result
-    else
-      callback 0
+  result = yield get_seconds_spent_on_domain_today current_domain
+  return result ? 0
 
-export get_visits_to_domain_today = (domain, callback) ->
+export get_visits_to_domain_today = cfy (domain) ->*
   current_day = get_days_since_epoch()
-  getkey_dictdict 'visits_to_domain_per_day', domain, current_day, (result) ->
-    if result?
-      callback result
-    else
-      callback 0
+  result = yield getkey_dictdict 'visits_to_domain_per_day', domain, current_day
+  return result ? 0
 
-export get_visits_to_current_domain_today = (callback) ->
+export get_visits_to_current_domain_today = cfy ->*
   current_domain = window.location.hostname
-  get_visits_to_domain_today current_domain, (result) ->
-    if result?
-      callback result
-    else
-      callback 0
+  result = yield get_visits_to_domain_today current_domain
+  return result ? 0
 
 gexport_module 'time_spent_utils', -> eval(it)

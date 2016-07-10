@@ -1,12 +1,16 @@
+{yfy, cfy} = require 'cfy'
+
+debounce = require('promise-debounce')
+
 export memoizeSingleAsync = (func) ->
+  debounced_func = debounce yfy func
   cached_val = null
-  return (callback) ->
+  return cfy ->*
     if cached_val?
-      callback(cached_val)
-      return
-    func (result) ->
-      cached_val := result
-      callback result
+      return cached_val
+    result = yield debounced_func()
+    cached_val := result
+    return result
 
 export memoize = (func) ->
   memo = {}

@@ -145,7 +145,8 @@ gulp.task 'eslint', ['livescript_srcgen', 'js_srcgen'] ->
       'module': true
       'global_exports': true
       'Polymer': true
-      'jsyaml': true
+      'intervention': true
+      #'jsyaml': true
       'IS_CONTENT_SCRIPT': true
     }
     rules: {

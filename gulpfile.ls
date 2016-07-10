@@ -325,7 +325,7 @@ gulp.task 'webpack_prod', ['build_base'], ->
   run_gulp_webpack webpack_config_prod_nowatch
 
 gulp.task 'webpack_content_scripts', ['build_base'], ->
-  run_gulp_webpack webpack_config_nowatch, {
+  run_gulp_webpack webpack_config_nowatch_content_scripts, {
     src_pattern: webpack_pattern_content_scripts
   }
 

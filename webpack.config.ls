@@ -14,7 +14,8 @@ fromcwd = (x) ->
 
 module.exports = {
   #devtool: 'eval-cheap-module-source-map'
-  devtool: 'linked-src'
+  devtool: 'cheap-module-source-map'
+  #devtool: 'linked-src'
   #devtool: null
   debug: true
   watch: false

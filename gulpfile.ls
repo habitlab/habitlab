@@ -277,6 +277,23 @@ webpack_config_prod_nowatch = with_created_object webpack_config, (o) ->
     ]
   }
 
+webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config, (o) ->
+  o.watch = false
+  o.devtool = null
+  o.debug = false
+  o.plugins.push new webpack.DefinePlugin {
+    IS_CONTENT_SCRIPT: true
+  }
+  o.module.loaders.push {
+    test: /\.js$/
+    loader: 'uglify-loader'
+    exclude: [
+      fromcwd('src')
+      fromcwd('node_modules/webcomponentsjs-custom-element-v1')
+    ]
+  }
+
+
 gulp.task 'webpack_vulcanize', ['copy_vulcanize'], ->
   run_gulp_webpack webpack_config_nosrcmap_nowatch, {
     src_pattern: webpack_vulcanize_pattern

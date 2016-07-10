@@ -1,6 +1,8 @@
 $ = require 'jquery'
 require! 'js-yaml'
 
+{yfy} = require 'cfy'
+
 export S = (pattern) ->
   $(this.$$(pattern))
 
@@ -25,7 +27,7 @@ export json_stringify = (obj) ->
 export yaml_stringify = (obj) ->
   js-yaml.dump JSON.parse JSON.stringify obj
 
-export once_available = (selector, callback) ->
+export once_available = yfy (selector, callback) ->
   self = this
   current_result = self.$$(selector)
   if current_result != null
@@ -35,7 +37,7 @@ export once_available = (selector, callback) ->
       self.once_available selector, callback
     , 100
 
-export once_available_multiselect = (selector, callback) ->
+export once_available_multiselect = yfy (selector, callback) ->
   self = this
   current_result = Polymer.dom(self.root).querySelectorAll(selector)
   if current_result.length > 0

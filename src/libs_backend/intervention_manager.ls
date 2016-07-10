@@ -33,45 +33,47 @@
   get_intervention_selection_algorithm
 } = require 'libs_backend/intervention_selection_algorithms'
 
-export set_enabled_interventions_for_today_manual = (enabled_interventions, callback) ->
-  <- setdict_for_key2_dictdict 'interventions_enabled_each_day', get_days_since_epoch(), enabled_interventions
-  callback?!
+{cfy} = require 'cfy'
 
-export set_enabled_interventions_for_today_automatic = (enabled_interventions, callback) ->
-  <- setdict_for_key2_dictdict 'interventions_enabled_each_day', get_days_since_epoch(), enabled_interventions
-  callback?!
+export set_enabled_interventions_for_today_manual = cfy (enabled_interventions) ->*
+  yield setdict_for_key2_dictdict 'interventions_enabled_each_day', get_days_since_epoch(), enabled_interventions
+  return
 
-export get_cached_enabled_interventions_for_today = (callback) ->
-  get_cached_enabled_interventions_for_days_since_today 0, callback
+export set_enabled_interventions_for_today_automatic = cfy (enabled_interventions) ->*
+  yield setdict_for_key2_dictdict 'interventions_enabled_each_day', get_days_since_epoch(), enabled_interventions
+  return
 
-export get_cached_enabled_interventions_for_days_since_today = (days_since_today, callback) ->
-  getdict_for_key2_dictdict 'interventions_enabled_each_day', (get_days_since_epoch() - days_since_today), callback
+export get_cached_enabled_interventions_for_today = cfy ->*
+  yield get_cached_enabled_interventions_for_days_since_today 0
 
-export get_enabled_interventions_for_today = (callback) ->
-  get_enabled_interventions_for_days_since_today 0, callback
+export get_cached_enabled_interventions_for_days_since_today = cfy (days_since_today) ->*
+  yield getdict_for_key2_dictdict 'interventions_enabled_each_day', (get_days_since_epoch() - days_since_today)
 
-get_last_day_with_intervention_enabled_data = (callback) ->
-  collection <- getCollection('interventions_enabled_each_day')
-  last_intervention_set_item <- collection.orderBy('key2').last()
+export get_enabled_interventions_for_today = cfy ->*
+  yield get_enabled_interventions_for_days_since_today 0
+
+get_last_day_with_intervention_enabled_data = cfy ->*
+  collection = yield getCollection('interventions_enabled_each_day')
+  last_intervention_set_item = yield collection.orderBy('key2').last()
   if not last_intervention_set_item?
-    return callback()
-  callback last_intervention_set_item.key2 # this is the day, in epoch time, that the most recent intervention set occurred
+    return
+  return last_intervention_set_item.key2 # this is the day, in epoch time, that the most recent intervention set occurred
 
-export get_most_recent_enabled_interventions = (callback) ->
-  day_with_enabled_interventions <- get_last_day_with_intervention_enabled_data()
+export get_most_recent_enabled_interventions = cfy ->*
+  day_with_enabled_interventions = yield get_last_day_with_intervention_enabled_data()
   if not day_with_enabled_interventions?
-    return callback {}
+    return {}
   days_since_today = get_days_since_epoch() - day_with_enabled_interventions
-  get_cached_enabled_interventions_for_days_since_today days_since_today, callback
+  yield get_cached_enabled_interventions_for_days_since_today days_since_today
 
-get_new_enabled_interventions_for_today = (callback) ->
+get_new_enabled_interventions_for_today = cfy ->*
   enabled_interventions = {}
-  intervention_selection_algorithm <- get_intervention_selection_algorithm()
-  automatically_enabled_interventions_list <- intervention_selection_algorithm()
+  intervention_selection_algorithm = yield get_intervention_selection_algorithm()
+  automatically_enabled_interventions_list = yield intervention_selection_algorithm()
   automatically_enabled_interventions_set = {[k, true] for k in automatically_enabled_interventions_list}
-  enabled_interventions_set <- get_most_recent_enabled_interventions()
-  manually_managed_interventions_set <- get_manually_managed_interventions_localstorage()
-  all_interventions <- list_all_interventions()
+  enabled_interventions_set = yield get_most_recent_enabled_interventions()
+  manually_managed_interventions_set = yield get_manually_managed_interventions_localstorage()
+  all_interventions = yield list_all_interventions()
   for intervention in all_interventions
     manually_managed = manually_managed_interventions_set[intervention]
     manually_managed = (manually_managed == true)
@@ -82,21 +84,21 @@ get_new_enabled_interventions_for_today = (callback) ->
       enabled = automatically_enabled_interventions_set[intervention]
     enabled = (enabled == true)
     enabled_interventions[intervention] = enabled
-  callback enabled_interventions
+  return enabled_interventions
 
-export get_and_set_new_enabled_interventions_for_today = (callback) ->
+export get_and_set_new_enabled_interventions_for_today = cfy ->*
   console.log 'picking new interventions for today'
-  enabled_interventions <- get_new_enabled_interventions_for_today()
-  <- set_enabled_interventions_for_today_automatic enabled_interventions
-  callback enabled_interventions
+  enabled_interventions = yield get_new_enabled_interventions_for_today()
+  yield set_enabled_interventions_for_today_automatic enabled_interventions
+  return enabled_interventions
 
-export get_enabled_interventions_for_days_since_today = (days_since_today, callback) ->
-  cached_enabled_interventions <- get_cached_enabled_interventions_for_days_since_today days_since_today
+export get_enabled_interventions_for_days_since_today = cfy (days_since_today) ->*
+  cached_enabled_interventions = yield get_cached_enabled_interventions_for_days_since_today days_since_today
   if Object.keys(cached_enabled_interventions).length != 0
-    return callback cached_enabled_interventions
+    return cached_enabled_interventions
   if days_since_today > 0 # no interventions were enabled in the past
-    return callback {}
-  enabled_interventions <- get_and_set_new_enabled_interventions_for_today()
-  callback enabled_interventions
+    return {}
+  enabled_interventions = yield get_and_set_new_enabled_interventions_for_today()
+  return enabled_interventions
 
 gexport_module 'intervention_manager', -> eval(it)

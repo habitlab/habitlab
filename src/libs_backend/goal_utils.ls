@@ -13,79 +13,81 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-getAllInterventionsGoalInfo = (callback) ->
+{cfy, yfy} = require 'cfy'
+
+getAllInterventionsGoalInfo = cfy ->*
   goal_info = {
     name: 'debug/all_interventions'
     sitename: 'debug'
     description: 'This goal is satisfied by all interventions'
     measurement: 'always_zero_progress'
   }
-  all_interventions <- intervention_utils.list_all_interventions()
+  all_interventions = yield intervention_utils.list_all_interventions()
   goal_info.interventions = all_interventions
-  callback goal_info
+  return goal_info
 
-export getGoalInfo = (goal_name, callback) ->
+export getGoalInfo = cfy (goal_name) ->*
   if goal_name == 'debug/all_interventions'
-    return getAllInterventionsGoalInfo callback
-  goal_info_text <- $.get "/goals/#{goal_name}/info.json"
+    return yield getAllInterventionsGoalInfo()
+  goal_info_text = yield $.get "/goals/#{goal_name}/info.json"
   goal_info = JSON.parse goal_info_text
   goal_info.name = goal_name
   goal_info.sitename = goal_name.split('/')[0]
-  callback goal_info
+  return goal_info
 
-export get_enabled_goals = (callback) ->
+export get_enabled_goals = cfy ->*
   enabled_goals_str = localStorage.getItem('enabled_goals')
   if not enabled_goals_str?
     enabled_goals = {}
   else
     enabled_goals = JSON.parse enabled_goals_str
-  callback enabled_goals
+  return enabled_goals
 
-export set_enabled_goals = (enabled_goals, callback) ->
+export set_enabled_goals = cfy (enabled_goals) ->*
   localStorage.setItem 'enabled_goals', JSON.stringify(enabled_goals)
-  callback?!
+  return
 
-export set_goal_enabled = (goal_name, callback) ->
-  enabled_goals <- get_enabled_goals()
+export set_goal_enabled = cfy (goal_name) ->*
+  enabled_goals = yield get_enabled_goals()
   if enabled_goals[goal_name]?
-    return callback?!
+    return
   enabled_goals[goal_name] = true
-  set_enabled_goals enabled_goals, callback
+  yield set_enabled_goals enabled_goals
 
-export set_goal_disabled = (goal_name, callback) ->
-  enabled_goals <- get_enabled_goals()
+export set_goal_disabled = cfy (goal_name) ->*
+  enabled_goals = yield get_enabled_goals()
   if not enabled_goals[goal_name]?
     return
   delete enabled_goals[goal_name]
-  set_enabled_goals enabled_goals, callback
+  yield set_enabled_goals enabled_goals
 
-export is_goal_enabled = (goal_name, callback) ->
-  enabled_goals <- get_enabled_goals()
-  callback enabled_goals[goal_name]?
+export is_goal_enabled = cfy (goal_name) ->*
+  enabled_goals = yield get_enabled_goals()
+  return enabled_goals[goal_name]?
 
-export list_all_goals = memoizeSingleAsync (callback) ->
-  goals_list_text <- $.get '/goals/goals.json'
+export list_all_goals = memoizeSingleAsync cfy ->*
+  goals_list_text = yield $.get '/goals/goals.json'
   goals_list = JSON.parse goals_list_text
-  callback goals_list
+  return goals_list
 
-get_site_to_goals = memoizeSingleAsync (callback) ->
+get_site_to_goals = memoizeSingleAsync cfy ->*
   output = {}
-  goals <- get_goals
+  goals = yield get_goals()
   for goal_name,goal_info of goals
     sitename = goal_info.sitename
     if not output[sitename]?
       output[sitename] = []
     output[sitename].push goal_info
-  callback output
+  return output
 
-export list_goals_for_site = (sitename, callback) ->
+export list_goals_for_site = cfy (sitename) ->*
   # sitename example: facebook
-  site_to_goals <- get_site_to_goals()
-  callback site_to_goals[sitename]
+  site_to_goals = yield get_site_to_goals()
+  return site_to_goals[sitename]
 
-export list_sites_for_which_goals_are_enabled = (callback) ->
-  goals <- get_goals()
-  enabled_goals <- get_enabled_goals()
+export list_sites_for_which_goals_are_enabled = cfy ->*
+  goals = yield get_goals()
+  enabled_goals = yield get_enabled_goals()
   output = []
   output_set = {}
   for goal_name,goal_info of goals
@@ -93,31 +95,30 @@ export list_sites_for_which_goals_are_enabled = (callback) ->
     if enabled_goals[goal_name]? and not output_set[sitename]?
       output.push sitename
       output_set[sitename] = true
-  callback output
+  return output
 
-export get_goals = memoizeSingleAsync (callback) ->
-  goals_list <- list_all_goals()
+export get_goals = memoizeSingleAsync cfy ->*
+  goals_list = yield list_all_goals()
   output = {}
-  errors,results <- async.mapSeries goals_list, (goal_name, ncallback) ->
-    goal_info <- getGoalInfo goal_name
+  for goal_name in goals_list
+    goal_info = yield getGoalInfo(goal_name)
     output[goal_name] = goal_info
-    ncallback!
-  callback output
+  return output
 
-export get_interventions_to_goals = memoizeSingleAsync (callback) ->
+export get_interventions_to_goals = memoizeSingleAsync cfy ->*
   output = {}
-  goals <- get_goals()
+  goals = yield get_goals()
   for goal_name,goal_info of goals
     for intervention_name in goal_info.interventions
       if not output[intervention_name]?
         output[intervention_name] = []
       output[intervention_name].push goal_info
-  callback output
+  return output
 
-export get_goals_for_intervention = (intervention_name, callback) ->
-  interventions_to_goals <- get_interventions_to_goals()
+export get_goals_for_intervention = cfy (intervention_name) ->*
+  interventions_to_goals = yield get_interventions_to_goals()
   goals_for_intervention = interventions_to_goals[intervention_name] ? []
-  callback goals_for_intervention
+  return goals_for_intervention
 
 intervention_utils = require 'libs_backend/intervention_utils'
 

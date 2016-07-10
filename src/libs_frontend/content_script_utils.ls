@@ -25,7 +25,7 @@ else
   $ = require 'jquery'
 
   export load_css_file = cfy (filename) ->*
-    css_code = yield yfy($.get)(filename)
+    css_code = yield $.get(filename)
     yield load_css_code(css_code)
 
   export load_css_code = cfy (css_code) ->*
@@ -36,3 +36,4 @@ else
     else
       STYLES.appendChild(document.createTextNode(css_code))
     document.documentElement.appendChild(STYLES)
+    return

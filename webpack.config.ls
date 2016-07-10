@@ -15,8 +15,9 @@ fromcwd = (x) ->
 module.exports = {
   #devtool: 'eval-cheap-module-source-map'
   devtool: 'linked-src'
+  #devtool: null
   debug: true
-  watch: true
+  watch: false
   plugins: [
     # new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)

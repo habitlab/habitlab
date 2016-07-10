@@ -19,6 +19,8 @@ require! {
   'deepcopy'
 }
 
+{cfy, yfy} = require 'cfy'
+
 {exec} = require 'shelljs'
 console.log 'running scripts/generate_polymer_dependencies'
 exec('scripts/generate_polymer_dependencies')
@@ -108,7 +110,21 @@ vulcanize_watch_pattern = [
   '!src/**/*.deps.js'
 ]
 
-gulp.task 'eslint', ['livescript_srcgen', 'js_srcgen'] ->
+gulp.task 'livescript_srcgen', ->
+  gulp.src(lspattern_srcgen, {base: 'src'})
+  .pipe(gulp-changed('src_gen', {extension: '.js'}))
+  #.pipe(gulp-print( -> "livescript_srcgen: #{it}" ))
+  .pipe(gulp-livescript({bare: false}))
+  .on('error', gulp-util.log)
+  .pipe(gulp.dest('src_gen'))
+
+gulp.task 'js_srcgen', ->
+  return gulp.src(jspattern_srcgen, {base: 'src'})
+  .pipe(gulp-changed('src_gen'))
+  #.pipe(gulp-print( -> "js_srcgen: #{it}" ))
+  .pipe(gulp.dest('src_gen'))
+
+gulp.task 'eslint', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'), ->
   gulp.src(eslintpattern, {base: 'src'})
   #.pipe(gulp-print( -> "eslint_frontend: #{it}" ))
   .pipe(gulp-eslint({
@@ -175,14 +191,6 @@ gulp.task 'livescript', ->
   .pipe(gulp-livescript({bare: false}))
   .on('error', gulp-util.log)
   .pipe(gulp.dest('dist'))
-
-gulp.task 'livescript_srcgen', ->
-  gulp.src(lspattern_srcgen, {base: 'src'})
-  .pipe(gulp-changed('src_gen', {extension: '.js'}))
-  #.pipe(gulp-print( -> "livescript_srcgen: #{it}" ))
-  .pipe(gulp-livescript({bare: false}))
-  .on('error', gulp-util.log)
-  .pipe(gulp.dest('src_gen'))
 
 empty_or_updated = (stream, cb, sourceFile, targetPath) ->
   if not fs.existsSync(targetPath)
@@ -294,53 +302,25 @@ webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config
   }
 
 
-gulp.task 'webpack_vulcanize', ['copy_vulcanize'], ->
+gulp.task 'webpack_vulcanize', ->
   run_gulp_webpack webpack_config_nosrcmap_nowatch, {
     src_pattern: webpack_vulcanize_pattern
     src_base: 'src_vulcanize'
   }
 
-gulp.task 'webpack_vulcanize_watch', ['copy_vulcanize'], ->
+gulp.task 'webpack_vulcanize_watch', ->
   run_gulp_webpack webpack_config_nosrcmap_watch, {
     src_pattern: webpack_vulcanize_pattern
     src_base: 'src_vulcanize'
   }
 
-gulp.task 'webpack_vulcanize_prod', ['copy_vulcanize'], ->
+gulp.task 'webpack_vulcanize_prod', ->
   run_gulp_webpack webpack_config_prod_nowatch, {
     src_pattern: webpack_vulcanize_pattern
     src_base: 'src_vulcanize'
   }
 
-# based on
-# https://github.com/webpack/webpack-with-common-libs/blob/master/gulpfile.js
-# https://github.com/shama/webpack-stream
-gulp.task 'webpack', ['build_base'], ->
-  run_gulp_webpack webpack_config_nowatch
-
-gulp.task 'webpack_watch', ['watch_base'], ->
-  run_gulp_webpack webpack_config_watch
-
-gulp.task 'webpack_prod', ['build_base'], ->
-  run_gulp_webpack webpack_config_prod_nowatch
-
-gulp.task 'webpack_content_scripts', ['build_base'], ->
-  run_gulp_webpack webpack_config_nowatch_content_scripts, {
-    src_pattern: webpack_pattern_content_scripts
-  }
-
-gulp.task 'webpack_content_scripts_watch', ['watch_base'], ->
-  run_gulp_webpack webpack_config_watch_content_scripts, {
-    src_pattern: webpack_pattern_content_scripts
-  }
-
-gulp.task 'webpack_content_scripts_prod', ['build_base'], ->
-  run_gulp_webpack webpack_config_prod_nowatch_content_scripts, {
-    src_pattern: webpack_pattern_content_scripts
-  }
-
-
-gulp.task 'yaml', ->
+gulp.task 'yaml_build', ->
   return gulp.src(yamlpattern, {base: 'src'})
   .pipe(gulp-changed('dist', {extension: '.json'}))
   .pipe(gulp-print( -> "yaml: #{it}" ))
@@ -348,17 +328,41 @@ gulp.task 'yaml', ->
   .on('error', gulp-util.log)
   .pipe(gulp.dest('dist'))
 
-gulp.task 'copy', ->
+gulp.task 'copy_build', ->
   return gulp.src(copypattern, {base: 'src'})
   .pipe(gulp-changed('dist'))
   #.pipe(gulp-print( -> "copy: #{it}" ))
   .pipe(gulp.dest('dist'))
 
-gulp.task 'js_srcgen', ->
-  return gulp.src(jspattern_srcgen, {base: 'src'})
-  .pipe(gulp-changed('src_gen'))
-  #.pipe(gulp-print( -> "js_srcgen: #{it}" ))
-  .pipe(gulp.dest('src_gen'))
+gulp.task 'build_base', gulp.parallel('yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
+
+
+# based on
+# https://github.com/webpack/webpack-with-common-libs/blob/master/gulpfile.js
+# https://github.com/shama/webpack-stream
+gulp.task 'webpack_build' ->
+  run_gulp_webpack webpack_config_nowatch
+
+gulp.task 'webpack_watch', ->
+  run_gulp_webpack webpack_config_watch
+
+gulp.task 'webpack_prod', ->
+  run_gulp_webpack webpack_config_prod_nowatch
+
+gulp.task 'webpack_content_scripts', ->
+  run_gulp_webpack webpack_config_nowatch_content_scripts, {
+    src_pattern: webpack_pattern_content_scripts
+  }
+
+gulp.task 'webpack_content_scripts_watch', ->
+  run_gulp_webpack webpack_config_watch_content_scripts, {
+    src_pattern: webpack_pattern_content_scripts
+  }
+
+gulp.task 'webpack_content_scripts_prod', ->
+  run_gulp_webpack webpack_config_prod_nowatch_content_scripts, {
+    src_pattern: webpack_pattern_content_scripts
+  }
 
 gulp.task 'html_srcgen', ->
   return gulp.src(htmlpattern_srcgen, {base: 'src'})
@@ -366,7 +370,7 @@ gulp.task 'html_srcgen', ->
   #.pipe(gulp-print( -> "html_srcgen: #{it}" ))
   .pipe(gulp.dest('src_gen'))
 
-gulp.task 'vulcanize', ['livescript_srcgen', 'js_srcgen', 'html_srcgen'], ->
+gulp.task 'vulcanize', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen', 'html_srcgen'), ->
   return gulp.src(vulcanize_html_pattern, {base: 'src_gen'})
   .pipe(gulp-vulcanize({
     #abspath: ''
@@ -382,12 +386,13 @@ gulp.task 'vulcanize', ['livescript_srcgen', 'js_srcgen', 'html_srcgen'], ->
   }))
   .pipe(gulp.dest('src_vulcanize'))
 
-gulp.task 'copy_vulcanize', ['vulcanize'] ->
+gulp.task 'copy_vulcanize', gulp.series 'vulcanize', ->
   return gulp.src(vulcanize_html_output_pattern, {base: 'src_vulcanize'})
   .pipe(gulp.dest('dist'))
 
+/*
 tasks_and_patterns = [
-  ['livescript', lspattern]
+  #['livescript', lspattern]
   #['copy_vulcanize', vulcanize_watch_pattern]
   #['typescript', tspattern]
   #['es6', es6pattern]
@@ -398,26 +403,36 @@ tasks_and_patterns = [
   #['eslint', eslintpattern]
   #['livescript_browserify', lspattern_browserify]
 ]
-
-gulp.task 'build_base', tasks_and_patterns.map((.0))
+*/
 
 #gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
-gulp.task 'build', ['webpack', 'webpack_content_scripts']
+gulp.task 'build', gulp.parallel 'build_base', 'webpack_build', 'webpack_content_scripts'
 
-gulp.task 'release', ['webpack_prod', 'webpack_content_scripts_prod', 'webpack_vulcanize_prod']
+gulp.task 'release', gulp.parallel 'build_base', 'webpack_prod', 'webpack_content_scripts_prod' #, 'webpack_vulcanize_prod'
+
+gulp.task 'yaml_watch', ->
+  gulp.watch yamlpattern, gulp.series('yaml_build')
+
+gulp.task 'copy_watch', ->
+  gulp.watch copypattern, gulp.series('copy_build')
 
 # TODO we can speed up the watch speed for browserify by using watchify
 # https://github.com/marcello3d/gulp-watchify/blob/master/examples/simple/gulpfile.js
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
-gulp.task 'watch_base', ['build_base'], ->
+gulp.task 'watch_base', gulp.parallel 'webpack_watch', 'webpack_content_scripts_watch', 'yaml_watch', 'copy_watch'
+
+
+/*
+gulp.task 'watch_base', gulp.parallel 'webpack_watch', 'webpack_content_scripts_watch', ->
   for [task,pattern] in tasks_and_patterns
     gulp.watch pattern, [task]
   return
+*/
 
-gulp.task 'lint', ['eslint']
+gulp.task 'lint', gulp.series('eslint')
 
-gulp.task 'lint_watch', ['lint'], ->
-  gulp.watch eslintpattern, ['lint']
+gulp.task 'lint_watch', gulp.series 'lint', ->
+  gulp.watch eslintpattern, gulp.series('eslint')
 
 gulp.task 'clean', ->
   del [
@@ -426,7 +441,18 @@ gulp.task 'clean', ->
     'src_gen'
   ]
 
-#gulp.task 'watch', ['webpack_watch', 'webpack_content_scripts_watch', 'webpack_vulcanize_watch', 'lint_watch']
-gulp.task 'watch', ['webpack_watch', 'webpack_content_scripts_watch', 'lint_watch']
+#gulp.task 'build_then_lint', ['webpack_watch', 'webpack_content_scripts_watch'], ->
 
-gulp.task 'default', ['watch']
+
+#gulp.task 'watch', ['webpack_watch', 'webpack_content_scripts_watch', 'webpack_vulcanize_watch', 'lint_watch']
+/*
+gulp.task 'watch', ['build'], (done) ->
+  gulp-util.log 'run-sequence starting'
+  <- run-sequence ['webpack_watch', 'webpack_content_scripts_watch', 'lint_watch']
+  gulp-util.log 'run-sequence done'
+  done()
+*/
+
+gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch'))
+
+gulp.task 'default', gulp.series('watch')

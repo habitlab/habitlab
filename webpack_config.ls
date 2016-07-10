@@ -1,6 +1,7 @@
 require! {
   path
   process
+  webpack
 }
 
 cwd = process.cwd()
@@ -16,7 +17,10 @@ module.exports = {
   devtool: 'linked-src'
   debug: true
   watch: true
-  plugins: []
+  plugins: [
+    # new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+  ]
   module: {
     loaders: [
         {

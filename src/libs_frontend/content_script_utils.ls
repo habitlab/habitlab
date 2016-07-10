@@ -3,7 +3,7 @@
   yfy
 } = require 'cfy'
 
-send_message_to_background_rawcb = (type, data, callback) ->
+export send_message_to_background = yfy (type, data, callback) ->
   chrome.runtime.sendMessage {
     type
     data
@@ -11,9 +11,6 @@ send_message_to_background_rawcb = (type, data, callback) ->
     if callback?
       callback(result)
   return true
-
-export send_message_to_background = cfy (type, data) ->*
-  yield yfy(send_message_to_background_rawcb)(type, data)
 
 if IS_CONTENT_SCRIPT
 

@@ -93,12 +93,16 @@ function displayCountdownOrBlock() {
 }
 
 function main() {
-  numTimesVisited(function(numberVisits) {
-    if (numberVisits <= 1) {
-      setTime(window.intervention.params.minutes.value)
-    } 
+  var myDate = new Date()
+  var dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
+
+  if (localStorage.today === null || localStorage.today != dateString) {
+    setTime(intervention.params.minutes.value)
+    localStorage.today = dateString
+  } else {
+    //same day
     displayCountdownOrBlock()
-  })
+  }
 }
 
 main();

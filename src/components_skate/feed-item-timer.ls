@@ -10,11 +10,13 @@ skate = require 'skatejs'
 
 update_page = (elem) ->
   get_seconds_spent_on_domain_today elem.site, (seconds_spent) ->
-    elem.seconds = seconds_spent
+    elem.minutes = Math.floor(seconds_spent / 60)
+    elem.seconds = seconds_spent % 60
 
 skate.define 'feed-item-timer', {
   props: {
     site: { default: url_to_domain(window.location.href)}
+    minutes: {default: 0 }
     seconds: { default: 0 }
     example_array: { default: ['foo', 'bar', 'baz', 'qux']}
   }
@@ -32,7 +34,7 @@ skate.define 'feed-item-timer', {
     ``
     return (
     <div style={elem_style}>
-    You have already spent {elem.seconds} seconds on {elem.site}.<br/><br/>
+    You have already spent {elem.minutes} minute(s) and {elem.seconds} seconds on {elem.site}.<br/><br/>
     Time is running out!
     </div>
     )

@@ -9,5 +9,9 @@ interventions:
   - facebook/block_after_interval
   - facebook/show_user_info_interstitial
   - facebook/make_user_wait
+  - facebook/block_after_interval_daily
+  - facebook/block_after_interval_no_prompt
+  - facebook/block_after_interval_per_visit
+  
 measurement: time_spent_on_domain
 domain: www.facebook.com

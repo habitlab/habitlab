@@ -71,7 +71,7 @@ function divOverVideo(status) {
         clearInterval(wait);
       }
     }, 100);
-	} else {
+	} else { //status === 'end'
       get_seconds_spent_on_domain_today('www.youtube.com', function(secondsSpent) {
           const mins = Math.floor(secondsSpent/60)
           const secs = secondsSpent % 60
@@ -127,22 +127,21 @@ function closeTab() {
 	chrome.runtime.sendMessage({greeting: "closeTab"}, (response) => {});
 }
 
-function endWarning() {
-	/*
-	$('video').on('ended', function() {
-		console.log("executing");
-		divOverVideoEnd();
-	});
-	*/
+function endWarning() {	
+  // $('video').on('ended', function() {
+  // 	console.log("executing");
+  // 	divOverVideoEnd();
+  // });	
 	const overlayBox = document.querySelector('video');
-	if ((overlayBox.currentTime > (overlayBox.duration - 0.25)) && !overlayBox.paused) {
-		divOverVideo("end");
-		//overlayBox.pause();
+	if ((overlayBox.currentTime > (overlayBox.duration - 0.15)) && !overlayBox.paused) {
+    clearInterval(end_pauser)
+    pauseVideo()
+		divOverVideo("end")
 	}
 }
 
 let video_pauser = null
-
+let end_pauser = null //new
 //All method calls
 function main() {
   console.log('main called');
@@ -154,13 +153,13 @@ function main() {
       console.log('video pauser running')
       const video_elem = document.querySelector('video')
       if (video_elem && video_elem.paused) {
-        clearInterval(video_pauser)
+        clearInterval(video_pauser);
       }
     }, 250);
   }
-	//pauseVideo();
-	//endWarning();
-	setInterval(endWarning, 250); //Loop every second to test the status of the video until near the end
+  end_pauser = setInterval(() => {
+    endWarning()
+  }, 150); //Loop to test the status of the video until near the end
 }
 
 //Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube

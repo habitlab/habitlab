@@ -45,7 +45,7 @@ function shouldInsert(secondsSpent, timeInterval) {
 function insertRichNotification() {  
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
     console.log(secondsSpent);
-    if (shouldInsert(secondsSpent, 5 /* In minutes */)) {
+    if (shouldInsert(secondsSpent, intervention.params.minutes.value)) {
       log_impression('facebook/rich_notifications')
       chrome.runtime.sendMessage({type: "chrome-notification", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
     }

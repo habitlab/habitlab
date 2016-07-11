@@ -36,7 +36,7 @@
       var interst_screen = $('<interstitial-screen-polymer>')
       interst_screen.attr('btn-txt', buttonText)
       interst_screen.attr('title-text', titleString)
-      log_impression(window.intervention.name, () =>{})
+      log_impression(intervention.name, () =>{})
       $(document.body).append(interst_screen)
     })
   });

@@ -79,6 +79,7 @@ function addBeginDialog(message) {
         $wrongInputText.insertAfter($slider)          
       }
     } else {
+      log_impression('facebook/block_after_interval_daily')
       //Save time in database
       localStorage.setItem('timeLimitDaily', minutes * 60) //time limit stored in seconds
       $('.whiteOverlay').remove()

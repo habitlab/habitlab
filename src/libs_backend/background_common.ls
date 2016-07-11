@@ -7,44 +7,49 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-export send_message_to_active_tab = (type, data, callback) ->
-  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
-    if tabs.length == 0
-      return
-    chrome.tabs.sendMessage tabs[0].id, {type, data}, {}, callback
+{cfy, yfy} = require 'cfy'
 
-send_message_to_all_active_tabs = (type, data, callback) ->
-  chrome.tabs.query {active: true}, (tabs) ->
-    if tabs.length == 0
-      return
-    outputs = []
-    <- async.eachSeries tabs, (tab, ncallback) ->
-      chrome.tabs.sendMessage tab.id, {type, data}, {}, (result) ->
-        outputs.push(result)
-        ncallback()
-        return true
-    callback(outputs)
-
-export eval_content_script = (script, callback) ->
-  send_message_to_all_active_tabs 'eval_content_script', script, (results) ->
-    for result in results
-      console.log result
-    callback?(result)
+send_message_to_tab_id = yfy (tab_id, data, callback) ->
+  chrome.tabs.sendMessage tab_id, data, {}, (result) ->
+    callback(result)
     return true
 
-export send_message_to_tabid = (tabid, type, data, callback) ->
-  chrome.tabs.sendMessage tabid, {type, data}, {}, callback
+chrome_tabs_query = yfy(chrome.tabs.query)
 
-export get_active_tab_info = (callback) ->
-  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
-    if tabs.length == 0
-      return
-    callback tabs[0]
-    #chrome.tabs.get tabs[0].id, callback
+export send_message_to_active_tab = cfy (type, data) ->*
+  tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
+  if tabs.length == 0
+    return
+  yield send_message_to_tab_id tabs[0].id, {type, data}
 
-export get_active_tab_url = (callback) ->
-  active_tab_info <- get_active_tab_info
-  callback active_tab_info.url
+send_message_to_all_active_tabs = cfy (type, data) ->*
+  tabs = yield yfy(chrome.tabs.query) {active: true}
+  if tabs.length == 0
+    return
+  outputs = []
+  for tab in tabs
+    result = yield send_message_to_tab_id tab.id, {type, data}
+    outputs.push(result)
+  return outputs
+
+export eval_content_script = cfy (script) ->*
+  results = yield send_message_to_all_active_tabs 'eval_content_script', script
+  for result in results
+    console.log result
+  return result
+
+export send_message_to_tabid = cfy (tabid, type, data) ->*
+  return send_message_to_tab_id tabid, {type, data}
+
+export get_active_tab_info = cfy ->*
+  tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
+  if tabs.length == 0
+    return
+  return tabs[0]
+
+export get_active_tab_url = cfy ->*
+  active_tab_info = yield get_active_tab_info()
+  return active_tab_info.url
 
 export printcb = (x) -> console.log(x)
 

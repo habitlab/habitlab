@@ -6,7 +6,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "async-debounce-jt": "^1.0.1",
-    "cfy": "^1.0.10",
+    "cfy": "^1.0.12",
     "co": "^4.6.0",
     "dexie": "^1.4.1",
     "enable-webcomponents-in-content-scripts": "^1.0.6",

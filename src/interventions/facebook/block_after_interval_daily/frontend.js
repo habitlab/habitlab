@@ -21,7 +21,6 @@ require('components/interstitial-screen-polymer.deps')
 const {
   get_seconds_spent_on_current_domain_today,
   get_seconds_spent_on_domain_today,
-  get_visits_to_current_domain_today,
 } = require('libs_common/time_spent_utils')
 
 const {
@@ -136,21 +135,9 @@ function getRemainingTimeDaily(callback) {
   })
 }
 
-/*
-function resetLocalStorage() {
-  localStorage.removeItem(timeLimitDaily)
-}
-*/
-
 function getTimeSpent(callback) {
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
     callback(secondsSpent)
-  })
-}
-
-function numTimesVisited(callback) {
-  get_visits_to_current_domain_today(function(numVisits) {
-    callback(numVisits)
   })
 }
 
@@ -171,14 +158,15 @@ function displayCountdownOrBlock() {
 }
 
 function main() {
-  numTimesVisited(function(numberVisits) {
-    console.log("Number of times visited: " + numberVisits)
-    if (numberVisits <= 1) {
-      addBeginDialog("How many minutes would you like to spend on Facebook today?")
-    } else {
-      displayCountdownOrBlock()
-    }
-  })
+  var myDate = new Date()
+  var dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
+
+  if (localStorage.todayPrompt === null || localStorage.todayPrompt != dateString) {
+    addBeginDialog("How many minutes would you like to spend on Facebook today?")
+    localStorage.todayPrompt = dateString
+  } else {
+    displayCountdownOrBlock()
+  }
 }
 
 main();

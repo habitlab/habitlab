@@ -96,9 +96,10 @@ function main() {
   var myDate = new Date()
   var dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
 
-  if (localStorage.today === null || localStorage.today != dateString) {
+  if (localStorage.todayNoPrompt === null || localStorage.todayNoPrompt != dateString) {
     setTime(intervention.params.minutes.value)
-    localStorage.today = dateString
+    localStorage.todayNoPrompt = dateString
+    displayCountdownOrBlock()
   } else {
     //same day
     displayCountdownOrBlock()

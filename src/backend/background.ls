@@ -1,3 +1,6 @@
+window.addEventListener "unhandledrejection", (evt) ->
+  throw evt.reason
+
 {
   getvar
   getfield
@@ -316,6 +319,11 @@ message_handlers = {
         window.loaded_content_scripts['#{options.path}'] = true;
         console.log('executing content script: #{options.path}');
         const intervention = #{JSON.stringify(intervention_info)};
+
+        window.onunhandledrejection = function(evt) {
+          throw evt.reason;
+        };
+
         #{content_script_code}
       }
       """

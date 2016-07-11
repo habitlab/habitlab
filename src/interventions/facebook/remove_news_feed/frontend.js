@@ -26,7 +26,7 @@ const {
 } = require('libs_frontend/common_libs')
 
 require('enable-webcomponents-in-content-scripts')
-//require('components/habitlab-logo-polymer.deps')
+require('components/habitlab-logo-polymer.deps')
 
 function removeFeed() {
   /** Modified from Neal Wu's "Kill News Feed" */

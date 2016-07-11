@@ -54,6 +54,7 @@ polymer_ext({
   ready: cfy(function*() {
     const self = this;
     console.log('habitlab-logo-polymer ready');
+
     yield load_css_file('bower_components/sweetalert/dist/sweetalert.css');
     yield load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
     $.contextMenu({
@@ -65,6 +66,7 @@ polymer_ext({
       }
     });
   }),
+
   get_url: function() {
     console.log('url called')
     console.log(chrome.extension.getURL('icons/icon_38.png'));

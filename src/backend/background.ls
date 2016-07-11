@@ -82,6 +82,8 @@ $ = require 'jquery'
   clearlog
 } = require 'libs_common/log_utils'
 
+{cfy, yfy} = require 'cfy'
+
 # console.log 'weblab running in background'
 
 /*
@@ -96,27 +98,26 @@ execute_content_script = (tabid, options, callback) ->
       callback()
 */
 
-insert_css = (css_path, callback) ->
+insert_css = cfy (css_path) ->*
   # todo does not do anything currently
-  if callback?
-    callback()
+  return
 
 running_background_scripts = {}
 
-load_background_script = (options, intervention_info, callback) ->
+load_background_script = cfy (options, intervention_info) ->*
   if running_background_scripts[options.path]?
     # already running
-    return callback?!
-  background_script_text <- $.get options.path
+    return
+  background_script_text = yield $.get options.path
   background_script_function = new Function('env', background_script_text)
   env = {
     intervention_info: intervention_info
   }
   background_script_function(env)
   running_background_scripts[options.path] = env
-  callback?!
+  return
 
-execute_content_scripts_for_intervention = (intervention_info, callback) ->
+execute_content_scripts_for_intervention = yfy (intervention_info, callback) ->
   {content_script_options, name} = intervention_info
   console.log 'calling execute_content_scripts'
   tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
@@ -180,43 +181,43 @@ execute_content_scripts_for_intervention = (intervention_info, callback) ->
   #chrome.tabs.executeScript(tabid, {code: 'chrome.extension.sendRequest({type: "load_content_script", data: })'})
   #callback?!
 
-load_intervention = (intervention_name, callback) ->
+load_intervention = cfy (intervention_name) ->*
   console.log 'start load_intervention ' + intervention_name
-  all_interventions <- get_interventions()
+  all_interventions = yield get_interventions()
   intervention_info = all_interventions[intervention_name]
 
   console.log intervention_info
   console.log 'start load background scripts ' + intervention_name
 
   # load background scripts
-  <- async.eachSeries intervention_info.background_script_options, (options, ncallback) ->
-    load_background_script options, intervention_info, ncallback
+  for options in intervention_info.background_script_options
+    yield load_background_script options, intervention_info
 
   console.log 'start load content scripts ' + intervention_name
 
   # load content scripts
-  <- execute_content_scripts_for_intervention intervention_info
+  yield execute_content_scripts_for_intervention intervention_info
 
   console.log 'done load_intervention ' + intervention_name
-  callback?!
+  return
 
-list_loaded_interventions = (callback) ->
-  send_message_to_active_tab 'list_loaded_interventions', {}, callback
+list_loaded_interventions = cfy ->*
+  yield send_message_to_active_tab 'list_loaded_interventions', {}
 
-load_intervention_for_location = (location, callback) ->
-  possible_interventions <- list_enabled_interventions_for_location(location)
-  errors, results <- async.eachSeries possible_interventions, (intervention, ncallback) ->
-    load_intervention intervention, ncallback
-  callback?!
+load_intervention_for_location = cfy (location) ->*
+  possible_interventions = yield list_enabled_interventions_for_location(location)
+  for intervention in possible_interventions
+    yield load_intervention intervention
+  return
 
-getLocation = (callback) ->
+getLocation = cfy ->*
   #send_message_to_active_tab 'getLocation', {}, callback
   console.log 'calling getTabInfo'
-  get_active_tab_info (tabinfo) ->
-    console.log 'getTabInfo results'
-    console.log tabinfo
-    console.log tabinfo.url
-    callback tabinfo.url
+  tabinfo = yield get_active_tab_info()
+  console.log 'getTabInfo results'
+  console.log tabinfo
+  console.log tabinfo.url
+  return tabinfo.url
 
 split_list_by_length = (list, len) ->
   output = []
@@ -278,20 +279,6 @@ message_handlers = {
     set_intervention_disabled name, callback
   'set_intervention_enabled': (name, callback) ->
     set_intervention_enabled name, callback
-  /*
-  'setvars': (data, callback) ->
-  <- async.forEachOfSeries data, (v, k, ncallback) ->
-    <- setvar k, v
-    ncallback()
-  callback()
-  'getvars': (namelist, callback) ->
-    output = {}
-    <- async.eachSeries namelist, (name, ncallback) ->
-      val <- getvar name
-      output[name] = val
-      ncallback()
-    callback output
-  */
   'getLocation': (data, callback) ->
     getLocation (location) ->
       console.log 'getLocation background page:'

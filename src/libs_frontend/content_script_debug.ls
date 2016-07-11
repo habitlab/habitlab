@@ -1,7 +1,7 @@
 $ = require 'jquery'
 window.jQuery = $
 require 'jquery.terminal'
-LiveScript = require('livescript15')
+#LiveScript = require('livescript15')
 
 {
   load_css_file
@@ -36,8 +36,8 @@ adjust_css_options = (options, new_options) ->
     options[k] = v
   return options
 
-ls2js = (livescript_code) ->
-  LiveScript.compile livescript_code, {bare: true, header: false}
+#ls2js = (livescript_code) ->
+#  LiveScript.compile livescript_code, {bare: true, header: false}
 
 export insert_console = (eval_func, options) ->
   options = {} <<< options
@@ -55,8 +55,8 @@ export insert_console = (eval_func, options) ->
     #'background-color': 'blue'
   }
   lang = switch options.lang
-  | 'livescript' => 'livescript'
-  | 'ls' => 'livescript'
+  #| 'livescript' => 'livescript'
+  #| 'ls' => 'livescript'
   | 'js' => 'javascript'
   | _ => 'javascript'
   if options.lang?
@@ -68,6 +68,7 @@ export insert_console = (eval_func, options) ->
     result = eval_func command
     console.log result
     term.echo result
+  /*
   terminal_handlers.livescript = (command, term) ->
     console.log command
     console.log LiveScript
@@ -76,6 +77,7 @@ export insert_console = (eval_func, options) ->
     result = eval_func js_command
     console.log result
     term.echo result
+  */
   term_div.terminal terminal_handlers[lang], {
     greetings: "content script debugger (#{lang})"
     width: css_options.width

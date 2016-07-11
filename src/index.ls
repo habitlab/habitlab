@@ -1,3 +1,6 @@
+window.addEventListener "unhandledrejection", (evt) ->
+  throw evt.reason
+
 {
   getUrlParameters
 } = require 'libs_frontend/common_libs'

@@ -2,11 +2,13 @@
   send_message_to_background
 } = require 'libs_frontend/content_script_utils'
 
-export addtolog = (name, data, callback) ->
-  send_message_to_background 'addtolog', {name, data}, callback
+{cfy} = require 'cfy'
 
-export getlog = (name, callback) ->
-  send_message_to_background 'getlog', name, callback
+export addtolog = cfy (name, data) ->*
+  yield send_message_to_background 'addtolog', {name, data}
 
-export clearlog = (name, callback) ->
-  send_message_to_background 'clearlog', name, callback
+export getlog = cfy (name) ->*
+  yield send_message_to_background 'getlog', name
+
+export clearlog = cfy (name) ->*
+  yield send_message_to_background 'clearlog', name

@@ -16,6 +16,8 @@ else
   gexport_module
 } = require 'libs_common/gexport'
 
+{cfy} = require 'cfy'
+
 /*
 export addtolog = (name, data, callback) ->
   console.log "added data to log with name #{name}"
@@ -23,13 +25,13 @@ export addtolog = (name, data, callback) ->
   callback?!
 */
 
-export log_impression = (name, callback) ->
+export log_impression = cfy (name) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
   console.log "impression logged for #{name}"
-  addtolog name, {type: 'impression', timestamp: Date.now()}, callback
+  yield addtolog name, {type: 'impression', timestamp: Date.now()}
 
-export log_action = (name, data, callback) ->
+export log_action = cfy (name, data) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
   # data: a dictionary containing any details necessary
@@ -40,7 +42,7 @@ export log_action = (name, data, callback) ->
   new_data.timestamp = Date.now()
   new_data.type = 'action'
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"
-  addtolog name, new_data, callback
+  yield addtolog name, new_data
 
 export addtolog
 export getlog

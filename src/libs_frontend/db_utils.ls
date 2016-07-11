@@ -7,25 +7,27 @@
   gexport_module
 } = require 'libs_common/gexport'
 
-export getvar = (key, callback) ->
-  send_message_to_background 'getvar', key, callback
+{cfy} = require 'cfy'
 
-export setvar = (key, val, callback) ->
-  send_message_to_background 'setvar', {key, val}, callback
+export getvar = cfy (key) ->*
+  yield send_message_to_background 'getvar', key
 
-export addtovar = (key, val, callback) ->
-  send_message_to_background 'addtovar', {key, val}, callback
+export setvar = cfy (key, val) ->*
+  yield send_message_to_background 'setvar', {key, val}
 
-export getkey_dictdict = (name, key, key2, callback) ->
-  send_message_to_background 'getkey_dictdict', {name, key, key2}, callback
+export addtovar = cfy (key, val) ->*
+  yield send_message_to_background 'addtovar', {key, val}
 
-export addtolist = (name, val, callback) ->
-  send_message_to_background 'addtolist', {name, val}, callback
+export getkey_dictdict = cfy (name, key, key2) ->*
+  yield send_message_to_background 'getkey_dictdict', {name, key, key2}
 
-export getlist = (name, callback) ->
-  send_message_to_background 'getlist', name, callback
+export addtolist = cfy (name, val) ->*
+  yield send_message_to_background 'addtolist', {name, val}
 
-export clearlist = (name, callback) ->
-  send_message_to_background 'clearlist', name, callback
+export getlist = cfy (name) ->*
+  yield send_message_to_background 'getlist', name
+
+export clearlist = cfy (name) ->*
+  yield send_message_to_background 'clearlist', name
 
 gexport_module 'db_utils', -> eval(it)

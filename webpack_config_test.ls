@@ -14,7 +14,7 @@ npmdir = (x) ->
 fromcwd = (x) ->
   path.join(cwd, x)
 
-webpack_config = require('./webpack_config.ls')
+webpack_config = require('./webpack.config.ls')
 
 webpack_config.module.loaders = [
   {

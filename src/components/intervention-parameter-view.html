@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 
 <dom-module id="intervention-parameter-view">
@@ -10,7 +11,12 @@
     }
   </style>
   <template>
-    <paper-input id="parameter_input" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
+    <template is="dom-if" if="{{is_parameter_type_bool(parameter)}}">
+      <paper-checkbox id="parameter_checkbox_input" on-change="parameter_checkbox_value_changed">{{parameter.description}}</paper-checkbox>
+    </template>
+    <template is="dom-if" if="{{is_parameter_type_not_bool(parameter)}}">
+      <paper-input id="parameter_input" auto-validate error-message="{{get_error_message(parameter)}}" pattern="{{get_validation_pattern(parameter)}}" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
+    </template>
   </template>
   <script src="intervention-parameter-view.js"></script>
 </dom-module>

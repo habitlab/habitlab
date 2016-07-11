@@ -3,3 +3,8 @@ matches:
   - mail.google.com
 content_scripts:
   - frontend.js
+parameters:
+  - name: hours
+    description: The amount of hours to not show emails for 
+    default: 4
+    type: int

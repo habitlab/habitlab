@@ -4,10 +4,6 @@ $ = require 'jquery'
   memoizeSingleAsync
 } = require 'libs_common/memoize'
 
-require! {
-  async
-}
-
 {
   get_interventions_to_goals
   get_enabled_goals
@@ -24,60 +20,48 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-export getInterventionInfo = (intervention_name, callback) ->
-  intervention_info_text <- $.get "/interventions/#{intervention_name}/info.json"
+{cfy, yfy} = require 'cfy'
+
+getInterventionInfo = cfy (intervention_name) ->*
+  intervention_info_text = yield $.get "/interventions/#{intervention_name}/info.json"
   intervention_info = JSON.parse intervention_info_text
   intervention_info.name = intervention_name
   intervention_info.sitename = intervention_name.split('/')[0]
-  callback intervention_info
+  return intervention_info
 
-/*
-export get_enabled_interventions = (callback) ->
-  enabled_interventions_str = localStorage.getItem('enabled_interventions')
-  if not enabled_interventions_str?
-    enabled_interventions = {}
-  else
-    enabled_interventions = JSON.parse enabled_interventions_str
-  callback enabled_interventions
+export get_enabled_interventions = cfy ->*
+  enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
+  return enabled_interventions
 
-export set_enabled_interventions = (enabled_interventions, callback) ->
-  localStorage.setItem 'enabled_interventions', JSON.stringify(enabled_interventions)
-  callback?!
-*/
+export set_enabled_interventions = cfy (enabled_interventions) ->*
+  yield intervention_manager.set_enabled_interventions_for_today_manual enabled_interventions
+  return
 
-export get_enabled_interventions = (callback) ->
-  enabled_interventions <- intervention_manager.get_enabled_interventions_for_today()
-  callback enabled_interventions
-
-export set_enabled_interventions = (enabled_interventions, callback) ->
-  <- intervention_manager.set_enabled_interventions_for_today_manual enabled_interventions
-  callback?!
-
-export set_intervention_enabled = (intervention_name, callback) ->
-  enabled_interventions <- get_enabled_interventions()
+export set_intervention_enabled = cfy (intervention_name) ->*
+  enabled_interventions = yield get_enabled_interventions()
   if enabled_interventions[intervention_name]
-    return callback?!
+    return
   enabled_interventions[intervention_name] = true
-  set_enabled_interventions enabled_interventions, callback
+  yield set_enabled_interventions enabled_interventions
 
-export set_intervention_disabled = (intervention_name, callback) ->
-  enabled_interventions <- get_enabled_interventions()
+export set_intervention_disabled = cfy (intervention_name) ->*
+  enabled_interventions = yield get_enabled_interventions()
   if not enabled_interventions[intervention_name]
-    return callback?!
+    return
   enabled_interventions[intervention_name] = false
-  set_enabled_interventions enabled_interventions, callback
+  yield set_enabled_interventions enabled_interventions
 
-export is_intervention_enabled = (intervention_name, callback) ->
-  enabled_interventions <- get_enabled_interventions()
-  callback enabled_interventions[intervention_name]
+export is_intervention_enabled = cfy (intervention_name) ->*
+  enabled_interventions = yield get_enabled_interventions()
+  return enabled_interventions[intervention_name]
 
-export list_all_interventions = memoizeSingleAsync (callback) ->
-  interventions_list_text <- $.get '/interventions/interventions.json'
+export list_all_interventions = memoizeSingleAsync cfy ->*
+  interventions_list_text = yield $.get '/interventions/interventions.json'
   interventions_list = JSON.parse interventions_list_text
-  callback interventions_list
+  return interventions_list
 
-export get_interventions = memoizeSingleAsync (callback) ->
-  interventions_list <- list_all_interventions()
+export get_interventions = memoizeSingleAsync cfy ->*
+  interventions_list = yield list_all_interventions()
   output = {}
   fix_content_script_options = (options, intervention_name) ->
     if typeof options == 'string'
@@ -99,9 +83,31 @@ export get_interventions = memoizeSingleAsync (callback) ->
     else
       options.path = "interventions/#{intervention_name}/#{options.path}"
     return options
-  interventions_to_goals <- get_interventions_to_goals()
-  errors,results <- async.mapSeries interventions_list, (intervention_name, ncallback) ->
-    intervention_info <- getInterventionInfo intervention_name
+  fix_intervention_parameter = (parameter, intervention_info) ->
+    if not parameter.name?
+      console.log "warning: missing parameter.name for intervention #{intervention_info.name}"
+    if not parameter.default?
+      console.log "warning: missing parameter.default for intervention #{intervention_info.name}"
+    if not parameter.type?
+      parameter.type = 'string'
+      return
+    curtype = parameter.type.toLowerCase()
+    if curtype.startsWith('str')
+      parameter.type = 'string'
+      return
+    if curtype.startsWith('int')
+      parameter.type = 'int'
+      return
+    if curtype.startsWith('float') or curtype.startsWith('real') or curtype.startsWith('double') or curtype.startsWith('num')
+      parameter.type = 'float'
+      return
+    if curtype.startsWith('bool')
+      parameter.type = 'bool'
+      return
+    console.log "warning: invalid parameter.type #{curtype} for intervention #{intervention_info.name}"
+  interventions_to_goals = yield get_interventions_to_goals()
+  for intervention_name in interventions_list
+    intervention_info = yield getInterventionInfo intervention_name
     if not intervention_info.nomatches?
       intervention_info.nomatches = []
     if not intervention_info.matches?
@@ -112,6 +118,8 @@ export get_interventions = memoizeSingleAsync (callback) ->
       intervention_info.background_scripts = []
     if not intervention_info.parameters?
       intervention_info.parameters = []
+    for parameter in intervention_info.parameters
+      fix_intervention_parameter(parameter, intervention_info)
     intervention_info.params = {[x.name, x] for x in intervention_info.parameters}
     intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
     intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
@@ -119,16 +127,15 @@ export get_interventions = memoizeSingleAsync (callback) ->
     intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
     intervention_info.goals = interventions_to_goals[intervention_name]
     output[intervention_name] = intervention_info
-    ncallback null, null
-  callback output
+  return output
 
-export list_enabled_interventions_for_location = (location, callback) ->
-  available_interventions <- list_available_interventions_for_location(location)
-  enabled_interventions <- get_enabled_interventions()
-  callback available_interventions.filter((x) -> enabled_interventions[x])
+export list_enabled_interventions_for_location = cfy (location) ->*
+  available_interventions = yield list_available_interventions_for_location(location)
+  enabled_interventions = yield get_enabled_interventions()
+  return available_interventions.filter((x) -> enabled_interventions[x])
 
-export list_available_interventions_for_location = (location, callback) ->
-  all_interventions <- get_interventions()
+export list_available_interventions_for_location = cfy (location) ->*
+  all_interventions = yield get_interventions()
   possible_interventions = []
   for intervention_name,intervention_info of all_interventions
     blacklisted = false
@@ -145,40 +152,40 @@ export list_available_interventions_for_location = (location, callback) ->
         break
     if matches
       possible_interventions.push intervention_name
-  callback possible_interventions
+  return possible_interventions
 
-export get_manually_managed_interventions_localstorage = (callback) ->
+export get_manually_managed_interventions_localstorage = cfy ->*
   manually_managed_interventions_str = localStorage.getItem('manually_managed_interventions')
   if not manually_managed_interventions_str?
     manually_managed_interventions = {}
   else
     manually_managed_interventions = JSON.parse manually_managed_interventions_str
-  callback manually_managed_interventions
+  return manually_managed_interventions
 
 export get_manually_managed_interventions = get_manually_managed_interventions_localstorage
 
-export set_manually_managed_interventions = (manually_managed_interventions, callback) ->
+export set_manually_managed_interventions = cfy (manually_managed_interventions) ->*
   localStorage.setItem 'manually_managed_interventions', JSON.stringify(manually_managed_interventions)
-  callback?!
+  return
 
-export set_intervention_manually_managed = (intervention_name, callback) ->
-  manually_managed_interventions <- get_manually_managed_interventions()
+export set_intervention_manually_managed = cfy (intervention_name) ->*
+  manually_managed_interventions = yield get_manually_managed_interventions()
   if manually_managed_interventions[intervention_name]
-    return callback?!
+    return
   manually_managed_interventions[intervention_name] = true
-  set_manually_managed_interventions manually_managed_interventions, callback
+  yield set_manually_managed_interventions manually_managed_interventions
 
-export set_intervention_automatically_managed = (intervention_name, callback) ->
-  manually_managed_interventions <- get_manually_managed_interventions()
+export set_intervention_automatically_managed = cfy (intervention_name) ->*
+  manually_managed_interventions = yield get_manually_managed_interventions()
   if not manually_managed_interventions[intervention_name]
-    return callback?!
+    return
   manually_managed_interventions[intervention_name] = false
-  set_manually_managed_interventions manually_managed_interventions, callback
+  yield set_manually_managed_interventions manually_managed_interventions
 
-export list_available_interventions_for_enabled_goals = (callback) ->
+export list_available_interventions_for_enabled_goals = cfy ->*
   # outputs a list of intervention names
-  interventions_to_goals <- get_interventions_to_goals()
-  enabled_goals <- get_enabled_goals()
+  interventions_to_goals = yield get_interventions_to_goals()
+  enabled_goals = yield get_enabled_goals()
   output = []
   output_set = {}
   for intervention_name,goals of interventions_to_goals
@@ -186,34 +193,65 @@ export list_available_interventions_for_enabled_goals = (callback) ->
       if enabled_goals[goal.name]? and not output_set[intervention_name]?
         output.push intervention_name
         output_set[intervention_name] = true
-  callback output
+  return output
 
-export set_intervention_parameter = (intervention_name, parameter_name, parameter_value, callback) ->
-  setkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, parameter_value, callback
+cast_to_bool = (parameter_value) ->
+  if typeof(parameter_value) != 'string'
+    return Boolean(parameter_value)
+  if parameter_value.toLowerCase() == 'false'
+    return false
+  return true
 
-export get_intervention_parameter_default = (intervention_name, parameter_name, callback) ->
-  interventions <- get_interventions()
+cast_to_type = (parameter_value, type_name) ->
+  if type_name == 'string'
+    return parameter_value.toString()
+  if type_name == 'int'
+    return parseInt(parameter_value)
+  if type_name == 'float'
+    return parseFloat(parameter_value)
+  if type_name == 'bool'
+    return cast_to_bool(parameter_value)
+  return parameter_value
+
+export set_intervention_parameter = cfy (intervention_name, parameter_name, parameter_value) ->*
+  yield setkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, parameter_value
+
+get_intervention_parameter_type = cfy (intervention_name, parameter_name) ->*
+  interventions = yield get_interventions()
   intervention_info = interventions[intervention_name]
-  callback intervention_info.params[parameter_name].default
+  parameter_type = intervention_info.params[parameter_name].type
+  return parameter_type
 
-export get_intervention_parameters_default = (intervention_name, callback) ->
-  interventions <- get_interventions()
+export get_intervention_parameter_default = cfy (intervention_name, parameter_name) ->*
+  interventions = yield get_interventions()
   intervention_info = interventions[intervention_name]
-  callback {[x.name, x.default] for x in intervention_info.parameters}
+  parameter_type = intervention_info.params[parameter_name].type
+  parameter_value = intervention_info.params[parameter_name].default
+  return cast_to_type(parameter_value, parameter_type)
 
-export get_intervention_parameter = (intervention_name, parameter_name, callback) ->
-  result <- getkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name
+export get_intervention_parameters_default = cfy (intervention_name) ->*
+  interventions = yield get_interventions()
+  intervention_info = interventions[intervention_name]
+  return {[x.name, cast_to_type(x.default, x.type)] for x in intervention_info.parameters}
+
+export get_intervention_parameter = cfy (intervention_name, parameter_name) ->*
+  result = yield getkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name
+  parameter_type = yield get_intervention_parameter_type(intervention_name, parameter_name)
   if result?
-    return callback result
-  return get_intervention_parameter_default(intervention_name, parameter_name, callback)
+    return cast_to_type(result, parameter_type)
+  yield get_intervention_parameter_default(intervention_name, parameter_name)
 
-export get_intervention_parameters = (intervention_name, callback) ->
-  results <- getdict_for_key_dictdict 'intervention_to_parameters', intervention_name
-  default_parameters <- get_intervention_parameters_default(intervention_name)
+export get_intervention_parameters = cfy (intervention_name) ->*
+  results = yield getdict_for_key_dictdict 'intervention_to_parameters', intervention_name
+  default_parameters = yield get_intervention_parameters_default(intervention_name)
+  interventions = yield get_interventions()
+  intervention_info = interventions[intervention_name]
   output = {}
   for k,v of default_parameters
-    output[k] = results[k] ? default_parameters[k]
-  callback output
+    parameter_value = results[k] ? default_parameters[k]
+    parameter_type = intervention_info.params[k].type
+    output[k] = cast_to_type(parameter_value, parameter_type)
+  return output
 
 intervention_manager = require 'libs_backend/intervention_manager'
 

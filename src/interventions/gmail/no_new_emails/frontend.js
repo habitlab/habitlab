@@ -165,7 +165,7 @@ function removeEmails() {
 //Main function
 function main() {
   //NOTE: YOU CAN CHANGE THE AMOUNT OF HOURS IN YOUR TIME FRAME HERE
-  begin(4);
+  begin(intervention.params.hours.value);
   processEmails();
 }
 

@@ -1,5 +1,7 @@
+{cfy} = require 'cfy'
+
 module.exports = (goal_info) ->
-  return (days_since_today, callback) ->
+  return cfy (days_since_today) ->*
     progress = 0 # TODO actually measure this
     if days_since_today == 0
       progress = 2
@@ -7,7 +9,7 @@ module.exports = (goal_info) ->
       progress = 1
     units = "lessons"
     message = "#{progress} #{units}"
-    callback {
+    return {
       progress
       units
       message

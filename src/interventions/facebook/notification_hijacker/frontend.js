@@ -122,14 +122,14 @@ function insertClickNotification() {
 }
 
 function main() {
-  if (decideToInject(5 /*window.content_script_preview('')*/ /*In minutes */)) { //Injects notifications every x minutes
-      begin();
+  if (decideToInject(intervention.params.minutes.value)) { //Injects notifications every x minutes
+      begin()
   } else {
-    console.log("Notification not injected");
+    console.log("Notification not injected")
   }
 }
 
-$(document).ready(main());
+$(document).ready(main())
 
 }, 3000)
 

@@ -1,3 +1,10 @@
+{yfy} = require 'cfy'
+
+{
+  gexport
+  gexport_module
+} = require 'libs_common/gexport'
+
 export getUrlParameters = ->
   url = window.location.href
   hash = url.lastIndexOf('#')
@@ -10,7 +17,7 @@ export getUrlParameters = ->
   )
   return map
 
-export once_available = (selector, callback) ->
+export once_available = yfy (selector, callback) ->
   current_result = document.querySelector(selector)
   if current_result != null
     callback current_result
@@ -19,7 +26,7 @@ export once_available = (selector, callback) ->
       once_available selector, callback
     , 100
 
-export once_available_multiselect = (selector, callback) ->
+export once_available_multiselect = yfy (selector, callback) ->
   current_result = document.querySelectorAll(selector)
   if current_result.length > 0
     callback current_result
@@ -29,23 +36,13 @@ export once_available_multiselect = (selector, callback) ->
     , 100
 
 
-export once_true = (condition, callback) ->
+export once_true = yfy (condition, callback) ->
   if condition()
     callback()
   else
     setTimeout ->
       once_true(condition, callback)
     , 100
-
-export memoizeSingleAsync = (func) ->
-  cached_val = null
-  return (callback) ->
-    if cached_val?
-      callback(cached_val)
-      return
-    func (result) ->
-      cached_val := result
-      callback result
 
 export run_only_one_at_a_time = (func) ->
   # func is assumed to take 1 argument (finished callback) for the time being
@@ -66,3 +63,5 @@ export on_url_change = (func) ->
       if data.url != prev_url
         prev_url = data.url
         func()
+
+gexport_module 'common_libs', -> eval(it)

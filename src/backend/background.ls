@@ -1,3 +1,6 @@
+window.addEventListener "unhandledrejection", (evt) ->
+  throw evt.reason
+
 {
   getvar
   getfield
@@ -32,6 +35,7 @@
   list_available_interventions_for_location
   set_intervention_enabled
   set_intervention_disabled
+  get_intervention_parameters
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -116,6 +120,8 @@ execute_content_scripts_for_intervention = (intervention_info, callback) ->
   {content_script_options, name} = intervention_info
   console.log 'calling execute_content_scripts'
   tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
+  if tabs.length == 0
+    return
   tabid = tabs[0].id
   # <- async.eachSeries intervention_info.content_script_options, (options, ncallback) ->
   #  execute_content_script tabid, options, ncallback
@@ -314,7 +320,12 @@ message_handlers = {
       } else {
         window.loaded_content_scripts['#{options.path}'] = true;
         console.log('executing content script: #{options.path}');
-        window.intervention = #{JSON.stringify(intervention_info)};
+        const intervention = #{JSON.stringify(intervention_info)};
+
+        window.onunhandledrejection = function(evt) {
+          throw evt.reason;
+        };
+
         #{content_script_code}
       }
       """
@@ -542,6 +553,8 @@ setInterval ->
   if current_idlestate != 'active'
     return
   active_tab <- get_active_tab_info()
+  if not active_tab?
+    return
   current_domain = url_to_domain(active_tab.url)
   current_day = get_days_since_epoch()
   # console.log "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"

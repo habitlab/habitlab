@@ -54,9 +54,7 @@ function addBeginDialog(message) {
   });
   $timeText.html(message)
 
-  //const $slider = $('<paper-input label="minutes" auto-validate allowed-pattern="[0-9]" style="background-color: #94e6ff"></paper-input>')
-  const $slider = $('<paper-slider id="ratings" pin snaps min="1" max="5" max-markers="5" step="1" value="3" style="width: 500px"></paper-slider>')
-
+  const $slider = $('<paper-slider id="ratings" pin snaps min="1" max="5" max-markers="5" step="1" value="3" style="width: 500px" editable></paper-slider>')
 
   const $okButton = $('<button>');
   $okButton.text("Restrict My Minutes!");
@@ -72,6 +70,7 @@ function addBeginDialog(message) {
         $wrongInputText.insertAfter($slider)          
       }
     } else {
+      log_impression('facebook/block_after_interval_per_visit')      
       timeBegun = Math.floor(Date.now() / 1000)
       timeLimitThisVisit = minutes * 60
 

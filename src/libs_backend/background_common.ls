@@ -9,8 +9,11 @@ require! {
 
 {cfy, yfy} = require 'cfy'
 
-send_message_to_tab_id = yfy (tab_id, data, callback) ->
-  chrome.tabs.sendMessage tab_id, data, {}, (result) ->
+chrome_tabs_sendmessage = yfy (tab_id, data, options, callback) ->
+  if not callback? and typeof(options) == 'function'
+    callback = options
+    options = {}
+  chrome.tabs.sendMessage tab_id, data, options, (result) ->
     callback(result)
     return true
 
@@ -20,15 +23,15 @@ export send_message_to_active_tab = cfy (type, data) ->*
   tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
   if tabs.length == 0
     return
-  yield send_message_to_tab_id tabs[0].id, {type, data}
+  yield chrome_tabs_sendmessage tabs[0].id, {type, data}
 
 send_message_to_all_active_tabs = cfy (type, data) ->*
-  tabs = yield yfy(chrome.tabs.query) {active: true}
+  tabs = yield chrome_tabs_query {active: true}
   if tabs.length == 0
     return
   outputs = []
   for tab in tabs
-    result = yield send_message_to_tab_id tab.id, {type, data}
+    result = yield chrome_tabs_sendmessage tab.id, {type, data}
     outputs.push(result)
   return outputs
 
@@ -39,7 +42,7 @@ export eval_content_script = cfy (script) ->*
   return result
 
 export send_message_to_tabid = cfy (tabid, type, data) ->*
-  return send_message_to_tab_id tabid, {type, data}
+  return chrome_tabs_sendmessage tabid, {type, data}
 
 export get_active_tab_info = cfy ->*
   tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}

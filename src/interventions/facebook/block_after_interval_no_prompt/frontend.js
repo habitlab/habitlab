@@ -95,7 +95,7 @@ function displayCountdownOrBlock() {
 function main() {
   numTimesVisited(function(numberVisits) {
     if (numberVisits <= 1) {
-      setTime(window.intervention.params.minutes.value)
+      setTime(intervention.params.minutes.value)
     } 
     displayCountdownOrBlock()
   })

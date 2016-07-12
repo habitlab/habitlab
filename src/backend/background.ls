@@ -2,7 +2,21 @@ window.addEventListener "unhandledrejection", (evt) ->
   throw evt.reason
 
 {
-  getvar
+  expose_lib
+  get_all_message_handlers
+} = require 'libs_backend/expose_lib'
+
+expose_lib 'log_utils', require('libs_backend/log_utils')
+
+dexie_utils = require 'libs_backend/dexie_utils'
+
+{
+  addtokey_dictdict
+} = dexie_utils
+
+expose_lib 'db_utils', dexie_utils
+
+{
   getfield
   getfields
   getfield_uncached
@@ -11,30 +25,19 @@ window.addEventListener "unhandledrejection", (evt) ->
 } = require 'fields/get_field'
 
 {
-  addtolist
-  getlist
-  clearlist
-  getvar
-  setvar
-  addtovar
-  getkey_dictdict
-  addtokey_dictdict
-  getdict_for_key_dictdict
-  getdict_for_key2_dictdict
-} = require 'libs_backend/dexie_utils'
-
-{
   send_message_to_active_tab
   send_message_to_tabid
   get_active_tab_info
 } = require 'libs_backend/background_common'
 
+intervention_utils = require 'libs_backend/intervention_utils'
+
+expose_lib 'intervention_utils', intervention_utils
+
 {
   get_interventions
   list_enabled_interventions_for_location
   list_available_interventions_for_location
-  set_intervention_enabled
-  set_intervention_disabled
   get_intervention_parameters
 } = require 'libs_backend/intervention_utils'
 
@@ -75,12 +78,6 @@ $ = require 'jquery'
 {
   get_progress_on_enabled_goals_today
 } = require 'libs_backend/goal_progress'
-
-{
-  addtolog
-  getlog
-  clearlog
-} = require 'libs_common/log_utils'
 
 {cfy, yfy} = require 'cfy'
 
@@ -231,7 +228,9 @@ split_list_by_length = (list, len) ->
     output.push curlist
   return output
 
-message_handlers = {
+message_handlers = get_all_message_handlers()
+
+message_handlers <<< {
   'getfield': (name, callback) ->
     getfield name, callback
   'getfields': (namelist, callback) ->
@@ -244,41 +243,6 @@ message_handlers = {
   'requestfields_uncached': (info, callback) ->
     {fieldnames} = info
     getfields_uncached fieldnames, callback
-  'getvar': (key, callback) ->
-    getvar key, callback
-  'setvar': (data, callback) ->
-    {key, val} = data
-    setvar key, val, callback
-  'addtovar': (data, callback) ->
-    {key, val} = data
-    addtovar key, val, callback
-  'getkey_dictdict': (data, callback) ->
-    {name, key, key2} = data
-    getkey_dictdict name, key, key2, callback
-  'getdict_for_key_dictdict': (data, callback) ->
-    {name, key} = data
-    getdict_for_key_dictdict name, key, callback
-  'getdict_for_key2_dictdict': (data, callback) ->
-    {name, key2} = data
-    getdict_for_key2_dictdict name, key2, callback
-  'addtolist': (data_real, callback) ->
-    {name, data} = data_real
-    addtolist name, data, callback
-  'getlist': (name, callback) ->
-    getlist name, callback
-  'clearlist': (name, callback) ->
-    clearlist name, callback
-  'addtolog': (data_real, callback) ->
-    {name, data} = data_real
-    addtolog name, data, callback
-  'getlog': (name, callback) ->
-    getlog name, callback
-  'clearlog': (name, callback) ->
-    clearlog name, callback
-  'set_intervention_disabled': (name, callback) ->
-    set_intervention_disabled name, callback
-  'set_intervention_enabled': (name, callback) ->
-    set_intervention_enabled name, callback
   'getLocation': (data, callback) ->
     getLocation (location) ->
       console.log 'getLocation background page:'
@@ -322,17 +286,11 @@ message_handlers = {
   'load_css_file': (data, callback) ->
     {css_file, tab} = data
     tabid = tab.id
-    console.log 'load_css_file called'
-    console.log css_file
-    console.log tabid
     chrome.tabs.insertCSS tabid, {file: css_file}, ->
       callback()
   'load_css_code': (data, callback) ->
     {css_code, tab} = data
     tabid = tab.id
-    console.log 'load_css_code called'
-    console.log css_code
-    console.log tabid
     chrome.tabs.insertCSS tabid, {code: css_code}, ->
       callback()
 }

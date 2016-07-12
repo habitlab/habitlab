@@ -1,9 +1,3 @@
-{
-  send_message_to_background
-} = require 'libs_frontend/content_script_utils'
+{import_lib} = require 'libs_frontend/import_lib'
 
-export set_intervention_enabled = (name, callback) ->
-  send_message_to_background 'set_intervention_enabled', name, callback
-
-export set_intervention_disabled = (name, callback) ->
-  send_message_to_background 'set_intervention_disabled', name, callback
+module.exports <<< import_lib 'intervention_utils'

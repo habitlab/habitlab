@@ -3,33 +3,63 @@
 
 
 <dom-module id="feed-item-timer-polymer">
-  <style>
-    :host {
-
-      
-    }
-    .timertext {
-      background-color: #3498DB;
-      width: 500px;
-      height: 300px;
-      color: white;
-      font-size: 1.5em;
-      text-align: center;    
-      display: table-cell;
-      vertical-align: middle;
-    }
-
-    .habitlab-logo {
-      vertical-align: top;
-      
-    }
-  </style>
+  
 
   <template>
-    <habitlab-logo-polymer class="habitlab-logo"></habitlab-logo-polymer>
-    <div class="timertext">
-    You have already spent {{minutes}} minute(s) and {{seconds}} seconds on {{site}}.<br/><br/>Time is running out!
+
+    <style>
+      :host {
+        
+      }
+      .container {
+        background-color: #3498DB;
+        width: 500px;
+        height: 300px;
+        color: white;
+        font-size: 1.5em;
+        text-align: center;    
+        
+        
+        display: flex;
+        align-items: center;
+        
+      }
+
+      .habitlab-logo {
+        align-self: flex-start;
+        
+        flex-shrink: 0;
+      }
+
+      .timer-text {
+        
+        padding-right: 38px;
+      }
+
+      #grey-space {
+        background-color: #e9ebee;
+        height: 12px;
+        margin-left: -1px;
+        margin-right: -1px;
+
+      }
+      #shadow {
+        height: 1px;
+        background-color: #1d2129;
+        opacity: 0.2;
+      }
+    </style>
+
+
+
+    
+    <div class="container">
+      <habitlab-logo-polymer class="habitlab-logo"></habitlab-logo-polymer><br/>
+      <div class=timer-text>You have already spent {{minutes}} minute(s) and {{seconds}} seconds on {{site}}.<br/><br/>Time is running out!
+      </div>
     </div>
+    <div id="shadow"></div>
+    <div id="grey-space"></div>
     
   </template>
   <script src="feed-item-timer-polymer.js"></script>

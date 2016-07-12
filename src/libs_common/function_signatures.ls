@@ -16,6 +16,8 @@ lib_name_to_func_names_and_signatures =
   intervention_utils:
     set_intervention_enabled: \name
     set_intervention_disabled: \name
+  tab_utils:
+    close_selected_tab: []
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

@@ -19,7 +19,7 @@ const {
 
 const {polymer_ext} = require('libs_frontend/polymer_utils')
 
-polymer_ext({
+Polymer({
   is: 'feed-item-timer-polymer',
   properties: {
     site: {
@@ -28,7 +28,7 @@ polymer_ext({
     },
     minutes: {
       type: Number,
-      value: 1
+      value: 0
     },
     seconds: {
       type: Number,
@@ -43,20 +43,20 @@ polymer_ext({
     });
   },*/
   attached: function() {
-    var update_page = function() {
+    var update_page = function(self) {
       console.log('attached')
-      var self = this;
-      //console.log(self.$.minutes)
+      
       get_seconds_spent_on_current_domain_today(function(seconds_spent) {
-        console.log(seconds_spent);
-        
-        this.$.minutes = Math.floor(seconds_spent/60);
-        console.log(this.$.minutes)
+        self.minutes = Math.floor(seconds_spent/60);
         self.seconds = seconds_spent % 60;
       });
     };
-    update_page();
-    //setInterval(update_page, 1000);
+    update_page(this);
+    var self = this;
+    setInterval(function() {
+      update_page(self);
+      
+    }, 1000);
   },
   attributeChanged: function() {
     get_seconds_spent_on_current_domain_today(function(seconds_spent) {

@@ -41,12 +41,23 @@ $('body').append(scroll_block_display)
 
 enable_scrolling_and_hide_scroll_block = ->
   window.scrolling_allowed = true
+  $("body").css('overflow', 'scroll')
   scroll_block_display.hide()
+
 
 
 disable_scrolling_and_show_scroll_block = ->
   window.scrolling_allowed = false
+  $("body").css('overflow', 'hidden')
   scroll_block_display.show()
+  document.body.addEventListener('keydown', block_arrows)
+    
+
+block_arrows = (e) ->
+  console.log 'trying out key blocked'
+  if (e.keyCode == 38) or (e.keyCode == 40)
+    console.log 'key blocked'
+    return false
 
 enable_scrolling_and_hide_scroll_block!
 disable_scrolling_and_show_scroll_block!

@@ -13,6 +13,7 @@
   var buttonText = 'Click to continue to Facebook'
   interst_screen.attr('btn-txt', buttonText)
   interst_screen[0].hideButton();
+  interst_screen.attr('intervention', intervention.name)
 
   var secondsLeft = intervention.params.seconds.value
   var countdown = setInterval(function() {

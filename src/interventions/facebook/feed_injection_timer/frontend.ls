@@ -12,6 +12,7 @@ $ = require 'jquery'
 
 require 'enable-webcomponents-in-content-scripts'
 require 'components_skate/feed-item-timer'
+require 'components/feed-item-timer-polymer'
 
 component_generator = ->
   return $('<feed-item-timer>')

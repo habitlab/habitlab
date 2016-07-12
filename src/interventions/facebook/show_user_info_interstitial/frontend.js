@@ -34,6 +34,7 @@
       var buttonText = 'Click to continue to Facebook'
       console.log(buttonText)
       var interst_screen = $('<interstitial-screen-polymer>')
+      interst_screen.attr('intervention', intervention.name)
       interst_screen.attr('btn-txt', buttonText)
       interst_screen.attr('title-text', titleString)
       log_impression(intervention.name, () =>{})

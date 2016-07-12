@@ -61,7 +61,7 @@ function addBeginDialog(message) {
   $timeText.html(message)
 
   //const $slider = $('<paper-input label="minutes" auto-validate allowed-pattern="[0-9]" style="background-color: #94e6ff"></paper-input>')
-  const $slider = $('<paper-slider id="ratings" pin snaps min="5" max="45" max-markers="30" step="1" value="25" style="width: 500px"></paper-slider>')
+  const $slider = $('<paper-slider id="ratings" pin snaps min="5" max="45" max-markers="30" step="1" value="25" style="width: 500px" editable></paper-slider>')
 
 
   const $okButton = $('<button>');

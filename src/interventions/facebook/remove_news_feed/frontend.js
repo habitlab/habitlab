@@ -28,18 +28,43 @@ const {
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo-polymer.deps')
 
+//Polymer button
+require('bower_components/paper-button/paper-button.deps')
+
 function removeFeed() {
   /** Modified from Neal Wu's "Kill News Feed" */
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
-  feed.children().remove();
-  $('.ticker_stream').remove();
-  $('.ego_column').remove();
-  $('#pagelet_games_rhc').remove();
-  $('#pagelet_trending_tags_and_topics').remove();
-  $('#pagelet_canvas_nav_content').remove();
 
-  
+  feed.children().hide();
+  $('.ticker_stream').hide();
+  $('.ego_column').hide();
+  $('#pagelet_games_rhc').hide();
+  $('#pagelet_trending_tags_and_topics').hide();
+  $('#pagelet_canvas_nav_content').hide();
+  // feed.children().remove();
+  // $('.ticker_stream').remove();
+  // $('.ego_column').remove();
+  // $('#pagelet_games_rhc').remove();
+  // $('#pagelet_trending_tags_and_topics').remove();
+  // $('#pagelet_canvas_nav_content').remove();
+
   //$('[data-location=maincolumn]').append(habitlab_logo);
+}
+
+function showFeed(intervalID) {
+  $('habitlab-logo-polymer').remove()
+  $('paper-button').remove()
+
+  var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
+
+  feed.children().show();
+  $('.ticker_stream').show();
+  $('.ego_column').show();
+  $('#pagelet_games_rhc').show();
+  $('#pagelet_trending_tags_and_topics').show();
+  $('#pagelet_canvas_nav_content').show();  
+
+  clearInterval(intervalID)
 }
 
 /*
@@ -48,10 +73,17 @@ on_url_change(() => {
 })
 */
 
+var intervalID;
+
 log_impression('facebook/remove_news_feed')
-var habitlab_logo = $('<habitlab-logo-polymer intervention="facebook/remove_news_feed">');
-  
-$('#contentArea').append(habitlab_logo);
-window.setInterval(removeFeed, 200);
+var habitlab_logo = $('<habitlab-logo-polymer intervention="facebook/remove_news_feed">')
+var cheatButton = $('<paper-button style="background-color:white" raised>Show My News Feed This One Time</paper-button>')
+cheatButton.click(function() {
+  showFeed(intervalID)
+})
+
+$('#contentArea').append(habitlab_logo)
+$('#contentArea').append(cheatButton)
+intervalID = window.setInterval(removeFeed, 200);
 
 })()

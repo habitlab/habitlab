@@ -15,7 +15,6 @@ require 'components_skate/feed-item-timer'
 require 'components/feed-item-timer-polymer'
 
 component_generator = ->
-  console.log $('<feed-item-timer-polymer>')
-  return $('<feed-item-timer-polymer>')
+  return $('<feed-item-timer>')
 
 inject_into_feed(component_generator)

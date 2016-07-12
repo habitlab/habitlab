@@ -4,6 +4,8 @@
 
 const $ = require('jquery')
 
+const {close_selected_tab} = require('libs_frontend/tab_utils')
+
 const {
   once_available,
   run_only_one_at_a_time,
@@ -124,14 +126,16 @@ function removeDiv() {
 
 //Close the current tab
 function closeTab() {
-	chrome.runtime.sendMessage({greeting: "closeTab"}, (response) => {});
+  close_selected_tab().then(() => {
+    console.log('done closing tab')
+  });
 }
 
-function endWarning() {	
+function endWarning() {
   // $('video').on('ended', function() {
   // 	console.log("executing");
   // 	divOverVideoEnd();
-  // });	
+  // });
 	const overlayBox = document.querySelector('video');
 	if ((overlayBox.currentTime > (overlayBox.duration - 0.15)) && !overlayBox.paused) {
     clearInterval(end_pauser)

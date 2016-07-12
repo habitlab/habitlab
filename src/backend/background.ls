@@ -34,6 +34,8 @@ intervention_utils = require 'libs_backend/intervention_utils'
 
 expose_lib 'intervention_utils', intervention_utils
 
+expose_lib 'tab_utils', require('libs_backend/tab_utils')
+
 {
   get_interventions
   list_enabled_interventions_for_location

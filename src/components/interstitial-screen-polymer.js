@@ -39,11 +39,14 @@ Polymer({
     $(this).hide()
   },
   hideButton: function() {
+    console.log('button hidden')
     this.$.okbutton.hidden = true
+    this.$.okbutton.style.display = 'none';
   },
   showButton: function() {
     console.log(this.$.okbutton)
     this.$.okbutton.hidden = false
+    this.$.okbutton.style.display = 'inline-flex';
   },
   ready: function() {
     console.log('interstitial-polymer ready')
@@ -65,7 +68,7 @@ Polymer({
     this.$.okbutton.textContent = this.btnTxt 
     this.$.messagetext.textContent = this.messageText
     this.$.titletext.textContent = this.titleText
-    console.log(this.$.titletext.textContent)
+    console.log('attribute changed called')
   }
 });
 

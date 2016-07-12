@@ -25,17 +25,17 @@
   } = require('libs_common/domain_utils')
 
 
-  get_minutes_spent_on_domain_today(url_to_domain(window.location.href), function(numMins){
-    
+  get_minutes_spent_on_domain_today(url_to_domain(window.location.href), function(numMins){    
     get_visits_to_domain_today(url_to_domain(window.location.href), function(numVisits) {
       
-      console.log(numVisits)
       var titleString = 'You have visited ' + url_to_domain(window.location.href) +' ' + numVisits + ' times and spent '+ numMins + ' minutes there today.'
       var buttonText = 'Click to continue to Facebook'
-      console.log(buttonText)
+      var buttonText2 = 'Close tab'
+
       var interst_screen = $('<interstitial-screen-polymer>')
       interst_screen.attr('intervention', intervention.name)
       interst_screen.attr('btn-txt', buttonText)
+      interst_screen.attr('btn-txt2', buttonText2)
       interst_screen.attr('title-text', titleString)
       log_impression(intervention.name, () =>{})
       $(document.body).append(interst_screen)

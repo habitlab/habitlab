@@ -29,12 +29,12 @@ chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
   if (notifId === myNotifId) {
     if (btnIdx === 0) {
       //Log the action: the user closed the facebook tab
-      log_action('facebook/rich_notifications', {'positive': 'closedFacebook'})
+      log_action('facebook/rich_notifications', {'positive': 'User closed Facebook.'})
       closeTab();
       closeNotif(notifId);      
     } else if (btnIdx === 1) {
       //Log the action: the user did not close the facebook tab
-      log_action('facebook/rich_notifications', {'negative': 'remainedOnFacebook'});
+      log_action('facebook/rich_notifications', {'negative': 'User remained on Facebook'});
       closeNotif(notifId);
     }
   }

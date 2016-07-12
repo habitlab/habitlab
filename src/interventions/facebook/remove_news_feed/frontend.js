@@ -41,12 +41,6 @@ function removeFeed() {
   $('#pagelet_games_rhc').hide();
   $('#pagelet_trending_tags_and_topics').hide();
   $('#pagelet_canvas_nav_content').hide();
-  // feed.children().remove();
-  // $('.ticker_stream').remove();
-  // $('.ego_column').remove();
-  // $('#pagelet_games_rhc').remove();
-  // $('#pagelet_trending_tags_and_topics').remove();
-  // $('#pagelet_canvas_nav_content').remove();
 
   //$('[data-location=maincolumn]').append(habitlab_logo);
 }
@@ -64,7 +58,7 @@ function showFeed(intervalID) {
   $('#pagelet_trending_tags_and_topics').show();
   $('#pagelet_canvas_nav_content').show();  
 
-  clearInterval(intervalID)
+  clearInterval(intervalID) //stop refreshing the page to hide elements  
 }
 
 /*
@@ -77,7 +71,7 @@ var intervalID;
 
 log_impression('facebook/remove_news_feed')
 var habitlab_logo = $('<habitlab-logo-polymer intervention="facebook/remove_news_feed">')
-var cheatButton = $('<paper-button style="background-color:white" raised>Show My News Feed This One Time</paper-button>')
+var cheatButton = $('<center><paper-button style="background-color:white" raised>Show My News Feed This One Time</paper-button></center>')
 cheatButton.click(function() {
   showFeed(intervalID)
 })

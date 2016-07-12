@@ -77,12 +77,12 @@ function numTimesVisited(callback) {
 }
 
 function displayCountdownOrBlock() {
-  const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 50px; bottom: 0px; left: 0px; z-index: 99999">')
+  const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 30px; bottom: 0px; left: 0px; z-index: 99999"; font-size: 0.2em;>')
   $('body').append(display_timespent_div)
 
   const countdownTimer = setInterval(() => {
     getRemainingTimeDaily(function(timeRemaining) {
-      display_timespent_div.text("You have " + Math.floor(timeRemaining/60) + " minute(s) and " + timeRemaining%60 + " seconds left on Facebook")
+      display_timespent_div.text(Math.floor(timeRemaining/60) + " minute(s) and " + timeRemaining%60 + " seconds left.")
       if (timeRemaining < 0) {
         $('.timeSpent').remove()
         addEndDialog("Your time today is up!")

@@ -1,8 +1,14 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="habitlab-logo-polymer.html">
+
 
 <dom-module id="feed-item-timer-polymer">
   <style>
     :host {
+
+      
+    }
+    .timertext {
       background-color: #3498DB;
       width: 500px;
       height: 300px;
@@ -12,10 +18,17 @@
       display: table-cell;
       vertical-align: middle;
     }
+
+    .habitlab-logo {
+      vertical-align: top;
+      
+    }
   </style>
 
   <template>
-    <div>You have already spent {{minutes}} minute(s) and {{seconds}} seconds on {{site}}.<br/><br/>Time is running out!
+    <habitlab-logo-polymer class="habitlab-logo"></habitlab-logo-polymer>
+    <div class="timertext">
+    You have already spent {{minutes}} minute(s) and {{seconds}} seconds on {{site}}.<br/><br/>Time is running out!
     </div>
     
   </template>

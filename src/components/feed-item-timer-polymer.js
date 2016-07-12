@@ -19,7 +19,7 @@ const {
 
 const {polymer_ext} = require('libs_frontend/polymer_utils')
 
-polymer_ext({
+Polymer({
   is: 'feed-item-timer-polymer',
   properties: {
     site: {

@@ -15,4 +15,7 @@ webpack_config.plugins.push new webpack.DefinePlugin {
   IS_CONTENT_SCRIPT: true
 }
 
+webpack_config.devtool = null
+#webpack_config.debug = false
+
 module.exports = webpack_config

@@ -210,7 +210,13 @@ To make a release (which will minify the files), run
 gulp release
 ```
 
-To analyze the size of an individual intervention with webpack-bundle-size-analyzer (you will need to first install it via `npm install -g webpack-bundle-size-analyzer`)
+To analyze the size of an individual intervention, first install webpack-bundle-size-analyzer
+
+```
+npm install -g webpack-bundle-size-analyzer
+```
+
+Now run webpack-bundle-size-analyzer on the intervention
 
 ```
 webpack --config ./webpack_config_frontend.ls --json src/interventions/facebook/block_after_interval_daily/frontend.js bundle.js | webpack-bundle-size-analyzer

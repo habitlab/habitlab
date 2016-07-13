@@ -1,6 +1,4 @@
 - intervention_utils
 - db_utils
 - import_lib
-- name: log_utils_base
-  frontend: libs_frontend/log_utils
-  backend: libs_backend/log_utils
+- log_utils

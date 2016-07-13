@@ -101,4 +101,24 @@ export get_num_actions = cfy (name) ->*
   num_actions = yield collection.where('type').equals('action').count()
   return num_actions
 
+export log_impression = cfy (name) ->*
+  # name = intervention name
+  # ex: facebook/notification_hijacker
+  console.log "impression logged for #{name}"
+  yield addtolog name, {type: 'impression', timestamp: Date.now()}
+
+export log_action = cfy (name, data) ->*
+  # name = intervention name
+  # ex: facebook/notification_hijacker
+  # data: a dictionary containing any details necessary
+  # ex: {}
+  new_data = {}
+  for k,v of data
+    new_data[k] = v
+  new_data.timestamp = Date.now()
+  new_data.type = 'action'
+  console.log "action logged for #{name} with data #{JSON.stringify(data)}"
+  yield addtolog name, new_data
+
+
 gexport_module 'log_utils_backend', -> eval(it)

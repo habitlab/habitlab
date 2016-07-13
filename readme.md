@@ -209,7 +209,7 @@ Now, run `gulp`. It will generate libraries that import the functions from the e
 Now you can use the library in your content scripts as follows (note that all functions are asynchronous and will return a promise).
 
 ```javascript
-const {close_selected_tab} = require('libs_frontend/tab_utils')
+const {close_selected_tab} = require('libs_common/tab_utils')
 
 close_selected_tab().then(function() {
   console.log('finished closing tab')

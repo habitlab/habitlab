@@ -316,6 +316,8 @@ gulp.task 'generate_polymer_dependencies', (done) ->
 
 gulp.task 'generate_interventions_list', (done) ->
   mkdirp.sync 'dist/interventions'
+  #if fs.existsSync('src/interventions/interventions.yaml')
+  #  fs.unlinkSync('src/interventions/interventions.yaml')
   output = []
   for info_yaml_filepath in glob.sync('src/interventions/**/info.yaml')
     intervention_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
@@ -324,6 +326,21 @@ gulp.task 'generate_interventions_list', (done) ->
     intervention_name = info_yaml_filepath.replace(/^src\/interventions\//, '').replace(/\/info\.yaml$/, '')
     output.push intervention_name
   fs.writeFileSync 'dist/interventions/interventions.json', JSON.stringify(output)
+  done()
+
+gulp.task 'generate_goals_list', (done) ->
+  mkdirp.sync 'dist/goals'
+  #if fs.existsSync('src/goals/goals.yaml')
+  #  fs.unlinkSync('src/goals/goals.yaml')
+  output = []
+  for info_yaml_filepath in glob.sync('src/goals/**/info.yaml')
+    goal_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
+    if goal_info.disabled
+      continue
+    goal_name = info_yaml_filepath.replace(/^src\/goals\//, '').replace(/\/info\.yaml$/, '')
+    output.push goal_name
+  output.push 'debug/all_interventions'
+  fs.writeFileSync 'dist/goals/goals.json', JSON.stringify(output)
   done()
 
 gulp.task 'generate_libs_frontend', (done) ->
@@ -338,7 +355,7 @@ gulp.task 'generate_libs_frontend', (done) ->
     fs.writeFileSync "src/generated_libs/libs_frontend/#{lib_name}.js", lib_contents
   done()
 
-gulp.task 'build_base', gulp.parallel('generate_polymer_dependencies', 'generate_libs_frontend', 'generate_interventions_list', 'yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
+gulp.task 'build_base', gulp.parallel('generate_polymer_dependencies', 'generate_libs_frontend', 'generate_interventions_list', 'generate_goals_list', 'yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
 
 
 # based on
@@ -420,11 +437,22 @@ gulp.task 'yaml_watch', ->
 gulp.task 'copy_watch', ->
   gulp.watch copypattern, gulp.series('copy_build')
 
+gulp.task 'generate_polymer_dependencies_watch', ->
+  gulp.watch ['src/components/**/*.html'], gulp.series('generate_polymer_dependencies')
+
+gulp.task 'generate_libs_frontend_watch', ->
+  gulp.watch ['src/libs_common/function_signatures.ls'], gulp.series('generate_libs_frontend')
+
+gulp.task 'generate_interventions_list_watch', ->
+  gulp.watch ['src/interventions/**/info.yaml'], gulp.series('generate_interventions_list')
+
+gulp.task 'generate_goals_list_watch', ->
+  gulp.watch ['src/goals/**/info.yaml'], gulp.series('generate_goals_list')
+
 # TODO we can speed up the watch speed for browserify by using watchify
 # https://github.com/marcello3d/gulp-watchify/blob/master/examples/simple/gulpfile.js
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
-gulp.task 'watch_base', gulp.parallel 'webpack_watch', 'webpack_content_scripts_watch', 'yaml_watch', 'copy_watch'
-
+gulp.task 'watch_base', gulp.parallel 'webpack_watch', 'webpack_content_scripts_watch', 'yaml_watch', 'copy_watch', 'generate_polymer_dependencies_watch', 'generate_libs_frontend_watch', 'generate_interventions_list_watch', 'generate_goals_list_watch'
 
 /*
 gulp.task 'watch_base', gulp.parallel 'webpack_watch', 'webpack_content_scripts_watch', ->

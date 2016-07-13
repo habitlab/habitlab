@@ -1,3 +1,3 @@
 {import_lib} = require 'libs_frontend/import_lib'
 
-module.exports <<< import_lib 'intervention_utils'
+module.exports = import_lib 'intervention_utils'

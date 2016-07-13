@@ -216,7 +216,7 @@ const {import_lib} = require('libs_frontend/import_lib')
 module.exports = import_lib('tab_utils')
 ```
 
-Now you can use the library in your content scripts as follows:
+Now you can use the library in your content scripts as follows (note that all functions are asynchronous and will return a promise).
 
 ```javascript
 const {close_selected_tab} = require('libs_frontend/tab_utils')

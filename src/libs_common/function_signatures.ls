@@ -27,5 +27,8 @@ for lib_name,funcs of lib_name_to_func_names_and_signatures
 export list_functions_in_lib = (lib_name) ->
   return Object.keys(lib_name_to_func_names_and_signatures[lib_name])
 
+export list_libs = ->
+  return Object.keys(lib_name_to_func_names_and_signatures)
+
 export get_function_signature = (func_name) ->
   return func_name_to_signature[func_name]

@@ -208,13 +208,7 @@ Next, for all functions in that library you wish to expose to content scripts, a
 }
 ```
 
-Finally, add a library under [`libs_frontend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_frontend) that imports the functions in the exposed background library. See [`libs_frontend/tab_utils.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/tab_utils.ls) for an example, which is reproduced below:
-
-```javascript
-const {import_lib} = require('libs_frontend/import_lib')
-
-module.exports = import_lib('tab_utils')
-```
+Now, run `gulp`. It will generate a library under [`libs_frontend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_frontend) that imports the functions from the exposed background library. See  [`libs_frontend/tab_utils.js`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/tab_utils.js) for an example. Remember to add it via git.
 
 Now you can use the library in your content scripts as follows (note that all functions are asynchronous and will return a promise).
 

@@ -5,3 +5,4 @@
 /src_vulcanize
 *.deps.js
 .tmp
+/src/generated_libs

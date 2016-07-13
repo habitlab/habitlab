@@ -55,6 +55,12 @@ get_option_parser = ->
       default: 'true'
       description: 'Generates .deps.js files recursively'
     }
+    {
+      option: 'html_require_prefix'
+      type: 'Boolean'
+      default: 'false'
+      description: 'Include html! prefix in the webpack require statement'
+    }
   ]
   option_parser = optionator {
     options: options_list
@@ -179,7 +185,10 @@ generate_dependencies_for_file_recursive = (filename_abs) ->
       continue
     dependencies.push dependency_file
     output.push html_import_deps(tag, params)
-  output.push "import_dom_modules(require('html!#{filename_rel}'))"
+  if options.html_require_prefix
+    output.push "import_dom_modules(require('html!#{filename_rel}'), '#{filename_rel}')"
+  else
+    output.push "import_dom_modules(require('#{filename_rel}'), '#{filename_rel}')"
   for tag in $('link[rel="stylesheet"]')
     if options.verbose
       console.log 'has stylesheet: ' + filename_abs

@@ -79,6 +79,8 @@ webpack_pattern = [
   'src/commonjs_compat/**/*.ls'
   'src/commonjs_compat/**/*.js'
   'src/index.ls'
+  'src/options.ls'
+  'src/popup.ls'
   '!src/**/*.deps.js'
 ]
 
@@ -485,6 +487,7 @@ gulp.task 'clean', ->
     'src_vulcanize'
     'src_gen'
     'src/generated_libs'
+    'src/**/*.deps.js'
   ]
 
 #gulp.task 'build_then_lint', ['webpack_watch', 'webpack_content_scripts_watch'], ->

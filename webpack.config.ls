@@ -22,9 +22,14 @@ module.exports = {
   plugins: [
     # new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    new webpack.optimize.DedupePlugin()
   ]
   module: {
     loaders: [
+        {
+          test: /\.html$/
+          loader: 'html-loader?attrs=false'
+        }
         {
           # asset loader
           test: /\.(woff|woff2|ttf|eot)$/,

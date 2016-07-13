@@ -4,7 +4,13 @@
 if not window.all_imported_custom_styles?
   window.all_imported_custom_styles = []
 
-export import_dom_modules = (element_dom) !->
+if not window.all_imported_html_files?
+  window.all_imported_html_files = {}
+
+export import_dom_modules = (element_dom, filename) !->
+  if window.all_imported_html_files[filename]
+    return
+  window.all_imported_html_files[filename] = true
   element_dom_parsed_list = parseHTML(element_dom)
   for element_dom_parsed in element_dom_parsed_list
     if element_dom_parsed.nodeName.toLowerCase() == 'dom-module'

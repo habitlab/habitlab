@@ -29,7 +29,7 @@ polymer_ext({
     },
     displayText: {
       type: String,
-      value: 'hello world'
+      
     }
   },
   ready: function() {

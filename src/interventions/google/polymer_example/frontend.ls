@@ -14,9 +14,7 @@ $ = require 'jquery'
 listen_for_eval ((x) -> eval(x))
 insert_console ((x) -> eval(x)), {lang: 'livescript'}
 
-#require('enable-webcomponents-in-content-scripts')
-document.registerElement = null
-require 'webcomponentsjs-custom-element-v0'
+require('enable-webcomponents-in-content-scripts')
 
 require('components/hello-world-example.deps')
 

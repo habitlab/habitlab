@@ -5,7 +5,7 @@ window.addEventListener "unhandledrejection", (evt) ->
   get_all_message_handlers
 } = require 'libs_backend/expose_lib'
 
-require 'libs_backend/background_libs'
+require 'libs_backend/expose_backend_libs'
 
 {
   addtokey_dictdict

@@ -355,7 +355,17 @@ gulp.task 'generate_libs_frontend', (done) ->
     fs.writeFileSync "src/generated_libs/libs_frontend/#{lib_name}.js", lib_contents
   done()
 
-gulp.task 'build_base', gulp.parallel('generate_polymer_dependencies', 'generate_libs_frontend', 'generate_interventions_list', 'generate_goals_list', 'yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
+gulp.task 'generate_expose_backend_libs', (done) ->
+  mkdirp.sync 'src/generated_libs/libs_backend'
+  output = []
+  output.push "const {expose_lib} = require('libs_backend/expose_lib');"
+  for lib_name in function_signatures.list_libs()
+    output.push "expose_lib('#{lib_name}', require('libs_backend/#{lib_name}'));"
+  fs.writeFileSync "src/generated_libs/libs_backend/expose_backend_libs.js", output.join("\n")
+  done()
+
+
+gulp.task 'build_base', gulp.parallel('generate_polymer_dependencies', 'generate_libs_frontend', 'generate_expose_backend_libs', 'generate_interventions_list', 'generate_goals_list', 'yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
 
 
 # based on
@@ -443,6 +453,9 @@ gulp.task 'generate_polymer_dependencies_watch', ->
 gulp.task 'generate_libs_frontend_watch', ->
   gulp.watch ['src/libs_common/function_signatures.ls'], gulp.series('generate_libs_frontend')
 
+gulp.task 'generate_expose_backend_libs_watch', ->
+  gulp.watch ['src/libs_common/function_signatures.ls'], gulp.series('generate_expose_backend_libs')
+
 gulp.task 'generate_interventions_list_watch', ->
   gulp.watch ['src/interventions/**/info.yaml'], gulp.series('generate_interventions_list')
 
@@ -452,7 +465,7 @@ gulp.task 'generate_goals_list_watch', ->
 # TODO we can speed up the watch speed for browserify by using watchify
 # https://github.com/marcello3d/gulp-watchify/blob/master/examples/simple/gulpfile.js
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
-gulp.task 'watch_base', gulp.parallel 'webpack_watch', 'webpack_content_scripts_watch', 'yaml_watch', 'copy_watch', 'generate_polymer_dependencies_watch', 'generate_libs_frontend_watch', 'generate_interventions_list_watch', 'generate_goals_list_watch'
+gulp.task 'watch_base', gulp.parallel 'webpack_watch', 'webpack_content_scripts_watch', 'yaml_watch', 'copy_watch', 'generate_polymer_dependencies_watch', 'generate_libs_frontend_watch', 'generate_expose_backend_libs_watch', 'generate_interventions_list_watch', 'generate_goals_list_watch'
 
 /*
 gulp.task 'watch_base', gulp.parallel 'webpack_watch', 'webpack_content_scripts_watch', ->

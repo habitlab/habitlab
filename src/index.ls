@@ -19,6 +19,20 @@ window.Polymer = {
   lazyRegister: true,
 }
 
+window.intervention = {
+  name: 'debug/debug_view'
+  description: 'This is a fake intervention used in the debug view page'
+  params: {}
+  parameters: []
+  matches: []
+  nomatches: []
+  content_scripts: []
+  background_scripts: []
+  content_script_options: []
+  background_script_options: []
+  goals: []
+}
+
 require! {
   'js-yaml'
 }

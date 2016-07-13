@@ -25,7 +25,7 @@ require('components/fb-scroll-block-display-polymer.deps')
 
 window.scrolling_allowed = true
 nscrolls = 0
-NSCROLLS_THRESHOLD = 750
+NSCROLLS_THRESHOLD = intervention.params.scrollevents.value
 disabled = false
 
 window.onwheel = (evt) ->
@@ -66,7 +66,7 @@ disable_scrolling_and_show_scroll_block!
 # when the scroll block display fires the continue_scrolling event, hide it and enable scrolling for 5 seconds
 scroll_block_display[0].addEventListener 'continue_scrolling', ->
   log_impression 'facebook/scroll_blocker'
-  log_action 'facebook/scroll_blocker', {'negative':'remainedOnFacebook'}
+  log_action 'facebook/scroll_blocker', {'negative':'Remained on Facebook.'}
   console.log 'got continue_scrolling event'
   nscrolls := 0
   enable_scrolling_and_hide_scroll_block!

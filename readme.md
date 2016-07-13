@@ -177,6 +177,8 @@ moment().format()
 
 ## Troubleshooting
 
+### Build Errors
+
 Did you recently do a `git pull`, or modified a file, and have errors along the lines of `module not found`? Make sure:
 
 1) All npm modules are installed:
@@ -195,4 +197,22 @@ gulp
 
 ```
 gulp clean
+gulp
+```
+
+## Notes
+
+### Optimizing file sizes
+
+To make a release (which will minify the files), run
+
+```
+gulp release
+```
+
+To analyze the size of an individual intervention with webpack-bundle-size-analyzer:
+
+```
+npm install -g webpack-bundle-size-analyzer
+webpack --config ./webpack_config_frontend.ls --json src/interventions/facebook/block_after_interval_daily/frontend.js bundle.js | webpack-bundle-size-analyzer
 ```

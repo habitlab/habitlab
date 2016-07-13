@@ -211,8 +211,16 @@ polymer_ext {
           data: [1, 2, 3]
         }
       ]
-
     }
+    self.timeSavedOptions = {
+      scales: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }   
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

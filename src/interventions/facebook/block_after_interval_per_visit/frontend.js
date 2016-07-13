@@ -68,10 +68,10 @@ function addBeginDialog(message) {
           'color': 'red'
         })
         $wrongInputText.html("You must input a number.")
-        $wrongInputText.insertAfter($slider)          
+        $wrongInputText.insertAfter($slider)
       }
     } else {
-      log_impression('facebook/block_after_interval_per_visit')      
+      log_impression('facebook/block_after_interval_per_visit')
       timeBegun = Math.floor(Date.now() / 1000)
       timeLimitThisVisit = minutes * 60
 
@@ -151,7 +151,7 @@ function displayCountdown() {
     display_timespent_div.attr('display-text', minutes + " minute(s) and " + seconds + " seconds left.");
     if (timeRemaining < 0) {
       $('.timespent-view').remove();
-      addEndDialog("Your time today is up!");
+      addEndDialog("Your time this visit is up!");
       clearInterval(countdownTimer);
     }
   }, 1000);

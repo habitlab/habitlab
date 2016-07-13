@@ -1,0 +1,5 @@
+description: Removes the Twitter news feed
+matches:
+  - twitter.com
+content_scripts:
+  - frontend.js

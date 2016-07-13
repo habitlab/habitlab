@@ -17,6 +17,7 @@ require('bower_components/paper-input/paper-input.deps')
 require('components_skate/time-spent-display')
 
 require('components/interstitial-screen-polymer.deps')
+require('components/timespent-view.deps')
 
 const {
   get_seconds_spent_on_current_domain_today,
@@ -142,7 +143,7 @@ function getTimeSpent(callback) {
 }
 
 function displayCountdownOrBlock() {
-  const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 50px; bottom: 0px; left: 0px; z-index: 99999">')
+  /*const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 50px; bottom: 0px; left: 0px; z-index: 99999">')
   $('body').append(display_timespent_div)
 
   const countdownTimer = setInterval(() => {
@@ -154,7 +155,23 @@ function displayCountdownOrBlock() {
         clearInterval(countdownTimer)
       }
     })
+  }, 1000);*/
+  var display_timespent_div = $('<timespent-view>')
+  $('body').append(display_timespent_div)
+  var countdownTimer = setInterval(() => {
+    getRemainingTimeDaily((timeRemaining) => {
+      var minutes = Math.floor(timeRemaining / 60);
+      var seconds = timeRemaining % 60;
+      display_timespent_div.attr('display-text', minutes + " minute(s) and " + seconds + " seconds left.");
+      if (timeRemaining < 0) {
+        $('.timespent-view').remove();
+        addEndDialog("Your time today is up!");
+        clearInterval(countdownTimer);
+      }
+    })
+    
   }, 1000);
+
 }
 
 function main() {

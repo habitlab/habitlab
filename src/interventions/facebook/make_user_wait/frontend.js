@@ -38,8 +38,6 @@
 
     }
   }, 1000)
- 
-  //log_impression(intervention.name, () =>{})
 
   $(document.body).append(interst_screen)
 

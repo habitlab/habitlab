@@ -1,15 +1,8 @@
-if IS_CONTENT_SCRIPT
-  {
-    addtolog
-    getlog
-    clearlog
-  } = require 'libs_frontend/log_utils'
-else
-  {
-    addtolog
-    getlog
-    clearlog
-  } = require 'libs_backend/log_utils'
+{
+  addtolog
+  getlog
+  clearlog
+} = require 'libs_common/log_utils_base'
 
 {
   gexport

@@ -16,10 +16,12 @@ require! {
   'gulp-crisper'
   'del'
   'deepcopy'
+  'js-yaml'
 }
 
 gen_deps = require './scripts/generate_polymer_dependencies_lib.ls'
-webpack_config = require './webpack.config.ls'
+webpack_config_frontend = require './webpack_config_frontend.ls'
+webpack_config_backend = require './webpack_config_backend.ls'
 
 lspattern = [
   'src/*.ls'
@@ -224,51 +226,30 @@ with_created_object = (orig_obj, func_to_apply) ->
   func_to_apply(new_obj)
   return new_obj
 
-webpack_config_watch = with_created_object webpack_config, (o) ->
+webpack_config_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
-  o.plugins.push new webpack.DefinePlugin {
-    IS_CONTENT_SCRIPT: false
-  }
 
-webpack_config_nowatch = with_created_object webpack_config, (o) ->
+webpack_config_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
-  o.plugins.push new webpack.DefinePlugin {
-    IS_CONTENT_SCRIPT: false
-  }
 
-webpack_config_watch_content_scripts = with_created_object webpack_config, (o) ->
+webpack_config_watch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = true
-  o.plugins.push new webpack.DefinePlugin {
-    IS_CONTENT_SCRIPT: true
-  }
 
-webpack_config_nowatch_content_scripts = with_created_object webpack_config, (o) ->
+webpack_config_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
-  o.plugins.push new webpack.DefinePlugin {
-    IS_CONTENT_SCRIPT: true
-  }
 
-webpack_config_nosrcmap_watch = with_created_object webpack_config, (o) ->
+webpack_config_nosrcmap_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
   o.devtool = null
-  o.plugins.push new webpack.DefinePlugin {
-    IS_CONTENT_SCRIPT: false
-  }
 
-webpack_config_nosrcmap_nowatch = with_created_object webpack_config, (o) ->
+webpack_config_nosrcmap_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
   o.devtool = null
-  o.plugins.push new webpack.DefinePlugin {
-    IS_CONTENT_SCRIPT: false
-  }
 
-webpack_config_prod_nowatch = with_created_object webpack_config, (o) ->
+webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
   o.devtool = null
   o.debug = false
-  o.plugins.push new webpack.DefinePlugin {
-    IS_CONTENT_SCRIPT: false
-  }
   o.module.loaders.push {
     test: /\.js$/
     loader: 'uglify-loader'
@@ -278,13 +259,10 @@ webpack_config_prod_nowatch = with_created_object webpack_config, (o) ->
     ]
   }
 
-webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config, (o) ->
+webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
   o.devtool = null
   o.debug = false
-  o.plugins.push new webpack.DefinePlugin {
-    IS_CONTENT_SCRIPT: true
-  }
   o.module.loaders.push {
     test: /\.js$/
     loader: 'uglify-loader'

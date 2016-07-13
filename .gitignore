@@ -6,3 +6,4 @@
 *.deps.js
 .tmp
 /src/generated_libs
+/src/interventions/interventions.yaml

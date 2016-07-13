@@ -18,6 +18,7 @@ require! {
   'deepcopy'
   'js-yaml'
   'mkdirp'
+  'glob'
 }
 
 gen_deps = require './scripts/generate_polymer_dependencies_lib.ls'
@@ -313,6 +314,18 @@ gulp.task 'generate_polymer_dependencies', (done) ->
   gen_deps.generate_dependencies_for_all_files_in_src_path()
   done()
 
+gulp.task 'generate_interventions_list', (done) ->
+  mkdirp.sync 'dist/interventions'
+  output = []
+  for info_yaml_filepath in glob.sync('src/interventions/**/info.yaml')
+    intervention_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
+    if intervention_info.disabled
+      continue
+    intervention_name = info_yaml_filepath.replace(/^src\/interventions\//, '').replace(/\/info\.yaml$/, '')
+    output.push intervention_name
+  fs.writeFileSync 'dist/interventions/interventions.json', JSON.stringify(output)
+  done()
+
 gulp.task 'generate_libs_frontend', (done) ->
   mkdirp.sync 'src/generated_libs/libs_frontend'
   for lib_name in function_signatures.list_libs()
@@ -325,7 +338,7 @@ gulp.task 'generate_libs_frontend', (done) ->
     fs.writeFileSync "src/generated_libs/libs_frontend/#{lib_name}.js", lib_contents
   done()
 
-gulp.task 'build_base', gulp.parallel('generate_polymer_dependencies', 'generate_libs_frontend', 'yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
+gulp.task 'build_base', gulp.parallel('generate_polymer_dependencies', 'generate_libs_frontend', 'generate_interventions_list', 'yaml_build', 'copy_build') #tasks_and_patterns.map((.0))
 
 
 # based on

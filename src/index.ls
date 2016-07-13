@@ -10,9 +10,7 @@ if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
   # force the usage of polyfills
   document.registerElement = null
 
-#require 'webcomponents.js/webcomponents-lite'
 require 'webcomponentsjs-custom-element-v0'
-#require 'webcomponents.js/webcomponents'
 
 # this script must run before Polymer is imported
 window.Polymer = {

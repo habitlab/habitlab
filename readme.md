@@ -20,7 +20,7 @@ Now you will have the chrome extension built in the `dist` directory. You can si
 
 First add an directory under the [`src/interventions`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions) directory. It should contain 2 files: `info.yaml` and `frontend.ls`. Follow [`google/blue_background`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/google/blue_background) as an example of how these files should look like.
 
-Then, edit the file [`src/interventions/interventions.yaml`](https://github.com/habitlab/habitlab-chrome/blob/master/src/interventions/interventions.yaml) and add the path to your intervention relative to the [`src/interventions`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions) directory.
+Now run `gulp` and reload the chrome extension. Your goal should now be there on the options page.
 
 ### Logging Intervention Impressions
 
@@ -31,6 +31,8 @@ These methods, along with a vast library of useful methods for retrieving values
 ## Adding a goal
 
 First, add a directory under the [`src/goals`](https://github.com/habitlab/habitlab-chrome/tree/master/src/goals) directory. It should contain a file `info.yaml` and may contain a file `measurement.ls`. Follow [`facebook/spend_less_time`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/facebook/spend_less_time) as an example of what a goal of the form "spend less time on site X" should look like, and [`duolingo/complete_lesson_each_day`](https://github.com/habitlab/habitlab-chrome/tree/master/src/goals/duolingo/complete_lesson_each_day) as an example of how a goal with a custom measurement function should look like.
+
+Now run `gulp` and reload the chrome extension. Your goal should now be there on the options page.
 
 ## SkateJS components
 

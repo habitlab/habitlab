@@ -2,19 +2,14 @@ window.addEventListener "unhandledrejection", (evt) ->
   throw evt.reason
 
 {
-  expose_lib
   get_all_message_handlers
 } = require 'libs_backend/expose_lib'
 
-expose_lib 'log_utils', require('libs_backend/log_utils')
-
-dexie_utils = require 'libs_backend/dexie_utils'
+require 'libs_backend/background_libs'
 
 {
   addtokey_dictdict
-} = dexie_utils
-
-expose_lib 'db_utils', dexie_utils
+} = require 'libs_backend/dexie_utils'
 
 {
   getfield
@@ -29,12 +24,6 @@ expose_lib 'db_utils', dexie_utils
   send_message_to_tabid
   get_active_tab_info
 } = require 'libs_backend/background_common'
-
-intervention_utils = require 'libs_backend/intervention_utils'
-
-expose_lib 'intervention_utils', intervention_utils
-
-expose_lib 'tab_utils', require('libs_backend/tab_utils')
 
 {
   get_interventions

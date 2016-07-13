@@ -189,6 +189,16 @@ polymer_ext {
       ]
     }
 
+    self.interventionFreqOptions = {
+      scales: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }    
+
     #MARK: Time saved daily due to interventions Graph
     self.timeSavedData = {
       labels: ['temp1', 'temp2', 'temp3']

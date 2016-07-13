@@ -13,7 +13,7 @@ $ = require 'jquery'
   setkey_dictdict
   getkey_dictdict
   getdict_for_key_dictdict
-} = require 'libs_backend/dexie_utils'
+} = require 'libs_backend/db_utils'
 
 {
   gexport

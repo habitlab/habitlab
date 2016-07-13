@@ -1,7 +1,5 @@
 - intervention_utils
-- name: db_utils
-  frontend: libs_frontend/db_utils
-  backend: libs_backend/dexie_utils
+- db_utils
 - import_lib
 - name: log_utils_base
   frontend: libs_frontend/log_utils

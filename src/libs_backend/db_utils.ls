@@ -268,4 +268,4 @@ export clear_dictdict = cfy (name) ->*
   .delete()
   return
 
-gexport_module 'dexie_utils', -> eval(it)
+gexport_module 'db_utils_backend', -> eval(it)

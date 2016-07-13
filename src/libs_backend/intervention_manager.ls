@@ -22,7 +22,7 @@
   getdict_for_key2_dictdict
   setdict_for_key2_dictdict
   getCollection
-} = require 'libs_backend/dexie_utils'
+} = require 'libs_backend/db_utils'
 
 {
   as_array

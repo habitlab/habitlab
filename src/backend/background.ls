@@ -9,7 +9,7 @@ require 'libs_backend/background_libs'
 
 {
   addtokey_dictdict
-} = require 'libs_backend/dexie_utils'
+} = require 'libs_backend/db_utils'
 
 {
   getfield

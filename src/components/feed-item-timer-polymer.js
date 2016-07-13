@@ -35,13 +35,7 @@ Polymer({
       value: 0
     }
   },
-  /*update_page: function() {
-    var self = this;
-    get_seconds_spent_on_domain_today(self.site, function(seconds_spent) {
-      self.minutes = Math.floor(seconds_spent/60);
-      self.seconds = seconds_spent % 60;
-    });
-  },*/
+  
   attached: function() {
     var update_page = function(self) {
       console.log('attached')
@@ -58,12 +52,5 @@ Polymer({
       
     }, 1000);
   },
-  attributeChanged: function() {
-    get_seconds_spent_on_current_domain_today(function(seconds_spent) {
-        console.log(seconds_spent);
-        console.log(self)
-        this.$.minutes = Math.floor(seconds_spent/60);
-        self.seconds = seconds_spent % 60;
-      });
-  }
+  
 });

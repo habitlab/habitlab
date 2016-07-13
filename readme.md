@@ -120,7 +120,7 @@ $('body').append(paper_button_example)
 
 ## SkateJS components
 
-[Web components](http://webcomponents.org/) built using the [SkateJS](https://github.com/skatejs/skatejs) framework can be used in either content scripts or extension options pages.
+[Web components](http://webcomponents.org/) built using the [SkateJS](https://github.com/skatejs/skatejs) framework can be used content scripts and extension options pages.
 
 ### Adding a SkateJS component
 

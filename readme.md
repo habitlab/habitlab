@@ -6,7 +6,7 @@ This is the Chrome extension for HabitLab
 
 Ensure that you have [git](https://git-scm.com/) and [nodejs](https://nodejs.org/en/) (6.2.2 or higher) installed.
 
-```
+```bash
 git clone git@github.com:habitlab/habitlab-chrome.git
 cd habitlab-chrome
 npm install
@@ -60,13 +60,13 @@ If your component has properties (ie, the `site` property in [`time-spent-displa
 
 Before you require the component, you must have the following line in your content script:
 
-```
+```javascript
 require('enable-webcomponents-in-content-scripts')
 ```
 
 Then, require the SkateJS component, and you can then create elements and add them to the body:
 
-```
+```javascript
 require('components_skate/time-spent-display')
 display_timespent_div = $('<time-spent-display>')
 $('body').append(display_timespent_div)
@@ -114,13 +114,13 @@ Refer to [`site-goal-view.html`](https://github.com/habitlab/habitlab-chrome/blo
 
 Before you require the component, you must have the following line in your content script:
 
-```
+```javascript
 require('enable-webcomponents-in-content-scripts')
 ```
 
 Then, require the Polymer component, and you can then create elements and add them to the body:
 
-```
+```javascript
 require('components/hello-world-example.deps')
 
 hello_world_example = $('<hello-world-example>')
@@ -135,13 +135,13 @@ See [`google/polymer_example/frontend.ls`](https://github.com/habitlab/habitlab-
 
 If you add an external polymer component, first ensure you have bower and cspify installed (you may need to run this command with sudo)
 
-```
+```bash
 npm install -g bower cspify
 ```
 
 Then install the component via bower, run cspify, and generate the `.deps.js` file:
 
-```
+```bash
 bower install paper-button
 cspify
 ./scripts/generate_polymer_dependencies --bower
@@ -149,7 +149,7 @@ cspify
 
 The last command will generate many errors, you can ignore them. Just verify that the file `bower_components/paper-button/paper-button.deps.js` exists. Now you can include it by adding to your content script:
 
-```
+```javascript
 require('enable-webcomponents-in-content-scripts')
 
 require('bower_components/paper-button/paper-button.deps')
@@ -164,16 +164,69 @@ You can use any [npm](https://www.npmjs.com/) modules as follows. (This example 
 
 1) Install the npm module, and save it (the `--save` option will modify [`package.json`](https://github.com/habitlab/habitlab-chrome/blob/master/package.json) and add it as a dependency)
 
-```
+```bash
 npm install --save moment
 ```
 
 2) Require the module and use it in any of the Javascript or Livescript files:
 
-```
+```javascript
 moment = require('moment')
 moment().format()
 ```
+
+## Writing a library for usage in content scripts
+
+Add a file under [`libs_frontend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_frontend) that exports your functions. For an example, see [`libs_frontend/sample_js_lib.js`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/sample_js_lib.js)
+
+Now you can use the exported functions in a content script by doing:
+
+```javascript
+const {helloworld} = require('libs_frontend/sample_js_lib')
+```
+
+## Exposing background script libraries to content scripts
+
+First, write a library under [`libs_backend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_backend) that takes input parameters and returns a promise with the result. For a simple example, see [`libs_backend/tab_utils.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_backend/tab_utils.ls) and for a more complex example, see [`libs_backend/log_utils.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_backend/log_utils.ls)
+
+Next, add an `expose_lib` call to [`libs_backend/background_libs.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_backend/background_libs.ls). For example, the following call indicates that we should expose (to content scripts) the library defined in `libs_backend/tab_utils` (you can leave off the `.js` or `.ls` extension) under the name `log_utils`.
+
+```javascript
+expose_lib('tab_utils', require('libs_backend/tab_utils'))
+```
+
+Next, for all functions in that library you wish to expose to content scripts, add the function signature to [`libs_common/function_signatures.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_common/function_signatures.ls) in the `lib_name_to_func_names_and_signatures` dictionary. For example, the following signatures indicate that within the library named `tab_utils`, the `close_selected_tab` function should take 0 arguments, and within the library named `log_utils`, the `addtolog` function should take 2 arguments (the names of the arguments do not matter).
+
+```javascript
+{
+  tab_utils: {
+    close_selected_tab: []
+  },
+  log_utils: {
+    addtolog: ['name', 'data']
+  }
+}
+```
+
+Finally, add a library under [`libs_frontend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_frontend) that imports the functions in the exposed background library. See [`libs_frontend/tab_utils.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_frontend/tab_utils.ls) for an example, which is reproduced below:
+
+```javascript
+const {import_lib} = require('libs_frontend/import_lib')
+
+module.exports = import_lib('tab_utils')
+```
+
+Now you can use the library in your content scripts as follows:
+
+```javascript
+const {close_selected_tab} = require('libs_frontend/tab_utils')
+
+close_selected_tab().then(function() {
+  console.log('finished closing tab')
+})
+```
+
+See [this commit](https://github.com/habitlab/habitlab-chrome/commit/7d3e512a086cb8f65af51196c46d00ebdd950d77) for a complete example.
 
 ## Troubleshooting
 
@@ -183,19 +236,19 @@ Did you recently do a `git pull`, or modified a file, and have errors along the 
 
 1) All npm modules are installed:
 
-```
+```bash
 npm install
 ```
 
 2) All files are building correctly:
 
-```
+```bash
 gulp
 ```
 
 3) Should not be necessary, but running gulp clean might help:
 
-```
+```bash
 gulp clean
 gulp
 ```
@@ -206,18 +259,18 @@ gulp
 
 To make a release (which will minify the files), run
 
-```
+```bash
 gulp release
 ```
 
 To analyze the size of an individual intervention, first install webpack-bundle-size-analyzer
 
-```
+```bash
 npm install -g webpack-bundle-size-analyzer
 ```
 
 Now run webpack-bundle-size-analyzer on the intervention
 
-```
+```bash
 webpack --config ./webpack_config_frontend.ls --json src/interventions/facebook/block_after_interval_daily/frontend.js bundle.js | webpack-bundle-size-analyzer
 ```

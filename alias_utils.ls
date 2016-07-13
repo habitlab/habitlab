@@ -3,11 +3,13 @@ require! {
   fs
 }
 
+prelude = require 'prelude-ls'
+
 {list_libs} = require('./src/libs_common/function_signatures')
 
 export get_alias_info = ->
   lib_alias_names = []
-  lib_alias_names = lib_alias_names.concat list_libs()
+  lib_alias_names = lib_alias_names.concat prelude.sort(list_libs())
   if fs.existsSync('./src/libs_common/aliases.yaml')
     lib_alias_names = lib_alias_names.concat js-yaml.safeLoad fs.readFileSync('./src/libs_common/aliases.yaml', 'utf-8')
   output = []

@@ -7,3 +7,4 @@
 .tmp
 /src/generated_libs
 /src/interventions/interventions.yaml
+/src/components/components.html

@@ -19,7 +19,7 @@ const {
   log_impression,
   log_action,
 } = require('libs_common/log_utils')
-
+require('components/timespent-view.deps')
 
 function setTime(minutes) {
   //Save the time limit in the database
@@ -77,7 +77,7 @@ function numTimesVisited(callback) {
 }
 
 function displayCountdownOrBlock() {
-  const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 30px; bottom: 0px; left: 0px; z-index: 99999"; font-size: 0.2em;>')
+  /* const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 30px; bottom: 0px; left: 0px; z-index: 99999"; font-size: 0.2em;>')
   $('body').append(display_timespent_div)
 
   const countdownTimer = setInterval(() => {
@@ -89,7 +89,24 @@ function displayCountdownOrBlock() {
         clearInterval(countdownTimer)
       }
     })
+  }, 1000); */
+
+  var display_timespent_div = $('<timespent-view>')
+  $('body').append(display_timespent_div)
+  var countdownTimer = setInterval(() => {
+    getRemainingTimeDaily((timeRemaining) => {
+      var minutes = Math.floor(timeRemaining / 60);
+      var seconds = timeRemaining % 60;
+      display_timespent_div.attr('display-text', minutes + " minute(s) and " + seconds + " seconds left.");
+      if (timeRemaining < 0) {
+        $('.timespent-view').remove();
+        addEndDialog("Your time today is up!");
+        clearInterval(countdownTimer);
+      }
+    })
+    
   }, 1000);
+
 }
 
 function main() {

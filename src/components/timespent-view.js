@@ -37,7 +37,7 @@ polymer_ext({
     //time_spent_on_facebook <- get_seconds_spent_on_domain_today('www.facebook.com')
   },
   attached: function() {
-    var update_page = function(self) {
+    /*var update_page = function(self) {
       console.log('attached')
       
       get_seconds_spent_on_current_domain_today(function(seconds_spent) {
@@ -51,7 +51,7 @@ polymer_ext({
     setInterval(function() {
       update_page(self);
       
-    }, 1000);
+    }, 1000); */
   }
     
 });

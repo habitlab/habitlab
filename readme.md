@@ -42,7 +42,7 @@ Now run `gulp` and reload the chrome extension. Your goal should now be there on
 
 A Polymer component can be added by first adding 2 files under [`src/components`](https://github.com/habitlab/habitlab-chrome/tree/master/src/components) : a `.html` file (example: [`site-goal-view.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.html)), and a `.ls` ([Livescript](http://livescript.net/)) or `.js` (Javascript) file (example: [`site-goal-view.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/site-goal-view.ls))
 
-Then, edit the file [`src/components/components.html`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components/components.html) and add the path of the `.html` file relative to the [`src/components`](https://github.com/habitlab/habitlab-chrome/tree/master/src/components) directory.
+Now run `gulp` and reload the chrome extension. Your component should now be usable in interventions.
 
 ### Shadow DOM notes
 
@@ -126,7 +126,7 @@ $('body').append(paper_button_example)
 
 A SkateJS component can be added by first creating a file under the [`src/components_skate`](https://github.com/habitlab/habitlab-chrome/tree/master/src/components_skate) directory. It can be written in either [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) with [JSX control statements](https://www.npmjs.com/package/jsx-control-statements) or [Livescript](http://livescript.net/) (with inline JSX).
 
-Then, edit the file [`src/components_skate/components_skate.js`](https://github.com/habitlab/habitlab-chrome/blob/master/src/components_skate/components_skate.js) and add the path to your component relative to the [`src`](https://github.com/habitlab/habitlab-chrome/tree/master/src) directory (you can leave off the `.jsx` or `.ls` extension).
+Now run `gulp` and reload the chrome extension. Your component should now be usable in interventions.
 
 ### Example SkateJS components
 

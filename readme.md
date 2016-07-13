@@ -191,12 +191,6 @@ const {helloworld} = require('libs_frontend/sample_js_lib')
 
 First, write a library under [`libs_backend`](https://github.com/habitlab/habitlab-chrome/tree/master/src/libs_backend) that takes input parameters and returns a promise with the result. For a simple example, see [`libs_backend/tab_utils.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_backend/tab_utils.ls) and for a more complex example, see [`libs_backend/log_utils.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_backend/log_utils.ls)
 
-Next, add an `expose_lib` call to [`libs_backend/background_libs.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_backend/background_libs.ls). For example, the following call indicates that we should expose (to content scripts) the library defined in `libs_backend/tab_utils` (you can leave off the `.js` or `.ls` extension) under the name `log_utils`.
-
-```javascript
-expose_lib('tab_utils', require('libs_backend/tab_utils'))
-```
-
 Next, for all functions in that library you wish to expose to content scripts, add the function signature to [`libs_common/function_signatures.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/src/libs_common/function_signatures.ls) in the `lib_name_to_func_names_and_signatures` dictionary. For example, the following signatures indicate that within the library named `tab_utils`, the `close_selected_tab` function should take 0 arguments, and within the library named `log_utils`, the `addtolog` function should take 2 arguments (the names of the arguments do not matter).
 
 ```javascript
@@ -210,7 +204,7 @@ Next, for all functions in that library you wish to expose to content scripts, a
 }
 ```
 
-Now, run `gulp`. It will generate a library that imports the functions from the exposed background library (it will be under `src/generated_libs/libs_frontend` but you should not need to ever look at it).
+Now, run `gulp`. It will generate libraries that import the functions from the exposed background library (they will be under `src/generated_libs/libs_frontend` but you do not need to ever look at it).
 
 Now you can use the library in your content scripts as follows (note that all functions are asynchronous and will return a promise).
 

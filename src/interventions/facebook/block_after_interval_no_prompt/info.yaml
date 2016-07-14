@@ -9,3 +9,5 @@ parameters:
     description: Minutes allowed daily on Facebook
     default: 30
     type: int
+category:
+  - interstitial

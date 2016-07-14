@@ -22,27 +22,29 @@ const {
 } = require('libs_common/log_utils')
 
 const {
-  on_url_change
+  on_url_change,
+  once_available,
 } = require('libs_frontend/common_libs')
 
 require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo-polymer.deps')
+require('components/habitlab-logo.deps')
 
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
 function removeFeed() {
-  var feed = $('.stream-items.js-navigable-stream')
-  feed.hide()
+  var timelineFeed = $('.content-main.top-timeline-tweetbox').find('.stream-items.js-navigable-stream')
+  timelineFeed.hide()
   var spinner = $('.stream-end-inner')
   spinner.hide()
 }
 
 function showFeed(intervalID) {
-  $('habitlab-logo-polymer').remove()
+  $('habitlab-logo').remove()
   $('paper-button').remove()
 
-  $('.stream-items.js-navigable-stream').show()
+  var timelineFeed = $('.content-main.top-timeline-tweetbox').find('.stream-items.js-navigable-stream')
+  timelineFeed.show()
   $('.stream-end-inner').show()
   clearInterval(intervalID) //stop refreshing the page to hide elements  
 }
@@ -50,7 +52,7 @@ function showFeed(intervalID) {
 var intervalID;
 
 log_impression('twitter/remove_twitter_feed')
-var habitlab_logo = $('<habitlab-logo-polymer>')
+var habitlab_logo = $('<habitlab-logo>')
 var cheatButton = $('<center><paper-button style="background-color:white" raised>Show My Feed This One Time</paper-button></center>')
 cheatButton.click(function() {
   showFeed(intervalID)
@@ -60,7 +62,10 @@ $('.content-main.top-timeline-tweetbox').append(cheatButton)
 //NOTE: Logo does not show up right now!
 $('.content-main.top-timeline-tweetbox').append(habitlab_logo) 
 
-intervalID = window.setInterval(removeFeed, 200);
+once_available('.stream-items.js-navigable-stream', function() {
+  removeFeed()
+})
+//intervalID = window.setInterval(removeFeed, 200);
 
 
 })()

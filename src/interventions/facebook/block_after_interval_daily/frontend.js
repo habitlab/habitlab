@@ -16,7 +16,7 @@ require('bower_components/paper-input/paper-input.deps')
 //SkateJS Component
 require('components_skate/time-spent-display')
 
-require('components/interstitial-screen-polymer.deps')
+require('components/interstitial-screen.deps')
 require('components/timespent-view.deps')
 
 const {

@@ -4,7 +4,7 @@ const {polymer_ext} = require('libs_frontend/polymer_utils')
 const {close_selected_tab} = require('libs_frontend/tab_utils')
 
 Polymer({
-  is: 'interstitial-screen-polymer',
+  is: 'interstitial-screen',
 
   properties: {
     btnTxt: {

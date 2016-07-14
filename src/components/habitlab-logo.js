@@ -1,4 +1,5 @@
 const $ = require('jquery');
+
 require('jquery-contextmenu');
 
 const {
@@ -12,13 +13,14 @@ const {
 
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 
-const swal = require('sweetalert')//require('../node_modules/sweetalert/dist/sweetalert.min.js')
-//const swal = require('bower_components/sweetalert/dist/sweetalert.min.js')
+const swal = require('sweetalert')
+
+const {open_url_in_new_tab, close_selected_tab} = require('libs_frontend/tab_utils')
 
 const {cfy} = require('cfy');
 
 polymer_ext({
-  is: 'habitlab-logo-polymer',
+  is: 'habitlab-logo',
   properties: {
     width: {
       type: String,
@@ -34,10 +36,8 @@ polymer_ext({
     },
   },
   clicked: function() {
-    console.log('habitlab-logo-polymer clicked');
-  },
-  buttonclicked: function() {
-    console.log('habitlab-logo-polymer paper-button clicked');
+    console.log('habitlab-logo clicked');
+    this.$.tooltip.showed = false;
   },
   get_img_style: function() {
     return `width: ${this.width}; height: ${this.height};`
@@ -53,17 +53,32 @@ polymer_ext({
   },
   ready: cfy(function*() {
     const self = this;
-    console.log('habitlab-logo-polymer ready');
 
     yield load_css_file('bower_components/sweetalert/dist/sweetalert.css');
     yield load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
+
+    function get_intervention_name() {
+      return "Intervention: " + intervention.description
+    }
+
+    function get_intervention_goal() {
+      return "Goal: " + intervention.goals[1].description
+    }
+
+    var name = get_intervention_name()
+    var goal = get_intervention_goal()
+
     $.contextMenu({
       selector: '#habitlab_logo',
       trigger: 'left',
       items: {
-        "name": {name: intervention.name, disabled: true},
-        "disable": {name: "Disable this intervention", callback: function() {self.disable_callback()}
-        }
+        "name": {name: name, disabled: true},
+        "goal": {name: goal, disabled: true},
+        "disable": {name: "Disable this intervention", callback: function() {self.disable_callback()}},
+        "options": {name: "View all interventions", callback: function() {
+          console.log('about to open new tab')
+          open_url_in_new_tab("options.html#interventions")
+        }}
       }
     });
   }),

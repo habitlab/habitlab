@@ -35,6 +35,7 @@ polymer_ext({
   },
   clicked: function() {
     console.log('habitlab-logo clicked');
+    this.$.tooltip.showed = false;
   },
   buttonclicked: function() {
     console.log('habitlab-logo paper-button clicked');

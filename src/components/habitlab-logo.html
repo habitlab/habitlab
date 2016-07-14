@@ -36,7 +36,7 @@
     }
   </style>
   <template>
-  <div style="width: 100%; height: 100%">
+  <div style="width: 100%; height: 100%" on-click="clicked">
     <!--
     <paper-icon-button id="id_1" icon="habitlab-iconset:habitlab-icon" alt="heart"></paper-icon-button>
     <paper-tooltip for="id_1" offset="0">&lt;3 &lt;3 &lt;3 </paper-tooltip>
@@ -52,7 +52,7 @@
     -->
 
     
-    <mat-tooltip style="width: 100%; height: 100%" tip="This is a HabitLab intervention. Click for more options.">
+    <mat-tooltip id="tooltip" style="width: 100%; height: 100%" tip="This is a HabitLab intervention. Click for more options.">
       <img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
     </mat-tooltip>
     

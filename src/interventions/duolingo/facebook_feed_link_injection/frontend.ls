@@ -3,6 +3,11 @@ root = exports ? this
 $ = require('jquery')
 require('jquery.isinview')
 
+{
+  log_impression,
+  log_action,
+} = require 'libs_common/log_utils'
+
 randstr = ->
   chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz'
   output = ''
@@ -14,6 +19,7 @@ randstr = ->
 insertBeforeItem = (jfeeditem) ->
   #jfeeditem.before $('<div>').text('newfoobar')
   quizid = randstr()
+  log_impression intervention.name
   jfeeditem.before $('<a style="width: 495px; height: 300px" href="https://www.duolingo.com/" target="_blank"><img src="' + chrome.extension.getURL('interventions/duolingo/facebook_feed_link_injection/facebook-duolingo.png') + '"></a>')
   /*
   jfeeditem.before $('<iframe>').css({

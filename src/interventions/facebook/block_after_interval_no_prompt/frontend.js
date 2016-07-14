@@ -53,7 +53,8 @@ function addEndDialog(message) {
   $contentContainer.append($timeText)
   $contentContainer.append($('<p>'))  
 
-  $whiteDiv.append($contentContainer)  
+  $whiteDiv.append($contentContainer) 
+  log_impression(intervention.name) 
 }
 
 //Retrieves the remaining time left for the user to spend on facebook

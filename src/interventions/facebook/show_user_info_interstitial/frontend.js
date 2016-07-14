@@ -37,7 +37,7 @@
       interst_screen.attr('btn-txt', buttonText)
       interst_screen.attr('btn-txt2', buttonText2)
       interst_screen.attr('title-text', titleString)
-      log_impression(intervention.name, () =>{})
+      log_impression(intervention.name)
       $(document.body).append(interst_screen)
     })
   });

@@ -57,11 +57,25 @@ polymer_ext({
 
     yield load_css_file('bower_components/sweetalert/dist/sweetalert.css');
     yield load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
+
+    function get_intervention_name() {
+      return "Intervention: " + intervention.description
+    }
+
+    function get_intervention_goal() {
+      return "Goal: " + intervention.goals[1].description
+    }
+    console.log(intervention)
+
+    var name = get_intervention_name()
+    var goal = get_intervention_goal()
+
     $.contextMenu({
       selector: '#habitlab_logo',
       trigger: 'left',
       items: {
-        "name": {name: intervention.name, disabled: true},
+        "name": {name: name, disabled: true},
+        "goal": {name: goal, disabled: true},
         "disable": {name: "Disable this intervention", callback: function() {self.disable_callback()}
         }
       }

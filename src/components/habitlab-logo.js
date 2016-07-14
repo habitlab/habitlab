@@ -74,18 +74,13 @@ polymer_ext({
       items: {
         "name": {name: name, disabled: true},
         "goal": {name: goal, disabled: true},
-        "disable": {name: "Disable this intervention", callback: function() {self.disable_callback()}},
-        "options": {name: "View all interventions", callback: function() {
-          console.log('about to open new tab')
-          open_url_in_new_tab("options.html#interventions")
-        }}
+        "disable": {name: "Disable this intervention", callback: () => self.disable_callback()},
+        "options": {name: "View all interventions", callback: () => open_url_in_new_tab("options.html#interventions")}
       }
     });
   }),
 
   get_url: function() {
-    console.log('url called')
-    console.log(chrome.extension.getURL('icons/icon_38.png'));
     return chrome.extension.getURL('icons/icon_38.png');
   },
 });

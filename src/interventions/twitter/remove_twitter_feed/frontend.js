@@ -62,10 +62,6 @@ $('.content-main.top-timeline-tweetbox').append(cheatButton)
 //NOTE: Logo does not show up right now!
 $('.content-main.top-timeline-tweetbox').append(habitlab_logo) 
 
-once_available('.stream-items.js-navigable-stream', function() {
-  removeFeed()
-})
-//intervalID = window.setInterval(removeFeed, 200);
-
+intervalID = window.setInterval(removeFeed, 200);
 
 })()

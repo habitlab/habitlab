@@ -1,0 +1,6 @@
+description: Spend less time on Twitter
+progress_description: Time spent on Twitter
+interventions:
+  - twitter/remove_twitter_feed
+measurement: time_spent_on_domain
+domain: twitter.com

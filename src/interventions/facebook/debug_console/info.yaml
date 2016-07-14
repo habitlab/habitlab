@@ -1,0 +1,5 @@
+description: Debug console for Facebook
+matches:
+  - www.facebook.com
+content_scripts:
+  - /interventions/google/debug_console/frontend.js

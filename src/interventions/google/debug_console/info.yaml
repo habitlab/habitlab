@@ -1,4 +1,4 @@
-description: Example of logging
+description: Debug console for Google
 matches:
   - www.google.com
 content_scripts:

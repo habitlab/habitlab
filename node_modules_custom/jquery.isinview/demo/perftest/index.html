@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Performance Test - Demos and Playground</title>
+
+    <!-- ATTN Foundation loaded without JS - stay clear of JS-driven widgets, or add the JS setup -->
+    <!--
+        ATTN jQuery 1.x is used here, making the demo compatible with oldIE. As a side effect,
+        Foundation 5 JS can't be used reliably (requires jQuery 2.x). Stay clear, or switch to
+        jQuery 2.x.
+    -->
+    <link rel="stylesheet" href="../bower_demo_components/foundation/css/normalize.css">
+    <link rel="stylesheet" href="../bower_demo_components/foundation/css/foundation.css">
+
+    <link rel="stylesheet" href="perftest.css">
+</head>
+<body>
+    <!-- check that 'bower install' has been run in the demo dir if bower.json isn't empty -->
+    <script src="../bower-check.js"></script>
+
+    <!-- body content here... -->
+    <section id="testManager">
+        <h1 class="row">Performance test</h1>
+        <form id="spec">
+
+            <div class="row">
+
+                <fieldset id="componentsUnderTest" class="large-4 medium-5 columns">
+                    <legend>Components</legend>
+                    <!--
+                        Values must be the same as
+                        - component class names in the cells of the #results table
+                        - method names on the `tests` object in perftest.js
+                    -->
+                    <div><input type="checkbox" id="jQueryIsInViewTest" name="jQueryIsInView" value="jqIsInView" checked><label for="jQueryIsInViewTest">$.fn.inView()</label></div>
+                    <div><input type="checkbox" id="jQueryIsInViewContentBoxTest" name="jQueryIsInViewContentBox" value="jqIsInViewContentBox" checked><label for="jQueryIsInViewContentBoxTest">$.fn.inView(), content box</label></div>
+                    <div><input type="checkbox" id="jQueryIsInViewSelectorTest" name="jQueryIsInViewSelector" value="jqIsInViewSelector" checked><label for="jQueryIsInViewSelectorTest">:inViewport selector</label></div>
+                    <div><input type="checkbox" id="jQueryIsInViewLoopTest" name="jQueryIsInViewLoop" value="jqIsInViewLoop" checked><label for="jQueryIsInViewLoopTest">$.fn.isInView() loop</label></div>
+                    <div><input type="checkbox" id="isInViewportTest" name="isInViewport" value="isInViewport"><label for="isInViewportTest"><a href="https://github.com/zeusdeux/isInViewport">isInViewport</a> (for comparison)</label></div>
+                    <div><input type="checkbox" id="jqueryVisibleTest" name="jqueryVisible" value="jqVisible"><label for="jqueryVisibleTest"><a href="https://github.com/customd/jquery-visible">jquery.visible</a> (for comparison)</label></div>
+                    <div><input type="checkbox" id="jqueryLazyloadTest" name="jqueryLazyoad" value="jqLazyload"><label for="jqueryLazyloadTest"><a href="https://github.com/tuupola/jquery_lazyload">jquery_lazyload</a> (for comparison)</label></div>
+                    <div><input type="checkbox" id="huntJsTest" name="huntJs" value="huntJs"><label for="huntJsTest"><a href="https://github.com/jeremenichelli/hunt">hunt</a> (for comparison)</label></div>
+                </fieldset>
+
+                <fieldset id="repetition" class=" medium-2 large-offset-1 columns">
+                    <legend>Repetition</legend>
+                    <div>
+                        <label for="elemCount">Elements</label>
+                        <input id="elemCount" type="number" min="100" max="10000" step="100" value="1000">
+                    </div>
+                    <div>
+                        <label for="repeats">Test runs</label>
+                        <input id="repeats" type="number" min="0" max="200" step="10" value="50">
+                    </div>
+                </fieldset>
+
+                <fieldset id="containerTypes" class="large-3 large-offset-1 medium-4 columns end">
+                    <legend>Test types</legend>
+                    <div><input type="radio" id="windowContainer" name="containerType" value="window" checked><label for="windowContainer">In viewport</label></div>
+                    <div><input type="radio" id="divContainer" name="containerType" value="div"><label for="divContainer">In div container</label></div>
+                    <div><input type="radio" id="iframeContainer" name="containerType" value="iframe"><label for="iframeContainer">In iframe</label></div>
+                </fieldset>
+
+            </div>
+
+            <div class="row">
+
+                <div class="large-3 medium-4 columns">
+                    <button id="runPerftest" class="button" type="submit">Run tests</button>
+                    <p class="footnote">Please don't scroll while the tests are running.</p>
+                </div>
+
+                <div class="large-3 large-offset-5 medium-4 medium-offset-3 columns end">
+                    <button id="showStage" class="hidden secondary button" type="submit">Show test stage</button>
+                </div>
+
+            </div>
+
+        </form>
+        <div id="results" class="testResults row">
+            <h2><small>Results</small></h2>
+            <table>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Average time</th>
+                    <th>Visible elements<sup>*</sup></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <!-- Component class names must be the same as the values of the component checkboxes -->
+                    <td>$.fn.inView()</td>
+                    <td class="jqIsInView execTime"></td>
+                    <td class="jqIsInView elemCount"></td>
+                </tr>
+                <tr>
+                    <td>$.fn.inView(), content box</td>
+                    <td class="jqIsInViewContentBox execTime"></td>
+                    <td class="jqIsInViewContentBox elemCount"></td>
+                </tr>
+                <tr>
+                    <td>:inViewport selector</td>
+                    <td class="jqIsInViewSelector execTime"></td>
+                    <td class="jqIsInViewSelector elemCount"></td>
+                </tr>
+                <tr>
+                    <td>$.fn.isInView() loop</td>
+                    <td class="jqIsInViewLoop execTime"></td>
+                    <td class="jqIsInViewLoop elemCount"></td>
+                </tr>
+                <tr>
+                    <td><a href="https://github.com/zeusdeux/isInViewport">isInViewport</a></td>
+                    <td class="isInViewport execTime"></td>
+                    <td class="isInViewport elemCount"></td>
+                </tr>
+                <tr>
+                    <td><a href="https://github.com/customd/jquery-visible">jquery.visible</a></td>
+                    <td class="jqVisible execTime"></td>
+                    <td class="jqVisible elemCount"></td>
+                </tr>
+                <tr>
+                    <td><a href="https://github.com/tuupola/jquery_lazyload">jquery_lazyload</a><sup>**</sup></td>
+                    <td class="jqLazyload execTime"></td>
+                    <td class="jqLazyload elemCount"></td>
+                </tr>
+                <tr>
+                    <td><a href="https://github.com/jeremenichelli/hunt">hunt</a><sup>***</sup></td>
+                    <td class="huntJs execTime"></td>
+                    <td class="huntJs elemCount"></td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="footnote"><sup>*</sup> As detected by the filter. <i>isInViewport</i> includes partially visible elements.</p>
+            <p class="footnote"><sup>**</sup> Testing the <code>$.inviewport()</code> method of <i>jquery_lazyload</i>.</p>
+            <p class="footnote"><sup>***</sup> Invoking the <code>in</code> callback of <i>hunt</i>.</p>
+        </div>
+    </section>
+
+    <button id="hideStage" class="fixed hidden secondary button" type="submit">Hide</button>
+
+    <section id="testStage" class="hidden"></section>
+    
+    <!-- libraries --><!-- edit and replace with your project libraries as needed -->
+    <script src="../bower_demo_components/jquery/dist/jquery.js"></script>
+    <script src="../../bower_components/jquery.documentsize/dist/jquery.documentsize.js"></script>
+    <script src="../bower_demo_components/jquery.promises/dist/jquery.promises.js"></script>
+    <script src="../bower_demo_components/underscore/underscore.js"></script>
+    <script src="../bower_demo_components/usertiming/src/usertiming.js"></script>
+
+    <script src="../bower_demo_components/jquery.visible/jquery.visible.js"></script>
+    <!--
+        NB jquery_lazyload must be loaded before isInViewport. Otherwise, it would overwrite the :in-viewport selector
+        of isInViewport with its own.
+    -->
+    <script src="../bower_demo_components/jquery_lazyload/jquery.lazyload.js"></script>
+    <script src="../bower_demo_components/isInViewport/lib/isInViewport.js"></script>
+    <script src="../bower_demo_components/huntjs/dist/hunt.js"></script>
+
+    <!-- include project source files here... -->
+    <script src="../../src/jquery.isinview.js"></script>
+
+    <!-- demo js here... -->
+    <script src="perftest.js"></script>
+
+</body>
+</html>

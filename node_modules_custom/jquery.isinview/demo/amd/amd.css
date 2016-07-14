@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+body {
+    margin: 0.25rem;
+}
+
+#header {
+    margin-bottom: 2rem;
+}
+
+.container {
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: 0 auto;
+    border: 2px solid blue;
+    opacity: 0.8;
+}
+
+.item {
+    width: 150px;
+    height: 150px;
+    border: 1px solid black;
+    margin: 20px;
+    padding: 40px;
+    display: inline-block;
+}
+
+.inner {
+    border: 1px dotted black;
+    height: 68px;
+    line-height: 68px;
+    text-align: center;
+}
+
+.partial {
+    background-color: darkred;
+}
+
+.partialContent {
+    background-color: orange;
+}
+
+.fullContent {
+    background-color: yellow;
+}
+
+.full {
+    background-color: green
+}

@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+.aux {
+    margin-left: 65px;
+    position: absolute;
+    top: 15px;
+}
+
+#test-framework-help-link {
+    width: 12em;
+    /*margin-left: 450px;*/
+}
+
+#alternate-setup {
+    top: 15px;
+}
+.aux,
+.test-framework-help nav {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font: 12px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #888;
+}
+.aux a,
+.test-framework-help a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.aux a:hover,
+.aux a:active,
+.test-framework-help nav a:hover, 
+.test-framework-help nav a:active
+{
+    text-decoration: underline;
+}
+
+.test-framework-help section a {
+    color: #555;
+    border-bottom: 1px dotted black;
+}
+
+.test-framework-help section a:hover,
+.test-framework-help section a:active {
+    border-bottom-style: solid;
+    border-bottom-color: #888;
+}
+
+.test-framework-help {
+    margin: 0;
+    padding: 15px 65px;
+    font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+.test-framework-help h1 {
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.test-framework-help ul {
+    padding-left: 0;
+}
+    
+.test-framework-help li {
+    margin-bottom: 0.5em;
+}

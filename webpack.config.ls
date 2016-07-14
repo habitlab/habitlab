@@ -79,7 +79,7 @@ module.exports = {
     ]
   }
   resolve: {
-    moduleDirectories: ['node_modules']
+    moduleDirectories: ['node_modules_custom', 'node_modules']
     extensions: [
       ''
       '.jsx'

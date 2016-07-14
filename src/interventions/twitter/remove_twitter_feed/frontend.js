@@ -22,7 +22,8 @@ const {
 } = require('libs_common/log_utils')
 
 const {
-  on_url_change
+  on_url_change,
+  once_available,
 } = require('libs_frontend/common_libs')
 
 require('enable-webcomponents-in-content-scripts')
@@ -60,7 +61,11 @@ $('.content-main.top-timeline-tweetbox').append(cheatButton)
 //NOTE: Logo does not show up right now!
 $('.content-main.top-timeline-tweetbox').append(habitlab_logo) 
 
-intervalID = window.setInterval(removeFeed, 200);
+once_available('.stream-items.js-navigable-stream', function() {
+  console.log("Hello!")
+  removeFeed()
+})
+//intervalID = window.setInterval(removeFeed, 200);
 
 
 })()

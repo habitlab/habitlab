@@ -1,0 +1,161 @@
+{
+  "_args": [
+    [
+      {
+        "name": "jquery-contextmenu",
+        "raw": "jquery-contextmenu@^2.2.0",
+        "rawSpec": "^2.2.0",
+        "scope": null,
+        "spec": ">=2.2.0 <3.0.0",
+        "type": "range"
+      },
+      "/Users/geza/Dropbox/habitlab-chrome"
+    ]
+  ],
+  "_from": "jquery-contextmenu@>=2.2.0 <3.0.0",
+  "_id": "jquery-contextmenu@2.2.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/jquery-contextmenu",
+  "_nodeVersion": "5.10.1",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/jquery-contextmenu-2.2.0.tgz_1465825959005_0.8514452073723078"
+  },
+  "_npmUser": {
+    "email": "info@swis.nl",
+    "name": "swis"
+  },
+  "_npmVersion": "3.8.6",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "jquery-contextmenu",
+    "raw": "jquery-contextmenu@^2.2.0",
+    "rawSpec": "^2.2.0",
+    "scope": null,
+    "spec": ">=2.2.0 <3.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/jquery-contextmenu/-/jquery-contextmenu-2.2.0.tgz",
+  "_shasum": "61be64952497678cb360785df35a20ebf58c6620",
+  "_shrinkwrap": null,
+  "_spec": "jquery-contextmenu@^2.2.0",
+  "_where": "/Users/geza/Dropbox/habitlab-chrome",
+  "author": {
+    "name": "Björn Brala",
+    "url": "http://www.swis.nl"
+  },
+  "bugs": {
+    "url": "https://github.com/swisnl/jQuery-contextMenu/issues"
+  },
+  "contributors": [
+    {
+      "name": "Rodney Rehm",
+      "url": "http://rodneyrehm.de"
+    },
+    {
+      "name": "Addy Osmani",
+      "url": "https://github.com/addyosmani"
+    },
+    {
+      "name": "Christiaan Baartse",
+      "url": "https://github.com/christiaan"
+    }
+  ],
+  "dependencies": {},
+  "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
+  "devDependencies": {
+    "doctoc": "^1.0.0",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.0.1",
+    "gulp-concat": "~2.6.0",
+    "gulp-consolidate": "^0.2.0",
+    "gulp-csscomb": "^3.0.6",
+    "gulp-csslint": "^0.3.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-dest": "^0.2.2",
+    "gulp-htmlcomb": "0.1.0",
+    "gulp-iconfont": "^8.0.0",
+    "gulp-jscs": "^3.0.2",
+    "gulp-jshint": "^2.0.0",
+    "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-minify-css": "^1.1.6",
+    "gulp-qunit": "^1.2.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-replace": "^0.5.3",
+    "gulp-sass": "^2.0.4",
+    "gulp-sourcemaps": "~1.6.0",
+    "gulp-uglify": "^1.1.0",
+    "jshint": "^2.8.0",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-qunit": "^1.0.0",
+    "lodash": "^4.13.1",
+    "qunitjs": "^2.0.0-rc1"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "61be64952497678cb360785df35a20ebf58c6620",
+    "tarball": "https://registry.npmjs.org/jquery-contextmenu/-/jquery-contextmenu-2.2.0.tgz"
+  },
+  "files": [
+    "dist/jquery.contextMenu.js",
+    "dist/jquery.contextMenu.min.js",
+    "dist/jquery.contextMenu.min.js.map",
+    "dist/jquery.contextMenu.css",
+    "dist/jquery.contextMenu.min.css",
+    "dist/jquery.contextMenu.min.css.map",
+    "dist/jquery.ui.position.js",
+    "dist/jquery.ui.position.min.js",
+    "dist/font/context-menu-icons.eot",
+    "dist/font/context-menu-icons.ttf",
+    "dist/font/context-menu-icons.woff",
+    "dist/font/context-menu-icons.woff2"
+  ],
+  "gitHead": "535c94e9a8c416fff75d9e2de09bb503009e9c41",
+  "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
+  "keywords": [
+    "contextmenu",
+    "context menu",
+    "context-menu",
+    "menu",
+    "html5 menu",
+    "html5 contextmenu",
+    "html5 context menu",
+    "html5 context-menu",
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "license": "MIT",
+  "main": "dist/jquery.contextMenu.js",
+  "maintainers": [
+    {
+      "email": "rodney.rehm@medialize.de",
+      "name": "rodneyrehm"
+    },
+    {
+      "email": "info@swis.nl",
+      "name": "swis"
+    }
+  ],
+  "name": "jquery-contextmenu",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "jquery": ">=1.8.2"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/swisnl/jQuery-contextMenu.git"
+  },
+  "scripts": {
+    "test": "npm run test-unit",
+    "test-unit": "./node_modules/karma/bin/karma start"
+  },
+  "title": "jQuery.contextMenu()",
+  "version": "2.2.0"
+}

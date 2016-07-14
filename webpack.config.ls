@@ -9,6 +9,10 @@ cwd = process.cwd()
 npmdir = (x) ->
   path.join(cwd, 'node_modules', x)
 
+npmdir_custom = (x) ->
+  path.join(cwd, 'node_modules_custom', x)
+
+
 fromcwd = (x) ->
   path.join(cwd, x)
 
@@ -90,6 +94,9 @@ module.exports = {
       'zepto': npmdir 'npm-zepto'
       'prelude': npmdir 'prelude-ls'
       'skatejs': npmdir 'skatejs1'
+      'jquery-contextmenu': npmdir_custom 'jquery-contextmenu'
+      'jquery.isinview': npmdir_custom 'jquery.isinview'
+      'jquery.terminal': npmdir_custom 'jquery.terminal'
     }
     fallback: [
       fromcwd('src')

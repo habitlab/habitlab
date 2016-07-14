@@ -1,0 +1,74 @@
+@charset "utf-8";
+
+body {
+    padding: 0.25rem;
+}
+
+label.disabled {
+    color: #acacac;
+}
+
+.row fieldset {
+    min-height: 13.5rem;
+}
+
+.row input[type="checkbox"]{
+    margin-left: 0.5rem;
+}
+
+#runPerftest,
+.row input[type="button"] {
+    width: 100%;
+}
+
+.testResults th,
+.elemCount,
+.execTime {
+    text-align: right;
+    min-width: 8.5rem;
+    font-weight: normal;
+}
+
+.footnote {
+    font-size: 75%;
+}
+
+.hidden {
+    display: none;
+}
+
+.fixed {
+    position: fixed;
+    opacity: 0.8;
+    top: 1rem;
+    left: 1rem;
+    width: 10rem;
+}
+
+#testStage .container {
+    width: 50%;
+    height: 110px;
+    border: 1px solid red;
+}
+
+#testStage div.container {
+    overflow: auto;
+    border: 1px solid green;
+}
+
+.testContent {
+    margin: 0;
+    padding: 0;
+    border: 1px dotted grey;
+
+    width: 10%;
+    height: 20px;
+
+    line-height: 20px;
+    font-size: 10px;
+    text-align: center;
+
+    float: left;
+}
+
+

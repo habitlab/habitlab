@@ -1,3 +1,9 @@
+(function() {
+if (window.Polymer_full) {
+  return;
+}
+window.Polymer_full = true;
+
 Polymer.nar = [];
 Polymer.Annotations = {
 parseAnnotations: function (template) {
@@ -4795,3 +4801,5 @@ this._insertChildren();
 this.fire('dom-change');
 }
 });
+
+})();

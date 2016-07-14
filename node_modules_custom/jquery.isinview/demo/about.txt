@@ -1,0 +1,6 @@
+If you'd like to build a demo or an interactive playground for this project,
+edit the files in this directory.
+
+With `grunt demo`, the index.html file is displayed in the browser, and the
+demo, src and spec directories are monitored for changes. If anything is altered
+there, the grunt task will live-reload the demo page.

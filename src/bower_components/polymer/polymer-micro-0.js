@@ -1,3 +1,9 @@
+(function() {
+if (window.Polymer_micro) {
+  return;
+}
+window.Polymer_micro = true;
+
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -683,3 +689,5 @@ this._marshalHostAttributes();
 this._marshalBehaviors();
 }
 });
+
+})();

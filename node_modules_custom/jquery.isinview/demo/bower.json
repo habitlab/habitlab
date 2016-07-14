@@ -1,0 +1,40 @@
+{
+  "name": "demo",
+  "main": "index.html",
+  "version": "0.0.0",
+  "homepage": "https://github.com/hashchange/jquery.isinview",
+  "authors": [
+    "hashchange <heim@zeilenwechsel.de>"
+  ],
+  "description": "jQuery.isInView demo and playground",
+  "keywords": [
+    "demo"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "bower_demo_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.5.3",
+    "jquery": "^1",
+    "jquery.promises": "~1.0.2",
+    "modernizr": "^2 || ~3.3.1",
+    "requirejs": "~2.2.0",
+    "underscore": "~1.8.3",
+    "usertiming": "~0.1.8",
+
+    "huntjs": "~1.0.2",
+    "isInViewport": "~2.3.1",
+    "jquery.visible": "~1.2.0",
+    "jquery_lazyload": "jquery.lazyload#~1.9.7"
+  },
+  "resolutions": {
+    "jquery": "^1"
+  }
+}

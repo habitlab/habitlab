@@ -14,7 +14,7 @@ const {
 } = require('libs_common/domain_utils');
 
 Polymer({
-  is: 'fb-scroll-block-display-polymer',
+  is: 'fb-scroll-block-display',
   properties: {
     intervention: {
       type: String,
@@ -32,11 +32,11 @@ Polymer({
     }
   },
   clicked: function() {
-    console.log('habitlab-logo-polymer clicked');
+    console.log('habitlab-logo clicked');
     this.fire('continue_scrolling', {})
   },
   ready: function() {
-    console.log('fb-scroll-block-display-polymer ready');
+    console.log('fb-scroll-block-display ready');
     const self = this;
     setInterval(() => {
       get_minutes_spent_on_domain_today(self.site, (minutes_spent) => {

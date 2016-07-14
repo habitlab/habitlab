@@ -9,7 +9,7 @@
   
 
   const $ = require('jquery')
-  require('components/interstitial-screen-polymer.deps')
+  require('components/interstitial-screen.deps')
   const {
     get_minutes_spent_on_domain_today,
     get_visits_to_domain_today
@@ -32,7 +32,7 @@
       var buttonText = 'Click to continue to Facebook'
       var buttonText2 = 'Close tab'
 
-      var interst_screen = $('<interstitial-screen-polymer>')
+      var interst_screen = $('<interstitial-screen>')
       interst_screen.attr('intervention', intervention.name)
       interst_screen.attr('btn-txt', buttonText)
       interst_screen.attr('btn-txt2', buttonText2)

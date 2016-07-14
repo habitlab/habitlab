@@ -6,7 +6,7 @@
   window.make_user_wait = true
 
   require('enable-webcomponents-in-content-scripts')
-  require('components/interstitial-screen-polymer.deps')
+  require('components/interstitial-screen.deps')
   const $ = require('jquery')
 
   const {
@@ -14,7 +14,7 @@
     log_action,
   } = require('libs_common/log_utils')
 
-  var interst_screen = $('<interstitial-screen-polymer>')
+  var interst_screen = $('<interstitial-screen>')
   var buttonText = 'Click to continue to Facebook'
   interst_screen.attr('btn-txt', buttonText)
 

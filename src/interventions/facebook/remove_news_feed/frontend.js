@@ -26,7 +26,7 @@ const {
 } = require('libs_frontend/common_libs')
 
 require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo-polymer.deps')
+require('components/habitlab-logo.deps')
 
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
@@ -46,7 +46,7 @@ function removeFeed() {
 }
 
 function showFeed(intervalID) {
-  $('habitlab-logo-polymer').remove()
+  $('habitlab-logo').remove()
   $('paper-button').remove()
 
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
@@ -70,7 +70,7 @@ on_url_change(() => {
 var intervalID;
 
 log_impression('facebook/remove_news_feed')
-var habitlab_logo = $('<habitlab-logo-polymer intervention="facebook/remove_news_feed">')
+var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed">')
 var cheatButton = $('<center><paper-button style="background-color:white" raised>Show My News Feed This One Time</paper-button></center>')
 cheatButton.click(function() {
   showFeed(intervalID)

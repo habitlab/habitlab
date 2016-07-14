@@ -20,6 +20,7 @@ lib_name_to_func_names_and_signatures =
     set_intervention_disabled: 'name'
   tab_utils:
     close_selected_tab: []
+    open_url_in_new_tab: 'url'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

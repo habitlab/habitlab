@@ -9,7 +9,7 @@ skate = require 'skatejs'
 } = require 'libs_common/time_spent_utils'
 
 #require('components_skate/habitlab-logo')
-require('components/habitlab-logo-polymer.deps')
+require('components/habitlab-logo.deps')
 
 update_page = (elem) ->
   get_seconds_spent_on_domain_today elem.site, (seconds_spent) ->

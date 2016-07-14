@@ -27,6 +27,7 @@ export inject_into_feed = (component_generator) ->
         feeditem.feedlearninserted = true
         window.numitems += 1
         if window.numitems % 10 == 5
+          console.log \injected
           insertBeforeItem $(feeditem)
     return
 

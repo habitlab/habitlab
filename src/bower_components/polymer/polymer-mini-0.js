@@ -1,3 +1,9 @@
+(function () {
+if (window.Polymer_mini) {
+  return;
+}
+window.Polymer_mini = true;
+
 Polymer.Base._addFeature({
 _prepTemplate: function () {
 if (this._template === undefined) {
@@ -2136,3 +2142,5 @@ this._tryReady();
 _marshalBehavior: function (b) {
 }
 });
+
+})();

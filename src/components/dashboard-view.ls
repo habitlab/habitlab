@@ -64,7 +64,7 @@ polymer_ext {
       myButton.value = "clicked"
       this.push('donutdata.datasets', {
         label: "Yesterday",
-        data: [sorted[0][1], sorted[1][1], sorted[2][1], sorted[3][1], sorted[4][1]],        
+        data: [Math.round(10*(sorted[0][1]/60))/10, Math.round(10*(sorted[1][1]/60))/10, Math.round(10*(sorted[2][1]/60))/10, Math.round(10*(sorted[3][1]/60))/10, Math.round(10*(sorted[4][1]/60))/10],        
         backgroundColor: [
             "rgba(65,131,215,0.7)",
             "rgba(27,188,155,0.7)",
@@ -139,11 +139,11 @@ polymer_ext {
       ],
       datasets: [
       {
-          data: [sorted[0][1]/60, 
-                sorted[1][1]/60,
-                sorted[2][1]/60, 
-                sorted[3][1]/60, 
-                sorted[4][1]/60
+          data: [Math.round(10*(sorted[0][1]/60))/10, 
+                Math.round(10*(sorted[1][1]/60))/10,
+                Math.round(10*(sorted[2][1]/60))/10, 
+                Math.round(10*(sorted[3][1]/60))/10, 
+                Math.round(10*(sorted[4][1]/60))/10
           ],
           backgroundColor: [
               "rgba(65,131,215,0.7)",

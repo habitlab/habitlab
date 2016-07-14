@@ -35,12 +35,10 @@ polymer_ext {
   properties: {
     parameter: {
       type: Object
-      notify: true
       observer: 'parameter_changed'
     }
     intervention: {
       type: Object
-      notify: true
       observer: 'parameter_changed'
     }
   }

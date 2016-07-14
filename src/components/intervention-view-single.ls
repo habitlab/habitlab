@@ -20,7 +20,6 @@ polymer_ext {
   properties: {
     intervention: {
       type: Object
-      notify: true
       #observer: 'intervention_property_changed'
     }
   }

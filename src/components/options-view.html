@@ -18,19 +18,17 @@
   </style>
   <template>
 
-    <template is="dom-bind">
-      <paper-tabs id="optionstab" selected="{{selected}}">
-        <paper-tab>Goals</paper-tab>
-        <paper-tab>Interventions</paper-tab>
-        <paper-tab>Results</paper-tab>
-      </paper-tabs>
+    <paper-tabs id="optionstab" selected="{{selected_tab_idx}}" autoselect>
+      <paper-tab>Goals</paper-tab>
+      <paper-tab>Interventions</paper-tab>
+      <paper-tab>Results</paper-tab>
+    </paper-tabs>
 
-      <iron-pages selected="{{selected}}">
-        <options-goals id="options-goals"></options-goals>
-        <options-interventions id="options-interventions"></options-interventions>
-        <dashboard-view id="dashboard-view"></dashboard-view>
-      </iron-pages>
-    </template>
+    <iron-pages selected="{{selected_tab_idx}}">
+      <options-goals id="options-goals"></options-goals>
+      <options-interventions id="options-interventions"></options-interventions>
+      <dashboard-view id="dashboard-view"></dashboard-view>
+    </iron-pages>
 
   </template>
   <script src="options-view.js"></script>

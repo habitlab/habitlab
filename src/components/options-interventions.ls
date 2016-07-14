@@ -33,7 +33,6 @@ polymer_ext {
     goals_and_interventions: {
       type: Array
       value: []
-      notify: true
     }
   }
   select_new_interventions: (evt) ->

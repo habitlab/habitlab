@@ -18,7 +18,6 @@ polymer_ext {
     sites_and_goals: {
       type: Array
       value: []
-      notify: true
     }
   }
   goal_changed: (evt) ->

@@ -2,8 +2,6 @@
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/mat-tooltip/mat-tooltip.html">
-<link rel="import" href="habitlab-iconset.html">
 
 <dom-module id="habitlab-logo">
   <style>
@@ -37,10 +35,9 @@
   </style>
   <template>
   <div style="width: 100%; height: 100%" on-click="clicked">
-    
-    <mat-tooltip id="tooltip" style="width: 100%; height: 100%" tip="This is a HabitLab intervention. Click for more options.">
-      <img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
-    </mat-tooltip>
+
+    <img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
+    <paper-tooltip for="habitlab_logo" id="tooltip">This is a HabitLab intervention.<br>Click for options.</paper-tooltip>
 
   </div>
   </template>

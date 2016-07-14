@@ -18,7 +18,7 @@ const swal = require('sweetalert')//require('../node_modules/sweetalert/dist/swe
 const {cfy} = require('cfy');
 
 polymer_ext({
-  is: 'habitlab-logo-polymer',
+  is: 'habitlab-logo',
   properties: {
     width: {
       type: String,

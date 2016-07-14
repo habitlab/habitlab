@@ -62,7 +62,7 @@ polymer_ext({
     }
 
     function get_intervention_goal() {
-      return "Goal: " + intervention.goals[1].description
+      return "Goals: " + intervention.goals.map((x) => x.description).join(', ')
     }
 
     var name = get_intervention_name()

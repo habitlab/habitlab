@@ -34,10 +34,10 @@ polymer_ext({
     },
   },
   clicked: function() {
-    console.log('habitlab-logo-polymer clicked');
+    console.log('habitlab-logo clicked');
   },
   buttonclicked: function() {
-    console.log('habitlab-logo-polymer paper-button clicked');
+    console.log('habitlab-logo paper-button clicked');
   },
   get_img_style: function() {
     return `width: ${this.width}; height: ${this.height};`
@@ -53,7 +53,7 @@ polymer_ext({
   },
   ready: cfy(function*() {
     const self = this;
-    console.log('habitlab-logo-polymer ready');
+    console.log('habitlab-logo ready');
 
     yield load_css_file('bower_components/sweetalert/dist/sweetalert.css');
     yield load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');

@@ -32,7 +32,7 @@ Polymer({
     }
   },
   clicked: function() {
-    console.log('habitlab-logo-polymer clicked');
+    console.log('habitlab-logo clicked');
     this.fire('continue_scrolling', {})
   },
   ready: function() {

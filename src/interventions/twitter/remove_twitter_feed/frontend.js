@@ -33,8 +33,8 @@ require('components/habitlab-logo.deps')
 require('bower_components/paper-button/paper-button.deps')
 
 function removeFeed() {
-  var feed = $('.stream-items.js-navigable-stream')
-  feed.hide()
+  var timelineFeed = $('.content-main.top-timeline-tweetbox').find('.stream-items.js-navigable-stream')
+  timelineFeed.hide()
   var spinner = $('.stream-end-inner')
   spinner.hide()
 }
@@ -43,7 +43,8 @@ function showFeed(intervalID) {
   $('habitlab-logo').remove()
   $('paper-button').remove()
 
-  $('.stream-items.js-navigable-stream').show()
+  var timelineFeed = $('.content-main.top-timeline-tweetbox').find('.stream-items.js-navigable-stream')
+  timelineFeed.show()
   $('.stream-end-inner').show()
   clearInterval(intervalID) //stop refreshing the page to hide elements  
 }
@@ -62,7 +63,6 @@ $('.content-main.top-timeline-tweetbox').append(cheatButton)
 $('.content-main.top-timeline-tweetbox').append(habitlab_logo) 
 
 once_available('.stream-items.js-navigable-stream', function() {
-  console.log("Hello!")
   removeFeed()
 })
 //intervalID = window.setInterval(removeFeed, 200);

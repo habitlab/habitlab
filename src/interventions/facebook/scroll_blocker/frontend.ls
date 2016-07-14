@@ -21,7 +21,7 @@ $ = require 'jquery'
 
 require('enable-webcomponents-in-content-scripts')
 #require('components_skate/fb-scroll-block-display')
-require('components/fb-scroll-block-display-polymer.deps')
+require('components/fb-scroll-block-display.deps')
 
 window.scrolling_allowed = true
 nscrolls = 0
@@ -36,7 +36,7 @@ window.onwheel = (evt) ->
       disable_scrolling_and_show_scroll_block()
     return window.scrolling_allowed
 
-scroll_block_display = $('<fb-scroll-block-display-polymer intervention="facebook/scroll_blocker" --width="10px" --height="10px">')
+scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker" --width="10px" --height="10px">')
 $('body').append(scroll_block_display)
 
 enable_scrolling_and_hide_scroll_block = ->

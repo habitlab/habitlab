@@ -34,6 +34,11 @@ polymer_ext({
       type: String,
       value: (typeof(intervention) != 'undefined' && intervention) ? intervention.name : '',
     },
+    context: {
+      type: Boolean,
+      value: true
+
+    }
   },
   clicked: function() {
     console.log('habitlab-logo clicked');
@@ -68,16 +73,18 @@ polymer_ext({
     var name = get_intervention_name()
     var goal = get_intervention_goal()
 
-    $.contextMenu({
-      selector: '#habitlab_logo',
-      trigger: 'left',
-      items: {
-        "name": {name: name, disabled: true},
-        "goal": {name: goal, disabled: true},
-        "disable": {name: "Disable this intervention", callback: () => self.disable_callback()},
-        "options": {name: "View all interventions", callback: () => open_url_in_new_tab("options.html#interventions")}
-      }
-    });
+    if (this.context === true) {
+      $.contextMenu({
+        selector: '#habitlab_logo',
+        trigger: 'left',
+        items: {
+          "name": {name: name, disabled: true},
+          "goal": {name: goal, disabled: true},
+          "disable": {name: "Disable this intervention", callback: () => self.disable_callback()},
+          "options": {name: "View all interventions", callback: () => open_url_in_new_tab("options.html#interventions")}
+        }
+      });
+    }
   }),
 
   get_url: function() {

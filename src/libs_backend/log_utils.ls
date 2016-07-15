@@ -12,13 +12,17 @@
   list_all_interventions
 } = require 'libs_backend/intervention_utils'
 
+{
+  get_days_since_epoch
+} = require 'libs_common/time_utils'
+
 require! {
   dexie
 }
 
 {cfy} = require 'cfy'
 
-export get_db_major_version_interventionlogdb = -> '1'
+export get_db_major_version_interventionlogdb = -> '2'
 export get_db_minor_version_interventionlogdb = -> '1'
 
 export delete_db_if_outdated_interventionlogdb = cfy ->*
@@ -50,7 +54,7 @@ export getInterventionLogDb = memoizeSingleAsync cfy ->*
   stores_to_create = {}
   for intervention in interventions_list
     if not prev_schema[intervention]?
-      stores_to_create[intervention] = '++,type'
+      stores_to_create[intervention] = '++,[type+day],type,day,synced'
   new_schema = {[k,v] for k,v of prev_schema}
   if Object.keys(stores_to_create).length > 0
     db.version(dbver).stores(prev_schema)
@@ -96,16 +100,46 @@ export get_num_impressions = cfy (name) ->*
   num_impressions = yield collection.where('type').equals('impression').count()
   return num_impressions
 
+export get_num_impressions_for_days_since_today = cfy (name, days_since_today) ->*
+  collection = yield getInterventionLogCollection(name)
+  day = get_days_since_epoch() - days_since_today
+  num_impressions = yield collection.where('[type+day]').equals(['impression', day]).count()
+  return num_impressions
+
+export get_num_impressions_today = cfy (name) ->*
+  yield get_num_impressions_for_days_since_today name, 0
+
 export get_num_actions = cfy (name) ->*
   collection = yield getInterventionLogCollection(name)
   num_actions = yield collection.where('type').equals('action').count()
+  return num_actions
+
+export get_num_actions_for_days_since_today = cfy (name, days_since_today) ->*
+  collection = yield getInterventionLogCollection(name)
+  day = get_days_since_epoch() - days_since_today
+  num_actions = yield collection.where('[type+day]').equals(['action', day]).count()
+  return num_actions
+
+export get_num_actions_today = cfy (name) ->*
+  yield get_num_actions_for_days_since_today name, 0
+
+export get_num_actions = cfy (name) ->*
+  collection = yield getInterventionLogCollection(name)
+  day = get_days_since_epoch()
+  num_actions = yield collection.where('[type+day]').equals(['action', day]).count()
   return num_actions
 
 export log_impression = cfy (name) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
   console.log "impression logged for #{name}"
-  yield addtolog name, {type: 'impression', timestamp: Date.now()}
+  yield addtolog name, {
+    type: 'impression'
+    timestamp: Date.now()
+    day: get_days_since_epoch()
+    log_major_ver: get_db_major_version_interventionlogdb()
+    log_minor_ver: get_db_minor_version_interventionlogdb()
+  }
 
 export log_action = cfy (name, data) ->*
   # name = intervention name
@@ -117,8 +151,10 @@ export log_action = cfy (name, data) ->*
     new_data[k] = v
   new_data.timestamp = Date.now()
   new_data.type = 'action'
+  new_data.day = get_days_since_epoch()
+  new_data.log_major_ver = get_db_major_version_interventionlogdb()
+  new_data.log_minor_ver = get_db_minor_version_interventionlogdb()
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"
   yield addtolog name, new_data
-
 
 gexport_module 'log_utils_backend', -> eval(it)

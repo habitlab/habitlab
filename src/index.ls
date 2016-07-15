@@ -24,6 +24,7 @@ require! {
 }
 
 {cfy} = require 'cfy'
+{get_interventions} = require 'libs_backend/intervention_utils'
 
 require 'components/components.deps'
 require 'components_skate/components_skate'

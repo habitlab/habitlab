@@ -10,6 +10,8 @@ require! {
   set_goal_disabled
 } = require 'libs_backend/goal_utils'
 
+{cfy} = require 'cfy'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 polymer_ext {
@@ -20,16 +22,15 @@ polymer_ext {
       value: []
     }
   }
-  goal_changed: (evt) ->
+  goal_changed: cfy (evt) ->*
     checked = evt.target.checked
     goal_name = evt.target.goal.name
     self = this
-    change_goal = (ncallback) ->
-      if checked
-        set_goal_enabled goal_name, ncallback
-      else
-        set_goal_disabled goal_name, ncallback
-    <- change_goal()
+    if checked
+      yield set_goal_enabled goal_name
+    else
+      yield set_goal_disabled goal_name
+    console.log 'goal changed'
     self.fire 'goal_changed', {goal_name: goal_name}
   ready: ->
     self = this

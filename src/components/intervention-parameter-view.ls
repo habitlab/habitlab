@@ -33,11 +33,11 @@ parameters_changed_debounced = debounce (args, callback) ->
 polymer_ext {
   is: 'intervention-parameter-view'
   properties: {
-    parameter: {
-      type: Object
-      observer: 'parameter_changed'
-    }
     intervention: {
+      type: Object
+      #observer: 'parameter_changed'
+    }
+    parameter: {
       type: Object
       observer: 'parameter_changed'
     }

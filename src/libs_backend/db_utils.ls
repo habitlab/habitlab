@@ -34,6 +34,7 @@ export delete_db_if_outdated_db = cfy ->*
     localStorage.setItem('db_minor_version_db', get_db_minor_version_db())
   if localStorage.getItem('db_major_version_db') != get_db_major_version_db()
     yield deleteDb()
+    localStorage.removeItem('current_schema_db')
     localStorage.setItem('db_major_version_db', get_db_major_version_db())
   return
 

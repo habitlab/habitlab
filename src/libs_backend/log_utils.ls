@@ -22,7 +22,7 @@ require! {
 
 {cfy} = require 'cfy'
 
-export get_db_major_version_interventionlogdb = -> '2'
+export get_db_major_version_interventionlogdb = -> '3'
 export get_db_minor_version_interventionlogdb = -> '1'
 
 export delete_db_if_outdated_interventionlogdb = cfy ->*
@@ -30,6 +30,7 @@ export delete_db_if_outdated_interventionlogdb = cfy ->*
     localStorage.setItem('db_minor_version_interventionlogdb', get_db_minor_version_interventionlogdb())
   if localStorage.getItem('db_major_version_interventionlogdb') != get_db_major_version_interventionlogdb()
     yield deleteInterventionLogDb()
+    localStorage.removeItem('current_schema_interventionlogdb')
     localStorage.setItem('db_major_version_interventionlogdb', get_db_major_version_interventionlogdb())
   return
 
@@ -137,6 +138,7 @@ export log_impression = cfy (name) ->*
     type: 'impression'
     timestamp: Date.now()
     day: get_days_since_epoch()
+    synced: 0
     log_major_ver: get_db_major_version_interventionlogdb()
     log_minor_ver: get_db_minor_version_interventionlogdb()
   }
@@ -152,6 +154,7 @@ export log_action = cfy (name, data) ->*
   new_data.timestamp = Date.now()
   new_data.type = 'action'
   new_data.day = get_days_since_epoch()
+  new_data.synced = 0
   new_data.log_major_ver = get_db_major_version_interventionlogdb()
   new_data.log_minor_ver = get_db_minor_version_interventionlogdb()
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"

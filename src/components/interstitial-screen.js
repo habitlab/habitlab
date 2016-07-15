@@ -3,6 +3,11 @@ const $ = require('jquery')
 const {polymer_ext} = require('libs_frontend/polymer_utils')
 const {close_selected_tab} = require('libs_frontend/tab_utils')
 
+const {
+  log_impression,
+  log_action,
+} = require('libs_common/log_utils')
+
 Polymer({
   is: 'interstitial-screen',
 
@@ -37,24 +42,27 @@ Polymer({
   },
   buttonclicked: function() {
     console.log('ok button clicked in polymer during loading')
+    log_action(intervention.name, {'negative': 'Continuted to site.'})
     $(this).hide()
   },
   buttonclicked2: function() {
+    log_action(intervention.name, {'positive': 'Left the site.w'})
     close_selected_tab().then(() => {
+
       console.log('done closing tab')
     });
   },
   hideButton: function() {
     console.log('button hidden')
     this.$.okbutton.hidden = true
-    this.$.closetabbutton.hidden = true
+    //this.$.closetabbutton.hidden = true
     this.$.okbutton.style.display = 'none';
-    this.$.closetabbutton.style.display = 'none';
+    //this.$.closetabbutton.style.display = 'none';
   },
   showButton: function() {
     console.log(this.$.okbutton)
     this.$.okbutton.hidden = false
-    this.$.closetabbutton.hidden = false
+    //this.$.closetabbutton.hidden = false
     this.$.okbutton.style.display = 'inline-flex';
     this.$.closetabbutton.style.display = 'inline-flex';
   },

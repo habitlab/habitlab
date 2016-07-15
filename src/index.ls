@@ -19,23 +19,11 @@ window.Polymer = {
   lazyRegister: true,
 }
 
-window.intervention = {
-  name: 'debug/debug_view'
-  description: 'This is a fake intervention used in the debug view page'
-  params: {}
-  parameters: []
-  matches: []
-  nomatches: []
-  content_scripts: []
-  background_scripts: []
-  content_script_options: []
-  background_script_options: []
-  goals: []
-}
-
 require! {
   'js-yaml'
 }
+
+{cfy} = require 'cfy'
 
 require 'components/components.deps'
 require 'components_skate/components_skate'
@@ -66,7 +54,9 @@ set_nested_property = (tag, property_name, property_value) ->
   property_name_remainder = property_name.substr(dot_index + 1)
   set_nested_property tag[property_name_start], property_name_remainder, property_value
 
-startPage = ->
+startPage = cfy ->*
+  interventions = yield get_interventions()
+  window.intervention = interventions['debug/fake_intervention']
   params = getUrlParameters()
   tagname = params.tag
   {index_body_width, index_body_height} = params
@@ -96,4 +86,3 @@ startPage = ->
 
 window.addEventListener 'WebComponentsReady', ->
   startPage()
-  return

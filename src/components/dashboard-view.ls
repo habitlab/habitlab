@@ -31,8 +31,8 @@ require! {
 } = require 'libs_backend/intervention_utils'
 
 {
-  get_num_impressions
-  get_num_actions
+  get_num_impressions_today
+  get_num_actions_today
 } = require 'libs_backend/log_utils'
 
 #d3 = require 'd3'
@@ -172,7 +172,7 @@ polymer_ext {
 
     #Retrieves the number of impressions for each enabled intervention        
     errors,all_enabled_intervention_results <- async.mapSeries filtered, (item, ncallback) ->
-      enabledInterventionResults <- get_num_impressions(item)
+      enabledInterventionResults <- get_num_impressions_today(item)
       ncallback(null, enabledInterventionResults)
 
     #displays onto the graph

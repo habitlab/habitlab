@@ -1,7 +1,5 @@
 $ = require 'jquery'
-window.jQuery = $
-require 'jquery.terminal'
-#LiveScript = require('livescript15')
+require('jquery.terminal')($)
 
 {
   load_css_file

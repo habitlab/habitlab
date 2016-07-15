@@ -1,7 +1,7 @@
 root = exports ? this
 
 $ = require('jquery')
-require('jquery.isinview')
+require('jquery.isinview')($)
 
 {
   log_impression,

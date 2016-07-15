@@ -1,5 +1,5 @@
 $ = require('jquery')
-require('jquery.isinview')
+require('jquery.isinview')($)
 
 export inject_into_feed = (component_generator) ->
   window.numitems = 0

@@ -1,6 +1,6 @@
 const $ = require('jquery');
 
-require('jquery-contextmenu');
+require('jquery-contextmenu')($)
 
 const {
   load_css_file

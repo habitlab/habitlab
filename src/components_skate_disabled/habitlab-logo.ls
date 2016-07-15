@@ -1,6 +1,6 @@
 skate = require 'skatejs'
 $ = require 'jquery'
-require 'jquery-contextmenu'
+require('jquery-contextmenu')($)
 
 {
   load_css_file

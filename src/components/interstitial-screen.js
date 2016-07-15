@@ -46,7 +46,7 @@ Polymer({
     $(this).hide()
   },
   buttonclicked2: function() {
-    log_action(intervention.name, {'positive': 'Left the site.'})
+    log_action(intervention.name, {'positive': 'Left the site.w'})
     close_selected_tab().then(() => {
 
       console.log('done closing tab')
@@ -55,14 +55,14 @@ Polymer({
   hideButton: function() {
     console.log('button hidden')
     this.$.okbutton.hidden = true
-    this.$.closetabbutton.hidden = true
+    //this.$.closetabbutton.hidden = true
     this.$.okbutton.style.display = 'none';
-    this.$.closetabbutton.style.display = 'none';
+    //this.$.closetabbutton.style.display = 'none';
   },
   showButton: function() {
     console.log(this.$.okbutton)
     this.$.okbutton.hidden = false
-    this.$.closetabbutton.hidden = false
+    //this.$.closetabbutton.hidden = false
     this.$.okbutton.style.display = 'inline-flex';
     this.$.closetabbutton.style.display = 'inline-flex';
   },

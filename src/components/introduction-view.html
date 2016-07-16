@@ -8,13 +8,14 @@
 
     <style>
       :host {
-        width: 70%;
+        
       }
       div {
         font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
         font-size: 18px;
+        align-self: center;
+
         
-        text-align: center;
       }
 
       #title {
@@ -28,21 +29,41 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        width: 70%;
+        align-self: center; 
+        width: 50%;
+        padding-top: 100px;
+        flex-wrap: wrap;
+        margin: 0 auto 0 auto;
+        
+      }
+      .habitlab_logo_img {
+        display: inline;
+        vertical-align: text-bottom;
+        float: left;
+        padding-right: 10px;
+       
+      }
+      .logo {
+        display: inline;
+      
+      }
+      .logo_text {
+        display: inline;
       }
     </style>
 
     <div id="container">
-      <div id="title">Welcome to HabitLab! </div>
-      <div id="intro">HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.</div>
-      <div id="goals">Simply pick the goals that you would like to work on from the Goals tab, and Habitlab will try out different modifications to the site and discover which ones work best for you.</div>
-      <div id="interventions">If you would like to see which interventions are active, or manually enable/disable interventions, visit the Interventions tab.</div>
-      <div id="results">To look at the impacts of your interventions so far and statistics on internet use, click the Results tab.</div>
-      <div id="logo">
+      <div id="title">Welcome to HabitLab! </div> </br>
+      <div id="intro">HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.</div><br/>
+      <div id="goals">Simply pick the goals that you would like to work on from the Goals tab, and Habitlab will try out different modifications to the site and discover which ones work best for you.</div></br>
+      <div id="interventions">If you would like to see which interventions are active, or manually enable/disable interventions, visit the Interventions tab.</div></br>
+      <div id="results">To look at the impacts of your interventions so far and statistics on internet use, click the Results tab.</div></br>
+      <div class="logo">
         <img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
-        This is the HabitLab logo. You will see it on every intervention inserted on your page, so you can tell which page elements are from HabitLab. When a real intervention is active, you can click to get more information about the intervention, or easily disable it.</div>
+        <span class="logo_text">This is the HabitLab logo. You will see it on every intervention inserted on your page, so you can tell which page elements are from HabitLab. When a real intervention is active, you can click to get more information about the intervention, or easily disable it.</span></div></br>
       <div id="privacy">In order to optimize the interventions shown to you, HabitLab needs to modify the webpages you visit and send data to our server about when you see and respond to those interventions.</div>
     </div>
+    <div class"logo">
 
 
   </template>

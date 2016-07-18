@@ -10,8 +10,8 @@ swal = require 'sweetalert'
 window.addEventListener 'WebComponentsReady', cfy ->*
   hash = window.location.hash
   if not hash? or hash == ''
-    hash = '#goals'
-    window.location.hash = '#goals'
+    hash = '#results'
+    window.location.hash = '#results'
   if hash.startsWith('#')
     hash = hash.substr(1)
   if hash == 'introduction'

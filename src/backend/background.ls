@@ -502,6 +502,6 @@ do ->
   # open the options page on first run
   if not localStorage.getItem('notfirstrun')
     localStorage.setItem('notfirstrun', true)
-    chrome.tabs.create {url: 'options.html'}
+    chrome.tabs.create {url: 'options.html#introduction'}
 
 gexport_module 'background', -> eval(it)

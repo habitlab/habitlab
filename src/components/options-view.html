@@ -1,8 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymer-themes/ice.html">
-
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="options-goals.html">
 <link rel="import" href="options-interventions.html">
@@ -14,6 +15,15 @@
       display: block;
       width: 100%;
       height: 100%;
+    }
+    .questionicon {
+      position: fixed;
+      right: 5px;
+      top: 5px;
+      
+    }
+    paper-button.fancy {
+      color: #8CD4F5;
     }
   </style>
   <template>
@@ -30,6 +40,9 @@
       <dashboard-view id="dashboard-view"></dashboard-view>
     </iron-pages>
 
+    <a class="questionicon" href="#introduction">   
+        <iron-icon icon="info-outline" on-click="icon_clicked"></iron-icon>
+    </a>
   </template>
   <script src="options-view.js"></script>
 </dom-module>

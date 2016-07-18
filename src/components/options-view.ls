@@ -1,4 +1,8 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
+{load_css_file} = require 'libs_frontend/content_script_utils'
+{cfy} = require 'cfy'
+swal = require 'sweetalert' 
+
 
 polymer_ext {
   is: 'options-view'
@@ -27,6 +31,18 @@ polymer_ext {
   on_goal_changed: (evt) ->
     this.$$('#options-interventions').on_goal_changed(evt.detail)
     this.$$('#dashboard-view').on_goal_changed(evt.detail)
+  icon_clicked: cfy ->*
+    
+    console.log \icon_clicked
+    yield load_css_file('bower_components/sweetalert/dist/sweetalert.css')
+    swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web. \n\n
+          Simply pick the goals that you would like to work on from the Goals tab, and Habitlab will try out different modifications to the site and discover which ones work best for you.\n\n
+          If you would like to see which interventions are active, or manually enable/disable interventions, visit the Interventions tab.\n\n
+          To look at the impacts of your interventions so far and statistics on internet use, click the Results tab.\n\n
+          You will see an icon on every intervention inserted on your page, so you can tell which page elements are from HabitLab. When an intervention is active, you can click the icon to get more information about the intervention, or easily disable it.\n\n
+          In order to optimize the interventions shown to you, HabitLab needs to modify the webpages you visit and send data to our server about when you see and respond to those interventions.\n\n
+          Click the info icon in the top right if you would like to see this window again. Best of luck achieving your internet goals!
+          ", 'animation': false}
   #ready: ->
   #  self = this
   #  self.once_available '#optionstab', ->

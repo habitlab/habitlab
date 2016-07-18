@@ -35,6 +35,14 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
+/*
+Local storage constants:
+- timeLimitDaily (seconds): The time limit the user chose to spend on facebook daily.
+- cheating(date month year as String): The most recent day user pressed the cheating button
+- cheatStart (seconds): The amount of time the user had already spent on FB when they pressed the cheat button.
+- todayPrompt (date month year as String): The most recent day the user was prompted by the intervention
+*/
+
 //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
 function addBeginDialog(message) {
   //Adds dialog that covers entire screen
@@ -89,6 +97,7 @@ function addBeginDialog(message) {
 }
 
 function addEndDialog(message) {
+  //White dialog box containing time's up messages
   const $dialogBox = $('<div class="dialogBox">').css({
               'position': 'fixed',
               'top': '0%',
@@ -122,6 +131,7 @@ function addEndDialog(message) {
   $cheatButton.text("Cheat for " + intervention.params.cheatminutes.value + " Minutes")
   $cheatButton.css({'cursor': 'pointer', 'padding': '5px'});
   $cheatButton.click(() => {
+    $dialogBox.remove()
     cheat(intervention.params.cheatminutes.value)
   })
 
@@ -132,24 +142,40 @@ function addEndDialog(message) {
 function cheat(minutes) {
   const myDate = new Date()
   const dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
-  localStorage.cheating = dateString
-  getTimeSpent(function(time) {
+  localStorage.cheating = dateString  
+  getTimeSpent((time) => {
     localStorage.cheatStart = time
+    cheatCountdown()
   })
+}
 
+function cheatCountdown() {
+  const timeCheatingUp = (parseInt(intervention.params.cheatminutes.value) * 60) + parseInt(localStorage.cheatStart)
 
+  var cheatTimer = setInterval(() => {
+    getTimeSpent((timeSpent) => {
+      console.log("Cheat start: " + localStorage.cheatStart)
+      console.log("Cheat Seconds Allowed: " + intervention.params.cheatminutes.value * 60)
+      console.log("Time Cheating Up: " + timeCheatingUp)
+      console.log("Time Spent: " + timeSpent)
+      if (timeSpent > timeCheatingUp) {
+        clearInterval(cheatTimer)
+        addEndDialog('Your Cheating Time is Up!')
+      }
+    })
+  }, 1000);
 }
 
 //Retrieves the remaining time left for the user to spend on facebook
 function getRemainingTimeDaily(callback) {
-  getTimeSpent(function(timeSpent) {
+  getTimeSpent((timeSpent) => {
     const timeLimitDaily = parseInt(localStorage.timeLimitDaily)
     callback(timeLimitDaily - timeSpent)
   })
 }
 
 function getTimeSpent(callback) {
-  get_seconds_spent_on_current_domain_today(function(secondsSpent) {
+  get_seconds_spent_on_current_domain_today((secondsSpent) => {
     callback(secondsSpent)
   })
 }
@@ -175,11 +201,22 @@ function main() {
   var myDate = new Date()
   var dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
 
+  //User has not been prompted for the current day
   if (localStorage.todayPrompt === null || localStorage.todayPrompt != dateString) {
     addBeginDialog("How many minutes would you like to spend on Facebook today?")
     localStorage.todayPrompt = dateString
-  } else {
-    displayCountdownOrBlock()
+  //User has been prompted already for the current day
+  } else {    
+    getTimeSpent((currTimeSpent) => {
+      const timesUp = (parseInt(intervention.params.cheatminutes.value) * 60) + parseInt(localStorage.cheatStart);
+      //User is currently in "cheat" time
+      if (localStorage.cheating === dateString && currTimeSpent < timesUp) {
+        cheatCountdown()
+      //User has time left or has time up
+      } else {
+        displayCountdownOrBlock()
+      }
+    })
   }
 }
 

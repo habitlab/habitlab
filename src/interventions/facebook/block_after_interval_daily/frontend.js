@@ -12,10 +12,12 @@ require('enable-webcomponents-in-content-scripts')
 //Polymer Component
 require('bower_components/paper-slider/paper-slider.deps')
 require('bower_components/paper-input/paper-input.deps')
+require('bower_components/paper-button/paper-button.deps')
 
 //SkateJS Component
 require('components_skate/time-spent-display')
 
+//Custom Polymer Components
 require('components/interstitial-screen.deps')
 require('components/timespent-view.deps')
 
@@ -36,7 +38,7 @@ const {
 //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
 function addBeginDialog(message) {
   //Adds dialog that covers entire screen
-  const $whiteDiv = $('<div class="whiteOverlay">').css({
+  const $beginBox = $('<div class="beginBox">').css({
               'position': 'fixed',
               'top': '0%',
               'left': '0%',
@@ -46,7 +48,7 @@ function addBeginDialog(message) {
               'opacity': '0.97',
               'z-index': 350
   });
-  $(document.body).append($whiteDiv)
+  $(document.body).append($beginBox)
 
   //Centered container for text in the white box
   const $contentContainer = $('<div class="contentContainer">').css({
@@ -61,30 +63,18 @@ function addBeginDialog(message) {
   });
   $timeText.html(message)
 
-  //const $slider = $('<paper-input label="minutes" auto-validate allowed-pattern="[0-9]" style="background-color: #94e6ff"></paper-input>')
   const $slider = $('<paper-slider id="ratings" pin snaps min="5" max="45" max-markers="30" step="1" value="25" style="width: 500px" editable></paper-slider>')
 
-
-  const $okButton = $('<button>');
+  const $okButton = $('<paper-button raised style="background-color: #ffffff;">');
   $okButton.text("Restrict My Minutes!");
   $okButton.css({'cursor': 'pointer', 'padding': '5px'});
   $okButton.click(() => {
     var minutes = document.querySelector("paper-slider").value
-    if (minutes === "") {
-      if ($('.wrongInputText').length === 0) {
-        const $wrongInputText = $('<div class="wrongInputText">').css({
-          'color': 'red'
-        })
-        $wrongInputText.html("You must input a number.")
-        $wrongInputText.insertAfter($slider)          
-      }
-    } else {
-      log_impression('facebook/block_after_interval_daily')
-      //Save time in database
-      localStorage.setItem('timeLimitDaily', minutes * 60) //time limit stored in seconds
-      $('.whiteOverlay').remove()
-      displayCountdownOrBlock()
-    }
+    log_impression('facebook/block_after_interval_daily')
+    //Save time in database
+    localStorage.setItem('timeLimitDaily', minutes * 60) //time limit stored in seconds
+    $('.beginBox').remove()
+    displayCountdownOrBlock()
   })
 
   const $center = $('<center>')
@@ -95,11 +85,11 @@ function addBeginDialog(message) {
   $center.append($okButton)
   $contentContainer.append($center);
 
-  $whiteDiv.append($contentContainer)
+  $beginBox.append($contentContainer)
 }
 
 function addEndDialog(message) {
-  const $whiteDiv = $('<div class="whiteOverlay">').css({
+  const $dialogBox = $('<div class="dialogBox">').css({
               'position': 'fixed',
               'top': '0%',
               'left': '0%',
@@ -108,7 +98,7 @@ function addEndDialog(message) {
               'background-color': 'white',
               'z-index': 350
   });
-  $(document.body).append($whiteDiv)
+  $(document.body).append($dialogBox)
 
   //Centered container for text in the white box
   const $contentContainer = $('<div class="contentContainer">').css({
@@ -116,7 +106,9 @@ function addEndDialog(message) {
               'top': '50%',
               'left': '50%',
               'transform': 'translateX(-50%) translateY(-50%)'
-  });  
+  }); 
+
+  //Time up message displayed to user
   const $timeText = $('<div class="titleText">').css({
     'font-size': '3em',
     'color': 'red'
@@ -125,7 +117,27 @@ function addEndDialog(message) {
   $contentContainer.append($timeText)
   $contentContainer.append($('<p>'))  
 
-  $whiteDiv.append($contentContainer)  
+  //Cheat button
+  const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')
+  $cheatButton.text("Cheat for " + intervention.params.cheatminutes.value + " Minutes")
+  $cheatButton.css({'cursor': 'pointer', 'padding': '5px'});
+  $cheatButton.click(() => {
+    cheat(intervention.params.cheatminutes.value)
+  })
+
+  $contentContainer.append($cheatButton);
+  $dialogBox.append($contentContainer);
+}
+
+function cheat(minutes) {
+  const myDate = new Date()
+  const dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
+  localStorage.cheating = dateString
+  getTimeSpent(function(time) {
+    localStorage.cheatStart = time
+  })
+
+
 }
 
 //Retrieves the remaining time left for the user to spend on facebook
@@ -143,19 +155,6 @@ function getTimeSpent(callback) {
 }
 
 function displayCountdownOrBlock() {
-  /*const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 50px; bottom: 0px; left: 0px; z-index: 99999">')
-  $('body').append(display_timespent_div)
-
-  const countdownTimer = setInterval(() => {
-    getRemainingTimeDaily(function(timeRemaining) {
-      display_timespent_div.text("You have " + Math.floor(timeRemaining/60) + " minute(s) and " + timeRemaining%60 + " seconds left on Facebook")
-      if (timeRemaining < 0) {
-        $('.timeSpent').remove()
-        addEndDialog("Your time today is up!")
-        clearInterval(countdownTimer)
-      }
-    })
-  }, 1000);*/
   var display_timespent_div = $('<timespent-view>')
   $('body').append(display_timespent_div)
   var countdownTimer = setInterval(() => {
@@ -168,10 +167,8 @@ function displayCountdownOrBlock() {
         addEndDialog("Your time today is up!");
         clearInterval(countdownTimer);
       }
-    })
-    
+    })  
   }, 1000);
-
 }
 
 function main() {

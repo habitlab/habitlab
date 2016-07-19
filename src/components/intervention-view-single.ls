@@ -23,6 +23,9 @@ polymer_ext {
       #observer: 'intervention_property_changed'
     }
   }
+  is_debug: ->
+    debug_val = localStorage.getItem('intervention_view_debug')
+    return debug_val == 'true'
   intervention_changed: (evt) ->
     checked = evt.target.checked
     intervention_name = this.intervention.name

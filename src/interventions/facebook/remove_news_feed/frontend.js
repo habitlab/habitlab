@@ -71,7 +71,7 @@ var intervalID;
 
 log_impression('facebook/remove_news_feed')
 var habitlab_logo = $('<center><habitlab-logo intervention="facebook/remove_news_feed"></center>')
-var cheatButton = $('<center><paper-button style="background-color:white" raised>Show My News Feed This One Time</paper-button></center>')
+var cheatButton = $('<center><paper-button style="background-color:white; margin-top: 35px" raised>Show My News Feed This One Time</paper-button></center>')
 cheatButton.click(function() {
   log_action(intervention.name, {'negative': 'Remained on Facebook.'})
   showFeed(intervalID)

@@ -1,5 +1,5 @@
 window.addEventListener "unhandledrejection", (evt) ->
-  throw evt.reason
+  throw new Error(evt.reason)
 
 {
   get_all_message_handlers

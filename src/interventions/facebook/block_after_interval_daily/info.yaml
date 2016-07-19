@@ -3,5 +3,10 @@ matches:
   - www.facebook.com
 content_scripts:
   - frontend.js
+parameters:
+  - name: cheatminutes
+    description: Minutes to cheat for after time is up
+    default: 3
+    type: int
 category:
   - interstitial

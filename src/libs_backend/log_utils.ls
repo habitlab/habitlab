@@ -82,6 +82,13 @@ export getInterventionLogCollection = cfy (name) ->*
   return db[name]
 
 export addtolog = cfy (name, data) ->*
+  data = JSON.parse JSON.stringify data
+  data.userid = yield get_user_id()
+  data.day = get_days_since_epoch()
+  data.synced = 0
+  data.timestamp = Date.now()
+  data.log_major_ver = get_db_major_version_interventionlogdb()
+  data.log_minor_ver = get_db_minor_version_interventionlogdb()
   collection = yield getInterventionLogCollection(name)
   result = yield collection.add(data)
   return data
@@ -136,11 +143,6 @@ export log_impression = cfy (name) ->*
   console.log "impression logged for #{name}"
   yield addtolog name, {
     type: 'impression'
-    timestamp: Date.now()
-    day: get_days_since_epoch()
-    synced: 0
-    log_major_ver: get_db_major_version_interventionlogdb()
-    log_minor_ver: get_db_minor_version_interventionlogdb()
   }
 
 export log_action = cfy (name, data) ->*
@@ -151,12 +153,7 @@ export log_action = cfy (name, data) ->*
   new_data = {}
   for k,v of data
     new_data[k] = v
-  new_data.timestamp = Date.now()
   new_data.type = 'action'
-  new_data.day = get_days_since_epoch()
-  new_data.synced = 0
-  new_data.log_major_ver = get_db_major_version_interventionlogdb()
-  new_data.log_minor_ver = get_db_minor_version_interventionlogdb()
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"
   yield addtolog name, new_data
 

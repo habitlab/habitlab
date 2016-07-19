@@ -7,7 +7,7 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-{cfy, yfy} = require 'cfy'
+{cfy, yfy, add_noerr} = require 'cfy'
 
 chrome_tabs_sendmessage = yfy (tab_id, data, options, callback) ->
   if not callback? and typeof(options) == 'function'
@@ -18,6 +18,35 @@ chrome_tabs_sendmessage = yfy (tab_id, data, options, callback) ->
     return true
 
 chrome_tabs_query = yfy(chrome.tabs.query)
+
+cached_user_id = null
+
+getRandomToken = ->
+  randomPool = new Uint8Array(32)
+  crypto.getRandomValues(randomPool)
+  hex = ''
+  for i from 0 til randomPool.length
+      hex += randomPool[i].toString(16)
+  return hex
+
+export get_user_id = cfy ->*
+  if cached_user_id?
+    return cached_user_id
+  userid = localStorage.getItem('userid')
+  if userid?
+    cached_user_id := userid
+    return userid
+  items = yield add_noerr -> chrome.storage.sync.get 'userid', it
+  userid = items.userid
+  if userid?
+    cached_user_id := userid
+    localStorage.setItem('userid', userid)
+    return userid
+  userid = getRandomToken()
+  cached_user_id := userid
+  localStorage.setItem('userid', userid)
+  yield -> chrome.storage.sync.set {userid}, it
+  return userid
 
 export send_message_to_active_tab = cfy (type, data) ->*
   tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}

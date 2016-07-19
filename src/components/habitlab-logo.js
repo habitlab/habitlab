@@ -11,13 +11,15 @@ const {
   set_intervention_enabled
 } = require('libs_common/intervention_utils')
 
+const {
+  open_url_in_new_tab, 
+  close_selected_tab
+} = require('libs_frontend/tab_utils')
+
 const {polymer_ext} = require('libs_frontend/polymer_utils');
+const {cfy} = require('cfy');
 
 const swal = require('sweetalert')
-
-const {open_url_in_new_tab, close_selected_tab} = require('libs_frontend/tab_utils')
-
-const {cfy} = require('cfy');
 
 polymer_ext({
   is: 'habitlab-logo',

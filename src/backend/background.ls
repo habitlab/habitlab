@@ -494,8 +494,9 @@ setInterval ->
   current_domain = url_to_domain(active_tab.url)
   current_day = get_days_since_epoch()
   # console.log "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
-  addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
-    console.log "total seconds spent on #{current_domain} today is #{total_seconds}"
+  addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
+  #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
+  #  console.log "total seconds spent on #{current_domain} today is #{total_seconds}"
 , 1000
 
 do ->

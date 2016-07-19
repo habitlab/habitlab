@@ -115,6 +115,16 @@ polymer_ext {
         }
       ]
     }
+    self.goalOverviewOptions = {
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Units'
+          }
+        }]
+      }
+    }     
 
     #MARK: Donut Graph
     sites <- list_sites_for_which_goals_are_enabled()

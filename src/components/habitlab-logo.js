@@ -75,7 +75,7 @@ polymer_ext({
 
     if (this.context === true) {
       $.contextMenu({
-        selector: '#habitlab_logo',
+        selector: '#habitlab_button',
         trigger: 'left',
         items: {
           "name": {name: name, disabled: true},

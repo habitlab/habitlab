@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="habitlab-logo">
@@ -14,8 +14,8 @@
       width: var(--width);
       height: var(--height);
       */
-      width: 38px;
-      height: 38px;
+      width: 20px;
+      height: 20px;
       cursor: pointer;
     }
     .helloworld {
@@ -29,17 +29,18 @@
       width: var(--width);
       height: var(--height);
       */
-      width: 100%;
-      height: 100%;
+      width: 50%;
+      height: 50%;
     }
+    
   </style>
   <template>
-  <div style="width: 100%; height: 100%" on-click="clicked">
+  <paper-button id="habitlab_button" raised on-click="clicked">
 
     <img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
     <paper-tooltip for="habitlab_logo" id="tooltip">This is a HabitLab intervention.<br>Click for options.</paper-tooltip>
 
-  </div>
+  </paper-button>
   </template>
   <script src="habitlab-logo.js"></script>
 </dom-module>

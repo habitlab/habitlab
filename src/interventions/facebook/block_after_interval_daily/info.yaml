@@ -6,7 +6,7 @@ content_scripts:
 parameters:
   - name: cheatminutes
     description: Minutes to cheat for after time is up
-    default: 3
+    default: 1
     type: int
 category:
   - interstitial

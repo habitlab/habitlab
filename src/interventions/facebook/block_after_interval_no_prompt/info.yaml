@@ -9,5 +9,9 @@ parameters:
     description: Minutes allowed daily on Facebook
     default: 30
     type: int
+  - name: cheatminutes
+    description: Minutes to cheat for after time is up
+    default: 1
+    type: int
 category:
   - interstitial

@@ -14,9 +14,6 @@ require('bower_components/paper-slider/paper-slider.deps')
 require('bower_components/paper-input/paper-input.deps')
 require('bower_components/paper-button/paper-button.deps')
 
-//SkateJS Component
-require('components_skate/time-spent-display')
-
 //Custom Polymer Components
 require('components/interstitial-screen.deps')
 require('components/timespent-view.deps')

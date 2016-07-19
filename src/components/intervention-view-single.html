@@ -11,7 +11,7 @@
     }
   </style>
   <template>
-    <div>{{intervention.description}}</div>
+    <div><span>{{intervention.description}}</span> (<span>{{intervention.name}}</span>)</div>
     <template is="dom-if" if="{{intervention.enabled_goals.length}}">
       <span>Supports your goals: </span>
       <template is="dom-repeat" items="{{intervention.enabled_goals}}" as="goal">

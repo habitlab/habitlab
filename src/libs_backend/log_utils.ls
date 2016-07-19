@@ -157,4 +157,30 @@ export log_action = cfy (name, data) ->*
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"
   yield addtolog name, new_data
 
+log_syncers_active = {}
+
+export sync_unsynced_logs = cfy (name) ->*
+  collection = yield getInterventionLogCollection(name)
+  num_unsynced = yield collection.where('synced').equals(0).count()
+  console.log 'num unsynced ' + num_unsynced
+
+export start_syncing_logs = cfy (name) ->*
+  console.log 'start syncing logs called for ' + name
+  if log_syncers_active[name]?
+    console.log 'log_syncing already active for ' + name
+    return
+  log_syncers_active[name] = true
+  while log_syncers_active[name] == true
+    console.log 'log syncing occuring for ' + name
+    yield sync_unsynced_logs(name)
+    yield -> setTimeout it, 1000
+
+export stop_syncing_logs = cfy (name) ->*
+  console.log 'stop syncing logs called for ' + name
+  log_syncers_active[name] = false
+
+export stop_syncing_all_logs = cfy ->*
+  for k in Object.keys(log_syncers_active)
+    log_syncers_active[k] = false
+
 gexport_module 'log_utils_backend', -> eval(it)

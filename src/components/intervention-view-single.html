@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="intervention-parameter-view.html">
 
 <dom-module id="intervention-view-single">
@@ -9,26 +10,43 @@
       width: 100%;
       height: 100%;
     }
+    .always_show_button {
+
+    }
+    .always_show_button[active] {
+      background-color: lightblue;
+    }
+    .never_show_button {
+
+    }
+    .never_show_button[active] {
+      background-color: lightblue;
+    }
   </style>
   <template>
     <div>
-      <span>{{intervention.description}}</span>
-      <template is="dom-if" if="{{is_debug()}}">
-        (<span>{{intervention.name}}</span>)
+      <paper-toggle-button disabled="{{manually_managed}}" checked="{{enabled}}" on-change="intervention_changed">
+        <span>{{intervention.description}}</span>
+        <template is="dom-if" if="{{is_debug()}}">
+          (<span>{{intervention.name}}</span>)
+        </template>
+      </paper-toggle-button>
+    </div>
+    <div style="margin-left: 45px">
+      <paper-button toggles raised noink class="never_show_button" on-change="never_shown_changed" active="{{never_shown}}">Never show this intervention</paper-button>
+      <paper-button toggles raised noink class="always_show_button" on-change="always_shown_changed" active="{{always_shown}}">Always show this intervention</paper-button>
+
+      <template is="dom-if" if="{{intervention.enabled_goals.length}}">
+        <span>Supports your goals: </span>
+        <template is="dom-repeat" items="{{intervention.enabled_goals}}" as="goal">
+          <span>{{goal.description}}</span>
+        </template>
+        <br>
+      </template>
+      <template is="dom-repeat" items="{{intervention.parameters}}" as="parameter">
+        <span><intervention-parameter-view intervention="{{intervention}}" parameter="{{parameter}}"></intervention-parameter-view></span>
       </template>
     </div>
-    <template is="dom-if" if="{{intervention.enabled_goals.length}}">
-      <span>Supports your goals: </span>
-      <template is="dom-repeat" items="{{intervention.enabled_goals}}" as="goal">
-        <span>{{goal.description}}</span>
-      </template>
-      <br>
-    </template>
-    <paper-checkbox checked="{{intervention.enabled}}" on-change="intervention_changed">Enabled</paper-checkbox>
-    <paper-checkbox checked="{{intervention.automatic}}" on-change="automatically_managed_changed">Automatically Managed</paper-checkbox>
-    <template is="dom-repeat" items="{{intervention.parameters}}" as="parameter">
-      <span><intervention-parameter-view intervention="{{intervention}}" parameter="{{parameter}}"></intervention-parameter-view></span>
-    </template>
   </template>
   <script src="intervention-view-single.js"></script>
 </dom-module>

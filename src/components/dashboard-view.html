@@ -45,6 +45,10 @@
     <div class="container">
       <div class="title">HabitLab Analytics</div>
 
+
+      <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>
+      <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
+
       <div class="description">Your Goals</div>
       <center>
         <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>
@@ -78,9 +82,6 @@
       <!--
       <div class="buttons"><button class="interventionFreqButton" value="neverClicked" on-click="interventionFreqButtonAction">Compare with Yesterday</button></div>
       -->
-
-      <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>
-      <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
 
     </div>
 

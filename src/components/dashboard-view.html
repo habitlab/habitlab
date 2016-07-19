@@ -48,21 +48,23 @@
       <div class="description">Your Goals</div>
       <center>
         <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>
-          <paper-tab>overview</paper-tab>
+          
           <template is="dom-repeat" items="{{sites}}" as="site">
             <paper-tab>{{site}}</paper-tab>
           </template>
+          <paper-tab>overview</paper-tab>
         </paper-tabs>
       </center>
 
       <iron-pages selected={{selected}}>
+        <template is="dom-repeat" items="{{sites}}" as="site">
+          <div><site-goal-view site="{{site}}"></site-goal-view></div>
+        </template>
         <div>
           <h2>Daily Overview</h2>
           <chart-horizontal-bar data="[[goalOverviewData]]" style="width: 500px"></chart-horizontal-bar>
         </div>
-        <template is="dom-repeat" items="{{sites}}" as="site">
-          <div><site-goal-view site="{{site}}"></site-goal-view></div>
-        </template>
+        
       </iron-pages>
 
 

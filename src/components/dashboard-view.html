@@ -49,6 +49,11 @@
       <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>
       <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
 
+
+      <div class="description">Number of Times Your Active Interventions Were Deployed Today</div>
+      <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 500px"></chart-horizontal-bar>
+
+
       <div class="description">Your Goals</div>
       <center>
         <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>
@@ -75,13 +80,6 @@
       <div class="description">Time Spent on 5 Most Visited Websites (In Minutes)</div>   
       <chart-doughnut data="[[donutdata]]" style="width: 600px"></chart-doughnut>      
       <div class="buttons"><button class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">Compare with Yesterday</button></div>
-
-
-      <div class="description">Number of Times Your Active Interventions Were Deployed Today</div>
-      <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 500px"></chart-horizontal-bar>
-      <!--
-      <div class="buttons"><button class="interventionFreqButton" value="neverClicked" on-click="interventionFreqButtonAction">Compare with Yesterday</button></div>
-      -->
 
     </div>
 

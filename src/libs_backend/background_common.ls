@@ -7,7 +7,7 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-{generate_random_id} = require 'libs_backend/generate_random_id'
+{generate_random_id} = require 'libs_common/generate_random_id'
 
 {cfy, yfy, add_noerr} = require 'cfy'
 
@@ -24,6 +24,16 @@ chrome_tabs_query = yfy(chrome.tabs.query)
 cached_user_id = null
 
 export get_user_id = cfy ->*
+  user_id = yield get_user_id_real()
+  if user_id.length == 24
+    return user_id
+  else
+    cached_user_id := null
+    localStorage.removeItem('userid')
+    yield add_noerr -> chrome.storage.sync.remove 'userid', it
+    return yield get_user_id_real()
+
+get_user_id_real = cfy ->*
   if cached_user_id?
     return cached_user_id
   userid = localStorage.getItem('userid')

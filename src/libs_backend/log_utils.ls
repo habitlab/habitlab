@@ -24,13 +24,13 @@ require! {
   dexie
 }
 
-{generate_random_id} = require 'libs_backend/generate_random_id'
+{generate_random_id} = require 'libs_common/generate_random_id'
 
 $ = require 'jquery'
 
 {cfy} = require 'cfy'
 
-export get_db_major_version_interventionlogdb = -> '7'
+export get_db_major_version_interventionlogdb = -> '8'
 export get_db_minor_version_interventionlogdb = -> '1'
 
 export delete_db_if_outdated_interventionlogdb = cfy ->*
@@ -168,7 +168,7 @@ export log_action = cfy (name, data) ->*
 
 upload_to_server = cfy (data) ->*
   logging_server_url = localStorage.getItem('logging_server_url') ? 'https://habitlab.herokuapp.com/'
-  collection = yield getInterventionLogCollection(name)
+  collection = yield getInterventionLogCollection(data.intervention)
   try
     response = yield $.ajax({
       type: 'POST'

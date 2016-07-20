@@ -7,7 +7,8 @@ SystemJS.config({
   ],
   map: {
     "cfy": "npm:cfy@1.0.18",
-    "jquery": "npm:jquery@3.1.0"
+    "jquery": "npm:jquery@3.1.0",
+    "moment": "npm:moment@2.14.1"
   },
   packages: {
     "npm:cfy@1.0.18": {

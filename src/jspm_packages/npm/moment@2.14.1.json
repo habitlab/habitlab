@@ -1,0 +1,6 @@
+{
+  "main": "./moment.js",
+  "map": {
+    "moment": "./moment"
+  }
+}

@@ -89,3 +89,7 @@ startPage = cfy ->*
 
 window.addEventListener 'WebComponentsReady', ->
   startPage()
+
+systemjs_require <- System.import('libs_common/systemjs_require').then()
+drequire <- systemjs_require.make_require_frontend().then()
+window.drequire = drequire

@@ -508,3 +508,7 @@ do ->
     chrome.tabs.create {url: 'options.html#introduction'}
 
 gexport_module 'background', -> eval(it)
+
+systemjs_require <- System.import('libs_common/systemjs_require').then()
+drequire <- systemjs_require.make_require_frontend().then()
+window.drequire = drequire

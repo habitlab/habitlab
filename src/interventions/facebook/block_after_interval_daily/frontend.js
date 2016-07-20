@@ -199,7 +199,7 @@ function main() {
   var dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
 
   //User has not been prompted for the current day
-  if (localStorage.todayPrompt === null || localStorage.todayPrompt != dateString) {
+  if (localStorage.getItem("todayPrompt") === null || localStorage.todayPrompt != dateString || localStorage.getItem("timeLimitDaily") === null) {
     addBeginDialog("How many minutes would you like to spend on Facebook today?")
     localStorage.todayPrompt = dateString
   //User has been prompted already for the current day

@@ -98,7 +98,7 @@ module.exports = {
       'jquery.isinview': npmdir_custom 'jquery.isinview'
       'jquery.terminal': npmdir_custom 'jquery.terminal'
       #'systemjs': fromcwd path.join('jspm_packages', 'system.js')
-      'jspm_config': fromcwd 'jspm.config.js'
+      #'jspm_config_global_base': fromcwd 'jspm.config.js'
     }
     fallback: [
       fromcwd('src')

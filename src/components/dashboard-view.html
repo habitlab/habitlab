@@ -23,7 +23,7 @@
       font-family: 'Open Sans', sans-serif;
     }
     .description {
-      font-size: 2em;
+      font-size: 2.2em;
       margin-top: 1.2em;
       font-family: 'Open Sans', sans-serif;
     }
@@ -45,6 +45,10 @@
     <div class="container">
       <div class="title">HabitLab Analytics</div>
 
+
+      <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>
+      <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
+
       <div class="description">Your Goals</div>
       <center>
         <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>
@@ -61,8 +65,8 @@
           <div><site-goal-view site="{{site}}"></site-goal-view></div>
         </template>
         <div>
-          <h2>Daily Overview</h2>
-          <chart-horizontal-bar data="[[goalOverviewData]]" style="width: 500px"></chart-horizontal-bar>
+          <h4>Daily Overview</h4>
+          <chart-horizontal-bar data="[[goalOverviewData]]" options="[[goalOverviewOptions]]" style="width: 500px"></chart-horizontal-bar>
         </div>
         
       </iron-pages>
@@ -78,9 +82,6 @@
       <!--
       <div class="buttons"><button class="interventionFreqButton" value="neverClicked" on-click="interventionFreqButtonAction">Compare with Yesterday</button></div>
       -->
-
-      <div class="description">Time Saved Daily Due to Interventions (In Minutes)</div>
-      <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
 
     </div>
 

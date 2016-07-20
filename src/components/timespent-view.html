@@ -13,11 +13,11 @@
       }
 
       #displayText {
-        background-color: #3B5998; 
+        background-color: #3498DB; 
         position: fixed; 
         color: white; 
-        width: 150px; 
-        height: 50px; 
+        width: 120px; 
+        height: 80px; 
         bottom: 0px; 
         left: 0px; 
         z-index: 99999;
@@ -28,11 +28,12 @@
       #logo {
         width: 19px;
         height: 19px;
+        padding-bottom: 10px;
       }
     </style>
 
     <div id="displayText">
-      <habitlab-logo id="logo"></habitlab-logo>
+      <habitlab-logo id="logo"></habitlab-logo><br/>
       <div>{{displayText}}</div>
     </div>
   </template>

@@ -115,6 +115,16 @@ polymer_ext {
         }
       ]
     }
+    self.goalOverviewOptions = {
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Units'
+          }
+        }]
+      }
+    }     
 
     #MARK: Donut Graph
     sites <- list_sites_for_which_goals_are_enabled()
@@ -192,6 +202,10 @@ polymer_ext {
     self.interventionFreqOptions = {
       scales: {
         xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Number of Times'
+          },          
           ticks: {
             beginAtZero: true
           }
@@ -215,6 +229,10 @@ polymer_ext {
     self.timeSavedOptions = {
       scales: {
         xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Minutes'
+          },                            
           ticks: {
             beginAtZero: true
           }

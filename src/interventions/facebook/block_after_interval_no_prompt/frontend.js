@@ -9,6 +9,12 @@ const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')
 
+//Polymer component
+require('bower_components/paper-button/paper-button.deps')
+
+//Custom polymer component
+require('components/timespent-view.deps')
+
 const {
   get_seconds_spent_on_current_domain_today,
   get_seconds_spent_on_domain_today,
@@ -19,15 +25,25 @@ const {
   log_impression,
   log_action,
 } = require('libs_common/log_utils')
-require('components/timespent-view.deps')
+
+
+/*
+Local storage constants:
+- timeLimitNoPrompt (seconds): The time limit the user chose to spend on facebook daily.
+- cheating(date month year as String): The most recent day user pressed the cheating button
+- cheatStart (seconds): The amount of time the user had already spent on FB when they pressed the cheat button.
+- todayNoPrompt (date month year as String): The most recent day the intervention was deployed
+*/
 
 function setTime(minutes) {
   //Save the time limit in the database
   localStorage.setItem('timeLimitNoPrompt', minutes * 60) //time limit stored in seconds
+  displayCountdownOrBlock()
 }
 
 function addEndDialog(message) {
-  const $whiteDiv = $('<div class="whiteOverlay">').css({
+  //White dialog box containing time's up messages
+  const $dialogBox = $('<div class="dialogBox">').css({
               'position': 'fixed',
               'top': '0%',
               'left': '0%',
@@ -36,7 +52,7 @@ function addEndDialog(message) {
               'background-color': 'white',
               'z-index': 350
   });
-  $(document.body).append($whiteDiv)
+  $(document.body).append($dialogBox)
 
   //Centered container for text in the white box
   const $contentContainer = $('<div class="contentContainer">').css({
@@ -44,7 +60,9 @@ function addEndDialog(message) {
               'top': '50%',
               'left': '50%',
               'transform': 'translateX(-50%) translateY(-50%)'
-  });  
+  }); 
+
+  //Time up message displayed to user
   const $timeText = $('<div class="titleText">').css({
     'font-size': '3em',
     'color': 'red'
@@ -53,8 +71,45 @@ function addEndDialog(message) {
   $contentContainer.append($timeText)
   $contentContainer.append($('<p>'))  
 
-  $whiteDiv.append($contentContainer) 
-  log_impression(intervention.name) 
+  //Cheat button
+  const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')
+  $cheatButton.text("Cheat for " + intervention.params.cheatminutes.value + " Minutes")
+  $cheatButton.css({'cursor': 'pointer', 'padding': '5px'});
+  $cheatButton.click(() => {
+    $dialogBox.remove()
+    cheat(intervention.params.cheatminutes.value)
+  })
+
+  $contentContainer.append($cheatButton);
+  $dialogBox.append($contentContainer);
+  log_impression(intervention.name)
+}
+
+function cheat(minutes) {
+  const myDate = new Date()
+  const dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
+  localStorage.cheating = dateString  
+  getTimeSpent((time) => {
+    localStorage.cheatStart = time
+    cheatCountdown()
+  })
+}
+
+function cheatCountdown() {
+  const timeCheatingUp = (parseInt(intervention.params.cheatminutes.value) * 60) + parseInt(localStorage.cheatStart)
+
+  var cheatTimer = setInterval(() => {
+    getTimeSpent((timeSpent) => {
+      console.log("Cheat start: " + localStorage.cheatStart)
+      console.log("Cheat Seconds Allowed: " + intervention.params.cheatminutes.value * 60)
+      console.log("Time Cheating Up: " + timeCheatingUp)
+      console.log("Time Spent: " + timeSpent)
+      if (timeSpent > timeCheatingUp) {
+        clearInterval(cheatTimer)
+        addEndDialog('Your Cheating Time is Up!')
+      }
+    })
+  }, 1000);
 }
 
 //Retrieves the remaining time left for the user to spend on facebook
@@ -78,20 +133,6 @@ function numTimesVisited(callback) {
 }
 
 function displayCountdownOrBlock() {
-  /* const display_timespent_div = $('<div class="timeSpent" style="background-color: #3B5998; position: fixed; color: white; width: 150px; height: 30px; bottom: 0px; left: 0px; z-index: 99999"; font-size: 0.2em;>')
-  $('body').append(display_timespent_div)
-
-  const countdownTimer = setInterval(() => {
-    getRemainingTimeDaily(function(timeRemaining) {
-      display_timespent_div.text(Math.floor(timeRemaining/60) + " minute(s) and " + timeRemaining%60 + " seconds left.")
-      if (timeRemaining < 0) {
-        $('.timeSpent').remove()
-        addEndDialog("Your time today is up!")
-        clearInterval(countdownTimer)
-      }
-    })
-  }, 1000); */
-
   var display_timespent_div = $('<timespent-view>')
   $('body').append(display_timespent_div)
   var countdownTimer = setInterval(() => {
@@ -104,23 +145,30 @@ function displayCountdownOrBlock() {
         addEndDialog("Your time today is up!");
         clearInterval(countdownTimer);
       }
-    })
-    
+    })    
   }, 1000);
-
 }
 
 function main() {
   var myDate = new Date()
   var dateString = myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getYear()
 
+  //User has not been prompted for the current day
   if (localStorage.todayNoPrompt === null || localStorage.todayNoPrompt != dateString) {
     setTime(intervention.params.minutes.value)
     localStorage.todayNoPrompt = dateString
-    displayCountdownOrBlock()
-  } else {
-    //same day
-    displayCountdownOrBlock()
+  //User has been prompted already for the current day
+  } else {    
+    getTimeSpent((currTimeSpent) => {
+      const timesUp = (parseInt(intervention.params.cheatminutes.value) * 60) + parseInt(localStorage.cheatStart);
+      //User is currently in "cheat" time
+      if (localStorage.cheating === dateString && currTimeSpent < timesUp) {
+        cheatCountdown()
+      //User has time left or has time up
+      } else {
+        displayCountdownOrBlock()
+      }
+    })
   }
 }
 

@@ -62,7 +62,7 @@ block_arrows = (e) ->
     return false
 
 enable_scrolling_and_hide_scroll_block!
-#disable_scrolling_and_show_scroll_block!
+disable_scrolling_and_show_scroll_block!
 
 
 # when the scroll block display fires the continue_scrolling event, hide it and enable scrolling for 5 seconds

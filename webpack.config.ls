@@ -97,6 +97,8 @@ module.exports = {
       'jquery-contextmenu': npmdir_custom 'jquery-contextmenu'
       'jquery.isinview': npmdir_custom 'jquery.isinview'
       'jquery.terminal': npmdir_custom 'jquery.terminal'
+      #'systemjs': fromcwd path.join('jspm_packages', 'system.js')
+      'jspm_config': fromcwd 'jspm.config.js'
     }
     fallback: [
       fromcwd('src')

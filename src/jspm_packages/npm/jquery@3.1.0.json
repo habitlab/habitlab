@@ -1,0 +1,114 @@
+{
+  "main": "dist/jquery.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "dist/core.js": {
+      "format": "amd"
+    },
+    "src/ajax.js": {
+      "format": "amd"
+    },
+    "src/ajax/*": {
+      "format": "amd"
+    },
+    "src/attributes.js": {
+      "format": "amd"
+    },
+    "src/attributes/*": {
+      "format": "amd"
+    },
+    "src/callbacks.js": {
+      "format": "amd"
+    },
+    "src/core.js": {
+      "format": "amd"
+    },
+    "src/core/*": {
+      "format": "amd"
+    },
+    "src/css.js": {
+      "format": "amd"
+    },
+    "src/css/*": {
+      "format": "amd"
+    },
+    "src/data.js": {
+      "format": "amd"
+    },
+    "src/data/*": {
+      "format": "amd"
+    },
+    "src/deferred.js": {
+      "format": "amd"
+    },
+    "src/deferred/*": {
+      "format": "amd"
+    },
+    "src/deprecated.js": {
+      "format": "amd"
+    },
+    "src/dimensions.js": {
+      "format": "amd"
+    },
+    "src/effects.js": {
+      "format": "amd"
+    },
+    "src/effects/*": {
+      "format": "amd"
+    },
+    "src/event.js": {
+      "format": "amd"
+    },
+    "src/event/*": {
+      "format": "amd"
+    },
+    "src/exports/amd.js": {
+      "format": "amd"
+    },
+    "src/jquery.js": {
+      "format": "amd"
+    },
+    "src/manipulation.js": {
+      "format": "amd"
+    },
+    "src/manipulation/*": {
+      "format": "amd"
+    },
+    "src/offset.js": {
+      "format": "amd"
+    },
+    "src/queue.js": {
+      "format": "amd"
+    },
+    "src/queue/*": {
+      "format": "amd"
+    },
+    "src/selector-native.js": {
+      "format": "amd"
+    },
+    "src/selector-sizzle.js": {
+      "format": "amd"
+    },
+    "src/selector.js": {
+      "format": "amd"
+    },
+    "src/serialize.js": {
+      "format": "amd"
+    },
+    "src/traversing.js": {
+      "format": "amd"
+    },
+    "src/traversing/*": {
+      "format": "amd"
+    },
+    "src/var/*": {
+      "format": "amd"
+    },
+    "src/wrap.js": {
+      "format": "amd"
+    }
+  }
+}

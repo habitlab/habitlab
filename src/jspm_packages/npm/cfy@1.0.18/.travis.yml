@@ -1,0 +1,19 @@
+before_install:
+  - npm install -g npm
+
+cache:
+  directories:
+    - node_modules
+
+language: node_js
+
+node_js:
+  - 6
+
+notifications:
+  email: true
+
+script:
+  - "npm test"
+
+sudo: false

@@ -55,6 +55,8 @@ eslintpattern = [
   '!src/bower_components/**/*.js'
   '!src_gen/bower_components/**/*.js'
   '!src/**/*.deps.js'
+  '!src/jspm_packages/**/*.js'
+  '!src_gen/jspm_packages/**/*.js'
 ]
 
 jspattern_srcgen = [
@@ -71,6 +73,7 @@ copypattern = [
   'src/**/*.png'
   'src/*.js'
   'src/bower_components/**/*'
+  'src/jspm_packages/**/*'
   '!src/components/components.html'
   '!src/**/*.deps.js'
 ]
@@ -157,6 +160,7 @@ gulp.task 'eslint', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'),
     ]
     globals: {
       #'$': true
+      'SystemJS': true
       'require': true
       'env': true
       'exports': true
@@ -406,6 +410,7 @@ gulp.task 'build_base', gulp.parallel(
   'generate_goals_list'
   'yaml_build'
   'copy_build'
+  'livescript_build'
 )
 
 # based on
@@ -487,6 +492,9 @@ gulp.task 'yaml_watch', ->
 gulp.task 'copy_watch', ->
   gulp.watch copypattern, gulp.series('copy_build')
 
+gulp.task 'livescript_watch', ->
+  gulp.watch lspattern, gulp.series('livescript_build')
+
 gulp.task 'generate_skate_components_js_watch', ->
   gulp.watch ['src/components_skate/**/*.jsx', 'src/components_skate/**/*.ls'], gulp.series('generate_skate_components_js')
 
@@ -510,6 +518,7 @@ gulp.task 'watch_base', gulp.parallel(
   'webpack_content_scripts_watch'
   'yaml_watch'
   'copy_watch'
+  'livescript_watch'
   'generate_polymer_dependencies_watch'
   'generate_skate_components_js_watch'
   'generate_libs_frontend_watch'

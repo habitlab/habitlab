@@ -1,0 +1,27 @@
+{
+  "npm:jquery@3.1.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:cfy@1.0.18": {
+    "deps": {
+      "co": "npm:co@^4.6.0",
+      "unthenify": "npm:unthenify@^1.0.2"
+    },
+    "peerDeps": {}
+  },
+  "npm:co@4.6.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:unthenify@1.0.2": {
+    "deps": {
+      "util-arity": "npm:util-arity@^1.0.2"
+    },
+    "peerDeps": {}
+  },
+  "npm:util-arity@1.0.2": {
+    "deps": {},
+    "peerDeps": {}
+  }
+}

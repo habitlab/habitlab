@@ -1,0 +1,39 @@
+{
+  "name": "cfy",
+  "version": "1.0.18",
+  "description": "Use generators and yield to write regular callback-based functions",
+  "main": "index.js",
+  "keywords": [
+    "co",
+    "generator",
+    "yield",
+    "async",
+    "callback",
+    "promise",
+    "nodeback",
+    "cfy",
+    "yfy"
+  ],
+  "scripts": {
+    "test": "mocha --compilers ls:livescript"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gkovacs/cfy.git"
+  },
+  "author": "Geza Kovacs (http://github.com/gkovacs)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gkovacs/cfy/issues"
+  },
+  "homepage": "https://github.com/gkovacs/cfy#readme",
+  "dependencies": {
+    "co": "^4.6.0",
+    "unthenify": "^1.0.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "livescript": "^1.5.0",
+    "mocha": "^2.5.3"
+  }
+}

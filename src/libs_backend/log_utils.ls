@@ -16,6 +16,10 @@
   get_days_since_epoch
 } = require 'libs_common/time_utils'
 
+{
+  get_user_id
+} = require 'libs_backend/background_common'
+
 require! {
   dexie
 }

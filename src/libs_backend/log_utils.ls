@@ -26,7 +26,7 @@ $ = require 'jquery'
 
 {cfy} = require 'cfy'
 
-export get_db_major_version_interventionlogdb = -> '6'
+export get_db_major_version_interventionlogdb = -> '7'
 export get_db_minor_version_interventionlogdb = -> '1'
 
 export delete_db_if_outdated_interventionlogdb = cfy ->*
@@ -86,7 +86,7 @@ export getInterventionLogCollection = cfy (name) ->*
   return db[name]
 
 export addtolog = cfy (name, data) ->*
-  data = JSON.parse JSON.stringify data
+  data = {} <<< data
   data.userid = yield get_user_id()
   data.day = get_days_since_epoch()
   data.synced = 0
@@ -148,6 +148,7 @@ export log_impression = cfy (name) ->*
   console.log "impression logged for #{name}"
   yield addtolog name, {
     type: 'impression'
+    intervention: name
   }
 
 export log_action = cfy (name, data) ->*
@@ -155,21 +156,19 @@ export log_action = cfy (name, data) ->*
   # ex: facebook/notification_hijacker
   # data: a dictionary containing any details necessary
   # ex: {}
-  new_data = {}
-  for k,v of data
-    new_data[k] = v
-  new_data.type = 'action'
+  data = {} <<< data
+  data.type = 'action'
+  data.intervention = name
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"
-  yield addtolog name, new_data
+  yield addtolog name, data
 
 upload_to_server = cfy (data) ->*
-  console.log 'uploaded to server'
-  console.log data
+  logging_server_url = localStorage.getItem('logging_server_url') ? 'https://habitlab.herokuapp.com/'
   collection = yield getInterventionLogCollection(name)
   try
     response = yield $.ajax({
       type: 'POST'
-      url: 'https://habitlab.herokuapp.com/addlog'
+      url: logging_server_url + 'add_intervention_log'
       dataType: 'json'
       contentType: 'application/json'
       data: JSON.stringify(data)

@@ -60,6 +60,23 @@ polymer_ext {
         }
       ]
     }
+    this.options = {
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Days Before Current Day'
+          }
+        }],
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Minutes'
+          }
+        }]        
+      }
+    }
+
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

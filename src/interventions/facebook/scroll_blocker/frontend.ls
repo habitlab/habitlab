@@ -31,7 +31,6 @@ disabled = false
 window.onwheel = (evt) ->
   if !disabled
     nscrolls := nscrolls+1
-    console.log nscrolls
     if nscrolls % NSCROLLS_THRESHOLD == 0
       disable_scrolling_and_show_scroll_block()
     return window.scrolling_allowed

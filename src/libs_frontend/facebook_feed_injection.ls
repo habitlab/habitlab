@@ -18,19 +18,24 @@ export inject_into_feed = (component_generator) ->
 
   insertBeforeItem = (jfeeditem) ->
     quizid = randstr()
-    jfeeditem.before component_generator()
+    jfeeditem.before component_generator(window.numitems)
     return
 
   insertIfMissing = ->
-    for feeditem in document.querySelectorAll('.mbm._5jmm,.userContentWrapper._5pcr')
-      if not feeditem.feedlearninserted
-        feeditem.feedlearninserted = true
+    
+    #for feeditem in document.querySelectorAll('.mbm._5jmm,.userContentWrapper._5pcr')
+    console.log 'inserting if'
+    for $feeditem in $('.mbm._5jmm,.userContentWrapper._5pcr')
+      if not $feeditem.feedlearninserted
+        $feeditem.feedlearninserted = true
         window.numitems += 1
+      
+        
+        console.log $($feeditem).isInView()
         console.log window.numitems
         if window.numitems % 10 == 5
           console.log \injected
-
-          insertBeforeItem $(feeditem)
+          insertBeforeItem $($feeditem)
     return
 
   idArraysEqual = (a1, a2) ->

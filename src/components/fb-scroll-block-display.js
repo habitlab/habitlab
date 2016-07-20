@@ -41,7 +41,7 @@ Polymer({
     setInterval(() => {
       get_minutes_spent_on_domain_today(self.site, (minutes_spent) => {
         self.minutes = minutes_spent;
-        console.log(minutes_spent);
+        
       });
     }, 1000);
   },

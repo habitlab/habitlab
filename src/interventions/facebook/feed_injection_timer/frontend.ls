@@ -19,9 +19,14 @@ require 'enable-webcomponents-in-content-scripts'
 require 'components_skate/feed-item-timer'
 require 'components/feed-item-timer-polymer.deps'
 
-component_generator = ->
+component_generator = (numitems) ->
   log_impression intervention.name
-  return $('<feed-item-timer-polymer>')
+  console.log 'window num items is'
+  console.log window.numitems
+  feed-item = $('<feed-item-timer-polymer>')
+  feed-item.attr('items': numitems)
+  return feed-item
+
 
 inject_into_feed(component_generator)
 

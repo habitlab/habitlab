@@ -7,6 +7,8 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
+{generate_random_id} = require 'libs_backend/generate_random_id'
+
 {cfy, yfy, add_noerr} = require 'cfy'
 
 chrome_tabs_sendmessage = yfy (tab_id, data, options, callback) ->
@@ -21,14 +23,6 @@ chrome_tabs_query = yfy(chrome.tabs.query)
 
 cached_user_id = null
 
-getRandomToken = ->
-  randomPool = new Uint8Array(32)
-  crypto.getRandomValues(randomPool)
-  hex = ''
-  for i from 0 til randomPool.length
-      hex += randomPool[i].toString(16)
-  return hex
-
 export get_user_id = cfy ->*
   if cached_user_id?
     return cached_user_id
@@ -42,7 +36,7 @@ export get_user_id = cfy ->*
     cached_user_id := userid
     localStorage.setItem('userid', userid)
     return userid
-  userid = getRandomToken()
+  userid = generate_random_id()
   cached_user_id := userid
   localStorage.setItem('userid', userid)
   yield -> chrome.storage.sync.set {userid}, it

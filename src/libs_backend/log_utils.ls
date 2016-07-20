@@ -20,9 +20,13 @@ require! {
   dexie
 }
 
+{generate_random_id} = require 'libs_backend/generate_random_id'
+
+$ = require 'jquery'
+
 {cfy} = require 'cfy'
 
-export get_db_major_version_interventionlogdb = -> '3'
+export get_db_major_version_interventionlogdb = -> '6'
 export get_db_minor_version_interventionlogdb = -> '1'
 
 export delete_db_if_outdated_interventionlogdb = cfy ->*
@@ -55,7 +59,7 @@ export getInterventionLogDb = memoizeSingleAsync cfy ->*
   stores_to_create = {}
   for intervention in interventions_list
     if not prev_schema[intervention]?
-      stores_to_create[intervention] = '++,[type+day],type,day,synced'
+      stores_to_create[intervention] = '++id,[type+day],type,day,itemid,synced'
   new_schema = {[k,v] for k,v of prev_schema}
   if Object.keys(stores_to_create).length > 0
     db.version(dbver).stores(prev_schema)
@@ -87,6 +91,7 @@ export addtolog = cfy (name, data) ->*
   data.day = get_days_since_epoch()
   data.synced = 0
   data.timestamp = Date.now()
+  data.itemid = generate_random_id()
   data.log_major_ver = get_db_major_version_interventionlogdb()
   data.log_minor_ver = get_db_minor_version_interventionlogdb()
   collection = yield getInterventionLogCollection(name)
@@ -157,12 +162,39 @@ export log_action = cfy (name, data) ->*
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"
   yield addtolog name, new_data
 
-log_syncers_active = {}
+upload_to_server = cfy (data) ->*
+  console.log 'uploaded to server'
+  console.log data
+  collection = yield getInterventionLogCollection(name)
+  try
+    response = yield $.ajax({
+      type: 'POST'
+      url: 'https://habitlab.herokuapp.com/addlog'
+      dataType: 'json'
+      contentType: 'application/json'
+      data: JSON.stringify(data)
+    })
+    if response.success
+      yield collection.where('id').equals(data.id).modify({synced: 1})
+    else
+      console.log 'response from server was not successful in upload_to_server'
+      console.log response
+  catch
+    console.log 'error thrown in upload_to_server'
+    console.log e
+  return
 
 export sync_unsynced_logs = cfy (name) ->*
   collection = yield getInterventionLogCollection(name)
   num_unsynced = yield collection.where('synced').equals(0).count()
   console.log 'num unsynced ' + num_unsynced
+  unsynced_items = yield collection.where('synced').equals(0).toArray()
+  console.log 'unsynced_items are'
+  console.log unsynced_items
+  for x in unsynced_items
+    yield upload_to_server(x)
+
+log_syncers_active = {}
 
 export start_syncing_logs = cfy (name) ->*
   console.log 'start syncing logs called for ' + name

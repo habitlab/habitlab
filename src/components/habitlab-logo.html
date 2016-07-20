@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="habitlab-logo">
@@ -38,7 +39,7 @@
   <paper-button id="habitlab_button" raised on-click="clicked">
 
     <img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
-    <paper-tooltip for="habitlab_logo" id="tooltip">This is a HabitLab intervention.<br>Click for options.</paper-tooltip>
+    <paper-tooltip for="habitlab_button" id="tooltip">This is a HabitLab intervention.<br>Click for options.</paper-tooltip>
 
   </paper-button>
   </template>

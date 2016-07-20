@@ -18,7 +18,7 @@
   var buttonText = 'Continue to Facebook'
   interst_screen.attr('btn-txt', buttonText)
 
-  var buttonText2 = 'Close Tab'
+  var buttonText2 = 'Close Facebook'
   interst_screen.attr('btn-txt2', buttonText2)
   var secondsLeft = intervention.params.seconds.value
   var messageString = 'Facebook will be available in...' + secondsLeft;

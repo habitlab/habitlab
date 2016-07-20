@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       message: "You've already spent " + request.timeSpent + " minutes on Facebook today.",
       requireInteraction: false,
       buttons: [
-        { title: 'Close Tab', iconUrl: chrome.extension.getURL('interventions/facebook/rich_notifications/close_tab.png')},
+        { title: 'Close Facebook', iconUrl: chrome.extension.getURL('interventions/facebook/rich_notifications/close_tab.png')},
         { title: 'Dismiss', iconUrl: chrome.extension.getURL('interventions/facebook/rich_notifications/dismiss.png')}
       ]
     }, function callback(id) {      

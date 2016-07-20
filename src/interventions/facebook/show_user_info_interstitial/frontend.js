@@ -30,7 +30,7 @@
       
       var titleString = 'You have visited ' + url_to_domain(window.location.href) +' ' + numVisits + ' times and spent '+ numMins + ' minutes there today.'
       var buttonText = 'Click to continue to Facebook'
-      var buttonText2 = 'Close tab'
+      var buttonText2 = 'Close Facebook'
 
       var interst_screen = $('<interstitial-screen>')
       interst_screen.attr('intervention', intervention.name)

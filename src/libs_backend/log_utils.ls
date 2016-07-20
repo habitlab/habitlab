@@ -201,7 +201,7 @@ log_syncers_active = {}
 
 export start_syncing_logs = cfy (name) ->*
   console.log 'start syncing logs called for ' + name
-  if log_syncers_active[name]?
+  if log_syncers_active[name]
     console.log 'log_syncing already active for ' + name
     return
   log_syncers_active[name] = true

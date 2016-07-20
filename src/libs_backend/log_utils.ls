@@ -57,11 +57,12 @@ export get_current_dbver_interventionlogdb = ->
 export getInterventionLogDb = memoizeSingleAsync cfy ->*
   yield delete_db_if_outdated_interventionlogdb()
   interventions_list = yield list_all_interventions()
+  logs_list = ['goals', 'interventions'].map -> 'logs/'+it
   db = new dexie('interventionlog', {autoOpen: false})
   dbver = get_current_dbver_interventionlogdb()
   prev_schema = get_current_schema_interventionlogdb()
   stores_to_create = {}
-  for intervention in interventions_list
+  for intervention in interventions_list.concat(logs_list)
     if not prev_schema[intervention]?
       stores_to_create[intervention] = '++id,[type+day],type,day,itemid,synced'
   new_schema = {[k,v] for k,v of prev_schema}
@@ -89,8 +90,16 @@ export getInterventionLogCollection = cfy (name) ->*
   db = yield getInterventionLogDb()
   return db[name]
 
+export add_log_goals = cfy (data) ->*
+  yield addtolog 'logs/goals', data
+
+export add_log_interventions = cfy (data) ->*
+  yield addtolog 'logs/interventions', data
+
 export addtolog = cfy (name, data) ->*
   data = {} <<< data
+  if not data.type?
+    data.type = 'general'
   data.userid = yield get_user_id()
   data.day = get_days_since_epoch()
   data.synced = 0
@@ -166,13 +175,15 @@ export log_action = cfy (name, data) ->*
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"
   yield addtolog name, data
 
-upload_to_server = cfy (data) ->*
+upload_to_server = cfy (name, data) ->*
   logging_server_url = localStorage.getItem('logging_server_url') ? 'https://habitlab.herokuapp.com/'
-  collection = yield getInterventionLogCollection(data.intervention)
+  collection = yield getInterventionLogCollection(name)
+  data = {} <<< data
+  data.logname = name
   try
     response = yield $.ajax({
       type: 'POST'
-      url: logging_server_url + 'add_intervention_log'
+      url: logging_server_url + 'addtolog'
       dataType: 'json'
       contentType: 'application/json'
       data: JSON.stringify(data)
@@ -195,7 +206,7 @@ export sync_unsynced_logs = cfy (name) ->*
   console.log 'unsynced_items are'
   console.log unsynced_items
   for x in unsynced_items
-    yield upload_to_server(x)
+    yield upload_to_server(name, x)
 
 log_syncers_active = {}
 

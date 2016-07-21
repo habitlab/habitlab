@@ -19,6 +19,8 @@ require! {
 {
   get_enabled_goals
   get_goals
+  set_goal_enabled_manual
+  set_goal_disabled_manual
 } = require 'libs_backend/goal_utils'
 
 {

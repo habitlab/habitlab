@@ -11,7 +11,6 @@
     "enable-webcomponents-in-content-scripts": "^1.0.7",
     "gulp-shell": "^0.5.2",
     "jquery": "^3.0.0",
-    "jquery-inview": "^1.1.2",
     "js-yaml": "^3.6.1",
     "jspm": "^0.17.0-beta.22",
     "levn": "^0.3.0",

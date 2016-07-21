@@ -1,0 +1,82 @@
+{
+  "_args": [
+    [
+      {
+        "name": "jquery-inview",
+        "raw": "jquery-inview",
+        "rawSpec": "",
+        "scope": null,
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/geza/Dropbox/habitlab-chrome"
+    ]
+  ],
+  "_from": "jquery-inview@latest",
+  "_id": "jquery-inview@1.1.2",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/jquery-inview",
+  "_nodeVersion": "4.2.2",
+  "_npmUser": {
+    "email": "christopher.blum@spellboy.com",
+    "name": "christopherblum"
+  },
+  "_npmVersion": "2.14.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "jquery-inview",
+    "raw": "jquery-inview",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/jquery-inview/-/jquery-inview-1.1.2.tgz",
+  "_shasum": "6b7cf6f4c9ab0b6435e043092e19ef62600662c8",
+  "_shrinkwrap": null,
+  "_spec": "jquery-inview",
+  "_where": "/Users/geza/Dropbox/habitlab-chrome",
+  "author": {
+    "email": "christopher.blum@spellboy.com",
+    "name": "Christopher Blum"
+  },
+  "bugs": {
+    "url": "https://github.com/jardix22/jquery.inview/issues"
+  },
+  "dependencies": {},
+  "description": "Element 'inview' Event Plugin",
+  "devDependencies": {},
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "dist": {
+    "shasum": "6b7cf6f4c9ab0b6435e043092e19ef62600662c8",
+    "tarball": "https://registry.npmjs.org/jquery-inview/-/jquery-inview-1.1.2.tgz"
+  },
+  "gitHead": "037f8eb5b12309db7437d2991fbe5bc6c0d56bb6",
+  "homepage": "https://github.com/jardix22/jquery.inview#readme",
+  "license": "ISC",
+  "main": "jquery.inview.js",
+  "maintainers": [
+    {
+      "email": "christopher.blum@spellboy.com",
+      "name": "christopherblum"
+    }
+  ],
+  "name": "jquery-inview",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/protonet/jquery.inview.git"
+  },
+  "scripts": {
+    "test": "open test/index.html"
+  },
+  "version": "1.1.2"
+}

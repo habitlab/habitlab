@@ -70,6 +70,10 @@ $ = require 'jquery'
   get_progress_on_enabled_goals_today
 } = require 'libs_backend/goal_progress'
 
+{
+  start_syncing_all_logs
+} = require 'libs_backend/log_utils'
+
 {cfy, yfy} = require 'cfy'
 
 require 'libs_common/systemjs'
@@ -506,6 +510,8 @@ do ->
   if not localStorage.getItem('notfirstrun')
     localStorage.setItem('notfirstrun', true)
     chrome.tabs.create {url: 'options.html#introduction'}
+
+start_syncing_all_logs()
 
 gexport_module 'background', -> eval(it)
 

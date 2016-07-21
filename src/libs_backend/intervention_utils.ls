@@ -5,11 +5,6 @@ $ = require 'jquery'
 } = require 'libs_common/memoize'
 
 {
-  get_interventions_to_goals
-  get_enabled_goals
-} = require 'libs_backend/goal_utils'
-
-{
   setkey_dictdict
   getkey_dictdict
   getdict_for_key_dictdict
@@ -105,7 +100,7 @@ export get_interventions = memoizeSingleAsync cfy ->*
       parameter.type = 'bool'
       return
     console.log "warning: invalid parameter.type #{curtype} for intervention #{intervention_info.name}"
-  interventions_to_goals = yield get_interventions_to_goals()
+  interventions_to_goals = yield goal_utils.get_interventions_to_goals()
   for intervention_name in interventions_list
     intervention_info = yield getInterventionInfo intervention_name
     if not intervention_info.nomatches?
@@ -184,8 +179,8 @@ export set_intervention_automatically_managed = cfy (intervention_name) ->*
 
 export list_available_interventions_for_enabled_goals = cfy ->*
   # outputs a list of intervention names
-  interventions_to_goals = yield get_interventions_to_goals()
-  enabled_goals = yield get_enabled_goals()
+  interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+  enabled_goals = yield goal_utils.get_enabled_goals()
   output = []
   output_set = {}
   for intervention_name,goals of interventions_to_goals
@@ -254,5 +249,6 @@ export get_intervention_parameters = cfy (intervention_name) ->*
   return output
 
 intervention_manager = require 'libs_backend/intervention_manager'
+goal_utils = require 'libs_backend/goal_utils'
 
 gexport_module 'intervention_utils', -> eval(it)

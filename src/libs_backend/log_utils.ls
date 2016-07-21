@@ -9,10 +9,6 @@
 } = require 'libs_common/gexport'
 
 {
-  list_all_interventions
-} = require 'libs_backend/intervention_utils'
-
-{
   get_days_since_epoch
 } = require 'libs_common/time_utils'
 
@@ -55,7 +51,7 @@ export get_current_dbver_interventionlogdb = ->
   return parseInt result
 
 export get_log_names = cfy ->*
-  interventions_list = yield list_all_interventions()
+  interventions_list = yield intervention_utils.list_all_interventions()
   logs_list = ['goals', 'interventions'].map -> 'logs/'+it
   return interventions_list.concat(logs_list)
 
@@ -238,5 +234,7 @@ export stop_syncing_logs = cfy (name) ->*
 export stop_syncing_all_logs = cfy ->*
   for k in Object.keys(log_syncers_active)
     log_syncers_active[k] = false
+
+intervention_utils = require 'libs_backend/intervention_utils'
 
 gexport_module 'log_utils_backend', -> eval(it)

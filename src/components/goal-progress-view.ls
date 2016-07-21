@@ -75,7 +75,7 @@ polymer_ext {
         xAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Days Before Current Day'
+            labelString: 'Day'
           }
         }],
         yAxes: [{

@@ -54,17 +54,21 @@ export get_current_dbver_interventionlogdb = ->
     return 0
   return parseInt result
 
-export getInterventionLogDb = memoizeSingleAsync cfy ->*
-  yield delete_db_if_outdated_interventionlogdb()
+export get_log_names = cfy ->*
   interventions_list = yield list_all_interventions()
   logs_list = ['goals', 'interventions'].map -> 'logs/'+it
+  return interventions_list.concat(logs_list)
+
+export getInterventionLogDb = memoizeSingleAsync cfy ->*
+  yield delete_db_if_outdated_interventionlogdb()
+  log_names = yield get_log_names()
   db = new dexie('interventionlog', {autoOpen: false})
   dbver = get_current_dbver_interventionlogdb()
   prev_schema = get_current_schema_interventionlogdb()
   stores_to_create = {}
-  for intervention in interventions_list.concat(logs_list)
-    if not prev_schema[intervention]?
-      stores_to_create[intervention] = '++id,[type+day],type,day,itemid,synced'
+  for logname in log_names
+    if not prev_schema[logname]?
+      stores_to_create[logname] = '++id,[type+day],type,day,itemid,synced'
   new_schema = {[k,v] for k,v of prev_schema}
   if Object.keys(stores_to_create).length > 0
     db.version(dbver).stores(prev_schema)
@@ -201,6 +205,8 @@ upload_to_server = cfy (name, data) ->*
 export sync_unsynced_logs = cfy (name) ->*
   collection = yield getInterventionLogCollection(name)
   num_unsynced = yield collection.where('synced').equals(0).count()
+  if num_unsynced == 0
+    return
   console.log 'num unsynced ' + num_unsynced
   unsynced_items = yield collection.where('synced').equals(0).toArray()
   console.log 'unsynced_items are'
@@ -210,14 +216,18 @@ export sync_unsynced_logs = cfy (name) ->*
 
 log_syncers_active = {}
 
+export start_syncing_all_logs = cfy ->*
+  log_names = yield get_log_names()
+  for logname in log_names
+    start_syncing_logs logname
+
 export start_syncing_logs = cfy (name) ->*
-  console.log 'start syncing logs called for ' + name
   if log_syncers_active[name]
     console.log 'log_syncing already active for ' + name
     return
+  console.log 'start syncing logs for ' + name
   log_syncers_active[name] = true
   while log_syncers_active[name] == true
-    console.log 'log syncing occuring for ' + name
     yield sync_unsynced_logs(name)
     yield -> setTimeout it, 1000
 

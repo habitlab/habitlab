@@ -6,8 +6,8 @@ require! {
   getGoalInfo
   get_goals
   get_enabled_goals
-  set_goal_enabled
-  set_goal_disabled
+  set_goal_enabled_manual
+  set_goal_disabled_manual
 } = require 'libs_backend/goal_utils'
 
 {cfy} = require 'cfy'
@@ -27,9 +27,9 @@ polymer_ext {
     goal_name = evt.target.goal.name
     self = this
     if checked
-      yield set_goal_enabled goal_name
+      yield set_goal_enabled_manual goal_name
     else
-      yield set_goal_disabled goal_name
+      yield set_goal_disabled_manual goal_name
     console.log 'goal changed'
     self.fire 'goal_changed', {goal_name: goal_name}
   ready: ->

@@ -19,7 +19,7 @@ const {
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 const {cfy} = require('cfy');
 
-const swal = require('sweetalert')
+const swal = require('sweetalert2')
 
 polymer_ext({
   is: 'habitlab-logo',
@@ -61,7 +61,7 @@ polymer_ext({
   ready: cfy(function*() {
     const self = this;
 
-    yield load_css_file('bower_components/sweetalert/dist/sweetalert.css');
+    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
     yield load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
 
     function get_intervention_name() {

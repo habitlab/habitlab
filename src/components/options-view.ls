@@ -1,7 +1,7 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 {load_css_file} = require 'libs_frontend/content_script_utils'
 {cfy} = require 'cfy'
-swal = require 'sweetalert' 
+swal = require 'sweetalert2'
 
 
 polymer_ext {
@@ -29,6 +29,7 @@ polymer_ext {
     | 'configure' => 1
     | 'config' => 1
     | 'manage' => 1
+    | 'introduction' => 1
     if selected_tab_idx != -1
       this.selected_tab_idx = selected_tab_idx
   compute_selected_tab_name: (selected_tab_idx) ->
@@ -41,8 +42,8 @@ polymer_ext {
   icon_clicked: cfy ->*
     
     console.log \icon_clicked
-    yield load_css_file('bower_components/sweetalert/dist/sweetalert.css')
-    swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web. \n\n
+    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    yield swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web. \n\n
           You will see an icon on every intervention inserted on your page, so you can tell which page elements are from HabitLab. When an intervention is active, you can click the icon to get more information about the intervention, or easily disable it.\n\n
           In order to optimize the interventions shown to you, HabitLab needs to modify the webpages you visit and send data to our server about when you see and respond to those interventions.\n\n
           Click the info icon in the top right to see this window again. Best of luck achieving your internet goals!

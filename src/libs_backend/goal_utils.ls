@@ -9,6 +9,10 @@ $ = require 'jquery'
   gexport_module
 } = require 'libs_common/gexport'
 
+{
+  add_log_goals
+} = require 'libs_backend/log_utils'
+
 {cfy, yfy} = require 'cfy'
 
 getAllInterventionsGoalInfo = cfy ->*
@@ -45,16 +49,30 @@ export set_enabled_goals = cfy (enabled_goals) ->*
 
 export set_goal_enabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
+  prev_enabled_goals = {} <<< enabled_goals
   if enabled_goals[goal_name]?
     return
   enabled_goals[goal_name] = true
+  add_log_goals {
+    type: 'goal_enabled'
+    goal_name: goal_name
+    prev_enabled_goals: prev_enabled_goals
+    enabled_goals: enabled_goals
+  }
   yield set_enabled_goals enabled_goals
 
 export set_goal_disabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
+  prev_enabled_goals = {} <<< enabled_goals
   if not enabled_goals[goal_name]?
     return
   delete enabled_goals[goal_name]
+  add_log_goals {
+    type: 'goal_disabled'
+    goal_name: goal_name
+    prev_enabled_goals: prev_enabled_goals
+    enabled_goals: enabled_goals
+  }
   yield set_enabled_goals enabled_goals
 
 export is_goal_enabled = cfy (goal_name) ->*

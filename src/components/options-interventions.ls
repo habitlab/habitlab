@@ -85,6 +85,8 @@ polymer_ext {
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
+  have_interventions_available: (goals_and_interventions) ->
+    return goals_and_interventions and goals_and_interventions.length > 0
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this

@@ -37,30 +37,33 @@
         </template>
       </template>
 
-      <h2>Manage Interventions</h2>
-      <!-- <img src="options-goals.png" style="width: 100%"> -->
-      <p>HabitLab automatically manages your interventions by default to maximize their effectiveness. You do not need to modify any settings below. However, if you particularly like/dislike an intervention, you can set it to be permanently enabled or disabled.</p>
+      <template is="dom-if" if="{{have_interventions_available(goals_and_interventions)}}">
+        <h2>Manage Interventions</h2>
+        <!-- <img src="options-goals.png" style="width: 100%"> -->
+        <p>HabitLab automatically manages your interventions by default to maximize their effectiveness. You do not need to modify any settings below. However, if you particularly like/dislike an intervention, you can set it to be always/never shown.</p>
 
-      <!--
-      <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
+        <!--
+        <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
 
-      <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
-      <br><br>
-      -->
-      <template is="dom-if" if="{{show_randomize_button()}}">
-        <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
-        <br>
-      </template>
-
-      <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
-        <h3>{{goal_and_interventions.goal.description}}</h3>
-
-        <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-            <intervention-view-single intervention="{{intervention}}"></intervention-view-single>
-            <br><br>
+        <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
+        <br><br>
+        -->
+        <template is="dom-if" if="{{show_randomize_button()}}">
+          <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
+          <br>
         </template>
 
+        <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
+          <h3>{{goal_and_interventions.goal.description}}</h3>
+
+          <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
+              <intervention-view-single intervention="{{intervention}}"></intervention-view-single>
+              <br><br>
+          </template>
+
+        </template>
       </template>
+
     </div>
     
   </template>

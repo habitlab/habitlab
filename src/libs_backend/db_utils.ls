@@ -336,7 +336,7 @@ export start_syncing_db_collection = cfy (name) ->*
   collection_syncers_active[name] = true
   while collection_syncers_active[name] == true
     yield sync_unsynced_items_in_db_collection(name)
-    yield -> setTimeout it, 10000 # should change to every 60 seconds (60000)
+    yield -> setTimeout it, 60000 # should change to every 60 seconds (60000)
 
 export start_syncing_all_db_collections = cfy ->*
   collection_names = Object.keys get_current_collections()

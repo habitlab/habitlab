@@ -65,6 +65,8 @@ polymer_ext {
     goal_name_to_info = yield get_goals()
     sitename_to_goals = {}
     for goal_name,goal_info of goal_name_to_info
+      if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
+        continue
       sitename = goal_info.sitename
       if not sitename_to_goals[sitename]?
         sitename_to_goals[sitename] = []
@@ -81,6 +83,8 @@ polymer_ext {
     self.sites_and_goals = list_of_sites_and_goals
   show_internal_names_of_goals: ->
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
+  show_randomize_button: ->
+    return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this
@@ -99,7 +103,6 @@ polymer_ext {
     list_of_goals_and_interventions = []
     list_of_goals = prelude.sort as_array(enabled_goals)
     for goalname in list_of_goals
-      #if goalname == 'debug/' localStorage.getItem('intervention_view_display_randomly_choose_button') != 'true'
       current_item = {goal: all_goals[goalname]}
       current_item.interventions = prelude.sort-by (.name), goal_to_interventions[goalname]
       for intervention in current_item.interventions

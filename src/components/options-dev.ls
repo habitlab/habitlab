@@ -24,6 +24,14 @@ polymer_ext {
             name: 'intervention_view_show_internal_names'
             description: 'Show internal names of goals and interventions'
           }
+          {
+            name: 'intervention_view_show_debug_all_interventions_goal'
+            description: 'Show the debug/all_interventions goal'
+          }
+          {
+            name: 'intervention_view_show_randomize_button'
+            description: 'Show the randomize interventions button'
+          }
         ]
       }
     ]

@@ -15,6 +15,7 @@
         <h3>{{category_and_option_info.category}}</h3>
         <template is="dom-repeat" items="{{category_and_option_info.options}}" as="option">
           <paper-checkbox checked="{{option.value}}" option_name="{{option.name}}" on-change="option_changed"><span>{{option.description}}</span> (<span>{{option.name}}</span>)</paper-checkbox>
+          <br><br>
         </template>
       </template>
     </div>

@@ -33,6 +33,10 @@
   get_intervention_selection_algorithm
 } = require 'libs_backend/intervention_selection_algorithms'
 
+{
+  add_log_interventions
+} = require 'libs_backend/log_utils'
+
 {cfy} = require 'cfy'
 
 export set_enabled_interventions_for_today_manual = cfy (enabled_interventions) ->*
@@ -88,8 +92,15 @@ get_new_enabled_interventions_for_today = cfy ->*
 
 export get_and_set_new_enabled_interventions_for_today = cfy ->*
   console.log 'picking new interventions for today'
+  prev_enabled_interventions = yield get_most_recent_enabled_interventions()
   enabled_interventions = yield get_new_enabled_interventions_for_today()
   yield set_enabled_interventions_for_today_automatic enabled_interventions
+  add_log_interventions {
+    type: 'new_interventions_for_new_day'
+    manual: false
+    prev_enabled_interventions: prev_enabled_interventions
+    enabled_interventions: enabled_interventions
+  }
   return enabled_interventions
 
 export get_enabled_interventions_for_days_since_today = cfy (days_since_today) ->*

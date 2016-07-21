@@ -1,4 +1,5 @@
 {
+  get_enabled_interventions
   set_intervention_enabled
   set_intervention_disabled
   set_intervention_automatically_managed
@@ -6,6 +7,12 @@
   get_intervention_parameters
   set_intervention_parameter
 } = require 'libs_backend/intervention_utils'
+
+{
+  add_log_interventions
+} = require 'libs_backend/log_utils'
+
+{cfy} = require 'cfy'
 
 #debounce = require('async-debounce-jt')
 
@@ -59,34 +66,75 @@ polymer_ext {
   is_debug: ->
     debug_val = localStorage.getItem('intervention_view_debug')
     return debug_val == 'true'
-  always_shown_changed: (evt) ->
+  always_shown_changed: cfy (evt) ->*
     active = evt.target.active
     if active # just got checked
       this.enabled = true
       this.automatic = false
-      set_intervention_enabled this.intervention.name
-      set_intervention_manually_managed this.intervention.name
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_enabled this.intervention.name
+      yield set_intervention_manually_managed this.intervention.name
+      add_log_interventions {
+        type: 'always_show_enabled'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
     else
       this.automatic = true
-      set_intervention_automatically_managed this.intervention.name
-  never_shown_changed: (evt) ->
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_automatically_managed this.intervention.name
+      add_log_interventions {
+        type: 'always_show_disabled'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+  never_shown_changed: cfy (evt) ->*
     active = evt.target.active
     if active # just got checked
       this.enabled = false
       this.automatic = false
-      set_intervention_disabled this.intervention.name
-      set_intervention_manually_managed this.intervention.name
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_disabled this.intervention.name
+      yield set_intervention_manually_managed this.intervention.name
+      add_log_interventions {
+        type: 'never_show_enabled'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
     else
       this.automatic = true
-      set_intervention_automatically_managed this.intervention.name
-  intervention_changed: (evt) ->
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_automatically_managed this.intervention.name
+      add_log_interventions {
+        type: 'never_show_disabled'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+  intervention_changed: cfy (evt) ->*
     checked = evt.target.checked
     #this.enabled = !checked
+    prev_enabled_interventions = yield get_enabled_interventions()
     intervention_name = this.intervention.name
     if checked
-      set_intervention_enabled intervention_name
+      yield set_intervention_enabled intervention_name
+      add_log_interventions {
+        type: 'intervention_checked'
+        manual: true
+        intervention_name: intervention_name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
     else
-      set_intervention_disabled intervention_name
+      yield set_intervention_disabled intervention_name
+      add_log_interventions {
+        type: 'intervention_unchecked'
+        manual: true
+        intervention_name: intervention_name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
   #automatically_managed_changed: (evt) ->
   #  checked = evt.target.checked
   #  intervention_name = this.intervention.name

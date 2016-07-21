@@ -1,5 +1,7 @@
 $ = require('jquery')
 require('jquery.isinview')($)
+#require('jquery-inview')($)
+require('jquery-inview')
 
 export inject_into_feed = (component_generator) ->
   window.numitems = 0
@@ -8,6 +10,9 @@ export inject_into_feed = (component_generator) ->
   window.timeopened = Date.now()
   window.prev_visible_quiz_ids = []
   window.all_shown_times = {} # id -> Date.now()
+  window.itemsseen = 0
+
+  
 
   randstr = ->
     chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz'
@@ -23,16 +28,27 @@ export inject_into_feed = (component_generator) ->
 
   insertIfMissing = ->
     
-    #for feeditem in document.querySelectorAll('.mbm._5jmm,.userContentWrapper._5pcr')
-    console.log 'inserting if'
+    # $('.mbm._5jmm,.userContentWrapper._5pcr').on 'inview', (isInView) ->
+    #   if isInView
+    #     console.log 'feed item now visible!'
+    #     window.itemsseen += 1
+    #     console.log window.itemsseen
+
     for $feeditem in $('.mbm._5jmm,.userContentWrapper._5pcr')
+      if $($feeditem).isInView()  
+        if $feeditem.seen
+          console.log 'you already saw me'
+        else
+          $($feeditem).prop('seen': true)
+          console.log 'new feed'
+          window.itemsseen += 1
+
+      
+  
       if not $feeditem.feedlearninserted
         $feeditem.feedlearninserted = true
         window.numitems += 1
       
-        
-        console.log $($feeditem).isInView()
-        console.log window.numitems
         if window.numitems % 10 == 5
           console.log \injected
           insertBeforeItem $($feeditem)
@@ -85,7 +101,7 @@ export inject_into_feed = (component_generator) ->
         updateVisibleIds()
         insertIfMissing()
         return
-      , 1000
+      , 500
     $(document).mousemove ->
       window.mostrecentmousemove = Date.now()
       return

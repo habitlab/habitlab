@@ -21,10 +21,10 @@ require 'components/feed-item-timer-polymer.deps'
 
 component_generator = (numitems) ->
   log_impression intervention.name
-  console.log 'window num items is'
-  console.log window.numitems
+  
   feed-item = $('<feed-item-timer-polymer>')
-  feed-item.attr('items': numitems)
+  window.itemsseen += 2
+  feed-item.attr('items': window.itemsseen)
   return feed-item
 
 

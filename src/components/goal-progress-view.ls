@@ -27,6 +27,11 @@
   reverse
 } = require 'prelude'
 
+require! {
+  async
+  moment
+}
+
 polymer_ext {
   is: 'goal-progress-view'
   properties: {
@@ -41,6 +46,11 @@ polymer_ext {
     goal_progress <~ get_progress_on_goal_this_week(this.goal)
     progress_values = goal_progress.map (.progress)
     progress_labels = [0 til goal_progress.length]
+
+    progress_labels.forEach ((element, index, array) ->
+      array[index] = (moment!.subtract array[index], 'day').format 'ddd MM/D'
+      return )
+
     this.data = {
       labels: reverse progress_labels
       datasets: [

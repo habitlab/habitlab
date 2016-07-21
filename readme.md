@@ -218,6 +218,56 @@ close_selected_tab().then(function() {
 
 See [this commit](https://github.com/habitlab/habitlab-chrome/commit/7d3e512a086cb8f65af51196c46d00ebdd950d77) for a complete example.
 
+## Making jQuery plugins play nicely with each other
+
+Most jQuery plugins modify the global `jQuery` or `$` instance (which is a property of `window`). This is problematic for usage in content scripts, as they share `window` and may therefore overwrite each others' `jQuery` instances, leading to errors related to missing jQuery plugins.
+
+To avoid this, you can modify the jQuery plugin to not use `window.jQuery`, and instead act as a module that exports a function takes an instance of jQuery.
+
+To make these changes to a jQuery plugin, first install the plugin via npm, but do not save it:
+
+```bash
+npm install jquery-inview
+```
+
+Now move it to the [`node_modules_custom`](https://github.com/habitlab/habitlab-chrome/tree/master/node_modules_custom) directory and add it via git.
+
+```bash
+mv node_modules/jquery-inview node_modules_custom/jquery-inview
+git add node_modules_custom/jquery-inview
+git commit -a -m "added jquery-inview under node_modules_custom"
+```
+
+You will also need to add the module to the alias section of [`webpack.config.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/webpack.config.ls) to inform webpack it should search for that plugin under the [`node_modules_custom`](https://github.com/habitlab/habitlab-chrome/tree/master/node_modules_custom) directory. See [this commit](https://github.com/habitlab/habitlab-chrome/commit/abb770ca6a9c6a4f450db113afdb4059d663d14f) for an example.
+
+```javascript
+alias: {
+  'jquery-inview': npmdir_custom('jquery-inview')
+}
+```
+
+Now modify the jquery plugin code itself to make it into a CommonJS module that exports a function takes an instance of jQuery. See [this commit](https://github.com/habitlab/habitlab-chrome/commit/39fd42e9e88a6065edca0f4c2219bf47abd26ad6) for an example
+
+```javascript
+/* OLD. jquery plugin attaches to the global window.jQuery (BAD) */
+jQuery.someplugin = function() { /* plugin code goes here */ }
+```
+
+```javascript
+/* NEW. jquery plugin is a module exporting a function that takes jQuery as an argument */
+module.exports = function(jQuery) {
+  var $ = jQuery;
+  jQuery.someplugin = function() { /* plugin code goes here */ }
+}
+```
+
+Now, you can use the jQuery plugin within your content script as follows:
+
+```javascript
+$ = require('jquery')
+require('jquery-inview')($)
+```
+
 ## Troubleshooting
 
 ### Build Errors

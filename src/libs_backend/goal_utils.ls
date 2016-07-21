@@ -41,6 +41,10 @@ export get_enabled_goals = cfy ->*
     enabled_goals = {}
   else
     enabled_goals = JSON.parse enabled_goals_str
+    if enabled_goals['debug/all_interventions']
+      if localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
+        delete enabled_goals['debug/all_interventions']
+        localStorage.setItem 'enabled_goals', JSON.stringify(enabled_goals)
   return enabled_goals
 
 export set_enabled_goals = cfy (enabled_goals) ->*

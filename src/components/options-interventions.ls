@@ -41,6 +41,20 @@ polymer_ext {
       value: []
     }
   }
+  disable_interventions_which_do_not_satisfy_any_goals: cfy (evt) ->*
+    enabled_goals = yield get_enabled_goals()
+    enabled_interventions = yield get_enabled_interventions()
+    all_interventions = yield get_interventions()
+    for intervention_name,intervention_enabled of enabled_interventions
+      if not intervention_enabled
+        continue
+      intervention_info = all_interventions[intervention_name]
+      intervention_satisfies_an_enabled_goal = false
+      for goal_info in intervention_info.goals
+        if enabled_goals[goal_info.name]
+          intervention_satisfies_an_enabled_goal = true
+      if not intervention_satisfies_an_enabled_goal
+        yield set_intervention_disabled intervention_name
   goal_changed: cfy (evt) ->*
     checked = evt.target.checked
     goal_name = evt.target.goal.name
@@ -49,6 +63,7 @@ polymer_ext {
       yield set_goal_enabled_manual goal_name
     else
       yield set_goal_disabled_manual goal_name
+    yield this.disable_interventions_which_do_not_satisfy_any_goals()
     console.log 'goal changed'
     self.fire 'goal_changed', {goal_name: goal_name}
   select_new_interventions: (evt) ->

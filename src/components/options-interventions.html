@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 
 <link rel="import" href="intervention-view-single.html">
 
@@ -26,13 +27,13 @@
       <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals">
         <!-- <h3>{{site_and_goals.sitename}}</h3> -->
         <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
-          <paper-checkbox checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed">
+          <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed">
             <span>{{goal.description}}</span>
             <template is="dom-if" if="{{show_internal_names_of_goals()}}">
               (<span>{{goal.name}}</span>)
             </template>
-          </paper-checkbox>
-          <br><br>
+          </paper-toggle-button>
+          <br>
         </template>
       </template>
 

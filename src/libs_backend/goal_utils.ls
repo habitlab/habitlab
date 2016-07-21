@@ -53,6 +53,7 @@ export set_goal_enabled_manual = cfy (goal_name) ->*
   if enabled_goals[goal_name]?
     return
   enabled_goals[goal_name] = true
+  yield set_enabled_goals enabled_goals
   add_log_goals {
     type: 'goal_enabled'
     manual: true
@@ -60,7 +61,6 @@ export set_goal_enabled_manual = cfy (goal_name) ->*
     prev_enabled_goals: prev_enabled_goals
     enabled_goals: enabled_goals
   }
-  yield set_enabled_goals enabled_goals
 
 export set_goal_enabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
@@ -68,14 +68,13 @@ export set_goal_enabled = cfy (goal_name) ->*
   if enabled_goals[goal_name]?
     return
   enabled_goals[goal_name] = true
+  yield set_enabled_goals enabled_goals
   add_log_goals {
     type: 'goal_enabled'
     manual: false
     goal_name: goal_name
     prev_enabled_goals: prev_enabled_goals
-    enabled_goals: enabled_goals
   }
-  yield set_enabled_goals enabled_goals
 
 export set_goal_disabled_manual = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
@@ -83,14 +82,13 @@ export set_goal_disabled_manual = cfy (goal_name) ->*
   if not enabled_goals[goal_name]?
     return
   delete enabled_goals[goal_name]
+  yield set_enabled_goals enabled_goals
   add_log_goals {
     type: 'goal_disabled'
     manual: false
     goal_name: goal_name
     prev_enabled_goals: prev_enabled_goals
-    enabled_goals: enabled_goals
   }
-  yield set_enabled_goals enabled_goals
 
 export set_goal_disabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
@@ -98,6 +96,7 @@ export set_goal_disabled = cfy (goal_name) ->*
   if not enabled_goals[goal_name]?
     return
   delete enabled_goals[goal_name]
+  yield set_enabled_goals enabled_goals
   add_log_goals {
     type: 'goal_disabled'
     manual: false
@@ -105,7 +104,6 @@ export set_goal_disabled = cfy (goal_name) ->*
     prev_enabled_goals: prev_enabled_goals
     enabled_goals: enabled_goals
   }
-  yield set_enabled_goals enabled_goals
 
 export is_goal_enabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()

@@ -92,14 +92,18 @@ export getInterventionLogCollection = cfy (name) ->*
 
 export add_log_goals = cfy (data) ->*
   data = {} <<< data
-  data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
-  data.enabled_goals = yield goal_utils.get_enabled_goals()
+  if not data.enabled_interventions?
+    data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
+  if not data.enabled_goals?
+    data.enabled_goals = yield goal_utils.get_enabled_goals()
   yield addtolog 'logs/goals', data
 
 export add_log_interventions = cfy (data) ->*
   data = {} <<< data
-  data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
-  data.enabled_goals = yield goal_utils.get_enabled_goals()
+  if not data.enabled_interventions?
+    data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
+  if not data.enabled_goals?
+    data.enabled_goals = yield goal_utils.get_enabled_goals()
   yield addtolog 'logs/interventions', data
 
 export addtolog = cfy (name, data) ->*

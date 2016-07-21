@@ -63,9 +63,8 @@ polymer_ext {
     return enabled and !automatic
   intervention_never_shown: (enabled, automatic) ->
     return !enabled and !automatic
-  is_debug: ->
-    debug_val = localStorage.getItem('intervention_view_debug')
-    return debug_val == 'true'
+  display_internal_names_for_interventions: ->
+    return localStorage.getItem('intervention_view_display_internal_names') == 'true'
   always_shown_changed: cfy (evt) ->*
     active = evt.target.active
     if active # just got checked

@@ -27,7 +27,7 @@
     <div>
       <paper-toggle-button disabled="{{manually_managed}}" checked="{{enabled}}" on-change="intervention_changed">
         <span>{{intervention.description}}</span>
-        <template is="dom-if" if="{{is_debug()}}">
+        <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
           (<span>{{intervention.name}}</span>)
         </template>
       </paper-toggle-button>

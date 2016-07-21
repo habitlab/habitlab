@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+
+<dom-module id="options-dev">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <div style="margin: 10px">
+      <template is="dom-repeat" items="{{categories_and_option_info}}" as="category_and_option_info">
+        <h3>{{category_and_option_info.category}}</h3>
+        <template is="dom-repeat" items="{{category_and_option_info.options}}" as="option">
+          <paper-checkbox checked="{{option.value}}" option_name="{{option.name}}" on-change="option_changed">{{option.description}}</paper-checkbox>
+        </template>
+      </template>
+      <!--
+      <h3>Interventions Manager Page Options</h3>
+      <paper-checkbox option_name="intervention_view_display_internal_names" on-change="option_changed">Display internal names of interventions</paper-checkbox>
+      -->
+
+    </div>
+  </template>
+  <script src="options-dev.js"></script>
+</dom-module>

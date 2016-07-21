@@ -315,7 +315,6 @@ upload_collection_item_to_server = cfy (name, data) ->*
   return
 
 export sync_unsynced_items_in_db_collection = cfy (name) ->*
-  console.log 'sync_unsynced_items_in_db_collection ' + name
   collection = yield getCollection(name)
   num_unsynced = yield collection.where('synced').equals(0).count()
   if num_unsynced == 0

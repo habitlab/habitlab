@@ -9,6 +9,7 @@ require 'libs_backend/expose_backend_libs'
 
 {
   addtokey_dictdict
+  start_syncing_all_db_collections
 } = require 'libs_backend/db_utils'
 
 {
@@ -512,6 +513,7 @@ do ->
     chrome.tabs.create {url: 'options.html#introduction'}
 
 start_syncing_all_logs()
+start_syncing_all_db_collections()
 
 gexport_module 'background', -> eval(it)
 

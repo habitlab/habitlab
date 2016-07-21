@@ -91,9 +91,15 @@ export getInterventionLogCollection = cfy (name) ->*
   return db[name]
 
 export add_log_goals = cfy (data) ->*
+  data = {} <<< data
+  data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
+  data.enabled_goals = yield goal_utils.get_enabled_goals()
   yield addtolog 'logs/goals', data
 
 export add_log_interventions = cfy (data) ->*
+  data = {} <<< data
+  data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
+  data.enabled_goals = yield goal_utils.get_enabled_goals()
   yield addtolog 'logs/interventions', data
 
 export addtolog = cfy (name, data) ->*
@@ -236,5 +242,6 @@ export stop_syncing_all_logs = cfy ->*
     log_syncers_active[k] = false
 
 intervention_utils = require 'libs_backend/intervention_utils'
+goal_utils = require 'libs_backend/goal_utils'
 
 gexport_module 'log_utils_backend', -> eval(it)

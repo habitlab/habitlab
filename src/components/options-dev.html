@@ -14,14 +14,9 @@
       <template is="dom-repeat" items="{{categories_and_option_info}}" as="category_and_option_info">
         <h3>{{category_and_option_info.category}}</h3>
         <template is="dom-repeat" items="{{category_and_option_info.options}}" as="option">
-          <paper-checkbox checked="{{option.value}}" option_name="{{option.name}}" on-change="option_changed">{{option.description}}</paper-checkbox>
+          <paper-checkbox checked="{{option.value}}" option_name="{{option.name}}" on-change="option_changed"><span>{{option.description}}</span> (<span>{{option.name}}</span>)</paper-checkbox>
         </template>
       </template>
-      <!--
-      <h3>Interventions Manager Page Options</h3>
-      <paper-checkbox option_name="intervention_view_display_internal_names" on-change="option_changed">Display internal names of interventions</paper-checkbox>
-      -->
-
     </div>
   </template>
   <script src="options-dev.js"></script>

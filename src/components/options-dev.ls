@@ -21,8 +21,8 @@ polymer_ext {
         category: 'Intervention Manager Page Options'
         options: [
           {
-            name: 'intervention_view_display_internal_names'
-            description: 'Display internal names of interventions'
+            name: 'intervention_view_show_internal_names'
+            description: 'Show internal names of goals and interventions'
           }
         ]
       }

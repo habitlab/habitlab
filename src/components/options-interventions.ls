@@ -79,6 +79,8 @@ polymer_ext {
         goal.enabled = (enabled_goals[goal.name] == true)
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
+  show_internal_names_of_goals: ->
+    return localStorage.getItem('intervention_view_show_internal_names') == 'true'
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this
@@ -97,6 +99,7 @@ polymer_ext {
     list_of_goals_and_interventions = []
     list_of_goals = prelude.sort as_array(enabled_goals)
     for goalname in list_of_goals
+      #if goalname == 'debug/' localStorage.getItem('intervention_view_display_randomly_choose_button') != 'true'
       current_item = {goal: all_goals[goalname]}
       current_item.interventions = prelude.sort-by (.name), goal_to_interventions[goalname]
       for intervention in current_item.interventions

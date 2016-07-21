@@ -27,6 +27,10 @@ require! {
   as_array
 } = require 'libs_common/collection_utils'
 
+{
+  add_log_interventions
+} = require 'libs_backend/log_utils'
+
 {cfy} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
@@ -43,10 +47,11 @@ polymer_ext {
       value: []
     }
   }
-  disable_interventions_which_do_not_satisfy_any_goals: cfy (evt) ->*
+  disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
     enabled_goals = yield get_enabled_goals()
     enabled_interventions = yield get_enabled_interventions()
     all_interventions = yield get_interventions()
+    interventions_to_disable = []
     for intervention_name,intervention_enabled of enabled_interventions
       if not intervention_enabled
         continue
@@ -56,7 +61,18 @@ polymer_ext {
         if enabled_goals[goal_info.name]
           intervention_satisfies_an_enabled_goal = true
       if not intervention_satisfies_an_enabled_goal
-        yield set_intervention_disabled intervention_name
+        interventions_to_disable.push intervention_name
+    prev_enabled_interventions = {} <<< enabled_interventions
+    for intervention_name in interventions_to_disable
+      yield set_intervention_disabled intervention_name
+    if interventions_to_disable.length > 0
+      add_log_interventions {
+        type: 'interventions_disabled_due_to_user_disabling_goal'
+        manual: false
+        goal_name: goal_name
+        interventions_list: interventions_to_disable
+        prev_enabled_interventions: prev_enabled_interventions
+      }
   goal_changed: cfy (evt) ->*
     checked = evt.target.checked
     goal_name = evt.target.goal.name
@@ -65,7 +81,7 @@ polymer_ext {
       yield set_goal_enabled_manual goal_name
     else
       yield set_goal_disabled_manual goal_name
-    yield this.disable_interventions_which_do_not_satisfy_any_goals()
+    yield this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
     console.log 'goal changed'
     self.fire 'goal_changed', {goal_name: goal_name}
   select_new_interventions: (evt) ->

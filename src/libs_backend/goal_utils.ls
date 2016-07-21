@@ -9,10 +9,6 @@ $ = require 'jquery'
   gexport_module
 } = require 'libs_common/gexport'
 
-{
-  add_log_goals
-} = require 'libs_backend/log_utils'
-
 {cfy, yfy} = require 'cfy'
 
 getAllInterventionsGoalInfo = cfy ->*
@@ -58,7 +54,7 @@ export set_goal_enabled_manual = cfy (goal_name) ->*
     return
   enabled_goals[goal_name] = true
   yield set_enabled_goals enabled_goals
-  add_log_goals {
+  log_utils.add_log_goals {
     type: 'goal_enabled'
     manual: true
     goal_name: goal_name
@@ -73,7 +69,7 @@ export set_goal_enabled = cfy (goal_name) ->*
     return
   enabled_goals[goal_name] = true
   yield set_enabled_goals enabled_goals
-  add_log_goals {
+  log_utils.add_log_goals {
     type: 'goal_enabled'
     manual: false
     goal_name: goal_name
@@ -87,7 +83,7 @@ export set_goal_disabled_manual = cfy (goal_name) ->*
     return
   delete enabled_goals[goal_name]
   yield set_enabled_goals enabled_goals
-  add_log_goals {
+  log_utils.add_log_goals {
     type: 'goal_disabled'
     manual: false
     goal_name: goal_name
@@ -101,7 +97,7 @@ export set_goal_disabled = cfy (goal_name) ->*
     return
   delete enabled_goals[goal_name]
   yield set_enabled_goals enabled_goals
-  add_log_goals {
+  log_utils.add_log_goals {
     type: 'goal_disabled'
     manual: false
     goal_name: goal_name
@@ -169,5 +165,6 @@ export get_goals_for_intervention = cfy (intervention_name) ->*
   return goals_for_intervention
 
 intervention_utils = require 'libs_backend/intervention_utils'
+log_utils = require 'libs_backend/log_utils'
 
 gexport_module 'goal_utils', -> eval(it)

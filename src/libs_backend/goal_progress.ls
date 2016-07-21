@@ -1,8 +1,3 @@
-{
-  get_enabled_goals
-  get_goals
-} = require 'libs_backend/goal_utils'
-
 {memoizeSingleAsync} = require 'libs_common/memoize'
 
 {
@@ -17,7 +12,7 @@ measurement_functions_generated = require 'goals/progress_measurement_generated'
 
 export get_progress_measurement_functions = memoizeSingleAsync cfy ->*
   output = {}
-  goals = yield get_goals()
+  goals = yield goal_utils.get_goals()
   for goal_name,goal_info of goals
     if goal_info.measurement?
       measurement_function = measurement_functions[goal_info.measurement]
@@ -53,12 +48,14 @@ export get_progress_on_goal_days_since_today = cfy (goal_name, days_since_today)
   yield goal_measurement_function days_since_today
 
 export get_progress_on_enabled_goals_days_since_today = cfy (days_since_today) ->*
-  enabled_goals = yield get_enabled_goals()
+  enabled_goals = yield goal_utils.get_enabled_goals()
   enabled_goals_list = Object.keys enabled_goals
   output = {}
   for goal_name in enabled_goals_list
     progress_info = yield get_progress_on_goal_days_since_today goal_name, days_since_today
     output[goal_name] = progress_info
   return output
+
+goal_utils = require 'libs_backend/goal_utils'
 
 gexport_module 'goal_progress', -> eval(it)

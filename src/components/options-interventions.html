@@ -15,14 +15,33 @@
   </style>
   <template>
     <div style="margin: 10px">
-      <!-- <img src="options-goals.png" style="width: 100%"> -->
-      <p>HabitLab automatically manages your interventions by default to maximize their effectiveness. You do not need to modify any settings on this page. However, if you particularly like/dislike an intervention, you can set it to be permanently enabled or disabled.</p>
 
+      <h2>What goals should HabitLab help you achieve?</h2>
+      <p>Please tell HabitLab your goals so that it can help you achieve them by making adjustments to websites.</p>
+
+      <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
+
+      <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
+
+      <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals">
+        <!-- <h3>{{site_and_goals.sitename}}</h3> -->
+        <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
+          <paper-checkbox checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed">{{goal.description}}</paper-checkbox>
+          <br><br>
+        </template>
+      </template>
+
+      <h2>Manage Interventions</h2>
+      <!-- <img src="options-goals.png" style="width: 100%"> -->
+      <p>HabitLab automatically manages your interventions by default to maximize their effectiveness. You do not need to modify any settings below. However, if you particularly like/dislike an intervention, you can set it to be permanently enabled or disabled.</p>
+
+      <!--
       <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
 
       <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
-
       <br><br>
+      -->
+
       <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
       <br>
 

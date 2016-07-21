@@ -21,11 +21,18 @@ polymer_ext {
     goal_changed: 'on_goal_changed'
   }
   set_selected_tab_by_name: (selected_tab_name) ->
-    selected_tab_idx = ['results', 'goals', 'interventions'].indexOf(selected_tab_name)
+    selected_tab_idx = switch selected_tab_name
+    | 'results' => 0
+    | 'dashboard' => 0
+    | 'goals' => 1
+    | 'interventions' => 1
+    | 'configure' => 1
+    | 'config' => 1
+    | 'manage' => 1
     if selected_tab_idx != -1
       this.selected_tab_idx = selected_tab_idx
   compute_selected_tab_name: (selected_tab_idx) ->
-    return ['results', 'goals', 'interventions'][selected_tab_idx]
+    return ['results', 'goals'][selected_tab_idx]
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}
   on_goal_changed: (evt) ->

@@ -65,6 +65,8 @@ polymer_ext {
     return !enabled and !automatic
   display_internal_names_for_interventions: ->
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
+  get_dropdown_idx: ->
+    return 0
   always_shown_changed: cfy (evt) ->*
     active = evt.target.active
     if active # just got checked

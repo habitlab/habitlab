@@ -18,7 +18,7 @@
     <div style="margin: 10px">
 
       <h2>What goals should HabitLab help you achieve?</h2>
-      <p>Please tell HabitLab your goals so that it can help you achieve them by making adjustments to websites.</p>
+      <p style="font-size: 16px">Please tell HabitLab your goals so that it can help you achieve them by making adjustments to websites.</p>
 
       <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
 
@@ -28,7 +28,7 @@
         <!-- <h3>{{site_and_goals.sitename}}</h3> -->
         <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
           <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed">
-            <span>{{goal.description}}</span>
+            <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
             <template is="dom-if" if="{{show_internal_names_of_goals()}}">
               (<span>{{goal.name}}</span>)
             </template>
@@ -40,7 +40,7 @@
       <template is="dom-if" if="{{have_interventions_available(goals_and_interventions)}}">
         <h2>Manage Interventions</h2>
         <!-- <img src="options-goals.png" style="width: 100%"> -->
-        <p>HabitLab automatically manages your interventions by default to maximize their effectiveness. You do not need to modify any settings below. However, if you particularly like/dislike an intervention, you can set it to be always/never shown.</p>
+        <p style="font-size: 16px">HabitLab smartly manages your interventions by default to maximize their effectiveness. However, you can manually enable/disable interventions below.</p>
 
         <!--
         <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>

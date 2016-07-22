@@ -1,6 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu-light.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="intervention-parameter-view.html">
 
 <dom-module id="intervention-view-single">
@@ -25,6 +28,18 @@
   </style>
   <template>
     <div>
+      <div style="height: 61px">
+      <paper-dropdown-menu-light style="display: inline-block">
+        <paper-listbox class="dropdown-content" selected="{{get_dropdown_idx()}}">
+          <paper-item>Smartly Managed</paper-item>
+          <paper-item>Enabled</paper-item>
+          <paper-item>Disabled</paper-item>
+        </paper-listbox-light>
+      </paper-dropdown-menu-light>
+       <div style="font-family: 'Roboto', 'Noto', sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 33px">{{intervention.description}}</div>
+       </div>
+
+<!--
       <paper-toggle-button disabled="{{manually_managed}}" checked="{{enabled}}" on-change="intervention_changed">
         <span>{{intervention.description}}</span>
         <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
@@ -35,7 +50,7 @@
     <div style="margin-left: 45px">
       <paper-button toggles raised noink class="never_show_button" on-change="never_shown_changed" active="{{never_shown}}">Never show this intervention</paper-button>
       <paper-button toggles raised noink class="always_show_button" on-change="always_shown_changed" active="{{always_shown}}">Always show this intervention</paper-button>
-
+-->
       <template is="dom-if" if="{{intervention.enabled_goals.length}}">
         <span>Supports your goals: </span>
         <template is="dom-repeat" items="{{intervention.enabled_goals}}" as="goal">

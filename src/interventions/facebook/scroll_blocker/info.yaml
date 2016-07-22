@@ -1,4 +1,4 @@
-description: Prevents scrolling
+description: Prevents the user from scrolling after a certaing amount of scrolls.
 matches:
   - www.facebook.com
 content_scripts:

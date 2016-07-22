@@ -1,4 +1,4 @@
-description: Displays an interstitial page showing user time spent/visit count
+description: Displays an page showing user time spent/visit count before allowing access to Facebook.
 matches:
   - www.facebook.com
 content_scripts:

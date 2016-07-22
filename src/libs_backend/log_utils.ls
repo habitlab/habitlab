@@ -185,7 +185,7 @@ export log_action = cfy (name, data) ->*
   console.log "action logged for #{name} with data #{JSON.stringify(data)}"
   yield addtolog name, data
 
-upload_to_server = cfy (name, data) ->*
+upload_log_item_to_server = cfy (name, data) ->*
   logging_server_url = localStorage.getItem('logging_server_url') ? 'https://habitlab.herokuapp.com/'
   collection = yield getInterventionLogCollection(name)
   data = {} <<< data
@@ -201,10 +201,10 @@ upload_to_server = cfy (name, data) ->*
     if response.success
       yield collection.where('id').equals(data.id).modify({synced: 1})
     else
-      console.log 'response from server was not successful in upload_to_server'
+      console.log 'response from server was not successful in upload_log_item_to_server'
       console.log response
   catch
-    console.log 'error thrown in upload_to_server'
+    console.log 'error thrown in upload_log_item_to_server'
     console.log e
   return
 
@@ -218,7 +218,7 @@ export sync_unsynced_logs = cfy (name) ->*
   console.log 'unsynced_items are'
   console.log unsynced_items
   for x in unsynced_items
-    yield upload_to_server(name, x)
+    yield upload_log_item_to_server(name, x)
 
 log_syncers_active = {}
 

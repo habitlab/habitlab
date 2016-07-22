@@ -1,4 +1,4 @@
-description: Displays Facebook notifications
+description: Displays Facebook message notifications
 matches:
   - www.facebook.com
 content_scripts:

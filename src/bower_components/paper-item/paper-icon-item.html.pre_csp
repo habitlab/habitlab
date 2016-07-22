@@ -6,7 +6,9 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><html><head><link rel="import" href="../polymer/polymer.html">
+-->
+
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="paper-item-behavior.html">
@@ -44,7 +46,7 @@ Custom property               | Description                                    |
 `--paper-item-focused-before` | Mixin applied to :before focused paper-items | `{}`
 -->
 
-</head><body><dom-module id="paper-icon-item">
+<dom-module id="paper-icon-item">
   <template>
     <style include="paper-item-shared-styles"></style>
     <style>
@@ -72,6 +74,13 @@ Custom property               | Description                                    |
     <content></content>
   </template>
 
-  <script src="paper-icon-item-0.js"></script>
+  <script>
+    Polymer({
+      is: 'paper-icon-item',
+
+      behaviors: [
+        Polymer.PaperItemBehavior
+      ]
+    });
+  </script>
 </dom-module>
-</body></html>

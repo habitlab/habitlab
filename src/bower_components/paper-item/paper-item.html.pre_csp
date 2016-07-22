@@ -6,7 +6,9 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><html><head><link rel="import" href="../polymer/polymer.html">
+-->
+
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="paper-item-behavior.html">
 <link rel="import" href="paper-item-shared-styles.html">
@@ -81,7 +83,7 @@ This element has `role="listitem"` by default. Depending on usage, it may be mor
 @demo demo/index.html
 -->
 
-</head><body><dom-module id="paper-item">
+<dom-module id="paper-item">
   <template>
     <style include="paper-item-shared-styles"></style>
     <style>
@@ -97,6 +99,13 @@ This element has `role="listitem"` by default. Depending on usage, it may be mor
     <content></content>
   </template>
 
-  <script src="paper-item-0.js"></script>
+  <script>
+    Polymer({
+      is: 'paper-item',
+
+      behaviors: [
+        Polymer.PaperItemBehavior
+      ]
+    });
+  </script>
 </dom-module>
-</body></html>

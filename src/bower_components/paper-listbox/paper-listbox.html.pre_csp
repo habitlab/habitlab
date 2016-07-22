@@ -6,7 +6,9 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><html><head><link rel="import" href="../polymer/polymer.html">
+-->
+
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-menu-behavior/iron-menu-behavior.html">
 <link rel="import" href="../paper-styles/default-theme.html">
 
@@ -59,7 +61,7 @@ of a listbox item will also focus it.
 @demo demo/index.html
 -->
 
-</head><body><dom-module id="paper-listbox">
+<dom-module id="paper-listbox">
   <template>
     <style>
       :host {
@@ -76,6 +78,19 @@ of a listbox item will also focus it.
     <content></content>
   </template>
 
-  <script src="paper-listbox-0.js"></script>
+  <script>
+    (function() {
+      Polymer({
+        is: 'paper-listbox',
+
+        behaviors: [
+          Polymer.IronMenuBehavior
+        ],
+
+        hostAttributes: {
+          role: 'listbox'
+        }
+      });
+    })();
+  </script>
 </dom-module>
-</body></html>

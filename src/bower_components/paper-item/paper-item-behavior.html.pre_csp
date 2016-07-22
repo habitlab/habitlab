@@ -6,7 +6,9 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><html><head><link rel="import" href="../polymer/polymer.html">
+-->
+
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-behaviors/iron-button-state.html">
 <link rel="import" href="../iron-behaviors/iron-control-state.html">
 
@@ -16,5 +18,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 the items.
 -->
 
-<script src="paper-item-behavior-0.js"></script>
-</head><body></body></html>
+<script>
+  /** @polymerBehavior Polymer.PaperItemBehavior */
+  Polymer.PaperItemBehaviorImpl = {
+    hostAttributes: {
+      role: 'option',
+      tabindex: '0'
+    }
+  };
+
+  /** @polymerBehavior */
+  Polymer.PaperItemBehavior = [
+    Polymer.IronButtonState,
+    Polymer.IronControlState,
+    Polymer.PaperItemBehaviorImpl
+  ];
+</script>

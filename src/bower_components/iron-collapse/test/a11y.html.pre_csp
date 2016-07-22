@@ -1,4 +1,5 @@
-<!DOCTYPE html><!--
+<!doctype html>
+<!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -6,7 +7,10 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><html><head>
+-->
+
+<html>
+  <head>
 
     <title>iron-collapse-a11y</title>
     <meta charset="utf-8">
@@ -32,9 +36,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </template>
     </test-fixture>
 
-    <script src="a11y-0.js"></script>
+    <script>
 
-  
+      suite('a11y', function() {
+        var collapse;
 
+        setup(function () {
+          collapse = fixture('trivialCollapse');
+        });
 
-</body></html>
+        test('aria attributes', function() {
+          assert.equal(collapse.getAttribute('role'), 'group');
+          assert.equal(collapse.getAttribute('aria-expanded'), 'false');
+          assert.equal(collapse.getAttribute('aria-hidden'), 'true');
+        });
+
+        test('set opened to true', function() {
+          collapse.opened = true;
+          assert.equal(collapse.getAttribute('aria-expanded'), 'true');
+          assert.equal(collapse.getAttribute('aria-hidden'), 'false');
+        });
+
+        test('focus the collapse when opened', function() {
+          assert.notEqual(document.activeElement, collapse);
+          collapse.opened = true;
+          assert.equal(document.activeElement, collapse);
+        });
+
+        a11ySuite('trivialCollapse');
+
+      });
+
+    </script>
+
+  </body>
+</html>
+

@@ -1,5 +1,4 @@
-<!doctype html>
-<!--
+<!DOCTYPE html><!--
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -7,10 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-<html>
-
-<head>
+--><html><head>
 
     <title>iron-overlay-backdrop tests</title>
 
@@ -46,40 +42,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <test-fixture id="backdrop">
     <template>
-        <test-overlay with-backdrop>
+        <test-overlay with-backdrop="">
             Overlay with backdrop
         </test-overlay>
     </template>
 </test-fixture>
 
-<script>
-    function runAfterOpen(overlay, callback) {
-        overlay.addEventListener('iron-overlay-opened', callback);
-        overlay.open();
-    }
+<script src="iron-overlay-backdrop-0.js"></script>
 
-    suite('overlay with backdrop', function() {
-        var overlay;
 
-        setup(function() {
-            overlay = fixture('backdrop');
-        });
 
-        test('backdrop size matches parent size', function(done) {
-            runAfterOpen(overlay, function() {
-                // Flush so we are sure backdrop is added in the DOM.
-                Polymer.dom.flush();
-                var backdrop = overlay.backdropElement;
-                var parent = backdrop.parentElement;
-                assert.strictEqual(backdrop.offsetWidth, parent.clientWidth, 'backdrop width matches parent width');
-                assert.strictEqual(backdrop.offsetHeight, parent.clientHeight, 'backdrop height matches parent height');
-                done();
-            });
-        });
 
-    });
-</script>
-
-</body>
-
-</html>
+</body></html>

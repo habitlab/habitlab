@@ -110,7 +110,7 @@ function insertClickNotification() {
           console.log("First Time Selected- Notification Injected");
             
           //Log the impression: The user viewed the message from habitlab
-          log_impression('facebook/notification_hijacker')
+          log_impression(intervention.name)
 
           clearInterval(wait);
         }

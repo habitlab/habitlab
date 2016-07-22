@@ -77,6 +77,8 @@ $ = require 'jquery'
 
 {cfy, yfy} = require 'cfy'
 
+require 'libs_common/measurement_utils'
+
 require 'libs_common/systemjs'
 
 # console.log 'weblab running in background'

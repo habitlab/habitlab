@@ -1,0 +1,6 @@
+description: Spend less time on Buzzfeed
+progress_description: Time spent on Buzzfeed 
+interventions:
+  - buzzfeed/remove_buzz_feed
+measurement: time_spent_on_domain
+domain: buzzfeed.com

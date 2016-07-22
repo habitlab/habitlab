@@ -22,16 +22,14 @@ export inject_into_feed = (component_generator) ->
 
   insertBeforeItem = (jfeeditem) ->
     quizid = randstr()
+    console.log "about to insert... items="
+    console.log window.itemsseen
     jfeeditem.before component_generator(window.numitems)
     return
 
   insertIfMissing = ->
     
-    # $('.mbm._5jmm,.userContentWrapper._5pcr').on 'inview', (isInView) ->
-    #   if isInView
-    #     console.log 'feed item now visible!'
-    #     window.itemsseen += 1
-    #     console.log window.itemsseen
+    
 
     for $feeditem in $('.mbm._5jmm,.userContentWrapper._5pcr')
       if $($feeditem).isInView()  
@@ -41,16 +39,18 @@ export inject_into_feed = (component_generator) ->
           $($feeditem).prop('seen': true)
           console.log 'new feed'
           window.itemsseen += 1
-
+          if window.itemsseen % 10 == 5
+            console.log \injected
+            insertBeforeItem $($feeditem)
       
   
       if not $feeditem.feedlearninserted
         $feeditem.feedlearninserted = true
         window.numitems += 1
       
-        if window.numitems % 10 == 5
-          console.log \injected
-          insertBeforeItem $($feeditem)
+        # if window.itemsseen % 10 == 5
+        #   console.log \injected
+        #   insertBeforeItem $($feeditem)
     return
 
   idArraysEqual = (a1, a2) ->

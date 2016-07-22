@@ -23,7 +23,6 @@ component_generator = (numitems) ->
   log_impression intervention.name
   
   feed-item = $('<feed-item-timer-polymer>')
-  window.itemsseen += 2
   feed-item.attr('items': window.itemsseen)
   return feed-item
 

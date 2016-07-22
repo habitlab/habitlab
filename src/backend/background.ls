@@ -359,10 +359,10 @@ navigation_occurred = (url, tabId) ->
     tabId: tabId
   }
   possible_interventions <- list_available_interventions_for_location(url)
-  if possible_interventions.length > 0
-    chrome.pageAction.show(tabId)
-  else
-    chrome.pageAction.hide(tabId)
+  #if possible_interventions.length > 0
+  #  chrome.pageAction.show(tabId)
+  #else
+  #  chrome.pageAction.hide(tabId)
   #send_pageupdate_to_tab(tabId)
   console.log "navigation_occurred to #{url}"
   load_intervention_for_location url

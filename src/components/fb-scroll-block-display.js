@@ -31,6 +31,9 @@ Polymer({
       type: Number,
     }
   },
+  listeners: {
+    'click': 'clicked'
+  },
   clicked: function() {
     console.log('habitlab-logo clicked');
     this.fire('continue_scrolling', {})

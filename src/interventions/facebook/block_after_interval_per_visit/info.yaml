@@ -4,5 +4,10 @@ matches:
 content_scripts:
   - path: frontend.js
     run_at: document_start
+parameters:
+  - name: cheatseconds
+    description: Seconds to cheat for after time is up
+    default: 30
+    type: int    
 category:
   - interstitial

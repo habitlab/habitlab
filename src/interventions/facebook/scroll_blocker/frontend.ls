@@ -35,8 +35,7 @@ window.onwheel = (evt) ->
       disable_scrolling_and_show_scroll_block()
     return window.scrolling_allowed
 
-scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker" --width="10px" --height="10px">')
-$('body').append(scroll_block_display)
+
 
 enable_scrolling_and_hide_scroll_block = ->
   
@@ -59,6 +58,9 @@ block_arrows = (e) ->
   if (e.keyCode == 38) or (e.keyCode == 40)
     console.log 'key blocked'
     return false
+
+scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker" --width="10px" --height="10px" onclick="this.clicked()">')
+$('body').append(scroll_block_display)
 
 enable_scrolling_and_hide_scroll_block!
 disable_scrolling_and_show_scroll_block!

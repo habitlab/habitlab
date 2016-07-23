@@ -20,7 +20,13 @@ require! {
   'mkdirp'
   'glob'
   'bestzip'
+  'chrome-web-store-item-property'
 }
+
+process.on 'unhandledRejection', (reason, p) ->
+  throw new Error(reason)
+
+{cfy} = require 'cfy'
 
 prelude = require 'prelude-ls'
 
@@ -498,7 +504,18 @@ gulp.task 'mkzip', (done) ->
   <- bestzip output_zip_file, ['dist/*']
   done()
 
-gulp.task 'newver', (done) ->
+gulp.task 'newver', cfy ->*
+  chrome_store_item = yield chrome-web-store-item-property('obghclocpdgcekcognpkblghkedcpdgd')
+  published_version = chrome_store_item.version
+  manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
+  version = manifest_info.version
+  if published_version == version
+    version_parts = version.split('.')
+    version_parts[*-1] = (parseInt(version_parts[*-1]) + 1).toString()
+    manifest_info.version = version_parts.join('.')
+    fs.writeFileSync 'src/manifest.yaml', js-yaml.safeDump(manifest_info)
+
+gulp.task 'newver_forced', (done) ->
   manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
   version = manifest_info.version
   version_parts = version.split('.')
@@ -581,6 +598,8 @@ gulp.task 'watch', ['build'], (done) ->
   gulp-util.log 'run-sequence done'
   done()
 */
+
+gulp.task 'release', gulp.series 'newver', 'clean', 'build', 'mkzip'
 
 gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch'))
 

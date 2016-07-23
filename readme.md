@@ -300,7 +300,7 @@ gulp
 To make a release (which will minify the files), run
 
 ```bash
-gulp release
+gulp build_release
 ```
 
 To analyze the size of an individual intervention, first install webpack-bundle-size-analyzer
@@ -314,3 +314,13 @@ Now run webpack-bundle-size-analyzer on the intervention
 ```bash
 webpack --config ./webpack_config_frontend.ls --json src/interventions/facebook/block_after_interval_daily/frontend.js bundle.js | webpack-bundle-size-analyzer
 ```
+
+### Making a release
+
+Run the command
+
+```bash
+gulp release
+```
+
+It will increment the version number in `src/manifest.yaml` to be above the currently publisehd version, will make a clean build, and output a zip file in `releases` which can be uploaded to the Chrome Web Store.

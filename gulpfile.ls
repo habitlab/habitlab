@@ -19,6 +19,7 @@ require! {
   'js-yaml'
   'mkdirp'
   'glob'
+  'bestzip'
 }
 
 prelude = require 'prelude-ls'
@@ -488,6 +489,14 @@ tasks_and_patterns = [
 gulp.task 'build', gulp.parallel 'build_base', 'webpack_build', 'webpack_content_scripts'
 
 gulp.task 'release', gulp.parallel 'build_base', 'webpack_prod', 'webpack_content_scripts_prod' #, 'webpack_vulcanize_prod'
+
+gulp.task 'mkzip', (done) ->
+  mkdirp.sync 'releases'
+  manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
+  version = manifest_info.version
+  output_zip_file = path.join('releases', "habitlab_#{version}.zip")
+  <- bestzip output_zip_file, ['dist/*']
+  done()
 
 gulp.task 'yaml_watch', ->
   gulp.watch yamlpattern, gulp.series('yaml_build')

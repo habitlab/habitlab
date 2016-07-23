@@ -65,8 +65,55 @@ polymer_ext {
     return !enabled and !automatic
   display_internal_names_for_interventions: ->
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
-  get_dropdown_idx: ->
+  get_dropdown_idx: (automatic, enabled) ->
+    if !automatic
+      if enabled
+        return 1
+      else
+        return 2
     return 0
+  dropdown_menu_changed: cfy (evt) ->*
+    selected = this.$$('#enabled_selector').selected
+    if selected == 0 and this.automatic
+      return
+    if selected == 1 and !this.automatic and this.enabled
+      return
+    if selected == 2 and !this.automatic and !this.enabled
+      return
+    if selected == 0
+      this.automatic = true
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_automatically_managed this.intervention.name
+      add_log_interventions {
+        type: 'intervention_set_smartly_managed'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+    if selected == 1
+      this.enabled = true
+      this.automatic = false
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_enabled this.intervention.name
+      yield set_intervention_manually_managed this.intervention.name
+      add_log_interventions {
+        type: 'intervention_set_always_enabled'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+    if selected == 2
+      this.enabled = false
+      this.automatic = false
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_disabled this.intervention.name
+      yield set_intervention_manually_managed this.intervention.name
+      add_log_interventions {
+        type: 'intervention_set_always_disabled'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
   always_shown_changed: cfy (evt) ->*
     active = evt.target.active
     if active # just got checked

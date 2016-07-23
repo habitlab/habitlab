@@ -75,7 +75,7 @@ function addBeginDialog(message) {
   $okButton.css({'cursor': 'pointer', 'padding': '5px'});
   $okButton.click(() => {
     var minutes = document.querySelector("paper-slider").value
-    log_impression('facebook/block_after_interval_daily')
+    log_impression(intervention.name)
     //Save time in database
     localStorage.setItem('timeLimitDaily', minutes * 60) //time limit stored in seconds
     $('.beginBox').remove()

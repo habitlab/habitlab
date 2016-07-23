@@ -69,7 +69,7 @@ on_url_change(() => {
 
 var intervalID;
 
-log_impression('facebook/remove_news_feed')
+log_impression(intervention.name)
 var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed" style="text-align: center; margin: 0 auto; position: relative; left: -20px"></habitlab-logo>')
 var cheatButton = $('<center><paper-button style="background-color:white; margin-top: 35px" raised>Show My News Feed This One Time</paper-button></center>')
 cheatButton.click(function() {

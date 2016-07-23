@@ -76,7 +76,7 @@ function addBeginDialog(message) {
         $wrongInputText.insertAfter($slider)
       }
     } else {
-      log_impression('facebook/block_after_interval_per_visit')
+      log_impression(intervention.name)
       timeBegun = Math.floor(Date.now() / 1000)
       timeLimitThisVisit = minutes * 60
 

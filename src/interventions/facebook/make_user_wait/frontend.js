@@ -26,7 +26,7 @@
   interst_screen.attr('title-text', messageString)
   interst_screen[0].hideButton();
   interst_screen.attr('intervention', intervention.name)
-  log_impression('facebook/make_user_wait')
+  log_impression(intervention.name)
 
   
   var countdown = setInterval(function() {

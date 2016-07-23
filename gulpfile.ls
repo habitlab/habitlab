@@ -488,7 +488,7 @@ tasks_and_patterns = [
 #gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
 gulp.task 'build', gulp.parallel 'build_base', 'webpack_build', 'webpack_content_scripts'
 
-gulp.task 'release', gulp.parallel 'build_base', 'webpack_prod', 'webpack_content_scripts_prod' #, 'webpack_vulcanize_prod'
+gulp.task 'build_release', gulp.parallel 'build_base', 'webpack_prod', 'webpack_content_scripts_prod' #, 'webpack_vulcanize_prod'
 
 gulp.task 'mkzip', (done) ->
   mkdirp.sync 'releases'
@@ -496,6 +496,15 @@ gulp.task 'mkzip', (done) ->
   version = manifest_info.version
   output_zip_file = path.join('releases', "habitlab_#{version}.zip")
   <- bestzip output_zip_file, ['dist/*']
+  done()
+
+gulp.task 'newver', (done) ->
+  manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
+  version = manifest_info.version
+  version_parts = version.split('.')
+  version_parts[*-1] = (parseInt(version_parts[*-1]) + 1).toString()
+  manifest_info.version = version_parts.join('.')
+  fs.writeFileSync 'src/manifest.yaml', js-yaml.safeDump(manifest_info)
   done()
 
 gulp.task 'yaml_watch', ->

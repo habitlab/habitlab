@@ -1,8 +1,10 @@
 manifest_version: 2
 name: HabitLab
 short_name: habitlab
-description: Build better habits online! Tell HabitLab your goals, and it will determine the appropriate interventions via experimentation.
-version: '1.0.23'
+description: >-
+  Build better habits online! Tell HabitLab your goals, and it will determine
+  the appropriate interventions via experimentation.
+version: 1.0.23
 permissions:
   - tabs
   - webNavigation
@@ -13,63 +15,31 @@ permissions:
   - notifications
   - 'http://*/'
   - 'https://*/'
-content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'"
+content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'
 web_accessible_resources:
-  - 'icons/icon_38.png'
-  - 'interventions/**/*.png'
-  - 'jspm_packages/**/*'
-  - 'libs_frontend/*'
-  - 'libs_frontend/**/*'
-  - 'libs_common/*'
-  - 'libs_common/**/*'
+  - icons/icon_38.png
+  - interventions/**/*.png
+  - jspm_packages/**/*
+  - libs_frontend/*
+  - libs_frontend/**/*
+  - libs_common/*
+  - libs_common/**/*
 background:
   persistent: true
   scripts:
     - global_exports.js
     - backend/background.js
     - global_exports_post.js
-    #- bower_components/jquery/dist/jquery.min.js
-    #- bower_components/async/dist/async.min.js
-    #- bower_components/js-yaml/dist/js-yaml.min.js
-    #- prelude.js
-    #- memoize.js
-    #- background_common.js
-    #- fields/computed_fields.js
-    #- fields/get_field.js
-    #- background.js
-    #- background_utils.js
-#content_scripts:
-#  - matches:
-#    - 'http://youtube.com/*'
-#    - 'https://youtube.com/*'
-#    - 'http://www.youtube.com/*'
-#    - 'https://www.youtube.com/*'
-#    js:
-#      - bower_components/jquery/dist/jquery.min.js
-#      - youtube_aftervideo.js
-#content_scripts:
-#  - matches:
-#      - 'https://*/*'
-#      - 'http://*/*'
-#    js:
-#      - bower_components/sweetalert/dist/sweetalert.min.js
-#      - content_script.js
-#    css:
-#      - bower_components/sweetalert/dist/sweetalert.css
-#    run_at: document_end
-#page_action:
 browser_action:
   default_icon:
-    19: icons/icon_19.png
-    38: icons/icon_38.png
-  default_popup: 'popup.html'
+    '19': icons/icon_19.png
+    '38': icons/icon_38.png
+  default_popup: popup.html
 options_ui:
-  page: 'options.html'
+  page: options.html
   chrome_style: false
   open_in_tab: true
 externally_connectable:
-  #ids:
-  #  - lmhkdhimjgolapmhllfodcmmibjmmdoi
   matches:
     - '*://localhost:*/*'
     - '*://autosurvey.pancakeapps.com/*'

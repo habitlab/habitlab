@@ -53,6 +53,8 @@ polymer_ext {
   intervention_property_changed: (intervention, old_intervention) ->
     this.automatic = this.intervention.automatic
     this.enabled = this.intervention.enabled
+  currently_on: (automatic, enabled) ->
+    return automatic and enabled
   automatic_changed: (automatic, old_automatic) ->
     this.intervention.automatic = automatic
   enabled_changed: (enabled, old_enabled) ->

@@ -28,16 +28,21 @@
   </style>
   <template>
     <div>
-      <div style="height: 61px">
-      <paper-dropdown-menu-light noink no-animations style="display: inline-block">
-        <paper-listbox id="enabled_selector" class="dropdown-content" selected="{{get_dropdown_idx(automatic, enabled)}}" on-iron-select="dropdown_menu_changed">
-          <paper-item>Smartly Managed</paper-item>
-          <paper-item>Always Enabled</paper-item>
-          <paper-item>Always Disabled</paper-item>
-        </paper-listbox-light>
-      </paper-dropdown-menu-light>
-       <div style="font-family: 'Roboto', 'Noto', sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 33px">{{intervention.description}}</div>
-       </div>
+      <div>
+        <paper-dropdown-menu-light noink no-animations style="display: inline-block">
+          <paper-listbox id="enabled_selector" class="dropdown-content" selected="{{get_dropdown_idx(automatic, enabled)}}" on-iron-select="dropdown_menu_changed">
+            <paper-item>Smartly Managed</paper-item>
+            <paper-item>Always On</paper-item>
+            <paper-item>Always Off</paper-item>
+          </paper-listbox-light>
+        </paper-dropdown-menu-light>
+        <div style="font-family: 'Roboto', 'Noto', sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 33px">
+          <template is="dom-if" if="{{currently_on(automatic, enabled)}}">
+            <span style="color: green">(Currently On)</span>
+          </template>
+          <span>{{intervention.description}}</span>
+        </div>
+      </div>
 <!--
       <paper-toggle-button disabled="{{manually_managed}}" checked="{{enabled}}" on-change="intervention_changed">
         <span>{{intervention.description}}</span>

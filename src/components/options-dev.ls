@@ -32,6 +32,10 @@ polymer_ext {
             name: 'intervention_view_show_randomize_button'
             description: 'Show the randomize interventions button'
           }
+          {
+            name: 'intervention_view_show_parameters'
+            description: 'Show the parameters for each intervention'
+          }
         ]
       }
     ]

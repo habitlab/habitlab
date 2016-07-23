@@ -72,6 +72,8 @@ polymer_ext {
       else
         return 2
     return 0
+  parameters_shown: ->
+    return localStorage.getItem('intervention_view_show_parameters') == 'true'
   dropdown_menu_changed: cfy (evt) ->*
     selected = this.$$('#enabled_selector').selected
     if selected == 0 and this.automatic

@@ -60,8 +60,10 @@
         </template>
         <br>
       </template>
-      <template is="dom-repeat" items="{{intervention.parameters}}" as="parameter">
-        <span><intervention-parameter-view intervention="{{intervention}}" parameter="{{parameter}}"></intervention-parameter-view></span>
+      <template is="dom-if" if="{{parameters_shown()}}">
+        <template is="dom-repeat" items="{{intervention.parameters}}" as="parameter">
+          <span><intervention-parameter-view intervention="{{intervention}}" parameter="{{parameter}}"></intervention-parameter-view></span>
+        </template>
       </template>
     </div>
   </template>

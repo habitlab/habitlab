@@ -53,8 +53,10 @@ polymer_ext {
   intervention_property_changed: (intervention, old_intervention) ->
     this.automatic = this.intervention.automatic
     this.enabled = this.intervention.enabled
-  currently_on: (automatic, enabled) ->
+  automatic_and_enabled: (automatic, enabled) ->
     return automatic and enabled
+  automatic_and_disabled: (automatic, enabled) ->
+    return automatic and !enabled
   automatic_changed: (automatic, old_automatic) ->
     this.intervention.automatic = automatic
   enabled_changed: (enabled, old_enabled) ->
@@ -118,6 +120,28 @@ polymer_ext {
         intervention_name: this.intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
+  temporarily_enable: cfy (evt) ->*
+    this.enabled = true
+    prev_enabled_interventions = yield get_enabled_interventions()
+    intervention_name = this.intervention.name
+    yield set_intervention_enabled intervention_name
+    add_log_interventions {
+      type: 'intervention_temporarily_enabled'
+      manual: true
+      intervention_name: intervention_name
+      prev_enabled_interventions: prev_enabled_interventions
+    }
+  temporarily_disable: cfy (evt) ->*
+    this.enabled = false
+    prev_enabled_interventions = yield get_enabled_interventions()
+    intervention_name = this.intervention.name
+    yield set_intervention_disabled intervention_name
+    add_log_interventions {
+      type: 'intervention_temporarily_disabled'
+      manual: true
+      intervention_name: intervention_name
+      prev_enabled_interventions: prev_enabled_interventions
+    }
   always_shown_changed: cfy (evt) ->*
     active = evt.target.active
     if active # just got checked

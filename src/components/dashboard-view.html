@@ -48,15 +48,12 @@
     <div class="container">
       <div class="title">HabitLab Analytics</div>
 
+      <!--
       <div class="description">How much time did I save due to my interventions?</div>
       <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
 
       <hr>
-
-      <div class="description">How many times were my interventions deployed today?</div>
-      <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 500px"></chart-horizontal-bar>
-
-      <hr>
+      -->
 
       <div class="description">What progress have I made towards my goals?</div>
       <center>
@@ -78,6 +75,11 @@
           <chart-horizontal-bar data="[[goalOverviewData]]" options="[[goalOverviewOptions]]" style="width: 500px"></chart-horizontal-bar>
         </div>        
       </iron-pages>
+
+      <hr>
+
+      <div class="description">How many times were my interventions deployed today?</div>
+      <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 500px"></chart-horizontal-bar>
 
       <hr>
 

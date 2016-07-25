@@ -30,7 +30,7 @@
           <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed">
             <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
             <template is="dom-if" if="{{show_internal_names_of_goals()}}">
-              (<span>{{goal.name}}</span>)
+              (<span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.name}}</span>)
             </template>
           </paper-toggle-button>
           <br>

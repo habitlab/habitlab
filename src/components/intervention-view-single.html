@@ -49,6 +49,9 @@
         -->
         <div style="font-family: 'Roboto', 'Noto', sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 33px">
           <span>{{intervention.description}}</span>
+          <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
+            (<span>{{intervention.name}}</span>)
+          </template>
         </div>
       </div>
 <!--

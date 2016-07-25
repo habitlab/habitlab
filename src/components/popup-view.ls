@@ -20,8 +20,8 @@ polymer_ext {
   ready: ->
     self = this
     url <- get_active_tab_url()
-    domain = url_to_domain(url)
-    enabledInterventions <- list_enabled_interventions_for_location(domain)
+    #domain = url_to_domain(url)
+    enabledInterventions <- list_enabled_interventions_for_location(url)
 
     self.S('#enabledInterventions').text(enabledInterventions[0])
 

@@ -30,19 +30,10 @@ polymer_ext {
     enabledInterventions <- list_enabled_interventions_for_location(url)
     self.enabledInterventions = enabledInterventions
 
-/*
-    self.S('#enabledInterventions').text(enabledInterventions[0])
-
     self.S('button').click(->
       chrome.tabs.create {url: 'options.html'}
     )
 
-    if enabledInterventions.length > 1
-      for i from 1 to enabledInterventions.length - 1 by 1
-        $messageClone = $('#enabledInterventions').clone();
-        self.S('#enabledInterventions').text(enabledInterventions[i])
-        $('#enabledInterventions').parent().append($messageClone);
-*/
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

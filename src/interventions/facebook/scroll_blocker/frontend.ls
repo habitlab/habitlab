@@ -84,4 +84,5 @@ scroll_block_display[0].addEventListener 'disable_intervention' ->
 
 # these insert the debugging console at the bottom-right
 listen_for_eval ((x) -> eval(x))
-insert_console ((x) -> eval(x)), {lang: 'livescript'}
+if intervention.params.debug.value
+  insert_console ((x) -> eval(x)), {lang: 'livescript'}

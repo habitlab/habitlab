@@ -5,3 +5,8 @@ content_scripts:
   - frontend.js
 background_scripts:
   - backend.js
+parameters:
+  - name: debug
+    description: Insert debug console
+    default: false
+    type: bool

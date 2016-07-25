@@ -25,7 +25,8 @@ require! {
 $ = require 'jquery'
 
 listen_for_eval ((x) -> eval(x))
-insert_console ((x) -> eval(x)), {lang: 'livescript'}
+if intervention.params.debug.value
+  insert_console ((x) -> eval(x)), {lang: 'livescript'}
 
 require('enable-webcomponents-in-content-scripts')
 

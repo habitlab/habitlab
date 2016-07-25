@@ -21,6 +21,12 @@
       padding-bottom: 0.5em;
     }
 
+    .interventionContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
     #enabledInterventions {
       padding-top: 0.3em;
       padding-bottom: 0.3em;
@@ -38,7 +44,8 @@
         <div class="title"> Interventions Currently Active On This Page: </div>
 
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
-          <div id="enabledInterventions">{{intervention}}
+          <div class="interventionContainer" id="enabledInterventions">
+            <div>{{intervention}}</div>
             <paper-button raised>Snooze</paper-button>
           </div>
         </template>

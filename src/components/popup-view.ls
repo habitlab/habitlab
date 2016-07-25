@@ -13,28 +13,52 @@
   url_to_domain
 } = require 'libs_common/domain_utils'
 
+{
+  get_enabled_interventions
+  set_intervention_enabled
+  set_intervention_disabled
+  set_intervention_automatically_managed
+  set_intervention_manually_managed
+  get_intervention_parameters
+  set_intervention_parameter
+} = require 'libs_backend/intervention_utils'
+
 const $ = require('jquery')
+{cfy} = require 'cfy'
 
 polymer_ext {
   is: 'popup-view'
+  properties: {
+    enabledInterventions: {
+      type: Array
+    }
+  }
+
+  snooze_button_clicked: (evt) ->
+    self = this
+    console.log evt
+    console.log evt.target
+    intervention = evt.target.intervention
+    <- set_intervention_disabled intervention
+    console.log 'done disabling intervention'
+    url <- get_active_tab_url()
+    #domain = url_to_domain(url)
+    enabledInterventions <- list_enabled_interventions_for_location(url)
+    self.enabledInterventions = enabledInterventions
+
   ready: ->
     self = this
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
     enabledInterventions <- list_enabled_interventions_for_location(url)
+#    if enabledInterventions.length === 0
+#      enabledInterventions[0] = "None"
 
-    self.S('#enabledInterventions').text(enabledInterventions[0])
+    self.enabledInterventions = enabledInterventions
 
     self.S('button').click(->
       chrome.tabs.create {url: 'options.html'}
     )
-
-    if enabledInterventions.length > 1
-      for i from 1 to enabledInterventions.length - 1 by 1
-        $messageClone = $('#enabledInterventions').clone();
-        self.S('#enabledInterventions').text(enabledInterventions[i])
-        $('#enabledInterventions').parent().append($messageClone);
-
 
 }, {
   source: require 'libs_frontend/polymer_methods'

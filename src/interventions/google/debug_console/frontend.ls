@@ -13,11 +13,6 @@ window.google_debug_console = true
 } = require 'libs_common/log_utils'
 
 {
-  listen_for_eval
-  insert_console
-} = require 'libs_frontend/content_script_debug'
-
-{
   set_intervention_enabled
   set_intervention_disabled
 } = require 'libs_common/intervention_utils'
@@ -44,6 +39,10 @@ for lib_name in list_libs()
 
 #log_impression('google/logging_example')
 
-# these insert the debugging console at the bottom-right
-listen_for_eval ((x) -> eval(x))
-insert_console ((x) -> eval(x)), {lang: 'livescript'}
+if intervention.params.debug.value
+  {
+    listen_for_eval
+    insert_console
+  } = require 'libs_frontend/content_script_debug'
+  listen_for_eval ((x) -> eval(x))
+  insert_console ((x) -> eval(x)), {lang: 'livescript'}

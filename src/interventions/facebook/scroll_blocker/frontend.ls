@@ -7,11 +7,6 @@ window.facebook_scroll_blocker = true
 console.log 'scroll_blocker injected'
 
 {
-  listen_for_eval
-  insert_console
-} = require 'libs_frontend/content_script_debug'
-
-{
   log_impression
   log_action
 } = require 'libs_common/log_utils'
@@ -82,6 +77,10 @@ scroll_block_display[0].addEventListener 'disable_intervention' ->
   disabled := true
   console.log 'intervention disabled'
 
-# these insert the debugging console at the bottom-right
-listen_for_eval ((x) -> eval(x))
-insert_console ((x) -> eval(x)), {lang: 'livescript'}
+if intervention.params.debug.value
+  {
+    listen_for_eval
+    insert_console
+  } = require 'libs_frontend/content_script_debug'
+  listen_for_eval ((x) -> eval(x))
+  insert_console ((x) -> eval(x)), {lang: 'livescript'}

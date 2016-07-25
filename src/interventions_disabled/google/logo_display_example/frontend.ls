@@ -4,13 +4,6 @@ if window.google_logo_display_example
   return
 window.google_logo_display_example = true
 
-/*
-{
-  listen_for_eval
-  insert_console
-} = require 'libs_frontend/content_script_debug'
-*/
-
 require('enable-webcomponents-in-content-scripts')
 
 require 'components_skate/habitlab-logo'

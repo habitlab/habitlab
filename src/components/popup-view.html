@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymer-themes/ice.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
 
 <dom-module id="popup-view">
@@ -20,6 +21,13 @@
       padding-bottom: 0.5em;
     }
 
+    .interventionContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     #enabledInterventions {
       padding-top: 0.3em;
       padding-bottom: 0.3em;
@@ -34,8 +42,16 @@
   <template>
     <div>
       <div class="box">
-        <div class="title"> Interventions Currently Active On This Page: </div>
-        <div id="enabledInterventions">None</div>
+        <h4 class="title">Interventions Currently Active On This Page: </h4>
+
+        <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
+          <div class="interventionContainer" id="enabledInterventions">
+            <h4>{{intervention}}</h4>
+            <paper-button raised on-click="snooze_button_clicked" intervention="{{intervention}}">Snooze</paper-button>
+          </div>
+        </template>
+
+
       </div>
       <button>Options</button>
       <!--

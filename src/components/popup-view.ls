@@ -34,31 +34,31 @@ polymer_ext {
     }
   }
 
+  snooze_button_clicked: (evt) ->
+    self = this
+    console.log evt
+    console.log evt.target
+    intervention = evt.target.intervention
+    <- set_intervention_disabled intervention
+    console.log 'done disabling intervention'
+    url <- get_active_tab_url()
+    #domain = url_to_domain(url)
+    enabledInterventions <- list_enabled_interventions_for_location(url)
+    self.enabledInterventions = enabledInterventions
+
   ready: ->
     self = this
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
     enabledInterventions <- list_enabled_interventions_for_location(url)
-    if enabledInterventions.length === 0
-      enabledInterventions[0] = "None"
+#    if enabledInterventions.length === 0
+#      enabledInterventions[0] = "None"
 
     self.enabledInterventions = enabledInterventions
 
     self.S('button').click(->
       chrome.tabs.create {url: 'options.html'}
     )
-
-  temporarily_disable: cfy (evt) ->*
-    this.enabled = false
-    prev_enabled_interventions = yield get_enabled_interventions()
-    intervention_name = this.intervention.name
-    yield set_intervention_disabled intervention_name
-    add_log_interventions {
-      type: 'intervention_temporarily_disabled'
-      manual: true
-      intervention_name: intervention_name
-      prev_enabled_interventions: prev_enabled_interventions
-    }    
 
 }, {
   source: require 'libs_frontend/polymer_methods'

@@ -47,7 +47,7 @@
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
           <div class="interventionContainer" id="enabledInterventions">
             <h4>{{intervention}}</h4>
-            <paper-button raised on-click="temporarily_disable">Snooze</paper-button>
+            <paper-button raised on-click="snooze_button_clicked" intervention="{{intervention}}">Snooze</paper-button>
           </div>
         </template>
 

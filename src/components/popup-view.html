@@ -25,6 +25,7 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
     }
 
     #enabledInterventions {
@@ -41,14 +42,15 @@
   <template>
     <div>
       <div class="box">
-        <div class="title"> Interventions Currently Active On This Page: </div>
+        <h4 class="title">Interventions Currently Active On This Page: </h4>
 
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
           <div class="interventionContainer" id="enabledInterventions">
-            <div>{{intervention}}</div>
-            <paper-button raised>Snooze</paper-button>
+            <h4>{{intervention}}</h4>
+            <paper-button raised on-click="temporarily_disable">Snooze</paper-button>
           </div>
         </template>
+
 
       </div>
       <button>Options</button>

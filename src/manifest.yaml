@@ -17,7 +17,7 @@ permissions:
   - 'https://*/'
 content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'
 web_accessible_resources:
-  - icons/icon_38.png
+  - icons/*.png
   - interventions/**/*.png
   - jspm_packages/**/*
   - libs_frontend/*

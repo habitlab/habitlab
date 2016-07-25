@@ -36,8 +36,6 @@ polymer_ext {
 
   snooze_button_clicked: (evt) ->
     self = this
-    #console.log evt
-    #console.log evt.target
     intervention = evt.target.intervention
     <- set_intervention_disabled intervention
     #console.log 'done disabling intervention'

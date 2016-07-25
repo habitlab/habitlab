@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
+
 <dom-module id="habitlab-logo">
   <style>
     :host {
@@ -19,12 +20,7 @@
       height: 20px;
       cursor: pointer;
     }
-    .helloworld {
-      background-color: yellow;
-    }
-    .helloworld_button {
-      background-color: red;
-    }
+    
     .habitlab_logo_img {
       /*
       width: var(--width);
@@ -33,15 +29,21 @@
       width: 50%;
       height: 50%;
     }
+
+    #habitlab_button {
+      z-index: 999999;
+      background-color: white;
+
+    }
     
   </style>
   <template>
-  <paper-button id="habitlab_button" raised on-click="clicked">
+  <paper-icon-button src="{{get_url()}}" id="habitlab_button">
 
-    <img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
-    <paper-tooltip for="habitlab_button" id="tooltip">This is a HabitLab intervention.<br>Click for options.</paper-tooltip>
+    <!--<img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" /> 
+    <paper-tooltip for="habitlab_button" id="tooltip">This is a HabitLab intervention.<br>Click for options.</paper-tooltip>-->
 
-  </paper-button>
+  </paper-icon-button>
   </template>
   <script src="habitlab-logo.js"></script>
 </dom-module>

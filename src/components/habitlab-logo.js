@@ -90,6 +90,6 @@ polymer_ext({
   }),
 
   get_url: function() {
-    return chrome.extension.getURL('icons/icon_38.png');
+    return chrome.extension.getURL('icons/gear.png');
   },
 });

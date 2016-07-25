@@ -11,11 +11,6 @@ $ = require 'jquery'
 
 console.log 'scroll_blocker loaded'
 
-{
-  listen_for_eval
-  insert_console
-} = require 'libs_frontend/content_script_debug'
-
 require('enable-webcomponents-in-content-scripts')
 
 require('components_skate/scroll-block-display-example')
@@ -47,7 +42,10 @@ scroll_block_display[0].addEventListener 'continue_scrolling', ->
   enable_scrolling_and_hide_scroll_block()
   setTimeout disable_scrolling_and_show_scroll_block, 5000
 
-# these insert the debugging console at the bottom-right
-listen_for_eval ((x) -> eval(x))
 if intervention.params.debug.value
+  {
+    listen_for_eval
+    insert_console
+  } = require 'libs_frontend/content_script_debug'
+  listen_for_eval ((x) -> eval(x))
   insert_console ((x) -> eval(x)), {lang: 'livescript'}

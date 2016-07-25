@@ -4,16 +4,7 @@ if window.google_polymer_example
   return
 window.google_polymer_example = true
 
-{
-  listen_for_eval
-  insert_console
-} = require 'libs_frontend/content_script_debug'
-
 $ = require 'jquery'
-
-listen_for_eval ((x) -> eval(x))
-if intervention.params.debug.value
-  insert_console ((x) -> eval(x)), {lang: 'livescript'}
 
 require('enable-webcomponents-in-content-scripts')
 
@@ -29,3 +20,11 @@ hello_world_example = $('<hello-world-example>').css({
   position: 'absolute'
 })
 $('body').append(hello_world_example)
+
+if intervention.params.debug.value
+  {
+    listen_for_eval
+    insert_console
+  } = require 'libs_frontend/content_script_debug'
+  listen_for_eval ((x) -> eval(x))
+  insert_console ((x) -> eval(x)), {lang: 'livescript'}

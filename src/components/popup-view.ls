@@ -17,12 +17,20 @@ const $ = require('jquery')
 
 polymer_ext {
   is: 'popup-view'
+  properties: {
+    enabledInterventions: {
+      type: Array
+    }
+  }
+
   ready: ->
     self = this
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
     enabledInterventions <- list_enabled_interventions_for_location(url)
+    self.enabledInterventions = enabledInterventions
 
+/*
     self.S('#enabledInterventions').text(enabledInterventions[0])
 
     self.S('button').click(->
@@ -34,8 +42,7 @@ polymer_ext {
         $messageClone = $('#enabledInterventions').clone();
         self.S('#enabledInterventions').text(enabledInterventions[i])
         $('#enabledInterventions').parent().append($messageClone);
-
-
+*/
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

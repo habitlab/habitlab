@@ -35,7 +35,15 @@
     <div>
       <div class="box">
         <div class="title"> Interventions Currently Active On This Page: </div>
+
+        <!--
         <div id="enabledInterventions">None</div>
+        -->
+
+        <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
+          <h4 id="enabledInterventions">{{intervention}}</h4>
+        </template>
+
       </div>
       <button>Options</button>
       <!--

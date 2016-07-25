@@ -126,10 +126,10 @@ polymer_ext {
       }
     }     
 
-    #MARK: Donut Graph
     sites <- list_sites_for_which_goals_are_enabled()
     self.sites = sites
 
+    #MARK: Donut Graph
     a <- get_seconds_spent_on_all_domains_today()
     sorted = bySortedValue(a)
     #accounts for visiting less than 5 websites

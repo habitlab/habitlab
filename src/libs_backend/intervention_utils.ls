@@ -1,5 +1,9 @@
 $ = require 'jquery'
 
+require! {
+  prelude
+}
+
 {
   memoizeSingleAsync
 } = require 'libs_common/memoize'
@@ -205,6 +209,18 @@ export list_available_interventions_for_enabled_goals = cfy ->*
         output_set[intervention_name] = true
   return output
 
+export list_available_interventions_for_goal = cfy (goal_name) ->*
+  # outputs a list of intervention names
+  interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+  output = []
+  output_set = {}
+  for intervention_name,goals of interventions_to_goals
+    for goal in goals
+      if goal_name == goal.name and not output_set[intervention_name]?
+        output.push intervention_name
+        output_set[intervention_name] = true
+  return output
+
 cast_to_bool = (parameter_value) ->
   if typeof(parameter_value) != 'string'
     return Boolean(parameter_value)
@@ -263,7 +279,31 @@ export get_intervention_parameters = cfy (intervention_name) ->*
     output[k] = cast_to_type(parameter_value, parameter_type)
   return output
 
+export get_effectiveness_of_intervention_for_goal = cfy (intervention_name, goal_name) ->*
+  progress_info_base = yield goal_progress.get_progress_on_goal_days_since_today goal_name, 0
+  days_deployed = yield intervention_manager.get_days_since_today_on_which_intervention_was_deployed intervention_name
+  progress_list = []
+  for day in days_deployed
+    progress_info = yield goal_progress.get_progress_on_goal_days_since_today goal_name, day
+    progress_list.push progress_info.progress
+  if progress_list.length > 0
+    progress_info_base.progress = prelude.average progress_list
+    progress_info_base.message = "#{progress_info_base.progress} minutes"
+  else
+    progress_info_base.progress = NaN
+    progress_info_base.message = "no data"
+  return progress_info_base
+
+export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
+  output = {}
+  interventions = yield list_available_interventions_for_goal goal_name
+  for intervention_name in interventions
+    progress_info = yield get_effectiveness_of_intervention_for_goal intervention_name, goal_name
+    output[intervention_name] = progress_info
+  return output
+
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'
+goal_progress = require 'libs_backend/goal_progress'
 
 gexport_module 'intervention_utils', -> eval(it)

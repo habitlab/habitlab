@@ -56,6 +56,7 @@ export get_progress_on_enabled_goals_days_since_today = cfy (days_since_today) -
     output[goal_name] = progress_info
   return output
 
+intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'
 
 gexport_module 'goal_progress', -> eval(it)

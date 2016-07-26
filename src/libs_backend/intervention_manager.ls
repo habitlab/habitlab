@@ -9,18 +9,13 @@
 } = require 'libs_backend/goal_utils'
 
 {
-  get_manually_managed_interventions
-  get_manually_managed_interventions_localstorage
-  list_all_interventions
-} = require 'libs_backend/intervention_utils'
-
-{
   get_days_since_epoch
 } = require 'libs_common/time_utils'
 
 {
   getdict_for_key2_dictdict
   setdict_for_key2_dictdict
+  getdict_for_key_dictdict
   getCollection
 } = require 'libs_backend/db_utils'
 
@@ -63,6 +58,21 @@ get_last_day_with_intervention_enabled_data = cfy ->*
     return
   return last_intervention_set_item.key2 # this is the day, in epoch time, that the most recent intervention set occurred
 
+export get_days_since_today_on_which_intervention_was_deployed = cfy (intervention_name) ->*
+  # output is days since today (0 = today, 1 = yesterday)
+  days_deployed = yield get_days_on_which_intervention_was_deployed intervention_name
+  today = get_days_since_epoch()
+  return [today - x for x in days_deployed]
+
+export get_days_on_which_intervention_was_deployed = cfy (intervention_name) ->*
+  # output is epoch days
+  day_to_enabled = yield getdict_for_key_dictdict 'interventions_enabled_each_day', intervention_name
+  output = []
+  for day,enabled of day_to_enabled
+    if enabled
+      output.push day
+  return output
+
 export get_most_recent_enabled_interventions = cfy ->*
   day_with_enabled_interventions = yield get_last_day_with_intervention_enabled_data()
   if not day_with_enabled_interventions?
@@ -76,8 +86,8 @@ get_new_enabled_interventions_for_today = cfy ->*
   automatically_enabled_interventions_list = yield intervention_selection_algorithm()
   automatically_enabled_interventions_set = {[k, true] for k in automatically_enabled_interventions_list}
   enabled_interventions_set = yield get_most_recent_enabled_interventions()
-  manually_managed_interventions_set = yield get_manually_managed_interventions_localstorage()
-  all_interventions = yield list_all_interventions()
+  manually_managed_interventions_set = yield intervention_utils.get_manually_managed_interventions_localstorage()
+  all_interventions = yield intervention_utils.list_all_interventions()
   for intervention in all_interventions
     manually_managed = manually_managed_interventions_set[intervention]
     manually_managed = (manually_managed == true)
@@ -111,5 +121,7 @@ export get_enabled_interventions_for_days_since_today = cfy (days_since_today) -
     return {}
   enabled_interventions = yield get_and_set_new_enabled_interventions_for_today()
   return enabled_interventions
+
+intervention_utils = require 'libs_backend/intervention_utils'
 
 gexport_module 'intervention_manager', -> eval(it)

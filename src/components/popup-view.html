@@ -21,6 +21,7 @@
       padding-bottom: 0.5em;
     }
 
+    /* Flexbox */
     .interventionContainer {
       display: flex;
       flex-direction: row;
@@ -47,13 +48,13 @@
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
           <div class="interventionContainer" id="enabledInterventions">
             <h4>{{intervention}}</h4>
-            <paper-button raised on-click="snooze_button_clicked" intervention="{{intervention}}">Snooze</paper-button>
+            <paper-button raised on-click="snooze_button_clicked" intervention="{{intervention}}" style="background-color: #FF3B4E">Snooze</paper-button>
           </div>
         </template>
 
 
       </div>
-      <button>Options</button>
+      <paper-button raised>Options</paper-button>
       <!--
       <img src="popup-view.png" style="width: 100%" on-click="open_options_page">
 
@@ -80,15 +81,6 @@
       </div>
       -->
 
-      <!--
-      <br>
-      <br>
-      <template is="dom-repeat" items="{{experiment_list}}" as="experiment">
-        <exp-description title="{{experiment.title}}" description="{{experiment.description}}"></exp-description>
-        <br>
-      </template>
-
-      -->
     </div>
   </template>
   <script src="popup-view.js"></script>

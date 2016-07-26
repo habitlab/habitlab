@@ -36,11 +36,9 @@ polymer_ext {
 
   snooze_button_clicked: (evt) ->
     self = this
-    console.log evt
-    console.log evt.target
     intervention = evt.target.intervention
     <- set_intervention_disabled intervention
-    console.log 'done disabling intervention'
+    #console.log 'done disabling intervention'
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
     enabledInterventions <- list_enabled_interventions_for_location(url)
@@ -51,8 +49,6 @@ polymer_ext {
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
     enabledInterventions <- list_enabled_interventions_for_location(url)
-#    if enabledInterventions.length === 0
-#      enabledInterventions[0] = "None"
 
     self.enabledInterventions = enabledInterventions
 

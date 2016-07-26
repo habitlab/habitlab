@@ -247,16 +247,11 @@ polymer_ext {
   ]
 }
 
-``
-//Sorts array in descending order 
-//http://stackoverflow.com/questions/5199901/how-to-sort-an-associative-array-by-its-values-in-javascript
-function bySortedValue(obj) {
-    var tuples = [];
-    for (var key in obj) tuples.push([key, obj[key]]);
-    tuples.sort(function(a, b) { 
-      return a[1] < b[1] ? 1 : a[1] > b[1] ? -1 : 0 
-    });
-
-    return tuples;
-}
-``
+#Sorts array in descending order 
+#http://stackoverflow.com/questions/5199901/how-to-sort-an-associative-array-by-its-values-in-javascript
+bySortedValue = (obj) ->
+  tuples = []
+  for key of obj
+    tuples.push [key, obj[key]]
+  tuples.sort ((a, b) -> if a.1 < b.1 then 1 else if a.1 > b.1 then -1 else 0)
+  tuples

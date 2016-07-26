@@ -33,6 +33,7 @@ require! {
 {
   get_num_impressions_today
   get_num_actions_today
+  get_interventions_seen_today
 } = require 'libs_backend/log_utils'
 
 #d3 = require 'd3'
@@ -63,7 +64,6 @@ polymer_ext {
       myButton.innerText = "View Today's Data"
       myButton.value = "clicked"
       this.push('donutdata.datasets', {
-        label: "Yesterday",
         data: [Math.round(10*(sorted[0][1]/60))/10, Math.round(10*(sorted[1][1]/60))/10, Math.round(10*(sorted[2][1]/60))/10, Math.round(10*(sorted[3][1]/60))/10, Math.round(10*(sorted[4][1]/60))/10],        
         backgroundColor: [
             "rgba(65,131,215,0.7)",
@@ -121,7 +121,10 @@ polymer_ext {
           scaleLabel: {
             display: true,
             labelString: 'Units'
-          }
+          },
+          ticks: {
+            beginAtZero: true
+          }          
         }]
       }
     }     
@@ -174,14 +177,15 @@ polymer_ext {
 
     #MARK: Num Times Interventions Deployed Graph
     #Retrieves all interventions    
-    currEnabledInterventions <- get_enabled_interventions()
-    currentlyEnabledKeys = Object.keys(currEnabledInterventions)
+    currEnabledInterventions <- get_interventions_seen_today()
+    currentlyEnabledKeys = currEnabledInterventions
     #Filters by whether enabled or not
     filtered = currentlyEnabledKeys.filter (key) ->
-      return currEnabledInterventions[key]
+      return true
 
     #Retrieves the number of impressions for each enabled intervention        
-    errors,all_enabled_intervention_results <- async.mapSeries filtered, (item, ncallback) ->
+    errors,all_seen_intervention_results <- async.mapSeries filtered, (item, ncallback) ->
+      
       enabledInterventionResults <- get_num_impressions_today(item)
       ncallback(null, enabledInterventionResults)
 
@@ -194,7 +198,7 @@ polymer_ext {
           backgroundColor: "rgba(65,131,215,0.5)",
           borderColor: "rgba(65,131,215,1)",
           borderWidth: 1,
-          data: all_enabled_intervention_results
+          data: all_seen_intervention_results
         }
       ]
     }

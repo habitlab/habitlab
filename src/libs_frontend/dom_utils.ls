@@ -1,5 +1,5 @@
 #if IS_CONTENT_SCRIPT
-#  {load_css_code} = require 'libs_frontend/content_script_utils'
+#  {load_css_code} = require 'libs_common/content_script_utils'
 
 if not window.all_imported_custom_styles?
   window.all_imported_custom_styles = []

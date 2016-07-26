@@ -3,7 +3,7 @@ require('jquery.terminal')($)
 
 {
   load_css_file
-} = require 'libs_frontend/content_script_utils'
+} = require 'libs_common/content_script_utils'
 
 export listen_for_eval = (eval_func) ->
   if window.eval_content_script_listener_loaded

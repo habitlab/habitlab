@@ -3,7 +3,7 @@ window.addEventListener "unhandledrejection", (evt) ->
 
 require 'webcomponentsjs-custom-element-v0'
 require 'components/options-view.deps'
-{load_css_file} = require 'libs_frontend/content_script_utils'
+{load_css_file} = require 'libs_common/content_script_utils'
 {cfy} = require 'cfy'
 
 window.addEventListener 'WebComponentsReady', cfy ->*

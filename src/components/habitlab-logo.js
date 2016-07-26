@@ -4,7 +4,7 @@ require('jquery-contextmenu')($)
 
 const {
   load_css_file
-} = require('libs_frontend/content_script_utils')
+} = require('libs_common/content_script_utils')
 
 const {
   set_intervention_disabled,
@@ -14,7 +14,7 @@ const {
 const {
   open_url_in_new_tab, 
   close_selected_tab
-} = require('libs_frontend/tab_utils')
+} = require('libs_common/tab_utils')
 
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 const {cfy} = require('cfy');

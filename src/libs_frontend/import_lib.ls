@@ -3,17 +3,22 @@
   get_function_signature
 } = require 'libs_common/function_signatures'
 
-{
-  send_message_to_background
-} = require 'libs_frontend/content_script_utils'
-
-{cfy} = require 'cfy'
+{cfy, yfy} = require 'cfy'
 
 export import_lib = (lib_name) ->
   output = {}
   for func_name in list_functions_in_lib(lib_name)
     output[func_name] = import_func(func_name)
   return output
+
+send_message_to_background = yfy (type, data, callback) ->
+  chrome.runtime.sendMessage {
+    type
+    data
+  }, (result) ->
+    if callback?
+      callback(result)
+  return true
 
 export import_func = (func_name) ->
   signature = get_function_signature(func_name)

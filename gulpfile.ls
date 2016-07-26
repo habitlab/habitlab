@@ -179,7 +179,7 @@ gulp.task 'eslint', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'),
       'Polymer': true
       'intervention': true
       #'jsyaml': true
-      'IS_CONTENT_SCRIPT': true
+      #'IS_CONTENT_SCRIPT': true
     }
     rules: {
       'no-console': 'off'

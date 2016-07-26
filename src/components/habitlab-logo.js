@@ -8,7 +8,6 @@ const {
 
 const {
   set_intervention_disabled,
-  set_intervention_disabled_today,
   set_intervention_disabled_permanently,  
   set_intervention_enabled
 } = require('libs_common/intervention_utils')
@@ -51,20 +50,11 @@ polymer_ext({
   get_img_style: function() {
     return `width: ${this.width}; height: ${this.height};`
   },
-  disable_callback: function() {
-    const self = this;
-    this.fire('disable_intervention');
-
-    set_intervention_disabled(this.intervention, () => {
-      console.log (`disabled ${self.intervention}`)
-      swal("This intervention has been disabled!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
-    })
-  },
   disable_temp_callback: function() {
     const self = this;
     this.fire('disable_intervention');
 
-    set_intervention_disabled_today(this.intervention, () => {
+    set_intervention_disabled(this.intervention, () => {
       console.log (`disabled ${self.intervention}`)
       swal("This intervention has been disabled temporarily!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
     })
@@ -102,7 +92,7 @@ polymer_ext({
         items: {
           "name": {name: name, disabled: true},
           "goal": {name: goal, disabled: true},
-          "disable": {name: "Disable this intervention", callback: () => self.disable_callback()},
+//        "disable": {name: "Disable this intervention", callback: () => self.disable_callback()},
           "disableFold": {
               "name": "Disable intervention", 
               items: {

@@ -20,6 +20,10 @@ require! {
   dexie
 }
 
+require! {
+  async
+}
+
 {generate_random_id} = require 'libs_common/generate_random_id'
 
 $ = require 'jquery'
@@ -49,6 +53,23 @@ export get_current_dbver_interventionlogdb = ->
   if not result?
     return 0
   return parseInt result
+
+export get_interventions_seen_today = cfy ->*
+  interventions = yield intervention_utils.list_all_interventions()
+  enabled = yield intervention_utils.get_enabled_interventions()
+  invns = []
+  for intervention in interventions #get interventions seen today
+    result = yield get_num_impressions_today(intervention)
+    if result > 0
+      invns.push intervention
+  for key in Object.keys(enabled) #filter for enabled interventions
+    if enabled[key] == false
+      delete enabled[key]
+  combined = Array.from(new Set(invns.concat(enabled))) #remove duplicates
+  combined.pop()
+  return combined
+
+  
 
 export get_log_names = cfy ->*
   interventions_list = yield intervention_utils.list_all_interventions()

@@ -2,7 +2,7 @@
 <link rel="import" href="../bower_components/chart-elements/chart-bar.html">
 <link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
 <link rel="import" href="../bower_components/chart-elements/chart-line.html">
-<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="site-goal-view.html">
 
@@ -47,13 +47,11 @@
 
     <div class="container">
       <div class="title">HabitLab Analytics</div>
-
-      <!--
+    
       <div class="description">How much time did I save due to my interventions?</div>
       <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
 
       <hr>
-      -->
 
       <div class="description">What progress have I made towards my goals?</div>
       <center>
@@ -85,7 +83,7 @@
 
       <div class="description">How much time did I spend on my most visited websites?</div>   
       <chart-doughnut data="[[donutdata]]" style="width: 600px"></chart-doughnut>      
-      <div class="buttons"><button class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">Compare with Yesterday</button></div>
+      <div class="buttons"><button raised class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">Compare with Yesterday</button></div>
 
     </div>
 

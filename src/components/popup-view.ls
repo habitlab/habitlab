@@ -49,10 +49,9 @@ polymer_ext {
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
     enabledInterventions <- list_enabled_interventions_for_location(url)
-
     self.enabledInterventions = enabledInterventions
 
-    self.S('button').click(->
+    self.S('#optionsButton').click(->
       chrome.tabs.create {url: 'options.html'}
     )
 

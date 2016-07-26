@@ -39,6 +39,21 @@ export set_intervention_enabled = cfy (intervention_name) ->*
   enabled_interventions[intervention_name] = true
   yield set_enabled_interventions enabled_interventions
 
+export set_intervention_disabled_today = cfy (intervention_name) ->*
+  enabled_interventions = yield get_enabled_interventions()
+  if not enabled_interventions[intervention_name]
+    return
+  enabled_interventions[intervention_name] = false
+  yield set_enabled_interventions enabled_interventions
+
+export set_intervention_disabled_permanently = cfy (intervention_name) ->*
+  yield set_intervention_manually_managed intervention_name
+  enabled_interventions = yield get_enabled_interventions()
+  if not enabled_interventions[intervention_name]
+    return
+  enabled_interventions[intervention_name] = false
+  yield set_enabled_interventions enabled_interventions
+
 export set_intervention_disabled = cfy (intervention_name) ->*
   enabled_interventions = yield get_enabled_interventions()
   if not enabled_interventions[intervention_name]

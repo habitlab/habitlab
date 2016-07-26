@@ -3,7 +3,7 @@ require('jquery-contextmenu');
 
 const {
   load_css_file,
-} = require('libs_frontend/content_script_utils')
+} = require('libs_common/content_script_utils')
 
 const {
   get_minutes_spent_on_domain_today,

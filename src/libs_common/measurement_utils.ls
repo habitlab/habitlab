@@ -1,5 +1,7 @@
 {
   getkey_dictdict
+  setkey_dictdict
+  addtokey_dictdict
 } = require 'libs_common/db_utils'
 
 {

@@ -4,7 +4,7 @@ require('jquery-contextmenu')($)
 
 {
   load_css_file
-} = require 'libs_frontend/content_script_utils'
+} = require 'libs_common/content_script_utils'
 
 load_css_file 'bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css'
 

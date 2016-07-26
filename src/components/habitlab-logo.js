@@ -4,17 +4,19 @@ require('jquery-contextmenu')($)
 
 const {
   load_css_file
-} = require('libs_frontend/content_script_utils')
+} = require('libs_common/content_script_utils')
 
 const {
   set_intervention_disabled,
+  set_intervention_disabled_today,
+  set_intervention_disabled_permanently,  
   set_intervention_enabled
 } = require('libs_common/intervention_utils')
 
 const {
   open_url_in_new_tab, 
   close_selected_tab
-} = require('libs_frontend/tab_utils')
+} = require('libs_common/tab_utils')
 
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 const {cfy} = require('cfy');
@@ -58,6 +60,24 @@ polymer_ext({
       swal("This intervention has been disabled!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
     })
   },
+  disable_temp_callback: function() {
+    const self = this;
+    this.fire('disable_intervention');
+
+    set_intervention_disabled_today(this.intervention, () => {
+      console.log (`disabled ${self.intervention}`)
+      swal("This intervention has been disabled temporarily!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
+    })
+  },
+  disable_perm_callback: function() {
+    const self = this;
+    this.fire('disable_intervention');
+
+    set_intervention_disabled_permanently(this.intervention, () => {
+      console.log (`disabled ${self.intervention}`)
+      swal("This intervention has been disabled permanently", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
+    })
+  },  
   ready: cfy(function*() {
     const self = this;
 
@@ -83,6 +103,13 @@ polymer_ext({
           "name": {name: name, disabled: true},
           "goal": {name: goal, disabled: true},
           "disable": {name: "Disable this intervention", callback: () => self.disable_callback()},
+          "disableFold": {
+              "name": "Disable intervention", 
+              items: {
+                  "tempDisable": {name: "For the rest of the day", callback: () => self.disable_temp_callback()},
+                  "permDisable": {name: "Permamently",  callback: () => self.disable_perm_callback()}
+              }
+          },          
           "options": {name: "View all interventions", callback: () => open_url_in_new_tab("options.html#interventions")}
         }
       });

@@ -48,13 +48,13 @@
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
           <div class="interventionContainer" id="enabledInterventions">
             <h4>{{intervention}}</h4>
-            <paper-button raised on-click="snooze_button_clicked" intervention="{{intervention}}">Snooze</paper-button>
+            <paper-button raised on-click="snooze_button_clicked" intervention="{{intervention}}" style="background-color: #FF3B4E">Snooze</paper-button>
           </div>
         </template>
 
 
       </div>
-      <button>Options</button>
+      <paper-button raised id="optionsButton">Options</paper-button>
       <!--
       <img src="popup-view.png" style="width: 100%" on-click="open_options_page">
 

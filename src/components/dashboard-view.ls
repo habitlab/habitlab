@@ -63,7 +63,6 @@ polymer_ext {
       myButton.innerText = "View Today's Data"
       myButton.value = "clicked"
       this.push('donutdata.datasets', {
-        label: "Yesterday",
         data: [Math.round(10*(sorted[0][1]/60))/10, Math.round(10*(sorted[1][1]/60))/10, Math.round(10*(sorted[2][1]/60))/10, Math.round(10*(sorted[3][1]/60))/10, Math.round(10*(sorted[4][1]/60))/10],        
         backgroundColor: [
             "rgba(65,131,215,0.7)",
@@ -121,7 +120,10 @@ polymer_ext {
           scaleLabel: {
             display: true,
             labelString: 'Units'
-          }
+          },
+          ticks: {
+            beginAtZero: true
+          }          
         }]
       }
     }     

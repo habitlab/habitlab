@@ -17,6 +17,18 @@ export import_dom_modules = (element_dom, filename) !->
       recreateDomModule(element_dom_parsed)
     if element_dom_parsed.nodeName.toLowerCase() == 'style'
       recreateStyle(element_dom_parsed)
+    if element_dom_parsed.nodeName.toLowerCase() == 'iron-iconset-svg'
+      recreateIronIconset(element_dom_parsed)
+
+recreateIronIconset = (element_dom_parsed) !->
+  elem = document.createElement(element_dom_parsed.nodeName.toLowerCase())
+  elem.innerHTML = element_dom_parsed.innerHTML
+  for attribute in element_dom_parsed.attributes
+    name = attribute.name
+    value = attribute.value
+    elem.setAttribute name, value
+  elem.createdCallback?!
+  #document.getElementsByTagName("body")[0].appendChild(elem)
 
 recreateDomModule = (element_dom_parsed) !->
   DOM_MODULE = document.createElement('dom-module')

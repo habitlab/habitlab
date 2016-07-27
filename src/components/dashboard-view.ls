@@ -31,6 +31,7 @@ require! {
 
 {
   get_enabled_interventions
+  get_interventions
   get_effectiveness_of_intervention_for_goal  
   get_effectiveness_of_all_interventions_for_goal
 } = require 'libs_backend/intervention_utils'
@@ -235,7 +236,7 @@ polymer_ext {
       enabledGoalsResults = yield get_effectiveness_of_all_interventions_for_goal(item)
       time_saved_on_enabled_goals.push(enabledGoalsResults)
 
-    #console.log time_saved_on_enabled_goals
+    console.log time_saved_on_enabled_goals
 
     interventions_list = []
     intervention_progress = []
@@ -247,11 +248,18 @@ polymer_ext {
         else
           intervention_progress.push value.progress
 
-    #console.log interventions_list
-    #console.log intervention_progress
+    intervention_descriptions = yield get_interventions()
+    console.log intervention_descriptions
+    console.log interventions_list
+
+    intervention_descriptions_final = []
+    for item in interventions_list
+      intervention_descriptions_final.push(intervention_descriptions[item].description)
+
+    console.log intervention_descriptions_final
 
     self.timeSavedData = {
-      labels: interventions_list
+      labels: intervention_descriptions_final
       datasets: [
         {
           label: "Today",

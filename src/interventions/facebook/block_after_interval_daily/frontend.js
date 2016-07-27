@@ -17,6 +17,7 @@ require('bower_components/paper-button/paper-button.deps')
 //Custom Polymer Components
 require('components/interstitial-screen.deps')
 require('components/timespent-view.deps')
+require('components/habitlab-logo.deps')
 
 const {
   get_seconds_spent_on_current_domain_today,
@@ -62,7 +63,10 @@ function addBeginDialog(message) {
               'left': '50%',
               'transform': 'translateX(-50%) translateY(-50%)'
   });
-
+  const $logo = $('<center><habitlab-logo></habitlab-logo></center>').css({
+    'margin-bottom': '80px'
+  });
+  $contentContainer.append($logo);
   const $timeText = $('<div class="titleText">').css({
     'font-size': '1.3em'
   });

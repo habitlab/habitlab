@@ -385,6 +385,35 @@ gulp.task 'generate_expose_backend_libs', (done) ->
   fs.writeFileSync "src/generated_libs/libs_backend/expose_backend_libs.js", output.join("\n")
   done()
 
+gulp.task 'generate_jspm_config_frontend', (done) ->
+  {get_alias_info} = require './alias_utils'
+  output = []
+  path_map = {}
+  for alias_info in get_alias_info()
+    {path, frontend} = alias_info
+    path_map[path] = frontend
+  fs.writeFileSync 'jspm_config_frontend.js', """
+  System.config({
+    paths: #{JSON.stringify(path_map)}
+  });
+  """
+  done()
+
+gulp.task 'generate_jspm_config_backend', (done) ->
+  {get_alias_info} = require './alias_utils'
+  output = []
+  path_map = {}
+  for alias_info in get_alias_info()
+    {path, backend} = alias_info
+    path_map[path] = backend
+  fs.writeFileSync 'jspm_config_backend.js', """
+  System.config({
+    paths: #{JSON.stringify(path_map)}
+  });
+  """
+  done()
+
+gulp.task 'generate_jspm_config', gulp.parallel('generate_jspm_config_frontend', 'generate_jspm_config_backend')
 
 gulp.task 'generate_polymer_components_html', (done) ->
   #if fs.existsSync('src/components/components.html')

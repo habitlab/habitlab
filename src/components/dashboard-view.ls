@@ -236,27 +236,24 @@ polymer_ext {
       enabledGoalsResults = yield get_effectiveness_of_all_interventions_for_goal(item)
       time_saved_on_enabled_goals.push(enabledGoalsResults)
 
-    console.log time_saved_on_enabled_goals
-
+    #Retrieves intervention names and values
     interventions_list = []
     intervention_progress = []
     for item in time_saved_on_enabled_goals
       for key,value of item
-        interventions_list.push key
-        if isNaN value.progress
-          intervention_progress.push 0
-        else
+
+        #only push not-empty interventions
+        if !isNaN value.progress
           intervention_progress.push Math.round(value.progress * 10)/10
+          interventions_list.push key          
 
+    #Retrieves all intervention descriptions
     intervention_descriptions = yield get_interventions()
-    console.log intervention_descriptions
-    console.log interventions_list
 
+    #Retrieves necessary intervention descriptions
     intervention_descriptions_final = []
     for item in interventions_list
       intervention_descriptions_final.push(intervention_descriptions[item].description)
-
-    console.log intervention_descriptions_final
 
     self.timeSavedData = {
       labels: intervention_descriptions_final

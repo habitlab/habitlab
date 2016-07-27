@@ -1,6 +1,14 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymer-themes/ice.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+
+
 <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
 
 <dom-module id="popup-view">
@@ -48,7 +56,21 @@
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
           <div class="interventionContainer" id="enabledInterventions">
             <h4>{{intervention}}</h4>
+            <!--
             <paper-button raised on-click="snooze_button_clicked" intervention="{{intervention}}" style="background-color: #FF3B4E">Snooze</paper-button>
+            -->
+
+            <paper-menu-button vertical-offset="35">
+              <paper-button class="dropdown-trigger" raised>
+                <!-- <iron-icon icon="check"></iron-icon> -->
+                <span>Disable Intervention</span>
+              </paper-button>
+              <paper-listbox class="dropdown-content">
+                <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the Rest of the Day</paper-item>
+                <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
+              </paper-listbox>
+            </paper-menu-button>            
+
           </div>
         </template>
 

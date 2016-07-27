@@ -193,9 +193,9 @@ polymer_ext {
       
     #   enabledInterventionResults <- get_num_impressions_today(item)
     #   ncallback(null, enabledInterventionResults)
-    results = {}
+    results = []
     for intv in seenInterventions
-      results[intv] = yield get_num_impressions_today(intv)
+      results.push yield get_num_impressions_today(intv)
 
     #displays onto the graph
     self.interventionFreqData = {

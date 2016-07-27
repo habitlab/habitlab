@@ -21,6 +21,7 @@ require! {
   list_sites_for_which_goals_are_enabled
   list_goals_for_site
   getGoalInfo
+  get_enabled_goals
 } = require 'libs_backend/goal_utils'
 
 {
@@ -30,6 +31,8 @@ require! {
 
 {
   get_enabled_interventions
+  get_effectiveness_of_intervention_for_goal  
+  get_effectiveness_of_all_interventions_for_goal
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -223,6 +226,26 @@ polymer_ext {
     }    
 
     #MARK: Time saved daily due to interventions Graph
+    enabledGoals <- get_enabled_goals()
+    enabledGoalsKeys = Object.keys(enabledGoals)
+    
+    console.log enabledGoalsKeys
+
+    /*
+    enabledGoalsKeys.forEach ((element, index, array) ->
+      goal_effectiveness <- get_effectiveness_of_all_interventions_for_goal element 
+      time_saved_on_enabled_goals.push goal_effectiveness
+      return )
+    */
+
+    #Retrieves the number of impressions for each enabled intervention        
+    errors,time_saved_on_enabled_goals <- async.mapSeries enabledGoalsKeys, (item, ncallback) ->      
+      enabledGoalsResults <- get_effectiveness_of_all_interventions_for_goal(item)
+      ncallback(null, enabledGoalsResults)
+
+    console.log "Hello!"
+    console.log time_saved_on_enabled_goals
+
     self.timeSavedData = {
       labels: ['temp1', 'temp2', 'temp3']
       datasets: [
@@ -247,7 +270,8 @@ polymer_ext {
           }
         }]
       }
-    }   
+    } 
+
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

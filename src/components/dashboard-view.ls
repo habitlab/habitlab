@@ -225,36 +225,40 @@ polymer_ext {
       }
     }    
 
-    #MARK: Time saved daily due to interventions Graph
-    enabledGoals <- get_enabled_goals()
+    #MARK: Time saved daily due to interventions Graph  
+    enabledGoals = yield get_enabled_goals()
     enabledGoalsKeys = Object.keys(enabledGoals)
-    
-    console.log enabledGoalsKeys
-
-    /*
-    enabledGoalsKeys.forEach ((element, index, array) ->
-      goal_effectiveness <- get_effectiveness_of_all_interventions_for_goal element 
-      time_saved_on_enabled_goals.push goal_effectiveness
-      return )
-    */
 
     #Retrieves the number of impressions for each enabled intervention        
-    errors,time_saved_on_enabled_goals <- async.mapSeries enabledGoalsKeys, (item, ncallback) ->      
-      enabledGoalsResults <- get_effectiveness_of_all_interventions_for_goal(item)
-      ncallback(null, enabledGoalsResults)
+    time_saved_on_enabled_goals = []
+    for item in enabledGoalsKeys
+      enabledGoalsResults = yield get_effectiveness_of_all_interventions_for_goal(item)
+      time_saved_on_enabled_goals.push(enabledGoalsResults)
 
-    console.log "Hello!"
-    console.log time_saved_on_enabled_goals
+    #console.log time_saved_on_enabled_goals
+
+    interventions_list = []
+    intervention_progress = []
+    for item in time_saved_on_enabled_goals
+      for key,value of item
+        interventions_list.push key
+        if isNaN value.progress
+          intervention_progress.push 0
+        else
+          intervention_progress.push value.progress
+
+    #console.log interventions_list
+    #console.log intervention_progress
 
     self.timeSavedData = {
-      labels: ['temp1', 'temp2', 'temp3']
+      labels: interventions_list
       datasets: [
         {
           label: "Today",
           backgroundColor: "rgba(27,188,155,0.5)",
           borderColor: "rgba(27,188,155,1)",
           borderWidth: 1,
-          data: [1, 2, 3]
+          data: intervention_progress
         }
       ]
     }

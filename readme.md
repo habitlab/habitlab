@@ -235,15 +235,7 @@ Now move it to the [`src/node_modules_custom`](https://github.com/habitlab/habit
 ```bash
 mv node_modules/jquery-inview src/node_modules_custom/jquery-inview
 git add src/node_modules_custom/jquery-inview
-git commit -m "added jquery-inview under node_modules_custom"
-```
-
-You will also need to add the module to the alias section of [`webpack.config.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/webpack.config.ls) to inform webpack it should search for that plugin under the [`src/node_modules_custom`](https://github.com/habitlab/habitlab-chrome/tree/master/src/node_modules_custom) directory. See [this commit](https://github.com/habitlab/habitlab-chrome/commit/abb770ca6a9c6a4f450db113afdb4059d663d14f) for an example.
-
-```javascript
-alias: {
-  'jquery-inview': npmdir_custom('jquery-inview')
-}
+git commit -m "added jquery-inview under npm_custom"
 ```
 
 Now modify the jquery plugin code itself to make it into a CommonJS module that exports a function takes an instance of jQuery. See [this commit](https://github.com/habitlab/habitlab-chrome/commit/39fd42e9e88a6065edca0f4c2219bf47abd26ad6) for an example

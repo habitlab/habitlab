@@ -64,6 +64,8 @@ eslintpattern = [
   '!src/**/*.deps.js'
   '!src/jspm_packages/**/*.js'
   '!src_gen/jspm_packages/**/*.js'
+  '!src/node_modules_custom/**/*.js'
+  '!src_gen/node_modules_custom/**/*.js'
 ]
 
 jspattern_srcgen = [

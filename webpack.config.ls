@@ -2,12 +2,16 @@ require! {
   path
   process
   webpack
+  fs
 }
 
 cwd = process.cwd()
 
 npmdir = (x) ->
   path.join(cwd, 'node_modules', x)
+
+npmdir_jspm = (x) ->
+  path.join(cwd, 'src', 'jspm_packages', 'npm', x)
 
 npmdir_custom = (x) ->
   path.join(cwd, 'src', 'node_modules_custom', x)
@@ -16,7 +20,7 @@ npmdir_custom = (x) ->
 fromcwd = (x) ->
   path.join(cwd, x)
 
-module.exports = {
+webpack_config = {
   #devtool: 'eval-cheap-module-source-map'
   devtool: 'cheap-module-source-map'
   #devtool: 'linked-src'
@@ -94,12 +98,6 @@ module.exports = {
       'zepto': npmdir 'npm-zepto'
       'prelude': npmdir 'prelude-ls'
       'skatejs': npmdir 'skatejs1'
-      'jquery-contextmenu': npmdir_custom 'jquery-contextmenu'
-      'jquery.isinview': npmdir_custom 'jquery.isinview'
-      'jquery.terminal': npmdir_custom 'jquery.terminal'
-      'jquery-inview': npmdir_custom 'jquery-inview'
-      #'systemjs': fromcwd path.join('jspm_packages', 'system.js')
-      #'jspm_config_global_base': fromcwd 'jspm.config.js'
     }
     fallback: [
       fromcwd('src')
@@ -109,3 +107,16 @@ module.exports = {
     fs: 'empty'
   }
 }
+
+/*
+for libname in fs.readdirSync 'src/jspm_packages/npm'
+  if libname.endsWith('.json')
+    continue
+  libname_base = libname.split('@')[0]
+  webpack_config.resolve.alias[libname_base] = npmdir_jspm libname
+*/
+
+for libname in fs.readdirSync 'src/node_modules_custom'
+  webpack_config.resolve.alias[libname] = npmdir_custom libname
+
+module.exports = webpack_config

@@ -44,6 +44,18 @@ get_option_parser = ->
       description: 'Include bower_components directory among those we generate .deps.js files for'
     }
     {
+      option: 'jspm'
+      type: 'Boolean'
+      default: 'false'
+      description: 'Include jspm_packages directory among those we generate .deps.js files for'
+    }
+    {
+      option: 'node_modules_custom'
+      type: 'Boolean'
+      default: 'false'
+      description: 'Include node_modules_custom directory among those we generate .deps.js files for'
+    }
+    {
       option: 'regenerate'
       type: 'Boolean'
       default: 'true'
@@ -145,6 +157,10 @@ export generate_dependencies_for_all_files_in_src_path = ->
   generated_during_this_run := {}
   for filename in glob.sync(src_path + '/**/*.html')
     if not options.bower and filename.indexOf('/bower_components/') != -1
+      continue
+    if not options.jspm and filename.indexOf('/jspm_packages/') != -1
+      continue
+    if not options.node_modules_custom and filename.indexOf('/node_modules_custom/') != -1
       continue
     generate_dependencies_for_file_recursive(filename)
   return

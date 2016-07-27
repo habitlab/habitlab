@@ -11,5 +11,6 @@
 /src/components_skate/components_skate.js
 /node_modules_custom/**/node_modules
 /src/node_modules_custom/**/node_modules
+/src/jspm_packages/npm_custom/**/node_modules
 /releases
 .getsecret.yaml

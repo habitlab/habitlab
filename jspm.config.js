@@ -8,7 +8,9 @@ SystemJS.config({
   map: {
     "cfy": "npm:cfy@1.0.18",
     "jquery": "npm:jquery@3.1.0",
-    "moment": "npm:moment@2.14.1"
+    "moment": "npm:moment@2.14.1",
+    "prelude-ls": "npm:prelude-ls@1.1.2",
+    "promise-debounce": "npm:promise-debounce@1.0.1"
   },
   packages: {
     "npm:cfy@1.0.18": {

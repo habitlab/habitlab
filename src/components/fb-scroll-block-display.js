@@ -5,6 +5,8 @@ const {
   load_css_file,
 } = require('libs_common/content_script_utils')
 
+require('libs_frontend/polymer_methods.ls') 
+
 const {
   get_minutes_spent_on_domain_today,
 } = require('libs_common/time_spent_utils');
@@ -32,11 +34,13 @@ Polymer({
     }
   },
   listeners: {
-    'click': 'clicked'
+    
   },
-  clicked: function() {
-    console.log('habitlab-logo clicked');
-    this.fire('continue_scrolling', {})
+  clicked: function(event) {
+    if (this.$.habitlab_logo !== Polymer.dom(event).localTarget) {
+      this.fire('continue_scrolling', {});
+    }
+    
   },
   ready: function() {
     console.log('fb-scroll-block-display ready');

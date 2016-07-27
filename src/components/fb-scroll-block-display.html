@@ -3,8 +3,12 @@
 <dom-module id="fb-scroll-block-display">
   <style>
     :host {
-      height: 50px;
+      
       /*display: table-cell;*/
+      
+    }
+    #container {
+      height: 50px;
       background-color: #3498DB;
       position: fixed;
       color: white;
@@ -17,7 +21,7 @@
       align-items: center;
       justify-content: center;
     }
-    .habitlab_logo {
+    #habitlab_logo {
       position: absolute;
       left: 10px;
       top: 5px;
@@ -27,6 +31,7 @@
       font-size: 14px;
       align-content: center;
       text-align: center;
+
     }
   </style>
   <template>
@@ -40,12 +45,12 @@
     <img style="width: 38px; height: 38px" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
     <paper-tooltip for="habitlab_logo" animation-delay="0">A tooltip</paper-tooltip>
     -->
-    
-    <div class="text_display" >
-      You have already spent <span>{{minutes}}</span> minutes on <span>{{site}}</site>.<br>Click to continue scrolling.
+    <div id="container" on-click="clicked">
+      <div class="text_display" >
+        You have already spent <span>{{minutes}}</span> minutes on <span>{{site}}</site>.<br>Click to continue scrolling.
+      </div>
+      <habitlab-logo intervention={{intervention}} id="habitlab_logo" ></habitlab-logo>
     </div>
-    <habitlab-logo intervention={{intervention}} class="habitlab_logo"></habitlab-logo>
-  
   </template>
   <script src="fb-scroll-block-display.js"></script>
 </dom-module>

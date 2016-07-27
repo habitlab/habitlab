@@ -246,7 +246,7 @@ polymer_ext {
         if isNaN value.progress
           intervention_progress.push 0
         else
-          intervention_progress.push value.progress
+          intervention_progress.push Math.round(value.progress * 10)/10
 
     intervention_descriptions = yield get_interventions()
     console.log intervention_descriptions

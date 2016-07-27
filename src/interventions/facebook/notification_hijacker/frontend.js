@@ -29,6 +29,9 @@ const messages = ["You've spent a questionable amount of time on Facebook.",
                   "Money isn't going to make itself! Get off Facebook!",
                   "WHY ARE YOU STILL HERE. PLEASE LEAVE.",
                   "Einstein didn't ever use Facebook, and he won a Nobel Prize.",
+                  "Facebook is making so much money off you being here now.",
+                  "Don't you have better things to do than hardcore FOMO?",
+                  "Gandhi once said, 'get off facebook'. Well, not really, but you should.",
                   ":( Why are you still here :("]
 
 //Injects notification into Facebook feed every "minutes" mins

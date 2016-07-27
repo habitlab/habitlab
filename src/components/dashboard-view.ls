@@ -235,7 +235,7 @@ polymer_ext {
       enabledGoalsResults = yield get_effectiveness_of_all_interventions_for_goal(item)
       time_saved_on_enabled_goals.push(enabledGoalsResults)
 
-    console.log time_saved_on_enabled_goals
+    #console.log time_saved_on_enabled_goals
 
     interventions_list = []
     intervention_progress = []
@@ -247,8 +247,8 @@ polymer_ext {
         else
           intervention_progress.push value.progress
 
-    console.log interventions_list
-    console.log intervention_progress
+    #console.log interventions_list
+    #console.log intervention_progress
 
     self.timeSavedData = {
       labels: interventions_list

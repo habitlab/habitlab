@@ -14,3 +14,5 @@
 /src/jspm_packages/npm_custom/**/node_modules
 /releases
 .getsecret.yaml
+/jspm_config_frontend.js
+/jspm_config_backend.js

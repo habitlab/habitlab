@@ -7,6 +7,8 @@ require! {
   async
 }
 
+{cfy} = require 'cfy'
+
 {
   get_seconds_spent_on_current_domain_today     # current domain
   get_seconds_spent_on_all_domains_today        # map for all domains
@@ -92,19 +94,19 @@ polymer_ext {
     this.rerender()
   ready: ->
     this.rerender()
-  rerender: ->
+  rerender: cfy ->*
     #MARK: Polymer tabbing
     self = this
     self.once_available '#graphsOfGoalsTab', ->
       self.S('#graphsOfGoalsTab').prop('selected', 0)
 
     #MARK: Daily Overview Graph
-    goalsDataToday <- get_progress_on_enabled_goals_today();
+    goalsDataToday = yield get_progress_on_enabled_goals_today();
     goalKeys = Object.keys(goalsDataToday)
     
-    errors,results <- async.mapSeries goalKeys, (item, ncallback) ->
-      result <- getGoalInfo(item)
-      ncallback(null, result)    
+    results = []
+    for item in goalKeys
+      results.push yield getGoalInfo(item)
 
     self.goalOverviewData = {
       labels: results.map (.description)
@@ -132,11 +134,11 @@ polymer_ext {
       }
     }     
 
-    sites <- list_sites_for_which_goals_are_enabled()
+    sites = yield list_sites_for_which_goals_are_enabled()
     self.sites = sites
 
     #MARK: Donut Graph
-    a <- get_seconds_spent_on_all_domains_today()
+    a = yield get_seconds_spent_on_all_domains_today()
     sorted = bySortedValue(a)
     #accounts for visiting less than 5 websites
     if sorted.length < 5 
@@ -180,28 +182,31 @@ polymer_ext {
 
     #MARK: Num Times Interventions Deployed Graph
     #Retrieves all interventions    
-    currEnabledInterventions <- get_interventions_seen_today()
-    currentlyEnabledKeys = currEnabledInterventions
+    seenInterventions = yield get_interventions_seen_today()
+    #currentlyEnabledKeys = currEnabledInterventions
     #Filters by whether enabled or not
-    filtered = currentlyEnabledKeys.filter (key) ->
-      return true
+    # filtered = currentlyEnabledKeys.filter (key) ->
+    #   return true
 
-    #Retrieves the number of impressions for each enabled intervention        
-    errors,all_seen_intervention_results <- async.mapSeries filtered, (item, ncallback) ->
+    # #Retrieves the number of impressions for each enabled intervention        
+    # errors,all_seen_intervention_results <- async.mapSeries filtered, (item, ncallback) ->
       
-      enabledInterventionResults <- get_num_impressions_today(item)
-      ncallback(null, enabledInterventionResults)
+    #   enabledInterventionResults <- get_num_impressions_today(item)
+    #   ncallback(null, enabledInterventionResults)
+    results = {}
+    for intv in seenInterventions
+      results[intv] = yield get_num_impressions_today(intv)
 
     #displays onto the graph
     self.interventionFreqData = {
-      labels: filtered
+      labels: seenInterventions
       datasets: [
         {
           label: "Today",
           backgroundColor: "rgba(65,131,215,0.5)",
           borderColor: "rgba(65,131,215,1)",
           borderWidth: 1,
-          data: all_seen_intervention_results
+          data: results
         }
       ]
     }

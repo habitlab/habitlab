@@ -103,7 +103,6 @@ module.exports = {
     }
     fallback: [
       fromcwd('src')
-      fromcwd(path.join('src', 'generated_libs'))
     ]
   }
   node: {

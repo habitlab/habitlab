@@ -1,0 +1,28 @@
+{
+  "name": "promise-debounce",
+  "version": "1.0.1",
+  "description": "Debounce any promise-returning function so that at any instant only one call is pending ",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/all.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaz303/promise-debounce.git"
+  },
+  "keywords": [
+    "promise",
+    "debounce",
+    "async"
+  ],
+  "author": "Jason Frame <jason@onehackoranother.com> (http://jasonframe.co.uk)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaz303/promise-debounce/issues"
+  },
+  "homepage": "https://github.com/jaz303/promise-debounce",
+  "devDependencies": {
+    "es6-promise": "^1.0.0",
+    "tape": "^2.14.0"
+  }
+}

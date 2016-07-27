@@ -11,3 +11,7 @@ if not window.SystemJS
     }
   }
   require '../../jspm.config.js'
+  #if not chrome.windows? # is not content script
+  #  require '../../jspm_config_frontend.js'
+  #else
+  #  require '../../jspm_config_backend.js'

@@ -27,5 +27,13 @@
   "npm:moment@2.14.1": {
     "deps": {},
     "peerDeps": {}
+  },
+  "npm:promise-debounce@1.0.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:prelude-ls@1.1.2": {
+    "deps": {},
+    "peerDeps": {}
   }
 }

@@ -230,15 +230,15 @@ To make these changes to a jQuery plugin, first install the plugin via npm, but 
 npm install jquery-inview
 ```
 
-Now move it to the [`node_modules_custom`](https://github.com/habitlab/habitlab-chrome/tree/master/node_modules_custom) directory and add it via git.
+Now move it to the [`src/node_modules_custom`](https://github.com/habitlab/habitlab-chrome/tree/master/src/node_modules_custom) directory and add it via git.
 
 ```bash
-mv node_modules/jquery-inview node_modules_custom/jquery-inview
-git add node_modules_custom/jquery-inview
+mv node_modules/jquery-inview src/node_modules_custom/jquery-inview
+git add src/node_modules_custom/jquery-inview
 git commit -m "added jquery-inview under node_modules_custom"
 ```
 
-You will also need to add the module to the alias section of [`webpack.config.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/webpack.config.ls) to inform webpack it should search for that plugin under the [`node_modules_custom`](https://github.com/habitlab/habitlab-chrome/tree/master/node_modules_custom) directory. See [this commit](https://github.com/habitlab/habitlab-chrome/commit/abb770ca6a9c6a4f450db113afdb4059d663d14f) for an example.
+You will also need to add the module to the alias section of [`webpack.config.ls`](https://github.com/habitlab/habitlab-chrome/blob/master/webpack.config.ls) to inform webpack it should search for that plugin under the [`src/node_modules_custom`](https://github.com/habitlab/habitlab-chrome/tree/master/src/node_modules_custom) directory. See [this commit](https://github.com/habitlab/habitlab-chrome/commit/abb770ca6a9c6a4f450db113afdb4059d663d14f) for an example.
 
 ```javascript
 alias: {

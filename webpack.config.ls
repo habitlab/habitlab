@@ -10,7 +10,7 @@ npmdir = (x) ->
   path.join(cwd, 'node_modules', x)
 
 npmdir_custom = (x) ->
-  path.join(cwd, 'node_modules_custom', x)
+  path.join(cwd, 'src', 'node_modules_custom', x)
 
 
 fromcwd = (x) ->

@@ -10,5 +10,6 @@
 /src/components/components.html
 /src/components_skate/components_skate.js
 /node_modules_custom/**/node_modules
+/src/node_modules_custom/**/node_modules
 /releases
 .getsecret.yaml

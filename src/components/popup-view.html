@@ -66,11 +66,10 @@
                 <span>Disable Intervention</span>
               </paper-button>
               <paper-listbox class="dropdown-content">
-                <paper-item>For the Rest of the Day</paper-item>
-                <paper-item>Permanently</paper-item>
+                <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the Rest of the Day</paper-item>
+                <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
               </paper-listbox>
             </paper-menu-button>            
-
 
           </div>
         </template>

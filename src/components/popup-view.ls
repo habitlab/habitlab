@@ -15,12 +15,13 @@
 
 {
   get_enabled_interventions
-  set_intervention_enabled
-  set_intervention_disabled
   set_intervention_automatically_managed
   set_intervention_manually_managed
   get_intervention_parameters
-  set_intervention_parameter
+  set_intervention_parameter 
+  set_intervention_disabled               #for disable functions
+  set_intervention_disabled_permanently
+  set_intervention_enabled  
 } = require 'libs_backend/intervention_utils'
 
 const $ = require('jquery')
@@ -34,10 +35,20 @@ polymer_ext {
     }
   }
 
-  snooze_button_clicked: (evt) ->
+  temp_disable_button_clicked: (evt) ->
     self = this
     intervention = evt.target.intervention
     <- set_intervention_disabled intervention
+    #console.log 'done disabling intervention'
+    url <- get_active_tab_url()
+    #domain = url_to_domain(url)
+    enabledInterventions <- list_enabled_interventions_for_location(url)
+    self.enabledInterventions = enabledInterventions
+
+  perm_disable_button_clicked: (evt) ->
+    self = this
+    intervention = evt.target.intervention
+    <- set_intervention_disabled_permanently intervention
     #console.log 'done disabling intervention'
     url <- get_active_tab_url()
     #domain = url_to_domain(url)

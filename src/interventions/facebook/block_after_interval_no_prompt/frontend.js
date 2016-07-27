@@ -14,6 +14,7 @@ require('bower_components/paper-button/paper-button.deps')
 
 //Custom polymer component
 require('components/timespent-view.deps')
+require('components/habitlab-logo.deps')
 
 const {
   get_seconds_spent_on_current_domain_today,
@@ -70,6 +71,11 @@ function addEndDialog(message) {
   $timeText.html(message)
   $contentContainer.append($timeText)
   $contentContainer.append($('<p>'))  
+
+  const $logo = $('<center><habitlab-logo></habitlab-logo></center>').css({
+    'margin-bottom': '80px'
+  });
+  $contentContainer.append($logo);
 
   //Cheat button
   const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')

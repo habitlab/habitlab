@@ -241,10 +241,10 @@ polymer_ext {
     intervention_progress = []
     for item in time_saved_on_enabled_goals
       for key,value of item
-        
+
         #only push not-empty interventions
         if !isNaN value.progress
-          intervention_progress.push value.progress
+          intervention_progress.push Math.round(value.progress * 10)/10
           interventions_list.push key          
 
     #Retrieves all intervention descriptions

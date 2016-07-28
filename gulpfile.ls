@@ -84,8 +84,11 @@ copypattern = [
   'src/libs_common/*.js'
   'src/libs_backend/*.js'
   'src/libs_frontend/*.js'
+  'src/generated_libs/**/*.js'
   'src/bower_components/**/*'
   'src/jspm_packages/**/*'
+  'src/components/**/*.js'
+  'src/node_modules_custom/**/*.js'
   '!src/components/components.html'
   '!src/**/*.deps.js'
 ]

@@ -39,5 +39,31 @@
   "github:systemjs/plugin-text@0.0.8": {
     "deps": {},
     "peerDeps": {}
+  },
+  "npm:enable-webcomponents-in-content-scripts@1.0.7": {
+    "deps": {
+      "webcomponentsjs-custom-element-v0": "npm:webcomponentsjs-custom-element-v0@^1.0.1"
+    },
+    "peerDeps": {}
+  },
+  "npm:webcomponentsjs-custom-element-v0@1.0.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:sweetalert2@4.0.15": {
+    "deps": {
+      "es6-promise": "npm:es6-promise"
+    },
+    "peerDeps": {}
+  },
+  "npm:es6-promise@3.2.1": {
+    "deps": {},
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "github:jspm/nodelibs-process@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
   }
 }

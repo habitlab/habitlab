@@ -1,0 +1,15 @@
+{
+  "main": "dist/sweetalert2.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "src/sweetalert2.js": {
+      "format": "esm"
+    },
+    "src/utils/*": {
+      "format": "esm"
+    }
+  }
+}

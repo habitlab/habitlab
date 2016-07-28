@@ -1,0 +1,22 @@
+{
+  "main": "dist/es6-promise.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/*": {
+      "format": "esm"
+    }
+  },
+  "map": {
+    "vertx": {
+      "browser": "@empty"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "enable-webcomponents-in-content-scripts",
+  "version": "1.0.7",
+  "description": "Enables use of Web Components Custom Elements in Chrome content scripts.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gkovacs/enable-webcomponents-in-content-scripts.git"
+  },
+  "author": "Geza Kovacs (http://github.com/gkovacs)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gkovacs/enable-webcomponents-in-content-scripts/issues"
+  },
+  "homepage": "https://github.com/gkovacs/enable-webcomponents-in-content-scripts#readme",
+  "dependencies": {
+    "webcomponentsjs-custom-element-v0": "^1.0.1"
+  }
+}

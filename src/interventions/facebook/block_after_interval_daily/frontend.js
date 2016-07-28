@@ -163,8 +163,8 @@ function cheatCountdown() {
       console.log("Time Cheating Up: " + timeCheatingUp)
       console.log("Time Spent: " + timeSpent)
 
-      minutes = Math.floor((timeCheatingUp - timeSpent)/60)
-      seconds = timeCheatingUp - timeSpent
+      var minutes = Math.floor((timeCheatingUp - timeSpent)/60)
+      var seconds = timeCheatingUp - timeSpent
       display_timespent_div.attr('display-text', minutes + " minute(s) and " + seconds + " seconds left.");
 
       if (timeSpent > timeCheatingUp) {

@@ -2,7 +2,8 @@
 {load_css_file} = require 'libs_common/content_script_utils'
 {cfy} = require 'cfy'
 swal = require 'sweetalert2'
-
+require 'components/habitlab-logo.deps'
+require 'bower_components/iron-icon/iron-icon.deps.js'
 
 polymer_ext {
   is: 'options-view'
@@ -44,9 +45,9 @@ polymer_ext {
     console.log \icon_clicked
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     yield swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web. \n\n
-          You will see an icon on every intervention inserted on your page, so you can tell which page elements are from HabitLab. When an intervention is active, you can click the icon to get more information about the intervention, or easily disable it.\n\n
+          You will see a <habitlab-logo style='display: inline-block; margin-top: -3px'></habitlab-logo> on every intervention inserted on your page, so you can tell which page elements are from HabitLab. When an intervention is active, you can click the icon to get more information about the intervention, or easily disable it.\n\n
           In order to optimize the interventions shown to you, HabitLab needs to modify the webpages you visit and send data to our server about when you see and respond to those interventions.\n\n
-          Click the info icon in the top right to see this window again. Best of luck achieving your internet goals!
+          Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again. Best of luck achieving your internet goals!
           ", 'animation': false}
   #ready: ->
   #  self = this

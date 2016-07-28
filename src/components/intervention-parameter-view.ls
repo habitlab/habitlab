@@ -46,6 +46,10 @@ polymer_ext {
     return parameter.type == 'bool'
   is_parameter_type_not_bool: (parameter) ->
     return parameter.type != 'bool'
+  is_parameter_multiline: (parameter) ->
+    return parameter.multiline == true
+  is_parameter_not_multiline: (parameter) ->
+    return parameter.multiline != true
   get_error_message: (parameter) ->
     if not parameter? or not parameter.type?
       return ''
@@ -77,12 +81,18 @@ polymer_ext {
     parameter_value <- get_intervention_parameter self.intervention.name, self.parameter.name
     if self.parameter.type == 'bool'
       self.$$('#parameter_checkbox_input').checked = parameter_value
+    else if self.parameter.multiline
+      self.$$('#parameter_textarea_input').value = parameter_value
     else
       self.$$('#parameter_input').value = parameter_value
   parameter_checkbox_value_changed: (evt) ->
     self = this
     {checked} = evt.target
     <- set_intervention_parameter self.intervention.name, self.parameter.name, checked
+  parameter_textarea_value_changed: (evt) ->
+    self = this
+    {value} = evt.target
+    <- set_intervention_parameter self.intervention.name, self.parameter.name, value
   parameter_value_changed: (evt) ->
     self = this
     if self.$$('#parameter_input').invalid

@@ -1,8 +1,8 @@
 description: Example of a custom intervention
 matches:
-  - www.google.com
+  - www.facebook.com
 content_scripts:
-  - frontend.js
+  - /interventions/google/custom_intervention/frontend.js
 parameters:
   - name: debug
     description: Insert debug console

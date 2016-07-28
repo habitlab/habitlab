@@ -1,0 +1,19 @@
+description: Example of a custom intervention
+matches:
+  - www.facebook.com
+content_scripts:
+  - /interventions/google/custom_intervention/frontend.js
+parameters:
+  - name: debug
+    description: Insert debug console
+    default: false
+    type: bool
+  - name: livescript
+    description: Use Livescript to compile code
+    default: false
+    type: bool
+  - name: code
+    description: Code
+    default: ''
+    type: string
+    multiline: true

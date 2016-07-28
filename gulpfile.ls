@@ -334,6 +334,12 @@ gulp.task 'generate_polymer_dependencies', (done) ->
   gen_deps.generate_dependencies_for_all_files_in_src_path()
   done()
 
+gulp.task 'generate_polymer_dependencies_jspm', (done) ->
+  gen_deps.set_src_path(path.join(process.cwd(), 'src'))
+  gen_deps.set_options({target_jspm: true})
+  gen_deps.generate_dependencies_for_all_files_in_src_path()
+  done()
+
 gulp.task 'generate_interventions_list', (done) ->
   mkdirp.sync 'dist/interventions'
   #if fs.existsSync('src/interventions/interventions.yaml')
@@ -394,7 +400,7 @@ gulp.task 'generate_jspm_config_frontend', (done) ->
     path_map[path] = frontend
   fs.writeFileSync 'jspm_config_frontend.js', """
   System.config({
-    paths: #{JSON.stringify(path_map)}
+  map: #{JSON.stringify(path_map, null, 2)}
   });
   """
   done()
@@ -408,7 +414,7 @@ gulp.task 'generate_jspm_config_backend', (done) ->
     path_map[path] = backend
   fs.writeFileSync 'jspm_config_backend.js', """
   System.config({
-    paths: #{JSON.stringify(path_map)}
+  map: #{JSON.stringify(path_map, null, 2)}
   });
   """
   done()
@@ -443,7 +449,8 @@ gulp.task 'generate_skate_components_js', (done) ->
   done()
 
 gulp.task 'build_base', gulp.parallel(
-  gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies')
+  gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies', 'generate_polymer_dependencies_jspm')
+  'generate_jspm_config'
   'generate_skate_components_js'
   'generate_libs_frontend'
   'generate_expose_backend_libs'
@@ -568,7 +575,7 @@ gulp.task 'generate_skate_components_js_watch', ->
   gulp.watch ['src/components_skate/**/*.jsx', 'src/components_skate/**/*.ls'], gulp.series('generate_skate_components_js')
 
 gulp.task 'generate_polymer_dependencies_watch', ->
-  gulp.watch ['src/components/**/*.html', '!src/components/components.html'], gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies')
+  gulp.watch ['src/components/**/*.html', '!src/components/components.html'], gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies', 'generate_polymer_dependencies_jspm')
 
 gulp.task 'generate_libs_frontend_watch', ->
   gulp.watch ['src/libs_common/function_signatures.ls'], gulp.parallel('generate_expose_backend_libs', 'generate_libs_frontend')

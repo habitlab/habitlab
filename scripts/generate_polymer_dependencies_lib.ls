@@ -50,6 +50,12 @@ get_option_parser = ->
       description: 'Include jspm_packages directory among those we generate .deps.js files for'
     }
     {
+      options: 'target_jspm'
+      type: 'Boolean'
+      default: 'false'
+      description: 'Target for generated files is jspm'
+    }
+    {
       option: 'node_modules_custom'
       type: 'Boolean'
       default: 'false'
@@ -147,7 +153,10 @@ html_import_deps = (tag, params) ->
   filename_rel = path.relative src_path, filename_abs
   output = []
   #output.push "import_dom_modules(require('html!#{relative_path}'))"
-  deps_file = filename_rel.replace(/\.html$/, '.deps.js')
+  if options.target_jspm
+    deps_file = filename_rel.replace(/\.html$/, '.jspm.js')
+  else
+    deps_file = filename_rel.replace(/\.html$/, '.deps.js')
   output.push "require('#{deps_file}')"
   return output.join "\n"
 
@@ -170,7 +179,10 @@ export generate_dependencies_for_file = (filename_abs) ->
   generate_dependencies_for_file_recursive(filename_abs)
 
 generate_dependencies_for_file_recursive = (filename_abs) ->
-  outfile_abs = filename_abs.replace(/\.html/, '.deps.js')
+  if options.target_jspm
+    outfile_abs = filename_abs.replace(/\.html/, '.jspm.js')
+  else
+    outfile_abs = filename_abs.replace(/\.html/, '.deps.js')
   if generated_during_this_run[outfile_abs]
     return
   generated_during_this_run[outfile_abs] = true
@@ -201,7 +213,9 @@ generate_dependencies_for_file_recursive = (filename_abs) ->
       continue
     dependencies.push dependency_file
     output.push html_import_deps(tag, params)
-  if options.html_require_prefix
+  if options.target_jspm
+    output.push "import_dom_modules(require('#{filename_rel}!text'), '#{filename_rel}')"
+  else if options.html_require_prefix
     output.push "import_dom_modules(require('html!#{filename_rel}'), '#{filename_rel}')"
   else
     output.push "import_dom_modules(require('#{filename_rel}'), '#{filename_rel}')"

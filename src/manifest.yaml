@@ -19,6 +19,8 @@ content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'
 web_accessible_resources:
   - icons/*.png
   - interventions/**/*.png
+  - bower_components/**/*
+  - node_modules_custom/**/*
   - jspm_packages/**/*
   - libs_frontend/*
   - libs_frontend/**/*

@@ -35,5 +35,9 @@
   "npm:prelude-ls@1.1.2": {
     "deps": {},
     "peerDeps": {}
+  },
+  "github:systemjs/plugin-text@0.0.8": {
+    "deps": {},
+    "peerDeps": {}
   }
 }

@@ -4,6 +4,7 @@
 /src_gen
 /src_vulcanize
 *.deps.js
+*.jspm.js
 .tmp
 /src/generated_libs
 /src/interventions/interventions.yaml

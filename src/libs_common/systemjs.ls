@@ -7,11 +7,12 @@ if not window.SystemJS
       baseURL: chrome.extension.getURL('/')
       paths: {
         'npm:': chrome.extension.getURL "/jspm_packages/npm/"
+        'github:': chrome.extension.getURL "/jspm_packages/github/"
       }
     }
   }
   require '../../jspm.config.js'
-  #if not chrome.windows? # is not content script
-  #  require '../../jspm_config_frontend.js'
-  #else
-  #  require '../../jspm_config_backend.js'
+  if not chrome.windows? # is not content script
+    require '../../jspm_config_frontend.js'
+  else
+    require '../../jspm_config_backend.js'

@@ -1,0 +1,9 @@
+{
+  "main": "./process.js",
+  "registry": "github",
+  "map": {
+    "./process.js": {
+      "node": "./process-node.js"
+    }
+  }
+}

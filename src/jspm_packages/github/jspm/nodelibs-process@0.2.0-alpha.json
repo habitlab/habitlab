@@ -1,0 +1,8 @@
+{
+  "main": "./process.js",
+  "map": {
+    "./process.js": {
+      "node": "./process-node.js"
+    }
+  }
+}

@@ -17,7 +17,9 @@ if intervention.params.livescript.value
   console.log javascript_code
 
 systemjs_require <- System.import('libs_common/systemjs_require').then()
-require <- systemjs_require.make_require_frontend(list_requires(javascript_code)).then()
+console.log 'requires are'
+console.log list_requires(javascript_code)
+require <- systemjs_require.make_require(list_requires(javascript_code)).then()
 
 if intervention.params.debug.value
   listen_for_eval ((x) -> eval(x))

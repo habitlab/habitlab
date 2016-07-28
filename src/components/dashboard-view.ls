@@ -101,6 +101,7 @@ polymer_ext {
     self.once_available '#graphsOfGoalsTab', ->
       self.S('#graphsOfGoalsTab').prop('selected', 0)
 
+
     #MARK: Time saved daily due to interventions Graph  
     enabledGoals = yield get_enabled_goals()
     enabledGoalsKeys = Object.keys(enabledGoals)
@@ -126,13 +127,11 @@ polymer_ext {
           if value.progress > control
             control = value.progress
 
-    console.log control
-    console.log intervention_progress
-
     for i from 0 to intervention_progress.length - 1 by 1
       intervention_progress[i] = control - intervention_progress[i]    
 
-    console.log intervention_progress
+    #console.log intervention_progress
+
     #Retrieves all intervention descriptions
     intervention_descriptions = yield get_interventions()
 
@@ -166,6 +165,7 @@ polymer_ext {
         }]
       }
     } 
+
 
     #MARK: Daily Overview Graph
     goalsDataToday = yield get_progress_on_enabled_goals_today();  
@@ -204,48 +204,6 @@ polymer_ext {
     sites = yield list_sites_for_which_goals_are_enabled()
     self.sites = sites
 
-    #MARK: Donut Graph
-    a = yield get_seconds_spent_on_all_domains_today()
-    sorted = bySortedValue(a)
-    #accounts for visiting less than 5 websites
-    if sorted.length < 5 
-      for i from sorted.length to 4
-        sorted.push(["", 0])
-    length = sorted.length
-    #for i from 0 to sorted.length - 1 by 1
-    #  console.log "Key: #{sorted[i][0]} Value: #{sorted[i][1]}"
-    self.donutdata = {
-      labels: [
-          sorted[0][0],
-          sorted[1][0],
-          sorted[2][0],
-          sorted[3][0],
-          sorted[4][0]  
-      ],
-      datasets: [
-      {
-          data: [Math.round(10*(sorted[0][1]/60))/10, 
-                Math.round(10*(sorted[1][1]/60))/10,
-                Math.round(10*(sorted[2][1]/60))/10, 
-                Math.round(10*(sorted[3][1]/60))/10, 
-                Math.round(10*(sorted[4][1]/60))/10
-          ],
-          backgroundColor: [
-              "rgba(65,131,215,0.7)",
-              "rgba(27,188,155,0.7)",
-              "rgba(244,208,63,0.7)",
-              "rgba(230,126,34,0.7)",
-              "rgba(239,72,54,0.7)"
-          ],
-          hoverBackgroundColor: [
-              "rgba(65,131,215,1)",
-              "rgba(27,188,155,1)",
-              "rgba(244,208,63,1)",
-              "rgba(230,126,34,1)",
-              "rgba(239,72,54,1)"          
-          ]
-      }]
-    }
 
     #MARK: Num Times Interventions Deployed Graph
     #Retrieves all interventions    
@@ -290,6 +248,50 @@ polymer_ext {
           }
         }]
       }
+    }
+
+
+    #MARK: Donut Graph
+    a = yield get_seconds_spent_on_all_domains_today()
+    sorted = bySortedValue(a)
+    #accounts for visiting less than 5 websites
+    if sorted.length < 5 
+      for i from sorted.length to 4
+        sorted.push(["", 0])
+    length = sorted.length
+    #for i from 0 to sorted.length - 1 by 1
+    #  console.log "Key: #{sorted[i][0]} Value: #{sorted[i][1]}"
+    self.donutdata = {
+      labels: [
+          sorted[0][0],
+          sorted[1][0],
+          sorted[2][0],
+          sorted[3][0],
+          sorted[4][0]  
+      ],
+      datasets: [
+      {
+          data: [Math.round(10*(sorted[0][1]/60))/10, 
+                Math.round(10*(sorted[1][1]/60))/10,
+                Math.round(10*(sorted[2][1]/60))/10, 
+                Math.round(10*(sorted[3][1]/60))/10, 
+                Math.round(10*(sorted[4][1]/60))/10
+          ],
+          backgroundColor: [
+              "rgba(65,131,215,0.7)",
+              "rgba(27,188,155,0.7)",
+              "rgba(244,208,63,0.7)",
+              "rgba(230,126,34,0.7)",
+              "rgba(239,72,54,0.7)"
+          ],
+          hoverBackgroundColor: [
+              "rgba(65,131,215,1)",
+              "rgba(27,188,155,1)",
+              "rgba(244,208,63,1)",
+              "rgba(230,126,34,1)",
+              "rgba(239,72,54,1)"          
+          ]
+      }]
     }    
 
 }, {

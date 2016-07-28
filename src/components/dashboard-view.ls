@@ -103,6 +103,7 @@ polymer_ext {
 
     #MARK: Daily Overview Graph
     goalsDataToday = yield get_progress_on_enabled_goals_today();
+  
     goalKeys = Object.keys(goalsDataToday)
     
     results = []
@@ -117,7 +118,7 @@ polymer_ext {
           backgroundColor: "rgba(75,192,192,0.5)",
           borderColor: "rgba(75,192,192,1)",
           borderWidth: 1,
-          data: [v.progress for k, v of goalsDataToday]
+          data: [Math.round(v.progress*10)/10 for k, v of goalsDataToday]
         }
       ]
     }

@@ -112,6 +112,7 @@ polymer_ext {
       time_saved_on_enabled_goals.push(enabledGoalsResults)
 
     #Retrieves intervention names and values
+    control = 0 #for now, control is the max value 
     interventions_list = []
     intervention_progress = []
     for item in time_saved_on_enabled_goals
@@ -119,9 +120,19 @@ polymer_ext {
 
         #only push not-empty interventions
         if !isNaN value.progress
-          intervention_progress.push Math.round(value.progress * 10)/10
-          interventions_list.push key          
+          intervention_progress.push value.progress
+          interventions_list.push key
 
+          if value.progress > control
+            control = value.progress
+
+    console.log control
+    console.log intervention_progress
+
+    for i from 0 to intervention_progress.length - 1 by 1
+      intervention_progress[i] = control - intervention_progress[i]    
+
+    console.log intervention_progress
     #Retrieves all intervention descriptions
     intervention_descriptions = yield get_interventions()
 

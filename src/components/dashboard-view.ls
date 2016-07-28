@@ -101,9 +101,63 @@ polymer_ext {
     self.once_available '#graphsOfGoalsTab', ->
       self.S('#graphsOfGoalsTab').prop('selected', 0)
 
+    #MARK: Time saved daily due to interventions Graph  
+    enabledGoals = yield get_enabled_goals()
+    enabledGoalsKeys = Object.keys(enabledGoals)
+
+    #Retrieves the number of impressions for each enabled intervention        
+    time_saved_on_enabled_goals = []
+    for item in enabledGoalsKeys
+      enabledGoalsResults = yield get_effectiveness_of_all_interventions_for_goal(item)
+      time_saved_on_enabled_goals.push(enabledGoalsResults)
+
+    #Retrieves intervention names and values
+    interventions_list = []
+    intervention_progress = []
+    for item in time_saved_on_enabled_goals
+      for key,value of item
+
+        #only push not-empty interventions
+        if !isNaN value.progress
+          intervention_progress.push Math.round(value.progress * 10)/10
+          interventions_list.push key          
+
+    #Retrieves all intervention descriptions
+    intervention_descriptions = yield get_interventions()
+
+    #Retrieves necessary intervention descriptions
+    intervention_descriptions_final = []
+    for item in interventions_list
+      intervention_descriptions_final.push(intervention_descriptions[item].description)
+
+    self.timeSavedData = {
+      labels: intervention_descriptions_final
+      datasets: [
+        {
+          label: "Today",
+          backgroundColor: "rgba(27,188,155,0.5)",
+          borderColor: "rgba(27,188,155,1)",
+          borderWidth: 1,
+          data: intervention_progress
+        }
+      ]
+    }
+    self.timeSavedOptions = {
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Minutes'
+          },                            
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    } 
+
     #MARK: Daily Overview Graph
-    goalsDataToday = yield get_progress_on_enabled_goals_today();
-  
+    goalsDataToday = yield get_progress_on_enabled_goals_today();  
     goalKeys = Object.keys(goalsDataToday)
     
     results = []
@@ -226,61 +280,6 @@ polymer_ext {
         }]
       }
     }    
-
-    #MARK: Time saved daily due to interventions Graph  
-    enabledGoals = yield get_enabled_goals()
-    enabledGoalsKeys = Object.keys(enabledGoals)
-
-    #Retrieves the number of impressions for each enabled intervention        
-    time_saved_on_enabled_goals = []
-    for item in enabledGoalsKeys
-      enabledGoalsResults = yield get_effectiveness_of_all_interventions_for_goal(item)
-      time_saved_on_enabled_goals.push(enabledGoalsResults)
-
-    #Retrieves intervention names and values
-    interventions_list = []
-    intervention_progress = []
-    for item in time_saved_on_enabled_goals
-      for key,value of item
-
-        #only push not-empty interventions
-        if !isNaN value.progress
-          intervention_progress.push Math.round(value.progress * 10)/10
-          interventions_list.push key          
-
-    #Retrieves all intervention descriptions
-    intervention_descriptions = yield get_interventions()
-
-    #Retrieves necessary intervention descriptions
-    intervention_descriptions_final = []
-    for item in interventions_list
-      intervention_descriptions_final.push(intervention_descriptions[item].description)
-
-    self.timeSavedData = {
-      labels: intervention_descriptions_final
-      datasets: [
-        {
-          label: "Today",
-          backgroundColor: "rgba(27,188,155,0.5)",
-          borderColor: "rgba(27,188,155,1)",
-          borderWidth: 1,
-          data: intervention_progress
-        }
-      ]
-    }
-    self.timeSavedOptions = {
-      scales: {
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Minutes'
-          },                            
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    } 
 
 }, {
   source: require 'libs_frontend/polymer_methods'

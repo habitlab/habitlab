@@ -45,6 +45,9 @@ polymer_ext {
     goal_info <~ getGoalInfo(this.goal)
     goal_progress <~ get_progress_on_goal_this_week(this.goal)
     progress_values = goal_progress.map (.progress)
+    console.log progress_values
+    progress_values = progress_values.map (it) ->
+      Math.round(it * 10)/10
     progress_labels = [0 til goal_progress.length]
 
     progress_labels.forEach ((element, index, array) ->

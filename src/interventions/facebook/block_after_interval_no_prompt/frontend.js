@@ -14,6 +14,7 @@ require('bower_components/paper-button/paper-button.deps')
 
 //Custom polymer component
 require('components/timespent-view.deps')
+require('components/habitlab-logo.deps')
 
 const {
   get_seconds_spent_on_current_domain_today,
@@ -71,6 +72,11 @@ function addEndDialog(message) {
   $contentContainer.append($timeText)
   $contentContainer.append($('<p>'))  
 
+  const $logo = $('<center><habitlab-logo></habitlab-logo></center>').css({
+    'margin-bottom': '80px'
+  });
+  $contentContainer.append($logo);
+
   //Cheat button
   const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')
   $cheatButton.text("Cheat for " + intervention.params.cheatminutes.value + " Minutes")
@@ -98,15 +104,24 @@ function cheat(minutes) {
 function cheatCountdown() {
   const timeCheatingUp = (parseInt(intervention.params.cheatminutes.value) * 60) + parseInt(localStorage.cheatStart)
 
+  var display_timespent_div = $('<timespent-view>')
+  $('body').append(display_timespent_div)
+
   var cheatTimer = setInterval(() => {
     getTimeSpent((timeSpent) => {
       console.log("Cheat start: " + localStorage.cheatStart)
       console.log("Cheat Seconds Allowed: " + intervention.params.cheatminutes.value * 60)
       console.log("Time Cheating Up: " + timeCheatingUp)
       console.log("Time Spent: " + timeSpent)
+
+      minutes = Math.floor((timeCheatingUp - timeSpent)/60)
+      seconds = timeCheatingUp - timeSpent
+      display_timespent_div.attr('display-text', minutes + " minute(s) and " + seconds + " seconds left.");
+
       if (timeSpent > timeCheatingUp) {
-        clearInterval(cheatTimer)
+        $('.timespent-view').remove();
         addEndDialog('Your Cheating Time is Up!')
+        clearInterval(cheatTimer)
       }
     })
   }, 1000);

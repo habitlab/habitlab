@@ -18,6 +18,7 @@ require('components_skate/time-spent-display')
 
 require('components/interstitial-screen.deps')
 require('components/timespent-view.deps')
+require('components/habitlab-logo.deps')
 
 const {
   get_seconds_spent_on_current_domain_today,
@@ -59,6 +60,11 @@ function addBeginDialog(message) {
     'font-size': '1.3em'
   });
   $timeText.html(message)
+
+  const $logo = $('<center><habitlab-logo></habitlab-logo></center>').css({
+    'margin-bottom': '80px'
+  });
+  $contentContainer.append($logo);
 
   const $slider = $('<paper-slider id="ratings" pin snaps min="1" max="5" max-markers="5" step="1" value="3" style="width: 500px" editable></paper-slider>')
 

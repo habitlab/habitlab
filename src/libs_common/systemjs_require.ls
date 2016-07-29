@@ -15,9 +15,11 @@ backend_libs_list = []
 
 export make_require = cfy (lib_names) ->*
   for lib_name in lib_names
+    lib_name = lib_name.replace(/\.deps$/, '.jspm')
     if not lib_cache[lib_name]?
       lib_cache[lib_name] = yield System.import(lib_name)
   return (lib_name) ->
+    lib_name = lib_name.replace(/\.deps$/, '.jspm')
     lib_cache[lib_name]
 
 export make_require_frontend = cfy ->*

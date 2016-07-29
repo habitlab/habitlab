@@ -1,4 +1,4 @@
-export url_to_domain = (url) ->
+url_to_domain = (url) ->
   # http://stackoverflow.com/questions/8498592/extract-root-domain-name-from-string
   # find & remove protocol (http, ftp, etc.) and get domain
   if url.indexOf("://") > -1
@@ -8,3 +8,7 @@ export url_to_domain = (url) ->
   # find & remove port number
   domain = domain.split(':')[0]
   return domain
+
+module.exports = {
+  url_to_domain
+}

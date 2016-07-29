@@ -68,8 +68,12 @@ polymer_ext {
     enabledInterventions <- list_enabled_interventions_for_location(url)
     self.enabledInterventions = enabledInterventions
 
-    self.S('#optionsButton').click(->
+    self.S('#resultsButton').click(->
       chrome.tabs.create {url: 'options.html'}
+    )
+
+    self.S('#goalsButton').click(->
+      chrome.tabs.create {url: 'options.html#goals'}
     )
 
     #MARK: Donut Graph

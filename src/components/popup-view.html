@@ -8,6 +8,8 @@
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
+<link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
+
 
 <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
 
@@ -27,6 +29,7 @@
       font-family: 'Open Sans', sans-serif;
       padding-left:0.3em;
       padding-bottom: 0.5em;
+      padding-top: 0.5em;
     }
 
     /* Flexbox */
@@ -51,6 +54,7 @@
   <template>
     <div>
       <div class="box">
+
         <h4 class="title">Interventions Currently Active On This Page: </h4>
 
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
@@ -74,9 +78,12 @@
           </div>
         </template>
 
+        <h4 class="title">Usage Statistics:</h4>
+        <chart-doughnut data="[[donutdata]]" style="width: 500px"></chart-doughnut>         
 
+        <paper-button raised id="optionsButton">Options</paper-button>
       </div>
-      <paper-button raised id="optionsButton">Options</paper-button>
+
       <!--
       <img src="popup-view.png" style="width: 100%" on-click="open_options_page">
 

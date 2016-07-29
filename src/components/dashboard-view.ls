@@ -113,7 +113,7 @@ polymer_ext {
       time_saved_on_enabled_goals.push(enabledGoalsResults)
 
     #Retrieves intervention names and values
-    control = 0 #for now, control is the max value 
+    control = [] #for now, control is the max value 
     interventions_list = []
     intervention_progress = []
     for item in time_saved_on_enabled_goals

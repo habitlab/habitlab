@@ -401,7 +401,10 @@ gulp.task 'generate_jspm_config_frontend', (done) ->
   for alias_info in get_alias_info()
     {path, frontend} = alias_info
     path_map[path] = frontend
-  path_map['jquery-contextmenu'] = 'node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu'
+  for libname in fs.readdirSync 'src/node_modules_custom'
+    package_json_file = "src/node_modules_custom/#{libname}/package.json"
+    package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
+    path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
   fs.writeFileSync 'jspm_config_frontend.js', """
   System.config({
   map: #{JSON.stringify(path_map, null, 2)}
@@ -416,7 +419,10 @@ gulp.task 'generate_jspm_config_backend', (done) ->
   for alias_info in get_alias_info()
     {path, backend} = alias_info
     path_map[path] = backend
-  path_map['jquery-contextmenu'] = 'node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu'
+  for libname in fs.readdirSync 'src/node_modules_custom'
+    package_json_file = "src/node_modules_custom/#{libname}/package.json"
+    package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
+    path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
   fs.writeFileSync 'jspm_config_backend.js', """
   System.config({
   map: #{JSON.stringify(path_map, null, 2)}

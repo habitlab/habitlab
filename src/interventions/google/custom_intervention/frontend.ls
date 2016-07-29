@@ -12,6 +12,13 @@ require! list_requires
 intervention_info <- System.import('libs_common/intervention_info').then()
 intervention_info.set_intervention(intervention)
 
+do ->
+  require! 'js-yaml'
+  if not intervention.params.params.value? or intervention.params.params.value.length == 0
+    return
+  for k,v of js-yaml.safeLoad(intervention.params.params.value)
+    intervention.params[k] = {value: v}
+
 javascript_code = intervention.params.code.value
 if intervention.params.livescript.value
   LiveScript = require 'livescript15'

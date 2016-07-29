@@ -12,6 +12,11 @@ parameters:
     description: Use Livescript to compile code
     default: false
     type: bool
+  - name: params
+    description: Parameters (YAML)
+    default: '{}'
+    type: string
+    multiline: true
   - name: code
     description: Code
     default: ''

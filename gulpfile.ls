@@ -401,6 +401,7 @@ gulp.task 'generate_jspm_config_frontend', (done) ->
   for alias_info in get_alias_info()
     {path, frontend} = alias_info
     path_map[path] = frontend
+  path_map['jquery-contextmenu'] = 'node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu'
   fs.writeFileSync 'jspm_config_frontend.js', """
   System.config({
   map: #{JSON.stringify(path_map, null, 2)}
@@ -415,6 +416,7 @@ gulp.task 'generate_jspm_config_backend', (done) ->
   for alias_info in get_alias_info()
     {path, backend} = alias_info
     path_map[path] = backend
+  path_map['jquery-contextmenu'] = 'node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu'
   fs.writeFileSync 'jspm_config_backend.js', """
   System.config({
   map: #{JSON.stringify(path_map, null, 2)}

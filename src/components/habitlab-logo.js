@@ -22,6 +22,8 @@ const {cfy} = require('cfy');
 
 const swal = require('sweetalert2')
 
+var intervention = require('libs_common/intervention_info').get_intervention();
+
 polymer_ext({
   is: 'habitlab-logo',
   properties: {

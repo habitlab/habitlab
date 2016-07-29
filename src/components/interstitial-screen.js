@@ -8,6 +8,8 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
+var intervention = require('libs_common/intervention_info').get_intervention();
+
 Polymer({
   is: 'interstitial-screen',
 

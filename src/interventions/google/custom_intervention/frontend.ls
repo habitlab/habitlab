@@ -9,6 +9,9 @@ require! list_requires
   insert_console
 } = require 'libs_frontend/content_script_debug'
 
+intervention_info <- System.import('libs_common/intervention_info').then()
+intervention_info.set_intervention(intervention)
+
 javascript_code = intervention.params.code.value
 if intervention.params.livescript.value
   LiveScript = require 'livescript15'

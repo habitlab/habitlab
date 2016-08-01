@@ -56,6 +56,12 @@
 
         <h4 class="title">Interventions Currently Active On This Page: </h4>
 
+        <template is="dom-if" if="{{isEmpty()}}">
+          <div class="interventionContainer" id="enabledInterventions">
+            <h4>None</h4>
+          </div>
+        </template>
+
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
           <div class="interventionContainer" id="enabledInterventions">
             <h4>{{intervention}}</h4>

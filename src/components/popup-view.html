@@ -56,13 +56,16 @@
 
         <h4 class="title">Interventions Currently Active On This Page: </h4>
 
+        <template is="dom-if" if="{{isEmpty()}}">
+          <div class="interventionContainer" id="enabledInterventions">
+            <h4>None</h4>
+          </div>
+        </template>
+
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
           <div class="interventionContainer" id="enabledInterventions">
             <h4>{{intervention}}</h4>
-            <!--
-            <paper-button raised on-click="snooze_button_clicked" intervention="{{intervention}}" style="background-color: #FF3B4E">Snooze</paper-button>
-            -->
-
+            
             <paper-menu-button vertical-offset="35">
               <paper-button class="dropdown-trigger" raised>
                 <!-- <iron-icon icon="check"></iron-icon> -->

@@ -22,6 +22,9 @@ lib_name_to_func_names_and_signatures =
   tab_utils:
     close_selected_tab: []
     open_url_in_new_tab: 'url'
+  history_utils:
+    get_pages_visited_today: []
+    get_pages_visited_all_time: []
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

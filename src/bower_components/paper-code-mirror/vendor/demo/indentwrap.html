@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><title>CodeMirror: Indented wrapped line demo</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../doc/docs.css">
+
+<link rel="stylesheet" href="../lib/codemirror.css">
+<script src="../lib/codemirror.js"></script>
+<script src="../mode/xml/xml.js"></script>
+<style type="text/css">
+      .CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+      .CodeMirror pre > * { text-indent: 0px; }
+    </style>
+</head><body><div id="nav">
+  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id="logo" src="../doc/logo.png"></a>
+
+  <ul>
+    <li><a href="../index.html">Home</a>
+    </li><li><a href="../doc/manual.html">Manual</a>
+    </li><li><a href="https://github.com/codemirror/codemirror">Code</a>
+  </li></ul>
+  <ul>
+    <li><a class="active" href="#">Indented wrapped line</a>
+  </li></ul>
+</div>
+
+<article>
+<h2>Indented wrapped line demo</h2>
+<form><textarea id="code" name="code">&lt;!doctype html&gt;
+&lt;body&gt;
+  &lt;h2 id="overview"&gt;Overview&lt;/h2&gt;
+
+  &lt;p&gt;CodeMirror is a code-editor component that can be embedded in Web pages. The core library provides &lt;em&gt;only&lt;/em&gt; the editor component, no accompanying buttons, auto-completion, or other IDE functionality. It does provide a rich API on top of which such functionality can be straightforwardly implemented. See the &lt;a href="#addons"&gt;add-ons&lt;/a&gt; included in the distribution, and the &lt;a href="https://github.com/jagthedrummer/codemirror-ui"&gt;CodeMirror UI&lt;/a&gt; project, for reusable implementations of extra features.&lt;/p&gt;
+
+  &lt;p&gt;CodeMirror works with language-specific modes. Modes are JavaScript programs that help color (and optionally indent) text written in a given language. The distribution comes with a number of modes (see the &lt;a href="../mode/"&gt;&lt;code&gt;mode/&lt;/code&gt;&lt;/a&gt; directory), and it isn't hard to &lt;a href="#modeapi"&gt;write new ones&lt;/a&gt; for other languages.&lt;/p&gt;
+&lt;/body&gt;
+</textarea></form>
+
+    <p>This page uses a hack on top of the <code>"renderLine"</code>
+    event to make wrapped text line up with the base indentation of
+    the line.</p>
+
+    <script src="indentwrap-0.js"></script>
+
+  </article>
+</body></html>

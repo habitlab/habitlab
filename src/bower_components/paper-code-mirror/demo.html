@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>&#x3C;paper-code-mirror&#x3E; demo page</title>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../paper-styles/typography.html">
+    <link rel="import" href="../paper-styles/color.html">
+    <link rel="import" href="../paper-material/paper-material.html">
+    <link rel="import" href="paper-code-mirror.html">
+</head>
+<body>
+    <style is="custom-style">
+        .paper-font-display1 {
+            font-weight: 300 !important;
+            color: teal;
+            margin: 20px;
+            @apply(--paper-font-display1);
+        }
+
+        .paper-font-headline {
+            @apply(--paper-font-headline);
+        }
+
+        .paper-font-title {
+            @apply(--paper-font-title);
+        }
+
+        .paper-font-subhead {
+            @apply(--paper-font-subhead);
+        }
+
+        .paper-font-button {
+            @apply(--paper-font-button);
+            color: teal;
+        }
+
+        paper-material {
+            min-height: 300px;
+            position: relative;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        paper-video.custom {
+            --paper-video-controls-background: var(--paper-blue-500);
+            --paper-video-controls-color: white;
+            --paper-video-slider-color: var(--paper-blue-700);
+        }
+
+        paper-fab-menu[position="vertical"] {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+
+        paper-fab-menu[position="horizontal"] {
+            position: absolute;
+            right: 185px;
+            bottom: 20px;
+        }
+
+        .code-area pre {
+            position: relative;
+            left: 135px;
+            text-align: left;
+        }
+
+    </style>
+
+    <div class="paper-font-display1">&#x3C;paper-code-mirror&#x3E;</div>
+    <paper-material elevation="1">
+        <div class="paper-font-button">HTML Mode</div>
+        <div class="code-area">
+            <pre>
+&#x3C;paper-code-mirror title=&#x22;HTML&#x22;&#x3E;
+            &#x3C;template&#x3E;
+                &#x3C;div class=&#x22;container&#x22;&#x3E;
+                    &#x3C;div class=&#x22;header&#x22;&#x3E;
+                        &#x3C;a href=&#x22;http://google.com&#x22; target=&#x22;_blank&#x22;&#x3E;Hello&#x3C;/a&#x3E;
+                    &#x3C;/div&#x3E;
+                &#x3C;/div&#x3E;
+            &#x3C;/template&#x3E;
+&#x3C;/paper-code-mirror&#x3E;
+            </pre>
+        </div>
+
+        <paper-code-mirror title="HTML">
+            <template>
+                <div class="container">
+                    <div class="header">
+                        <a href="http://google.com" target="_blank">Hello</a>
+                    </div>
+                </div>
+            </template>
+        </paper-code-mirror>
+    </paper-material>
+
+    <paper-material elevation="1">
+        <div class="paper-font-button">JavaScript Mode, Night Theme, With Line Numbers</div>
+        <div class="code-area">
+            <pre>
+&#x3C;paper-code-mirror theme=&#x22;night&#x22; line-numbers title=&#x22;JavaScript&#x22; mode=&#x22;javascript&#x22;&#x3E;
+    &#x3C;template&#x3E;
+        var length = 16;                               // Number
+        var lastName = &#x22;Johnson&#x22;;                      // String
+        var cars = [&#x22;Saab&#x22;, &#x22;Volvo&#x22;, &#x22;BMW&#x22;];           // Array
+        var x = {firstName:&#x22;John&#x22;, lastName:&#x22;Doe&#x22;};    // Object
+    &#x3C;/template&#x3E;
+&#x3C;/paper-code-mirror&#x3E;
+            </pre>
+        </div>
+
+        <paper-code-mirror line-numbers theme="night" title="JavaScript" mode="javascript">
+            <template>
+                var length = 16;                               // Number
+                var lastName = "Johnson";                      // String
+                var cars = ["Saab", "Volvo", "BMW"];           // Array
+                var x = { firstName: "John", lastName: "Doe"}; // Object
+            </template>
+        </paper-code-mirror>
+    </paper-material>
+
+    <paper-material elevation="1">
+        <div class="paper-font-button">SQL Mode, Midnight Theme, With Line Numbers</div>
+        <div class="code-area">
+            <pre>
+&#x3C;paper-code-mirror line-numbers theme=&#x22;midnight&#x22; title=&#x22;SQL&#x22; mode=&#x22;sql&#x22;&#x3E;
+    &#x3C;template&#x3E;
+        SELECT &#x27;column_name&#x27;,&#x27;column_name&#x27; FROM &#x27;table_name&#x27;;
+    &#x3C;/template&#x3E;
+&#x3C;/paper-code-mirror&#x3E;
+            </pre>
+        </div>
+
+        <paper-code-mirror line-numbers theme="midnight" title="SQL" mode="sql">
+            <template>
+                SELECT 'column_name','column_name' FROM 'table_name';
+            </template>
+        </paper-code-mirror>
+    </paper-material>
+</body>
+</html>

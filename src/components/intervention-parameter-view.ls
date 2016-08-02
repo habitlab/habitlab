@@ -42,14 +42,18 @@ polymer_ext {
       observer: 'parameter_changed'
     }
   }
+  is_parameter_code: (parameter) ->
+    return parameter.code?
   is_parameter_type_bool: (parameter) ->
     return parameter.type == 'bool'
-  is_parameter_type_not_bool: (parameter) ->
-    return parameter.type != 'bool'
   is_parameter_multiline: (parameter) ->
     return parameter.multiline == true
-  is_parameter_not_multiline: (parameter) ->
-    return parameter.multiline != true
+  is_parameter_singleline: (parameter) ->
+    return not (
+      parameter.code? or
+      parameter.type == 'bool' or
+      parameter.multiline == true
+    )
   get_error_message: (parameter) ->
     if not parameter? or not parameter.type?
       return ''
@@ -81,6 +85,13 @@ polymer_ext {
     parameter_value <- get_intervention_parameter self.intervention.name, self.parameter.name
     if self.parameter.type == 'bool'
       self.$$('#parameter_checkbox_input').checked = parameter_value
+    else if self.parameter.code
+      self.$$('#parameter_code_input').mirror.setValue parameter_value
+      setTimeout ->
+        els = document.getElementsByClassName('CodeMirror');
+        for el in els
+          el.CodeMirror.refresh()
+      , 1000
     else if self.parameter.multiline
       self.$$('#parameter_textarea_input').value = parameter_value
     else
@@ -93,6 +104,10 @@ polymer_ext {
     self = this
     {value} = evt.target
     <- set_intervention_parameter self.intervention.name, self.parameter.name, value
+  parameter_code_value_changed: (evt) ->
+    self = this
+    {value} = evt.detail
+    <- set_intervention_parameter self.intervention.name, self.parameter.name, value    
   parameter_value_changed: (evt) ->
     self = this
     if self.$$('#parameter_input').invalid

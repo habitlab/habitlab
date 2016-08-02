@@ -58,7 +58,7 @@ polymer_ext({
 
     set_intervention_disabled(this.intervention, () => {
       console.log (`disabled ${self.intervention}`)
-      swal("This intervention has been disabled temporarily!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
+      swal('This intervention now temporarily disabled!', 'Sorry for the inconvenience. Refresh the page, and the intervention will be gone.')
     })
   },
   disable_perm_callback: function() {
@@ -67,7 +67,7 @@ polymer_ext({
 
     set_intervention_disabled_permanently(this.intervention, () => {
       console.log (`disabled ${self.intervention}`)
-      swal("This intervention has been disabled permanently", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
+      swal("Intervention now permanently disabled!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
     })
   },  
   ready: cfy(function*() {

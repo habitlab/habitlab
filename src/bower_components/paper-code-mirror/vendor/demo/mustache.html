@@ -1,0 +1,48 @@
+<!DOCTYPE html><html><head><title>CodeMirror: Overlay Parser Demo</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../doc/docs.css">
+
+<link rel="stylesheet" href="../lib/codemirror.css">
+<script src="../lib/codemirror.js"></script>
+<script src="../addon/mode/overlay.js"></script>
+<script src="../mode/xml/xml.js"></script>
+<style type="text/css">
+      .CodeMirror {border: 1px solid black;}
+      .cm-mustache {color: #0ca;}
+</style>
+</head><body><div id="nav">
+  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id="logo" src="../doc/logo.png"></a>
+
+  <ul>
+    <li><a href="../index.html">Home</a>
+    </li><li><a href="../doc/manual.html">Manual</a>
+    </li><li><a href="https://github.com/codemirror/codemirror">Code</a>
+  </li></ul>
+  <ul>
+    <li><a class="active" href="#">Overlay Parser</a>
+  </li></ul>
+</div>
+
+<article>
+<h2>Overlay Parser Demo</h2>
+<form><textarea id="code" name="code">&lt;html&gt;
+  &lt;body&gt;
+    &lt;h1&gt;{{title}}&lt;/h1&gt;
+    &lt;p&gt;These are links to {{things}}:&lt;/p&gt;
+    &lt;ul&gt;{{#links}}
+      &lt;li&gt;&lt;a href="{{url}}"&gt;{{text}}&lt;/a&gt;&lt;/li&gt;
+    {{/links}}&lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</textarea></form>
+
+    <script src="mustache-0.js"></script>
+
+    <p>Demonstration of a mode that parses HTML, highlighting
+    the <a href="http://mustache.github.com/">Mustache</a> templating
+    directives inside of it by using the code
+    in <a href="../addon/mode/overlay.js"><code>overlay.js</code></a>. View
+    source to see the 15 lines of code needed to accomplish this.</p>
+
+  </article>
+</body></html>

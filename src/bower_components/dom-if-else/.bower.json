@@ -1,0 +1,43 @@
+{
+  "name": "dom-if-else",
+  "version": "0.9.0",
+  "authors": [
+    "Brandon Myers <trakkasure@gmail.com>"
+  ],
+  "description": "The template element providing an alternative to just dom-if.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "bind",
+    "template",
+    "dom-if",
+    "dom-else",
+    "dom-if-else"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.0.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.4",
+    "web-component-tester": "*"
+  },
+  "homepage": "https://github.com/Trakkasure/dom-if-else",
+  "_release": "0.9.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.9.0",
+    "commit": "70efe0bb961af5f83e4ff8436fe2102e40e803a3"
+  },
+  "_source": "https://github.com/Trakkasure/dom-if-else.git",
+  "_target": "^0.9.0",
+  "_originalSource": "dom-if-else",
+  "_direct": true
+}

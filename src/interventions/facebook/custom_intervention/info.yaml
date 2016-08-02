@@ -21,4 +21,4 @@ parameters:
     description: Code
     default: ''
     type: string
-    multiline: true
+    code: true

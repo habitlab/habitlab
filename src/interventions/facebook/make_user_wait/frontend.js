@@ -21,7 +21,7 @@
   var buttonText2 = 'Close Facebook'
   interst_screen.attr('btn-txt2', buttonText2)
   var secondsLeft = intervention.params.seconds.value
-  var messageString = 'Facebook will be available in...' + secondsLeft;
+  var messageString = 'Loading...';
   secondsLeft--
   interst_screen.attr('title-text', messageString)
   interst_screen[0].hideButton();
@@ -30,7 +30,7 @@
 
   
   var countdown = setInterval(function() {
-    var messageString = 'Facebook will be available in...' + secondsLeft;
+    var messageString = 'Loading...';
     secondsLeft--
     interst_screen.attr('title-text', messageString)
     if (secondsLeft < 0) {

@@ -37,7 +37,8 @@
 
     .whiteDiv {
       position: fixed;
-      display: block;
+      display: flex;
+      flex-direction: column;
       top: 0%;
       left: 0%;
       width: 100%;
@@ -65,13 +66,19 @@
       padding-bottom: 80px;
     }
 
+    habitlab-rss-message {
+      padding-top: 100px;
+      align-self: center;
+
+    }
+
   </style>
 
   <template>
     <div class="whiteDiv">
-      
+      <habitlab-rss-message></habitlab-rss-message>
       <div class="contentContainer">
-        <habitlab-rss-message></habitlab-rss-message>
+        
         <center><habitlab-logo id="logo"></habitlab-logo><center>
         <div id="titletext" class="titleText"></div>
         <div id="messagetext"></div>

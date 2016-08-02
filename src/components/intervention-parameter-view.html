@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/dom-if-else/dom-if-else.html">
 
 <dom-module id="intervention-parameter-view">
   <style>
@@ -12,16 +13,20 @@
     }
   </style>
   <template>
-    <template is="dom-if" if="{{is_parameter_type_bool(parameter)}}">
-      <paper-checkbox id="parameter_checkbox_input" on-change="parameter_checkbox_value_changed">{{parameter.description}}</paper-checkbox>
-    </template>
-    <template is="dom-if" if="{{is_parameter_type_not_bool(parameter)}}">
-      <template is="dom-if" if="{{is_parameter_multiline(parameter)}}">
-        <paper-textarea id="parameter_textarea_input" label="{{parameter.description}}" on-input="parameter_textarea_value_changed"></paper-textarea>
-      </template>
-      <template is="dom-if" if="{{is_parameter_not_multiline(parameter)}}">
-        <paper-input id="parameter_input" auto-validate error-message="{{get_error_message(parameter)}}" pattern="{{get_validation_pattern(parameter)}}" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
-      </template>
+    <template is="dom-if-else" if="{{is_parameter_type_bool(parameter)}}">
+      <if-then>
+        <paper-checkbox id="parameter_checkbox_input" on-change="parameter_checkbox_value_changed">{{parameter.description}}</paper-checkbox>
+      </if-then>
+      <if-else>
+        <template is="dom-if-else" if="{{is_parameter_multiline(parameter)}}">
+          <if-then>
+            <paper-textarea style="font-family: monospace" id="parameter_textarea_input" label="{{parameter.description}}" on-input="parameter_textarea_value_changed"></paper-textarea>
+          </if-then>
+          <if-else>
+            <paper-input style="font-family: monospace" id="parameter_input" auto-validate error-message="{{get_error_message(parameter)}}" pattern="{{get_validation_pattern(parameter)}}" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
+          </if-else>
+        </template>
+      </if-else>
     </template>
   </template>
   <script src="intervention-parameter-view.js"></script>

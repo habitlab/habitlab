@@ -44,12 +44,8 @@ polymer_ext {
   }
   is_parameter_type_bool: (parameter) ->
     return parameter.type == 'bool'
-  is_parameter_type_not_bool: (parameter) ->
-    return parameter.type != 'bool'
   is_parameter_multiline: (parameter) ->
     return parameter.multiline == true
-  is_parameter_not_multiline: (parameter) ->
-    return parameter.multiline != true
   get_error_message: (parameter) ->
     if not parameter? or not parameter.type?
       return ''

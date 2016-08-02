@@ -87,9 +87,11 @@ polymer_ext {
       self.$$('#parameter_checkbox_input').checked = parameter_value
     else if self.parameter.code
       self.$$('#parameter_code_input').mirror.setValue parameter_value
-      els = document.getElementsByClassName('CodeMirror');
-      for el in els
-        el.CodeMirror.refresh()
+      setTimeout ->
+        els = document.getElementsByClassName('CodeMirror');
+        for el in els
+          el.CodeMirror.refresh()
+      , 1000
     else if self.parameter.multiline
       self.$$('#parameter_textarea_input').value = parameter_value
     else

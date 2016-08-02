@@ -5,14 +5,27 @@ const {
   list_polymer_ext_tags_with_info,
 } = require('libs_frontend/polymer_utils');
 
+const {
+  once_true,
+  once_available,
+} = require('libs_frontend/common_libs')
+
 polymer_ext({
   is: 'badges-view',
   properties: {
   },
   ready: function() {
+    const self = this;
+    once_available('#badges_display', function() {
+      console.log('repaint is being called')
+      self.repaint();
+      console.log('done calling repaint')
+    })
+  },
+  repaint: function() {
     
     var diameter = 700;
-        
+
     var tree = d3.layout.tree()
       .size([360, diameter / 2 - 120])
       .separation(function(a, b) {
@@ -189,9 +202,14 @@ polymer_ext({
         d3.select(".nodetext").remove()
       });    
 
-    d3.select(self.frameElement).style("height", diameter - 150 + "px");
-
     console.log('badges-view loaded');
   },
+},
+{
+  source: require('libs_frontend/polymer_methods'),
+  methods: [
+    'S',
+    'once_available',
+  ],
 });
 

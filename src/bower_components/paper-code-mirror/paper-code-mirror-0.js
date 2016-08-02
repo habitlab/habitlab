@@ -44,7 +44,7 @@
                     },
                     tabSize     : {
                         type  : Number,
-                        value : 4
+                        value : 2
                     },
                     mode        : {
                         type  : String,
@@ -75,7 +75,10 @@
                         mode        : that.mode,
                         theme       : that.theme,
                         lineNumbers : that.lineNumbers,
-                        tabSize     : that.tabSize
+                        tabSize     : that.tabSize,
+                        indentUnit  : 2,
+                        smartIndent : true,
+                        inputStyle  : 'contenteditable',
                     });
 
                     that.async(function(){

@@ -25,6 +25,8 @@ lib_name_to_func_names_and_signatures =
   history_utils:
     get_pages_visited_today: []
     get_pages_visited_all_time: []
+    get_work_pages_visited_today: []
+    get_productivity_classifications: []
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

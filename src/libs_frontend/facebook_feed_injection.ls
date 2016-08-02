@@ -32,25 +32,24 @@ export inject_into_feed = (component_generator) ->
     
 
     for $feeditem in $('.mbm._5jmm,.userContentWrapper._5pcr')
-      if $($feeditem).isInView()  
-        if $feeditem.seen
-          console.log 'you already saw me'
-        else
-          $($feeditem).prop('seen': true)
-          console.log 'new feed'
-          window.itemsseen += 1
-          if window.itemsseen % 10 == 5
-            console.log \injected
-            insertBeforeItem $($feeditem)
+      # if $($feeditem).isInView()  
+      #   if $feeditem.seen
+      #     console.log 'you already saw me'
+      #   else
+      #     $($feeditem).prop('seen': true)
+      #     console.log 'new feed'
+      #     window.itemsseen += 1
+      #     if window.itemsseen % 10 == 5
+      #       console.log \injected
+      #       insertBeforeItem $($feeditem)
       
   
       if not $feeditem.feedlearninserted
         $feeditem.feedlearninserted = true
         window.numitems += 1
       
-        # if window.itemsseen % 10 == 5
-        #   console.log \injected
-        #   insertBeforeItem $($feeditem)
+        if window.numitems % 10 == 5
+          insertBeforeItem $($feeditem)
     return
 
   idArraysEqual = (a1, a2) ->
@@ -100,7 +99,7 @@ export inject_into_feed = (component_generator) ->
         updateVisibleIds()
         insertIfMissing()
         return
-      , 500
+      , 1500
     $(document).mousemove ->
       window.mostrecentmousemove = Date.now()
       return

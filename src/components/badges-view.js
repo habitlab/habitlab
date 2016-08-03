@@ -86,7 +86,7 @@ polymer_ext({
             ],
           }, 
         ],
-       },
+      },
       {
         "name": "Shared on Facebook",
         "img": chrome.extension.getURL("icons/d3_icons/social_media_1.png"),
@@ -112,109 +112,109 @@ polymer_ext({
               {
               "name": "Saved 24 Hours",
               "img": chrome.extension.getURL("icons/d3_icons/clock_3.png"),
-              "filled": true,
+              "filled": false,
               }
             ],
           }, 
         ],
-       }, 
-     ]
-    }
+      }, 
+    ],
+  }
 
-    var nodes = tree.nodes(data);
-    var links = tree.links(nodes);
+  var nodes = tree.nodes(data);
+  var links = tree.links(nodes);
 
-    //Adjusts distance between nodes
-    nodes.forEach(function(d) { d.y = d.depth * 100 });
+  //Adjusts distance between nodes
+  nodes.forEach(function(d) { d.y = d.depth * 100 });
 
-    var lines = svg.selectAll('line')
-      .data(links)
-      .enter()
-      .append('line')
-      .attr('stroke', '#ccc');
+  var lines = svg.selectAll('line')
+    .data(links)
+    .enter()
+    .append('line')
+    .attr('stroke', '#ccc');
 
-    lines.attr('x1', function(d) {
-        return d.source.y
-      })
-      .attr('y1', function(d) {
-        return d.source.x / 180 * Math.PI
-      })
-      .attr('x2', function(d) {
-        return d.target.y
-      })
-      .attr('y2', function(d) {
-        return d.target.x / 180 * Math.PI
-      });
-
-    lines.attr("transform", function(d) {
-      return "rotate(" + (d.target.x - 90) + ")";
+  lines.attr('x1', function(d) {
+      return d.source.y
+    })
+    .attr('y1', function(d) {
+      return d.source.x / 180 * Math.PI
+    })
+    .attr('x2', function(d) {
+      return d.target.y
+    })
+    .attr('y2', function(d) {
+      return d.target.x / 180 * Math.PI
     });
 
-    var link = svg.selectAll(".link")
-      .data(links)
-      .enter().append("path")
-      .attr("class", "link");
+  lines.attr("transform", function(d) {
+    return "rotate(" + (d.target.x - 90) + ")";
+  });
 
-    var node = svg.selectAll(".node")
-      .data(nodes)
-      .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) {
-        return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")rotate(" + (-d.x + 90) + ")";
-      });
+  var link = svg.selectAll(".link")
+    .data(links)
+    .enter().append("path")
+    .attr("class", "link");
 
-    node.append("circle")
-      .attr("r", 30)
-      .attr("fill", function(d) { return d.filled ? "#bbb" : "#ddd" })
-      .on("dblclick", function(d) {
-        d3.select(this)
-          .attr('r', function(d) { return d.group === "Hub" ? 80 : 30 })
-      });
+  var node = svg.selectAll(".node")
+    .data(nodes)
+    .enter().append("g")
+    .attr("class", "node")
+    .attr("transform", function(d) {
+      return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")rotate(" + (-d.x + 90) + ")";
+    });
 
-    var images = node.append("image")
-      .attr("xlink:href", function(d) { return d.filled ? d.img : chrome.extension.getURL("icons/d3_icons/question_mark.png")})
-      .attr("x", -16)
-      .attr("y", -16)
-      .attr("width", 32)
-      .attr("height", 32);
+  node.append("circle")
+    .attr("r", 30)
+    .attr("fill", function(d) { return d.filled ? "#bbb" : "#ddd" })
+    .on("dblclick", function(d) {
+      d3.select(this)
+        .attr('r', function(d) { return d.group === "Hub" ? 80 : 30 })
+    });
 
-    // make the image grow a little on mouse over and add the text details on click
-    var setEvents = images
-       //Expands image when hovered over
-      .on('mouseenter', function() {
-        // select element in current context
-        d3.select(this)
-          .transition()
-          .attr("x", -23)
-          .attr("y", -23)       
-          .attr("height", 46)
-          .attr("width", 46);     
-      })
+  var images = node.append("image")
+    .attr("xlink:href", function(d) { return d.filled ? d.img : chrome.extension.getURL("icons/d3_icons/question_mark.png")})
+    .attr("x", -16)
+    .attr("y", -16)
+    .attr("width", 32)
+    .attr("height", 32);
 
-      //Contracts image when mouse leaves the image
-      .on('mouseleave', function() {
-        d3.select(this)
-          .transition()
-          .attr("x", -14)
-          .attr("y", -14)
-          .attr("height", 28)
-          .attr("width", 28);
-      });
+  // make the image grow a little on mouse over and add the text details on click
+  var setEvents = images
+     //Expands image when hovered over
+    .on('mouseenter', function() {
+      // select element in current context
+      d3.select(this)
+        .transition()
+        .attr("x", -23)
+        .attr("y", -23)       
+        .attr("height", 46)
+        .attr("width", 46);     
+    })
 
-    var setHoverText = node
-      .on('mouseenter', function() {
-        d3.select(this)
-          .append("text")
-            .attr("class", "nodetext")  
-            .attr("y", 43)          
-            .attr("text-anchor", "middle")
-            .text(function(d) {
-              return d.filled ? d.name : "Unknown";
-            });        
-      })
-      .on('mouseleave', function() {
-        d3.select(".nodetext").remove()
-      });    
+    //Contracts image when mouse leaves the image
+    .on('mouseleave', function() {
+      d3.select(this)
+        .transition()
+        .attr("x", -14)
+        .attr("y", -14)
+        .attr("height", 28)
+        .attr("width", 28);
+    });
+
+  var setHoverText = node
+    .on('mouseenter', function() {
+      d3.select(this)
+        .append("text")
+          .attr("class", "nodetext")  
+          .attr("y", 43)          
+          .attr("text-anchor", "middle")
+          .text(function(d) {
+            return d.filled ? d.name : "Unknown";
+          });        
+    })
+    .on('mouseleave', function() {
+      d3.select(".nodetext").remove()
+    });    
 
     console.log('badges-view loaded');
   },

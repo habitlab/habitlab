@@ -24,7 +24,7 @@ polymer_ext({
   },
   repaint: function() {
     
-    var diameter = 700;
+    var diameter = 670;
 
     var tree = d3.layout.tree()
       .size([360, diameter / 2 - 120])
@@ -253,9 +253,7 @@ polymer_ext({
     })
     .on('mouseleave', function() {
       d3.select(".nodetext").remove()
-    });    
-
-    console.log('badges-view loaded');
+    });
   },
 },
 {

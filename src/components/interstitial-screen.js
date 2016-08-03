@@ -34,6 +34,10 @@ Polymer({
     },
     messageText: {
       type: String
+    },
+    randomizer: {
+      type: Boolean,
+      value: false
     }
 
   },

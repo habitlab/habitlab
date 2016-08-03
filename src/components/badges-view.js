@@ -24,7 +24,7 @@ polymer_ext({
   },
   repaint: function() {
     
-    var diameter = 670;
+    var diameter = 650;
 
     var tree = d3.layout.tree()
       .size([360, diameter / 2 - 120])
@@ -44,19 +44,19 @@ polymer_ext({
       "filled": true,
       "children": [
       {
-        "name": "1.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installation_1.png"),
+        "name": "Rated Habitlab",
+        "img": chrome.extension.getURL("icons/d3_icons/feedback_1.png"),
         "filled": true,
         "children": [
           {
-            "name": "1.2",
-            "img": chrome.extension.getURL(""),
-            "filled": false,
+            "name": "Contributed Feedback",
+            "img": chrome.extension.getURL("icons/d3_icons/feedback_2.png"),
+            "filled": true,
             "children": [
               {
-              "name": "1.3",
-              "img": chrome.extension.getURL(""),
-              "filled": false,
+              "name": "Contributed an Intervention",
+              "img": chrome.extension.getURL("icons/d3_icons/feedback_3.png"),
+              "filled": true,
               }
             ],
           }, 
@@ -64,8 +64,8 @@ polymer_ext({
       }, 
       {
         "name": "2.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installation_1.png"),
-        "filled": true,
+        "img": chrome.extension.getURL(""),
+        "filled": false,
         "children": [
           {
             "name": "2.2",
@@ -83,8 +83,8 @@ polymer_ext({
       },    
       {
         "name": "3.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installation_1.png"),
-        "filled": true,
+        "img": chrome.extension.getURL(""),
+        "filled": false,
         "children": [
           {
             "name": "3.2",
@@ -164,7 +164,7 @@ polymer_ext({
   var links = tree.links(nodes);
 
   //Adjusts distance between nodes
-  nodes.forEach(function(d) { d.y = d.depth * 100 });
+  nodes.forEach(function(d) { d.y = d.depth * 90 });
 
   var lines = svg.selectAll('line')
     .data(links)

@@ -40,64 +40,64 @@ polymer_ext({
 
     var data = {
       "name": "Installed Habitlab",
-      "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/375457-200.png",
+      "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
       "filled": true,
       "children": [
       {
         "name": "1.1",
-        "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/375457-200.png",
+        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
         "filled": true,
       }, 
       {
         "name": "2.1",
-        "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/375457-200.png",
+        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
         "filled": false,
       }, 
       {
         "name": "3.1",
-        "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/375457-200.png",
+        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
         "filled": true,
       }, 
       {
         "name": "4.1",
-        "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/375457-200.png",
+        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
         "filled": true,
       }, 
       {
         "name": "5.1",
-        "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/375457-200.png",
+        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
         "filled": false,
       }, 
       {
         "name": "6.1",
-        "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/375457-200.png",
+        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
         "filled": true,
       }, 
       {
         "name": "7.1",
-        "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/375457-200.png",
+        "img": chrome.extension.getURL("icons/d3_icons/social_media_1.png"),
         "filled": true,
         "children": [
           {
             "name": "7.2",
-            "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/130933-200.png",
+            "img": chrome.extension.getURL("icons/d3_icons/social_media_2.png"),
             "filled": false,
           }, 
         ],
       }, 
       {
         "name": "8.1",
-        "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/130937-200.png",
+        "img": chrome.extension.getURL("icons/d3_icons/clock_1.png"),
         "filled": true,
         "children": [
           {
             "name": "8.2",
-            "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/130933-200.png",
+            "img": chrome.extension.getURL("icons/d3_icons/clock_2.png"),
             "filled": true,
             "children": [
               {
               "name": "8.3",
-              "img": "https://d30y9cdsu7xlg0.cloudfront.net/png/130930-200.png",
+              "img": chrome.extension.getURL("icons/d3_icons/clock_3.png"),
               "filled": true,
               }
             ],
@@ -158,11 +158,11 @@ polymer_ext({
       });
 
     var images = node.append("image")
-      .attr("xlink:href", function(d) { return d.filled ? d.img : "https://d30y9cdsu7xlg0.cloudfront.net/png/338831-200.png"})
-      .attr("x", -14)
-      .attr("y", -14)
-      .attr("width", 28)
-      .attr("height", 28);
+      .attr("xlink:href", function(d) { return d.filled ? d.img : chrome.extension.getURL("icons/d3_icons/question_mark.png")})
+      .attr("x", -16)
+      .attr("y", -16)
+      .attr("width", 32)
+      .attr("height", 32);
 
     // make the image grow a little on mouse over and add the text details on click
     var setEvents = images

@@ -45,29 +45,61 @@ polymer_ext({
       "children": [
       {
         "name": "1.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
+        "img": chrome.extension.getURL("icons/d3_icons/installation_1.png"),
         "filled": true,
+        "children": [
+          {
+            "name": "1.2",
+            "img": chrome.extension.getURL(""),
+            "filled": false,
+            "children": [
+              {
+              "name": "1.3",
+              "img": chrome.extension.getURL(""),
+              "filled": false,
+              }
+            ],
+          }, 
+        ],
       }, 
       {
         "name": "2.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
-        "filled": false,
-      }, 
+        "img": chrome.extension.getURL("icons/d3_icons/installation_1.png"),
+        "filled": true,
+        "children": [
+          {
+            "name": "2.2",
+            "img": chrome.extension.getURL(""),
+            "filled": false,
+            "children": [
+              {
+              "name": "2.3",
+              "img": chrome.extension.getURL(""),
+              "filled": false,
+              }
+            ],
+          }, 
+        ],
+      },    
       {
         "name": "3.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
+        "img": chrome.extension.getURL("icons/d3_icons/installation_1.png"),
         "filled": true,
-      }, 
-      {
-        "name": "4.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
-        "filled": true,
-      }, 
-      {
-        "name": "5.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
-        "filled": false,
-      }, 
+        "children": [
+          {
+            "name": "3.2",
+            "img": chrome.extension.getURL(""),
+            "filled": false,
+            "children": [
+              {
+              "name": "3.3",
+              "img": chrome.extension.getURL(""),
+              "filled": false,
+              }
+            ],
+          }, 
+        ],
+      },
       {
         "name": "Installed for 1 Day",
         "img": chrome.extension.getURL("icons/d3_icons/installation_1.png"),
@@ -96,6 +128,13 @@ polymer_ext({
             "name": "Shared on Twitter",
             "img": chrome.extension.getURL("icons/d3_icons/social_media_2.png"),
             "filled": true,
+            "children": [
+              {
+              "name": "Shared on Email",
+              "img": chrome.extension.getURL("icons/d3_icons/social_media_3.png"),
+              "filled": true,
+              }
+            ],            
           }, 
         ],
       }, 

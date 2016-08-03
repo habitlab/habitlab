@@ -69,34 +69,48 @@ polymer_ext({
         "filled": false,
       }, 
       {
-        "name": "6.1",
-        "img": chrome.extension.getURL("icons/d3_icons/installed.png"),
+        "name": "Installed for 1 Day",
+        "img": chrome.extension.getURL("icons/d3_icons/installation_1.png"),
         "filled": true,
-      }, 
+        "children": [
+          {
+            "name": "Installed for 1 Week",
+            "img": chrome.extension.getURL("icons/d3_icons/installation_2.png"),
+            "filled": true,
+            "children": [
+              {
+              "name": "Installed for 1 Month",
+              "img": chrome.extension.getURL("icons/d3_icons/installation_3.png"),
+              "filled": true,
+              }
+            ],
+          }, 
+        ],
+       },
       {
-        "name": "7.1",
+        "name": "Shared on Facebook",
         "img": chrome.extension.getURL("icons/d3_icons/social_media_1.png"),
         "filled": true,
         "children": [
           {
-            "name": "7.2",
+            "name": "Shared on Twitter",
             "img": chrome.extension.getURL("icons/d3_icons/social_media_2.png"),
-            "filled": false,
+            "filled": true,
           }, 
         ],
       }, 
       {
-        "name": "8.1",
+        "name": "Saved 1 Hour",
         "img": chrome.extension.getURL("icons/d3_icons/clock_1.png"),
         "filled": true,
         "children": [
           {
-            "name": "8.2",
+            "name": "Saved 5 Hours",
             "img": chrome.extension.getURL("icons/d3_icons/clock_2.png"),
             "filled": true,
             "children": [
               {
-              "name": "8.3",
+              "name": "Saved 24 Hours",
               "img": chrome.extension.getURL("icons/d3_icons/clock_3.png"),
               "filled": true,
               }

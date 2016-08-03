@@ -2,7 +2,7 @@ const {polymer_ext} = require('libs_frontend/polymer_utils');
 const $ = require('jquery');
 const {
   get_work_pages_visited_today
-} = require('libs_backend/history_utils');
+} = require('libs_common/history_utils');
 const {
   url_to_domain
 } = require('libs_common/domain_utils');

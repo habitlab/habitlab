@@ -73,7 +73,7 @@ export get_interventions_seen_today = cfy ->*
 
 export get_log_names = cfy ->*
   interventions_list = yield intervention_utils.list_all_interventions()
-  logs_list = ['goals', 'interventions'].map -> 'logs/'+it
+  logs_list = ['goals', 'interventions', 'feedback'].map -> 'logs/'+it
   return interventions_list.concat(logs_list)
 
 export getInterventionLogDb = memoizeSingleAsync cfy ->*
@@ -126,6 +126,14 @@ export add_log_interventions = cfy (data) ->*
   if not data.enabled_goals?
     data.enabled_goals = yield goal_utils.get_enabled_goals()
   yield addtolog 'logs/interventions', data
+
+export add_log_feedback = cfy (data) ->*
+  data = {} <<< data
+  if not data.enabled_interventions?
+    data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
+  if not data.enabled_goals?
+    data.enabled_goals = yield goal_utils.get_enabled_goals()
+  yield addtolog 'logs/feedback', data
 
 export addtolog = cfy (name, data) ->*
   data = {} <<< data

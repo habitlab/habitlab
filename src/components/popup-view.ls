@@ -1,6 +1,10 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {cfy} = require 'cfy'
+{load_css_file} = require 'libs_common/content_script_utils'
+{add_log_feedback} = require 'libs_common/log_utils'
+
+const swal = require 'sweetalert2'
 
 {
   get_enabled_interventions
@@ -38,6 +42,10 @@ polymer_ext {
   properties: {
     enabledInterventions: {
       type: Array
+    },
+    feedbackText: {
+      type: String,
+      notify: true
     }
   }
 
@@ -70,6 +78,16 @@ polymer_ext {
     else
       return true
 
+  submitFeedback: cfy ->*
+    if this.feedbackText.length > 0
+      feedbackDict = {'feedback': this.feedbackText}
+      add_log_feedback feedbackDict
+      this.$$('.feedbackform').style.display = "none"
+      this.feedbackText = ""
+      yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+      swal "Thanks for the feedback!", "", "success"
+
+
   ready: -> 
     self = this
     url <- get_active_tab_url()
@@ -87,6 +105,7 @@ polymer_ext {
 
     self.S('#feedbackButton').click(->
       self.$$('.feedbackform').style.display = "block"
+      #self.$$('.interventioninfo').style.display = "none"
     )
     #MARK: Donut Graph
     a <~ get_seconds_spent_on_all_domains_today()

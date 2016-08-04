@@ -1,0 +1,13 @@
+{
+  "main": "./os.js",
+  "registry": "github",
+  "map": {
+    "./os.js": {
+      "node": "@node/os",
+      "browser": "os-browserify"
+    }
+  },
+  "dependencies": {
+    "os-browserify": "npm:os-browserify@^0.2.0"
+  }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$/../inflection-extended" libraries="{Node.js v0.10.3 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/../inflection-extended/test/browserling.js" libraries="{Node.js v0.10.5 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/../loggit/lib/configurators/property.js" libraries="{HTML, Node.js v0.10.3 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/../loggit/test/logger.test.js" libraries="{Node.js v0.10.5 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/../number-extended/test/browserling.js" libraries="{Node.js v0.10.5 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/test/browserling.js" libraries="{Node.js v0.10.5 Core Modules}" />
+    <file url="PROJECT" libraries="{Node.js v0.10.3 Core Modules, Node.js v0.10.5 Core Modules}" />
+    <includedPredefinedLibrary name="Node.js Globals" />
+    <excludedPredefinedLibrary name="HTML" />
+  </component>
+</project>
+

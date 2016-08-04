@@ -1,0 +1,13 @@
+{
+  "main": "buffer.js",
+  "registry": "github",
+  "map": {
+    "./buffer.js": {
+      "node": "@node/buffer",
+      "browser": "buffer-browserify"
+    }
+  },
+  "dependencies": {
+    "buffer-browserify": "npm:buffer@^4.0.0"
+  }
+}

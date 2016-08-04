@@ -1,0 +1,14 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "index.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

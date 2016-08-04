@@ -1,0 +1,9 @@
+{
+  "main": "assert.js",
+  "registry": "github",
+  "map": {
+    "./assert.js": {
+      "node": "@node/assert"
+    }
+  }
+}

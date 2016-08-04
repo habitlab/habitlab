@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../array-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../array-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../date-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../date-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../function-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../function-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../is-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../is-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../object-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../object-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../promise-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/array-extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/declare.js" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/extender" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/function-extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/grunt-it" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/is-extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/it" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules/string-extended" />
+    </content>
+    <content url="file://$MODULE_DIR$/../string-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../string-extended/node_modules" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Node.js Dependencies for string-extended" level="project" />
+  </component>
+</module>
+

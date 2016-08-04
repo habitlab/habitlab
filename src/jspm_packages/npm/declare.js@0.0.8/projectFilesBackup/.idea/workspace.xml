@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7d32aa35-5713-483a-b761-7f7731e6e577" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/declare.js" afterPath="$PROJECT_DIR$/declare.js" />
+    </list>
+    <ignored path="declare.js.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <file path="/Dummy.txt" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370699724803" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/browser/scripts/declare.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358121670559" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/browser/index.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358121693724" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/browser/scripts/simple.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1354925858187" ignored="false" />
+    <file path="/simple.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359395032894" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/registration-routes/lib/routes/registration.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/webapp/app.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1354913792097" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/helpers/lib/utils.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1354917966394" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/config/configs/services.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1354917966394" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/lib/authenticate.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1354917966394" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/user-routes/lib/routes/user.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/registration-routes/test/routes/registration.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358793184802" ignored="false" />
+    <file path="/registration.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358793066948" ignored="false" />
+    <file path="/index.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370573998278" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370447247252" ignored="false" />
+    <file path="/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370447247252" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/index.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358121235790" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/browser.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358021609882" ignored="false" />
+    <file path="/browser.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358020716499" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/bundle.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038907460" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/nools-min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038907460" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370557508367" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/matchResult.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358125362596" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358846143342" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/flow.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359395705870" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/noolsParser.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358021227029" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/pattern.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359218226363" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/rule.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370534900921" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/workingMemory.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359239508037" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/constraint.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359219097407" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641742039" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/nools/tokens.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359392948191" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/constraint/parser.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358021609882" ignored="false" />
+    <file path="$PROJECT_DIR$/../isa/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358032176609" ignored="false" />
+    <file path="$PROJECT_DIR$/../isa/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358021681591" ignored="false" />
+    <file path="$PROJECT_DIR$/../isa/test/isa.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358024707496" ignored="false" />
+    <file path="$PROJECT_DIR$/../isa/isa.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358024329735" ignored="false" />
+    <file path="$PROJECT_DIR$/../isa/node_modules/extender/test/is.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358021903282" ignored="false" />
+    <file path="$PROJECT_DIR$/../isa/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358122103453" ignored="false" />
+    <file path="/isa.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358024262229" ignored="false" />
+    <file path="/isa.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124011946" ignored="false" />
+    <file path="$PROJECT_DIR$/../isa/node_modules/extender/extender.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358021903282" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/compile.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359249262115" ignored="false" />
+    <file path="/compile.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359249261014" ignored="false" />
+    <file path="/constraint.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359219094983" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/constraintMatcher.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359219111002" ignored="false" />
+    <file path="/constraintMatcher.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359217884421" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/utils.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358123237663" ignored="false" />
+    <file path="/utils.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358848117926" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extender/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358026591004" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extender/array-extender.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358026451462" ignored="false" />
+    <file path="/array-extender.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358026334641" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/test/array-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370534822976" ignored="false" />
+    <file path="/array-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358836620191" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641453222" ignored="false" />
+    <file path="/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641443051" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/.idea/array-extended.iml" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358026866891" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358032107250" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/array.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124453164" ignored="false" />
+    <file path="/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370409793844" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370446877432" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358798802134" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/tasks/it.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358798499017" ignored="false" />
+    <file path="/it.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358798497754" ignored="false" />
+    <file path="/test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845726233" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/node_modules/it/lib/interfaces/common/test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038155931" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/it-bdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/common/action.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358796869811" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/reporter.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358797334410" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/spec.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/common/test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845771913" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358843144885" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/extension.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358029975274" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/readme.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/it.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358797044111" ignored="false" />
+    <file path="/it-tdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358732169662" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/it-tdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/array-extended.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370534847984" ignored="false" />
+    <file path="$PROJECT_DIR$/../object-extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838551177" ignored="false" />
+    <file path="$PROJECT_DIR$/../object-extended/object.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124683420" ignored="false" />
+    <file path="/object.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124681634" ignored="false" />
+    <file path="$PROJECT_DIR$/../object-extended/test/object-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358034339839" ignored="false" />
+    <file path="/object-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358034339512" ignored="false" />
+    <file path="$PROJECT_DIR$/../object-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358033962037" ignored="false" />
+    <file path="$PROJECT_DIR$/../object-extended/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358034396099" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838322579" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370447012567" ignored="false" />
+    <file path="/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358846274165" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/test/date-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838030402" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/date.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124586955" ignored="false" />
+    <file path="/date.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124559711" ignored="false" />
+    <file path="/date-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358037986438" ignored="false" />
+    <file path="/fragment.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370639170134" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038118494" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/node_modules/it/lib/formatters/dot.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038155931" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/node_modules/it/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038155932" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/node_modules/it/lib/interfaces/tdd/test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038155932" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/node_modules/it/lib/it.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038155932" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/node_modules/it/lib/interfaces/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038155932" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/node_modules/it/bin/it" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038155932" ignored="false" />
+    <file path="/matchResult.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358125361491" ignored="false" />
+    <file path="/nodes.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358846137073" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358038907460" ignored="false" />
+    <file path="$PROJECT_DIR$/../datastructure/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358039031403" ignored="false" />
+    <file path="$PROJECT_DIR$/../avl/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358039317249" ignored="false" />
+    <file path="$PROJECT_DIR$/../avl/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358039206301" ignored="false" />
+    <file path="/avl.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358039695071" ignored="false" />
+    <file path="$PROJECT_DIR$/../avl/avl.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358039285655" ignored="false" />
+    <file path="$PROJECT_DIR$/../avl/leafy.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358039704334" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358039787344" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358841206857" ignored="false" />
+    <file path="/declare.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641112932" ignored="false" />
+    <file path="$PROJECT_DIR$/../extended/examples/browser/scripts/extender.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358108744739" ignored="false" />
+    <file path="/declare.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359143679232" ignored="false" />
+    <file path="/inheritance.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358121139298" ignored="false" />
+    <file path="/mixin.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358121169081" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370447477846" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/node_modules/declare.js/declare-min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358121622675" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/node_modules/declare.js/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358121603999" ignored="false" />
+    <file path="$PROJECT_DIR$/../extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370447103224" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358835511234" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124197088" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/is.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358129088552" ignored="false" />
+    <file path="/is.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358811370021" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/test/isa.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124011946" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359229427797" ignored="false" />
+    <file path="/array.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124453506" ignored="false" />
+    <file path="$PROJECT_DIR$/../object-extended/object-extended.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838692698" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/string.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124815781" ignored="false" />
+    <file path="/string.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358124815781" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/extended.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370657782306" ignored="false" />
+    <file path="/extended.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370657764847" ignored="false" />
+    <file path="/pattern.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359218224607" ignored="false" />
+    <file path="/rule.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370534886748" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/it.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358797915899" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/it.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358797915899" ignored="false" />
+    <file path="/readme.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358785489597" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/it.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="/it.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358715596694" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browser-tests/index.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358630225940" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/bin/it" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358797709532" ignored="false" />
+    <file path="/it" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358797693285" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/async.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="/async.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358631105538" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/dot.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="/dot.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358666129874" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/doc.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="/doc.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358670201470" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/tap.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845253801" ignored="false" />
+    <file path="/spec.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358668027928" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/browser/formatters/html.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="/html.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358715882245" ignored="false" />
+    <file path="/reporter.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358797304030" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/doc-md.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358663913697" ignored="false" />
+    <file path="/doc-md.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358663877583" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/assets/header.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="/header.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358664858017" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/assets/footer.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358664074841" ignored="false" />
+    <file path="/action.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358796867296" ignored="false" />
+    <file path="/tap.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845253018" ignored="false" />
+    <file path="/it-bdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358732117378" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browser-tests/it-bdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358713790110" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/bus.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358699846125" ignored="false" />
+    <file path="/bus.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358699833505" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/extended.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358700492735" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/tdd/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358709039915" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/bdd/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358704486772" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/tdd/test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358708969350" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/tdd.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845694105" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/bdd.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845699389" ignored="false" />
+    <file path="/bdd.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845698462" ignored="false" />
+    <file path="/tdd.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845693152" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/node_modules/function-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358709770710" ignored="false" />
+    <file path="$PROJECT_DIR$/../function-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358709549009" ignored="false" />
+    <file path="$PROJECT_DIR$/../function-extended/test/function-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358713287061" ignored="false" />
+    <file path="/function-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358709470474" ignored="false" />
+    <file path="$PROJECT_DIR$/../function-extended/function-extended.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838901606" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/node_modules/function-extended/function-extended.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358709770710" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/node_modules/function-extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358709770710" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/node_modules/declare.js/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358709770710" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/browser/it.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browser-tests/it-tdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358713811596" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/calculator-strategies/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/sync.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="/sync.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358716216130" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/coverage.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="/coverage.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358717032325" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/utils.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358848215216" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/index.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358729903011" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/scripts/tests/it-bdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/scripts/tests/it-tdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/scripts/it.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/LICENSE" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787158868" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/.jshintrc" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/browser/index.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358797952436" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/browser/it-tdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/browser/it-bdd.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/scripts/require.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358787161247" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358798947887" ignored="false" />
+    <file path="/a.dummy" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370638574930" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/model/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/c2fo-config/node_modules/gofigure/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358789088374" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/webapp/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/wobot/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/config/node_modules/gofigure/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790410984" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/calculator/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/user-routes/test/routes/user.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792699703" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/invoice_preview.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358789360497" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/market.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537835401" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/test/spec/core/util.spec.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358789360497" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/grunt.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358799868182" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/registration/views/registration.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358789360497" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/upload_step.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358789360497" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/profile/templates/profile_form.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358789360497" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/maker-routes/test/routes/payables.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358802737393" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/c2fo-model/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358789956711" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/email/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790043662" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/bus/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790065042" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/helpers/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/logger/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790182092" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/maker-routes/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/registration-routes/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790236656" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/route-logger/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790272421" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790279985" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/taker-routes/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790295829" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/user-routes/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790305536" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/verification-routes/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358790314159" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/wobots/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792868594" ignored="false" />
+    <file path="/*.regexp" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358799300324" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/maker-routes/test/routes/market.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792699703" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/taker/templates/configuration.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358800191539" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/taker/views/configuration.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358792860245" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/express/node_modules/buffer-crc32/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358793180405" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/handlebars/node_modules/optimist/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358793180405" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/express/node_modules/connect/node_modules/formidable/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358793180405" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/calculator-strategies/test/discount.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358794772362" ignored="false" />
+    <file path="/discount.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358794772362" ignored="false" />
+    <file path="/blended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358794102412" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/calculator-strategies/test/blended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358794295547" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/email/test/email.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358794987001" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/authorize.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/authenticate-json.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../promise-extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838803223" ignored="false" />
+    <file path="/configuration.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358800188149" ignored="false" />
+    <file path="/payables.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358800773953" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/c2fo-model/node_modules/c2fo-calculator/node_modules/it/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358802058826" ignored="false" />
+    <file path="$PROJECT_DIR$/../extended/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804081497" ignored="false" />
+    <file path="$PROJECT_DIR$/../extended/test/extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804090682" ignored="false" />
+    <file path="$PROJECT_DIR$/../extended/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370447086269" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804491509" ignored="false" />
+    <file path="$PROJECT_DIR$/../function-extended/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838477669" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804619455" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804628949" ignored="false" />
+    <file path="$PROJECT_DIR$/../function-extended/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804645822" ignored="false" />
+    <file path="$PROJECT_DIR$/../object-extended/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804658983" ignored="false" />
+    <file path="$PROJECT_DIR$/../promise-extended/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804671304" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804681453" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/test/string-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358842838550" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370446900944" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370446997995" ignored="false" />
+    <file path="$PROJECT_DIR$/../function-extended/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838906363" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804776172" ignored="false" />
+    <file path="$PROJECT_DIR$/../object-extended/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804785629" ignored="false" />
+    <file path="$PROJECT_DIR$/../promise-extended/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804796206" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/README.md" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358804813545" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/test/is-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358805533384" ignored="false" />
+    <file path="/is-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358805502926" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/is-extended.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359229479473" ignored="false" />
+    <file path="$PROJECT_DIR$/../is-extended/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358808849630" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358810547401" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/test/extender.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358835047916" ignored="false" />
+    <file path="/extender.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358811491096" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358834992915" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/test/is.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358811370021" ignored="false" />
+    <file path="/extender.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358834217685" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/extender.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358834828708" ignored="false" />
+    <file path="$PROJECT_DIR$/../array-extended/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358836631496" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/date-extended.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838463005" ignored="false" />
+    <file path="$PROJECT_DIR$/../date-extended/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358838190183" ignored="false" />
+    <file path="$PROJECT_DIR$/../promise-extended/promise-extended.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359229718100" ignored="false" />
+    <file path="$PROJECT_DIR$/../promise-extended/test/promise-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358840253285" ignored="false" />
+    <file path="/promise-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358840250034" ignored="false" />
+    <file path="$PROJECT_DIR$/../promise-extended/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358840498661" ignored="false" />
+    <file path="$PROJECT_DIR$/../promise-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359229597582" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358842920906" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358842818300" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/string-extended.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358842997153" ignored="false" />
+    <file path="/string-extended.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358842836536" ignored="false" />
+    <file path="/flow.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359395529833" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/flow.dsl.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370573589769" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules/notRule.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358844419331" ignored="false" />
+    <file path="/notRule.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358844256905" ignored="false" />
+    <file path="/flow.dsl.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370573133102" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/node_modules/it/lib/interfaces/common/test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358844486207" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358848018794" ignored="false" />
+    <file path="/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358845119883" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/browserling.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358848640025" ignored="false" />
+    <file path="/tokens.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358846178865" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/node_modules/it/lib/extension.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358846269946" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1358846274797" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/constraintMatcher.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359218668715" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/node_modules/it/node_modules/promise-extended/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359149046100" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/node_modules/declare.js/declare.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359149046100" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/validator/rules/validator.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359219172988" ignored="false" />
+    <file path="/validator.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359219172324" ignored="false" />
+    <file path="/constraintMatcher.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359218533329" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/rules/coways.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359221638534" ignored="false" />
+    <file path="/coways.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359220421555" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/validator/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359220385008" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359254540669" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/index.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370573999515" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/patterns.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359250072271" ignored="false" />
+    <file path="/patterns.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359249907977" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/rules/conways.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370557394181" ignored="false" />
+    <file path="/conways.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370557393013" ignored="false" />
+    <file path="/conways.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359340857312" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/assets/conways.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359340907934" ignored="false" />
+    <file path="/workingMemory.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359239504548" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/rules/conways.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370573972051" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/nools.min.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641805771" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/nools.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641805771" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/nools/nool.parser.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359393666718" ignored="false" />
+    <file path="/nool.parser.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359392978568" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/parse.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359393609131" ignored="false" />
+    <file path="/parse.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359393607643" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/nools/util.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359394113201" ignored="false" />
+    <file path="/util.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359393732623" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/text.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359394933450" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/parse/rules/simple.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359394967727" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/parse/simple.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359395227561" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/simple.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359395116654" ignored="false" />
+    <file path="/simple.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359395108068" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules/scope.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359395804575" ignored="false" />
+    <file path="/scope.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359395799909" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules/simple.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359396001018" ignored="false" />
+    <file path="/simple.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359396000123" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/flow.compiled.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359396306279" ignored="false" />
+    <file path="/flow.compiled.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359396303532" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules/scope-compiled.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359396406880" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/user-routes/lib/facade/user.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/authenticate-common.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/authenticate-html.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/helper.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/payable_form.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359402678454" ignored="false" />
+    <file path="/payable_form.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1359399657281" ignored="false" />
+    <file path="/_forms.less" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537476747" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/_forms.less" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537646032" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/scaffolding.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370468461183" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/atlassian-ide-plugin.xml" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370699703343" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/atlassian-ide-plugin.xml" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370701321504" ignored="false" />
+    <file path="$PROJECT_DIR$/../thumbs/atlassian-ide-plugin.xml" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537917380" ignored="false" />
+    <file path="$PROJECT_DIR$/../string-extended/atlassian-ide-plugin.xml" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370701321505" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/assets/declare.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370483283485" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/assets/extended.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370409937397" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/assets/function-extended.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370555766487" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/assets/is-extended.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370409969508" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/src/conway_3d.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370640519663" ignored="false" />
+    <file path="/.gitignore" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370410070346" ignored="false" />
+    <file path="/conway_3d.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370640518992" ignored="false" />
+    <file path="/conway_3d.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370556036427" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/conway_3d.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370556039564" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/src/patterns3d.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370482178361" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/rules/conways3d.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641831041" ignored="false" />
+    <file path="/conways3d.nools" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641816330" ignored="false" />
+    <file path="/patterns3d.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370482172463" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/src/cell.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370460016383" ignored="false" />
+    <file path="/cell.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370460014358" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/templates/slider_button.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370468239921" ignored="false" />
+    <file path="/slider_button.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370471269208" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/_forms.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537647136" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/slider_button.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370468082416" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/table.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370468461183" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/user.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370468112382" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/app.css" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370468112382" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/templates/input_box.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370468237247" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/views/market.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370468640809" ignored="false" />
+    <file path="/market.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537197364" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/templates/toggle_button.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370471269208" ignored="false" />
+    <file path="/market.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537323102" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/toggle_button.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370471325499" ignored="false" />
+    <file path="/toggle_button.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370471321790" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/nls/market.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537202315" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/nls/form.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370471229357" ignored="false" />
+    <file path="/form.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370471228553" ignored="false" />
+    <file path="/view.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370472343477" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/core/view.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370472345368" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/agenda.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641251398" ignored="false" />
+    <file path="/agenda.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370641248374" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/rules/register.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370497044968" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/button.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537686631" ignored="false" />
+    <file path="/button.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537681889" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/invoice_search.handlebars" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370537841713" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/views/invoice_search.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370538087423" ignored="false" />
+    <file path="/invoice_search.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370538084576" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/node_modules/leafy/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370556027164" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/context.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370657819894" ignored="false" />
+    <file path="/context.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370557059008" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nextTick.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370639542134" ignored="false" />
+    <file path="/nextTick.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370558046186" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/Gruntfile.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370570519433" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/benchmark/manners/benchmark.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370636714998" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/compile/transpile.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370637120773" ignored="false" />
+    <file path="/transpile.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370637096527" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/compile/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370573205339" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/benchmark/waltzDb/benchmark.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370636729272" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/benchmark/manners/data/index.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370637428385" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/src/guests.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370637806091" ignored="false" />
+    <file path="/guests.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370637805765" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/manners.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370637953862" ignored="false" />
+    <file path="/manners.html" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370637834131" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/joinReferenceNode.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370638625463" ignored="false" />
+    <file path="/joinReferenceNode.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370638118392" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/joinNode.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370638993238" ignored="false" />
+    <file path="/joinNode.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370638991004" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/notNode.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370639215381" ignored="false" />
+    <file path="/notNode.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370639121900" ignored="false" />
+    <file path="/usr/local/lib/node_modules/nools/package.json" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370642749203" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/model/test/user.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370660580834" ignored="false" />
+    <file path="/user.test.js" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370660562215" ignored="false" />
+    <file path="$PROJECT_DIR$/../werker/atlassian-ide-plugin.xml" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370701321504" ignored="false" />
+    <file path="$PROJECT_DIR$/../workshop/atlassian-ide-plugin.xml" changelist="7d32aa35-5713-483a-b761-7f7731e6e577" time="1370701321504" ignored="false" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="declare.js" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="Gruntfile.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Gruntfile.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="45" column="47" selection-start="1506" selection-end="1506" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="32" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="atlassian-ide-plugin.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/atlassian-ide-plugin.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="29" selection-start="77" selection-end="77" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".jshintrc" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.jshintrc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="0" selection-start="1034" selection-end="1034" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="declare.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/declare.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="30" selection-start="0" selection-end="5019" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="123" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="24" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="declare.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/declare.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="871" column="17" selection-start="29993" selection-end="29993" vertical-scroll-proportion="2.017301">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="browserling.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/browserling.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="9" selection-start="83" selection-end="83" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/examples/browser/inheritance.html" />
+        <option value="$PROJECT_DIR$/examples/browser/mixin.html" />
+        <option value="$PROJECT_DIR$/LICENSE" />
+        <option value="$PROJECT_DIR$/test/browserling.js" />
+        <option value="$PROJECT_DIR$/test/declare.test.js" />
+        <option value="$PROJECT_DIR$/grunt.js" />
+        <option value="$PROJECT_DIR$/.jshintrc" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/Gruntfile.js" />
+        <option value="$PROJECT_DIR$/declare.js" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="22" />
+    <option name="width" value="1440" />
+    <option name="height" value="874" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents ProjectPane="true" />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="declare.js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="JavaScript.Libraries" />
+    <property name="recentsLimit" value="5" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../workshop" />
+    <property name="FullScreen" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RunManager" selected="Node.js.browserling.js">
+    <configuration default="false" name="declare.test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="/usr/local/bin/node" path-to-js-file="declare.test.js" working-dir="$PROJECT_DIR$/test">
+      <RunnerSettings RunnerId="NodeJS.debug" />
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.debug" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="browserling.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="/usr/local/bin/node" path-to-js-file="browserling.js" working-dir="$PROJECT_DIR$/test">
+      <RunnerSettings RunnerId="NodeJS.debug" />
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.debug" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="$PROJECT_DIR$">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.declare.test.js" />
+      <item index="1" class="java.lang.String" itemvalue="Node.js.browserling.js" />
+    </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.browserling.js" />
+        <item index="1" class="java.lang.String" itemvalue="Node.js.declare.test.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7d32aa35-5713-483a-b761-7f7731e6e577" name="Default" comment="" />
+      <created>1354083593878</created>
+      <updated>1354083593878</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="22" width="1440" height="874" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26448563" sideWeight="0.6219697" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39772728" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5291777" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="true" />
+    <option name="myTodoPanelSettings">
+      <value>
+        <are-packages-shown value="false" />
+        <are-modules-shown value="false" />
+        <flatten-packages value="false" />
+        <is-autoscroll-to-source value="false" />
+      </value>
+    </option>
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
+    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
+    <option name="LIMIT_HISTORY" value="true" />
+    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
+    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
+    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+    <option name="ACTIVE_VCS_NAME" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/declare.test.js</url>
+          <line>100</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/declare.js</url>
+          <line>538</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/declare.js</url>
+          <line>618</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="18" />
+    </breakpoint-manager>
+  </component>
+  <component name="atlassian-ide-plugin-workspace">
+    <option name="bambooConfiguration">
+      <BambooWorkspaceConfiguration>
+        <option name="view">
+          <BambooViewConfigurationBean />
+        </option>
+      </BambooWorkspaceConfiguration>
+    </option>
+    <option name="defaultCredentials">
+      <UserCfgBean />
+    </option>
+  </component>
+  <component name="atlassian-ide-plugin-workspace-issues">
+    <option name="view">
+      <JiraViewConfigurationBean>
+        <option name="viewFilterId" value="" />
+      </JiraViewConfigurationBean>
+    </option>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="16" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/browser/inheritance.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="31" selection-start="479" selection-end="479" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/browser/mixin.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="45" selection-start="471" selection-end="471" vertical-scroll-proportion="-9.958333" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="26" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/WebIde50/extLibs/nodejs-v0.8.15-src/core-modules-sources/lib/module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="314" column="0" selection-start="8941" selection-end="8941" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/declare.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="435" column="40" selection-start="16474" selection-end="16474" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/declare.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="30" selection-start="0" selection-end="5019" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="24" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.jshintrc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="0" selection-start="1034" selection-end="1034" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/browserling.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="9" selection-start="83" selection-end="83" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="123" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/atlassian-ide-plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="29" selection-start="77" selection-end="77" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Gruntfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="47" selection-start="1506" selection-end="1506" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="32" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/declare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="871" column="17" selection-start="29993" selection-end="29993" vertical-scroll-proportion="2.017301">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+

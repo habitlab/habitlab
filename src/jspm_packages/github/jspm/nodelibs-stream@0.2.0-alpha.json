@@ -1,0 +1,9 @@
+{
+  "main": "./stream.js",
+  "map": {
+    "./stream.js": {
+      "node": "@node/stream",
+      "browser": "stream-browserify"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../arguments-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../arguments-extended/node_modules/is-extended" />
+    </content>
+    <content url="file://$MODULE_DIR$/../array-extended" />
+    <content url="file://$MODULE_DIR$/../date-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../date-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../extended">
+      <excludeFolder url="file://$MODULE_DIR$/../extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../extender">
+      <excludeFolder url="file://$MODULE_DIR$/../extender/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../function-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../function-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../inflection-extended" />
+    <content url="file://$MODULE_DIR$/../is-extended" />
+    <content url="file://$MODULE_DIR$/../loggit" />
+    <content url="file://$MODULE_DIR$/../number-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../number-extended/node_modules/array-extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../number-extended/node_modules/is-extended" />
+    </content>
+    <content url="file://$MODULE_DIR$/../object-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../object-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../promise-extended">
+      <excludeFolder url="file://$MODULE_DIR$/../promise-extended/node_modules" />
+    </content>
+    <content url="file://$MODULE_DIR$/../promise-utils">
+      <excludeFolder url="file://$MODULE_DIR$/../promise-utils/node_modules/array-extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-utils/node_modules/date-extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-utils/node_modules/is-extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-utils/node_modules/object-extended" />
+      <excludeFolder url="file://$MODULE_DIR$/../promise-utils/node_modules/promise-extended" />
+    </content>
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/node_modules" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Node.js v0.10.3 Core Modules" level="application" />
+    <orderEntry type="library" name="Node.js v0.10.5 Core Modules" level="application" />
+  </component>
+</module>
+

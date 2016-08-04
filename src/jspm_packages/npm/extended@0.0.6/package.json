@@ -1,0 +1,42 @@
+{
+    "name": "extended",
+    "version": "0.0.6",
+    "description": "Library for combining multiple libraries into one",
+    "main": "index.js",
+    "scripts": {
+        "test": "it -r dot"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git:git@github.com:doug-martin/extended.git"
+    },
+    "keywords": [
+        "String",
+        "extender",
+        "utilities"
+    ],
+    "testling": {
+        "files": "test/browserling.js",
+        "browsers": [
+            "ie/8..latest",
+            "chrome/20..latest",
+            "firefox/14..latest",
+            "safari/latest",
+            "iphone/6",
+            "ipad/6"
+        ]
+    },
+    "author": "Doug Martin",
+    "license": "MIT",
+    "dependencies": {
+        "extender": "~0.0.5"
+    },
+    "devDependencies": {
+        "it": "~0.2.0",
+        "grunt": "~0.4.1",
+        "grunt-it": "~0.3.0",
+        "is-extended": "0.0.1",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-contrib-jshint": "~0.4.3"
+    }
+}

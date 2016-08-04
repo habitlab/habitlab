@@ -1,0 +1,9 @@
+{
+  "main": "./events.js",
+  "registry": "github",
+  "map": {
+    "./events.js": {
+      "node": "@node/events"
+    }
+  }
+}

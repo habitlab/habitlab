@@ -1,0 +1,14 @@
+{
+  "main": "inherits.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./inherits.js": {
+      "browser": "./inherits_browser.js"
+    }
+  }
+}

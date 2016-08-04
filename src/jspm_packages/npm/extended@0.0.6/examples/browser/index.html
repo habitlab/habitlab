@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixin Example</title>
+</head>
+<body onload="init()">
+
+<div id="output"></div>
+
+<script type="text/javascript" src="./scripts/declare.js"></script>
+<script type="text/javascript" src="./scripts/extender.js"></script>
+<script type="text/javascript" src="../../index.js"></script>
+<script type="text/javascript" src="./scripts/extended1.js"></script>
+<script type="text/javascript" src="./scripts/extended2.js"></script>
+<script type="text/javascript">
+
+    var outputDiv = document.getElementById("output");
+
+    function log(str) {
+        outputDiv.innerText += str + "\n";
+    }
+
+
+    function init() {
+        log(extended.isString(""));
+        log(extended("hello").isString().value());
+        log(extended.multiply("hello", 5));
+        log(extended("hello").multiply(5).value());
+    }
+
+</script>
+
+</body>
+</html>

@@ -171,10 +171,6 @@
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha"
     }
   },
-  "github:jspm/nodelibs-process@0.2.0-alpha": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "github:jspm/nodelibs-assert@0.2.0-alpha": {
     "deps": {},
     "peerDeps": {}
@@ -311,5 +307,15 @@
     "peerDeps": {
       "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
     }
+  },
+  "npm:dexie@1.4.1": {
+    "deps": {},
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "github:jspm/nodelibs-process@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
   }
 }

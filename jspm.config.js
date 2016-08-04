@@ -1,4 +1,8 @@
-SystemJS.config({});
+SystemJS.config({
+  map: {
+    "prelude": "npm:prelude-ls@1.1.2"
+  }
+});
 
 SystemJS.config({
   packageConfigPaths: [
@@ -10,6 +14,7 @@ SystemJS.config({
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
     "cfy": "npm:cfy@1.0.18",
+    "dexie": "npm:dexie@1.4.1",
     "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@1.0.7",
     "events": "github:jspm/nodelibs-events@0.2.0-alpha",
     "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",

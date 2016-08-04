@@ -22,9 +22,7 @@ polymer_ext({
         return url_to_domain(obj.url)
       });
       z = Array.from(new Set(z))
-      console.log(z)
       z.length = Math.min(z.length, 5);
-      console.log(z)
       this.links = z;
     }.bind(this));
   }

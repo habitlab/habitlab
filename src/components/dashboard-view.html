@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="site-goal-view.html">
+<link rel="import" href="badges-view.html">
 
 <dom-module id="dashboard-view">
   <style>
@@ -73,6 +74,11 @@
           <chart-horizontal-bar data="[[goalOverviewData]]" options="[[goalOverviewOptions]]" style="width: 500px"></chart-horizontal-bar>
         </div>        
       </iron-pages>
+
+      <hr>
+
+      <div class="description">Which badges have I earned?</div>
+      <badges-view></badges-view>
 
       <hr>
 

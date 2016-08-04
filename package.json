@@ -19,6 +19,7 @@
     "livescript15": "^1.5.1",
     "moment": "^2.13.0",
     "npm-zepto": "^1.1.7",
+    "percipio": "^0.1.2",
     "prelude-ls": "^1.1.2",
     "promise-debounce": "^1.0.1",
     "shuffled": "^1.0.0",

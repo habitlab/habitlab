@@ -11,6 +11,7 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
+    "async": "npm:async@2.0.1",
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
     "cfy": "npm:cfy@1.0.18",
@@ -26,6 +27,7 @@ SystemJS.config({
     "prelude-ls": "npm:prelude-ls@1.1.2",
     "process": "github:jspm/nodelibs-process@0.2.0-alpha",
     "promise-debounce": "npm:promise-debounce@1.0.1",
+    "shuffled": "npm:shuffled@1.0.0",
     "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
     "sweetalert2": "npm:sweetalert2@4.0.15",
     "text": "github:systemjs/plugin-text@0.0.8",
@@ -154,6 +156,16 @@ SystemJS.config({
     "github:jspm/nodelibs-os@0.2.0-alpha": {
       "map": {
         "os-browserify": "npm:os-browserify@0.2.1"
+      }
+    },
+    "npm:async@2.0.1": {
+      "map": {
+        "lodash": "npm:lodash@4.14.1"
+      }
+    },
+    "npm:shuffled@1.0.0": {
+      "map": {
+        "shuffle-array": "npm:shuffle-array@1.0.0"
       }
     }
   }

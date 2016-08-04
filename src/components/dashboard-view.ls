@@ -130,8 +130,6 @@ polymer_ext {
     for i from 0 to intervention_progress.length - 1 by 1
       intervention_progress[i] = control - intervention_progress[i]    
 
-    #console.log intervention_progress
-
     #Retrieves all intervention descriptions
     intervention_descriptions = yield get_interventions()
 
@@ -222,12 +220,20 @@ polymer_ext {
     for intv in seenInterventions
       results.push yield get_num_impressions_today(intv)
 
+    #Retrieves all intervention descriptions
+    interv_descriptions = yield get_interventions()
+
+    #Retrieves necessary intervention descriptions
+    seenInterventionsLabels = []
+    for item in seenInterventions
+      seenInterventionsLabels.push(interv_descriptions[item].description)      
+
     #displays onto the graph
     self.interventionFreqData = {
-      labels: seenInterventions
+      labels: seenInterventionsLabels
       datasets: [
         {
-          label: "Today",
+          label: "",
           backgroundColor: "rgba(65,131,215,0.5)",
           borderColor: "rgba(65,131,215,1)",
           borderWidth: 1,

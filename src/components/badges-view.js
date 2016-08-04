@@ -62,18 +62,18 @@ polymer_ext({
       }, 
       {
         "name": "Seen 5 Interventions",
-        "img": chrome.extension.getURL(""),
-        "filled": false,
+        "img": chrome.extension.getURL("icons/d3_icons/seen_interventions_1.png"),
+        "filled": true,
         "children": [
           {
             "name": "Seen 10 Interventions",
-            "img": chrome.extension.getURL(""),
-            "filled": false,
+            "img": chrome.extension.getURL("icons/d3_icons/seen_interventions_2.png"),
+            "filled": true,
             "children": [
               {
               "name": "Seen 20 Interventions",
-              "img": chrome.extension.getURL(""),
-              "filled": false,
+              "img": chrome.extension.getURL("icons/d3_icons/seen_interventions_3.png"),
+              "filled": true,
               }
             ],
           }, 
@@ -81,18 +81,18 @@ polymer_ext({
       },    
       {
         "name": "Referred 1 Friend",
-        "img": chrome.extension.getURL(""),
-        "filled": false,
+        "img": chrome.extension.getURL("icons/d3_icons/person_1.png"),
+        "filled": true,
         "children": [
           {
             "name": "Referred 3 Friends",
-            "img": chrome.extension.getURL(""),
-            "filled": false,
+            "img": chrome.extension.getURL("icons/d3_icons/person_2.png"),
+            "filled": true,
             "children": [
               {
               "name": "Referred 10 Friends",
-              "img": chrome.extension.getURL(""),
-              "filled": false,
+              "img": chrome.extension.getURL("icons/d3_icons/person_3.png"),
+              "filled": true,
               }
             ],
           }, 

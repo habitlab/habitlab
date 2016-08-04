@@ -52,6 +52,7 @@
     "gulp-vulcanize": "^6.1.0",
     "gulp-yaml": "^1.0.1",
     "html-loader": "^0.4.3",
+    "inject-loader": "^2.0.1",
     "jsx-control-statements": "^3.1.2",
     "karma": "^1.1.0",
     "karma-chai": "^0.1.0",
@@ -87,13 +88,16 @@
       "jspm": "jspm.config.js"
     },
     "dependencies": {
+      "async": "npm:async@^2.0.1",
       "cfy": "npm:cfy@^1.0.18",
+      "dexie": "npm:dexie@^1.4.1",
       "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@^1.0.7",
       "jquery": "npm:jquery@^3.1.0",
       "moment": "npm:moment@^2.14.1",
       "percipio": "npm:percipio@^0.1.2",
       "prelude-ls": "npm:prelude-ls@^1.1.2",
       "promise-debounce": "npm:promise-debounce@^1.0.1",
+      "shuffled": "npm:shuffled@^1.0.0",
       "sweetalert2": "npm:sweetalert2@^4.0.15",
       "text": "github:systemjs/plugin-text@^0.0.8"
     },
@@ -116,6 +120,12 @@
         "ignore": [
           "test.js"
         ]
+      },
+      "npm:lodash@4.14.1": {
+        "map": {
+          "buffer": "@empty",
+          "process": "@empty"
+        }
       },
       "npm:moment@2.14.1": {
         "jspmNodeConversion": false

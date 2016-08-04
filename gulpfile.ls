@@ -41,6 +41,7 @@ lspattern = [
   'src/libs_frontend/**/*.ls'
   'src/libs_common/**/*.ls'
   'src/libs_backend/**/*.ls'
+  'src/goals/**/*.ls'
 ]
 
 lspattern_srcgen = [
@@ -85,6 +86,7 @@ copypattern = [
   'src/libs_common/*.js'
   'src/libs_backend/*.js'
   'src/libs_frontend/*.js'
+  'src/goals/**/*.js'
   'src/generated_libs/**/*.js'
   'src/bower_components/**/*'
   'src/jspm_packages/**/*'

@@ -9,8 +9,10 @@ module.exports = (goal_info) ->
       progress = 1
     units = "lessons"
     message = "#{progress} #{units}"
+    reward = 0
     return {
       progress
       units
       message
+      reward
     }

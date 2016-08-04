@@ -31,4 +31,9 @@ webpack_config.module.loaders = [
 
 webpack_config.plugins.push(new RewirePlugin())
 
+{get_alias_info} = require './alias_utils.ls'
+
+for lib_info in get_alias_info()
+  webpack_config.resolve.alias[lib_info.path] = lib_info.backend
+
 module.exports = webpack_config

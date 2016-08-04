@@ -11,10 +11,12 @@ export time_spent_on_domain = (goal_info) ->
     progress = seconds_spent / 60
     units = "minutes"
     message = "#{progress} #{units}"
+    reward = 1.0 - Math.tanh(seconds_spent / 3600) # between 0 and 1
     return {
       progress
       units
       message
+      reward
     }
 
 # this is a dummy progress measurement for debugging purposes
@@ -23,8 +25,10 @@ export always_zero_progress = (goal_info) ->
     progress = 0
     units = "minutes"
     message = "#{progress} #{units}"
+    reward = 0
     return {
       progress
       units
       message
+      reward
     }

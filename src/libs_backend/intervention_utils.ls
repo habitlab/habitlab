@@ -171,6 +171,22 @@ export get_manually_managed_interventions_localstorage = cfy ->*
 
 export get_manually_managed_interventions = get_manually_managed_interventions_localstorage
 
+export get_most_recent_manually_enabled_interventions = cfy ->*
+  enabled_interventions = yield get_most_recent_enabled_interventions()
+  manually_managed_interventions = yield get_manually_managed_interventions()
+  output = {}
+  for intervention_name,is_enabled of enabled_interventions
+    output[intervention_name] = is_enabled and manually_managed_interventions[intervention_name]
+  return output
+
+export get_most_recent_manually_disabled_interventions = cfy ->*
+  enabled_interventions = yield get_most_recent_enabled_interventions()
+  manually_managed_interventions = yield get_manually_managed_interventions()
+  output = {}
+  for intervention_name,is_enabled of enabled_interventions
+    output[intervention_name] = (!is_enabled) and manually_managed_interventions[intervention_name]
+  return output
+
 export set_manually_managed_interventions = cfy (manually_managed_interventions) ->*
   localStorage.setItem 'manually_managed_interventions', JSON.stringify(manually_managed_interventions)
   return

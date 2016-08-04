@@ -1,0 +1,28 @@
+{
+  "name": "shuffled",
+  "version": "1.0.0",
+  "description": "returns a shuffled copy of an array",
+  "main": "index.js",
+  "dependencies": {
+    "shuffle-array": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gkovacs/shuffled.git"
+  },
+  "keywords": [
+    "array",
+    "shuffle",
+    "shuffled"
+  ],
+  "author": "Geza Kovacs (http://github.com/gkovacs)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gkovacs/shuffled/issues"
+  },
+  "homepage": "https://github.com/gkovacs/shuffled#readme"
+}

@@ -314,7 +314,29 @@
       "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
     }
   },
+  "npm:async@2.0.1": {
+    "deps": {
+      "lodash": "npm:lodash@^4.8.0"
+    },
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:lodash@4.14.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
   "github:jspm/nodelibs-process@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:shuffled@1.0.0": {
+    "deps": {
+      "shuffle-array": "npm:shuffle-array@^1.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:shuffle-array@1.0.0": {
     "deps": {},
     "peerDeps": {}
   }

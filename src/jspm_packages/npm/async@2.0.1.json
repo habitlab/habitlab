@@ -1,0 +1,17 @@
+{
+  "main": "dist/async.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "dist/async.min.js": {
+      "format": "amd"
+    }
+  }
+}

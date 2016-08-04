@@ -1,0 +1,13 @@
+{
+  "main": "./stream.js",
+  "registry": "github",
+  "map": {
+    "./stream.js": {
+      "node": "@node/stream",
+      "browser": "stream-browserify"
+    }
+  },
+  "dependencies": {
+    "stream-browserify": "npm:stream-browserify@^2.0.1"
+  }
+}

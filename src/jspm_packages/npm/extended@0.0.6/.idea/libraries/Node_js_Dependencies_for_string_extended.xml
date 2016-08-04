@@ -1,0 +1,27 @@
+<component name="libraryTable">
+  <library name="Node.js Dependencies for string-extended" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/../promise-extended/node_modules" />
+        <item url="file://$PROJECT_DIR$/node_modules" />
+        <item url="file://$PROJECT_DIR$/../array-extended/node_modules" />
+        <item url="file://$PROJECT_DIR$/../date-extended/node_modules" />
+        <item url="file://$PROJECT_DIR$/../function-extended/node_modules" />
+        <item url="file://$PROJECT_DIR$/../object-extended/node_modules" />
+        <item url="file://$PROJECT_DIR$/../is-extended/node_modules" />
+        <item url="file://$PROJECT_DIR$/../string-extended/node_modules" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../promise-extended/node_modules" />
+      <root url="file://$PROJECT_DIR$/node_modules" />
+      <root url="file://$PROJECT_DIR$/../array-extended/node_modules" />
+      <root url="file://$PROJECT_DIR$/../date-extended/node_modules" />
+      <root url="file://$PROJECT_DIR$/../function-extended/node_modules" />
+      <root url="file://$PROJECT_DIR$/../is-extended/node_modules" />
+      <root url="file://$PROJECT_DIR$/../object-extended/node_modules" />
+      <root url="file://$PROJECT_DIR$/../string-extended/node_modules" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

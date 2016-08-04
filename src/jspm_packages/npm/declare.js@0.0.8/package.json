@@ -1,0 +1,41 @@
+{
+    "name": "declare.js",
+    "version": "0.0.8",
+    "description": "OO system from node and browser",
+    "main": "index.js",
+    "scripts": {
+        "test": "export NODE_PATH=. && it -r dotmatrix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:doug-martin/declare.js.git"
+    },
+    "keywords": [
+        "OO",
+        "class",
+        "object",
+        "clazz",
+        ""
+    ],
+    "testling": {
+        "files": "test/browserling.js",
+        "browsers": [
+            "ie/8..latest",
+            "chrome/20..latest",
+            "firefox/14..latest",
+            "safari/latest",
+            "iphone/6",
+            "ipad/6"
+        ]
+    },
+    "author": "Doug Martin (doug@dougamartin.com)",
+    "license": "MIT",
+    "devDependencies": {
+        "it": "0.2.0",
+        "grunt-it": "~0.3.1",
+        "grunt-contrib-uglify": "~0.2.2",
+        "grunt-contrib-jshint": "~0.6.0",
+        "grunt": "~0.4.1"
+    },
+    "dependencies": {}
+}

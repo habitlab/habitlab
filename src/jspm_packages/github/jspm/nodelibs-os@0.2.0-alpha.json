@@ -1,0 +1,9 @@
+{
+  "main": "./os.js",
+  "map": {
+    "./os.js": {
+      "node": "@node/os",
+      "browser": "os-browserify"
+    }
+  }
+}

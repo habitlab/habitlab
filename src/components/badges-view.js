@@ -17,9 +17,7 @@ polymer_ext({
   ready: function() {
     const self = this;
     once_available('#badges_display', function() {
-      console.log('repaint is being called')
       self.repaint();
-      console.log('done calling repaint')
     })
   },
   repaint: function() {
@@ -63,38 +61,38 @@ polymer_ext({
         ],
       }, 
       {
-        "name": "2.1",
-        "img": chrome.extension.getURL(""),
-        "filled": false,
+        "name": "Seen 5 Interventions",
+        "img": chrome.extension.getURL("icons/d3_icons/seen_interventions_1.png"),
+        "filled": true,
         "children": [
           {
-            "name": "2.2",
-            "img": chrome.extension.getURL(""),
-            "filled": false,
+            "name": "Seen 10 Interventions",
+            "img": chrome.extension.getURL("icons/d3_icons/seen_interventions_2.png"),
+            "filled": true,
             "children": [
               {
-              "name": "2.3",
-              "img": chrome.extension.getURL(""),
-              "filled": false,
+              "name": "Seen 20 Interventions",
+              "img": chrome.extension.getURL("icons/d3_icons/seen_interventions_3.png"),
+              "filled": true,
               }
             ],
           }, 
         ],
       },    
       {
-        "name": "3.1",
-        "img": chrome.extension.getURL(""),
-        "filled": false,
+        "name": "Referred 1 Friend",
+        "img": chrome.extension.getURL("icons/d3_icons/person_1.png"),
+        "filled": true,
         "children": [
           {
-            "name": "3.2",
-            "img": chrome.extension.getURL(""),
-            "filled": false,
+            "name": "Referred 3 Friends",
+            "img": chrome.extension.getURL("icons/d3_icons/person_2.png"),
+            "filled": true,
             "children": [
               {
-              "name": "3.3",
-              "img": chrome.extension.getURL(""),
-              "filled": false,
+              "name": "Referred 10 Friends",
+              "img": chrome.extension.getURL("icons/d3_icons/person_3.png"),
+              "filled": true,
               }
             ],
           }, 

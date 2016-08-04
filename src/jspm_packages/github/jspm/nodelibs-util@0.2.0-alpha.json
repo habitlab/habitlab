@@ -1,0 +1,11 @@
+{
+  "main": "./util.js",
+  "map": {
+    "./isBuffer.js": {
+      "~node": "./isBufferBrowser.js"
+    },
+    "./util.js": {
+      "node": "@node/util"
+    }
+  }
+}

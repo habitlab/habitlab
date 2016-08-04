@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$/../array-extended" libraries="{Node.js Dependencies for string-extended}" />
+    <file url="file://$PROJECT_DIR$/../date-extended" libraries="{Node.js Dependencies for string-extended}" />
+    <file url="file://$PROJECT_DIR$" libraries="{Node.js Dependencies for string-extended}" />
+    <file url="file://$PROJECT_DIR$/../function-extended" libraries="{Node.js Dependencies for string-extended}" />
+    <file url="file://$PROJECT_DIR$/../is-extended" libraries="{Node.js Dependencies for string-extended}" />
+    <file url="file://$PROJECT_DIR$/../object-extended" libraries="{Node.js Dependencies for string-extended}" />
+    <file url="file://$PROJECT_DIR$/../promise-extended" libraries="{Node.js Dependencies for string-extended}" />
+    <file url="file://$PROJECT_DIR$/../string-extended" libraries="{Node.js Dependencies for string-extended}" />
+    <includedPredefinedLibrary name="Node.js Globals" />
+  </component>
+</project>
+

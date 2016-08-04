@@ -1,0 +1,19 @@
+{
+  "main": "lib/util.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "lib/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

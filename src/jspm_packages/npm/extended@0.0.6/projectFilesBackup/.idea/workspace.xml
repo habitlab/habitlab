@@ -1,0 +1,1272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ec692593-3677-4f10-9b7e-a4a5a866db97" name="Default" comment="" />
+    <ignored path="extended.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <file path="/string.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358124815781" ignored="false" />
+    <file path="/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131713565" ignored="false" />
+    <file path="/object.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358124681633" ignored="false" />
+    <file path="/array.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358137892427" ignored="false" />
+    <file path="/string-extended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358842836536" ignored="false" />
+    <file path="/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363993297278" ignored="false" />
+    <file path="/extended.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358699865260" ignored="false" />
+    <file path="/Dummy.txt" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363967497262" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/README.md" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358835115761" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/test/extender.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358835047916" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/.travis.yml" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358107932386" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/extender-min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358283308395" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/assert/assert.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358054388282" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/browser/scripts/simple.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358042974076" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359148575537" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/.gitignore" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358042974076" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/grunt.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358281117230" ignored="false" />
+    <file path="/a.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358043173732" ignored="false" />
+    <file path="/extender.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358834217684" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/extender.min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358044633735" ignored="false" />
+    <file path="/extender.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358811491096" ignored="false" />
+    <file path="/fragment.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364177570356" ignored="false" />
+    <file path="/README.md" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363902471108" ignored="false" />
+    <file path="/extended1.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358201613126" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/async/async.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358054388280" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/is.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358054388281" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/.jshintrc" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358054388281" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/test/is.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358811370021" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/.npmignore" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358106514393" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/simple/simple.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358054388282" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/async/async.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358054388282" ignored="false" />
+    <file path="/array-extended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358836620191" ignored="false" />
+    <file path="/extended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358107156847" ignored="false" />
+    <file path="/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359253991440" ignored="false" />
+    <file path="/extended2.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358201722416" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359143989428" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/README.md" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358808240878" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/examples/browser/inheritance.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358121139298" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/declare-min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358626704702" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/.gitignore" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358108306288" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/examples/browser/mixin.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358121169554" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/grunt.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358108828977" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/declare.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359143888144" ignored="false" />
+    <file path="/declare.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359143829155" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/test/declare.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359143678927" ignored="false" />
+    <file path="/declare.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359143679232" ignored="false" />
+    <file path="/inheritance.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358121139298" ignored="false" />
+    <file path="/mixin.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358121169081" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/constraint.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/constraintMatcher.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358237063667" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/matchResult.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358280037994" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360697031518" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/compile.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/LICENSE" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358121335368" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/browser/scripts/declare.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358121670559" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/node_modules/declare.js/declare-min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358121622723" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/node_modules/declare.js/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358121603973" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/examples/browser/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358281117230" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/utils.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358123237663" ignored="false" />
+    <file path="/utils.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358848117926" ignored="false" />
+    <file path="/compile.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361608790837" ignored="false" />
+    <file path="/is.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358811370021" ignored="false" />
+    <file path="/isa.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358124011946" ignored="false" />
+    <file path="/grunt.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358798969009" ignored="false" />
+    <file path="/date.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358124559711" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/extended.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/constraint.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361648024896" ignored="false" />
+    <file path="/constraintMatcher.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361915975714" ignored="false" />
+    <file path="/matchResult.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358280024488" ignored="false" />
+    <file path="/nodes.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360696966877" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/pattern.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339723" ignored="false" />
+    <file path="/pattern.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361906226524" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/rule.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/rule.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361907073118" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/workingMemory.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/is-extended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361597028264" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358234355764" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/rules.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361822507292" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/constraintMatcher.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/constraintMatcher.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361775151038" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/noolsParser.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/parser.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/bundle.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358435321361" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/promise.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358139657843" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/flow.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361990183413" ignored="false" />
+    <file path="/promise-extended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358840250034" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/_typography.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358183033957" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/_mixins.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358183033957" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/views/market.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/model/lib/market.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358183033957" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/maker-routes/lib/facade/workers/payablesUpload.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358204695940" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/upload_errors_grid.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358204695940" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/nls/market.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977307283" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/upload-errors.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358534778889" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/assets/js/libs/thumbs.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358204695940" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/views/upload_errors_grid.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358204695940" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/registration/views/registration.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358789360496" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/maker-routes/test/routes/payables.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358802737393" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/verification-routes/lib/routes/verification.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131160930" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/views/login_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358183097714" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/config/configs/workers.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358183153426" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/profile/views/profile_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/profile/views/security_questions_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/update-user/views/update_user_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/profile/views/password_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/registration/templates/registration.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="/function-extended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358709470473" ignored="false" />
+    <file path="/aplus-adapter.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358203941056" ignored="false" />
+    <file path="/a.dummy" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363930916161" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/verification/views/verification_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/grunt.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358799868181" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358958304382" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/leafy.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358210686959" ignored="false" />
+    <file path="/leafy.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358210313496" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/test/AnderssonTree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358223968863" ignored="false" />
+    <file path="/AnderssonTree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358223395132" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/test/AVLTree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358223984253" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/test/BinaryTree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358223329768" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/test/RedBlackTree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358224170169" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/test/Tree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358897830225" ignored="false" />
+    <file path="/Tree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358897820011" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/test/treeTest.helper.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358922678997" ignored="false" />
+    <file path="/treeTest.helper.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358922635233" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358923153374" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/grunt.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358896641076" ignored="false" />
+    <file path="/AVLTree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358223383831" ignored="false" />
+    <file path="/RedBlackTree.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358224003639" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/leafy.min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358898273802" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358980680685" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358980654777" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/test/ht.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358980353680" ignored="false" />
+    <file path="/ht.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358980315330" ignored="false" />
+    <file path="/flow.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361860571432" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/nools-min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358396582961" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/fibonacci.dsl.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/fibonacci.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/fibonacci.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358444339128" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/grunt.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339723" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/constraint/parser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361916227471" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/nools/nool.parser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/nools/tokens.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/bundle.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358235399831" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/browser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358435303913" ignored="false" />
+    <file path="/browser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358435303913" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/fibonacci.dsl.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/fibonacci.dsl.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358445068642" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/fibonacci.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$USER_HOME$/Library/Caches/WebIde50/extLibs/nodejs-v0.8.15-src/core-modules-sources/lib/fs.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358275473896" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/fibonacci.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/object-extended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358278480820" ignored="false" />
+    <file path="/nool.parser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359392978568" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/bin/nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361945495389" ignored="false" />
+    <file path="/noolsParser.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361825742859" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/core/util.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359130444868" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/test/spec/core/util.spec.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358789360496" ignored="false" />
+    <file path="/util.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364177529084" ignored="false" />
+    <file path="/util.spec.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358355393527" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/tel_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358976604836" ignored="false" />
+    <file path="/tel_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358355650908" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/nls/form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977307283" ignored="false" />
+    <file path="/form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358972495176" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/model/migration/1358356000085.addPhoneNumberToUser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358427576373" ignored="false" />
+    <file path="/1358356000085.addPhoneNumberToUser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358356094251" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/helpers/lib/validator.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518411" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/helpers/lib/utils.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358427576373" ignored="false" />
+    <file path="/validator.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363931057913" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/user-routes/lib/routes/user.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359398026614" ignored="false" />
+    <file path="/user.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364176276020" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/errors/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358427576373" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/user-routes/test/routes/user.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360776879841" ignored="false" />
+    <file path="/user.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364177872389" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131422748" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/tasks/it.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358798499017" ignored="false" />
+    <file path="/it.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358798497754" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/common/emitter.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358490544757" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358843144885" ignored="false" />
+    <file path="$PROJECT_DIR$/../grunt-it/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358798802134" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/maker-routes/test/routes/market.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358792699703" ignored="false" />
+    <file path="/market.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358360887076" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/helpers/lib/request.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358361540249" ignored="false" />
+    <file path="/request.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358360709015" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/helpers/lib/server.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518411" ignored="false" />
+    <file path="/server.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358361893178" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/registration-routes/test/routes/registration.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360776354678" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/registration-routes/lib/routes/registration.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359398026614" ignored="false" />
+    <file path="/registration.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358376773997" ignored="false" />
+    <file path="/registration.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358793066948" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/helpers/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/registration/nls/registration.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="/registration.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358376696578" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/webapp/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/webapp/app.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="/app.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358426035624" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/webapp/lib/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="/profile_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358426640441" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/profile/templates/profile_form.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358789360496" ignored="false" />
+    <file path="/profile_form.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358426710839" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/profile/nls/profile.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="/profile.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358426747522" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/update-user/templates/update_user.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="/update_user.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358426841736" ignored="false" />
+    <file path="/update_user_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358428117620" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/update-user/nls/update_user.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/market.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358792742675" ignored="false" />
+    <file path="/market.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358427291476" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/profile/templates/password_form.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/profile/views/email_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358429518410" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/input_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977034847" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/dist/bundle.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358434281826" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/nools.min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/browser/browser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358435366363" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/browser/nools.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358435387072" ignored="false" />
+    <file path="/fibonacci.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358444972901" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/nools.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/bin/assets/compile_wrapper.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358435886483" ignored="false" />
+    <file path="/compile_wrapper.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358435885766" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/bin/assets/compile_wrapper.tmpl" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339723" ignored="false" />
+    <file path="/compile_wrapper.tmpl" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361945445284" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/rules/fibonacci.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/rules/fibonacci.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/fibonacci/flow.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358444838644" ignored="false" />
+    <file path="/flow.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358443192865" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/fibonacci.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358444973210" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/fibonacci/rules/fibonacci.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358444793762" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/fibonacci.dsl.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358445120294" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/nools.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/manners.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/manners.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358447627872" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/benchmark/manners/data/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358445442206" ignored="false" />
+    <file path="/nools.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358445831491" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/rules/manners.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/manners.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358446498839" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/rules/manners.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/manners/rules/manners.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358447600084" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/manners/data.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358447304847" ignored="false" />
+    <file path="/data.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358447302389" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/manners.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358447628790" ignored="false" />
+    <file path="/manners.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358447575534" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/extension.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358490944098" ignored="false" />
+    <file path="/extension.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358490942184" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/extended.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358700492735" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/it.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358797044497" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/utils.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358848215216" ignored="false" />
+    <file path="/action.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358796867296" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/common/action.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358796869811" ignored="false" />
+    <file path="/emitter.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358461751314" ignored="false" />
+    <file path="/test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358845726233" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/common/test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358845771890" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/npm-debug.log" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358462487077" ignored="false" />
+    <file path="/it-bdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358732117378" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/it-bdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/spec.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/it-tdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browser/it.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358489434419" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/grunt.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/coverage.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/coverage.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358717032325" ignored="false" />
+    <file path="/coverage-html.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358464651646" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/coverage-html.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358464651646" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/dot.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/dot.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358666129873" ignored="false" />
+    <file path="/reporter.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358797304030" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/reporter.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358797334410" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/it.min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358797915899" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/it.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358797915899" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/browser.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358466157486" ignored="false" />
+    <file path="/spec.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358668027928" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/bin/it" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358797709532" ignored="false" />
+    <file path="/it" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358797693284" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/browser/formatters/html.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/html.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358715882245" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/browser/it.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161278" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161278" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/browser/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358536904969" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/browser/it-bdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358493126117" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/browser/it-tdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358493246565" ignored="false" />
+    <file path="/it-tdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358732169662" ignored="false" />
+    <file path="/upload-errors.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358534722927" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/upload_step.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358789360496" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/it.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/it.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358715596694" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browser/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358537691128" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browser-tests/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358630225939" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browser-tests/it-bdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358713790110" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/tap.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358845253800" ignored="false" />
+    <file path="/tap.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358845253018" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browserling-tests/it-bdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358551613200" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browserling-tests/it-tdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358551663019" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/readme.md" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/readme.md" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361946933374" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browserling-tests/it.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358551647720" ignored="false" />
+    <file path="/it.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358551646735" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/it-browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358612606480" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/browerling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358613888168" ignored="false" />
+    <file path="/browerling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358613880149" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/test/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161278" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/async.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/async.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358631105538" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/doc.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/doc.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358670201470" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/doc-md.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358663913697" ignored="false" />
+    <file path="/doc-md.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358663877583" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/assets/header.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/header.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361989444135" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/formatters/assets/footer.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358664074841" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/bus.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358699846125" ignored="false" />
+    <file path="/bus.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358699833503" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/tdd/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358709039915" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/bdd/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358704486771" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/tdd/test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358708969350" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/tdd.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358845694105" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/lib/interfaces/bdd.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358845699389" ignored="false" />
+    <file path="/bdd.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358845698462" ignored="false" />
+    <file path="/tdd.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358845693152" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/node_modules/function-extended/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358709770709" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/node_modules/function-extended/function-extended.min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358709770709" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/node_modules/function-extended/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358709770709" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/node_modules/declare.js/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358709770709" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/browser-tests/it-tdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358713811592" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/calculator-strategies/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/sync.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="/sync.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358716216130" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358729903011" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/scripts/tests/it-bdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/scripts/tests/it-tdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/scripts/it.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/LICENSE" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787158867" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/.jshintrc" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/browser/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358797952436" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/browser/it-tdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/browser/it-bdd.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../it/examples/requirejs/scripts/require.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358787161279" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/model/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131321403" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/c2fo-config/node_modules/gofigure/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358789088241" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/wobot/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/config/node_modules/gofigure/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358790410984" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/calculator/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/invoice_preview.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358789360496" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/c2fo-model/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358789956711" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/email/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131321403" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/bus/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358790065023" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/logger/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358790182092" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/maker-routes/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358792868595" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/registration-routes/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/route-logger/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358790272421" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358790279985" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/taker-routes/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358790295829" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/user-routes/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358790305536" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/verification-routes/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358790314158" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/wobots/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358792868594" ignored="false" />
+    <file path="/*.regexp" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358799300324" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/taker/templates/configuration.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358800191539" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/taker/views/configuration.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358792860245" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/express/node_modules/buffer-crc32/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358793180405" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/handlebars/node_modules/optimist/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358793180405" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/express/node_modules/connect/node_modules/formidable/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358793180405" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/calculator-strategies/test/discount.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="/discount.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358794772362" ignored="false" />
+    <file path="/blended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358794102412" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/calculator-strategies/test/blended.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/email/test/email.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358794987001" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/authorize.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/authenticate-json.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359398026614" ignored="false" />
+    <file path="/configuration.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358800188149" ignored="false" />
+    <file path="/payables.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358800773953" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/test-data-admin/node_modules/c2fo-model/node_modules/c2fo-calculator/node_modules/it/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358802058826" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/test/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358807995051" ignored="false" />
+    <file path="$PROJECT_DIR$/../declare.js/node_modules/it/lib/extension.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358808080818" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/test/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358810547401" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358834992815" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/extender.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358834828707" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/flow.dsl.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359396229297" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules/notRule.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358844419331" ignored="false" />
+    <file path="/notRule.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358844256905" ignored="false" />
+    <file path="/flow.dsl.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359396089143" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/node_modules/it/lib/interfaces/common/test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358844486207" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358848018794" ignored="false" />
+    <file path="/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358980187271" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358848640025" ignored="false" />
+    <file path="/tokens.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361823234250" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/node_modules/it/lib/extension.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358846269945" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/test/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358895573105" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/README.md" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358924306416" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358898273802" ignored="false" />
+    <file path="$PROJECT_DIR$/../leafy/LICENSE" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358924126662" ignored="false" />
+    <file path="/LICENSE" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358982487586" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/views/new_upload.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131160930" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/views/archive_grid.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358966524068" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/new_upload.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131160930" ignored="false" />
+    <file path="/new_upload.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358970495517" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/app.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358965939333" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/scaffolding.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359400116661" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/app.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131160930" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/brochure-header.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358966524068" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/scaffolding.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358966524068" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/config/configs/webapp.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358966524068" ignored="false" />
+    <file path="/new_upload.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358970379514" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/views/payable_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358970458780" ignored="false" />
+    <file path="/payable_form.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358969761430" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/date_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977307283" ignored="false" />
+    <file path="/date_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358972307606" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/templates/payable_form.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359402678454" ignored="false" />
+    <file path="/payable_form.handlebars" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359399657281" ignored="false" />
+    <file path="/market.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358970265008" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/maker/views/new_market_wizard.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358970355841" ignored="false" />
+    <file path="/new_market_wizard.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358970343475" ignored="false" />
+    <file path="/input_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358976657378" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/form_element.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977034847" ignored="false" />
+    <file path="/form_element.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358975774965" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/number_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977034847" ignored="false" />
+    <file path="/number_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358976903247" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/email_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358976571789" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/common/form/password_box.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358976593032" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/payable_form.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977686912" ignored="false" />
+    <file path="/payable_form.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977635239" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/market.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977736276" ignored="false" />
+    <file path="/market.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358977652880" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/styles/_forms.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359400098407" ignored="false" />
+    <file path="/_forms.less" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359400086882" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/test/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358980192400" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/ht.min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358980242007" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/browserling.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358980456758" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/README.md" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358982268524" ignored="false" />
+    <file path="$PROJECT_DIR$/../ht/LICENSE" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1358982490948" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/readme.md" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/validator.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359219172324" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/validator/rules/validator.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359219172988" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/validator/rules/password_checker.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359048989376" ignored="false" />
+    <file path="/password_checker.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359048986240" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/validator/rules/password_checker.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359049042793" ignored="false" />
+    <file path="/password_checker.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359049040753" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/validator/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/constraint/grammar.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361916219335" ignored="false" />
+    <file path="/grammar.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359066839560" ignored="false" />
+    <file path="/parser.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361988015282" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/validator/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359130205666" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/validator/assets/validator.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359088628852" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/taker/models/taker_configuration.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/frontend/c2fo/modules/taker/models/taker_stats.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="/authenticate-json.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359132078845" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/helper.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359398026614" ignored="false" />
+    <file path="/helper.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359131676632" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/lib/authenticate.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359134325413" ignored="false" />
+    <file path="/authenticate.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359132222298" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/authenticate-common.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/authenticate/test/authenticate-html.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359398026614" ignored="false" />
+    <file path="/authenticate-common.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359132843631" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/node_modules/it/node_modules/promise-extended/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359149046101" ignored="false" />
+    <file path="$PROJECT_DIR$/../extender/node_modules/declare.js/declare.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359149046101" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/rules/coways.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359221638534" ignored="false" />
+    <file path="/coways.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359220421555" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359254540669" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/patterns.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359250072270" ignored="false" />
+    <file path="/patterns.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359249907977" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/rules/conways.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359251031925" ignored="false" />
+    <file path="/conways.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359250831317" ignored="false" />
+    <file path="/conways.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359340857312" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/assets/conways.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359340907934" ignored="false" />
+    <file path="/workingMemory.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361827743602" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/conways/rules/conways.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/browser/parse.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/parse.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359393607643" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/parser/nools/util.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1362000142614" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/text.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/parse/rules/simple.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359394967727" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/scripts/parse/simple.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359395227561" ignored="false" />
+    <file path="/simple.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359395032894" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/requirejs/simple.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359395116654" ignored="false" />
+    <file path="/simple.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359395108069" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules/scope.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359395804575" ignored="false" />
+    <file path="/scope.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359395799909" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules/simple.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359396001018" ignored="false" />
+    <file path="/simple.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359396000123" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/flow.compiled.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359396306279" ignored="false" />
+    <file path="/flow.compiled.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359396303532" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/test/rules/scope-compiled.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359396406880" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/user-routes/lib/facade/user.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359398026614" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/benchmark/waltzDb/waltzDb.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359615971963" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/benchmark/manners/benchmark.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361305398968" ignored="false" />
+    <file path="/waltzDb.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1359615576436" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/reporters/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361470384657" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/context.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339723" ignored="false" />
+    <file path="/context.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361826049928" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360708816076" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/deploy/c2fo_reporting" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360686978286" ignored="false" />
+    <file path="/c2fo_reporting" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360686969832" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/deploy/c2fo_reporting_monit" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360687066329" ignored="false" />
+    <file path="/c2fo_reporting_monit" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360687034209" ignored="false" />
+    <file path="/benchmark.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360691980819" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/benchmark/waltzDb/benchmark.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360697335446" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/reporters/rules/analytics.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360792914864" ignored="false" />
+    <file path="/analytics.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360792738555" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/listeners/route_listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361470961132" ignored="false" />
+    <file path="/route_listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361470921887" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/listeners/listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360785969326" ignored="false" />
+    <file path="/listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360785964727" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360809267486" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/listeners/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360779295905" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/bus/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360779320810" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/lib/calculatorService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790531362" ignored="false" />
+    <file path="/calculatorService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790530197" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/lib/marketClearingService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790780168" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/lib/importPayablesService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790716094" ignored="false" />
+    <file path="/importPayablesService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790716094" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/lib/notifyService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790876472" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/lib/emailService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790676114" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/lib/emailBlackListService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790633122" ignored="false" />
+    <file path="/emailBlackListService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790610758" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/services/lib/matchInvoicesService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790827892" ignored="false" />
+    <file path="/matchInvoicesService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790826896" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/listeners/track_listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360786048553" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/config/configs/logging.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360773093218" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/logger/lib/appenders/amqp.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360779376180" ignored="false" />
+    <file path="/amqp.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360777936187" ignored="false" />
+    <file path="/logging.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360772907217" ignored="false" />
+    <file path="$PROJECT_DIR$/../hare/lib/exchange.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360778055547" ignored="false" />
+    <file path="$PROJECT_DIR$/../hare/lib/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360778355061" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/listeners/logger_listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361471206571" ignored="false" />
+    <file path="/track_listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360785192411" ignored="false" />
+    <file path="/logger_listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361471151210" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/config/configs/reporting.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360786736004" ignored="false" />
+    <file path="/reporting.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360786401575" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/config/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360786710323" ignored="false" />
+    <file path="/marketClearingService.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360790779228" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/taker-routes/lib/facade/archive.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360809434347" ignored="false" />
+    <file path="/archive.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1360809420961" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/node.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/node.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361302692005" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/typeNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361304933346" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/sudoku/rules/validate.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361307671298" ignored="false" />
+    <file path="/validate.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361391072023" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/sudoku/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361860995421" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/sudoku/lib/sudoku.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361423288257" ignored="false" />
+    <file path="/sudoku.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361423203813" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/sudoku/lib/rules/validate.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361861201508" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/sudoku/lib/rules/sudoku.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361906525315" ignored="false" />
+    <file path="/sudoku.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361906516450" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting/lib/listeners/identify_listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361470543863" ignored="false" />
+    <file path="/identify_listener.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361468810617" ignored="false" />
+    <file path="$PROJECT_DIR$/../c2fo/reporting-client/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361468943213" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/fromNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361906646444" ignored="false" />
+    <file path="/fromNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361906595138" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/fromNotNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361820477500" ignored="false" />
+    <file path="/fromNotNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361820474955" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/notNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/terminalNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361903565426" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/terminalNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/banking/scripts/nools.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361906932006" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/counter/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/counter/counter.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="/counter.nools" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361916253528" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/joinNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/equalityNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/lib/nodes/joinReferenceNode.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/examples/index.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339722" ignored="false" />
+    <file path="$PROJECT_DIR$/../nools/.jshintrc" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361947339723" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361989260218" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/test/parser/code.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361987596216" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/test/parser/parser.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361988018275" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/test/parser/tags.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361987915243" ignored="false" />
+    <file path="/tags.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361987723246" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/templates/multi-html/header.html" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361989621125" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/templates/multi-html/assets/css/bootstrap.min.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361989435156" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/templates/multi-html/assets/css/bootstrap-responsive.css" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361989435157" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/bin/coddoc" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361989757539" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/.idea/workspace.xml" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1362000981691" ignored="false" />
+    <file path="/coddoc" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361989753659" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/lib/parser/tags.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1362000142614" ignored="false" />
+    <file path="/tags.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1362000036191" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/lib/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1361990506867" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/templates/multi-html/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1362000940703" ignored="false" />
+    <file path="$PROJECT_DIR$/../coddoc/lib/util.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1362000287253" ignored="false" />
+    <file path="/dummy.txt" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364013191723" ignored="false" />
+    <file path="/Gruntfile.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363901849636" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/user_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363931795043" ignored="false" />
+    <file path="/user_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363931795043" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/book_shelf_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905037873" ignored="false" />
+    <file path="/book_shelf_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363904603251" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/book_review_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905024903" ignored="false" />
+    <file path="/book_review_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363903293970" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/extended/package.json" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363902661078" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/reading_log_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905425251" ignored="false" />
+    <file path="/reading_log_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905425615" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/reading_log_entry_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905056750" ignored="false" />
+    <file path="/reading_log_entry_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363902996510" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363930903365" ignored="false" />
+    <file path="/builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363930903365" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/book_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905008579" ignored="false" />
+    <file path="/book_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363904541126" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/publisher_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363904740300" ignored="false" />
+    <file path="/publisher_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363904737291" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/user.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363931917428" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/factories.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905357126" ignored="false" />
+    <file path="/factories.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905355362" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/migration/1363743807036.initialSchemaCreation.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363905333217" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/helpers/lib/validator.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363931060312" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/builder/reading_session_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363932085548" ignored="false" />
+    <file path="/reading_session_builder.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363932085070" ignored="false" />
+    <file path="$PROJECT_DIR$/../thumbs/test/spec/subViewSpec.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363967270410" ignored="false" />
+    <file path="$PROJECT_DIR$/../thumbs/thumbs.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363967270410" ignored="false" />
+    <file path="$PROJECT_DIR$/../thumbs/thumbs.min.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363967270410" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/builders/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363993306387" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/Gruntfile.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363993320618" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/test/books.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363993337849" ignored="false" />
+    <file path="/books.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363993329511" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/book_shelf.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363993475616" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/reading_log_entry.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363993512253" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/test/reading_session.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1363993548768" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/test/user.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364178040817" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/lib/user.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364176287558" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/lib/index.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364063078933" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/lib/user.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364013159103" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/migration/1363759501622.readingGroupTables.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364013189287" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/lib/books.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364063058921" ignored="false" />
+    <file path="/books.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364176248817" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/lib/book.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364176249907" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/lib/util.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364063445532" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/lib/helpers.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364177751296" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/facade/test/book.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364179174341" ignored="false" />
+    <file path="/book.test.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364179169179" ignored="false" />
+    <file path="$PROJECT_DIR$/../bookl.me/model/lib/book.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364178627468" ignored="false" />
+    <file path="/book.js" changelist="ec692593-3677-4f10-9b7e-a4a5a866db97" time="1364178625085" ignored="false" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="extended" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="index.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../string-extended/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="593" column="0" selection-start="21314" selection-end="21314" vertical-scroll-proportion="0.71940297">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../promise-extended/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="377" column="38" selection-start="12904" selection-end="12904" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../promise-extended/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="28" selection-start="684" selection-end="684" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Gruntfile.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../promise-extended/Gruntfile.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="42" column="10" selection-start="1074" selection-end="1074" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Gruntfile.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../string-extended/Gruntfile.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="20" selection-start="337" selection-end="337" vertical-scroll-proportion="-8.4">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <marker date="1363993234000" expanded="true" signature="58:1708" placeholder="{...}" />
+                <marker date="1363993234000" expanded="true" signature="111:1482" placeholder="{...}" />
+                <marker date="1363993234000" expanded="true" signature="180:298" placeholder="{&quot;file&quot;: &quot;./index.js&quot;...}" />
+                <marker date="1363993234000" expanded="true" signature="653:804" placeholder="{...}" />
+                <marker date="1363993234000" expanded="true" signature="673:794" placeholder="{&quot;dest&quot;: '&lt;%= pkg.name %&gt;.min.js'...}" />
+                <marker date="1363993234000" expanded="true" signature="821:903" placeholder="{&quot;files&quot;: '&lt;config:lint.files&gt;'...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../promise-extended/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="132" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="promise-extended.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../promise-extended/promise-extended.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="42" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".travis.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../promise-extended/.travis.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="string-extended.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../string-extended/string-extended.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../is-extended/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="0" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="FrameworkCommandLineHistory">
+    <commandsHistory>
+      <command text="npm install --save grunt-contrib-jshint" />
+      <command text="grunt" />
+      <command text="npm install grunt-contrib-uglify --save-dev" />
+      <command text="grunt" />
+      <command text="grunt" />
+      <command text="grunt" />
+      <command text="grunt" />
+      <command text="grunt" />
+      <command text="grunt" />
+      <command text="grunt" />
+      <command text="grunt uglify:min" />
+      <command text="grunt" />
+      <command text="grunt uglify:min" />
+      <command text="grunt" />
+      <command text="grunt uglify:min" />
+      <command text="grunt" />
+      <command text="grunt uglify:min" />
+      <command text="grunt uglify:min" />
+      <command text="grunt uglify:min" />
+      <command text="grunt uglify:min" />
+      <command text="grunt uglify:min" />
+      <command text="grunt uglify:min" />
+      <command text="grunt" />
+      <command text="less ../nools/package.json" />
+      <command text="git gui" />
+    </commandsHistory>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/../string-extended/test/string-extended.test.js" />
+        <option value="$PROJECT_DIR$/../string-extended/index.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/../array-extended/index.js" />
+        <option value="$PROJECT_DIR$/../array-extended/test/array-extended.test.js" />
+        <option value="$PROJECT_DIR$/../is-extended/index.js" />
+        <option value="$PROJECT_DIR$/../is-extended/README.md" />
+        <option value="$PROJECT_DIR$/../is-extended/package.json" />
+        <option value="$PROJECT_DIR$/../is-extended/test/is-extended.test.js" />
+        <option value="$PROJECT_DIR$/../promise-extended/index.js" />
+        <option value="$PROJECT_DIR$/../promise-extended/.min.js" />
+        <option value="$PROJECT_DIR$/../promise-extended/promise-extended.min.js" />
+        <option value="$PROJECT_DIR$/../promise-extended/Gruntfile.js" />
+        <option value="$PROJECT_DIR$/../promise-extended/package.json" />
+        <option value="$PROJECT_DIR$/../promise-extended/README.md" />
+        <option value="$PROJECT_DIR$/../string-extended/Gruntfile.js" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="262" />
+    <option name="width" value="1920" />
+    <option name="height" value="1174" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents ProjectPane="true" />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource ProjectPane="true" />
+      <autoscrollFromSource ProjectPane="true" />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="string-extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="string-extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="string-extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="promise-extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="string-extended" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="JavaScript.Libraries" />
+    <property name="recentsLimit" value="5" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../function-extended" />
+    <property name="FullScreen" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../string-extended/test" />
+      <recent name="$PROJECT_DIR$/../promise-extended/test" />
+      <recent name="$PROJECT_DIR$/../object-extended/test" />
+      <recent name="$PROJECT_DIR$/../function-extended/test" />
+      <recent name="$PROJECT_DIR$/../date-extended/test" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Node.js.is-extended.test.js">
+    <configuration default="false" name="date-extended.test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="/usr/local/bin/node" path-to-js-file="date-extended.test.js" working-dir="$PROJECT_DIR$/../date-extended/test">
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="browserling.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="/usr/local/bin/node" path-to-js-file="browserling.js" working-dir="$PROJECT_DIR$/../string-extended/test">
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="string-extended.test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="/usr/local/bin/node" path-to-js-file="string-extended.test.js" working-dir="$PROJECT_DIR$/../string-extended/test">
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="array-extended.test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="/usr/local/bin/node" path-to-js-file="array-extended.test.js" working-dir="$PROJECT_DIR$/../array-extended/test">
+      <RunnerSettings RunnerId="NodeJS.debug" />
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.debug" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="is-extended.test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="/usr/local/bin/node" path-to-js-file="is-extended.test.js" working-dir="$PROJECT_DIR$/../is-extended/test">
+      <RunnerSettings RunnerId="NodeJS.debug" />
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.debug" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
+      <setting name="configLocationType" value="CONFIG_FILE" />
+      <setting name="settingsFile" value="" />
+      <setting name="serverType" value="INTERNAL" />
+      <setting name="preferredDebugBrowser" value="CHROME" />
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="$PROJECT_DIR$">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method />
+    </configuration>
+    <list size="5">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.date-extended.test.js" />
+      <item index="1" class="java.lang.String" itemvalue="Node.js.browserling.js" />
+      <item index="2" class="java.lang.String" itemvalue="Node.js.string-extended.test.js" />
+      <item index="3" class="java.lang.String" itemvalue="Node.js.array-extended.test.js" />
+      <item index="4" class="java.lang.String" itemvalue="Node.js.is-extended.test.js" />
+    </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.is-extended.test.js" />
+        <item index="1" class="java.lang.String" itemvalue="Node.js.array-extended.test.js" />
+        <item index="2" class="java.lang.String" itemvalue="Node.js.string-extended.test.js" />
+        <item index="3" class="java.lang.String" itemvalue="Node.js.browserling.js" />
+        <item index="4" class="java.lang.String" itemvalue="Node.js.browserling.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec692593-3677-4f10-9b7e-a4a5a866db97" name="Default" comment="" />
+      <created>1358039860017</created>
+      <updated>1358039860017</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="262" width="1920" height="1174" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32156035" sideWeight="0.66969144" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3955224" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39655173" sideWeight="0.49626467" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4413965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40044248" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33030853" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="true" />
+    <option name="myTodoPanelSettings">
+      <value>
+        <are-packages-shown value="false" />
+        <are-modules-shown value="false" />
+        <flatten-packages value="false" />
+        <is-autoscroll-to-source value="false" />
+      </value>
+    </option>
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
+    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="false" />
+    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
+    <option name="LIMIT_HISTORY" value="true" />
+    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
+    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
+    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+    <option name="ACTIVE_VCS_NAME" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../function-extended/index.js</url>
+          <line>178</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../function-extended/index.js</url>
+          <line>19</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../promise-extended/node_modules/promises-aplus-tests/lib/tests/3.2.6.js</url>
+          <line>179</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../promise-extended/node_modules/promises-aplus-tests/lib/tests/3.2.6.js</url>
+          <line>173</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <condition>stringRepresentation === 'a date'</condition>
+          <url>file://$PROJECT_DIR$/../promise-extended/node_modules/promises-aplus-tests/lib/tests/3.2.6.js</url>
+          <line>76</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../promise-extended/node_modules/promises-aplus-tests/lib/tests/3.2.6.js</url>
+          <line>80</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../promise-extended/node_modules/promises-aplus-tests/lib/tests/3.2.6.js</url>
+          <line>77</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../promise-extended/index.js</url>
+          <line>81</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../object-extended/test/object-extended.test.js</url>
+          <line>68</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../array-extended/test/array-extended.test.js</url>
+          <line>304</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../array-extended/test/array-extended.test.js</url>
+          <line>175</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="69" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../array-extended/test/array-extended.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1080" column="36" selection-start="34016" selection-end="34016" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../date-extended/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../is-extended/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="312" column="11" selection-start="9778" selection-end="9778" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../is-extended/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="245" column="35" selection-start="5067" selection-end="5067" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../is-extended/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="21" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../is-extended/test/is-extended.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="3" selection-start="95" selection-end="98" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../promise-extended/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="377" column="38" selection-start="12904" selection-end="12904" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../promise-extended/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="28" selection-start="684" selection-end="684" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../promise-extended/promise-extended.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="42" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../promise-extended/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../string-extended/string-extended.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../is-extended/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../promise-extended/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="132" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../promise-extended/Gruntfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="10" selection-start="1074" selection-end="1074" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../string-extended/Gruntfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="20" selection-start="337" selection-end="337" vertical-scroll-proportion="-8.4">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1363993234000" expanded="true" signature="58:1708" placeholder="{...}" />
+            <marker date="1363993234000" expanded="true" signature="111:1482" placeholder="{...}" />
+            <marker date="1363993234000" expanded="true" signature="180:298" placeholder="{&quot;file&quot;: &quot;./index.js&quot;...}" />
+            <marker date="1363993234000" expanded="true" signature="653:804" placeholder="{...}" />
+            <marker date="1363993234000" expanded="true" signature="673:794" placeholder="{&quot;dest&quot;: '&lt;%= pkg.name %&gt;.min.js'...}" />
+            <marker date="1363993234000" expanded="true" signature="821:903" placeholder="{&quot;files&quot;: '&lt;config:lint.files&gt;'...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../string-extended/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="593" column="0" selection-start="21314" selection-end="21314" vertical-scroll-proportion="0.71940297">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+

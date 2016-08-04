@@ -1,0 +1,13 @@
+{
+  "main": "lodash.js",
+  "map": {
+    "buffer": "@empty",
+    "process": "@empty"
+  },
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

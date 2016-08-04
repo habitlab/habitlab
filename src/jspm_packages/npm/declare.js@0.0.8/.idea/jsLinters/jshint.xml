@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JSHintConfiguration" version="1.1.0" use-config-file="false">
+    <option bitwise="true" />
+    <option camelcase="true" />
+    <option curly="true" />
+    <option eqeqeq="true" />
+    <option forin="true" />
+    <option immed="true" />
+    <option latedef="true" />
+    <option newcap="true" />
+    <option noarg="true" />
+    <option noempty="true" />
+    <option nonew="true" />
+    <option plusplus="false" />
+    <option undef="true" />
+    <option unused="true" />
+    <option strict="false" />
+    <option trailing="true" />
+    <option asi="false" />
+    <option boss="false" />
+    <option debug="false" />
+    <option eqnull="false" />
+    <option esnext="false" />
+    <option evil="false" />
+    <option expr="false" />
+    <option funcscope="false" />
+    <option globalstrict="false" />
+    <option iterator="false" />
+    <option lastsemic="false" />
+    <option laxbreak="false" />
+    <option laxcomma="false" />
+    <option loopfunc="false" />
+    <option multistr="false" />
+    <option proto="false" />
+    <option scripturl="false" />
+    <option smarttabs="false" />
+    <option shadow="false" />
+    <option sub="false" />
+    <option supernew="false" />
+    <option validthis="false" />
+    <option browser="true" />
+    <option couch="true" />
+    <option devel="true" />
+    <option dojo="true" />
+    <option jquery="true" />
+    <option mootools="true" />
+    <option node="true" />
+    <option nonstandard="true" />
+    <option prototypejs="true" />
+    <option rhino="true" />
+    <option worker="true" />
+    <option wsh="true" />
+    <option yui="true" />
+    <option nomen="false" />
+    <option onevar="false" />
+    <option passfail="false" />
+    <option white="false" />
+    <option maxerr="50" />
+  </component>
+</project>
+

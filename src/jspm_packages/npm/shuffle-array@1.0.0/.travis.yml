@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - 0.10
+# Install gulp globally
+before_script:
+  - npm install -g gulp
+# Send coverage data to Coveralls
+after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"

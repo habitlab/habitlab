@@ -1,0 +1,45 @@
+{
+    "name": "arguments-extended",
+    "version": "0.0.3",
+    "description": "Utilities for working with arguments object",
+    "main": "index.js",
+    "scripts": {
+        "test": "it -r dotmatrix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:doug-martin/arguments-extended.git"
+    },
+    "keywords": [
+        "arguments",
+        "utils",
+        "extended",
+        "extender",
+        "monad",
+        "monads"
+    ],
+    "testling": {
+        "files": "test/browserling.js",
+        "browsers": [
+            "ie/8..latest",
+            "chrome/20..latest",
+            "firefox/14..latest",
+            "safari/latest",
+            "iphone/6",
+            "ipad/6"
+        ]
+    },
+    "author": "Doug Martin",
+    "license": "MIT",
+    "dependencies": {
+        "extended": "~0.0.3",
+        "is-extended": "~0.0.8"
+    },
+    "devDependencies": {
+        "it": "~0.2.0",
+        "grunt-it": "~0.3.0",
+        "grunt": "~0.4.1",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-contrib-jshint": "~0.3.0"
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "main": "main.js",
+  "map": {
+    "./main.js": {
+      "node": "@node/os",
+      "browser": "./browser.js"
+    }
+  },
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

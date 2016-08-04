@@ -1,0 +1,8 @@
+{
+  "main": "./fs.js",
+  "map": {
+    "./fs.js": {
+      "node": "@node/fs"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+    "name": "is-extended",
+    "version": "0.0.10",
+    "description": "Module for type detection",
+    "main": "index.js",
+    "scripts": {
+        "test": "it -r dotmatrix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:doug-martin/is-extended.git"
+    },
+    "keywords": [
+        "type",
+        "is",
+        "detection",
+        "instanceof"
+    ],
+    "testling": {
+        "files": "test/browserling.js",
+        "browsers": [
+            "ie/6..latest",
+            "chrome/20..latest",
+            "firefox/14..latest",
+            "safari/latest",
+            "iphone/6",
+            "ipad/6"
+        ]
+    },
+    "author": "Doug Martin",
+    "license": "MIT",
+    "dependencies": {
+        "extended": "~0.0.3"
+    },
+    "devDependencies": {
+        "it": "~0.2.0",
+        "grunt-it": "~0.3.0",
+        "grunt": "~0.4.1",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-contrib-jshint": "~0.3.0"
+    }
+}

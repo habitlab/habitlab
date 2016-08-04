@@ -1,0 +1,24 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/formatter/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js",
+    "./lib/formatter": "./lib/formatter/index.js",
+    "./lib/parser": "./lib/parser/index.js"
+  }
+}

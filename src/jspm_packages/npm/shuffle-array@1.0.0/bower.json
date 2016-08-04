@@ -1,0 +1,23 @@
+{
+  "name": "shuffle-array",
+   "main": "dist/shuffle-array.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/pazguille/shuffle-array",
+  "description": "Randomize the order of the elements in a given array.",
+  "keywords": [
+    "random",
+    "shuffle",
+    "array"
+  ],
+  "authors": [
+    "Guille Paz <guille87paz@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "percipio",
+  "version": "0.1.2",
+  "description": "Easy Data science (Machine learning) in JavaScript & Node (Including Bandits & Naive Bayes)",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha --harmony -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naughtyspirit/percipio"
+  },
+  "keywords": [
+    "machine",
+    "learning",
+    "cross",
+    "validation",
+    "data",
+    "science",
+    "predictive",
+    "analytics",
+    "statistics",
+    "stats",
+    "math",
+    "mathematics",
+    "classification",
+    "neighbours",
+    "online",
+    "learning",
+    "bayes",
+    "bandit",
+    "naive"
+  ],
+  "author": "NaughtySpirit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naughtyspirit/percipio/issues"
+  },
+  "homepage": "https://github.com/naughtyspirit/percipio",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "co-mocha": "^1.1.0",
+    "mocha": "^2.1.0"
+  },
+  "dependencies": {
+    "fast-csv": "^0.5.5",
+    "underscore": "^1.7.0"
+  }
+}

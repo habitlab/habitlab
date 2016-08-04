@@ -1,0 +1,43 @@
+{
+    "name": "extender",
+    "version": "0.0.10",
+    "description": "Easily create object decorators!",
+    "main": "index.js",
+    "scripts": {
+        "test": "it -r dotmatrix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:doug-martin/extender.git"
+    },
+    "keywords": [
+        "decorator",
+        "extend",
+        "extender",
+        "chain",
+        "wrap"
+    ],
+    "author": "Doug Martin (blog.dougamartin.com)",
+    "license": "MIT",
+    "testling": {
+        "files": "test/browserling.js",
+        "browsers": [
+            "ie/8..latest",
+            "chrome/20..latest",
+            "firefox/14..latest",
+            "safari/latest",
+            "iphone/6",
+            "ipad/6"
+        ]
+    },
+    "dependencies": {
+        "declare.js": "~0.0.4"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "it": "~0.2.0",
+        "grunt-it": "~0.3.0",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-contrib-jshint": "~0.4.3"
+    }
+}

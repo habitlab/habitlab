@@ -1,0 +1,8 @@
+{
+  "main": "assert.js",
+  "map": {
+    "./assert.js": {
+      "node": "@node/assert"
+    }
+  }
+}

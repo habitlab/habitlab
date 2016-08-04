@@ -1,0 +1,43 @@
+{
+  "name": "object-extended",
+  "version": "0.0.7",
+  "description": "Additional object extensions with a chainable api",
+  "main": "index.js",
+  "scripts": {
+    "test": "it -r dot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git:git@github.com:doug-martin/object-extended.git"
+  },
+  "keywords": [
+    "Object",
+    "extender",
+    "utilities"
+  ],
+  "testling": {
+    "files": "test/browserling.js",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/20..latest",
+      "firefox/14..latest",
+      "safari/latest",
+      "iphone/6",
+      "ipad/6"
+    ]
+  },
+  "author": "Doug Martin",
+  "license": "MIT",
+  "dependencies": {
+    "extended": "~0.0.3",
+    "is-extended": "~0.0.3",
+    "array-extended": "~0.0.4"
+  },
+  "devDependencies": {
+    "it": "~0.2.0",
+    "grunt-it": "~0.3.1",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.4.0"
+  }
+}

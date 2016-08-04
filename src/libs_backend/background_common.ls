@@ -19,7 +19,8 @@ chrome_tabs_sendmessage = yfy (tab_id, data, options, callback) ->
     callback(result)
     return true
 
-chrome_tabs_query = yfy(chrome.tabs.query)
+if chrome?tabs?query?
+  chrome_tabs_query = yfy(chrome.tabs.query)
 
 cached_user_id = null
 

@@ -26,8 +26,8 @@ describe 'libs_backend/multi_armed_bandit', ->
     multi_armed_bandit := null
     sandbox := null
   describe 'generic tests', ->
-    specify 'train_multi_armed_bandit should return a predictor', ->
-      predictor = multi_armed_bandit.train_multi_armed_bandit [
+    specify 'train_multi_armed_bandit_for_data should return a predictor', ->
+      predictor = multi_armed_bandit.train_multi_armed_bandit_for_data [
         {intervention: 'a', reward: 1}
         {intervention: 'b', reward: 0}
       ], [
@@ -35,9 +35,8 @@ describe 'libs_backend/multi_armed_bandit', ->
         'b'
       ]
       predictor.predict.should.be.a 'function'
-
-    specify 'get_next_intervention_to_test should return an intervention', ->
-      next_intervention = multi_armed_bandit.get_next_intervention_to_test [
+    specify 'get_next_intervention_to_test_for_data should return an intervention', ->
+      next_intervention = multi_armed_bandit.get_next_intervention_to_test_for_data [
         {intervention: 'a', reward: 1}
         {intervention: 'b', reward: 0}
       ], [
@@ -46,19 +45,19 @@ describe 'libs_backend/multi_armed_bandit', ->
       ]
       next_intervention.should.be.oneOf ['a', 'b']
 
-    specify 'get_next_intervention_to_test should return best intervention once trained', ->
+    specify 'get_next_intervention_to_test_for_data should return best intervention once trained', ->
       training_data = [{intervention: 'a', reward: 1} for i from 0 til 100]
       training_data = training_data.concat [{intervention: 'b', reward: 0} for i from 0 til 100]
-      next_intervention = multi_armed_bandit.get_next_intervention_to_test training_data, [
+      next_intervention = multi_armed_bandit.get_next_intervention_to_test_for_data training_data, [
         'a'
         'b'
       ]
       next_intervention.should.equal 'a'
 
-    specify 'get_next_intervention_to_test should return best intervention once trained with noise', ->
+    specify 'get_next_intervention_to_test_for_data should return best intervention once trained with noise', ->
       training_data = [{intervention: 'a', reward: Math.random()*0.7} for i from 0 til 100]
       training_data = training_data.concat [{intervention: 'b', reward: 0.3 + Math.random()*0.7} for i from 0 til 100]
-      next_intervention = multi_armed_bandit.get_next_intervention_to_test training_data, [
+      next_intervention = multi_armed_bandit.get_next_intervention_to_test_for_data training_data, [
         'a'
         'b'
       ]

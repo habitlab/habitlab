@@ -76,9 +76,9 @@ export one_intervention_per_goal_multi_armed_bandit = cfy ->*
     available_interventions = [intervention for intervention in interventions when not manually_disabled_interventions[intervention]]
     if available_interventions.length == 0
       continue
-    selected_intervention = multi_armed_bandit.get_next_intervention_to_test_for_goal(goal_name, available_interventions)
-    output.push intervention
-    output_set[intervention] = true
+    selected_intervention = yield multi_armed_bandit.get_next_intervention_to_test_for_goal(goal_name, available_interventions)
+    output.push selected_intervention
+    output_set[selected_intervention] = true
   return prelude.sort(output)
 
 selection_algorithms = {

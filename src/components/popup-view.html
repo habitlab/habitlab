@@ -56,12 +56,6 @@
 
         <h4 class="title">Interventions Currently Active On This Page: </h4>
 
-        <template is="dom-if" if="{{isEmpty()}}">
-          <div class="interventionContainer" id="enabledInterventions">
-            <h4>None</h4>
-          </div>
-        </template>
-
         <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
           <div class="interventionContainer" id="enabledInterventions">
             <h4>{{intervention}}</h4>
@@ -80,11 +74,29 @@
           </div>
         </template>
 
+        <template is="dom-if" if="{{isEmpty()}}">
+          <div class="interventionContainer" id="enabledInterventions">
+            <h4>None</h4>
+          </div>
+        </template>        
+
         <h4 class="title">Usage Statistics:</h4>
         <chart-doughnut data="[[donutdata]]" style="width: 500px"></chart-doughnut>         
 
         <paper-button raised id="resultsButton">More Statistics</paper-button>
         <paper-button raised id="goalsButton">Options</paper-button>
+        <paper-button raised id="feedbackButton">Submit Feedback</paper-button>
+
+        <div style="display:none;" class="feedbackform">
+          <form action="URL to form script" method="POST">
+            
+            <h4 style="padding-top:1em;">Submit Feedback:</h4> 
+            <br>
+            <textarea name="comments" rows="15" cols="50"></textarea><br><br>
+            <input type="Submit" value="Submit">
+          </form>  
+        </div>
+
       </div>
 
       <!--

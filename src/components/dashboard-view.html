@@ -48,11 +48,6 @@
 
     <div class="container">
       <div class="title">HabitLab Analytics</div>
-
-      <div class="description">Which badges have I earned?</div>
-      <badges-view></badges-view>
-
-      <hr>
     
       <div class="description">How much time did I save due to my interventions?</div>
       <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 1000px"></chart-horizontal-bar>
@@ -79,6 +74,11 @@
           <chart-horizontal-bar data="[[goalOverviewData]]" options="[[goalOverviewOptions]]" style="width: 500px"></chart-horizontal-bar>
         </div>        
       </iron-pages>
+
+      <hr>
+
+      <div class="description">Which badges have I earned?</div>
+      <badges-view></badges-view>
 
       <hr>
 

@@ -17,9 +17,7 @@ polymer_ext({
   ready: function() {
     const self = this;
     once_available('#badges_display', function() {
-      console.log('repaint is being called')
       self.repaint();
-      console.log('done calling repaint')
     })
   },
   repaint: function() {
@@ -63,17 +61,17 @@ polymer_ext({
         ],
       }, 
       {
-        "name": "2.1",
+        "name": "Seen 5 Interventions",
         "img": chrome.extension.getURL(""),
         "filled": false,
         "children": [
           {
-            "name": "2.2",
+            "name": "Seen 10 Interventions",
             "img": chrome.extension.getURL(""),
             "filled": false,
             "children": [
               {
-              "name": "2.3",
+              "name": "Seen 20 Interventions",
               "img": chrome.extension.getURL(""),
               "filled": false,
               }
@@ -82,17 +80,17 @@ polymer_ext({
         ],
       },    
       {
-        "name": "3.1",
+        "name": "Referred 1 Friend",
         "img": chrome.extension.getURL(""),
         "filled": false,
         "children": [
           {
-            "name": "3.2",
+            "name": "Referred 3 Friends",
             "img": chrome.extension.getURL(""),
             "filled": false,
             "children": [
               {
-              "name": "3.3",
+              "name": "Referred 10 Friends",
               "img": chrome.extension.getURL(""),
               "filled": false,
               }

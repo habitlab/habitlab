@@ -69,14 +69,8 @@ polymer_ext {
     enabledInterventions <- list_enabled_interventions_for_location(url)
     self.enabledInterventions = enabledInterventions
 
-  isEmpty: ->
-    url <- get_active_tab_url()
-    #domain = url_to_domain(url)
-    enabledInterventions <- list_enabled_interventions_for_location(url)
-    if enabledInterventions.length > 0
-      return false
-    else
-      return true
+  isEmpty: (enabledInterventions) ->
+    return enabledInterventions? and enabledInterventions.length == 0
 
   submitFeedback: cfy ->*
     if this.feedbackText.length > 0

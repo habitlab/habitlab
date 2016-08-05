@@ -7,16 +7,24 @@
 <link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
-
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
 
 <dom-module id="popup-view">
-  <style>
+  <style is="custom-style">
     :host {
       display: block;
       width: 100%;
       height: 100%;
+      
+      --paper-card: {
+        margin-top: 10px;
+        
+        display: block;
+        padding: 0 5px 5px 5px;
+      };
+      
     }
 
     .box {
@@ -42,16 +50,31 @@
       padding-top: 0.3em;
       padding-bottom: 0.3em;
       padding-left: 0.3em;
-      border: 1px solid black;
+      
       font-family: 'Open Sans', sans-serif;
       margin: 0.3em;
       margin-top: 0.5em;
+
+    }
+    
+    .feedbackcontents {
+      margin: 5px;
+
+    }
+
+    .paperbuttons {
+      --paper-button: {
+        color: white;
+      };
     }
 
   </style>
+
   <template>
     <div>
+
       <div class="box">
+        <paper-card>
         <div class="interventioninfo">
           <h4 class="title">Interventions Currently Active On This Page: </h4>
 
@@ -73,29 +96,35 @@
             </div>
           </template>
 
-          <template is="dom-if" if="{{isEmpty()}}">
+          <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
             <div class="interventionContainer" id="enabledInterventions">
               <h4>None</h4>
             </div>
           </template>        
-        </div>
-        <br>
-        <paper-button raised id="resultsButton">More Statistics</paper-button>
-        <paper-button raised id="goalsButton">Options</paper-button>
-        <paper-button raised id="feedbackButton">Submit Feedback</paper-button>
 
-        <div style="display:none;" class="feedbackform">
+        </div>
+        </paper-card>
+        <br>
+        <paper-button class="paperbuttons" raised id="resultsButton">More Statistics</paper-button>
+        <paper-button class="paperbuttons" raised id="goalsButton">Options</paper-button>
+        <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button>
+
+        <paper-card style="display:none;" class="feedbackform">
+        <div class="feedbackcontents">
             
             <paper-textarea id="feedback" cols="40" label="enter your thoughts here!" value="{{feedbackText}}"></paper-textarea>
             <br>
             <paper-button raised on-click="submitFeedback">Submit</paper-button>
             
         </div>
+        </paper-card>
         <br>
+        <paper-card>
         <div class="chartelement">
           <h4 class="title">Usage Statistics:</h4>
           <chart-doughnut data="[[donutdata]]" style="width: 500px"></chart-doughnut>         
         </div>
+        </paper-card>
         
 
       </div>

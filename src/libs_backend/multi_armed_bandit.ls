@@ -34,16 +34,19 @@ export train_multi_armed_bandit_for_data = (data_list, intervention_names) ->
   # data_list: a list of {intervention, day, reward}
   # returns: an instance of percipio.bandits.Predictor
   bandit_arms = []
+  bandit_arms_dict = {}
   intervention_name_to_arm = {}
   for intervention_name,idx in intervention_names
     arm = bandits.createArm(idx, intervention_name)
     bandit_arms.push arm
+    bandit_arms_dict[intervention_name] = arm
     intervention_name_to_arm[intervention_name] = arm
   predictor = bandits.Predictor(bandit_arms)
   for {intervention, reward} in data_list
     arm = intervention_name_to_arm[intervention]
     predictor.learn arm, reward
-  predictor.arms = bandit_arms
+  predictor.arms_list = bandit_arms
+  predictor.arms = bandit_arms_dict
   return predictor
 
 export get_next_intervention_to_test_for_data = (data_list, intervention_names) ->

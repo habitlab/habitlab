@@ -1,0 +1,104 @@
+<!--
+@license
+Copyright (C) 2016, Iftach Sadeh <iftach.sadeh@desy.de>
+The MIT License (MIT)
+See the file LICENSE.txt for further details.
+--><html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-slider/paper-slider.html">
+
+<!--
+# paper-range-slider
+
+`paper-range-slider` allows user to select a range of values within a given
+(possibly wider) range, by moving the position of two knobs, or by moving the
+position of the distance spanned between the two knobs.
+
+## Examples:
+
+Basic use:
+```html
+<paper-range-slider></paper-range-slider>
+```
+
+See README.md for further details.
+
+@element paper-range-slider
+@demo demo/index.html
+-->
+
+</head><body><dom-module id="paper-range-slider">
+    <template>
+        <style>
+            /* local styles go here */
+            :host {
+              min-width: 100px;
+              display: inline-block;
+
+              @apply(--layout);
+              @apply(--layout-justified);
+              @apply(--layout-center);
+
+              --paper-range-slider-lower-color:             var(--paper-grey-400);
+              --paper-range-slider-active-color:            var(--google-blue-700);
+              --paper-range-slider-higher-color:            var(--paper-grey-400);
+              --paper-range-slider-knob-color:              var(--google-blue-700);
+              --paper-range-slider-pin-color:               var(--google-blue-700);
+              --paper-range-slider-pin-start-color:         var(--paper-grey-400);
+              --paper-range-slider-knob-start-color:        transparent;
+              --paper-range-slider-knob-start-border-color: var(--paper-grey-400);
+            }
+
+            #sliderOuterDiv {
+                @apply(--layout-horizontal);
+            }
+            #sliderMax {
+                --paper-slider-bar-color:               transparent;
+                --paper-slider-knob-color:              var(--paper-range-slider-knob-color);
+                --paper-slider-pin-color:               var(--paper-range-slider-pin-color);
+                --paper-slider-active-color:            var(--paper-range-slider-active-color);
+                --paper-slider-secondary-color:         var(--paper-range-slider-higher-color);
+                --paper-slider-pin-start-color:         var(--paper-range-slider-pin-start-color);
+                --paper-slider-knob-start-color:        var(--paper-range-slider-knob-start-color);
+                --paper-slider-knob-start-border-color: var(--paper-range-slider-knob-start-border-color);
+            }
+            #sliderMin {
+                --paper-slider-active-color:            var(--paper-range-slider-lower-color);
+                --paper-slider-secondary-color:         transparent;
+                --paper-slider-knob-color:              var(--paper-range-slider-knob-color);
+                --paper-slider-pin-color:               var(--paper-range-slider-pin-color);
+                --paper-slider-pin-start-color:         var(--paper-range-slider-pin-start-color);
+                --paper-slider-knob-start-color:        var(--paper-range-slider-knob-start-color);
+                --paper-slider-knob-start-border-color: var(--paper-range-slider-knob-start-border-color);
+            }
+        </style>
+
+        <!-- <div id="sliderOuterDiv">
+            <paper-slider id='sliderMax' on-down="_sliderMaxDown" on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMax]]" secondary-progress='[[max]]'></paper-slider>
+            <paper-slider id='sliderMin' on-down="_sliderMinDown" on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMin]]"> </paper-slider>
+            <div id='diffDiv' on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd"></div>
+        </div> -->
+
+        <div style="position:relative; width:100%;" id="sliderOuterDiv">
+            <!-- for debugging, add: to style the following: "border: 1px solid red" -->
+            <div id="diffDiv" on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd" style="position:absolute; width:100%; display:block; top:0px;">
+              <!-- must have this in order to force width/height -->
+              <div id="diffDivInner" style="line-height:200%;"><br></div>
+          </div>
+
+          <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
+            <paper-slider id="sliderMax" on-down="_sliderMaxDown" on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMax]]" secondary-progress="[[max]]" style="width:100%;"></paper-slider>
+          </div>
+
+          <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
+            <paper-slider id="sliderMin" on-down="_sliderMinDown" on-up="_sliderMinUp" noink="" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMin]]" style="width:100%;"> </paper-slider>
+          </div>
+          <!-- now add one real line -->
+          <div id="diffDivInner" style="line-height:100%;"><br></div>
+        </div>
+
+    </template>
+
+    <script src="paper-range-slider-0.js"></script>
+</dom-module>
+
+</body></html>

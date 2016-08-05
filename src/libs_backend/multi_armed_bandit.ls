@@ -43,6 +43,7 @@ export train_multi_armed_bandit_for_data = (data_list, intervention_names) ->
   for {intervention, reward} in data_list
     arm = intervention_name_to_arm[intervention]
     predictor.learn arm, reward
+  predictor.arms = bandit_arms
   return predictor
 
 export get_next_intervention_to_test_for_data = (data_list, intervention_names) ->

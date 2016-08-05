@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="multi-armed-bandit-debug">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+
+    <template is="dom-repeat" items="{{rewards_info}}" as="reward_info">
+      <div>
+        <h3>{{reward_info.intervention}}</h3>
+        <div>average score: <span>{{reward_info.average_score}}</span></div>
+        <div>number of trials: </span>{{reward_info.num_trials}}</span></div>
+      </div>
+    </template>
+
+    <br><br>
+    <paper-button on-click="choose_intervention">Simulate choosing a new intervention</paper-button>
+    <div>Chosen intervention: <span>{{chosen_intervention}}</span></div>
+
+  </template>
+  <script src="multi-armed-bandit-debug.js"></script>
+</dom-module>

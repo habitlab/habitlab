@@ -4,6 +4,7 @@
 
 require! {
   prelude
+  moment
 }
 
 {
@@ -52,6 +53,14 @@ polymer_ext {
       computed: "compute_average_regret(total_regret, total_rounds_played)"
     }
   }
+  get_lower_range_time: (intervention_name, intervention_score_ranges) ->
+    lower_range = intervention_score_ranges[intervention_name].min
+    seconds = 3600 * Math.atanh(1 - lower_range)
+    return moment.utc(1000*seconds).format('HH:mm:ss')
+  get_upper_range_time: (intervention_name, intervention_score_ranges) ->
+    upper_range = intervention_score_ranges[intervention_name].max
+    seconds = 3600 * Math.atanh(1 - upper_range)
+    return moment.utc(1000*seconds).format('HH:mm:ss')
   compute_average_regret: (total_regret, total_rounds_played) ->
     return total_regret / total_rounds_played
   goal_changed: cfy ->*

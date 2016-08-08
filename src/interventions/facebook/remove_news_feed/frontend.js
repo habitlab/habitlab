@@ -71,14 +71,17 @@ var intervalID;
 
 log_impression(intervention.name)
 var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed" style="text-align: center; margin: 0 auto; position: relative;"></habitlab-logo>')
-var cheatButton = $('<center><paper-button style="background-color:white; margin-top: 35px" raised>Show My News Feed This One Time</paper-button></center>')
-cheatButton.click(function() {
+var centerDiv = $('<center id=centerdiv></center>')
+var cheatButton = $('<paper-button style="background-color:white; text-align: center; margin: 0 auto; position: relative;" raised>Show My News Feed This One Time</paper-button>')
+cheatButton.click(function(evt) {
+  console.log(evt.currentTarget)
   log_action(intervention.name, {'negative': 'Remained on Facebook.'})
   showFeed(intervalID)
 })
 
 $('#contentArea').append(habitlab_logo)
-$('#contentArea').append(cheatButton)
+$('#contentArea').append(centerDiv)
+$('#centerdiv').append(cheatButton)
 intervalID = window.setInterval(removeFeed, 200);
 
 })()

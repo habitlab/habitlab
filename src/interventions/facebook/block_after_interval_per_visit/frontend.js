@@ -121,7 +121,11 @@ function addEndDialog(message) {
               'position': 'absolute',
               'top': '50%',
               'left': '50%',
-              'transform': 'translateX(-50%) translateY(-50%)'
+              'transform': 'translateX(-50%) translateY(-50%)',
+              'display': 'flex',
+              'align-items': 'center',
+              'justify-content': 'center',
+              'flex-direction': 'column'
   }); 
 
   //Time up message displayed to user

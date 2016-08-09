@@ -12,6 +12,8 @@ require! {
   get_next_intervention_to_test_for_goal
 } = require 'libs_backend/multi_armed_bandit'
 
+intervention_utils = require 'libs_common/intervention_utils'
+
 polymer_ext {
   is: 'multi-armed-bandit-debug'
   properties: {
@@ -52,6 +54,10 @@ polymer_ext {
       type: Number
       computed: "compute_average_regret(total_regret, total_rounds_played)"
     }
+    simulations_disabled: {
+      type: Object
+      value: {}
+    }
   }
   get_lower_range_time: (intervention_name, intervention_score_ranges) ->
     lower_range = intervention_score_ranges[intervention_name].min
@@ -63,12 +69,26 @@ polymer_ext {
     return moment.utc(1000*seconds).format('HH:mm:ss')
   compute_average_regret: (total_regret, total_rounds_played) ->
     return total_regret / total_rounds_played
+  retrain_multi_armed_bandit: cfy ->*
+    goal_name = this.goal
+    intervention_names = yield intervention_utils.list_available_interventions_for_goal(goal_name)
+    intervention_names = [x for x in intervention_names when this.simulations_disabled[x] != true]
+    this.multi_armed_bandit = yield train_multi_armed_bandit_for_goal(goal_name, intervention_names)
+    this.update_rewards_info()
   goal_changed: cfy ->*
     goal_name = this.goal
     console.log "new goal is #{goal_name}"
-    this.multi_armed_bandit = yield train_multi_armed_bandit_for_goal(goal_name)
-    console.log this.multi_armed_bandit
-    this.update_rewards_info()
+    #this.multi_armed_bandit = null
+    yield this.retrain_multi_armed_bandit()
+  disable_intervention_in_simulation: cfy (evt) ->*
+    intervention = evt.target.intervention
+    this.simulations_disabled[evt.target.intervention] = !evt.target.checked
+    this.multi_armed_bandit = null
+    this.total_rounds_played = 0
+    this.total_regret = 0
+    yield this.retrain_multi_armed_bandit()
+  is_simulation_enabled: (intervention, simulations_disabled) ->
+     return simulations_disabled[intervention] != true
   update_rewards_info: ->
     new_rewards_info = []
     for arm in this.multi_armed_bandit.arms_list
@@ -112,6 +132,10 @@ polymer_ext {
   choose_intervention: cfy ->*
     console.log 'choose intervention button clicked'
     goal_name = this.goal
+    if not this.multi_armed_bandit?
+      this.total_rounds_played = 0
+      this.total_regret = 0
+      yield this.retrain_multi_armed_bandit()
     arm = this.multi_armed_bandit.predict()
     intervention = arm.reward
     score_range = this.intervention_score_ranges[intervention]

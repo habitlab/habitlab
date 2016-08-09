@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <title>paper-time-picker Demo</title>
+  
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../paper-time-picker.html">
+  <link rel="import" href="../../paper-styles/demo-pages.html">
+  <link rel="import" href="../../paper-dialog/paper-dialog.html">
+  <link rel="import" href="../../paper-button/paper-button.html">
+
+  <style is="custom-style" include="paper-time-picker-dialog-style">
+    section {
+      margin: 24px;
+    }
+  </style>
+</head>
+<body unresolved>
+  <template is="dom-bind" id="scope">
+    <section>
+      <h1>{{time}}</h1>
+      <paper-button class="btn" on-tap="showDialog" raised>Change Time</paper-button>
+      <paper-dialog id="dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismissDialog">
+        <paper-time-picker id="picker" time="[[time]]"></paper-time-picker>
+        <div class="buttons">
+          <paper-button dialog-dismiss>CANCEL</paper-button>
+          <paper-button dialog-confirm>OK</paper-button>
+        </div>
+      </paper-dialog>
+    </section>
+  </template>
+  <script>
+    (function() {
+      var scope = document.querySelector('#scope');
+      scope.dismissDialog = function(event) {
+        if (event.detail.confirmed) {
+          scope.time = scope.$.picker.time;
+        }
+      };
+      scope.showDialog = function() {
+        this.$.dialog.toggle();
+      };
+      document.addEventListener('WebComponentsReady', function() {
+        scope.time = '3:30 PM';
+        scope.showDialog();
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "name": "paper-time-picker",
+  "version": "1.1.2",
+  "description": "Provides a responsive time picker based on the material design spec",
+  "main": "index.html",
+  "devDependencies": {
+    "browser-sync": "^2.8.0",
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-add": "0.0.2",
+    "gulp-bower": "0.0.10",
+    "gulp-bump": "^0.3.1",
+    "gulp-copy": "0.0.2",
+    "gulp-filter": "^2.0.2",
+    "gulp-gh-pages": "^0.5.2",
+    "gulp-git": "^1.2.4",
+    "gulp-tag-version": "^1.3.0",
+    "merge-stream": "^0.1.8",
+    "portfinder": "^0.4.0",
+    "vinyl-paths": "^1.0.0",
+    "web-component-tester": "^3.3.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bendavis78/paper-time-picker.git"
+  },
+  "keywords": [
+    "web-component",
+    "webcomponents",
+    "polymer",
+    "timepicker",
+    "paper-time-picker"
+  ],
+  "author": "Ben Davis <bendavis78@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bendavis78/paper-time-picker/issues"
+  },
+  "homepage": "https://github.com/bendavis78/paper-time-picker#readme"
+}

@@ -95,26 +95,23 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
         color: var(--paper-radio-button-checked-ink-color, --primary-color);
       }
 
-      #offRadio {
+      #offRadio, #onRadio {
         position: absolute;
         box-sizing: border-box;
         top: 0;
         left: 0;
-        right: 0;
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        border: solid 2px;
+      }
+
+      #offRadio {
+        border: 2px solid var(--paper-radio-button-unchecked-color, --primary-text-color);
         background-color: var(--paper-radio-button-unchecked-background-color, transparent);
-        border-color: var(--paper-radio-button-unchecked-color, --primary-text-color);
         transition: border-color 0.28s;
       }
 
       #onRadio {
-        box-sizing: content-box;
-        width: 50%;
-        height: 50%;
-        border-radius: 50%;
         background-color: var(--paper-radio-button-checked-color, --primary-color);
         -webkit-transform: scale(0);
         transform: scale(0);
@@ -128,8 +125,8 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
       }
 
       :host([checked]) #onRadio {
-        -webkit-transform: scale(1);
-        transform: scale(1);
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
       }
 
       #radioLabel {

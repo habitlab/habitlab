@@ -1,0 +1,41 @@
+{
+  "name": "paper-time-picker",
+  "version": "1.1.2",
+  "authors": [
+    "Ben Davis <bendavis78@gmail.com>"
+  ],
+  "description": "Provides a responsive time picker based on the material design spec",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "timepicker",
+    "paper-time-picker"
+  ],
+  "main": "paper-time-picker.html",
+  "license": "MIT",
+  "homepage": "http://bendavis78.github.io/paper-time-picker/",
+  "ignore": [
+    "/.*",
+    "/tests/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "iron-media-query": "PolymerElements/iron-media-query#^1.0.0",
+    "iron-selector": "PolymerElements/iron-selector#^1.0.0",
+    "neon-animation": "PolymerElements/neon-animation#^1.0.0",
+    "iron-resizable": "PolymerElements/iron-resizable-behavior#^1.0.0",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0",
+    "paper-styles": "PolymerElements/paper-styles#^1.0.0",
+    "iron-pages": "PolymerElements/iron-pages#^1.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.0.0",
+    "paper-button": "PolymerElements/paper-button#^1.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.7.2"
+  }
+}

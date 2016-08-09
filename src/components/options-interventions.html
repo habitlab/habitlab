@@ -2,6 +2,10 @@
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
+
 
 <link rel="import" href="intervention-view-single.html">
 
@@ -11,10 +15,12 @@
       display: block;
       width: 100%;
       height: 100%;
+      font-family: 'Roboto', 'Noto', sans-serif;
     }
     
   </style>
   <template>
+    <paper-time-picker time="4:20pm"></paper-time-picker>
     <div style="margin: 10px">
 
       <h2>What goals should HabitLab help you achieve?</h2>
@@ -42,12 +48,20 @@
         <!-- <img src="options-goals.png" style="width: 100%"> -->
         <p style="font-size: 16px">HabitLab smartly manages your interventions by default to maximize their effectiveness. However, you can manually enable/disable interventions below.</p>
 
+        <p style="font-size: 16px; margin-bottom: 0px;">You can set your interventions to be always on, or only active during your selected work hours.</p>
+        <paper-radio-group selected="always">
+          <paper-radio-button name="always">Always On</paper-radio-button>
+          <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
+        </paper-radio-group>
+        
+        <paper-time-picker time="4:20pm"></paper-time-picker>
         <!--
         <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
 
         <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
         <br><br>
         -->
+        
         <template is="dom-if" if="{{show_randomize_button()}}">
           <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
           <br>

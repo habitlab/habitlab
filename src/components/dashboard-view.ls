@@ -146,7 +146,8 @@ polymer_ext {
           backgroundColor: "rgba(27,188,155,0.5)",
           borderColor: "rgba(27,188,155,1)",
           borderWidth: 1,
-          data: intervention_progress
+          data: [Math.round(v*10)/10 for k, v of intervention_progress]
+
         }
       ]
     }

@@ -3,6 +3,7 @@
 <link rel="import" href="habitlab-rss-message.html">
 <link rel="import" href="workpages-message.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
 
 <dom-module id="interstitial-screen">
   <style>
@@ -76,6 +77,7 @@
 
   <template>
     <div class="whiteDiv">
+      
       <template is="dom-if" if="{{randomizer}}">
         <habitlab-rss-message class="message-block"></habitlab-rss-message>
       </template>

@@ -31,6 +31,7 @@ require! {
   add_log_interventions
 } = require 'libs_backend/log_utils'
 
+
 {cfy} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
@@ -45,6 +46,10 @@ polymer_ext {
     sites_and_goals: {
       type: Array
       value: []
+    }, 
+    on_time: {
+      type: String
+      value: '3:30 PM'
     }
   }
   disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
@@ -120,6 +125,8 @@ polymer_ext {
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->
     return goals_and_interventions and goals_and_interventions.length > 0
+  showDialog: ->
+    this.$.dialog.toggle!
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this
@@ -148,4 +155,5 @@ polymer_ext {
         intervention.automatic = (manually_managed_interventions[intervention.name] != true)
       list_of_goals_and_interventions.push current_item
     self.goals_and_interventions = list_of_goals_and_interventions
+
 }

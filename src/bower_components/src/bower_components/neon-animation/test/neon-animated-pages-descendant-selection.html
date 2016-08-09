@@ -1,0 +1,78 @@
+<!DOCTYPE html><!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><html><head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+<script src="../../web-component-tester/browser.js"></script>
+<script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+<link rel="import" href="../../test-fixture/test-fixture.html">
+<link rel="import" href="../../neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../neon-animation/neon-animation-behavior.html">
+<link rel="import" href="../../iron-selector/iron-selector.html">
+
+</head>
+<body>
+
+<test-fixture id="descendant-selection">
+  <template>
+    <neon-animated-pages entry-animation="test-animation" animate-initial-selection="">
+      <iron-selector selected="0" id="selector">
+        <div>1</div>
+        <div id="target">2</div>
+      </iron-selector>
+    </neon-animated-pages>
+  </template>
+</test-fixture>
+
+<test-fixture id="selecting-item">
+  <template>
+    <neon-animated-pages entry-animation="test-animation" animate-initial-selection="">
+      <x-selecting-element></x-selecting-element>
+      <div id="target"></div>
+    </neon-animated-pages>
+  </template>
+</test-fixture>
+
+<dom-module id="x-selecting-element">
+  <template>
+    <iron-selector selected="0" id="selector">
+      <div>1</div>
+      <div id="target">2</div>
+    </iron-selector>
+  </template>
+</dom-module>
+
+<dom-module id="test-element">
+  <template>
+    <neon-animated-pages entry-animation="test-animation" animate-initial-selection="">
+      <content></content>
+    </neon-animated-pages>
+  </template>
+</dom-module>
+
+<script src="neon-animated-pages-descendant-selection-0.js"></script>
+
+<test-fixture id="distributed-children">
+  <template>
+    <test-element>
+      <div>1</div>
+      <div id="target">2</div>
+    </test-element>
+  </template>
+</test-fixture>
+
+<script src="neon-animated-pages-descendant-selection-0.js"></script>
+
+
+
+</body></html>

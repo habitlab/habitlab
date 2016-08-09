@@ -5,7 +5,7 @@
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
-
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 
 <link rel="import" href="intervention-view-single.html">
 
@@ -20,7 +20,6 @@
     
   </style>
   <template>
-    <paper-time-picker time="4:20pm"></paper-time-picker>
     <div style="margin: 10px">
 
       <h2>What goals should HabitLab help you achieve?</h2>
@@ -54,7 +53,17 @@
           <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
         </paper-radio-group>
         
-        <paper-time-picker time="4:20pm"></paper-time-picker>
+        
+          <h1>{{on_time}}</h1>
+          <paper-button class="btn" on-tap="showDialog" raised>Change Time</paper-button>
+          <paper-dialog id="dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismissDialog">
+            <paper-time-picker id="picker" time="[[time]]"></paper-time-picker>
+            <div class="buttons">
+              <paper-button dialog-dismiss>CANCEL</paper-button>
+              <paper-button dialog-confirm>OK</paper-button>
+            </div>
+          </paper-dialog>
+        
         <!--
         <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
 

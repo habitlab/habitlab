@@ -3,7 +3,7 @@
 <link rel="import" href="../iron-resizable/iron-resizable-behavior.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="../neon-animation/neon-animated-pages.html">
 <link rel="import" href="../neon-animation/neon-animatable.html">
 <link rel="import" href="../neon-animation/animations/fade-in-animation.html">
@@ -45,10 +45,6 @@ If you include this element as part of `paper-dialog`, use the class
 @homepage http://bendavis78.github.io/paper-time-picker/
 @demo demo/index.html
 -->
-
-<style is="custom-style" include="paper-time-picker-dialog-style">
-  /* include dialog style at document-level for backward compatibility */
-</style>
 
 </head><body><dom-module id="paper-time-picker">
   <template>
@@ -121,7 +117,7 @@ If you include this element as part of `paper-dialog`, use the class
       /** Heading ********************/
       #heading {
         box-sizing: border-box;
-        color: var(--light-primary-color); 
+        color: var(--light-primary-color);
         background: var(--default-primary-color);
         @apply(--layout-vertical);
         @apply(--layout-center-center);
@@ -163,6 +159,9 @@ If you include this element as part of `paper-dialog`, use the class
       .clock {
         @apply(--layout-fit);
       }
+      .clock-animatable{
+        @apply(--layout-fit);
+      }
     </style>
     <iron-media-query query="{{_getMediaQuery(forceNarrow, responsiveWidth)}}" query-matches="{{_queryMatches}}"></iron-media-query>
     <div id="timePicker">
@@ -179,12 +178,12 @@ If you include this element as part of `paper-dialog`, use the class
       </div>
       <div id="clockArea">
         <div>
-          <neon-animated-pages id="pages" class="fit" attr-for-selected="name" selected="{{view}}" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
-            <neon-animatable class="fit" name="hours">
-              <paper-clock-selector class="clock fit" id="hourClock" count="12" step="1" animated="[[animated]]" selected="{{hour12}}"></paper-clock-selector> 
+          <neon-animated-pages id="pages" class="clock-animatable" attr-for-selected="name" selected="{{view}}" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
+            <neon-animatable class="clock-animatable" name="hours">
+              <paper-clock-selector class="clock" id="hourClock" count="12" step="1" animated="[[animated]]" selected="{{hour12}}"></paper-clock-selector>
             </neon-animatable>
-            <neon-animatable class="fit" name="minutes">
-              <paper-clock-selector class="clock fit" id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero="" zero-pad="" selected="{{minute}}"></paper-clock-selector> 
+            <neon-animatable class="clock-animatable" name="minutes">
+              <paper-clock-selector class="clock" id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero="" zero-pad="" selected="{{minute}}"></paper-clock-selector>
             </neon-animatable>
           </neon-animated-pages>
         </div>

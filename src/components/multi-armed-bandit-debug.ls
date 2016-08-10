@@ -58,7 +58,25 @@ polymer_ext {
       type: Object
       value: {}
     }
+    algorithm: {
+      type: String
+      value: 'thompson'
+    }
   }
+  algorithm_changed: (evt) ->
+    console.log 'algorithm_changed'
+    console.log evt
+    console.log evt.target
+    console.log evt.target.name
+    console.log 'algorithm was'
+    prev_algorithm = this.algorithm
+    console.log prev_algorithm
+    this.algorithm = evt.target.name
+    console.log 'algorithm is now'
+    console.log this.algorithm
+    if this.algorithm == prev_algorithm
+      return
+    # algorithm was changed!
   get_lower_range_time: (intervention_name, intervention_score_ranges) ->
     lower_range = intervention_score_ranges[intervention_name].min
     seconds = 3600 * Math.atanh(1 - lower_range)

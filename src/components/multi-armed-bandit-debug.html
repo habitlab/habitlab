@@ -1,6 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-range-slider/paper-range-slider.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 
 <dom-module id="multi-armed-bandit-debug">
   <style>
@@ -11,6 +13,13 @@
     }
   </style>
   <template>
+
+    <label id="algorithm_selector_label">Algorithm:</label>
+    <paper-radio-group on-change="algorithm_changed" selected="{{algorithm}}" aria-labelledby="algorithm_selector_label">
+      <paper-radio-button name="thompson">Thompson Sampling</paper-radio-button>
+      <paper-radio-button name="epsilon">Epsilon-Greedy</paper-radio-button>
+      <paper-radio-button name="softmax">Softmax (Boltzmann Exploration)</paper-radio-button>
+    </paper-radio-group>
 
     <template is="dom-repeat" items="{{rewards_info}}" as="reward_info">
       <div>

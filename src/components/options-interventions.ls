@@ -14,6 +14,7 @@ require! {
 
 {
   get_and_set_new_enabled_interventions_for_today
+  enable_interventions_because_goal_was_enabled
 } = require 'libs_backend/intervention_manager'
 
 {
@@ -87,6 +88,8 @@ polymer_ext {
     else
       yield set_goal_disabled_manual goal_name
     yield this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
+    if checked
+      yield enable_interventions_because_goal_was_enabled(goal_name)
     console.log 'goal changed'
     self.fire 'goal_changed', {goal_name: goal_name}
   select_new_interventions: (evt) ->

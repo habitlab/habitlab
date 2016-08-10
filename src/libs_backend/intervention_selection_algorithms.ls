@@ -29,8 +29,9 @@ require! {
 
 {cfy} = require 'cfy'
 
-export one_random_intervention_per_enabled_goal = cfy ->*
-  enabled_goals = yield get_enabled_goals()
+export one_random_intervention_per_enabled_goal = cfy (enabled_goals) ->*
+  if not enabled_goals?
+    enabled_goals = yield get_enabled_goals()
   manually_managed_interventions = yield get_manually_managed_interventions()
   goals = yield get_goals()
   output = []
@@ -48,12 +49,13 @@ export one_random_intervention_per_enabled_goal = cfy ->*
       break
   return prelude.sort(output)
 
-export each_intervention_enabled_with_probability_half = cfy ->*
+export each_intervention_enabled_with_probability_half = cfy (enabled_goals) ->*
   interventions = yield list_available_interventions_for_enabled_goals()
   return prelude.sort [x for x in interventions when Math.random() < 0.5]
 
-export one_intervention_per_goal_multi_armed_bandit = cfy ->*
-  enabled_goals = yield get_enabled_goals()
+export one_intervention_per_goal_multi_armed_bandit = cfy (enabled_goals) ->*
+  if not enabled_goals?
+    enabled_goals = yield get_enabled_goals()
   manually_enabled_interventions = yield get_most_recent_manually_enabled_interventions()
   manually_enabled_interventions_list = as_array manually_enabled_interventions
   manually_disabled_interventions = yield get_most_recent_manually_disabled_interventions()

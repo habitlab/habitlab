@@ -122,6 +122,31 @@ export get_enabled_interventions_for_days_since_today = cfy (days_since_today) -
   enabled_interventions = yield get_and_set_new_enabled_interventions_for_today()
   return enabled_interventions
 
+export enable_interventions_because_goal_was_enabled = cfy (goal_name) ->*
+  intervention_selection_algorithm = yield get_intervention_selection_algorithm()
+  enabled_goals_for_selection_algorithm = {}
+  enabled_goals_for_selection_algorithm[goal_name] = true
+  automatically_enabled_interventions_list = yield intervention_selection_algorithm(enabled_goals_for_selection_algorithm)
+  console.log 'automatically_enabled_interventions_list is'
+  console.log automatically_enabled_interventions_list
+  enabled_interventions = yield get_enabled_interventions()
+  prev_enabled_interventions = {} <<< enabled_interventions
+  newly_enabled_interventions = []
+  for intervention_name in automatically_enabled_interventions_list
+    if enabled_interventions[intervention_name]
+      continue
+    newly_enabled_interventions.push intervention_name
+    enabled_interventions[intervention_name] = true
+  yield set_enabled_interventions_for_today_automatic enabled_interventions
+  add_log_interventions {
+    type: 'enable_interventions_because_goal_was_enabled'
+    manual: false
+    goal_enabled: goal_name
+    prev_enabled_interventions: prev_enabled_interventions
+    enabled_interventions: enabled_interventions
+  }
+  return newly_enabled_interventions
+
 intervention_utils = require 'libs_backend/intervention_utils'
 
 gexport_module 'intervention_manager', -> eval(it)

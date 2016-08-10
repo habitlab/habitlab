@@ -48,14 +48,14 @@
         <p style="font-size: 16px">HabitLab smartly manages your interventions by default to maximize their effectiveness. However, you can manually enable/disable interventions below.</p>
 
         <p style="font-size: 16px; margin-bottom: 0px;">You can set your interventions to be always on, or only active during your selected work hours.</p>
-        <paper-radio-group selected="always">
-          <paper-radio-button name="always">Always On</paper-radio-button>
+        <paper-radio-group selected="always" on-change="toggle_timepicker">
+          <paper-radio-button name="always" >Always On</paper-radio-button>
           <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
         </paper-radio-group>
         
-        
+        <div id="timepicker" style="display: none">
           <h1>{{on_time}}</h1>
-          <paper-button class="btn" on-tap="showDialog" raised>Change Time</paper-button>
+          <paper-button class="btn" on-tap="show_dialog" raised>Change Time</paper-button>
           <paper-dialog id="dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismissDialog">
             <paper-time-picker id="picker" time="[[time]]"></paper-time-picker>
             <div class="buttons">
@@ -63,7 +63,7 @@
               <paper-button dialog-confirm>OK</paper-button>
             </div>
           </paper-dialog>
-        
+        </div>
         <!--
         <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
 

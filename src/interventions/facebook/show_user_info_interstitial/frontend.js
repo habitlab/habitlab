@@ -5,8 +5,15 @@
   }
   window.show_user_info_interstitial = true
 
+
+
   require('enable-webcomponents-in-content-scripts')
   
+
+  
+  if (document.querySelector("._1k67") === null)  { //checks if user is logged in 
+    return;
+  }
 
   const $ = require('jquery')
   require('components/interstitial-screen.deps')

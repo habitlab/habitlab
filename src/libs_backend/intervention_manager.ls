@@ -129,7 +129,7 @@ export enable_interventions_because_goal_was_enabled = cfy (goal_name) ->*
   automatically_enabled_interventions_list = yield intervention_selection_algorithm(enabled_goals_for_selection_algorithm)
   console.log 'automatically_enabled_interventions_list is'
   console.log automatically_enabled_interventions_list
-  enabled_interventions = yield get_enabled_interventions()
+  enabled_interventions = yield intervention_utils.get_enabled_interventions()
   prev_enabled_interventions = {} <<< enabled_interventions
   newly_enabled_interventions = []
   for intervention_name in automatically_enabled_interventions_list

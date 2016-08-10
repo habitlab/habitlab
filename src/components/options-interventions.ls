@@ -48,9 +48,13 @@ polymer_ext {
       type: Array
       value: []
     }, 
-    on_time: {
+    start_time: {
       type: String
-      value: '3:30 PM'
+      value: '9:00 AM'
+    },
+    end_time: {
+      type: String
+      value: '5:00 PM'
     },
   }
   disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
@@ -81,7 +85,7 @@ polymer_ext {
       }
   goal_changed: cfy (evt) ->*
     checked = evt.target.checked
-    console.log checked
+    
     goal_name = evt.target.goal.name
     self = this
     if checked
@@ -128,41 +132,32 @@ polymer_ext {
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->
-    console.log 'checked for interventions...'
+    
     return goals_and_interventions and goals_and_interventions.length > 0
-  show_dialog: ->
-    this.$$('#dialog').toggle!
+  show_dialog: (evt) ->
+    console.log evt
+    if evt.target.id == "start-time"
+
+      this.$$('#start-dialog').toggle!
+    else
+      this.$$('#end-dialog').toggle!
   toggle_timepicker: (evt) ->
     if evt.target.checked # if evt.target.checked is true, elem was just changed
 
-      if this.$$('paper-radio-group').selected == 'always' #bizarre error, means that work hours is selected
+      if this.$$('paper-radio-group').selected == 'always' #bizarre error, chooses opposite of currently selected
         this.$$('#timepicker').style.display = "block"
       else
         this.$$('#timepicker').style.display = "none"
+
+
     # if not, it's a double click so you shouldn't do anything
-
-
-
-
-      console.log this.$$('paper-radio-group').selected
-    # console.log document.querySelector('paper-radio-group').selected
-    # console.log evt.target.checked
-    # console.log evt.srcElement.checked
-    //console.log this.radio_button_value
-    
-    
-
-
-    if document.querySelector('paper-radio-group') and (this.radio_button_value == this.$$('paper-radio-group').selected)
-      # 
-      this.$$('#timepicker').style.display = "none"
-      
-    else
-      this.$$('#timepicker').style.display = "block"
-      document.querySelector('#timepicker').visibility = \visible
-    //
-  changed: (evt) ->
-    console.log this.$$('paper-radio-group').selected
+  dismiss_dialog: (evt) ->
+    console.log evt
+    if evt.detail.confirmed
+      if evt.target.id == "start-dialog"
+        this.start_time = this.$$('#start-picker').time
+      else
+        this.end_time = this.$$('#end-picker').time
 
   rerender: cfy ->*
     yield this.set_sites_and_goals()

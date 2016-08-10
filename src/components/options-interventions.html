@@ -17,6 +17,20 @@
       height: 100%;
       font-family: 'Roboto', 'Noto', sans-serif;
     }
+
+    .time-string {
+      font-family: 'Roboto', 'Noto', sans-serif;
+      font-size: 14px;
+    }
+    .timebox {
+      border: 1px solid black;
+      padding: 4px;
+      margin: 3px;
+      cursor: pointer;
+      color: #777777;
+    }
+   
+    
     
   </style>
   <template>
@@ -54,15 +68,29 @@
         </paper-radio-group>
         
         <div id="timepicker" style="display: none">
-          <h1>{{on_time}}</h1>
-          <paper-button class="btn" on-tap="show_dialog" raised>Change Time</paper-button>
-          <paper-dialog id="dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismissDialog">
-            <paper-time-picker id="picker" time="[[time]]"></paper-time-picker>
+          <span class="time-string">Smartly managed interventions active between</span>
+          <span class="time-string timebox" id="start-time" on-tap="show_dialog">{{start_time}}</span>
+          <span class="time-string"> and </span>
+          <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time}}</span>
+
+       
+          <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
+            <paper-time-picker id="start-picker" time="[[start_time]]"></paper-time-picker>
             <div class="buttons">
               <paper-button dialog-dismiss>CANCEL</paper-button>
               <paper-button dialog-confirm>OK</paper-button>
             </div>
           </paper-dialog>
+
+          <paper-dialog id="end-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
+            <paper-time-picker id="end-picker" time="[[end_time]]"></paper-time-picker>
+            <div class="buttons">
+              <paper-button dialog-dismiss>CANCEL</paper-button>
+              <paper-button dialog-confirm>OK</paper-button>
+            </div>
+          </paper-dialog>
+
+
         </div>
         <!--
         <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>

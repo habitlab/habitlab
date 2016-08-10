@@ -47,7 +47,7 @@ polymer_ext {
     sites_and_goals: {
       type: Array
       value: []
-    }, 
+    },
     on_time: {
       type: String
       value: '3:30 PM'

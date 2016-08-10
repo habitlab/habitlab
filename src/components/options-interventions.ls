@@ -47,11 +47,15 @@ polymer_ext {
     sites_and_goals: {
       type: Array
       value: []
-    },
-    on_time: {
+    }, 
+    start_time: {
       type: String
-      value: '3:30 PM'
-    }
+      value: '9:00 AM'
+    },
+    end_time: {
+      type: String
+      value: '5:00 PM'
+    },
   }
   disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
     enabled_goals = yield get_enabled_goals()
@@ -81,6 +85,7 @@ polymer_ext {
       }
   goal_changed: cfy (evt) ->*
     checked = evt.target.checked
+    
     goal_name = evt.target.goal.name
     self = this
     if checked
@@ -128,8 +133,37 @@ polymer_ext {
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->
     return goals_and_interventions and goals_and_interventions.length > 0
-  showDialog: ->
-    this.$.dialog.toggle!
+  show_dialog: (evt) ->
+    if evt.target.id == "start-time"
+      this.$$('#start-dialog').toggle!
+    else
+      this.$$('#end-dialog').toggle!
+  toggle_timepicker: (evt) ->
+    if evt.target.checked # if evt.target.checked is true, elem was just changed
+      if this.$$('paper-radio-group').selected == 'always' #bizarre error, chooses opposite of currently selected
+        this.$$('#timepicker').style.display = "block"
+        localStorage.start_mins_since_midnight = this.start_time
+        localStorage.end_mins_since_midnight = this.end_time
+        localStorage.work_hours_only = true;
+      else
+        this.$$('#timepicker').style.display = "none"
+        localStorage.work_hours_only = false;
+
+      
+    # if not, it's a double click so you shouldn't do anything
+  dismiss_dialog: (evt) ->
+    console.log evt
+    if evt.detail.confirmed and (this.$$('#end-picker').rawValue - this.$$('#start-picker').rawValue > 0)
+      if evt.target.id == "start-dialog"
+        this.start_time = this.$$('#start-picker').time
+      else
+        this.end_time = this.$$('#end-picker').time
+      localStorage.start_mins_since_midnight = this.start_time
+      localStorage.end_mins_since_midnight = this.end_time
+    else
+    this.$$('#start-picker').time = this.start_time
+    this.$$('#end-picker').time = this.end_time
+
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this
@@ -158,5 +192,6 @@ polymer_ext {
         intervention.automatic = (manually_managed_interventions[intervention.name] != true)
       list_of_goals_and_interventions.push current_item
     self.goals_and_interventions = list_of_goals_and_interventions
+    console.log 'rerendered'
 
 }

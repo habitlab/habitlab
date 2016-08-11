@@ -202,6 +202,13 @@ list_loaded_interventions = cfy ->*
   yield send_message_to_active_tab 'list_loaded_interventions', {}
 
 load_intervention_for_location = cfy (location) ->*
+  {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
+  work_hours_only = work_hours_only == 'true'
+  start_mins_since_midnight = parseInt start_mins_since_midnight
+  end_mins_since_midnight = parseInt end_mins_since_midnight
+  mins_since_midnight = moment().hours()*60 + moment().minutes()
+  if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
+    return
   possible_interventions = yield list_enabled_interventions_for_location(location)
   for intervention in possible_interventions
     yield load_intervention intervention

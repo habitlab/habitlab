@@ -58,11 +58,11 @@ polymer_ext {
     },
     start_time_mins: {
       type: Number,
-      value: localStorage.start_mins_since_midnight ? 540
+      value: if localStorage.start_mins_since_midnight then parseInt(localStorage.start_mins_since_midnight) else 540
     },
     end_time_mins: {
       type: Number,
-      value: localStorage.end_mins_since_midnight ? 1020
+      value: if localStorage.end_mins_since_midnight then parseInt(localStorage.end_mins_since_midnight) else 1020
     }
     always_active: {
       type: Boolean

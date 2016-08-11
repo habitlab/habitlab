@@ -96,6 +96,6 @@ export get_intervention_selection_algorithm = cfy ->*
     algorithm_name = 'default'
   return selection_algorithms[algorithm_name]
 
-multi_armed_bandit = require 'libs_backend/multi_armed_bandit'
+multi_armed_bandit = require('libs_backend/multi_armed_bandit').get_multi_armed_bandit_algorithm('thompson')
 
 gexport_module 'intervention_selection_algorithms', -> eval(it)

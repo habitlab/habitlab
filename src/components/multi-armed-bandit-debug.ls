@@ -8,8 +8,7 @@ require! {
 }
 
 {
-  train_multi_armed_bandit_for_goal
-  get_next_intervention_to_test_for_goal
+  get_multi_armed_bandit_algorithm
 } = require 'libs_backend/multi_armed_bandit'
 
 intervention_utils = require 'libs_common/intervention_utils'
@@ -21,6 +20,10 @@ polymer_ext {
       type: String
       value: 'facebook/spend_less_time'
       observer: 'goal_changed'
+    }
+    mab_algorithm: {
+      type: Object
+      computed: 'compute_mab_algorithm(algorithm, algorithm_options)'
     }
     rewards_info: {
       type: Array
@@ -62,21 +65,21 @@ polymer_ext {
       type: String
       value: 'thompson'
     }
+    algorithm_options: {
+      type: Object
+      value: {}
+    }
   }
+  compute_mab_algorithm: (algorithm, algorithm_options) ->
+    return get_multi_armed_bandit_algorithm(algorithm, algorithm_options)
   algorithm_changed: (evt) ->
-    console.log 'algorithm_changed'
-    console.log evt
-    console.log evt.target
-    console.log evt.target.name
-    console.log 'algorithm was'
     prev_algorithm = this.algorithm
-    console.log prev_algorithm
-    this.algorithm = evt.target.name
-    console.log 'algorithm is now'
-    console.log this.algorithm
-    if this.algorithm == prev_algorithm
+    new_algorithm = evt.target.name
+    if prev_algorithm == new_algorithm
       return
     # algorithm was changed!
+    console.log 'algorithm changed to ' + new_algorithm
+    this.algorithm = new_algorithm
   get_lower_range_time: (intervention_name, intervention_score_ranges) ->
     lower_range = intervention_score_ranges[intervention_name].min
     seconds = 3600 * Math.atanh(1 - lower_range)
@@ -91,7 +94,7 @@ polymer_ext {
     goal_name = this.goal
     intervention_names = yield intervention_utils.list_available_interventions_for_goal(goal_name)
     intervention_names = [x for x in intervention_names when this.simulations_disabled[x] != true]
-    this.multi_armed_bandit = yield train_multi_armed_bandit_for_goal(goal_name, intervention_names)
+    this.multi_armed_bandit = yield this.mab_algorithm.train_multi_armed_bandit_for_goal(goal_name, intervention_names)
     this.update_rewards_info()
   goal_changed: cfy ->*
     goal_name = this.goal

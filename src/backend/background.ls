@@ -507,7 +507,7 @@ setInterval ->
   active_tab <- get_active_tab_info()
   if not active_tab?
     return
-  if active_tab.url.startsWith('chrome://') # ignore time spent on extension pages
+  if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
     return
   current_domain = url_to_domain(active_tab.url)
   current_day = get_days_since_epoch()

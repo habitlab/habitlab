@@ -158,11 +158,11 @@ polymer_ext {
         this.start_time = this.$$('#start-picker').time
       else
         this.end_time = this.$$('#end-picker').time
-      localStorage.start_mins_since_midnight = this.start_time
-      localStorage.end_mins_since_midnight = this.end_time
+      localStorage.start_mins_since_midnight = this.$$('#start-picker').rawValue
+      localStorage.end_mins_since_midnight = this.$$('#end-picker').rawValue
     else
-    this.$$('#start-picker').time = this.start_time
-    this.$$('#end-picker').time = this.end_time
+      this.$$('#start-picker').time = this.start_time
+      this.$$('#end-picker').time = this.end_time
 
   rerender: cfy ->*
     yield this.set_sites_and_goals()

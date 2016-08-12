@@ -25,21 +25,21 @@
   secondsLeft--
   interst_screen.attr('title-text', messageString)
   interst_screen[0].hideButton();
+   interst_screen[0].showProgress();
   interst_screen.attr('intervention', intervention.name)
   log_impression(intervention.name)
+  var value_counter = 0;
 
   
   var countdown = setInterval(function() {
-    var messageString = 'Loading...';
-    secondsLeft--
-    interst_screen.attr('title-text', messageString)
-    if (secondsLeft < 0) {
+    interst_screen[0].incrementProgress();
+    value_counter++;
+    if (value_counter >= 100) {
       clearInterval(countdown)
       interst_screen.attr('title-text', 'Facebook is available, if you really want to visit.')
       interst_screen[0].showButton();
-
     }
-  }, 1000)
+  }, 50)
 
   $(document.body).append(interst_screen)
 

@@ -81,6 +81,7 @@ htmlpattern_srcgen = [
 copypattern = [
   'src/**/*.html'
   'src/**/*.png'
+  'src/**/*.svg'
   'src/*.json'
   'src/*.js'
   'src/libs_common/*.js'

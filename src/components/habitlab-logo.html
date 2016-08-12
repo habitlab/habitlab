@@ -14,7 +14,7 @@
 
       width: var(--width);
       height: var(--height);
-      
+
       width: 20px;
       height: 20px;*/
       cursor: pointer;
@@ -30,19 +30,20 @@
     }
 
     #habitlab_button {
-      
+
 
     }
 
   </style>
   <template>
-  <paper-icon-button icon="settings" id="habitlab_button">
-  <!-- <paper-icon-button src="{{get_url()}}" id="habitlab_button"> -->
+  <!--<paper-icon-button icon="settings" id="habitlab_button">-->
+  <!--<paper-icon-button src="{{get_url()}}" id="habitlab_button"></paper-icon-button>-->
+  <img id="habitlab_button" src="{{get_url()}}" alt="icon" />
 
     <!--<img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
     <paper-tooltip for="habitlab_button" id="tooltip">This is a HabitLab intervention.<br>Click for options.</paper-tooltip>-->
 
-  </paper-icon-button>
+  <!--</paper-icon-button>-->
   </template>
   <script src="habitlab-logo.js"></script>
 </dom-module>

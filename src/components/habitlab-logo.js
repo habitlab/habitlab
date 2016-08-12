@@ -8,12 +8,12 @@ const {
 
 const {
   set_intervention_disabled,
-  set_intervention_disabled_permanently,  
+  set_intervention_disabled_permanently,
   set_intervention_enabled
 } = require('libs_common/intervention_utils')
 
 const {
-  open_url_in_new_tab, 
+  open_url_in_new_tab,
   close_selected_tab
 } = require('libs_common/tab_utils')
 
@@ -69,7 +69,7 @@ polymer_ext({
       console.log (`disabled ${self.intervention}`)
       swal("Intervention now permanently disabled!", "Sorry for the inconvenience. Refresh the page, and the intervention will be gone.")
     })
-  },  
+  },
   ready: cfy(function*() {
     const self = this;
 
@@ -96,12 +96,12 @@ polymer_ext({
           "goal": {name: goal, disabled: true},
 //        "disable": {name: "Disable this intervention", callback: () => self.disable_callback()},
           "disableFold": {
-              "name": "Disable intervention", 
+              "name": "Disable intervention",
               items: {
                   "tempDisable": {name: "For the rest of the day", callback: () => self.disable_temp_callback()},
                   "permDisable": {name: "Permamently",  callback: () => self.disable_perm_callback()}
               }
-          },          
+          },
           "options": {name: "View all interventions", callback: () => open_url_in_new_tab("options.html#interventions")}
         }
       });
@@ -109,6 +109,6 @@ polymer_ext({
   }),
 
   get_url: function() {
-    return chrome.extension.getURL('icons/gear.png');
+    return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');
   },
 });

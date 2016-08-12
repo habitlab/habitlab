@@ -165,11 +165,11 @@ export get_baseline_time_on_domains_real = cfy ->*
   # TODO test whether this actually works?
 
 export get_baseline_time_on_domains = cfy ->*
-  #baseline_time_on_domains = localStorage.getItem 'baseline_time_on_domains'
-  #if baseline_time_on_domains?
-  #  return baseline_time_on_domains
+  baseline_time_on_domains = localStorage.getItem 'baseline_time_on_domains'
+  if baseline_time_on_domains?
+    return JSON.parse baseline_time_on_domains
   baseline_time_on_domains = yield get_baseline_time_on_domains_real()
-  #localStorage.setItem 'baseline_time_on_domains', baseline_time_on_domains
+  localStorage.setItem 'baseline_time_on_domains', JSON.stringify(baseline_time_on_domains)
   return baseline_time_on_domains
 
 export get_baseline_time_on_domain = cfy (domain) ->*

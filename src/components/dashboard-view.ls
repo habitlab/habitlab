@@ -42,9 +42,6 @@ require! {
   get_interventions_seen_today
 } = require 'libs_backend/log_utils'
 
-#d3 = require 'd3'
-#Chart = require 'chart.js'
-
 polymer_ext {
   is: 'dashboard-view'
   properties: {
@@ -207,16 +204,7 @@ polymer_ext {
     #MARK: Num Times Interventions Deployed Graph
     #Retrieves all interventions    
     seenInterventions = yield get_interventions_seen_today()
-    #currentlyEnabledKeys = currEnabledInterventions
-    #Filters by whether enabled or not
-    # filtered = currentlyEnabledKeys.filter (key) ->
-    #   return true
 
-    # #Retrieves the number of impressions for each enabled intervention        
-    # errors,all_seen_intervention_results <- async.mapSeries filtered, (item, ncallback) ->
-      
-    #   enabledInterventionResults <- get_num_impressions_today(item)
-    #   ncallback(null, enabledInterventionResults)
     results = []
     for intv in seenInterventions
       results.push yield get_num_impressions_today(intv)
@@ -249,14 +237,13 @@ polymer_ext {
           scaleLabel: {
             display: true,
             labelString: 'Number of Times'
-          },          
+          },
           ticks: {
             beginAtZero: true
           }
         }]
       }
     }
-
 
     #MARK: Donut Graph
     a = yield get_seconds_spent_on_all_domains_today()

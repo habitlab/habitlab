@@ -157,7 +157,6 @@ polymer_ext {
           borderColor: "rgba(27,188,155,1)",
           borderWidth: 1,
           data: [Math.round(v*10)/10 for k, v of intervention_progress]
-
         }
       ]
     }
@@ -173,9 +172,7 @@ polymer_ext {
           }
         }]
       }
-    } 
-    
-
+    }
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

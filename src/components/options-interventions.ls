@@ -190,8 +190,8 @@ polymer_ext {
       this.$$('#start-picker').time = @start_time_string
       this.$$('#end-picker').time = @end_time_string
 
-  determine_selected: ->
-    if this.always_active
+  determine_selected: (always_active) ->
+    if always_active
       return 'always'
     else 
       return 'workday'

@@ -117,7 +117,6 @@ polymer_ext {
   on_goal_changed: (evt) ->
     this.rerender()
   ready: ->
-    
     this.rerender()
   set_sites_and_goals: cfy ->*
     self = this

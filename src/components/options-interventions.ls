@@ -48,14 +48,26 @@ polymer_ext {
       type: Array
       value: []
     }, 
-    start_time: {
+    start_time_string: {
       type: String
-      value: '9:00 AM'
+      value: if localStorage.start_as_string then localStorage.start_as_string else '9:00 AM'
     },
-    end_time: {
+    end_time_string: {
       type: String
-      value: '5:00 PM'
+      value: if localStorage.end_as_string then localStorage.end_as_string else '5:00 PM'
     },
+    start_time_mins: {
+      type: Number,
+      value: if localStorage.start_mins_since_midnight then parseInt(localStorage.start_mins_since_midnight) else 540
+    },
+    end_time_mins: {
+      type: Number,
+      value: if localStorage.end_mins_since_midnight then parseInt(localStorage.end_mins_since_midnight) else 1020
+    }
+    always_active: {
+      type: Boolean
+      value: localStorage.work_hours_only != "true"
+    }
   }
   disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
     enabled_goals = yield get_enabled_goals()
@@ -105,6 +117,7 @@ polymer_ext {
   on_goal_changed: (evt) ->
     this.rerender()
   ready: ->
+    
     this.rerender()
   set_sites_and_goals: cfy ->*
     self = this
@@ -132,38 +145,56 @@ polymer_ext {
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->
+    console.log \check_have_int
     return goals_and_interventions and goals_and_interventions.length > 0
   show_dialog: (evt) ->
-    if evt.target.id == "start-time"
+    if evt.target.id == 'start-time'
       this.$$('#start-dialog').toggle!
     else
       this.$$('#end-dialog').toggle!
   toggle_timepicker: (evt) ->
     if evt.target.checked # if evt.target.checked is true, elem was just changed
-      if this.$$('paper-radio-group').selected == 'always' #bizarre error, chooses opposite of currently selected
-        this.$$('#timepicker').style.display = "block"
-        localStorage.start_mins_since_midnight = this.start_time
-        localStorage.end_mins_since_midnight = this.end_time
+      if this.$$('paper-radio-group').selected == 'always' #bizarre error, means currently selected is work_hours
+        console.log ' just switched to Work Hours'
+        
         localStorage.work_hours_only = true;
+        @always_active = false
+        localStorage.start_mins_since_midnight = @start_time_mins#this.$$('#start-picker').rawValue
+        
+        localStorage.end_mins_since_midnight = @end_time_mins#this.$$('#end-picker').rawValue
+        localStorage.start_as_string = @start_time_string#this.$$('#start-picker').time
+        localStorage.end_as_string = @end_time_string#this.$$('#end-picker').time
       else
-        this.$$('#timepicker').style.display = "none"
+        console.log ' just switched to Always On'
+        
         localStorage.work_hours_only = false;
+        @always_active = true
 
-      
     # if not, it's a double click so you shouldn't do anything
+
+    
   dismiss_dialog: (evt) ->
     console.log evt
     if evt.detail.confirmed and (this.$$('#end-picker').rawValue - this.$$('#start-picker').rawValue > 0)
-      if evt.target.id == "start-dialog"
-        this.start_time = this.$$('#start-picker').time
+      if evt.target.id == 'start-dialog'
+        @start_time_string = this.$$('#start-picker').time
+        @start_time_mins = this.$$('#start-picker').rawValue
+        localStorage.start_mins_since_midnight = @start_time_mins
+        localStorage.start_as_string = @start_time_string
       else
-        this.end_time = this.$$('#end-picker').time
-      localStorage.start_mins_since_midnight = this.$$('#start-picker').rawValue
-      localStorage.end_mins_since_midnight = this.$$('#end-picker').rawValue
-    else
-      this.$$('#start-picker').time = this.start_time
-      this.$$('#end-picker').time = this.end_time
+        @end_time_string = this.$$('#end-picker').time
+        @end_time_mins = this.$$('#end-picker').rawValue
+        localStorage.end_mins_since_midnight = @end_time_mins
+        localStorage.end_as_string = @end_time_string
+    else #reset the time picker time to saved time
+      this.$$('#start-picker').time = @start_time_string
+      this.$$('#end-picker').time = @end_time_string
 
+  determine_selected: ->
+    if this.always_active
+      return 'always'
+    else 
+      return 'workday'
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this

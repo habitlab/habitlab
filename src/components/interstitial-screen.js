@@ -37,7 +37,7 @@ Polymer({
     },
     randomizer: {
       type: Boolean,
-      value: false
+      value: Math.floor(Math.random()*2) == 0
     }
 
   },

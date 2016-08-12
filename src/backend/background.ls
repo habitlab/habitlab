@@ -28,7 +28,7 @@ require 'libs_backend/expose_backend_libs'
 
 {
   get_interventions
-  list_enabled_interventions_for_location
+  list_enabled_nonconflicting_interventions_for_location
   list_available_interventions_for_location
   get_intervention_parameters
 } = require 'libs_backend/intervention_utils'
@@ -209,7 +209,7 @@ load_intervention_for_location = cfy (location) ->*
   mins_since_midnight = moment().hours()*60 + moment().minutes()
   if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
     return
-  possible_interventions = yield list_enabled_interventions_for_location(location)
+  possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
   for intervention in possible_interventions
     yield load_intervention intervention
   return

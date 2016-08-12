@@ -8,6 +8,6 @@ parameters:
   - name: cheatseconds
     description: Seconds to cheat for after time is up
     default: 30
-    type: int    
-category:
+    type: int
+categories:
   - interstitial

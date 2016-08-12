@@ -62,14 +62,14 @@
         <p style="font-size: 16px">HabitLab smartly manages your interventions by default to maximize their effectiveness. However, you can manually enable/disable interventions below.</p>
 
         <p style="font-size: 16px; margin-bottom: 0px;">You can set your interventions to be always on, or only active during your selected work hours.</p>
-        <paper-radio-group selected="{{determine_selected()}}" on-change="toggle_timepicker">
+        <paper-radio-group selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
           <paper-radio-button name="always" >Always On</paper-radio-button>
           <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
         </paper-radio-group>
         
         <template is="dom-if" if="{{!always_active}}">
           <div id="timepicker">
-            <span class="time-string">Smartly managed interventions active between</span>
+            <span class="time-string">Interventions are only active between</span>
             <span class="time-string timebox" id="start-time" on-tap="show_dialog">{{start_time_string}}</span>
             <span class="time-string"> and </span>
             <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time_string}}</span>

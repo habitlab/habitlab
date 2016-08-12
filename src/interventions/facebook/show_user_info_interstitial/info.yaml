@@ -3,5 +3,5 @@ matches:
   - www.facebook.com
 content_scripts:
   - frontend.js
-category:
+categories:
   - interstitial

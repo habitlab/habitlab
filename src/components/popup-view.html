@@ -20,8 +20,8 @@
       height: 100%;
       
       --paper-card: {
-        margin-top: 10px;
         
+        margin-bottom: 10px;
         display: block;
         padding: 0 5px 5px 5px;
       };
@@ -55,9 +55,14 @@
       font-family: 'Open Sans', sans-serif;
       margin: 0.3em;
       margin-top: 0.5em;
+      font-size: 12px;
 
     }
     
+    .interventionName {
+      margin-left: 10px;
+    }
+
     .feedbackcontents {
       margin: 5px;
 
@@ -66,8 +71,15 @@
     .paperbuttons {
       --paper-button: {
         color: white;
+        background-color: white;
+        
       };
+
+      --paper-button .keyboard-focus {
+        font-weight: normal;
+      }
     }
+
 
   </style>
 
@@ -81,7 +93,7 @@
 
           <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
             <div class="interventionContainer" id="enabledInterventions">
-              <h4>{{intervention}}</h4>
+              <span class="interventionName">{{intervention}}</span>
               
               <paper-menu-button vertical-offset="35">
                 <paper-button class="dropdown-trigger" raised>
@@ -105,28 +117,32 @@
 
         </div>
         </paper-card>
-        <br>
-        <paper-button class="paperbuttons" raised id="resultsButton">More Statistics</paper-button>
-        <paper-button class="paperbuttons" raised id="goalsButton">Options</paper-button>
-        <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button>
-
+        
         <paper-card style="display:none;" class="feedbackform">
+        
         <div class="feedbackcontents">
             
             <paper-textarea id="feedback" cols="40" label="enter your thoughts here!" value="{{feedbackText}}"></paper-textarea>
-            <br>
+            
             <paper-button raised on-click="submitFeedback">Submit</paper-button>
             
         </div>
         </paper-card>
-        <br>
+        
         <paper-card>
+
         <div class="chartelement">
           <h4 class="title">Usage Statistics:</h4>
           <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
        
         </div>
         </paper-card>
+        
+        
+        <paper-button class="paperbuttons" raised id="goalsButton">Options</paper-button>
+        <paper-button class="paperbuttons" raised id="resultsButton">More Statistics</paper-button>
+        <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button>
+
         
 
       </div>

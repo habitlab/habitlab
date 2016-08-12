@@ -103,8 +103,13 @@ polymer_ext {
       chrome.tabs.create {url: 'options.html#goals'}
     )
 
-    self.S('#feedbackButton').click(->
-      self.$$('.feedbackform').style.display = "block"
+
+    self.S('#feedbackButton').click( ->
+      console.log \feedback_clicked
+      if self.$$('.feedbackform').style.display == "block"
+        self.$$('.feedbackform').style.display = "none"
+      else
+        self.$$('.feedbackform').style.display = "block"
     )
 
     #MARK: Time saved daily due to interventions Graph  

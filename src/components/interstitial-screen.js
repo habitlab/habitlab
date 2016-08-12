@@ -65,6 +65,12 @@ Polymer({
     this.$.okbutton.style.display = 'none';
     //this.$.closetabbutton.style.display = 'none';
   },
+  showProgress: function() {
+    this.$.paperprogress.style.display = 'block';
+  },
+  incrementProgress: function() {
+    this.$.paperprogress.value += 1;
+  },
   showButton: function() {
     console.log(this.$.okbutton)
     this.$.okbutton.hidden = false

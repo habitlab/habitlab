@@ -21,6 +21,7 @@ const swal = require 'sweetalert2'
 
 {
   get_enabled_interventions
+  get_interventions
   set_intervention_automatically_managed
   set_intervention_manually_managed
   get_intervention_parameters
@@ -28,12 +29,17 @@ const swal = require 'sweetalert2'
   set_intervention_disabled               #for disable functions
   set_intervention_disabled_permanently
   set_intervention_enabled  
+  get_effectiveness_of_intervention_for_goal  
+  get_effectiveness_of_all_interventions_for_goal  
 } = require 'libs_backend/intervention_utils'
 
 {
   get_seconds_spent_on_all_domains_today        # map for all domains
 } = require 'libs_common/time_spent_utils'
 
+{  
+  get_enabled_goals
+} = require 'libs_backend/goal_utils'
 
 const $ = require('jquery')
 
@@ -82,11 +88,11 @@ polymer_ext {
       swal "Thanks for the feedback!", "", "success"
 
 
-  ready: -> 
+  ready: cfy ->*
     self = this
-    url <- get_active_tab_url()
+    url = yield get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions <- list_enabled_interventions_for_location(url)
+    enabledInterventions = yield list_enabled_interventions_for_location(url)
     self.enabledInterventions = enabledInterventions
 
     self.S('#resultsButton').click(->
@@ -97,47 +103,78 @@ polymer_ext {
       chrome.tabs.create {url: 'options.html#goals'}
     )
 
-    self.S('#feedbackButton').click(->
-      self.$$('.feedbackform').style.display = "block"
-      #self.$$('.interventioninfo').style.display = "none"
+
+    self.S('#feedbackButton').click( ->
+      console.log \feedback_clicked
+      if self.$$('.feedbackform').style.display == "block"
+        self.$$('.feedbackform').style.display = "none"
+      else
+        self.$$('.feedbackform').style.display = "block"
     )
-    #MARK: Donut Graph
-    a <~ get_seconds_spent_on_all_domains_today()
-    sorted = bySortedValue(a)
-    #accounts for visiting less than 5 websites
-    if sorted.length < 5 
-      for i from sorted.length to 4
-        sorted.push(["", 0])
-    length = sorted.length
-    
-    self.donutdata = {
-      labels: [
-          sorted[0][0],
-          sorted[1][0],
-          sorted[2][0],
-          sorted[3][0],
-          sorted[4][0]  
-      ],
+
+    #MARK: Time saved daily due to interventions Graph  
+    enabledGoals = yield get_enabled_goals()
+    enabledGoalsKeys = Object.keys(enabledGoals)
+
+    #Retrieves the number of impressions for each enabled intervention        
+    time_saved_on_enabled_goals = []
+    for item in enabledGoalsKeys
+      enabledGoalsResults = yield get_effectiveness_of_all_interventions_for_goal(item)
+      time_saved_on_enabled_goals.push(enabledGoalsResults)
+
+    #Retrieves intervention names and values
+    control = [] #for now, control is the max value 
+    interventions_list = []
+    intervention_progress = []
+    for item in time_saved_on_enabled_goals
+      for key,value of item
+
+        #only push not-empty interventions
+        if !isNaN value.progress
+          intervention_progress.push value.progress
+          interventions_list.push key
+
+          if value.progress > control
+            control = value.progress
+
+    for i from 0 to intervention_progress.length - 1 by 1
+      intervention_progress[i] = control - intervention_progress[i]    
+
+    #Retrieves all intervention descriptions
+    intervention_descriptions = yield get_interventions()
+
+    #Retrieves necessary intervention descriptions
+    intervention_descriptions_final = []
+    for item in interventions_list
+      intervention_descriptions_final.push(intervention_descriptions[item].description)
+
+    self.timeSavedData = {
+      labels: intervention_descriptions_final
       datasets: [
-      {
-          data: [Math.round(10*(sorted[0][1]/60))/10, 
-                Math.round(10*(sorted[1][1]/60))/10,
-                Math.round(10*(sorted[2][1]/60))/10, 
-                Math.round(10*(sorted[3][1]/60))/10, 
-                Math.round(10*(sorted[4][1]/60))/10
-          ],
-          backgroundColor: [
-              "rgba(65,131,215,0.7)", "rgba(27,188,155,0.7)",
-              "rgba(244,208,63,0.7)", "rgba(230,126,34,0.7)",
-              "rgba(239,72,54,0.7)"
-          ],
-          hoverBackgroundColor: [
-              "rgba(65,131,215,1)", "rgba(27,188,155,1)",
-              "rgba(244,208,63,1)", "rgba(230,126,34,1)",
-              "rgba(239,72,54,1)"          
-          ]
-      }]
-    }    
+        {
+          label: "Today",
+          backgroundColor: "rgba(27,188,155,0.5)",
+          borderColor: "rgba(27,188,155,1)",
+          borderWidth: 1,
+          data: [Math.round(v*10)/10 for k, v of intervention_progress]
+
+        }
+      ]
+    }
+    self.timeSavedOptions = {
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Minutes'
+          },                            
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    } 
+    
 
 }, {
   source: require 'libs_frontend/polymer_methods'

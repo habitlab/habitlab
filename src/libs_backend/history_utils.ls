@@ -34,7 +34,7 @@ export get_work_pages_visited_today = cfy ->*
   return productive_pages_list
 
 export get_url_to_visits = cfy (start_time, end_time) ->*
-  pages_list = yield add_noerr -> chrome.history.search {text: '', startTime: start_time, endTime: end_time}, it
+  pages_list = yield add_noerr -> chrome.history.search {text: '', startTime: start_time, endTime: end_time, maxResults: 2**31-1}, it
   url_list = []
   seen_urls = {}
   for page in pages_list
@@ -113,4 +113,48 @@ export get_domain_to_time_spent_days_since_today = cfy (days_since_today) ->*
 
 export get_domain_to_time_spent_today = cfy ->*
   yield get_domain_to_time_spent_days_since_today(0)
+
+export get_domain_to_earliest_visit = cfy ->*
+  url_to_visits = yield get_url_to_visits(0, Date.now())
+  domain_to_earliest_visit = {}
+  for url,visits of url_to_visits
+    domain = url_to_domain url
+    for visit in visits
+      visitTime = visit.visitTime
+      if not domain_to_earliest_visit[domain]?
+        domain_to_earliest_visit[domain] = visitTime
+      else
+        domain_to_earliest_visit[domain] = Math.min(visitTime, domain_to_earliest_visit[domain])
+  return domain_to_earliest_visit
+
+export get_baseline_time_on_domains_real = cfy ->*
+  total_time_spent_on_domains = yield get_domain_to_time_spent(0, Date.now())
+  earliest_visit_to_domains = yield get_domain_to_earliest_visit()
+  baseline_time_on_domains = {}
+  current_time = Date.now()
+  for domain,time_spent of total_time_spent_on_domains
+    earliest_visit = earliest_visit_to_domains[domain]
+    if not earliest_visit?
+      continue
+    num_days = Math.round ((current_time - earliest_visit) / 24*1000*3600)
+    if num_days < 1
+      continue
+    daily_time_spent = time_spent / num_days
+    baseline_time_on_domains[domain] = daily_time_spent
+  return baseline_time_on_domains
+  # TODO test whether this actually works?
+
+export get_baseline_time_on_domains = cfy ->*
+  #baseline_time_on_domains = localStorage.getItem 'baseline_time_on_domains'
+  #if baseline_time_on_domains?
+  #  return baseline_time_on_domains
+  baseline_time_on_domains = yield get_baseline_time_on_domains_real()
+  #localStorage.setItem 'baseline_time_on_domains', baseline_time_on_domains
+  return baseline_time_on_domains
+
+export get_baseline_time_on_domain = cfy (domain) ->*
+  baseline_time_on_domains = yield get_baseline_time_on_domains()
+  if baseline_time_on_domains[domain]?
+    return baseline_time_on_domains[domain]
+  return 0
 

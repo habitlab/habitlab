@@ -42,11 +42,6 @@
         <template is="dom-if" if="{{automatic_and_disabled(automatic, enabled)}}">
           <paper-button style="text-transform: none; display: inline-block; position: relative; background-color: white; border: 1px green solid; color: black; vertical-align: top; margin-top: 25px" on-click="temporarily_enable">Disabled Today</paper-button>
         </template>
-        <!--
-        <template is="dom-if" if="{{intervention_manually_managed(automatic)}}">
-          <div style="display: inline-block; width: 96px"></div>
-        </template>
-        -->
         <div style="font-family: 'Roboto', 'Noto', sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 33px">
           <span>{{intervention.description}}</span>
           <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
@@ -64,11 +59,6 @@
 -->
     </div>
     <div style="margin-left: 210px">
-      <!--
-      <paper-button toggles raised noink class="never_show_button" on-change="never_shown_changed" active="{{never_shown}}">Never show this intervention</paper-button>
-      <paper-button toggles raised noink class="always_show_button" on-change="always_shown_changed" active="{{always_shown}}">Always show this intervention</paper-button>
-      -->
-
       <template is="dom-if" if="{{intervention.enabled_goals.length}}">
         <span>Supports your goals: </span>
         <template is="dom-repeat" items="{{intervention.enabled_goals}}" as="goal">

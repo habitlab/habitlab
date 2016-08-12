@@ -8,5 +8,5 @@ parameters:
     description: Minutes to cheat for after time is up
     default: 1
     type: int
-category:
+categories:
   - interstitial

@@ -125,6 +125,10 @@ export get_interventions = memoizeSingleAsync cfy ->*
       intervention_info.background_scripts = []
     if not intervention_info.parameters?
       intervention_info.parameters = []
+    if not intervention_info.categories?
+      intervention_info.categories = []
+    if not intervention_info.conflicts?
+      intervention_info.conflicts = []
     for parameter in intervention_info.parameters
       fix_intervention_parameter(parameter, intervention_info)
     intervention_info.params = {[x.name, x] for x in intervention_info.parameters}
@@ -134,12 +138,44 @@ export get_interventions = memoizeSingleAsync cfy ->*
     intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
     intervention_info.goals = interventions_to_goals[intervention_name]
     output[intervention_name] = intervention_info
+  category_to_interventions = {}
+  for intervention_name in interventions_list
+    intervention_info = output[intervention_name]
+    for category in intervention_info.categories
+      if not category_to_interventions[category]?
+        category_to_interventions[category] = []
+      category_to_interventions[category].push intervention_name
+  for intervention_name in interventions_list
+    intervention_info = output[intervention_name]
+    for category in intervention_info.categories
+      for conflict in category_to_interventions[category]
+        if conflict == intervention_name
+          continue
+        intervention_info.conflicts.push conflict
   return output
 
 export list_enabled_interventions_for_location = cfy (location) ->*
   available_interventions = yield list_available_interventions_for_location(location)
   enabled_interventions = yield get_enabled_interventions()
   return available_interventions.filter((x) -> enabled_interventions[x])
+
+export list_enabled_nonconflicting_interventions_for_location = cfy (location) ->*
+  available_interventions = yield list_available_interventions_for_location(location)
+  enabled_interventions = yield get_enabled_interventions()
+  all_interventions = yield get_interventions()
+  enabled_interventions_for_location = available_interventions.filter((x) -> enabled_interventions[x])
+  output = []
+  output_set = {}
+  for intervention_name in enabled_interventions_for_location
+    intervention_info = all_interventions[intervention_name]
+    keep_enabled = true
+    for conflict in intervention_info.conflicts
+      if output_set[conflict]?
+        keep_enabled = false
+    if keep_enabled
+      output.push intervention_name
+      output_set[intervention_name] = true
+  return output
 
 export list_available_interventions_for_location = cfy (location) ->*
   all_interventions = yield get_interventions()

@@ -10,6 +10,7 @@
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
+<link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
 
 <dom-module id="popup-view">
   <style is="custom-style">
@@ -127,7 +128,8 @@
 
         <div class="chartelement">
           <h4 class="title">Usage Statistics:</h4>
-          <chart-doughnut data="[[donutdata]]" style="width: 500px"></chart-doughnut>         
+          <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
+       
         </div>
         </paper-card>
         

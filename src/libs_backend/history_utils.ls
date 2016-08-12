@@ -49,8 +49,7 @@ export get_url_to_visits = cfy (start_time, end_time) ->*
     url_to_visits[url] = visits
   return url_to_visits
 
-export get_url_and_visit_time_sorted = cfy (start_time, end_time) ->*
-  url_to_visits = yield get_url_to_visits(start_time, end_time)
+export get_url_and_visit_time_sorted_for_url_to_visits = (url_to_visits, start_time, end_time) ->
   url_and_visit_time = []
   for url,visits of url_to_visits
     for visit in visits
@@ -60,8 +59,11 @@ export get_url_and_visit_time_sorted = cfy (start_time, end_time) ->*
   url_and_visit_time = prelude.sortBy (.visitTime), url_and_visit_time
   return url_and_visit_time
 
-export get_url_to_time_spent = cfy (start_time, end_time) ->*
-  url_and_visit_time = yield get_url_and_visit_time_sorted(start_time, end_time)
+export get_url_and_visit_time_sorted = cfy (start_time, end_time) ->*
+  url_to_visits = yield get_url_to_visits(start_time, end_time)
+  return get_url_and_visit_time_sorted_for_url_to_visits(url_to_visits, start_time, end_time)
+
+export get_url_to_time_spent_for_url_and_visit_time = (url_and_visit_time, start_time, end_time) ->
   url_to_time_spent = {}
   for item,idx in url_and_visit_time
     {visitTime, url} = item
@@ -85,8 +87,16 @@ export get_url_to_time_spent = cfy (start_time, end_time) ->*
       url_to_time_spent[url] += visit_duration
   return url_to_time_spent
 
-export get_domain_to_time_spent = cfy (start_time, end_time) ->*
-  url_to_time_spent = yield get_url_to_time_spent(start_time, end_time)
+export get_url_to_time_spent = cfy (start_time, end_time) ->*
+  url_and_visit_time = yield get_url_and_visit_time_sorted(start_time, end_time)
+  return get_url_to_time_spent_for_url_and_visit_time(url_and_visit_time, start_time, end_time)
+
+export get_domain_to_time_spent_for_url_to_visits = (url_to_visits, start_time, end_time) ->
+  url_and_visit_time = get_url_and_visit_time_sorted_for_url_to_visits(url_to_visits, start_time, end_time)
+  url_to_time_spent = get_url_to_time_spent_for_url_and_visit_time(url_and_visit_time, start_time, end_time)
+  return get_domain_to_time_spent_for_url_to_time_spent(url_to_time_spent)
+
+export get_domain_to_time_spent_for_url_to_time_spent = (url_to_time_spent) ->
   domain_to_time_spent = {}
   for url,time_spent of url_to_time_spent
     if url.startsWith('chrome://') or url.startsWith('chrome-extension://')
@@ -97,6 +107,10 @@ export get_domain_to_time_spent = cfy (start_time, end_time) ->*
     else
       domain_to_time_spent[domain] += time_spent
   return domain_to_time_spent
+
+export get_domain_to_time_spent = cfy (start_time, end_time) ->*
+  url_to_time_spent = yield get_url_to_time_spent(start_time, end_time)
+  return get_domain_to_time_spent_for_url_to_time_spent(url_to_time_spent)
 
 export get_url_to_time_spent_days_since_today = cfy (days_since_today) ->*
   start_time = moment().subtract(days_since_today, 'days').hour(0).minute(0).second(0).valueOf() # milliseconds since unix epoch
@@ -114,8 +128,7 @@ export get_domain_to_time_spent_days_since_today = cfy (days_since_today) ->*
 export get_domain_to_time_spent_today = cfy ->*
   yield get_domain_to_time_spent_days_since_today(0)
 
-export get_domain_to_earliest_visit = cfy ->*
-  url_to_visits = yield get_url_to_visits(0, Date.now())
+export get_domain_to_earliest_visit_for_url_to_visits = (url_to_visits) ->
   domain_to_earliest_visit = {}
   for url,visits of url_to_visits
     domain = url_to_domain url
@@ -127,16 +140,23 @@ export get_domain_to_earliest_visit = cfy ->*
         domain_to_earliest_visit[domain] = Math.min(visitTime, domain_to_earliest_visit[domain])
   return domain_to_earliest_visit
 
+export get_domain_to_earliest_visit = cfy ->*
+  url_to_visits = yield get_url_to_visits(0, Date.now())
+  return get_domain_to_earliest_visit_for_url_to_visits(url_to_visits)
+
 export get_baseline_time_on_domains_real = cfy ->*
-  total_time_spent_on_domains = yield get_domain_to_time_spent(0, Date.now())
-  earliest_visit_to_domains = yield get_domain_to_earliest_visit()
+  url_to_visits = yield get_url_to_visits(0, Date.now())
+  total_time_spent_on_domains = get_domain_to_time_spent_for_url_to_visits(url_to_visits, 0, Date.now())
+  earliest_visit_to_domains = get_domain_to_earliest_visit_for_url_to_visits(url_to_visits)
+  #total_time_spent_on_domains = yield get_domain_to_time_spent(0, Date.now())
+  #earliest_visit_to_domains = yield get_domain_to_earliest_visit()
   baseline_time_on_domains = {}
   current_time = Date.now()
   for domain,time_spent of total_time_spent_on_domains
     earliest_visit = earliest_visit_to_domains[domain]
     if not earliest_visit?
       continue
-    num_days = Math.round ((current_time - earliest_visit) / 24*1000*3600)
+    num_days = Math.round ((current_time - earliest_visit) / (24*1000*3600))
     if num_days < 1
       continue
     daily_time_spent = time_spent / num_days
@@ -145,11 +165,11 @@ export get_baseline_time_on_domains_real = cfy ->*
   # TODO test whether this actually works?
 
 export get_baseline_time_on_domains = cfy ->*
-  #baseline_time_on_domains = localStorage.getItem 'baseline_time_on_domains'
-  #if baseline_time_on_domains?
-  #  return baseline_time_on_domains
+  baseline_time_on_domains = localStorage.getItem 'baseline_time_on_domains'
+  if baseline_time_on_domains?
+    return JSON.parse baseline_time_on_domains
   baseline_time_on_domains = yield get_baseline_time_on_domains_real()
-  #localStorage.setItem 'baseline_time_on_domains', baseline_time_on_domains
+  localStorage.setItem 'baseline_time_on_domains', JSON.stringify(baseline_time_on_domains)
   return baseline_time_on_domains
 
 export get_baseline_time_on_domain = cfy (domain) ->*

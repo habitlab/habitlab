@@ -19,8 +19,8 @@
       height: 100%;
       
       --paper-card: {
-        margin-top: 10px;
         
+        margin-bottom: 10px;
         display: block;
         padding: 0 5px 5px 5px;
       };
@@ -65,8 +65,15 @@
     .paperbuttons {
       --paper-button: {
         color: white;
+        background-color: white;
+        
       };
+
+      --paper-button .keyboard-focus {
+        font-weight: normal;
+      }
     }
+
 
   </style>
 
@@ -104,27 +111,31 @@
 
         </div>
         </paper-card>
-        <br>
-        <paper-button class="paperbuttons" raised id="resultsButton">More Statistics</paper-button>
-        <paper-button class="paperbuttons" raised id="goalsButton">Options</paper-button>
-        <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button>
-
+        
         <paper-card style="display:none;" class="feedbackform">
+        
         <div class="feedbackcontents">
             
             <paper-textarea id="feedback" cols="40" label="enter your thoughts here!" value="{{feedbackText}}"></paper-textarea>
-            <br>
+            
             <paper-button raised on-click="submitFeedback">Submit</paper-button>
             
         </div>
         </paper-card>
-        <br>
+        
         <paper-card>
+
         <div class="chartelement">
           <h4 class="title">Usage Statistics:</h4>
           <chart-doughnut data="[[donutdata]]" style="width: 500px"></chart-doughnut>         
         </div>
         </paper-card>
+        
+        
+        <paper-button class="paperbuttons" raised id="goalsButton">Options</paper-button>
+        <paper-button class="paperbuttons" raised id="resultsButton">More Statistics</paper-button>
+        <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button>
+
         
 
       </div>

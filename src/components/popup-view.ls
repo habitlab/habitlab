@@ -97,9 +97,12 @@ polymer_ext {
       chrome.tabs.create {url: 'options.html#goals'}
     )
 
-    self.S('#feedbackButton').click(->
-      self.$$('.feedbackform').style.display = "block"
-      #self.$$('.interventioninfo').style.display = "none"
+    self.S('#feedbackButton').click( ->
+      console.log \feedback_clicked
+      if self.$$('.feedbackform').style.display == "block"
+        self.$$('.feedbackform').style.display = "none"
+      else
+        self.$$('.feedbackform').style.display = "block"
     )
     #MARK: Donut Graph
     a <~ get_seconds_spent_on_all_domains_today()

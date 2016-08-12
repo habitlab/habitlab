@@ -55,9 +55,14 @@
       font-family: 'Open Sans', sans-serif;
       margin: 0.3em;
       margin-top: 0.5em;
+      font-size: 12px;
 
     }
     
+    .interventionName {
+      margin-left: 10px;
+    }
+
     .feedbackcontents {
       margin: 5px;
 
@@ -88,7 +93,7 @@
 
           <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
             <div class="interventionContainer" id="enabledInterventions">
-              <h4>{{intervention}}</h4>
+              <span class="interventionName">{{intervention}}</span>
               
               <paper-menu-button vertical-offset="35">
                 <paper-button class="dropdown-trigger" raised>

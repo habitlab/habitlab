@@ -114,13 +114,13 @@ load_background_script = cfy (options, intervention_info) ->*
   running_background_scripts[options.path] = env
   return
 
-execute_content_scripts_for_intervention = yfy (intervention_info, callback) ->
+execute_content_scripts_for_intervention = yfy (intervention_info, tabId, callback) ->
   {content_script_options, name} = intervention_info
   console.log 'calling execute_content_scripts'
-  tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
-  if tabs.length == 0
-    return
-  tabid = tabs[0].id
+  #tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
+  #if tabs.length == 0
+  #  return
+  #tabid = tabs[0].id
   # <- async.eachSeries intervention_info.content_script_options, (options, ncallback) ->
   #  execute_content_script tabid, options, ncallback
 
@@ -178,7 +178,7 @@ execute_content_scripts_for_intervention = yfy (intervention_info, callback) ->
   #chrome.tabs.executeScript(tabid, {code: 'chrome.extension.sendRequest({type: "load_content_script", data: })'})
   #callback?!
 
-load_intervention = cfy (intervention_name) ->*
+load_intervention = cfy (intervention_name, tabId) ->*
   console.log 'start load_intervention ' + intervention_name
   all_interventions = yield get_interventions()
   intervention_info = all_interventions[intervention_name]
@@ -193,7 +193,7 @@ load_intervention = cfy (intervention_name) ->*
   console.log 'start load content scripts ' + intervention_name
 
   # load content scripts
-  yield execute_content_scripts_for_intervention intervention_info
+  yield execute_content_scripts_for_intervention intervention_info, tabId
 
   console.log 'done load_intervention ' + intervention_name
   return
@@ -201,7 +201,7 @@ load_intervention = cfy (intervention_name) ->*
 list_loaded_interventions = cfy ->*
   yield send_message_to_active_tab 'list_loaded_interventions', {}
 
-load_intervention_for_location = cfy (location) ->*
+load_intervention_for_location = cfy (location, tabId) ->*
   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
   work_hours_only = work_hours_only == 'true'
   start_mins_since_midnight = parseInt start_mins_since_midnight
@@ -211,7 +211,7 @@ load_intervention_for_location = cfy (location) ->*
     return
   possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
   for intervention in possible_interventions
-    yield load_intervention intervention
+    yield load_intervention intervention, tabId
   return
 
 getLocation = cfy ->*
@@ -256,12 +256,12 @@ message_handlers <<< {
       console.log location
       callback location
   'load_intervention': (data, callback) ->
-    {intervention_name} = data
-    load_intervention intervention_name, ->
+    {intervention_name, tabId} = data
+    load_intervention intervention_name, tabId, ->
       callback()
   'load_intervention_for_location': (data, callback) ->
-    {location} = data
-    load_intervention_for_location location, ->
+    {location, tabId} = data
+    load_intervention_for_location location, tabId, ->
       callback()
   'load_content_scripts': (data, callback) ->
     {content_script_options, intervention_info, tabid, wait_token, loaded_content_scripts} = data
@@ -372,7 +372,7 @@ navigation_occurred = (url, tabId) ->
   #  chrome.pageAction.hide(tabId)
   #send_pageupdate_to_tab(tabId)
   console.log "navigation_occurred to #{url}"
-  load_intervention_for_location url
+  load_intervention_for_location url, tabId
 
 chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
   if tab.url

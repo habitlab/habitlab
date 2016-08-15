@@ -152,23 +152,15 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
   return
 
 load_intervention = cfy (intervention_name, tabId) ->*
-  console.log 'start load_intervention ' + intervention_name
   all_interventions = yield get_interventions()
   intervention_info = all_interventions[intervention_name]
-
-  console.log intervention_info
-  console.log 'start load background scripts ' + intervention_name
 
   # load background scripts
   for options in intervention_info.background_script_options
     yield load_background_script options, intervention_info
 
-  console.log 'start load content scripts ' + intervention_name
-
   # load content scripts
   yield execute_content_scripts_for_intervention intervention_info, tabId
-
-  console.log 'done load_intervention ' + intervention_name
   return
 
 list_loaded_interventions = cfy ->*
@@ -324,8 +316,8 @@ chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
   if tab.url
     #console.log 'tabs updated!'
     #console.log tab.url
-    if changeInfo.status != 'complete'
-      return
+    #if changeInfo.status != 'complete'
+    #  return
     navigation_occurred tab.url, tabId
 
 chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->

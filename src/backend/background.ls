@@ -114,69 +114,42 @@ load_background_script = cfy (options, intervention_info) ->*
   running_background_scripts[options.path] = env
   return
 
-execute_content_scripts_for_intervention = yfy (intervention_info, tabId, callback) ->
+execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
   {content_script_options, name} = intervention_info
-  console.log 'calling execute_content_scripts'
-  #tabs <- chrome.tabs.query {active: true, lastFocusedWindow: true}
-  #if tabs.length == 0
-  #  return
-  #tabid = tabs[0].id
-  # <- async.eachSeries intervention_info.content_script_options, (options, ncallback) ->
-  #  execute_content_script tabid, options, ncallback
-
-  wait_token = make_wait_token()
-
-  wait_for_token wait_token, ->
-    console.log 'wait token released'
-    callback?!
 
   intervention_info_copy = JSON.parse JSON.stringify intervention_info
-  parameter_values <- get_intervention_parameters(intervention_info.name)
+  parameter_values = yield get_intervention_parameters(intervention_info.name)
   for i in [0 til intervention_info_copy.parameters.length]
     parameter = intervention_info_copy.parameters[i]
     parameter.value = parameter_values[parameter.name]
     intervention_info_copy.params[parameter.name].value = parameter_values[parameter.name]
 
-  # based on the following
-  # http://stackoverflow.com/questions/8859622/chrome-extension-how-to-detect-that-content-script-is-already-loaded-into-a-tab
-  content_script_code = """
-  (function(){
-
-    console.log('execute_content_scripts_for_intervention called for intervention #{name}');
-
+  for options in content_script_options
+    content_script_code = yield $.get options.path
+    content_script_code = """
     if (!window.loaded_interventions) {
       window.loaded_interventions = {};
-    }
-    if (window.loaded_interventions['#{name}']) {
-      return;
-    }
-    window.loaded_interventions['#{name}'] = true;
 
-    chrome.runtime.sendMessage({
-      type: 'load_content_scripts',
-      data: {
-        content_script_options: #{JSON.stringify(content_script_options)},
-        intervention_info: #{JSON.stringify(intervention_info_copy)},
-        tabid: #{tabid},
-        wait_token: #{wait_token},
-        loaded_content_scripts: window.loaded_content_scripts || {},
-      },
-    });
+      window.onunhandledrejection = function(evt) {
+        throw evt.reason;
+      };
+    }
+    if (!window.loaded_interventions['#{intervention_info.name}']) {
+      window.loaded_interventions['#{intervention_info.name}'] = true;
 
-  })();
-  """
-  chrome.tabs.executeScript tabid, {code: content_script_code}
-  #callback?! # technically incorrect, may be calling too early. TODO might break with multiple interventions
-  /*
-  'load_content_script': (data, callback) ->
-    {options, tabid, loaded_scripts} = data
-    if loaded_scripts[options.path]?
-      return
-    chrome.tabs.executeScript tabid, {file: options.path, allFrames: options.all_frames, runAt: options.run_at}, ->
-      callback?!
-  */
-  #chrome.tabs.executeScript(tabid, {code: 'chrome.extension.sendRequest({type: "load_content_script", data: })'})
-  #callback?!
+      if (!window.loaded_content_scripts) {
+        window.loaded_content_scripts = {};
+      }
+      if (!window.loaded_content_scripts['#{options.path}']) {
+        window.loaded_content_scripts['#{options.path}'] = true;
+        const intervention = #{JSON.stringify(intervention_info)};
+
+        #{content_script_code}
+      }
+    }
+    """
+    yield yfy(chrome.tabs.executeScript) tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}
+  return
 
 load_intervention = cfy (intervention_name, tabId) ->*
   console.log 'start load_intervention ' + intervention_name
@@ -263,33 +236,6 @@ message_handlers <<< {
     {location, tabId} = data
     load_intervention_for_location location, tabId, ->
       callback()
-  'load_content_scripts': (data, callback) ->
-    {content_script_options, intervention_info, tabid, wait_token, loaded_content_scripts} = data
-    <- async.eachSeries content_script_options, (options, ncallback) ->
-      if loaded_content_scripts[options.path]?
-        return ncallback()
-      content_script_code <- $.get options.path
-      content_script_code = """
-      if (!window.loaded_content_scripts) {
-        window.loaded_content_scripts = {};
-      }
-      if (window.loaded_content_scripts['#{options.path}']) {
-        console.log('content script already loaded: #{options.path}');
-      } else {
-        window.loaded_content_scripts['#{options.path}'] = true;
-        console.log('executing content script: #{options.path}');
-        const intervention = #{JSON.stringify(intervention_info)};
-
-        window.onunhandledrejection = function(evt) {
-          throw evt.reason;
-        };
-
-        #{content_script_code}
-      }
-      """
-      chrome.tabs.executeScript tabid, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, ->
-        return ncallback()
-    finished_waiting(wait_token)
   'load_css_file': (data, callback) ->
     {css_file, tab} = data
     tabid = tab.id

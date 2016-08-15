@@ -32,10 +32,13 @@ require! {
   add_log_interventions
 } = require 'libs_backend/log_utils'
 
-
+{load_css_file} = require 'libs_common/content_script_utils'
 {cfy} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
+
+const swal = require 'sweetalert2'
+
 
 polymer_ext {
   is: 'options-interventions'
@@ -96,13 +99,38 @@ polymer_ext {
         prev_enabled_interventions: prev_enabled_interventions
       }
   goal_changed: cfy (evt) ->*
+    
     checked = evt.target.checked
     
     goal_name = evt.target.goal.name
+    
     self = this
     if checked
       yield set_goal_enabled_manual goal_name
+      
+      check_if_first_goal = cfy ->* 
+        if !localStorage.first_goal?
+          localStorage.first_goal = 'has enabled a goal before'
+          yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+          try
+            yield swal {
+              title: 'You set a goal!'
+              text: 'HabitLab will use its algorithms to try different interventions on your webpages, and intelligently figure out what works best for you. You can manually tinker with settings if you\'d like.'
+              type: 'success'
+              confirmButtonText: 'See it in action'
+            }
+            get_url = (goal_name) ->
+              url = "http://www."
+              url += goal_name.split '/' .0
+              url += '.com'
+              return url
+
+            chrome.tabs.create {url: get_url goal_name }
+          catch
+            console.log 'failure'
+      check_if_first_goal!
     else
+      
       yield set_goal_disabled_manual goal_name
     yield this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
     if checked
@@ -144,7 +172,7 @@ polymer_ext {
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->
-    console.log \check_have_int
+    
     return goals_and_interventions and goals_and_interventions.length > 0
   show_dialog: (evt) ->
     if evt.target.id == 'start-time'
@@ -222,6 +250,6 @@ polymer_ext {
         intervention.automatic = (manually_managed_interventions[intervention.name] != true)
       list_of_goals_and_interventions.push current_item
     self.goals_and_interventions = list_of_goals_and_interventions
-    console.log 'rerendered'
+    
 
 }

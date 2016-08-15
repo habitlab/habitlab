@@ -22,6 +22,7 @@ require! {
   list_goals_for_site
   getGoalInfo
   get_enabled_goals  
+  get_goals
 } = require 'libs_backend/goal_utils'
 
 {
@@ -124,16 +125,15 @@ polymer_ext {
       temp = yield get_baseline_time_on_domain(item)
       intervention_time_spent.push(temp / (60*1000))
 
-    /*
     self.chromeHistoryData = {
-      labels: intervention_descriptions_final
+      labels: intervention_urls
       datasets: [
         {
           label: "Today",
           backgroundColor: "rgba(27,188,155,0.5)",
           borderColor: "rgba(27,188,155,1)",
           borderWidth: 1,
-          data: [Math.round(v*10)/10 for k, v of intervention_progress]
+          data: intervention_time_spent
 
         }
       ]
@@ -151,7 +151,7 @@ polymer_ext {
         }]
       }
     } 
-    */
+
 
 
     #MARK: Time saved daily due to interventions Graph  

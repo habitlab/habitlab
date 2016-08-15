@@ -21,7 +21,7 @@ require! {
   list_sites_for_which_goals_are_enabled
   list_goals_for_site
   getGoalInfo
-  get_enabled_goals
+  get_enabled_goals  
 } = require 'libs_backend/goal_utils'
 
 {
@@ -41,6 +41,16 @@ require! {
   get_num_actions_today
   get_interventions_seen_today
 } = require 'libs_backend/log_utils'
+
+{
+  get_baseline_time_on_domain
+  get_baseline_time_on_domains  
+  get_pages_visited_today
+  get_pages_visited_all_time
+  get_productivity_classifications
+  get_work_pages_visited_today
+  get_url_and_visit_time_sorted_for_url_to_visits  
+} = require 'libs_backend/history_utils'
 
 polymer_ext {
   is: 'dashboard-view'
@@ -97,6 +107,51 @@ polymer_ext {
     self = this
     self.once_available '#graphsOfGoalsTab', ->
       self.S('#graphsOfGoalsTab').prop('selected', 0)
+
+
+    #MARK: Chrome History Graph
+    goalsHistory = yield get_goals()
+    enabledGoalsHistory = yield get_enabled_goals()
+
+    #Retrieves urls associated with each enabled intervention
+    intervention_urls = []
+    for key, value of enabledGoalsHistory
+      goal = goalsHistory[key]
+      intervention_urls.push goal.domain
+
+    intervention_time_spent = []
+    for item in intervention_urls
+      temp = yield get_baseline_time_on_domain(item)
+      intervention_time_spent.push(temp / (60*1000))
+
+    /*
+    self.chromeHistoryData = {
+      labels: intervention_descriptions_final
+      datasets: [
+        {
+          label: "Today",
+          backgroundColor: "rgba(27,188,155,0.5)",
+          borderColor: "rgba(27,188,155,1)",
+          borderWidth: 1,
+          data: [Math.round(v*10)/10 for k, v of intervention_progress]
+
+        }
+      ]
+    }
+    self.chromeHistoryOptions = {
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Minutes'
+          },                            
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    } 
+    */
 
 
     #MARK: Time saved daily due to interventions Graph  

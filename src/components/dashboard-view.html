@@ -49,6 +49,11 @@
     <div class="container">
       <div class="title">HabitLab Analytics</div>
     
+      <div class="description">How much time do I spend on my goal websites on average each day?</div>
+      <chart-horizontal-bar data="[[chromeHistoryData]]" options="[[chromeHistoryOptions]]" style="width: 500px"></chart-horizontal-bar>
+
+      <hr>
+
       <div class="description">How much time did I save due to my interventions?</div>
       <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 1000px"></chart-horizontal-bar>
 

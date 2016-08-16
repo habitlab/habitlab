@@ -214,7 +214,7 @@ polymer_ext {
           }
         }]
       }
-    } 
+    }
 
 
     #MARK: Daily Overview Graph
@@ -337,10 +337,10 @@ polymer_ext {
               "rgba(27,188,155,1)",
               "rgba(244,208,63,1)",
               "rgba(230,126,34,1)",
-              "rgba(239,72,54,1)"          
+              "rgba(239,72,54,1)"
           ]
       }]
-    }    
+    }
 
 }, {
   source: require 'libs_frontend/polymer_methods'

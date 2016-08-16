@@ -31,8 +31,8 @@ require('components/habitlab-logo.deps')
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
+//Removes new feed (modified from 'kill news feed' src code)
 function removeFeed() {
-  /** Modified from Neal Wu's "Kill News Feed" */
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
 
   feed.children().hide();
@@ -43,6 +43,7 @@ function removeFeed() {
   $('#pagelet_canvas_nav_content').hide();
 }
 
+//Shows the news feed
 function showFeed(intervalID) {
   $('habitlab-logo').remove()
   $('paper-button').remove()
@@ -60,6 +61,7 @@ function showFeed(intervalID) {
   clearInterval(intervalID) //stop refreshing the page to hide elements
 }
 
+//Attaches habitlab button and show news feed button
 var intervalID;
 function attachButtons() {
   log_impression(intervention.name)
@@ -77,8 +79,11 @@ function attachButtons() {
   $('#centerdiv').append(cheatButton)
 }
 
+//Main
+
 on_url_change(() => {
   var re = new RegExp('https?:\/\/www.facebook.com\/\??.*$');
+  //If the user didn't click the button to show the news feed, show the "show" button & habitlab icon
   if ($('habitlab-logo').length == 0 && re.test(window.location.href)) {
     attachButtons();
   }

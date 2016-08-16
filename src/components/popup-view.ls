@@ -89,6 +89,8 @@ polymer_ext {
 
 
   ready: cfy ->*
+    chrome.browserAction.setBadgeText {text: ''}
+    chrome.browserAction.setBadgeBackgroundColor {color: ''}
     self = this
     url = yield get_active_tab_url()
     #domain = url_to_domain(url)

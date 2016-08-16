@@ -1,0 +1,17 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="graph-time-saved-daily">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 1000px"></chart-horizontal-bar>
+  </template>
+  <script src="graph-time-saved-daily.js"></script>
+</dom-module>

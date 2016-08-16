@@ -6,6 +6,11 @@
 
 <link rel="import" href="site-goal-view.html">
 <link rel="import" href="badges-view.html">
+<link rel="import" href="graph-chrome-history.html">
+<link rel="import" href="graph-time-saved-daily.html">
+<link rel="import" href="graph-daily-overview.html">
+<link rel="import" href="graph-num-times-interventions-deployed.html">
+<link rel="import" href="graph-donut-top-sites.html">
 
 <dom-module id="dashboard-view">
   <style>
@@ -16,17 +21,14 @@
     }
     .container {
       text-align: center;
-      font-family: 'Open Sans', sans-serif;      
     }
     .title {
       font-size: 3em;
       margin-top: 0.3em;
-      font-family: 'Open Sans', sans-serif;
     }
     .description {
       font-size: 2.2em;
       margin-top: 0.8em;
-      font-family: 'Open Sans', sans-serif;
     }
     .buttons {
       text-align: center;
@@ -47,22 +49,22 @@
   <template>
 
     <div class="container">
+      <div id="encouragement" class="title">Good job so far!</div>
       <div class="title">HabitLab Analytics</div>
     
-      <div class="description">How much time do I spend on my goal websites on average each day?</div>
-      <chart-horizontal-bar data="[[chromeHistoryData]]" options="[[chromeHistoryOptions]]" style="width: 500px"></chart-horizontal-bar>
+      <div class="description">How much time do I spend on my goal websites on average each day?</div>    
+      <graph-chrome-history></graph-chrome-history>
 
       <hr>
 
       <div class="description">How much time did I save due to my interventions?</div>
-      <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 1000px"></chart-horizontal-bar>
+      <graph-time-saved-daily></graph-time-saved-daily>
 
       <hr>
 
       <div class="description">What progress have I made towards my goals?</div>
       <center>
-        <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>
-          
+        <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>          
           <template is="dom-repeat" items="{{sites}}" as="site">
             <paper-tab>{{site}}</paper-tab>
           </template>
@@ -76,13 +78,14 @@
         </template>
         <div>
           <h4>My Daily Overview</h4>
-          <chart-horizontal-bar data="[[goalOverviewData]]" options="[[goalOverviewOptions]]" style="width: 500px"></chart-horizontal-bar>
+          <graph-daily-overview></graph-daily-overview>
         </div>
       </iron-pages>
 
       <hr>
 
-      <!-- Badges unimplemented yet -->
+      <!-- Uncomment when badges are implemented -->
+      
       <!--
       <div class="description">Which badges have I earned?</div>
       <badges-view></badges-view>
@@ -90,13 +93,12 @@
       -->
 
       <div class="description">How many times were my interventions deployed today?</div>
-      <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 500px"></chart-horizontal-bar>
+      <graph-num-times-interventions-deployed></graph-num-times-interventions-deployed>
 
       <hr>
 
       <div class="description">How much time did I spend on my most visited websites?</div>   
-      <chart-doughnut data="[[donutdata]]" style="width: 600px"></chart-doughnut>      
-      <div class="buttons"><button raised class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">Compare with Yesterday</button></div>
+      <graph-donut-top-sites></graph-donut-top-sites>
 
     </div>
 

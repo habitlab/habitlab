@@ -8,6 +8,7 @@ var myNotifId = null;
 
 //Displays a rich notification to the user
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  
   if (request.type === "chrome-notification") {
     chrome.notifications.create('chrome-notification', {
       type: 'basic',
@@ -23,6 +24,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       myNotifId = id;
     });
   }
+
 });
 
 chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
@@ -37,7 +39,8 @@ chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
       log_action('facebook/rich_notifications', {'negative': 'User remained on Facebook'});
       closeNotif(notifId);
     }
-  }
+  } 
+  
 });
 
 function closeTab() {

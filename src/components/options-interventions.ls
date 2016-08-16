@@ -109,8 +109,12 @@ polymer_ext {
       yield set_goal_enabled_manual goal_name
       
       check_if_first_goal = cfy ->* 
-        if !localStorage.first_goal?
+        if true
+        #if !localStorage.first_goal?
           localStorage.first_goal = 'has enabled a goal before'
+          
+          chrome.browserAction.setBadgeText {text: '+'}
+          chrome.browserAction.setBadgeBackgroundColor {color: '#3498DB'}
           yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
           try
             yield swal {

@@ -16,17 +16,14 @@
     }
     .container {
       text-align: center;
-      font-family: 'Open Sans', sans-serif;      
     }
     .title {
       font-size: 3em;
       margin-top: 0.3em;
-      font-family: 'Open Sans', sans-serif;
     }
     .description {
       font-size: 2.2em;
       margin-top: 0.8em;
-      font-family: 'Open Sans', sans-serif;
     }
     .buttons {
       text-align: center;
@@ -62,8 +59,7 @@
 
       <div class="description">What progress have I made towards my goals?</div>
       <center>
-        <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>
-          
+        <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>          
           <template is="dom-repeat" items="{{sites}}" as="site">
             <paper-tab>{{site}}</paper-tab>
           </template>
@@ -83,7 +79,8 @@
 
       <hr>
 
-      <!-- Badges unimplemented yet -->
+      <!-- Uncomment when badges are implemented -->
+      
       <!--
       <div class="description">Which badges have I earned?</div>
       <badges-view></badges-view>

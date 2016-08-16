@@ -112,9 +112,10 @@ polymer_ext {
         if true
         #if !localStorage.first_goal?
           localStorage.first_goal = 'has enabled a goal before'
-          
           chrome.browserAction.setBadgeText {text: '+'}
           chrome.browserAction.setBadgeBackgroundColor {color: '#3498DB'}
+          localStorage.setItem('override_enabled_interventions_once', JSON.stringify(['facebook/show_user_info_interstitial']))
+
           yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
           try
             yield swal {

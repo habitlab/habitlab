@@ -19,6 +19,10 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
+{
+  as_dictset
+} = require 'libs_common/collection_utils'
+
 {cfy, yfy} = require 'cfy'
 
 getInterventionInfo = cfy (intervention_name) ->*
@@ -27,6 +31,14 @@ getInterventionInfo = cfy (intervention_name) ->*
   intervention_info.name = intervention_name
   intervention_info.sitename = intervention_name.split('/')[0]
   return intervention_info
+
+export get_enabled_interventions_with_override = cfy ->*
+  override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
+  if override_enabled_interventions?
+    localStorage.removeItem('override_enabled_interventions_once')
+    return as_dictset(JSON.parse(override_enabled_interventions))
+  enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
+  return enabled_interventions
 
 export get_enabled_interventions = cfy ->*
   enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
@@ -167,7 +179,7 @@ export list_enabled_interventions_for_location = cfy (location) ->*
 
 export list_enabled_nonconflicting_interventions_for_location = cfy (location) ->*
   available_interventions = yield list_available_interventions_for_location(location)
-  enabled_interventions = yield get_enabled_interventions()
+  enabled_interventions = yield get_enabled_interventions_with_override()
   all_interventions = yield get_interventions()
   enabled_interventions_for_location = available_interventions.filter((x) -> enabled_interventions[x])
   output = []

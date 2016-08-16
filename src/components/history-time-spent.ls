@@ -21,12 +21,12 @@ polymer_ext {
   }
   ready: cfy ->*
     for days_since_today from 0 til 7
-      console.log "======= #{days_since_today} days ago ================"
+      console.log "=========== #{days_since_today} days ago ============"
       time_spent_on_domains = yield get_domain_to_time_spent_days_since_today(days_since_today)
       top_domains = sorted_by_values_descending time_spent_on_domains
       for [domain,time_spent] in top_domains[til 5]
         console.log "#{domain} #{time_spent / (60*1000)}"
-    console.log '============ time spent on Facebook =============='
+    console.log "============ time spent on Facebook =============="
     for days_since_today from 0 til 7
       time_spent_on_domains = yield get_domain_to_time_spent_days_since_today(days_since_today)
       time_spent_on_facebook = time_spent_on_domains['www.facebook.com'] ? 0

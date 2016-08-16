@@ -81,7 +81,6 @@ function attachButtons() {
 }
 
 //Main
-
 on_url_change(() => {
   var re = new RegExp('https?:\/\/www.facebook.com\/\??.*$');
   //If the user didn't click the button to show the news feed, show the "show" button & habitlab icon

@@ -1,0 +1,16 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
+
+<dom-module id="graph-chrome-history">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <chart-horizontal-bar data="[[chromeHistoryData]]" options="[[chromeHistoryOptions]]" style="width: 500px"></chart-horizontal-bar>
+  </template>
+  <script src="graph-chrome-history.js"></script>
+</dom-module>

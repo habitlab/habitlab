@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
 
-<dom-module id="graph-daily-overview-tabs">
+<dom-module id="graph-num-times-interventions-deployed">
   <style>
     :host {
       display: block;
@@ -10,7 +10,7 @@
     }
   </style>
   <template>
-    <chart-horizontal-bar data="[[goalOverviewData]]" options="[[goalOverviewOptions]]" style="width: 500px"></chart-horizontal-bar>
+    <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 500px"></chart-horizontal-bar>
   </template>
-  <script src="graph-daily-overview-tabs.js"></script>
+  <script src="graph-num-times-interventions-deployed.js"></script>
 </dom-module>

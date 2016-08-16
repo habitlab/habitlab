@@ -307,10 +307,6 @@ navigation_occurred = (url, tabId) ->
   #if tabid_to_current_location[tabId] == url
   #  return
   #tabid_to_current_location[tabId] = url
-  send_message_to_tabid tabId, 'navigation_occurred', {
-    url: url
-    tabId: tabId
-  }
   possible_interventions <- list_available_interventions_for_location(url)
   #if possible_interventions.length > 0
   #  chrome.pageAction.show(tabId)
@@ -326,9 +322,22 @@ chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
     #console.log tab.url
     #if changeInfo.status != 'complete'
     #  return
+    #if changeInfo.status == 'complete'
+    #  send_message_to_tabid tabId, 'navigation_occurred', {
+    #    url: tab.url
+    #    tabId: tabId
+    #  }
+    send_message_to_tabid tabId, 'navigation_occurred', {
+      url: tab.url
+      tabId: tabId
+    }
     navigation_occurred tab.url, tabId
 
 chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
+  send_message_to_tabid info.tabId, 'navigation_occurred', {
+    url: info.url
+    tabId: info.tabId
+  }
   navigation_occurred info.url, info.tabId
 
 chrome.runtime.onMessageExternal.addListener (request, sender, sendResponse) ->

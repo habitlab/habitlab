@@ -109,7 +109,6 @@ polymer_ext {
     self.once_available '#graphsOfGoalsTab', ->
       self.S('#graphsOfGoalsTab').prop('selected', 0)
 
-
     #MARK: Chrome History Graph
     goalsHistory = yield get_goals()
     enabledGoalsHistory = yield get_enabled_goals()

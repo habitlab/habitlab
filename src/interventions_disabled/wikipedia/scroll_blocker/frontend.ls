@@ -41,11 +41,3 @@ scroll_block_display[0].addEventListener 'continue_scrolling', ->
   console.log 'got continue_scrolling event'
   enable_scrolling_and_hide_scroll_block()
   setTimeout disable_scrolling_and_show_scroll_block, 5000
-
-if intervention.params.debug.value
-  {
-    listen_for_eval
-    insert_console
-  } = require 'libs_frontend/content_script_debug'
-  listen_for_eval ((x) -> eval(x))
-  insert_console ((x) -> eval(x)), {lang: 'livescript'}

@@ -129,6 +129,12 @@ export get_interventions = memoizeSingleAsync cfy ->*
       intervention_info.categories = []
     if not intervention_info.conflicts?
       intervention_info.conflicts = []
+    intervention_info.parameters.push {
+      name: 'debug'
+      description: 'Insert debug console'
+      type: 'bool'
+      default: false
+    }
     for parameter in intervention_info.parameters
       fix_intervention_parameter(parameter, intervention_info)
     intervention_info.params = {[x.name, x] for x in intervention_info.parameters}

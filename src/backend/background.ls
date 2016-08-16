@@ -124,6 +124,16 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
     parameter.value = parameter_values[parameter.name]
     intervention_info_copy.params[parameter.name].value = parameter_values[parameter.name]
 
+  systemjs_content_script_code = ""
+  debug_content_script_code = ""
+  if intervention_info_copy.params.debug? and intervention_info_copy.params.debug.value
+    systemjs_content_script_code = yield $.get '/intervention_utils/systemjs.js'
+    debug_content_script_code = """
+    System.import('libs_frontend/content_script_debug').then(function(content_script_debug) {
+      content_script_debug.listen_for_eval(function(x) { return eval(x); });
+      content_script_debug.insert_console(function(x) { return eval(x); }, {lang: 'livescript'});
+    });
+    """
   for options in content_script_options
     content_script_code = yield $.get options.path
     content_script_code = """
@@ -134,17 +144,19 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
         throw evt.reason;
       };
     }
-    if (!window.loaded_interventions['#{intervention_info.name}']) {
-      window.loaded_interventions['#{intervention_info.name}'] = true;
+    if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
+      window.loaded_interventions['#{intervention_info_copy.name}'] = true;
 
       if (!window.loaded_content_scripts) {
         window.loaded_content_scripts = {};
       }
       if (!window.loaded_content_scripts['#{options.path}']) {
         window.loaded_content_scripts['#{options.path}'] = true;
-        const intervention = #{JSON.stringify(intervention_info)};
+        const intervention = #{JSON.stringify(intervention_info_copy)};
 
         #{content_script_code}
+        #{systemjs_content_script_code}
+        #{debug_content_script_code}
       }
     }
     """

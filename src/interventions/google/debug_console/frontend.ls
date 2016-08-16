@@ -38,11 +38,3 @@ for lib_name in list_libs()
       window[k] = f
 
 #log_impression('google/logging_example')
-
-if intervention.params.debug.value
-  {
-    listen_for_eval
-    insert_console
-  } = require 'libs_frontend/content_script_debug'
-  listen_for_eval ((x) -> eval(x))
-  insert_console ((x) -> eval(x)), {lang: 'livescript'}

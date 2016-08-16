@@ -25,11 +25,3 @@ require('components_skate/time-spent-display')
 
 display_timespent_div = $('<time-spent-display>')
 $('body').append(display_timespent_div)
-
-if intervention.params.debug.value
-  {
-    listen_for_eval
-    insert_console
-  } = require 'libs_frontend/content_script_debug'
-  listen_for_eval ((x) -> eval(x))
-  insert_console ((x) -> eval(x)), {lang: 'livescript'}

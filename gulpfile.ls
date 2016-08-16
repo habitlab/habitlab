@@ -111,6 +111,8 @@ webpack_pattern = [
 webpack_pattern_content_scripts = [
   'src/interventions/**/*.ls'
   'src/interventions/**/*.js'
+  'src/intervention_utils/**/*.ls'
+  'src/intervention_utils/**/*.js'
   #'src/components_skate/components_skate.js'
   '!src/**/*.deps.js'
 ]

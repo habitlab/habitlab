@@ -8,7 +8,3 @@ parameters:
     description: The amount of scroll events until the notification appears again
     default: 750
     type: int
-  - name: debug
-    description: Insert debug console
-    default: false
-    type: bool

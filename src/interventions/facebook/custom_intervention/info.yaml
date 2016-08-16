@@ -4,10 +4,6 @@ matches:
 content_scripts:
   - /interventions/google/custom_intervention/frontend.js
 parameters:
-  - name: debug
-    description: Insert debug console
-    default: false
-    type: bool
   - name: livescript
     description: Use Livescript to compile code
     default: false

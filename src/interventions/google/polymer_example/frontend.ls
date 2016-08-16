@@ -20,11 +20,3 @@ hello_world_example = $('<hello-world-example>').css({
   position: 'absolute'
 })
 $('body').append(hello_world_example)
-
-if intervention.params.debug.value
-  {
-    listen_for_eval
-    insert_console
-  } = require 'libs_frontend/content_script_debug'
-  listen_for_eval ((x) -> eval(x))
-  insert_console ((x) -> eval(x)), {lang: 'livescript'}

@@ -55,6 +55,10 @@ export run_only_one_at_a_time = (func) ->
       # finished
       is_running := false
 
+export add_toolbar_notification = ->
+  chrome.browserAction.setBadgeText {text: '+'}
+  chrome.browserAction.setBadgeBackgroundColor {color: '#3498DB'}
+
 export on_url_change = (func) ->
   prev_url = window.location.href
   chrome.runtime.onMessage.addListener (msg, sender, sendResponse) ->
@@ -63,5 +67,7 @@ export on_url_change = (func) ->
       if data.url != prev_url
         prev_url = data.url
         func()
+
+
 
 gexport_module 'common_libs', -> eval(it)

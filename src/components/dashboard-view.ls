@@ -152,7 +152,6 @@ polymer_ext {
     } 
 
 
-
     #MARK: Time saved daily due to interventions Graph  
     enabledGoals = yield get_enabled_goals()
     enabledGoalsKeys = Object.keys(enabledGoals)

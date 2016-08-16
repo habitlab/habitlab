@@ -82,7 +82,6 @@ function attachButtons() {
 on_url_change(() => {
   var re = new RegExp('https?:\/\/www.facebook.com\/\??.*$');
   if ($('habitlab-logo').length == 0 && re.test(window.location.href)) {
-    //console.log('attaching buttons')
     attachButtons();
   } else {
     console.log('hi');

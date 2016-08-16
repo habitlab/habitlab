@@ -41,8 +41,6 @@ function removeFeed() {
   $('#pagelet_games_rhc').hide();
   $('#pagelet_trending_tags_and_topics').hide();
   $('#pagelet_canvas_nav_content').hide();
-
-  //$('[data-location=maincolumn]').append(habitlab_logo);
 }
 
 function showFeed(intervalID) {
@@ -83,8 +81,6 @@ on_url_change(() => {
   var re = new RegExp('https?:\/\/www.facebook.com\/\??.*$');
   if ($('habitlab-logo').length == 0 && re.test(window.location.href)) {
     attachButtons();
-  } else {
-    console.log('hi');
   }
 })
 

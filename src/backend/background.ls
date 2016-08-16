@@ -193,11 +193,7 @@ load_intervention_for_location = cfy (location, tabId) ->*
 
 getLocation = cfy ->*
   #send_message_to_active_tab 'getLocation', {}, callback
-  console.log 'calling getTabInfo'
   tabinfo = yield get_active_tab_info()
-  console.log 'getTabInfo results'
-  console.log tabinfo
-  console.log tabinfo.url
   return tabinfo.url
 
 split_list_by_length = (list, len) ->

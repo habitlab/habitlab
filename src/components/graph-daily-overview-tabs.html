@@ -1,0 +1,17 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="graph-daily-overview-tabs">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <chart-horizontal-bar data="[[goalOverviewData]]" options="[[goalOverviewOptions]]" style="width: 500px"></chart-horizontal-bar>
+  </template>
+  <script src="graph-daily-overview-tabs.js"></script>
+</dom-module>

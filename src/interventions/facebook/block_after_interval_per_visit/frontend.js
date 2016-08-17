@@ -204,8 +204,16 @@ function displayCountdown() {
 }
 
 function main() {
-  addBeginDialog("How many minutes would you like to spend on Facebook this visit?")
+  addBeginDialog("How many minutes would you like to spend on Facebook this visit?");
 }
+
+// window.onload = () => {
+//   document.body.addEventListener("disable_intervention", () => {
+//     $('.timespent-view').remove();
+//     $('.contentContainer').remove();
+//   });
+// }
+
 
 main();
 

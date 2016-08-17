@@ -234,7 +234,12 @@ function main() {
     })
   }
 }
-
+// window.onload = () => {
+//   document.body.addEventListener("disable_intervention", () => {
+//     $('.timespent-view').remove();
+//     $('.contentContainer').remove();
+//   });
+// }
 main();
 
 })()

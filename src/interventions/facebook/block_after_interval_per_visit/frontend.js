@@ -39,7 +39,6 @@ var timeBegun;
 
 //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
 function addBeginDialog(message) {
-  console.log('addBeginDialog being called with message ' + message);
   //Adds dialog that covers entire screen
   const $whiteDiv = $('<div class="beginBox">').css({
               'position': 'fixed',

@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="intervention-parameter-view.html">
 <link rel="import" href="pill-button-group.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
 <dom-module id="intervention-view-single">
   <style>
@@ -46,15 +47,17 @@
         -->
         <div style="width: 100%">
 
-          <pill-button-group selected_idx="{{get_pill_button_idx(automatic, enabled)}}" on-pill-button-selected="pill_button_selected" buttons='["Never Shown", "Sometimes Shown"]'></pill-button-group>
-          
+          <pill-button-group id="pill_selector" selected_idx="{{get_pill_button_idx(automatic, enabled)}}" on-pill-button-selected="pill_button_selected" buttons='["Never Shown", "Sometimes Shown"]'></pill-button-group>
+          <paper-tooltip for="pill_selector">Each time you visit Facebook,<br>HabitLab will show one of the<br>'Sometimes Shown' interventions.</paper-tooltip>
+
           <div style="font-family: 'Roboto', 'Noto', sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 8px">
             <span>{{intervention.description}}</span>
             <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
               (<span>{{intervention.name}}</span>)
             </template>
           </div>
-          <paper-button style="text-align: right; text-transform: none; display: inline-block; position: relative; background-color: green; border-top: 1px green solid; border-bottom: 1px green solid; border-left: 1px green solid; border-right: 3.5px green solid; color: white; vertical-align: top; margin-top: 0px; margin-left: 10px; -webkit-font-smoothing: subpixel-antialiased" on-click="preview_intervention">Preview</paper-button>
+          <paper-button id="preview_intervention_button" style="text-align: right; text-transform: none; display: inline-block; position: relative; background-color: green; border-top: 1px green solid; border-bottom: 1px green solid; border-left: 1px green solid; border-right: 3.5px green solid; color: white; vertical-align: top; margin-top: 0px; margin-left: 10px; -webkit-font-smoothing: subpixel-antialiased" on-click="preview_intervention">Preview</paper-button>
+          <paper-tooltip for="preview_intervention_button">Visits Facebook with this intervention enabled</paper-tooltip>
 
         </div>
 <!--

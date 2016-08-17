@@ -1,5 +1,8 @@
 
 'use strict';
+
+var Sortable = require('sortablejs');
+
   Polymer({
     is: "sortable-js",
 

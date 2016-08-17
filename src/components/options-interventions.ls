@@ -188,6 +188,21 @@ polymer_ext {
       this.$$('#start-dialog').toggle!
     else
       this.$$('#end-dialog').toggle!
+  toggle_timepicker_idx: (evt) ->
+    console.log evt.detail.buttonidx
+    buttonidx = evt.detail.buttonidx
+    if buttonidx == 1
+      console.log ' just switched to Work Hours'
+      localStorage.work_hours_only = true;
+      @always_active = false
+      localStorage.start_mins_since_midnight = @start_time_mins#this.$$('#start-picker').rawValue
+      localStorage.end_mins_since_midnight = @end_time_mins#this.$$('#end-picker').rawValue
+      localStorage.start_as_string = @start_time_string#this.$$('#start-picker').time
+      localStorage.end_as_string = @end_time_string#this.$$('#end-picker').time
+    else
+      console.log ' just switched to Always On'
+      localStorage.work_hours_only = false;
+      @always_active = true
   toggle_timepicker: (evt) ->
     if evt.target.checked # if evt.target.checked is true, elem was just changed
       if this.$$('paper-radio-group').selected == 'always' #bizarre error, means currently selected is work_hours
@@ -231,6 +246,11 @@ polymer_ext {
       return 'always'
     else 
       return 'workday'
+  determine_selected_idx: (always_active) ->
+    if always_active
+      return 0
+    else 
+      return 1
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this

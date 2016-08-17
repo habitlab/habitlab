@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="pill-button-group.html">
 
 <link rel="import" href="intervention-view-single.html">
 
@@ -62,10 +63,15 @@
         <p style="font-size: 16px">Each time you visit a site, Habitlab will choose an intervention to show based on how effective it is for you. If you dislike an intervention, you can disable it below.</p>
 
         <p style="font-size: 16px; margin-bottom: 0px;">You can set your interventions to be always on, or only active during your selected work hours.</p>
+
         <paper-radio-group selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
           <paper-radio-button name="always" >Always On</paper-radio-button>
           <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
         </paper-radio-group>
+
+        <!--
+        <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
+        -->
         
         <template is="dom-if" if="{{!always_active}}">
           <div id="timepicker">

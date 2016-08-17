@@ -86,17 +86,6 @@
         <paper-card>
         <div class="interventioninfo">
           <h4 class="title">Interventions Currently Active On This Page: </h4>
-          <br>
-          <br>
-
-          <sortable-js>
-            <template is="dom-repeat" items="{{graphOptions}}" as="graph">
-              <div>
-              <paper-checkbox></paper-checkbox>
-              {{graph}}
-              </div>
-            </template>         
-          </sortable-js>  
 
           <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
             <div class="interventionContainer" id="enabledInterventions">
@@ -139,21 +128,32 @@
         </paper-card>
         
         <paper-card>
-
-        <div class="chartelement">
-          <h4 class="title">Usage Statistics:</h4>
-          <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>
-       
-        </div>
+          <div class="chartelement">
+            <h4 class="title">Usage Statistics:</h4>
+            <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>     
+          </div>
         </paper-card>        
         
+        <paper-card>
+          <h4 class="title">Graphs:</h4>
+          <div class="chartelement">
+            <sortable-js>
+              <template is="dom-repeat" items="{{graphOptions}}" as="graph">
+                <div>
+                <paper-checkbox intervention='{{graph}}' on-change="checkbox_checked_handler"></paper-checkbox>
+                {{graph}}
+                </div>
+              </template>         
+            </sortable-js> 
+          </div> 
+        </paper-card>
+
         <paper-button class="paperbuttons" raised id="goalsButton">Options</paper-button>
         <paper-button class="paperbuttons" raised id="resultsButton">More Statistics</paper-button>
-        <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button>
-
-        
+        <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button>      
 
       </div>
+
 
     </div>
   </template>

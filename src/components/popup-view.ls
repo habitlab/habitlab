@@ -41,6 +41,9 @@ polymer_ext {
     },
     graphOptions: {
       type: Array
+    },
+    shownGraphs: {
+      type: Array
     }
   }
 
@@ -63,6 +66,18 @@ polymer_ext {
     #domain = url_to_domain(url)
     enabledInterventions <- list_enabled_interventions_for_location(url)
     self.enabledInterventions = enabledInterventions
+
+  checkbox_checked_handler: (evt) ->
+    self = this
+    graph = evt.target.graph
+    if evt.target.checked
+      shownGraphs.push evt.target.graph
+    else 
+      index = shownGraphs.indexOf evt.target.graph
+      if index > -1
+        shownGraphs.splice index, 1
+
+    console.log shownGrapha
 
   isEmpty: (enabledInterventions) ->
     return enabledInterventions? and enabledInterventions.length == 0
@@ -102,10 +117,21 @@ polymer_ext {
         self.$$('.feedbackform').style.display = "block"
     )
 
-    graphOptions = ['graph-chrome-history', 'graph-daily-overview', 
-                    'graph-donut-top-sites', 'graph-num-times-interventions-deployed', 
-                    'graph-time-saved-daily']
-    self.graphOptions = graphOptions                    
+    graphNamesToOptions = {
+      "Goal Website History Graph" : "graph-chrome-history",
+      "Daily Overview" : "graph-daily-overview",
+      "Donut Graph" : "graph-donut-top-sites",
+      "Interventions Deployed Graph" : "graph-num-times-interventions-deployed",
+      "Time Saved Due to HabitLab" : "graph-time-saved-daily"
+    }
+
+    graphOptions = ['Goal Website History Graph', 'Daily Overview', 
+                    'Donut Graph', 'Interventions Deployed Graph', 
+                    'Time Saved Due to HabitLab']
+    self.graphOptions = graphOptions 
+
+    shownGraphs = []
+    self.shownGraphs = shownGraphs
 
 }, {
   source: require 'libs_frontend/polymer_methods'

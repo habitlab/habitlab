@@ -72,7 +72,7 @@
         <!--
         <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
         -->
-        
+
         <template is="dom-if" if="{{!always_active}}">
           <div id="timepicker">
             <span class="time-string">Interventions are only active between</span>
@@ -80,7 +80,6 @@
             <span class="time-string"> and </span>
             <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time_string}}</span>
 
-         
             <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
               <paper-time-picker id="start-picker" time="[[start_time_string]]"></paper-time-picker>
               <div class="buttons">
@@ -99,13 +98,14 @@
 
           </div>
         </template>
+
         <!--
         <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
 
         <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
         <br><br>
         -->
-        
+
         <template is="dom-if" if="{{show_randomize_button()}}">
           <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
           <br>
@@ -115,7 +115,7 @@
           <h3>{{goal_and_interventions.goal.description}}</h3>
 
           <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-            <intervention-view-single intervention="{{intervention}}"></intervention-view-single>
+            <intervention-view-single goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
             <br><br>
           </template>
 

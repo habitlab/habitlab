@@ -71,7 +71,7 @@ polymer_ext {
     end_time_mins: {
       type: Number,
       value: if localStorage.end_mins_since_midnight then parseInt(localStorage.end_mins_since_midnight) else 1020
-    }
+    },
     always_active: {
       type: Boolean
       value: localStorage.work_hours_only != "true"

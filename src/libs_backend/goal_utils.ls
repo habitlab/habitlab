@@ -28,7 +28,10 @@ export getGoalInfo = cfy (goal_name) ->*
   goal_info_text = yield $.get "/goals/#{goal_name}/info.json"
   goal_info = JSON.parse goal_info_text
   goal_info.name = goal_name
-  goal_info.sitename = goal_name.split('/')[0]
+  if not goal_info.sitename?
+    goal_info.sitename = goal_name.split('/')[0]
+  if not goal_info.sitename_printable?
+    goal_info.sitename_printable = goal_info.sitename.substr(0, 1).toUpperCase() + goal_info.sitename.substr(1)
   return goal_info
 
 export get_enabled_goals = cfy ->*

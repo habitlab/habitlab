@@ -54,6 +54,13 @@ polymer_ext {
       type: Number
       computed: 'get_pill_button_idx(automatic, enabled)'
     }
+    goal: {
+      type: Object
+    }
+    sitename: {
+      type: String
+      computed: 'compute_sitename(goal)'
+    }
   }
   /*
   get_pill_button_tooltip: (pill_button_idx) ->
@@ -62,6 +69,8 @@ polymer_ext {
     else if pill_button_idx == 1
       return "A 'Never Shown' intervention<br>is disabled and will not be shown."
   */
+  compute_sitename: (goal) ->
+    return goal.sitename_printable
   intervention_property_changed: (intervention, old_intervention) ->
     this.automatic = this.intervention.automatic
     this.enabled = this.intervention.enabled

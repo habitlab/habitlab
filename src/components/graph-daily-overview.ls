@@ -23,7 +23,7 @@ require! {
 }
 
 polymer_ext {
-  is: 'graph-daily-overview-tabs'
+  is: 'graph-daily-overview'
   properties: {
   }
   ready: cfy ->*

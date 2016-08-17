@@ -1,0 +1,42 @@
+{
+  "name": "polymer-sortablejs",
+  "homepage": "https://github.com/SortableJS/polymer-sortablejs",
+  "main": "sortablejs.html",
+  "authors": [
+    "Guten Ye <ywzhaifei@gmail.com>"
+  ],
+  "description": "Minimalist library for reorderable drag-and-drop lists on modern browsers and touch devices. No jQuery.",
+  "keywords": [
+    "sortable",
+    "reorder",
+    "list",
+    "html5",
+    "drag",
+    "and",
+    "drop",
+    "dnd",
+    "web-components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "polymer/polymer#^1.6.0",
+    "Sortable": "sortablejs#^1.4.2"
+  },
+  "version": "0.1.3",
+  "_release": "0.1.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.3",
+    "commit": "b85a9cb86224c9c3f2ed5f6b384d658dec8af650"
+  },
+  "_source": "https://github.com/SortableJS/polymer-sortablejs.git",
+  "_target": "^0.1.3",
+  "_originalSource": "polymer-sortablejs",
+  "_direct": true
+}

@@ -32,6 +32,8 @@ export getGoalInfo = cfy (goal_name) ->*
     goal_info.sitename = goal_name.split('/')[0]
   if not goal_info.sitename_printable?
     goal_info.sitename_printable = goal_info.sitename.substr(0, 1).toUpperCase() + goal_info.sitename.substr(1)
+  if not goal_info.homepage?
+    goal_info.homepage = "https://www.#{goal_info.sitename}.com/"
   return goal_info
 
 export get_enabled_goals = cfy ->*

@@ -127,14 +127,11 @@ polymer_ext {
               type: 'success'
               confirmButtonText: 'See it in action'
             }
-            get_url = (goal_name) ->
-              url = "http://www."
-              url += goal_name.split '/' .0
-              url += '.com'
-              return url
-
+            
             set_override_enabled_interventions_once('facebook/show_user_info_interstitial')
-            chrome.tabs.create {url: get_url goal_name }
+            all_goals = yield get_goals()
+            goal_info = all_goals[goal_name]
+            chrome.tabs.create {url: goal_info.homepage }
           catch
             console.log 'failure'
       check_if_first_goal!

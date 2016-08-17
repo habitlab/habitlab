@@ -134,7 +134,7 @@ polymer_ext {
     set_override_enabled_interventions_once intervention_name
     console.log 'preview_intervention'
     console.log localStorage.getItem('override_enabled_interventions_once')
-    chrome.tabs.create {url: 'https://www.facebook.com/' }
+    chrome.tabs.create {url: this.goal.homepage }
   parameters_shown: ->
     return localStorage.getItem('intervention_view_show_parameters') == 'true'
   dropdown_menu_changed: cfy (evt) ->*

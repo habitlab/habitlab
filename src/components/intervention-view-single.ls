@@ -6,6 +6,7 @@
   set_intervention_manually_managed
   get_intervention_parameters
   set_intervention_parameter
+  set_override_enabled_interventions_once
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -76,6 +77,12 @@ polymer_ext {
       else
         return 2
     return 0
+  preview_intervention: ->
+    intervention_name = this.intervention.name
+    set_override_enabled_interventions_once intervention_name
+    console.log 'preview_intervention'
+    console.log localStorage.getItem('override_enabled_interventions_once')
+    chrome.tabs.create {url: 'https://www.facebook.com/' }
   parameters_shown: ->
     return localStorage.getItem('intervention_view_show_parameters') == 'true'
   dropdown_menu_changed: cfy (evt) ->*

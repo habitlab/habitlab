@@ -10,6 +10,7 @@ require! {
   set_intervention_disabled
   set_intervention_automatically_managed
   set_intervention_manually_managed
+  set_override_enabled_interventions_once
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -117,7 +118,6 @@ polymer_ext {
         if !localStorage.first_goal?
           localStorage.first_goal = 'has enabled a goal before'
           add_toolbar_notification!
-          localStorage.setItem('override_enabled_interventions_once', JSON.stringify(['facebook/show_user_info_interstitial']))
 
           yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
           try
@@ -133,6 +133,7 @@ polymer_ext {
               url += '.com'
               return url
 
+            set_override_enabled_interventions_once('facebook/show_user_info_interstitial')
             chrome.tabs.create {url: get_url goal_name }
           catch
             console.log 'failure'

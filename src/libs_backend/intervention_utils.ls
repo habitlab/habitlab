@@ -32,10 +32,14 @@ getInterventionInfo = cfy (intervention_name) ->*
   intervention_info.sitename = intervention_name.split('/')[0]
   return intervention_info
 
+export set_override_enabled_interventions_once = (intervention_name) ->
+  localStorage.setItem('override_enabled_interventions_once', JSON.stringify([intervention_name]))
+  return
+
 export get_enabled_interventions_with_override = cfy ->*
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
   if override_enabled_interventions?
-    localStorage.removeItem('override_enabled_interventions_once')
+    #localStorage.removeItem('override_enabled_interventions_once')
     return as_dictset(JSON.parse(override_enabled_interventions))
   enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
   return enabled_interventions

@@ -137,28 +137,29 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
   for options in content_script_options
     content_script_code = yield $.get options.path
     content_script_code = """
-    if (!window.loaded_interventions) {
-      window.loaded_interventions = {};
+if (!window.loaded_interventions) {
+  window.loaded_interventions = {};
 
-      window.onunhandledrejection = function(evt) {
-        throw evt.reason;
-      };
+  window.onunhandledrejection = function(evt) {
+    throw evt.reason;
+  };
+
+  if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
+    window.loaded_interventions['#{intervention_info_copy.name}'] = true;
+
+    if (!window.loaded_content_scripts) {
+      window.loaded_content_scripts = {};
     }
-    if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
-      window.loaded_interventions['#{intervention_info_copy.name}'] = true;
+    if (!window.loaded_content_scripts['#{options.path}']) {
+      window.loaded_content_scripts['#{options.path}'] = true;
+      const intervention = #{JSON.stringify(intervention_info_copy)};
 
-      if (!window.loaded_content_scripts) {
-        window.loaded_content_scripts = {};
-      }
-      if (!window.loaded_content_scripts['#{options.path}']) {
-        window.loaded_content_scripts['#{options.path}'] = true;
-        const intervention = #{JSON.stringify(intervention_info_copy)};
-
-        #{content_script_code}
-        #{systemjs_content_script_code}
-        #{debug_content_script_code}
-      }
+      #{content_script_code}
+      #{systemjs_content_script_code}
+      #{debug_content_script_code}
     }
+  }
+}
     """
     yield yfy(chrome.tabs.executeScript) tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}
   return
@@ -189,6 +190,7 @@ load_intervention_for_location = cfy (location, tabId) ->*
   possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
   for intervention in possible_interventions
     yield load_intervention intervention, tabId
+  localStorage.removeItem('override_enabled_interventions_once')
   return
 
 getLocation = cfy ->*
@@ -307,7 +309,7 @@ navigation_occurred = (url, tabId) ->
   #if tabid_to_current_location[tabId] == url
   #  return
   #tabid_to_current_location[tabId] = url
-  possible_interventions <- list_available_interventions_for_location(url)
+  #possible_interventions <- list_available_interventions_for_location(url)
   #if possible_interventions.length > 0
   #  chrome.pageAction.show(tabId)
   #else

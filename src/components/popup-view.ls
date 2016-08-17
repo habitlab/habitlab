@@ -38,6 +38,9 @@ polymer_ext {
     feedbackText: {
       type: String,
       notify: true
+    },
+    graphOptions: {
+      type: Array
     }
   }
 
@@ -98,6 +101,11 @@ polymer_ext {
       else
         self.$$('.feedbackform').style.display = "block"
     )
+
+    graphOptions = ['graph-chrome-history', 'graph-daily-overview', 
+                    'graph-donut-top-sites', 'graph-num-times-interventions-deployed', 
+                    'graph-time-saved-daily']
+    self.graphOptions = graphOptions                    
 
 }, {
   source: require 'libs_frontend/polymer_methods'

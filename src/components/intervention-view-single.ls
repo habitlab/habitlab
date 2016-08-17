@@ -70,6 +70,38 @@ polymer_ext {
     return !enabled and !automatic
   display_internal_names_for_interventions: ->
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
+  pill_button_selected: cfy (evt) ->*
+    buttonidx = evt.detail.buttonidx
+    if buttonidx == 1 # smartly managed
+      this.automatic = true
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_automatically_managed this.intervention.name
+      add_log_interventions {
+        type: 'intervention_set_smartly_managed'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+    else if buttonidx == 0 # never shown
+      this.enabled = false
+      this.automatic = false
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_disabled this.intervention.name
+      yield set_intervention_manually_managed this.intervention.name
+      add_log_interventions {
+        type: 'intervention_set_always_disabled'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+  get_pill_button_idx: (automatic, enabled) ->
+    if !automatic
+      if enabled
+        console.log 'intervention is always enabled: ' + this.intervention.name
+        return 1
+      else
+        return 0
+    return 1
   get_dropdown_idx: (automatic, enabled) ->
     if !automatic
       if enabled

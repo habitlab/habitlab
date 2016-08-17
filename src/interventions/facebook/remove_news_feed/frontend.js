@@ -41,6 +41,7 @@ function removeFeed() {
   $('#pagelet_games_rhc').hide();
   $('#pagelet_trending_tags_and_topics').hide();
   $('#pagelet_canvas_nav_content').hide();
+  console.log("removing...")
 }
 
 //Shows the news feed
@@ -91,5 +92,10 @@ on_url_change(() => {
 attachButtons();
 var feedShown = false;
 intervalID = window.setInterval(removeFeed, 200);
+window.intervalID = intervalID;
+document.body.addEventListener('disable_intervention', (intervalID) => {
+  console.log(intervalID);
+  showFeed(window.intervalID);
+});
 
 })()

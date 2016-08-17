@@ -36,6 +36,14 @@ export once_available_multiselect = yfy (selector, callback) ->
     , 100
 
 
+export once_document_available = yfy (callback) ->
+  if document.body?
+    callback()
+  else
+    setTimeout ->
+      once_document_available(callback)
+    , 100
+
 export once_true = yfy (condition, callback) ->
   if condition()
     callback()

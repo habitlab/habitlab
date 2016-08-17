@@ -29,3 +29,15 @@ component_generator = (numitems) ->
 
 inject_into_feed(component_generator)
 
+
+document.body.addEventListener 'disable_intervention', (evt) ->
+  $('feed-item-timer-polymer').remove()
+  console.log window.firststartprocess
+  console.log window.active
+  console.log \removed!
+  window.active = false
+  clearInterval(window.firststartprocess)
+
+
+
+

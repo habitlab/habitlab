@@ -10,6 +10,7 @@ export inject_into_feed = (component_generator) ->
   window.prev_visible_quiz_ids = []
   window.all_shown_times = {} # id -> Date.now()
   window.itemsseen = 0
+  window.active = true
 
   
 
@@ -49,7 +50,8 @@ export inject_into_feed = (component_generator) ->
         window.numitems += 1
       
         if window.numitems % 10 == 5
-          insertBeforeItem $($feeditem)
+          if window.active
+            insertBeforeItem $($feeditem)
     return
 
   idArraysEqual = (a1, a2) ->

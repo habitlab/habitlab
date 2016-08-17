@@ -21,6 +21,10 @@ require('components/timespent-view.deps')
 require('components/habitlab-logo.deps')
 
 const {
+  once_document_available
+} = require('libs_frontend/common_libs')
+
+const {
   get_seconds_spent_on_current_domain_today,
   get_seconds_spent_on_domain_today,
 } = require('libs_common/time_spent_utils')
@@ -205,10 +209,9 @@ function displayCountdown() {
 }
 
 function main() {
-  addBeginDialog("How many minutes would you like to spend on Facebook this visit?")
+  addBeginDialog("How many minutes would you like to spend on Facebook this visit?");
 }
 
-setTimeout(main, 1000);
-//main();
+once_document_available(main);
 
 })()

@@ -33,6 +33,10 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
+const {
+  once_document_available
+} = require('libs_frontend/common_libs')
+
 /*
 Local storage constants:
 - timeLimitDaily (seconds): The time limit the user chose to spend on facebook daily.
@@ -234,7 +238,13 @@ function main() {
     })
   }
 }
-
-main();
+// window.onload = () => {
+//   document.body.addEventListener("disable_intervention", () => {
+//     $('.timespent-view').remove();
+//     $('.contentContainer').remove();
+//   });
+// }
+//main();
+once_document_available(main);
 
 })()

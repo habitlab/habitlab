@@ -27,6 +27,9 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
+const {
+  once_document_available
+} = require('libs_frontend/common_libs')
 
 /*
 Local storage constants:
@@ -192,6 +195,8 @@ function main() {
   }
 }
 
-main();
+//main();
+once_document_available(main);
+
 
 })()

@@ -50,7 +50,18 @@ polymer_ext {
       type: Boolean
       computed: 'intervention_manually_managed(automatic)'
     }
+    pill_button_idx: {
+      type: Number
+      computed: 'get_pill_button_idx(automatic, enabled)'
+    }
   }
+  /*
+  get_pill_button_tooltip: (pill_button_idx) ->
+    if pill_button_idx == 0
+      return "Each time you visit Facebook,<br>HabitLab will show one of the<br>'Sometimes Shown' interventions."
+    else if pill_button_idx == 1
+      return "A 'Never Shown' intervention<br>is disabled and will not be shown."
+  */
   intervention_property_changed: (intervention, old_intervention) ->
     this.automatic = this.intervention.automatic
     this.enabled = this.intervention.enabled

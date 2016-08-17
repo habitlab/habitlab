@@ -59,7 +59,7 @@
       <template is="dom-if" if="{{have_interventions_available(goals_and_interventions)}}">
         <h2>Manage Interventions</h2>
         <!-- <img src="options-goals.png" style="width: 100%"> -->
-        <p style="font-size: 16px">HabitLab smartly manages your interventions by default to maximize their effectiveness. However, you can manually enable/disable interventions below.</p>
+        <p style="font-size: 16px">Each time you visit a site, Habitlab will choose an intervention to show based on how effective it is for you. If you dislike an intervention, you can disable it below.</p>
 
         <p style="font-size: 16px; margin-bottom: 0px;">You can set your interventions to be always on, or only active during your selected work hours.</p>
         <paper-radio-group selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">

@@ -12,6 +12,14 @@
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 
 <link rel="import" href="../bower_components/polymer-sortablejs/polymer-sortablejs.html">
+<link rel="import" href="../bower_components/html-echo/html-echo.html">
+
+<link rel="import" href="graph-chrome-history.html">
+<link rel="import" href="graph-time-saved-daily.html">
+<link rel="import" href="graph-daily-overview.html">
+<link rel="import" href="graph-num-times-interventions-deployed.html">
+<link rel="import" href="graph-donut-top-sites.html">
+
 
 <dom-module id="popup-view">
   <style is="custom-style">
@@ -130,7 +138,8 @@
         <paper-card>
           <div class="chartelement">
             <h4 class="title">Usage Statistics:</h4>
-            <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 500px"></chart-horizontal-bar>     
+              <html-echo html="{{html_for_shown_graphs}}"></html-echo>
+
           </div>
         </paper-card>        
         
@@ -140,8 +149,7 @@
             <sortable-js id="graphlist_sortable" on-update="sortableupdated">
               <template is="dom-repeat" items="{{graphOptions}}" as="graph">
                 <div>
-                <paper-checkbox intervention='{{graph}}' on-change="checkbox_checked_handler"></paper-checkbox>
-                {{graph}}
+                  <paper-checkbox checked="{{is_not_in_blacklist(graph, blacklist, graphNamesToOptions)}}" graph="{{graph}}" on-change="checkbox_checked_handler">{{graph}}</paper-checkbox>
                 </div>
               </template>         
             </sortable-js> 

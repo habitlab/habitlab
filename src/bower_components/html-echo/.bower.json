@@ -1,0 +1,38 @@
+{
+  "name": "html-echo",
+  "version": "1.0.1",
+  "authors": [
+    "collaborne"
+  ],
+  "description": "Web component dumps HTML bound to a String property directly into the DOM (Polymer 1.x)",
+  "main": "html-echo.html",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "html",
+    "echo"
+  ],
+  "license": "Apache 2",
+  "homepage": "http://www.apache.org/licenses/LICENSE-2.0",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0"
+  },
+  "devDependencies": {
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "web-component-tester": "*",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.1",
+    "commit": "339f676e2b389837f2add2dea8df51e502a45f8e"
+  },
+  "_source": "https://github.com/Collaborne/html-echo.git",
+  "_target": "^1.0.1",
+  "_originalSource": "html-echo",
+  "_direct": true
+}

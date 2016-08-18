@@ -47,6 +47,13 @@ polymer_ext {
     },
     graphNamesToOptions: {
       type: Object
+    },
+    blacklist: {
+      type: Object
+    },
+    html_for_shown_graphs: {
+      type: String
+      computed: 'compute_html_for_shown_graphs(shownGraphs, blacklist)'
     }
   }
 
@@ -70,25 +77,39 @@ polymer_ext {
     enabledInterventions <- list_enabled_interventions_for_location(url)
     self.enabledInterventions = enabledInterventions
 
-  checkbox_checked_handler: (evt) ->
-    self = this
-    graph = evt.target.graph
 
-    /*
-    if evt.target.checked
-      self.shownGraphs.push evt.target.graph
-    else 
-      index = self.shownGraphs.indexOf evt.target.graph
-      if index > -1
-        self.shownGraphs.splice index, 1
-    */
+  is_not_in_blacklist: (graph, blacklist, graphNamesToOptions) ->
+    graph = graphNamesToOptions[graph]
+    console.log 'graph is'
+    console.log graph
+    console.log 'blacklist is'
+    console.log blacklist
+    return blacklist[graph] == false
+  checkbox_checked_handler: (evt) ->
+    console.log 'checkbox_checked_handler'
+    self = this
+    console.log evt.target
+    console.log 'is checked'
+    console.log evt.target.checked
+    graph = evt.target.graph
+    console.log graph
+    #self.blacklist[self.graphNamesToOptions[graph]] = !self.blacklist[self.graphNamesToOptions[graph]]
+    self.blacklist[self.graphNamesToOptions[graph]] = !evt.target.checked
+    self.blacklist = JSON.parse JSON.stringify self.blacklist
+
+    #self.shownGraphs = self.shownGraphs.map((graph_name) -> self.graphNamesToOptions[graph_name]).filter((x) -> !self.blacklist[x])
+
 
   sortableupdated: (evt) ->
-    console.log 'sortableupdated'
-    console.log evt
     self = this
-    shownGraphs = this.$$('#graphlist_sortable').innerText.split('\n').map((.trim())).filter((x) -> x != '')  
-    this.shownGraphs = shownGraphs.map (graph_name) -> self.graphNamesToOptions[graph_name]
+    shownGraphs = this.$$('#graphlist_sortable').innerText.split('\n').map((.trim())).filter((x) -> x != '')
+    this.shownGraphs = shownGraphs.map((graph_name) -> self.graphNamesToOptions[graph_name])
+
+  compute_html_for_shown_graphs: (shownGraphs, blacklist) ->
+    #shownGraphs = shownGraphs.map((graph_name) -> self.graphNamesToOptions[graph_name]).filter((x) -> !self.blacklist[x])
+    self = this
+    shownGraphs = shownGraphs.filter((x) -> !self.blacklist[x])
+    return shownGraphs.map((x) -> "<#{x}></#{x}>").join('')
 
 
   isEmpty: (enabledInterventions) ->
@@ -138,12 +159,28 @@ polymer_ext {
     }
     self.graphNamesToOptions = graphNamesToOptions
 
+
+    blacklist = {
+      "graph-chrome-history" : false, 
+      "graph-daily-overview" : true, 
+      "graph-donut-top-sites" : true, 
+      "graph-num-times-interventions-deployed": true,      
+      "graph-time-saved-daily": true
+    }
+    self.blacklist = blacklist
+
     graphOptions = ['Goal Website History Graph', 'Daily Overview', 
                     'Donut Graph', 'Interventions Deployed Graph', 
                     'Time Saved Due to HabitLab']
     self.graphOptions = graphOptions 
 
-    shownGraphs = []
+    shownGraphs = [
+      'graph-chrome-history'
+      'graph-daily-overview'
+      'graph-donut-top-sites'
+      'graph-num-times-interventions-deployed'
+      'graph-time-saved-daily'
+    ]
     self.shownGraphs = shownGraphs
 
 }, {

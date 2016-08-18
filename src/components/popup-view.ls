@@ -110,7 +110,7 @@ polymer_ext {
     self = this
     url = yield get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions = yield list_enabled_interventions_for_location(url)
+    enabledInterventions = yield list_currently_loaded_interventions(url)
     self.enabledInterventions = enabledInterventions
 
     self.S('#resultsButton').click(->

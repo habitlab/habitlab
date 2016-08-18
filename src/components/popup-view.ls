@@ -62,7 +62,6 @@ polymer_ext {
     self = this
     intervention = evt.target.intervention
     <- set_intervention_disabled intervention
-    #console.log 'done disabling intervention'
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
     enabledInterventions <- list_currently_loaded_interventions(url)
@@ -72,12 +71,10 @@ polymer_ext {
     self = this
     intervention = evt.target.intervention
     <- set_intervention_disabled_permanently intervention
-    #console.log 'done disabling intervention'
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
     enabledInterventions <- list_currently_loaded_interventions(url)
     self.enabledInterventions = enabledInterventions
-
 
   is_not_in_blacklist: (graph, blacklist, graphNamesToOptions) ->
     graph = graphNamesToOptions[graph]
@@ -86,20 +83,12 @@ polymer_ext {
     console.log 'blacklist is'
     console.log blacklist
     return blacklist[graph] == false
+
   checkbox_checked_handler: (evt) ->
-    console.log 'checkbox_checked_handler'
     self = this
-    console.log evt.target
-    console.log 'is checked'
-    console.log evt.target.checked
     graph = evt.target.graph
-    console.log graph
-    #self.blacklist[self.graphNamesToOptions[graph]] = !self.blacklist[self.graphNamesToOptions[graph]]
     self.blacklist[self.graphNamesToOptions[graph]] = !evt.target.checked
     self.blacklist = JSON.parse JSON.stringify self.blacklist
-
-    #self.shownGraphs = self.shownGraphs.map((graph_name) -> self.graphNamesToOptions[graph_name]).filter((x) -> !self.blacklist[x])
-
 
   sortableupdated: (evt) ->
     self = this
@@ -107,11 +96,9 @@ polymer_ext {
     this.shownGraphs = shownGraphs.map((graph_name) -> self.graphNamesToOptions[graph_name])
 
   compute_html_for_shown_graphs: (shownGraphs, blacklist) ->
-    #shownGraphs = shownGraphs.map((graph_name) -> self.graphNamesToOptions[graph_name]).filter((x) -> !self.blacklist[x])
     self = this
     shownGraphs = shownGraphs.filter((x) -> !self.blacklist[x])
     return shownGraphs.map((x) -> "<#{x}></#{x}>").join('')
-
 
   isEmpty: (enabledInterventions) ->
     return enabledInterventions? and enabledInterventions.length == 0

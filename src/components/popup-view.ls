@@ -1,4 +1,4 @@
-{polymer_ext} = require 'libs_frontend/polymer_utils'
+ {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {cfy} = require 'cfy'
 {load_css_file} = require 'libs_common/content_script_utils'
@@ -117,6 +117,7 @@ polymer_ext {
         self.$$('.feedbackform').style.display = "block"
     )
 
+    #MARK: Graphs on popup view
     graphNamesToOptions = {
       "Goal Website History Graph" : "graph-chrome-history",
       "Daily Overview" : "graph-daily-overview",
@@ -140,12 +141,3 @@ polymer_ext {
     'once_available'
   ]
 }
-
-#Sorts array in descending order 
-#http://stackoverflow.com/questions/5199901/how-to-sort-an-associative-array-by-its-values-in-javascript
-bySortedValue = (obj) ->
-  tuples = []
-  for key of obj
-    tuples.push [key, obj[key]]
-  tuples.sort ((a, b) -> if a.1 < b.1 then 1 else if a.1 > b.1 then -1 else 0)
-  tuples

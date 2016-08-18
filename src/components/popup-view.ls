@@ -8,6 +8,7 @@ const swal = require 'sweetalert2'
 
 {
   get_active_tab_url
+  list_currently_loaded_interventions
 } = require 'libs_backend/background_common'
 
 {
@@ -44,6 +45,9 @@ polymer_ext {
     },
     shownGraphs: {
       type: Array
+    },
+    graphNamesToOptions: {
+      type: Object
     }
   }
 
@@ -54,7 +58,7 @@ polymer_ext {
     #console.log 'done disabling intervention'
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions <- list_enabled_interventions_for_location(url)
+    enabledInterventions <- list_currently_loaded_interventions(url)
     self.enabledInterventions = enabledInterventions
 
   perm_disable_button_clicked: (evt) ->
@@ -64,20 +68,29 @@ polymer_ext {
     #console.log 'done disabling intervention'
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions <- list_enabled_interventions_for_location(url)
+    enabledInterventions <- list_currently_loaded_interventions(url)
     self.enabledInterventions = enabledInterventions
 
   checkbox_checked_handler: (evt) ->
     self = this
     graph = evt.target.graph
-    if evt.target.checked
-      shownGraphs.push evt.target.graph
-    else 
-      index = shownGraphs.indexOf evt.target.graph
-      if index > -1
-        shownGraphs.splice index, 1
 
-    console.log shownGrapha
+    /*
+    if evt.target.checked
+      self.shownGraphs.push evt.target.graph
+    else 
+      index = self.shownGraphs.indexOf evt.target.graph
+      if index > -1
+        self.shownGraphs.splice index, 1
+    */
+
+  sortableupdated: (evt) ->
+    console.log 'sortableupdated'
+    console.log evt
+    self = this
+    shownGraphs = this.$$('#graphlist_sortable').innerText.split('\n').map((.trim())).filter((x) -> x != '')  
+    this.shownGraphs = shownGraphs.map (graph_name) -> self.graphNamesToOptions[graph_name]
+
 
   isEmpty: (enabledInterventions) ->
     return enabledInterventions? and enabledInterventions.length == 0
@@ -91,14 +104,13 @@ polymer_ext {
       yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
       swal "Thanks for the feedback!", "", "success"
 
-
   ready: cfy ->*
     chrome.browserAction.setBadgeText {text: ''}
     chrome.browserAction.setBadgeBackgroundColor {color: ''}
     self = this
     url = yield get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions = yield list_enabled_interventions_for_location(url)
+    enabledInterventions = yield list_currently_loaded_interventions(url)
     self.enabledInterventions = enabledInterventions
 
     self.S('#resultsButton').click(->
@@ -125,6 +137,7 @@ polymer_ext {
       "Interventions Deployed Graph" : "graph-num-times-interventions-deployed",
       "Time Saved Due to HabitLab" : "graph-time-saved-daily"
     }
+    self.graphNamesToOptions = graphNamesToOptions
 
     graphOptions = ['Goal Website History Graph', 'Daily Overview', 
                     'Donut Graph', 'Interventions Deployed Graph', 

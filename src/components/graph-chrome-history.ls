@@ -42,7 +42,7 @@ polymer_ext {
     intervention_time_spent = []
     for item in intervention_urls
       temp = yield get_baseline_time_on_domain(item)
-      intervention_time_spent.push(temp / (60*1000))
+      intervention_time_spent.push(Math.round(10*temp / (60*1000))/10)
 
     self.chromeHistoryData = {
       labels: intervention_urls

@@ -8,6 +8,7 @@ const swal = require 'sweetalert2'
 
 {
   get_active_tab_url
+  list_currently_loaded_interventions
 } = require 'libs_backend/background_common'
 
 {
@@ -54,7 +55,7 @@ polymer_ext {
     #console.log 'done disabling intervention'
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions <- list_enabled_interventions_for_location(url)
+    enabledInterventions <- list_currently_loaded_interventions(url)
     self.enabledInterventions = enabledInterventions
 
   perm_disable_button_clicked: (evt) ->
@@ -64,7 +65,7 @@ polymer_ext {
     #console.log 'done disabling intervention'
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions <- list_enabled_interventions_for_location(url)
+    enabledInterventions <- list_currently_loaded_interventions(url)
     self.enabledInterventions = enabledInterventions
 
   checkbox_checked_handler: (evt) ->

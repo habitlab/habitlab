@@ -7,6 +7,10 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
+{
+  as_array
+} = require 'libs_common/collection_utils'
+
 {generate_random_id} = require 'libs_common/generate_random_id'
 
 {cfy, yfy, add_noerr} = require 'cfy'
@@ -74,6 +78,14 @@ export eval_content_script = cfy (script) ->*
   for result in results
     console.log result
   return result
+
+export eval_content_script_for_tabid = cfy (tabid, script) ->*
+  yield chrome_tabs_sendmessage tabid, {type: 'eval_content_script', data: script}
+
+export list_currently_loaded_interventions = cfy ->*
+  tab = yield get_active_tab_info()
+  loaded_interventions = yield eval_content_script_for_tabid tab.id, 'window.loaded_interventions'
+  return as_array(loaded_interventions)
 
 export send_message_to_tabid = cfy (tabid, type, data) ->*
   return chrome_tabs_sendmessage tabid, {type, data}

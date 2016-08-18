@@ -41,7 +41,6 @@ function removeFeed() {
   $('#pagelet_games_rhc').hide();
   $('#pagelet_trending_tags_and_topics').hide();
   $('#pagelet_canvas_nav_content').hide();
-  console.log("removing...")
 }
 
 //Shows the news feed
@@ -70,7 +69,6 @@ function attachButtons() {
   var centerDiv = $('<center id=centerdiv></center>')
   var cheatButton = $('<paper-button style="background-color:white; text-align: center; margin: 0 auto; position: relative;" raised>Show My News Feed This One Time</paper-button>')
   cheatButton.click(function(evt) {
-    console.log(evt.currentTarget)
     log_action(intervention.name, {'negative': 'Remained on Facebook.'})
     showFeed(intervalID)
   })
@@ -94,7 +92,6 @@ var feedShown = false;
 intervalID = window.setInterval(removeFeed, 200);
 window.intervalID = intervalID;
 document.body.addEventListener('disable_intervention', (intervalID) => {
-  console.log(intervalID);
   showFeed(window.intervalID);
 });
 

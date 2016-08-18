@@ -238,13 +238,15 @@ function main() {
     })
   }
 }
-// window.onload = () => {
-//   document.body.addEventListener("disable_intervention", () => {
-//     $('.timespent-view').remove();
-//     $('.contentContainer').remove();
-//   });
-// }
-//main();
+window.onload = () => {
+  document.body.addEventListener("disable_intervention", () => {
+    $('.timespent-view').remove();
+    $('.contentContainer').remove();
+    $('.dialogBox').remove();
+    $('.beginBox').remove()
+  });
+}
+main();
 once_document_available(main);
 
 })()

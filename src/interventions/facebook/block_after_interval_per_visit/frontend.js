@@ -212,5 +212,13 @@ function main() {
 }
 
 once_document_available(main);
+window.onload = () => {
+  document.body.addEventListener("disable_intervention", () => {
+    $('.timespent-view').remove();
+    $('.contentContainer').remove();
+    $('.dialogBox').remove();
+    $('.beginBox').remove()
+  });
+}
 
 })()

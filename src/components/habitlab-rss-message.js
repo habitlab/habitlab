@@ -15,7 +15,7 @@ polymer_ext({
 	attached: function() {
 		var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
 		url += "?" + $.param({
-			'api-key': "b9f5b1f7b1b745c0a563d9e11121ecf2"
+			'api-key': "af39842c8e454c07a69c284916426052"
 		});
 		
 		$.ajax({

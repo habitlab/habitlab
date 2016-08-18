@@ -114,6 +114,8 @@ load_background_script = cfy (options, intervention_info) ->*
   running_background_scripts[options.path] = env
   return
 
+cached_systemjs_code = null
+
 execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
   {content_script_options, name} = intervention_info
 
@@ -124,10 +126,18 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
     parameter.value = parameter_values[parameter.name]
     intervention_info_copy.params[parameter.name].value = parameter_values[parameter.name]
 
-  systemjs_content_script_code = ""
-  debug_content_script_code = ""
-  if intervention_info_copy.params.debug? and intervention_info_copy.params.debug.value
+  if cached_systemjs_code != null
+    systemjs_content_script_code = cached_systemjs_code
+  else
     systemjs_content_script_code = yield $.get '/intervention_utils/systemjs.js'
+    cached_systemjs_code := systemjs_content_script_code
+
+  debug_content_script_code = """
+    System.import('libs_frontend/content_script_debug').then(function(content_script_debug) {
+      content_script_debug.listen_for_eval(function(x) { return eval(x); });
+    });
+  """
+  if intervention_info_copy.params.debug? and intervention_info_copy.params.debug.value
     debug_content_script_code = """
     System.import('libs_frontend/content_script_debug').then(function(content_script_debug) {
       content_script_debug.listen_for_eval(function(x) { return eval(x); });

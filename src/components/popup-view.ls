@@ -44,6 +44,9 @@ polymer_ext {
     },
     shownGraphs: {
       type: Array
+    },
+    graphNamesToOptions: {
+      type: Object
     }
   }
 
@@ -70,14 +73,23 @@ polymer_ext {
   checkbox_checked_handler: (evt) ->
     self = this
     graph = evt.target.graph
-    if evt.target.checked
-      shownGraphs.push evt.target.graph
-    else 
-      index = shownGraphs.indexOf evt.target.graph
-      if index > -1
-        shownGraphs.splice index, 1
 
-    console.log shownGrapha
+    /*
+    if evt.target.checked
+      self.shownGraphs.push evt.target.graph
+    else 
+      index = self.shownGraphs.indexOf evt.target.graph
+      if index > -1
+        self.shownGraphs.splice index, 1
+    */
+
+  sortableupdated: (evt) ->
+    console.log 'sortableupdated'
+    console.log evt
+    self = this
+    shownGraphs = this.$$('#graphlist_sortable').innerText.split('\n').map((.trim())).filter((x) -> x != '')  
+    this.shownGraphs = shownGraphs.map (graph_name) -> self.graphNamesToOptions[graph_name]
+
 
   isEmpty: (enabledInterventions) ->
     return enabledInterventions? and enabledInterventions.length == 0
@@ -90,7 +102,6 @@ polymer_ext {
       this.feedbackText = ""
       yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
       swal "Thanks for the feedback!", "", "success"
-
 
   ready: cfy ->*
     chrome.browserAction.setBadgeText {text: ''}
@@ -125,6 +136,7 @@ polymer_ext {
       "Interventions Deployed Graph" : "graph-num-times-interventions-deployed",
       "Time Saved Due to HabitLab" : "graph-time-saved-daily"
     }
+    self.graphNamesToOptions = graphNamesToOptions
 
     graphOptions = ['Goal Website History Graph', 'Daily Overview', 
                     'Donut Graph', 'Interventions Deployed Graph', 

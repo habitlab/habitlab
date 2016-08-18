@@ -95,6 +95,7 @@ polymer_ext {
     if buttonidx == 1 # smartly managed
       this.automatic = true
       prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_enabled this.intervention.name
       yield set_intervention_automatically_managed this.intervention.name
       add_log_interventions {
         type: 'intervention_set_smartly_managed'

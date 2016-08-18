@@ -39,7 +39,8 @@
   .swal2-modal hr {
     height: 10px;
     color: transparent;
-    border: 0; }
+    border: 0;
+    background: transparent; }
   .swal2-modal button.styled {
     color: #fff;
     border: 0;

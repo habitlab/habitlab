@@ -9,6 +9,8 @@ const swal = require 'sweetalert2'
 {
   get_active_tab_url
   list_currently_loaded_interventions
+  get_active_tab_info
+  disable_interventions_in_active_tab
 } = require 'libs_backend/background_common'
 
 {
@@ -64,8 +66,10 @@ polymer_ext {
     <- set_intervention_disabled intervention
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions <- list_currently_loaded_interventions(url)
+    enabledInterventions <- list_currently_loaded_interventions()
+    enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
+    <- disable_interventions_in_active_tab()
 
   perm_disable_button_clicked: (evt) ->
     self = this
@@ -73,8 +77,10 @@ polymer_ext {
     <- set_intervention_disabled_permanently intervention
     url <- get_active_tab_url()
     #domain = url_to_domain(url)
-    enabledInterventions <- list_currently_loaded_interventions(url)
+    enabledInterventions <- list_currently_loaded_interventions()
+    enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
+    <- disable_interventions_in_active_tab()
 
   is_not_in_blacklist: (graph, blacklist, graphNamesToOptions) ->
     graph = graphNamesToOptions[graph]
@@ -117,8 +123,7 @@ polymer_ext {
     chrome.browserAction.setBadgeBackgroundColor {color: ''}
     self = this
     url = yield get_active_tab_url()
-    #domain = url_to_domain(url)
-    enabledInterventions = yield list_currently_loaded_interventions(url)
+    enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
 
     self.S('#resultsButton').click(->

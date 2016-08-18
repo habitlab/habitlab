@@ -90,6 +90,15 @@ export list_currently_loaded_interventions = cfy ->*
 export send_message_to_tabid = cfy (tabid, type, data) ->*
   return chrome_tabs_sendmessage tabid, {type, data}
 
+export disable_interventions_for_tabid = cfy (tabid) ->*
+  yield eval_content_script_for_tabid tabid, """
+  document.body.dispatchEvent(new CustomEvent('disable_intervention'))
+  """
+
+export disable_interventions_in_active_tab = cfy ->*
+  tab = yield get_active_tab_info()
+  yield disable_interventions_for_tabid tab.id
+
 export get_active_tab_info = cfy ->*
   tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
   if tabs.length == 0

@@ -137,7 +137,7 @@
         <paper-card>
           <h4 class="title">Graphs:</h4>
           <div class="chartelement">
-            <sortable-js>
+            <sortable-js id="graphlist_sortable" on-update="sortableupdated">
               <template is="dom-repeat" items="{{graphOptions}}" as="graph">
                 <div>
                 <paper-checkbox intervention='{{graph}}' on-change="checkbox_checked_handler"></paper-checkbox>

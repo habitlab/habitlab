@@ -7,8 +7,9 @@
 <link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="pill-button-group.html">
-
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="intervention-view-single.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
 <dom-module id="options-interventions">
   <style>
@@ -17,6 +18,16 @@
       width: 100%;
       height: 100%;
       font-family: 'Roboto', 'Noto', sans-serif;
+      
+      --paper-card: {
+        elevation: 5;
+        width: 70%;
+        background-color: #c5cae9;
+
+      };
+      --paper-card-content: {
+        font-size: 16px;
+      }
     }
 
     .time-string {
@@ -31,11 +42,12 @@
       color: #777777;
     }
    
+
     
     
   </style>
   <template>
-    <div style="margin: 10px">
+    <div style="margin: 10px"
 
       <h2>What goals should HabitLab help you achieve?</h2>
       <p style="font-size: 16px">Please tell HabitLab your goals so that it can help you achieve them by making adjustments to websites.</p>
@@ -57,10 +69,20 @@
         </template>
       </template>
 
+
+      <template is="dom-if" if="{{have_interventions_available(goals_and_interventions)}}">
+        <paper-card heading="You set a goal!"> 
+          
+          <div class="card-content">
+          You're done setting up HabitLab! Good luck browsing productively.
+          <br><br>
+          Each time you visit a site, Habitlab will choose an intervention to show based on how effective it is for you. If you dislike an intervention, you can disable it below. </div>
+        </paper-card>
+      </template>
+
       <template is="dom-if" if="{{have_interventions_available(goals_and_interventions)}}">
         <h2>Manage Interventions</h2>
         <!-- <img src="options-goals.png" style="width: 100%"> -->
-        <p style="font-size: 16px">Each time you visit a site, Habitlab will choose an intervention to show based on how effective it is for you. If you dislike an intervention, you can disable it below.</p>
 
         <p style="font-size: 16px; margin-bottom: 0px;">You can set your interventions to be always on, or only active during your selected work hours.</p>
 
@@ -72,6 +94,8 @@
         <!--
         <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
         -->
+
+
 
         <template is="dom-if" if="{{!always_active}}">
           <div id="timepicker">

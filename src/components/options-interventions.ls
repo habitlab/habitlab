@@ -119,21 +119,21 @@ polymer_ext {
           localStorage.first_goal = 'has enabled a goal before'
           add_toolbar_notification!
 
-          yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-          try
-            yield swal {
-              title: 'You set a goal!'
-              text: 'HabitLab will use its algorithms to try different interventions on your webpages, and intelligently figure out what works best for you. You can manually tinker with settings if you\'d like.'
-              type: 'success'
-              confirmButtonText: 'See it in action'
-            }
+          # yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+          # try
+          #   yield swal {
+          #     title: 'You set a goal!'
+          #     text: 'HabitLab will use its algorithms to try different interventions on your webpages, and intelligently figure out what works best for you. You can manually tinker with settings if you\'d like.'
+          #     type: 'success'
+          #     confirmButtonText: 'See it in action'
+          #   }
             
-            set_override_enabled_interventions_once('facebook/show_user_info_interstitial')
-            all_goals = yield get_goals()
-            goal_info = all_goals[goal_name]
-            chrome.tabs.create {url: goal_info.homepage }
-          catch
-            console.log 'failure'
+          #   set_override_enabled_interventions_once('facebook/show_user_info_interstitial')
+          #   all_goals = yield get_goals()
+          #   goal_info = all_goals[goal_name]
+          #   chrome.tabs.create {url: goal_info.homepage }
+          # catch
+          #   console.log 'failure'
       check_if_first_goal!
     else
       

@@ -9,7 +9,6 @@ require! {
   'gulp-eslint'
   'path'
   'fs'
-  'webpack-stream'
   'vinyl-named'
   'webpack'
   'gulp-vulcanize'
@@ -22,6 +21,8 @@ require! {
   'bestzip'
   'chrome-web-store-item-property'
 }
+
+webpack-stream = require 'webpack-stream-watch'
 
 process.on 'unhandledRejection', (reason, p) ->
   throw new Error(reason)

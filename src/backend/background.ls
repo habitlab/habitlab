@@ -490,6 +490,12 @@ do ->
     localStorage.setItem('notfirstrun', true)
     chrome.tabs.create {url: 'options.html#introduction'}
 
+localStorage.tabsOpened = 0
+chrome.tabs.onCreated.addListener (x) ->
+  localStorage.tabsOpened = Number(localStorage.tabsOpened) + 1
+  console.log localStorage.tabsOpened
+
+
 start_syncing_all_logs()
 start_syncing_all_db_collections()
 

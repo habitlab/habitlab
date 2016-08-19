@@ -35,12 +35,12 @@ require('bower_components/paper-button/paper-button.deps')
 function removeFeed() {
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
 
-  feed.children().hide();
-  $('.ticker_stream').hide();
-  $('.ego_column').hide();
-  $('#pagelet_games_rhc').hide();
-  $('#pagelet_trending_tags_and_topics').hide();
-  $('#pagelet_canvas_nav_content').hide();
+  feed.children().css('opacity', 0);
+  $('.ticker_stream').css('opacity', 0);
+  $('.ego_column').css('opacity', 0);
+  $('#pagelet_games_rhc').css('opacity', 0);
+  $('#pagelet_trending_tags_and_topics').css('opacity', 0);
+  $('#pagelet_canvas_nav_content').css('opacity', 0);
 }
 
 //Shows the news feed
@@ -50,12 +50,12 @@ function showFeed(intervalID) {
 
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
 
-  feed.children().show();
-  $('.ticker_stream').show();
-  $('.ego_column').show();
-  $('#pagelet_games_rhc').show();
-  $('#pagelet_trending_tags_and_topics').show();
-  $('#pagelet_canvas_nav_content').show();  
+  feed.children().css('opacity', 1);
+  $('.ticker_stream').css('opacity', 1);
+  $('.ego_column').css('opacity', 1);
+  $('#pagelet_games_rhc').css('opacity', 1);
+  $('#pagelet_trending_tags_and_topics').css('opacity', 1);
+  $('#pagelet_canvas_nav_content').css('opacity', 1);
 
   feedShown = true;
   clearInterval(intervalID) //stop refreshing the page to hide elements
@@ -73,8 +73,8 @@ function attachButtons() {
     showFeed(intervalID)
   })
 
-  $('#contentArea').append(habitlab_logo)
-  $('#contentArea').append(centerDiv)
+  $('#feedx_container').append(habitlab_logo)
+  $('#feedx_container').append(centerDiv)
   $('#centerdiv').append(cheatButton)
 }
 

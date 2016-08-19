@@ -75,7 +75,7 @@
     "watchify": "^3.7.0",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0",
-    "webpack-stream-cache": "^3.2.0"
+    "webpack-stream-watch": "^3.2.1"
   },
   "jspm": {
     "main": "habitlab.js",

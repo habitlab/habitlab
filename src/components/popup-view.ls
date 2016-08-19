@@ -65,7 +65,6 @@ polymer_ext {
     intervention = evt.target.intervention
     <- set_intervention_disabled intervention
     url <- get_active_tab_url()
-    #domain = url_to_domain(url)
     enabledInterventions <- list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
@@ -76,7 +75,6 @@ polymer_ext {
     intervention = evt.target.intervention
     <- set_intervention_disabled_permanently intervention
     url <- get_active_tab_url()
-    #domain = url_to_domain(url)
     enabledInterventions <- list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
@@ -84,10 +82,6 @@ polymer_ext {
 
   is_not_in_blacklist: (graph, blacklist, graphNamesToOptions) ->
     graph = graphNamesToOptions[graph]
-    console.log 'graph is'
-    console.log graph
-    console.log 'blacklist is'
-    console.log blacklist
     return blacklist[graph] == false
 
   checkbox_checked_handler: (evt) ->
@@ -95,6 +89,7 @@ polymer_ext {
     graph = evt.target.graph
     self.blacklist[self.graphNamesToOptions[graph]] = !evt.target.checked
     self.blacklist = JSON.parse JSON.stringify self.blacklist
+    localStorage.blacklist = JSON.stringify self.blacklist
 
   sortableupdated: (evt) ->
     self = this
@@ -143,6 +138,8 @@ polymer_ext {
     )
 
     #MARK: Graphs on popup view
+
+    #Map from graph option names to graph polymer component
     graphNamesToOptions = {
       "Goal Website History Graph" : "graph-chrome-history",
       "Daily Overview" : "graph-daily-overview",
@@ -152,16 +149,22 @@ polymer_ext {
     }
     self.graphNamesToOptions = graphNamesToOptions
 
+    #retrieves blacklist from localstorage; else, initializes default blacklist
+    if (localStorage.getItem 'blacklist') isnt null
+      blacklist = JSON.parse localStorage.blacklist
+    else
+      blacklist = {
+        "graph-chrome-history" : false, 
+        "graph-daily-overview" : true, 
+        "graph-donut-top-sites" : true, 
+        "graph-num-times-interventions-deployed": true,      
+        "graph-time-saved-daily": true
+      }
+      localStorage.blacklist = JSON.stringify(blacklist)
 
-    blacklist = {
-      "graph-chrome-history" : false, 
-      "graph-daily-overview" : true, 
-      "graph-donut-top-sites" : true, 
-      "graph-num-times-interventions-deployed": true,      
-      "graph-time-saved-daily": true
-    }
     self.blacklist = blacklist
 
+    #Graph options shown to user
     graphOptions = ['Goal Website History Graph', 'Daily Overview', 
                     'Donut Graph', 'Interventions Deployed Graph', 
                     'Time Saved Due to HabitLab']

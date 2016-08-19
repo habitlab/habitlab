@@ -44,6 +44,14 @@ export get_enabled_interventions_with_override = cfy ->*
   enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
   return enabled_interventions
 
+export get_enabled_interventions_with_override_for_visit = cfy ->*
+  override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
+  if override_enabled_interventions?
+    #localStorage.removeItem('override_enabled_interventions_once')
+    return as_dictset(JSON.parse(override_enabled_interventions))
+  enabled_interventions = yield intervention_manager.get_enabled_interventions_for_visit()
+  return enabled_interventions
+
 export get_enabled_interventions = cfy ->*
   enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
   return enabled_interventions
@@ -183,7 +191,7 @@ export list_enabled_interventions_for_location = cfy (location) ->*
 
 export list_enabled_nonconflicting_interventions_for_location = cfy (location) ->*
   available_interventions = yield list_available_interventions_for_location(location)
-  enabled_interventions = yield get_enabled_interventions_with_override()
+  enabled_interventions = yield get_enabled_interventions_with_override_for_visit()
   all_interventions = yield get_interventions()
   enabled_interventions_for_location = available_interventions.filter((x) -> enabled_interventions[x])
   output = []

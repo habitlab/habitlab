@@ -73,22 +73,22 @@ function attachButtons() {
     showFeed(intervalID)
   })
 
-  $('#feedx_container').append(habitlab_logo)
-  $('#feedx_container').append(centerDiv)
+  habitlab_logo.insertAfter($('#pagelet_composer'))
+  centerDiv.insertAfter($('#pagelet_composer'))
+
   $('#centerdiv').append(cheatButton)
 }
 
-//Main
 on_url_change(() => {
   var re = new RegExp('https?:\/\/www.facebook.com\/\??.*$');
   //If the user didn't click the button to show the news feed, show the "show" button & habitlab icon
-  if ($('habitlab-logo').length == 0 && re.test(window.location.href)) {
+  if ($('habitlab-logo').length == 0 && !feedShown && re.test(window.location.href)) {
     attachButtons();
   }
 })
 
-attachButtons();
 var feedShown = false;
+attachButtons();
 intervalID = window.setInterval(removeFeed, 200);
 window.intervalID = intervalID;
 document.body.addEventListener('disable_intervention', (intervalID) => {

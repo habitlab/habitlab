@@ -73,11 +73,6 @@ function attachButtons() {
     showFeed(intervalID)
   })
 
-  /*
-  $('#contentArea').append(habitlab_logo)
-  $('#contentArea').append(centerDiv)
-  */
-
   habitlab_logo.insertAfter($('#pagelet_composer'))
   centerDiv.insertAfter($('#pagelet_composer'))
 

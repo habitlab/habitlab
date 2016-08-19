@@ -26,6 +26,7 @@
 
 {
   get_intervention_selection_algorithm
+  get_intervention_selection_algorithm_for_visit
 } = require 'libs_backend/intervention_selection_algorithms'
 
 {
@@ -50,6 +51,26 @@ export get_cached_enabled_interventions_for_days_since_today = cfy (days_since_t
 
 export get_enabled_interventions_for_today = cfy ->*
   yield get_enabled_interventions_for_days_since_today 0
+
+export get_enabled_interventions_for_visit = cfy ->*
+  enabled_interventions = {}
+  intervention_selection_algorithm = yield get_intervention_selection_algorithm_for_visit()
+  automatically_enabled_interventions_list = yield intervention_selection_algorithm()
+  automatically_enabled_interventions_set = {[k, true] for k in automatically_enabled_interventions_list}
+  enabled_interventions_set = yield get_most_recent_enabled_interventions()
+  manually_managed_interventions_set = yield intervention_utils.get_manually_managed_interventions_localstorage()
+  all_interventions = yield intervention_utils.list_all_interventions()
+  for intervention in all_interventions
+    manually_managed = manually_managed_interventions_set[intervention]
+    manually_managed = (manually_managed == true)
+    enabled = false
+    if manually_managed
+      enabled = enabled_interventions_set[intervention]
+    else
+      enabled = automatically_enabled_interventions_set[intervention]
+    enabled = (enabled == true)
+    enabled_interventions[intervention] = enabled
+  return enabled_interventions
 
 get_last_day_with_intervention_enabled_data = cfy ->*
   collection = yield getCollection('interventions_enabled_each_day')

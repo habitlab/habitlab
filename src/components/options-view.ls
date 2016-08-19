@@ -44,12 +44,14 @@ polymer_ext {
     
     console.log \icon_clicked
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    yield swal {'title':"Welcome to HabitLab!", 'text': "\nHabitLab is a Chrome Extension that will help prevent you from getting distracted on the web. \n\n
+    yield swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.
+           It will <u>automatically show you interventions</u> to help you keep on track to your goals, and fine-tune its algorithms over time.\n\n\n
           
-          Some other information:\n\n
-          <b>Privacy: </b>In order to optimize your interventions, HabitLab needs to <b>modify your webpages</b> and <b>send data to our server about where and when you see interventions</b>.\n
-          \n<b>Icons: </b>A <iron-icon icon='settings' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> is placed on every intervention, so you can easily identify which elements are from HabitLab. Click the gear to get more information or disable the intervention.\n
-          Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again. Best of luck achieving your internet goals!
+          
+          <b>Privacy: </b>In order to optimize your interventions, HabitLab needs to <u>modify your webpages</u> and <u>send data to our server</u> about where and when you see interventions.\n
+          \n<b>Icons: </b>A <habitlab-logo style='zoom: 0.5;  padding-left: 5px; padding-right: 5px; display: inline-block'></habitlab-logo> is placed on every intervention, so you can easily identify which elements are from HabitLab. Click the gear to get more information or disable the intervention.\n
+          Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again. 
+          \n\nClick OK to begin selecting your goals!
           ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
   #ready: ->
   #  self = this

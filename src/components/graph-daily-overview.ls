@@ -54,7 +54,7 @@ polymer_ext {
         xAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Units'
+            labelString: 'Minutes'
           },
           ticks: {
             beginAtZero: true

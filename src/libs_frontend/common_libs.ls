@@ -64,7 +64,7 @@ export run_only_one_at_a_time = (func) ->
       is_running := false
 
 export add_toolbar_notification = ->
-  chrome.browserAction.setBadgeText {text: '+'}
+  chrome.browserAction.setBadgeText {text: '1'}
   chrome.browserAction.setBadgeBackgroundColor {color: '#3498DB'}
 
 export on_url_change = (func) ->

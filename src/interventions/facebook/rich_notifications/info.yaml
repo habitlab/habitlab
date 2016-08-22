@@ -1,4 +1,4 @@
-description: Displays a transient notification in the top-right corner of the browser.
+description: Displays a notification in the top-right corner of the browser.
 matches:
   - www.facebook.com
 content_scripts:

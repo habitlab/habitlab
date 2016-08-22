@@ -20,6 +20,8 @@ const {
 
 const {polymer_ext} = require('libs_frontend/polymer_utils')
 
+const {close_selected_tab} = require('libs_frontend/tab_utils')
+
 Polymer({
   is: 'feed-item-timer-polymer',
   properties: {
@@ -57,5 +59,11 @@ Polymer({
       
     }, 1000);
   },
+  closeTab: function() {
+    console.log("closing...")
+    close_selected_tab().then(() => {
+      console.log("closed it");
+    });
+  }
   
 });

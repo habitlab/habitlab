@@ -57,6 +57,10 @@ polymer_ext {
     html_for_shown_graphs: {
       type: String
       computed: 'compute_html_for_shown_graphs(shownGraphs, blacklist)'
+    },
+    selected_tab_idx: {
+      type: Number
+      value: 0
     }
   }
 

@@ -8,6 +8,8 @@
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 
@@ -92,36 +94,41 @@
 
       <div class="box">
         <paper-card>
-        <div class="interventioninfo">
-          <h4 class="title">Interventions Currently Active On This Page: </h4>
+        <paper-tabs selected="{{selected_tab_idx}}">
+          <paper-tab>Currently Active</paper-tab>
+          <paper-tab>Upcoming</paper-tab>
+        </paper-tabs>
 
-          <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
-            <div class="interventionContainer" id="enabledInterventions">
-              <span class="interventionName">{{intervention}}</span>
-              
-              <paper-menu-button vertical-offset="35">
-                <paper-button class="dropdown-trigger" raised>
-                  <!-- <iron-icon icon="check"></iron-icon> -->
-                  <span>Disable Intervention &#x25BC;</span>
-                </paper-button>
-                <paper-listbox class="dropdown-content">
-                  <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the Rest of the Day</paper-item>
-                  <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
-                </paper-listbox>
-              </paper-menu-button>            
+        <iron-pages selected="{{selected_tab_idx}}">
+        <iron-page>
+          <div class="interventioninfo">
+            <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
+              <div class="interventionContainer" id="enabledInterventions">
+                <span class="interventionName">{{intervention}}</span>
+                
+                <paper-menu-button vertical-offset="35">
+                  <paper-button class="dropdown-trigger" raised>
+                    <!-- <iron-icon icon="check"></iron-icon> -->
+                    <span>Disable Intervention &#x25BC;</span>
+                  </paper-button>
+                  <paper-listbox class="dropdown-content">
+                    <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the Rest of the Day</paper-item>
+                    <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
+                  </paper-listbox>
+                </paper-menu-button>            
+              </div>
+            </template>
+            <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
+              <div class="interventionContainer" id="enabledInterventions">
+                <h4>None</h4>
+              </div>
+            </template>        
+          </div>
+        </iron-page>
 
-            </div>
-          </template>
-
-        
-
-          <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
-            <div class="interventionContainer" id="enabledInterventions">
-              <h4>None</h4>
-            </div>
-          </template>        
-
-        </div>
+        <iron-page>
+          HI
+        </iron-page>
         </paper-card>
         
         <paper-card style="display:none;" class="feedbackform">

@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="habitlab-logo.html">
 
 
@@ -11,6 +12,13 @@
       :host {
         
       }
+      .close-button {
+        background-color: #8bc34a;  
+        margin-top: 70px;
+
+        
+      }
+
       .container {
         background-color: #3498DB;
         width: 500px;
@@ -21,6 +29,7 @@
         
         
         display: flex;
+        flex-direction: column;
         align-items: center;
         
       }
@@ -33,7 +42,7 @@
 
       .timer-text {
         
-        padding-right: 38px;
+        padding-top: 20px;
       }
 
       #grey-space {
@@ -57,9 +66,11 @@
       <habitlab-logo class="habitlab-logo"></habitlab-logo><br/>
       <div class=timer-text>You have already spent {{minutes}} minute(s) and {{seconds}} seconds on {{site}}. <br/><br/>
       </div>
+       <paper-button class="close-button" on-click="closeTab">Close FB</paper-button>
     </div>
     <div id="shadow"></div>
     <div id="grey-space"></div>
+   
     
   </template>
   <script src="feed-item-timer-polymer.js"></script>

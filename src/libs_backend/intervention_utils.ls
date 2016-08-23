@@ -21,6 +21,7 @@ require! {
 
 {
   as_dictset
+  as_array
 } = require 'libs_common/collection_utils'
 
 {cfy, yfy} = require 'cfy'
@@ -187,6 +188,15 @@ export get_interventions = memoizeSingleAsync cfy ->*
 export list_enabled_interventions_for_location = cfy (location) ->*
   available_interventions = yield list_available_interventions_for_location(location)
   enabled_interventions = yield get_enabled_interventions()
+  return available_interventions.filter((x) -> enabled_interventions[x])
+
+export list_all_enabled_interventions_for_location_with_override = cfy (location) ->*
+  override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
+  if override_enabled_interventions?
+    #localStorage.removeItem('override_enabled_interventions_once')
+    return as_array(JSON.parse(override_enabled_interventions))
+  available_interventions = yield list_available_interventions_for_location(location)
+  enabled_interventions = yield intervention_manager.get_most_recent_enabled_interventions()
   return available_interventions.filter((x) -> enabled_interventions[x])
 
 export list_enabled_nonconflicting_interventions_for_location = cfy (location) ->*

@@ -29,6 +29,7 @@ require 'libs_backend/expose_backend_libs'
 {
   get_interventions
   list_enabled_nonconflicting_interventions_for_location
+  list_all_enabled_interventions_for_location_with_override
   list_available_interventions_for_location
   get_intervention_parameters
 } = require 'libs_backend/intervention_utils'
@@ -189,6 +190,53 @@ load_intervention = cfy (intervention_name, tabId) ->*
 list_loaded_interventions = cfy ->*
   yield send_message_to_active_tab 'list_loaded_interventions', {}
 
+
+get_new_session_id_for_domain = cfy (domain) ->*
+  # TODO this should actually give us a new id such that we can store it in the database
+  return Math.floor(Math.random() * 1000)
+
+load_intervention_for_location = cfy (location, tabId) ->*
+  {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
+  work_hours_only = work_hours_only == 'true'
+  start_mins_since_midnight = parseInt start_mins_since_midnight
+  end_mins_since_midnight = parseInt end_mins_since_midnight
+  mins_since_midnight = moment().hours()*60 + moment().minutes()
+  if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
+    return
+
+  domain = url_to_domain(location)
+  if not tab_id_to_domain_to_session_info[tabId]?
+    tab_id_to_domain_to_session_info[tabId] = {}
+  if not tab_id_to_domain_to_session_info[tabId][domain]?
+    possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+    intervention = possible_interventions[0]
+    session_id = yield get_new_session_id_for_domain(domain)
+    tab_id_to_domain_to_session_info[tabId][domain] = {
+      intervention
+      session_id
+    }
+  else
+    all_enabled_interventions = yield list_all_enabled_interventions_for_location_with_override(location)
+    {
+      intervention
+      session_id
+    } = tab_id_to_domain_to_session_info[tabId][domain]
+    if all_enabled_interventions.indexOf(intervention) == -1
+      # the intervention is no longer enabled. need to choose a new session id
+      session_id = yield get_new_session_id_for_domain(domain)
+      possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+      intervention = possible_interventions[0]
+      tab_id_to_domain_to_session_info[tabId][domain] = {
+        intervention
+        session_id
+      }
+
+  if not intervention?
+    return
+  yield load_intervention intervention, tabId
+  localStorage.removeItem('override_enabled_interventions_once')
+
+/*
 load_intervention_for_location = cfy (location, tabId) ->*
   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
   work_hours_only = work_hours_only == 'true'
@@ -202,6 +250,7 @@ load_intervention_for_location = cfy (location, tabId) ->*
     yield load_intervention intervention, tabId
   localStorage.removeItem('override_enabled_interventions_once')
   return
+*/
 
 getLocation = cfy ->*
   #send_message_to_active_tab 'getLocation', {}, callback
@@ -311,6 +360,15 @@ domain_changed = (new_domain) ->
   current_day = get_days_since_epoch()
   addtokey_dictdict 'visits_to_domain_per_day', new_domain, current_day, 1, (total_visits) ->
     console.log "total visits to #{new_domain} today is #{total_visits}"
+
+# our definition of a session:
+# how long a tab was open and on Facebook (or other site of interest) until it was closed
+# some pitfalls. if user navigates to FB, then goes to say buzzfeed, then goes back (on that same tab) the sessions are merged
+tab_id_to_domain_to_session_info = {}
+
+export list_domain_to_session_ids = ->
+  for tab_id,domain_to_session_info of tab_id_to_domain_to_session_info
+    console.log domain_to_session_info
 
 navigation_occurred = (url, tabId) ->
   new_domain = url_to_domain(url)
@@ -465,6 +523,15 @@ setInterval ->
       prev_browser_focused := focused
       browser_focus_changed(focused)
 , 500
+
+/*
+export list_current_tab_ids = ->
+  chrome.tabs.query {}, (tabs) ->
+    output = {}
+    for tab in tabs
+      output[tab.url] = tab.id
+    console.log output
+*/
 
 setInterval ->
   if !prev_browser_focused

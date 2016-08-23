@@ -1,12 +1,18 @@
 require! {
   moment
+  prelude
 }
 
 {
   getkey_dictdict
   getdict_for_key_dictdict
   getdict_for_key2_dictdict
+  getCollection
 } = require 'libs_common/db_utils'
+
+{
+  url_to_domain
+} = require 'libs_common/domain_utils'
 
 {
   get_days_since_epoch
@@ -63,6 +69,23 @@ export get_visits_to_domain_today = cfy (domain) ->*
 export get_visits_to_current_domain_today = cfy ->*
   current_domain = window.location.hostname
   result = yield get_visits_to_domain_today current_domain
+  return result ? 0
+
+export get_new_session_id_for_domain = cfy (domain) ->*
+  collection = yield getCollection('seconds_on_domain_per_session')
+  all_session_ids_for_domain = yield collection.where('key').equals(domain).toArray()
+  all_session_ids_for_domain = all_session_ids_for_domain.map (.key2)
+  if all_session_ids_for_domain.length == 0
+    return 0
+  return prelude.maximum(all_session_ids_for_domain) + 1 # this is the day, in epoch time, that the most recent intervention set occurred
+
+export get_seconds_spent_on_current_domain_in_session = cfy (session_id) ->*
+  current_domain = window.location.hostname
+  result = yield get_seconds_spent_on_domain_this_session current_domain, session_id
+  return result ? 0
+
+export get_seconds_spent_on_domain_in_session = cfy (domain, session_id) ->*
+  result = yield getkey_dictdict 'seconds_on_domain_per_session', domain, session_id
   return result ? 0
 
 gexport_module 'time_spent_utils', -> eval(it)

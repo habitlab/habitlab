@@ -62,6 +62,7 @@ export get_current_collections = ->
     visits_to_domain_per_day: '[key+key2],key,key2,synced'
     intervention_to_parameters: '[key+key2],key,key2,synced'
     custom_measurements_each_day: '[key+key2],key,key2,synced'
+    seconds_on_domain_per_session: '[key+key2],key,key2,synced'
   }
 
 export getDb = memoizeSingleAsync cfy ->*

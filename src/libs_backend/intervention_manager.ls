@@ -52,6 +52,15 @@ export get_cached_enabled_interventions_for_days_since_today = cfy (days_since_t
 export get_enabled_interventions_for_today = cfy ->*
   yield get_enabled_interventions_for_days_since_today 0
 
+export get_active_interventions_for_domain_and_session = cfy (domain, session_id) ->*
+  result = yield getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
+  if not result?
+    return []
+  return JSON.parse result
+
+export set_active_interventions_for_domain_and_session = cfy (domain, session_id, interventions) ->*
+  yield setkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id, JSON.stringify(interventions)
+
 export get_enabled_interventions_for_visit = cfy ->*
   enabled_interventions = {}
   intervention_selection_algorithm = yield get_intervention_selection_algorithm_for_visit()

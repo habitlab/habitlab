@@ -214,25 +214,36 @@ load_intervention_for_location = cfy (location, tabId) ->*
     return
 
   domain = url_to_domain(location)
-  if not tab_id_to_domain_to_session_id[tabId]?
-    tab_id_to_domain_to_session_id[tabId] = {}
   session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)
-  if not domain_to_session_id_to_intervention[domain]?
-    domain_to_session_id_to_intervention[domain] = {}
-  intervention = domain_to_session_id_to_intervention[domain][session_id]
-  if not intervention?
+  active_interventions = yield getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
+  if not active_interventions?
     possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
     intervention = possible_interventions[0]
-    domain_to_session_id_to_intervention[domain][session_id] = intervention
+    if intervention?
+      yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+    else
+      yield set_active_interventions_for_domain_and_session domain, session_id, []
   else
-    all_enabled_interventions = yield list_all_enabled_interventions_for_location_with_override(location)
-    if all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
-      # the intervention is no longer enabled. need to choose a new session id
-      session_id = yield get_new_session_id_for_domain(domain)
-      possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
-      intervention = possible_interventions[0]
-      tab_id_to_domain_to_session_id[tabId][domain] = session_id
-      domain_to_session_id_to_intervention[domain][session_id] = intervention
+    active_interventions = JSON.parse active_interventions
+    intervention = active_interventions[0]
+    if intervention?
+      all_enabled_interventions = yield list_all_enabled_interventions_for_location_with_override(location)
+      if all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
+        # the intervention is no longer enabled. need to choose a new session id
+        console.log 'intervention is no longer enabled. choosing new session id'
+        console.log 'active_interventions'
+        console.log active_interventions
+        console.log 'all_enabled_interventions'
+        console.log all_enabled_interventions
+        session_id = yield get_new_session_id_for_domain(domain)
+        possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+        intervention = possible_interventions[0]
+        #tab_id_to_domain_to_session_id[tabId][domain] = session_id
+        #domain_to_session_id_to_intervention[domain][session_id] = intervention
+        if intervention?
+          yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+        else
+          yield set_active_interventions_for_domain_and_session domain, session_id, []
 
   if not intervention?
     return
@@ -368,7 +379,7 @@ domain_changed = (new_domain) ->
 # how long a tab was open and on Facebook (or other site of interest) until it was closed
 # some pitfalls. if user navigates to FB, then goes to say buzzfeed, then goes back (on that same tab) the sessions are merged
 tab_id_to_domain_to_session_id = {}
-domain_to_session_id_to_intervention = {}
+# domain_to_session_id_to_intervention = {}
 
 export list_domain_to_session_ids = ->
   for tab_id,domain_to_session_id of tab_id_to_domain_to_session_id
@@ -550,9 +561,10 @@ setInterval (cfy ->*
   current_domain = url_to_domain(active_tab.url)
   current_day = get_days_since_epoch()
   # console.log "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
-  yield addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
   session_id = yield get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
+  console.log "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
   yield addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
+  yield addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
   #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
   #  console.log "total seconds spent on #{current_domain} today is #{total_seconds}"
 ), 1000
@@ -581,6 +593,7 @@ setInterval (cfy ->*
     return
   current_domain = url_to_domain(active_tab.url)
   console.log "current domain is #{current_domain}"
+  console.log "current tab id is #{active_tab.id}"
   session_id = yield get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
   console.log "session_id: #{session_id}"
   seconds_spent = yield get_seconds_spent_on_domain_in_session(current_domain, session_id)

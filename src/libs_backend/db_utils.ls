@@ -63,6 +63,8 @@ export get_current_collections = ->
     intervention_to_parameters: '[key+key2],key,key2,synced'
     custom_measurements_each_day: '[key+key2],key,key2,synced'
     seconds_on_domain_per_session: '[key+key2],key,key2,synced'
+    interventions_active_for_domain_and_session: '[key+key2],key,key2,synced'
+    domain_to_last_session_id: 'key,synced'
   }
 
 export getDb = memoizeSingleAsync cfy ->*

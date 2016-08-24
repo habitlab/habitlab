@@ -71,6 +71,7 @@ export get_visits_to_current_domain_today = cfy ->*
   result = yield get_visits_to_domain_today current_domain
   return result ? 0
 
+/*
 export get_new_session_id_for_domain = cfy (domain) ->*
   collection = yield getCollection('seconds_on_domain_per_session')
   all_session_ids_for_domain = yield collection.where('key').equals(domain).toArray()
@@ -78,6 +79,16 @@ export get_new_session_id_for_domain = cfy (domain) ->*
   if all_session_ids_for_domain.length == 0
     return 0
   return prelude.maximum(all_session_ids_for_domain) + 1 # this is the day, in epoch time, that the most recent intervention set occurred
+*/
+
+export get_new_session_id_for_domain = cfy (domain) ->*
+  collection = yield getCollection('domain_to_last_session_id')
+  result = yield getkey_dict 'domain_to_last_session_id', domain
+  if not result?
+    yield setkey_dict 'domain_to_last_session_id', domain, 0
+    return 0
+  yield setkey_dict 'domain_to_last_session_id', domain, (result + 1)
+  return result + 1
 
 export get_seconds_spent_on_current_domain_in_session = cfy (session_id) ->*
   current_domain = window.location.hostname

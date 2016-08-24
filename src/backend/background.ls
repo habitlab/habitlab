@@ -49,6 +49,10 @@ require 'libs_backend/expose_backend_libs'
 } = require 'libs_common/time_utils'
 
 {
+  get_new_session_id_for_domain
+} = require 'libs_common/time_spent_utils'
+
+{
   url_to_domain
 } = require 'libs_common/domain_utils'
 
@@ -190,10 +194,15 @@ load_intervention = cfy (intervention_name, tabId) ->*
 list_loaded_interventions = cfy ->*
   yield send_message_to_active_tab 'list_loaded_interventions', {}
 
-
-get_new_session_id_for_domain = cfy (domain) ->*
-  # TODO this should actually give us a new id such that we can store it in the database
-  return Math.floor(Math.random() * 1000)
+get_session_id_for_tab_id_and_domain = cfy (tabId, domain) ->*
+  if not tab_id_to_domain_to_session_id[tabId]?
+    tab_id_to_domain_to_session_id[tabId] = {}
+  session_id = tab_id_to_domain_to_session_id[tabId][domain]
+  if session_id?
+    return session_id
+  session_id = yield get_new_session_id_for_domain(domain)
+  tab_id_to_domain_to_session_id[tabId][domain] = session_id
+  return session_id
 
 load_intervention_for_location = cfy (location, tabId) ->*
   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
@@ -205,31 +214,25 @@ load_intervention_for_location = cfy (location, tabId) ->*
     return
 
   domain = url_to_domain(location)
-  if not tab_id_to_domain_to_session_info[tabId]?
-    tab_id_to_domain_to_session_info[tabId] = {}
-  if not tab_id_to_domain_to_session_info[tabId][domain]?
+  if not tab_id_to_domain_to_session_id[tabId]?
+    tab_id_to_domain_to_session_id[tabId] = {}
+  session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)
+  if not domain_to_session_id_to_intervention[domain]?
+    domain_to_session_id_to_intervention[domain] = {}
+  intervention = domain_to_session_id_to_intervention[domain][session_id]
+  if not intervention?
     possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
     intervention = possible_interventions[0]
-    session_id = yield get_new_session_id_for_domain(domain)
-    tab_id_to_domain_to_session_info[tabId][domain] = {
-      intervention
-      session_id
-    }
+    domain_to_session_id_to_intervention[domain][session_id] = intervention
   else
     all_enabled_interventions = yield list_all_enabled_interventions_for_location_with_override(location)
-    {
-      intervention
-      session_id
-    } = tab_id_to_domain_to_session_info[tabId][domain]
-    if all_enabled_interventions.indexOf(intervention) == -1
+    if all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
       # the intervention is no longer enabled. need to choose a new session id
       session_id = yield get_new_session_id_for_domain(domain)
       possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
       intervention = possible_interventions[0]
-      tab_id_to_domain_to_session_info[tabId][domain] = {
-        intervention
-        session_id
-      }
+      tab_id_to_domain_to_session_id[tabId][domain] = session_id
+      domain_to_session_id_to_intervention[domain][session_id] = intervention
 
   if not intervention?
     return
@@ -364,11 +367,12 @@ domain_changed = (new_domain) ->
 # our definition of a session:
 # how long a tab was open and on Facebook (or other site of interest) until it was closed
 # some pitfalls. if user navigates to FB, then goes to say buzzfeed, then goes back (on that same tab) the sessions are merged
-tab_id_to_domain_to_session_info = {}
+tab_id_to_domain_to_session_id = {}
+domain_to_session_id_to_intervention = {}
 
 export list_domain_to_session_ids = ->
-  for tab_id,domain_to_session_info of tab_id_to_domain_to_session_info
-    console.log domain_to_session_info
+  for tab_id,domain_to_session_id of tab_id_to_domain_to_session_id
+    console.log domain_to_session_id
 
 navigation_occurred = (url, tabId) ->
   new_domain = url_to_domain(url)
@@ -533,12 +537,12 @@ export list_current_tab_ids = ->
     console.log output
 */
 
-setInterval ->
+setInterval (cfy ->*
   if !prev_browser_focused
     return
   if current_idlestate != 'active'
     return
-  active_tab <- get_active_tab_info()
+  active_tab = yield get_active_tab_info()
   if not active_tab?
     return
   if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
@@ -546,10 +550,12 @@ setInterval ->
   current_domain = url_to_domain(active_tab.url)
   current_day = get_days_since_epoch()
   # console.log "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
-  addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
+  yield addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
+  session_id = yield get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
+  yield addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
   #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
   #  console.log "total seconds spent on #{current_domain} today is #{total_seconds}"
-, 1000
+), 1000
 
 do ->
   # open the options page on first run
@@ -562,6 +568,25 @@ chrome.tabs.onCreated.addListener (x) ->
   localStorage.tabsOpened = Number(localStorage.tabsOpened) + 1
   console.log localStorage.tabsOpened
 
+/*
+setInterval (cfy ->*
+  if !prev_browser_focused
+    return
+  if current_idlestate != 'active'
+    return
+  active_tab = yield get_active_tab_info()
+  if not active_tab?
+    return
+  if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
+    return
+  current_domain = url_to_domain(active_tab.url)
+  console.log "current domain is #{current_domain}"
+  session_id = yield get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
+  console.log "session_id: #{session_id}"
+  seconds_spent = yield get_seconds_spent_on_domain_in_session(current_domain, session_id)
+  console.log "seconds spent: #{seconds_spent}"
+), 1000
+*/
 
 start_syncing_all_logs()
 start_syncing_all_db_collections()

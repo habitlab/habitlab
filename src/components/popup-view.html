@@ -26,7 +26,7 @@
 <dom-module id="popup-view">
   <style is="custom-style">
     :host {
-      display: block;
+      
       width: 100%;
       height: 100%;
       
@@ -36,6 +36,11 @@
         display: block;
         padding: 0 5px 5px 5px;
       };      
+    }
+
+    .flexcontainer {
+      display: flex;
+      justify-content: flex-end;
     }
 
     .box {
@@ -77,6 +82,9 @@
     }
 
     .paperbuttons {
+      margin-right: 0px;
+      margin-left: 10px;
+      margin-bottom: 10px;
       --paper-button: {
         color: white;
         background-color: white;        
@@ -93,6 +101,12 @@
     <div>
 
       <div class="box">
+        <div class="flexcontainer">
+          <paper-button class="paperbuttons" raised id="goalsButton">Goals</paper-button>
+          <paper-button class="paperbuttons" raised id="resultsButton">Dashboard</paper-button>
+          <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button> 
+        </div>
+
         <paper-card>
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Currently Active Interventions</paper-tab>
@@ -166,9 +180,7 @@
           </div>
         </paper-card> 
 
-        <paper-button class="paperbuttons" raised id="goalsButton">Goals</paper-button>
-        <paper-button class="paperbuttons" raised id="resultsButton">Dashboard</paper-button>
-        <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button>      
+             
 
       </div>
 

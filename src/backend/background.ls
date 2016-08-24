@@ -217,11 +217,13 @@ load_intervention_for_location = cfy (location, tabId) ->*
   if not tab_id_to_domain_to_session_id[tabId]?
     tab_id_to_domain_to_session_id[tabId] = {}
   session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)
-  intervention = session_id_to_intervention[session_id]
+  if not domain_to_session_id_to_intervention[domain]?
+    domain_to_session_id_to_intervention[domain] = {}
+  intervention = domain_to_session_id_to_intervention[domain][session_id]
   if not intervention?
     possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
     intervention = possible_interventions[0]
-    session_id_to_intervention[session_id] = intervention
+    domain_to_session_id_to_intervention[domain][session_id] = intervention
   else
     all_enabled_interventions = yield list_all_enabled_interventions_for_location_with_override(location)
     if all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
@@ -230,7 +232,7 @@ load_intervention_for_location = cfy (location, tabId) ->*
       possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
       intervention = possible_interventions[0]
       tab_id_to_domain_to_session_id[tabId][domain] = session_id
-      session_id_to_intervention[session_id] = intervention
+      domain_to_session_id_to_intervention[domain][session_id] = intervention
 
   if not intervention?
     return
@@ -366,7 +368,7 @@ domain_changed = (new_domain) ->
 # how long a tab was open and on Facebook (or other site of interest) until it was closed
 # some pitfalls. if user navigates to FB, then goes to say buzzfeed, then goes back (on that same tab) the sessions are merged
 tab_id_to_domain_to_session_id = {}
-session_id_to_intervention = {}
+domain_to_session_id_to_intervention = {}
 
 export list_domain_to_session_ids = ->
   for tab_id,domain_to_session_id of tab_id_to_domain_to_session_id

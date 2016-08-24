@@ -21,7 +21,7 @@
 <link rel="import" href="graph-daily-overview.html">
 <link rel="import" href="graph-num-times-interventions-deployed.html">
 <link rel="import" href="graph-donut-top-sites.html">
-<link rel="import" href="goal-progress-view.html">
+<link rel="import" href="site-goal-view.html">
 
 <dom-module id="popup-view">
   <style is="custom-style">
@@ -94,53 +94,42 @@
 
       <div class="box">
         <paper-card>
-        <paper-tabs selected="{{selected_tab_idx}}">
-          <paper-tab>Currently Active Interventions</paper-tab>
-          <paper-tab>Upcoming Interventions</paper-tab>
-          <paper-tab>Settings</paper-tab>
-        </paper-tabs>
+          <paper-tabs selected="{{selected_tab_idx}}">
+            <paper-tab>Currently Active Interventions</paper-tab>
+            <paper-tab>Upcoming Interventions</paper-tab>
+            <paper-tab>Settings</paper-tab>
+          </paper-tabs>
 
-        <iron-pages selected="{{selected_tab_idx}}">
-        <iron-page>
-          <div class="interventioninfo">
-            <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
-              <div class="interventionContainer" id="enabledInterventions">
-                <span class="interventionName">{{intervention}}</span>
-                
-                <paper-menu-button vertical-offset="35">
-                  <paper-button class="dropdown-trigger" raised>
-                    <!-- <iron-icon icon="check"></iron-icon> -->
-                    <span>Disable Intervention &#x25BC;</span>
-                  </paper-button>
-                  <paper-listbox class="dropdown-content">
-                    <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the Rest of the Day</paper-item>
-                    <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
-                  </paper-listbox>
-                </paper-menu-button>            
+          <iron-pages selected="{{selected_tab_idx}}">
+            <iron-page id="currentInterventionPage">
+              <div class="interventioninfo">
+                <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
+                  <div class="interventionContainer" id="enabledInterventions">
+                    <span class="interventionName">{{intervention}}</span>
+                    
+                      <paper-menu-button vertical-offset="35">
+                        <paper-button class="dropdown-trigger" raised>
+                          <!-- <iron-icon icon="check"></iron-icon> -->
+                          <span>Disable Intervention &#x25BC;</span>
+                        </paper-button>
+                        <paper-listbox class="dropdown-content">
+                          <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the Rest of the Day</paper-item>
+                          <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
+                        </paper-listbox>
+                      </paper-menu-button>            
+                    </div>
+                  </template>
+                  <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
+                    <div class="interventionContainer" id="enabledInterventions">
+                    <h4>None</h4>
+                  </div>
+                </template>        
               </div>
-            </template>
-            <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
-              <div class="interventionContainer" id="enabledInterventions">
-                <h4>None</h4>
-              </div>
-            </template>        
-          </div>
-        </iron-page>
+            </iron-page>
 
-        <iron-page>
-          HI
-        </iron-page>
-        </paper-card>
-        
-        <paper-card style="display:none;" class="feedbackform">
-        
-        <div class="feedbackcontents">
-            
-            <paper-textarea id="feedback" cols="40" label="enter your thoughts here!" value="{{feedbackText}}"></paper-textarea>
-            
-            <paper-button raised on-click="submitFeedback">Submit</paper-button>
-            
-        </div>
+          <iron-page id="upcomingInterventionsPage">
+            HI
+          </iron-page>
         </paper-card>
         
         <paper-card>
@@ -151,15 +140,12 @@
           </paper-tabs>
 
           <iron-pages selected="{{selected_graph_tab}}">
-
             <iron-page>
-
-              <div class="chartelement">
-                
+              <div class="chartelement"> 
                 <html-echo html="{{html_for_shown_graphs}}"></html-echo>
-
               </div>
             </iron-page>
+
             <iron-page>
               <div class="chartelement">
                 <sortable-js id="graphlist_sortable" on-update="sortableupdated">
@@ -171,7 +157,14 @@
                 </sortable-js> 
               </div> 
             </iron-page>
-        </paper-card>        
+        </paper-card>       
+
+        <paper-card style="display:none;" class="feedbackform">
+          <div class="feedbackcontents">
+              <paper-textarea id="feedback" cols="40" label="enter your thoughts here!" value="{{feedbackText}}"></paper-textarea>
+              <paper-button raised on-click="submitFeedback">Submit</paper-button>
+          </div>
+        </paper-card> 
 
         <paper-button class="paperbuttons" raised id="goalsButton">Goals</paper-button>
         <paper-button class="paperbuttons" raised id="resultsButton">Dashboard</paper-button>

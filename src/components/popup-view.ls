@@ -59,12 +59,12 @@ polymer_ext {
     blacklist: {
       type: Object
     },
-    goals: {
+    sites: {
       type: Array
     },
     html_for_shown_graphs: {
       type: String
-      computed: 'compute_html_for_shown_graphs(shownGraphs, blacklist, goals)'
+      computed: 'compute_html_for_shown_graphs(shownGraphs, blacklist, sites)'
     },
     selected_tab_idx: {
       type: Number
@@ -112,19 +112,20 @@ polymer_ext {
     shownGraphs = this.$$('#graphlist_sortable').innerText.split('\n').map((.trim())).filter((x) -> x != '')
     this.shownGraphs = shownGraphs.map((graph_name) -> self.graphNamesToOptions[graph_name])
 
-  compute_html_for_shown_graphs: (shownGraphs, blacklist, goals) ->
+  compute_html_for_shown_graphs: (shownGraphs, blacklist, sites) ->
     self = this
     shownGraphs = shownGraphs.filter((x) -> !self.blacklist[x])
     
     
     html = ""
     for x in shownGraphs
-      if x == 'goal-progress-view'
-        for goal in goals
-
-          html += "<#{x} goal=\"#{goal}\"></#{x}>"
+      if x == 'site-goal-view'
+        for site in sites
+          console.log site
+          html += "<#{x} site=\"#{site}\"></#{x}>"
       else
         html += "<#{x}></#{x}>"
+    console.log html
     return html
 
   isEmpty: (enabledInterventions) ->
@@ -140,12 +141,8 @@ polymer_ext {
       swal "Thanks for the feedback!", "", "success"
 
   ready: cfy ->*
-    sites = yield list_sites_for_which_goals_are_enabled!
-    this.goals = []
-    for site in sites
-      goals = yield list_goals_for_site site
-      for goal in goals 
-        this.goals.push goal.name
+    
+    this.sites = yield list_sites_for_which_goals_are_enabled!
         
     chrome.browserAction.setBadgeText {text: ''}
     chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
@@ -175,7 +172,7 @@ polymer_ext {
     #Map from graph option names to graph polymer component
     graphNamesToOptions = {
       "Goal Website History Graph" : "graph-chrome-history",
-      "Daily Overview" : "goal-progress-view",
+      "Daily Overview" : "site-goal-view",
       "Donut Graph" : "graph-donut-top-sites",
       "Interventions Deployed Graph" : "graph-num-times-interventions-deployed",
       "Time Saved Due to HabitLab" : "graph-time-saved-daily"
@@ -188,7 +185,7 @@ polymer_ext {
     else
       blacklist = {
         "graph-chrome-history" : false, 
-        "goal-progress-view" : true, 
+        "site-goal-view" : true, 
         "graph-donut-top-sites" : true, 
         "graph-num-times-interventions-deployed": true,      
         "graph-time-saved-daily": true
@@ -205,7 +202,7 @@ polymer_ext {
 
     shownGraphs = [
       'graph-chrome-history'
-      'goal-progress-view'
+      'site-goal-view'
       'graph-donut-top-sites'
       'graph-num-times-interventions-deployed'
       'graph-time-saved-daily'

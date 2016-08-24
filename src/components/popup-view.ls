@@ -30,6 +30,11 @@ const swal = require 'sweetalert2'
   get_seconds_spent_on_all_domains_today        # map for all domains
 } = require 'libs_common/time_spent_utils'
 
+{
+  list_sites_for_which_goals_are_enabled
+  list_goals_for_site
+} = require 'libs_backend/goal_utils'
+
 const $ = require('jquery')
 
 polymer_ext {
@@ -54,12 +59,19 @@ polymer_ext {
     blacklist: {
       type: Object
     },
+    goals: {
+      type: Array
+    },
     html_for_shown_graphs: {
       type: String
-      computed: 'compute_html_for_shown_graphs(shownGraphs, blacklist)'
+      computed: 'compute_html_for_shown_graphs(shownGraphs, blacklist, goals)'
     },
     selected_tab_idx: {
       type: Number
+      value: 0
+    },
+    selected_graph_tab: {
+      type: Number,
       value: 0
     }
   }
@@ -100,10 +112,20 @@ polymer_ext {
     shownGraphs = this.$$('#graphlist_sortable').innerText.split('\n').map((.trim())).filter((x) -> x != '')
     this.shownGraphs = shownGraphs.map((graph_name) -> self.graphNamesToOptions[graph_name])
 
-  compute_html_for_shown_graphs: (shownGraphs, blacklist) ->
+  compute_html_for_shown_graphs: (shownGraphs, blacklist, goals) ->
     self = this
     shownGraphs = shownGraphs.filter((x) -> !self.blacklist[x])
-    return shownGraphs.map((x) -> "<#{x}></#{x}>").join('')
+    
+    
+    html = ""
+    for x in shownGraphs
+      if x == 'goal-progress-view'
+        for goal in goals
+
+          html += "<#{x} goal=\"#{goal}\"></#{x}>"
+      else
+        html += "<#{x}></#{x}>"
+    return html
 
   isEmpty: (enabledInterventions) ->
     return enabledInterventions? and enabledInterventions.length == 0
@@ -118,8 +140,15 @@ polymer_ext {
       swal "Thanks for the feedback!", "", "success"
 
   ready: cfy ->*
+    sites = yield list_sites_for_which_goals_are_enabled!
+    this.goals = []
+    for site in sites
+      goals = yield list_goals_for_site site
+      for goal in goals 
+        this.goals.push goal.name
+        
     chrome.browserAction.setBadgeText {text: ''}
-    chrome.browserAction.setBadgeBackgroundColor {color: ''}
+    chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
     url = yield get_active_tab_url()
     enabledInterventions = yield list_currently_loaded_interventions()
@@ -146,7 +175,7 @@ polymer_ext {
     #Map from graph option names to graph polymer component
     graphNamesToOptions = {
       "Goal Website History Graph" : "graph-chrome-history",
-      "Daily Overview" : "graph-daily-overview",
+      "Daily Overview" : "goal-progress-view",
       "Donut Graph" : "graph-donut-top-sites",
       "Interventions Deployed Graph" : "graph-num-times-interventions-deployed",
       "Time Saved Due to HabitLab" : "graph-time-saved-daily"
@@ -159,7 +188,7 @@ polymer_ext {
     else
       blacklist = {
         "graph-chrome-history" : false, 
-        "graph-daily-overview" : true, 
+        "goal-progress-view" : true, 
         "graph-donut-top-sites" : true, 
         "graph-num-times-interventions-deployed": true,      
         "graph-time-saved-daily": true
@@ -176,7 +205,7 @@ polymer_ext {
 
     shownGraphs = [
       'graph-chrome-history'
-      'graph-daily-overview'
+      'goal-progress-view'
       'graph-donut-top-sites'
       'graph-num-times-interventions-deployed'
       'graph-time-saved-daily'

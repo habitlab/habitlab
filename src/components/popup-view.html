@@ -21,7 +21,7 @@
 <link rel="import" href="graph-daily-overview.html">
 <link rel="import" href="graph-num-times-interventions-deployed.html">
 <link rel="import" href="graph-donut-top-sites.html">
-
+<link rel="import" href="goal-progress-view.html">
 
 <dom-module id="popup-view">
   <style is="custom-style">
@@ -95,8 +95,9 @@
       <div class="box">
         <paper-card>
         <paper-tabs selected="{{selected_tab_idx}}">
-          <paper-tab>Currently Active</paper-tab>
-          <paper-tab>Upcoming</paper-tab>
+          <paper-tab>Currently Active Interventions</paper-tab>
+          <paper-tab>Upcoming Interventions</paper-tab>
+          <paper-tab>Settings</paper-tab>
         </paper-tabs>
 
         <iron-pages selected="{{selected_tab_idx}}">
@@ -143,25 +144,34 @@
         </paper-card>
         
         <paper-card>
-          <div class="chartelement">
-            <h4 class="title">Usage Statistics:</h4>
-              <html-echo html="{{html_for_shown_graphs}}"></html-echo>
 
-          </div>
+          <paper-tabs selected="{{selected_graph_tab}}">
+            <paper-tab>Usage Statistics</paper-tab>
+            <paper-tab>Select Graphs to Display</paper-tab>
+          </paper-tabs>
+
+          <iron-pages selected="{{selected_graph_tab}}">
+
+            <iron-page>
+
+              <div class="chartelement">
+                
+                <html-echo html="{{html_for_shown_graphs}}"></html-echo>
+
+              </div>
+            </iron-page>
+            <iron-page>
+              <div class="chartelement">
+                <sortable-js id="graphlist_sortable" on-update="sortableupdated">
+                  <template is="dom-repeat" items="{{graphOptions}}" as="graph">
+                    <div>
+                      <paper-checkbox checked="{{is_not_in_blacklist(graph, blacklist, graphNamesToOptions)}}" graph="{{graph}}" on-change="checkbox_checked_handler">{{graph}}</paper-checkbox>
+                    </div>
+                  </template>         
+                </sortable-js> 
+              </div> 
+            </iron-page>
         </paper-card>        
-        
-        <paper-card>
-          <h4 class="title">Graphs:</h4>
-          <div class="chartelement">
-            <sortable-js id="graphlist_sortable" on-update="sortableupdated">
-              <template is="dom-repeat" items="{{graphOptions}}" as="graph">
-                <div>
-                  <paper-checkbox checked="{{is_not_in_blacklist(graph, blacklist, graphNamesToOptions)}}" graph="{{graph}}" on-change="checkbox_checked_handler">{{graph}}</paper-checkbox>
-                </div>
-              </template>         
-            </sortable-js> 
-          </div> 
-        </paper-card>
 
         <paper-button class="paperbuttons" raised id="goalsButton">Goals</paper-button>
         <paper-button class="paperbuttons" raised id="resultsButton">Dashboard</paper-button>

@@ -3,10 +3,19 @@
 
 <dom-module id="graph-donut-top-sites">
   <style>
+
     :host {
       display: block;
       width: 100%;
       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    h4 {
+      padding-top: 10px;
     }
     .buttons {
       text-align: center;
@@ -22,12 +31,15 @@
     }    
   </style>
   <template>
+    <h4>Today's five most visited sites by minutes spent</h4>
     <chart-doughnut data="[[donutdata]]" style="width: 600px"></chart-doughnut>      
+    <!--
     <div class="buttons">
       <button raised class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">
         Compare with Yesterday
       </button>
     </div>
+    -->
   </template>
   <script src="graph-donut-top-sites.js"></script>
 </dom-module>

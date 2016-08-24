@@ -21,4 +21,5 @@ polymer_ext {
   siteChanged: ->
     goals <~ list_goals_for_site this.site
     this.goals = goals
+    console.log goals
 }

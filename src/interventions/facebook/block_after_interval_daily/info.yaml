@@ -1,4 +1,4 @@
-description: Blocks facebook after a certain amount of time every day
+description: Blocks FB after some amount of time every day
 matches:
   - www.facebook.com
 content_scripts:

@@ -52,17 +52,17 @@
       <div id="encouragement" class="title">Good job so far!</div>
       <div class="title">HabitLab Analytics</div>
     
-      <div class="description">How much time do I spend on my goal websites on average each day?</div>    
+    
       <graph-chrome-history></graph-chrome-history>
 
       <hr>
 
-      <div class="description">How much time did I save due to my interventions?</div>
+      
       <graph-time-saved-daily></graph-time-saved-daily>
 
       <hr>
 
-      <div class="description">What progress have I made towards my goals?</div>
+      
       <center>
         <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>          
           <template is="dom-repeat" items="{{sites}}" as="site">
@@ -77,7 +77,7 @@
           <div><site-goal-view site="{{site}}"></site-goal-view></div>
         </template>
         <div>
-          <h4>My Daily Overview</h4>
+      
           <graph-daily-overview></graph-daily-overview>
         </div>
       </iron-pages>
@@ -92,12 +92,12 @@
       <hr>
       -->
 
-      <div class="description">How many times were my interventions deployed today?</div>
+      
       <graph-num-times-interventions-deployed></graph-num-times-interventions-deployed>
 
       <hr>
 
-      <div class="description">How much time did I spend on my most visited websites?</div>   
+      
       <graph-donut-top-sites></graph-donut-top-sites>
 
     </div>

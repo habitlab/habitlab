@@ -1,4 +1,4 @@
-description: Blocks facebook after a certain amount of time without prompting
+description: Blocks FB after some amount of time without prompting
 matches:
   - www.facebook.com
 content_scripts:

@@ -7,10 +7,19 @@
       display: block;
       width: 100%;
       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    h4 {
+      padding-top: 10px;
     }
   </style>
   <template>
-    <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 500px"></chart-horizontal-bar>
+  <h4>Number of times interventions were deployed today</h4>
+    <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 530px"></chart-horizontal-bar>
   </template>
   <script src="graph-num-times-interventions-deployed.js"></script>
 </dom-module>

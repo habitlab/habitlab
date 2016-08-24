@@ -1,4 +1,4 @@
-description: Blocks facebook after a certain amount of time per visit
+description: Blocks FB after some amount of time per visit
 matches:
   - www.facebook.com
 content_scripts:

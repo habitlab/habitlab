@@ -232,14 +232,17 @@ load_intervention_for_location = cfy (location, tabId) ->*
       if all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
         # the intervention is no longer enabled. need to choose a new session id
         console.log 'intervention is no longer enabled. choosing new session id'
+        console.log 'tabid is ' + tabId
+        console.log 'domain is ' + domain
+        console.log 'old session_id is ' + session_id
         console.log 'active_interventions'
         console.log active_interventions
         console.log 'all_enabled_interventions'
         console.log all_enabled_interventions
         session_id = yield get_new_session_id_for_domain(domain)
+        tab_id_to_domain_to_session_id[tabId][domain] = session_id
         possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
         intervention = possible_interventions[0]
-        #tab_id_to_domain_to_session_id[tabId][domain] = session_id
         #domain_to_session_id_to_intervention[domain][session_id] = intervention
         if intervention?
           yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]

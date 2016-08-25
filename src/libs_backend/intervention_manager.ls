@@ -25,7 +25,6 @@
 } = require 'libs_common/collection_utils'
 
 {
-  get_intervention_selection_algorithm
   get_intervention_selection_algorithm_for_visit
 } = require 'libs_backend/intervention_selection_algorithms'
 
@@ -35,6 +34,7 @@
 
 {cfy} = require 'cfy'
 
+/*
 export set_enabled_interventions_for_today_manual = cfy (enabled_interventions) ->*
   yield setdict_for_key2_dictdict 'interventions_enabled_each_day', get_days_since_epoch(), enabled_interventions
   return
@@ -51,6 +51,7 @@ export get_cached_enabled_interventions_for_days_since_today = cfy (days_since_t
 
 export get_enabled_interventions_for_today = cfy ->*
   yield get_enabled_interventions_for_days_since_today 0
+*/
 
 export get_active_interventions_for_domain_and_session = cfy (domain, session_id) ->*
   result = yield getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
@@ -61,6 +62,14 @@ export get_active_interventions_for_domain_and_session = cfy (domain, session_id
 export set_active_interventions_for_domain_and_session = cfy (domain, session_id, interventions) ->*
   yield setkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id, JSON.stringify(interventions)
 
+export get_enabled_interventions_for_visit = cfy ->*
+  enabled_interventions = {}
+  intervention_selection_algorithm = yield get_intervention_selection_algorithm_for_visit()
+  selected_interventions_list = yield intervention_selection_algorithm()
+  selected_interventions_set = {[k, true] for k in selected_interventions_list}
+  return selected_interventions_set
+
+/*
 export get_enabled_interventions_for_visit = cfy ->*
   enabled_interventions = {}
   intervention_selection_algorithm = yield get_intervention_selection_algorithm_for_visit()
@@ -80,6 +89,7 @@ export get_enabled_interventions_for_visit = cfy ->*
     enabled = (enabled == true)
     enabled_interventions[intervention] = enabled
   return enabled_interventions
+*/
 
 get_last_day_with_intervention_enabled_data = cfy ->*
   collection = yield getCollection('interventions_enabled_each_day')
@@ -103,13 +113,49 @@ export get_days_on_which_intervention_was_deployed = cfy (intervention_name) ->*
       output.push day
   return output
 
+export get_currently_enabled_interventions = cfy ->*
+  interventions_currently_disabled = yield getdict 'interventions_currently_disabled'
+  all_interventions = yield list_all_interventions()
+  output = {}
+  for intervention_name in all_interventions
+    if interventions_currently_disabled[intervention_name]
+      output[intervention_name] = false
+    else
+      output[intervention_name] = true 
+  return output
+
+export set_currently_enabled_interventions_manual = cfy (enabled_interventions) ->*
+  disabled_interventions = {}
+  all_interventions = yield list_all_interventions()
+  for intervention_name in all_interventions
+    if enabled_interventions[intervention_name]
+      disabled_interventions[intervention_name] = false
+    else
+      disabled_interventions[intervention_name] = true
+  yield setdict 'interventions_currently_disabled', disabled_interventions
+  return
+
+export set_currently_enabled_interventions_automatic = cfy (enabled_interventions) ->*
+  disabled_interventions = {}
+  all_interventions = yield list_all_interventions()
+  for intervention_name in all_interventions
+    if enabled_interventions[intervention_name]
+      disabled_interventions[intervention_name] = false
+    else
+      disabled_interventions[intervention_name] = true
+  yield setdict 'interventions_currently_disabled', disabled_interventions
+  return
+
+/*
 export get_most_recent_enabled_interventions = cfy ->*
   day_with_enabled_interventions = yield get_last_day_with_intervention_enabled_data()
   if not day_with_enabled_interventions?
     return {}
   days_since_today = get_days_since_epoch() - day_with_enabled_interventions
   yield get_cached_enabled_interventions_for_days_since_today days_since_today
+*/
 
+/*
 get_new_enabled_interventions_for_today = cfy ->*
   enabled_interventions = {}
   intervention_selection_algorithm = yield get_intervention_selection_algorithm()
@@ -129,7 +175,9 @@ get_new_enabled_interventions_for_today = cfy ->*
     enabled = (enabled == true)
     enabled_interventions[intervention] = enabled
   return enabled_interventions
+*/
 
+/*
 export get_and_set_new_enabled_interventions_for_today = cfy ->*
   console.log 'picking new interventions for today'
   prev_enabled_interventions = yield get_most_recent_enabled_interventions()
@@ -142,7 +190,9 @@ export get_and_set_new_enabled_interventions_for_today = cfy ->*
     enabled_interventions: enabled_interventions
   }
   return enabled_interventions
+*/
 
+/*
 export get_enabled_interventions_for_days_since_today = cfy (days_since_today) ->*
   cached_enabled_interventions = yield get_cached_enabled_interventions_for_days_since_today days_since_today
   if Object.keys(cached_enabled_interventions).length != 0
@@ -151,7 +201,9 @@ export get_enabled_interventions_for_days_since_today = cfy (days_since_today) -
     return {}
   enabled_interventions = yield get_and_set_new_enabled_interventions_for_today()
   return enabled_interventions
+*/
 
+/*
 export enable_interventions_because_goal_was_enabled = cfy (goal_name) ->*
   intervention_selection_algorithm = yield get_intervention_selection_algorithm()
   enabled_goals_for_selection_algorithm = {}
@@ -176,6 +228,23 @@ export enable_interventions_because_goal_was_enabled = cfy (goal_name) ->*
     enabled_interventions: enabled_interventions
   }
   return newly_enabled_interventions
+*/
+
+export enable_interventions_because_goal_was_enabled = cfy (goal_name) ->*
+  intervention_names = yield intervention_utils.list_available_interventions_for_goal(goal_name)
+  enabled_interventions = yield get_currently_enabled_interventions()
+  prev_enabled_interventions = JSON.parse JSON.stringify enabled_interventions
+  for intervention_name in intervention_names
+    enabled_interventions[intervention_name] = true
+  yield set_currently_enabled_interventions_automatic(enabled_interventions)
+  add_log_interventions {
+    type: 'enable_interventions_because_goal_was_enabled'
+    manual: false
+    goal_enabled: goal_name
+    prev_enabled_interventions: prev_enabled_interventions
+    enabled_interventions: enabled_interventions
+  }
+  return enabled_interventions
 
 intervention_utils = require 'libs_backend/intervention_utils'
 

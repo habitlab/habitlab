@@ -53,6 +53,7 @@ export get_enabled_interventions_with_override_for_visit = cfy ->*
   enabled_interventions = yield intervention_manager.get_enabled_interventions_for_visit()
   return enabled_interventions
 
+/*
 export get_enabled_interventions = cfy ->*
   enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
   return enabled_interventions
@@ -60,6 +61,14 @@ export get_enabled_interventions = cfy ->*
 export set_enabled_interventions = cfy (enabled_interventions) ->*
   yield intervention_manager.set_enabled_interventions_for_today_manual enabled_interventions
   return
+*/
+
+export get_enabled_interventions = cfy ->*
+  enabled_interventions = yield intervention_manager.get_currently_enabled_interventions()
+  return enabled_interventions
+
+export set_enabled_interventions = cfy (enabled_interventions) ->*
+  yield intervention_manager.set_currently_enabled_interventions_manual enabled_interventions
 
 export set_intervention_enabled = cfy (intervention_name) ->*
   enabled_interventions = yield get_enabled_interventions()
@@ -248,6 +257,7 @@ export get_manually_managed_interventions_localstorage = cfy ->*
 
 export get_manually_managed_interventions = get_manually_managed_interventions_localstorage
 
+/*
 export get_most_recent_manually_enabled_interventions = cfy ->*
   enabled_interventions = yield intervention_manager.get_most_recent_enabled_interventions()
   manually_managed_interventions = yield get_manually_managed_interventions()
@@ -263,6 +273,7 @@ export get_most_recent_manually_disabled_interventions = cfy ->*
   for intervention_name,is_enabled of enabled_interventions
     output[intervention_name] = (!is_enabled) and manually_managed_interventions[intervention_name]
   return output
+*/
 
 export set_manually_managed_interventions = cfy (manually_managed_interventions) ->*
   localStorage.setItem 'manually_managed_interventions', JSON.stringify(manually_managed_interventions)

@@ -30,29 +30,29 @@ polymer_ext {
       type: Object
       observer: 'intervention_property_changed'
     }
-    automatic: {
-      type: Boolean
-      observer: 'automatic_changed'
-    }
+    #automatic: {
+    #  type: Boolean
+    #  observer: 'automatic_changed'
+    #}
     enabled: {
       type: Boolean
       observer: 'enabled_changed'
     }
-    always_shown: {
-      type: Boolean
-      computed: 'intervention_always_shown(enabled, automatic)'
-    }
-    never_shown: {
-      type: Boolean
-      computed: 'intervention_never_shown(enabled, automatic)'
-    }
-    manually_managed: {
-      type: Boolean
-      computed: 'intervention_manually_managed(automatic)'
-    }
+    #always_shown: {
+    #  type: Boolean
+    #  computed: 'intervention_always_shown(enabled, automatic)'
+    #}
+    #never_shown: {
+    #  type: Boolean
+    #  computed: 'intervention_never_shown(enabled, automatic)'
+    #}
+    #manually_managed: {
+    #  type: Boolean
+    #  computed: 'intervention_manually_managed(automatic)'
+    #}
     pill_button_idx: {
       type: Number
-      computed: 'get_pill_button_idx(automatic, enabled)'
+      computed: 'get_pill_button_idx(enabled)'
     }
     goal: {
       type: Object
@@ -72,24 +72,27 @@ polymer_ext {
   compute_sitename: (goal) ->
     return goal.sitename_printable
   intervention_property_changed: (intervention, old_intervention) ->
-    this.automatic = this.intervention.automatic
+    #this.automatic = this.intervention.automatic
     this.enabled = this.intervention.enabled
+  /*
   automatic_and_enabled: (automatic, enabled) ->
     return automatic and enabled
   automatic_and_disabled: (automatic, enabled) ->
     return automatic and !enabled
   automatic_changed: (automatic, old_automatic) ->
     this.intervention.automatic = automatic
+  */
   enabled_changed: (enabled, old_enabled) ->
     this.intervention.enabled = enabled
-  intervention_manually_managed: (automatic) ->
-    return !automatic
-  intervention_always_shown: (enabled, automatic) ->
-    return enabled and !automatic
-  intervention_never_shown: (enabled, automatic) ->
-    return !enabled and !automatic
+  #intervention_manually_managed: (automatic) ->
+  #  return !automatic
+  #intervention_always_shown: (enabled, automatic) ->
+  #  return enabled and !automatic
+  #intervention_never_shown: (enabled, automatic) ->
+  #  return !enabled and !automatic
   display_internal_names_for_interventions: ->
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
+  /*
   pill_button_selected: cfy (evt) ->*
     buttonidx = evt.detail.buttonidx
     if buttonidx == 1 # smartly managed
@@ -115,14 +118,35 @@ polymer_ext {
         intervention_name: this.intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
-  get_pill_button_idx: (automatic, enabled) ->
-    if !automatic
-      if enabled
-        console.log 'intervention is always enabled: ' + this.intervention.name
-        return 1
-      else
-        return 0
-    return 1
+  */
+  pill_button_selected: cfy (evt) ->*
+    buttonidx = evt.detail.buttonidx
+    if buttonidx == 1 # enabled
+      this.enabled = true
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_enabled this.intervention.name
+      add_log_interventions {
+        type: 'intervention_set_smartly_managed'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+    else if buttonidx == 0 # never shown
+      this.enabled = false
+      prev_enabled_interventions = yield get_enabled_interventions()
+      yield set_intervention_disabled this.intervention.name
+      add_log_interventions {
+        type: 'intervention_set_always_disabled'
+        manual: true
+        intervention_name: this.intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+  get_pill_button_idx: (enabled) ->
+    if enabled
+      return 1
+    else
+      return 0
+  /*
   get_dropdown_idx: (automatic, enabled) ->
     if !automatic
       if enabled
@@ -130,6 +154,7 @@ polymer_ext {
       else
         return 2
     return 0
+  */
   preview_intervention: ->
     intervention_name = this.intervention.name
     set_override_enabled_interventions_once intervention_name
@@ -138,6 +163,7 @@ polymer_ext {
     chrome.tabs.create {url: this.goal.homepage }
   parameters_shown: ->
     return localStorage.getItem('intervention_view_show_parameters') == 'true'
+  /*
   dropdown_menu_changed: cfy (evt) ->*
     selected = this.$$('#enabled_selector').selected
     if selected == 0 and this.automatic
@@ -202,6 +228,8 @@ polymer_ext {
       intervention_name: intervention_name
       prev_enabled_interventions: prev_enabled_interventions
     }
+  */
+  /*
   intervention_changed: cfy (evt) ->*
     checked = evt.target.checked
     #this.enabled = !checked
@@ -223,6 +251,7 @@ polymer_ext {
         intervention_name: intervention_name
         prev_enabled_interventions: prev_enabled_interventions
       }
+  */
   #automatically_managed_changed: (evt) ->
   #  checked = evt.target.checked
   #  intervention_name = this.intervention.name

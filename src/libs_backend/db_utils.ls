@@ -65,6 +65,7 @@ export get_current_collections = ->
     seconds_on_domain_per_session: '[key+key2],key,key2,synced'
     interventions_active_for_domain_and_session: '[key+key2],key,key2,synced'
     domain_to_last_session_id: 'key,synced'
+    interventions_currently_disabled: 'key,synced'
   }
 
 export getDb = memoizeSingleAsync cfy ->*
@@ -201,6 +202,12 @@ export getdict = cfy (name) ->*
   result = yield data
   .toArray()
   return {[key, val] for {key, val} in result}
+
+export setdict = cfy (name, dict) ->*
+  data = yield getCollection(name)
+  items_to_add = [{key, val, synced: 0, timestamp: Date.now()} for key,val of dict]
+  result = yield data.bulkPut(items_to_add)
+  return dict
 
 export cleardict = cfy (name) ->*
   data = yield getCollection(name)

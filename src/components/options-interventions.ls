@@ -14,7 +14,6 @@ require! {
 } = require 'libs_backend/intervention_utils'
 
 {
-  get_and_set_new_enabled_interventions_for_today
   enable_interventions_because_goal_was_enabled
 } = require 'libs_backend/intervention_manager'
 
@@ -143,11 +142,11 @@ polymer_ext {
       yield enable_interventions_because_goal_was_enabled(goal_name)
     console.log 'goal changed'
     self.fire 'goal_changed', {goal_name: goal_name}
-  select_new_interventions: (evt) ->
-    self = this
-    self.goals_and_interventions = []
-    <- get_and_set_new_enabled_interventions_for_today()
-    self.rerender()
+  #select_new_interventions: (evt) ->
+  #  self = this
+  #  self.goals_and_interventions = []
+  #  <- get_and_set_new_enabled_interventions_for_today()
+  #  self.rerender()
   on_goal_changed: (evt) ->
     this.rerender()
   ready: ->
@@ -255,7 +254,7 @@ polymer_ext {
     enabled_interventions = yield get_enabled_interventions()
     enabled_goals = yield get_enabled_goals()
     all_goals = yield get_goals()
-    manually_managed_interventions = yield get_manually_managed_interventions()
+    #manually_managed_interventions = yield get_manually_managed_interventions()
     goal_to_interventions = {}
     for intervention_name,intervention_info of intervention_name_to_info
       for goal in intervention_info.goals
@@ -273,7 +272,7 @@ polymer_ext {
         #if intervention.goals?
         #  intervention.enabled_goals = [goal for goal in intervention.goals when enabled_goals[goal.name]]
         intervention.enabled = (enabled_interventions[intervention.name] == true)
-        intervention.automatic = (manually_managed_interventions[intervention.name] != true)
+        #intervention.automatic = (manually_managed_interventions[intervention.name] != true)
       list_of_goals_and_interventions.push current_item
     self.goals_and_interventions = list_of_goals_and_interventions
     

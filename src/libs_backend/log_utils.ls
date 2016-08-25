@@ -232,9 +232,12 @@ upload_log_item_to_server = cfy (name, data) ->*
     else
       console.log 'response from server was not successful in upload_log_item_to_server'
       console.log response
+      console.log data
   catch
     console.log 'error thrown in upload_log_item_to_server'
     console.log e
+    console.log data
+    console.log name
   return
 
 export sync_unsynced_logs = cfy (name) ->*

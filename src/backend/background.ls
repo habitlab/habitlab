@@ -10,6 +10,7 @@ require 'libs_backend/expose_backend_libs'
 {
   addtokey_dictdict
   start_syncing_all_db_collections
+  getkey_dictdict
 } = require 'libs_backend/db_utils'
 
 {
@@ -69,7 +70,7 @@ $ = require 'jquery'
 } = require 'libs_common/gexport'
 
 {
-  get_interventions_for_today
+  set_active_interventions_for_domain_and_session
 } = require 'libs_backend/intervention_manager'
 
 {

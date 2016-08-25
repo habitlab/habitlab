@@ -20,6 +20,7 @@
   setdict
   getdict
   getkey_dictdict
+  setkey_dictdict
 } = require 'libs_backend/db_utils'
 
 {

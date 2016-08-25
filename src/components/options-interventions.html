@@ -22,7 +22,7 @@
       --paper-card: {
         elevation: 5;
         width: 70%;
-        background-color: #c5cae9;
+        background-color: #8bc34a;
 
       };
       --paper-card-content: {
@@ -139,7 +139,7 @@
           <h3>{{goal_and_interventions.goal.description}}</h3>
 
           <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-            <intervention-view-single goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+            <intervention-view-single  goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
             <br><br>
           </template>
 

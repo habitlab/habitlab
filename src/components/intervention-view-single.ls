@@ -38,6 +38,10 @@ polymer_ext {
       type: Boolean
       observer: 'enabled_changed'
     }
+    compact: {
+      type: Boolean
+      value: false
+    }
     #always_shown: {
     #  type: Boolean
     #  computed: 'intervention_always_shown(enabled, automatic)'
@@ -269,6 +273,8 @@ polymer_ext {
   #    return
   #  get_intervention_parameters self.intervention.name, (parameters) ->
   #    self.$$('#options_input').value = JSON.stringify(parameters)
-  #ready: ->
+  ready: ->
+    console.log this.compact
+    console.log \logged_compact
   #  this.intervention_property_changed()
 }

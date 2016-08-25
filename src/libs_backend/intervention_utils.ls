@@ -399,6 +399,36 @@ export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
     output[intervention_name] = progress_info
   return output
 
+export get_goals_and_interventions = cfy ->*
+  
+  intervention_name_to_info = yield get_interventions()
+  console.log intervention_name_to_info
+  enabled_interventions = yield get_enabled_interventions()
+  enabled_goals = yield get_enabled_goals()
+  all_goals = yield get_goals()
+  manually_managed_interventions = yield get_manually_managed_interventions()
+  goal_to_interventions = {}
+  for intervention_name,intervention_info of intervention_name_to_info
+    for goal in intervention_info.goals
+      goalname = goal.name
+      if not goal_to_interventions[goalname]?
+        goal_to_interventions[goalname] = []
+      goal_to_interventions[goalname].push intervention_info
+  list_of_goals_and_interventions = []
+  list_of_goals = prelude.sort as_array(enabled_goals)
+  for goalname in list_of_goals
+    current_item = {goal: all_goals[goalname]}
+    current_item.interventions = prelude.sort-by (.name), goal_to_interventions[goalname]
+    for intervention in current_item.interventions
+      intervention.enabled_goals = []
+      #if intervention.goals?
+      #  intervention.enabled_goals = [goal for goal in intervention.goals when enabled_goals[goal.name]]
+      intervention.enabled = (enabled_interventions[intervention.name] == true)
+      intervention.automatic = (manually_managed_interventions[intervention.name] != true)
+    list_of_goals_and_interventions.push current_item
+  return list_of_goals_and_interventions
+
+
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'
 goal_progress = require 'libs_backend/goal_progress'

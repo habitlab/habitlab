@@ -251,6 +251,7 @@ polymer_ext {
     yield this.set_sites_and_goals()
     self = this
     intervention_name_to_info = yield get_interventions()
+    console.log intervention_name_to_info
     enabled_interventions = yield get_enabled_interventions()
     enabled_goals = yield get_enabled_goals()
     all_goals = yield get_goals()
@@ -275,6 +276,6 @@ polymer_ext {
         #intervention.automatic = (manually_managed_interventions[intervention.name] != true)
       list_of_goals_and_interventions.push current_item
     self.goals_and_interventions = list_of_goals_and_interventions
-    
+    this.fire 'goals_interventions_updated'
 
 }

@@ -20,7 +20,7 @@ $ = require 'jquery'
 
 {yfy, cfy} = require 'cfy'
 
-export get_db_major_version_db = -> '4'
+export get_db_major_version_db = -> '5'
 export get_db_minor_version_db = -> '1'
 
 export get_current_schema_db = ->

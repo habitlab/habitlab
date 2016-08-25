@@ -114,6 +114,13 @@
           <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button> 
         </div>
 
+        <paper-card style="display:none;" class="feedbackform">
+          <div class="feedbackcontents">
+              <paper-textarea id="feedback" cols="40" label="enter your thoughts here!" value="{{feedbackText}}"></paper-textarea>
+              <paper-button raised on-click="submitFeedback">Submit</paper-button>
+          </div>
+        </paper-card> 
+
         <paper-card>
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Currently Active Interventions</paper-tab>
@@ -189,12 +196,7 @@
             </iron-page>
         </paper-card>       
 
-        <paper-card style="display:none;" class="feedbackform">
-          <div class="feedbackcontents">
-              <paper-textarea id="feedback" cols="40" label="enter your thoughts here!" value="{{feedbackText}}"></paper-textarea>
-              <paper-button raised on-click="submitFeedback">Submit</paper-button>
-          </div>
-        </paper-card> 
+        
 
              
 

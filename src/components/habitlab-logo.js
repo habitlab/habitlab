@@ -56,12 +56,10 @@ polymer_ext({
     const self = this;
     this.fire('disable_intervention');
 
-    set_intervention_disabled(this.intervention, () => {
-      console.log (`disabled ${self.intervention}`)
-      swal({
-        title: 'Disabled!',
-        text: 'This intervention will be disabled temporarily.'
-      })
+    console.log (`disabled ${self.intervention}`)
+    swal({
+      title: 'Disabled!',
+      text: 'This intervention will be disabled temporarily.'
     })
   },
   disable_perm_callback: function() {
@@ -101,7 +99,7 @@ polymer_ext({
           "disableFold": {
               "name": "Disable intervention",
               items: {
-                  "tempDisable": {name: "For the rest of the day", callback: () => self.disable_temp_callback()},
+                  "tempDisable": {name: "For the rest of this visit", callback: () => self.disable_temp_callback()},
                   "permDisable": {name: "Permamently",  callback: () => self.disable_perm_callback()}
               }
           },

@@ -199,6 +199,7 @@ export list_enabled_interventions_for_location = cfy (location) ->*
   enabled_interventions = yield get_enabled_interventions()
   return available_interventions.filter((x) -> enabled_interventions[x])
 
+/*
 export list_all_enabled_interventions_for_location_with_override = cfy (location) ->*
   # TODO this no longer works on new days. need to persist enabled interventions across days
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
@@ -207,6 +208,17 @@ export list_all_enabled_interventions_for_location_with_override = cfy (location
     return as_array(JSON.parse(override_enabled_interventions))
   available_interventions = yield list_available_interventions_for_location(location)
   enabled_interventions = yield intervention_manager.get_most_recent_enabled_interventions()
+  return available_interventions.filter((x) -> enabled_interventions[x])
+*/
+
+export list_all_enabled_interventions_for_location_with_override = cfy (location) ->*
+  # TODO this no longer works on new days. need to persist enabled interventions across days
+  override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
+  if override_enabled_interventions?
+    #localStorage.removeItem('override_enabled_interventions_once')
+    return as_array(JSON.parse(override_enabled_interventions))
+  available_interventions = yield list_available_interventions_for_location(location)
+  enabled_interventions = yield intervention_manager.get_currently_enabled_interventions()
   return available_interventions.filter((x) -> enabled_interventions[x])
 
 export list_enabled_nonconflicting_interventions_for_location = cfy (location) ->*
@@ -404,8 +416,8 @@ export get_goals_and_interventions = cfy ->*
   intervention_name_to_info = yield get_interventions()
   console.log intervention_name_to_info
   enabled_interventions = yield get_enabled_interventions()
-  enabled_goals = yield get_enabled_goals()
-  all_goals = yield get_goals()
+  enabled_goals = yield goal_utils.get_enabled_goals()
+  all_goals = yield goal_utils.get_goals()
   manually_managed_interventions = yield get_manually_managed_interventions()
   goal_to_interventions = {}
   for intervention_name,intervention_info of intervention_name_to_info

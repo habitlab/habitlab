@@ -8,6 +8,8 @@ require! {
   getdict_for_key_dictdict
   getdict_for_key2_dictdict
   getCollection
+  setkey_dict
+  getkey_dict
 } = require 'libs_common/db_utils'
 
 {
@@ -92,7 +94,7 @@ export get_new_session_id_for_domain = cfy (domain) ->*
 
 export get_seconds_spent_on_current_domain_in_session = cfy (session_id) ->*
   current_domain = window.location.hostname
-  result = yield get_seconds_spent_on_domain_this_session current_domain, session_id
+  result = yield get_seconds_spent_on_domain_in_session current_domain, session_id
   return result ? 0
 
 export get_seconds_spent_on_domain_in_session = cfy (domain, session_id) ->*

@@ -17,6 +17,9 @@
   setdict_for_key2_dictdict
   getdict_for_key_dictdict
   getCollection
+  setdict
+  getdict
+  getkey_dictdict
 } = require 'libs_backend/db_utils'
 
 {
@@ -115,7 +118,7 @@ export get_days_on_which_intervention_was_deployed = cfy (intervention_name) ->*
 
 export get_currently_enabled_interventions = cfy ->*
   interventions_currently_disabled = yield getdict 'interventions_currently_disabled'
-  all_interventions = yield list_all_interventions()
+  all_interventions = yield intervention_utils.list_all_interventions()
   output = {}
   for intervention_name in all_interventions
     if interventions_currently_disabled[intervention_name]
@@ -126,7 +129,7 @@ export get_currently_enabled_interventions = cfy ->*
 
 export set_currently_enabled_interventions_manual = cfy (enabled_interventions) ->*
   disabled_interventions = {}
-  all_interventions = yield list_all_interventions()
+  all_interventions = yield intervention_utils.list_all_interventions()
   for intervention_name in all_interventions
     if enabled_interventions[intervention_name]
       disabled_interventions[intervention_name] = false
@@ -137,7 +140,7 @@ export set_currently_enabled_interventions_manual = cfy (enabled_interventions) 
 
 export set_currently_enabled_interventions_automatic = cfy (enabled_interventions) ->*
   disabled_interventions = {}
-  all_interventions = yield list_all_interventions()
+  all_interventions = yield intervention_utils.list_all_interventions()
   for intervention_name in all_interventions
     if enabled_interventions[intervention_name]
       disabled_interventions[intervention_name] = false

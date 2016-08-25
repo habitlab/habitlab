@@ -69,7 +69,7 @@ polymer_ext {
     },
     selected_tab_idx: {
       type: Number
-      value: 2
+      value: 0
     },
     selected_graph_tab: {
       type: Number,

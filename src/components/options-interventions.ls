@@ -250,7 +250,7 @@ polymer_ext {
       return 1
   rerender: cfy ->*
     yield this.set_sites_and_goals()
-    self = this2
+    self = this
     intervention_name_to_info = yield get_interventions()
     console.log intervention_name_to_info
     enabled_interventions = yield get_enabled_interventions()

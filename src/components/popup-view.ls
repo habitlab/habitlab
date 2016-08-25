@@ -23,7 +23,7 @@ const swal = require 'sweetalert2'
   set_intervention_disabled_permanently
   get_enabled_interventions
   set_intervention_enabled  
-
+  get_goals_and_interventions
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -73,6 +73,10 @@ polymer_ext {
     selected_graph_tab: {
       type: Number,
       value: 0
+    }
+    goals_and_interventions: {
+      type: Array
+      value: []
     }
   }
 
@@ -142,12 +146,15 @@ polymer_ext {
 
   ready: cfy ->*
     
-    this.sites = yield list_sites_for_which_goals_are_enabled!
-        
+    
     chrome.browserAction.setBadgeText {text: ''}
     chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
     url = yield get_active_tab_url()
+    
+    #FILTER THIS FOR ONLY THE CURRENT GOAL SITE#
+    this.sites = yield list_sites_for_which_goals_are_enabled!
+    this.goals_and_interventions = yield get_goals_and_interventions!
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
 

@@ -22,6 +22,7 @@
 <link rel="import" href="graph-num-times-interventions-deployed.html">
 <link rel="import" href="graph-donut-top-sites.html">
 <link rel="import" href="site-goal-view.html">
+<link rel="import" href="intervention-view-single.html">
 
 <dom-module id="popup-view">
   <style is="custom-style">
@@ -95,6 +96,12 @@
       }
     }
 
+    #settingsPage {
+      max-width: 550px;
+      font-size: 12px;
+
+    }
+
   </style>
 
   <template>
@@ -142,7 +149,16 @@
             </iron-page>
 
           <iron-page id="upcomingInterventionsPage">
-            HI
+            Coming soon
+          </iron-page>
+          <iron-page id="settingsPage">
+            <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
+              <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
+                <intervention-view-single goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+                <br><br>
+              </template>
+
+          </template>
           </iron-page>
         </paper-card>
         

@@ -24,6 +24,7 @@ const swal = require 'sweetalert2'
   get_enabled_interventions
   set_intervention_enabled  
   get_goals_and_interventions
+  list_available_interventions_for_location
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -68,7 +69,7 @@ polymer_ext {
     },
     selected_tab_idx: {
       type: Number
-      value: 0
+      value: 2
     },
     selected_graph_tab: {
       type: Number,
@@ -125,11 +126,11 @@ polymer_ext {
     for x in shownGraphs
       if x == 'site-goal-view'
         for site in sites
-          console.log site
+          
           html += "<#{x} site=\"#{site}\"></#{x}>"
       else
         html += "<#{x}></#{x}>"
-    console.log html
+    
     return html
 
   isEmpty: (enabledInterventions) ->
@@ -152,9 +153,16 @@ polymer_ext {
     self = this
     url = yield get_active_tab_url()
     
+    console.log url_to_domain url
     #FILTER THIS FOR ONLY THE CURRENT GOAL SITE#
     this.sites = yield list_sites_for_which_goals_are_enabled!
     this.goals_and_interventions = yield get_goals_and_interventions!
+    
+    this.goals_and_interventions = this.goals_and_interventions.filter (obj) ->
+    
+      return obj.goal.domain == url_to_domain url
+
+    window.gni = this.goals_and_interventions
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
 

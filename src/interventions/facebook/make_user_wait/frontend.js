@@ -14,7 +14,7 @@
     log_action,
   } = require('libs_common/log_utils')
 
-  var interst_screen = $('<interstitial-screen>')
+  var interst_screen = $('<interstitial-screen class="interst_screen">')
   var buttonText = 'Continue to Facebook'
   interst_screen.attr('btn-txt', buttonText)
 
@@ -25,7 +25,7 @@
   secondsLeft--
   interst_screen.attr('title-text', messageString)
   interst_screen[0].hideButton();
-   interst_screen[0].showProgress();
+  interst_screen[0].showProgress();
   interst_screen.attr('intervention', intervention.name)
   log_impression(intervention.name)
   var value_counter = 0;
@@ -42,7 +42,10 @@
   }, 50)
 
   $(document.body).append(interst_screen)
-
+  
+  document.body.addEventListener('disable_intervention', () => {
+    $('.interst_screen').remove();
+  });
 
 
 })()

@@ -84,7 +84,6 @@ export get_new_session_id_for_domain = cfy (domain) ->*
 */
 
 export get_new_session_id_for_domain = cfy (domain) ->*
-  collection = yield getCollection('domain_to_last_session_id')
   result = yield getkey_dict 'domain_to_last_session_id', domain
   if not result?
     yield setkey_dict 'domain_to_last_session_id', domain, 0

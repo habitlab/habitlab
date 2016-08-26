@@ -64,6 +64,7 @@ require 'libs_backend/expose_backend_libs'
 require! {
   async
   moment
+  'promise-debounce'
 }
 
 $ = require 'jquery'
@@ -209,7 +210,7 @@ get_session_id_for_tab_id_and_domain = cfy (tabId, domain) ->*
   tab_id_to_domain_to_session_id[tabId][domain] = session_id
   return session_id
 
-load_intervention_for_location = cfy (location, tabId) ->*
+load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
   work_hours_only = work_hours_only == 'true'
   start_mins_since_midnight = parseInt start_mins_since_midnight
@@ -221,7 +222,11 @@ load_intervention_for_location = cfy (location, tabId) ->*
   domain = url_to_domain(location)
   session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)
   active_interventions = yield getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
+  console.log 'active_interventions is'
+  console.log active_interventions
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
+  console.log 'override_enabled_interventions is'
+  console.log override_enabled_interventions
   if not active_interventions?
     if override_enabled_interventions?
       possible_interventions = as_array(JSON.parse(override_enabled_interventions))
@@ -322,10 +327,10 @@ message_handlers <<< {
     {intervention_name, tabId} = data
     load_intervention intervention_name, tabId, ->
       callback()
-  'load_intervention_for_location': (data, callback) ->
+  'load_intervention_for_location': cfy (data) ->*
     {location, tabId} = data
-    load_intervention_for_location location, tabId, ->
-      callback()
+    yield load_intervention_for_location location, tabId
+    return
   'load_css_file': (data, callback) ->
     {css_file, tab} = data
     tabid = tab.id

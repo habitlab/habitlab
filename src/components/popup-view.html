@@ -141,7 +141,7 @@
                           <span>Disable Intervention &#x25BC;</span>
                         </paper-button>
                         <paper-listbox class="dropdown-content">
-                          <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For remainder of visit</paper-item>
+                          <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the rest of this visit</paper-item>
                           <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
                         </paper-listbox>
                       </paper-menu-button>            
@@ -162,9 +162,13 @@
             <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
               <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
                 <intervention-view-single compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
-                <br><br>
+                <br>
               </template>
-
+              <template is="dom-if" if="{{noValidInterventions(goals_and_interventions)}}">
+                  <div class="interventionContainer">
+                  <h4>None</h4>
+                </div>
+              </template>
           </template>
           </iron-page>
         </paper-card>

@@ -81,6 +81,9 @@ polymer_ext {
     }
   }
 
+  noValidInterventions: (gni) ->
+    return gni.length == 0
+
   temp_disable_button_clicked: (evt) ->
     self = this
     intervention = evt.target.intervention
@@ -90,6 +93,11 @@ polymer_ext {
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
     <- disable_interventions_in_active_tab()
+    this.fire 'disable_intervention' 
+    swal({
+      title: 'Disabled!',
+      text: 'This intervention will be disabled temporarily.'
+    })
 
   perm_disable_button_clicked: (evt) ->
     self = this
@@ -100,6 +108,11 @@ polymer_ext {
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
     <- disable_interventions_in_active_tab()
+    this.fire 'disable_intervention'
+    swal({
+      title: 'Disabled!',
+      text: 'This intervention will be disabled permanently.'
+    })
 
   is_not_in_blacklist: (graph, blacklist, graphNamesToOptions) ->
     graph = graphNamesToOptions[graph]
@@ -162,6 +175,8 @@ polymer_ext {
     
       return obj.goal.domain == url_to_domain url
 
+    console.log "goals n interv"
+    console.log this.goals_and_interventions
     window.gni = this.goals_and_interventions
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions

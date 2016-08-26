@@ -39,7 +39,7 @@
       var buttonText = 'Click to continue to Facebook'
       var buttonText2 = 'Close Facebook'
 
-      var interst_screen = $('<interstitial-screen>')
+      var interst_screen = $('<interstitial-screen class="interst_screen">')
       interst_screen.attr('intervention', intervention.name)
       interst_screen.attr('btn-txt', buttonText)
       interst_screen.attr('btn-txt2', buttonText2)
@@ -48,6 +48,11 @@
       $(document.body).append(interst_screen)
     })
   });
+
+  document.body.addEventListener('disable_intervention', () => {
+    $('.interst_screen').remove();
+  });
   
+
 
 })()

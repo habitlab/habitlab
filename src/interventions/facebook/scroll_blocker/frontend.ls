@@ -69,7 +69,7 @@ scroll_block_display[0].addEventListener 'continue_scrolling', ->
   nscrolls := 0
   enable_scrolling_and_hide_scroll_block!
 
-scroll_block_display[0].addEventListener 'disable_intervention' ->
+document.body.addEventListener 'disable_intervention' ->
   console.log 'intervention disabled inside the frontend'
   console.log scroll_block_display
   enable_scrolling_and_hide_scroll_block!

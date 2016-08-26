@@ -5,12 +5,25 @@
 <dom-module id="reward-display">
   <style>
     :host {
-      display: block;
+      display: none;
+      position: fixed;
+      /*
+      width: 100vw;
+      height: 100vh;
+      */
+      margin: auto;
+      left: 0;
+      right: 0;
+      transform: perspective(1px) translateY(-50%);
+      top: 50%;
     }
   </style>
   <template>
 
+    <video id="rewardvideo" on-ended="video_ended" src="{{video_url}}"></video>
+    <!--
     <img src="{{img_url}}"></img>
+    -->
 
   </template>
   <script src="reward-display.js"></script>

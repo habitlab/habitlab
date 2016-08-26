@@ -14,11 +14,13 @@
     log_action,
   } = require('libs_common/log_utils')
 
+
   var interst_screen = $('<interstitial-screen class="interst_screen">')
-  var buttonText = 'Continue to Facebook'
+  var buttonText = 'Continue to Facebook -1💔'
+
   interst_screen.attr('btn-txt', buttonText)
 
-  var buttonText2 = 'Close Facebook'
+  var buttonText2 = 'Close Facebook ❤️'
   interst_screen.attr('btn-txt2', buttonText2)
   var secondsLeft = intervention.params.seconds.value
   var messageString = 'Loading...';

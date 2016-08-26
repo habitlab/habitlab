@@ -211,12 +211,10 @@ export list_all_enabled_interventions_for_location_with_override = cfy (location
   return available_interventions.filter((x) -> enabled_interventions[x])
 */
 
-export list_all_enabled_interventions_for_location_with_override = cfy (location) ->*
-  # TODO this no longer works on new days. need to persist enabled interventions across days
-  override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
-  if override_enabled_interventions?
-    #localStorage.removeItem('override_enabled_interventions_once')
-    return as_array(JSON.parse(override_enabled_interventions))
+export list_all_enabled_interventions_for_location = cfy (location) ->*
+  #override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
+  #if override_enabled_interventions?
+  #  return as_array(JSON.parse(override_enabled_interventions))
   available_interventions = yield list_available_interventions_for_location(location)
   enabled_interventions = yield intervention_manager.get_currently_enabled_interventions()
   return available_interventions.filter((x) -> enabled_interventions[x])

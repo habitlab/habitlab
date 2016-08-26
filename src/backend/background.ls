@@ -30,7 +30,7 @@ require 'libs_backend/expose_backend_libs'
 {
   get_interventions
   list_enabled_nonconflicting_interventions_for_location
-  list_all_enabled_interventions_for_location_with_override
+  list_all_enabled_interventions_for_location
   list_available_interventions_for_location
   get_intervention_parameters
 } = require 'libs_backend/intervention_utils'
@@ -56,6 +56,10 @@ require 'libs_backend/expose_backend_libs'
 {
   url_to_domain
 } = require 'libs_common/domain_utils'
+
+{
+  as_array
+} = require 'libs_common/collection_utils'
 
 require! {
   async
@@ -217,18 +221,23 @@ load_intervention_for_location = cfy (location, tabId) ->*
   domain = url_to_domain(location)
   session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)
   active_interventions = yield getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
+  override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
   if not active_interventions?
-    possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+    if override_enabled_interventions?
+      possible_interventions = as_array(JSON.parse(override_enabled_interventions))
+    else
+      possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
     intervention = possible_interventions[0]
     if intervention?
       yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
     else
       yield set_active_interventions_for_domain_and_session domain, session_id, []
+    localStorage.removeItem('override_enabled_interventions_once')
   else
     active_interventions = JSON.parse active_interventions
     intervention = active_interventions[0]
     if intervention?
-      all_enabled_interventions = yield list_all_enabled_interventions_for_location_with_override(location)
+      all_enabled_interventions = yield list_all_enabled_interventions_for_location(location)
       if all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
         # the intervention is no longer enabled. need to choose a new session id
         console.log 'intervention is no longer enabled. choosing new session id'
@@ -241,18 +250,20 @@ load_intervention_for_location = cfy (location, tabId) ->*
         console.log all_enabled_interventions
         session_id = yield get_new_session_id_for_domain(domain)
         tab_id_to_domain_to_session_id[tabId][domain] = session_id
-        possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+        if override_enabled_interventions?
+          possible_interventions = as_array(JSON.parse(override_enabled_interventions))
+        else
+          possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
         intervention = possible_interventions[0]
         #domain_to_session_id_to_intervention[domain][session_id] = intervention
         if intervention?
           yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
         else
           yield set_active_interventions_for_domain_and_session domain, session_id, []
-
+        localStorage.removeItem('override_enabled_interventions_once')
   if not intervention?
     return
   yield load_intervention intervention, tabId
-  localStorage.removeItem('override_enabled_interventions_once')
 
 /*
 load_intervention_for_location = cfy (location, tabId) ->*

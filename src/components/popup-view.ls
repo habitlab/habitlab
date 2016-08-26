@@ -87,7 +87,7 @@ polymer_ext {
   temp_disable_button_clicked: (evt) ->
     self = this
     intervention = evt.target.intervention
-    <- set_intervention_disabled intervention
+    # <- set_intervention_disabled intervention
     url <- get_active_tab_url()
     enabledInterventions <- list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]

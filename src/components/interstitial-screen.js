@@ -52,7 +52,7 @@ Polymer({
     $(this).hide()
   },
   buttonclicked2: function() {
-    log_action(intervention.name, {'positive': 'Left the site.w'})
+    log_action(intervention.name, {'positive': 'Left the site.'})
     close_selected_tab().then(() => {
 
       console.log('done closing tab')

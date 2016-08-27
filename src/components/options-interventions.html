@@ -4,8 +4,11 @@
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="pill-button-group.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="intervention-view-single.html">
@@ -21,7 +24,7 @@
       
       --paper-card: {
         elevation: 5;
-        width: 70%;
+        width: 500px;
         background-color: #8bc34a;
 
       };
@@ -59,12 +62,23 @@
       <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals">
         <!-- <h3>{{site_and_goals.sitename}}</h3> -->
         <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
-          <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed">
-            <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
-            <template is="dom-if" if="{{show_internal_names_of_goals()}}">
-              (<span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.name}}</span>)
-            </template>
-          </paper-toggle-button>
+          <div style="display: flex; align-items: center;">
+            <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">
+              <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
+              <template is="dom-if" if="{{show_internal_names_of_goals()}}">
+                (<span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.name}}</span>)
+              </template>
+            </paper-toggle-button>
+            <span class="dailyLimitContainer">
+              <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 14px; padding-left: 10px; ">Daily goal: Less than </span>
+              <paper-dropdown-menu label="---------" style="display: inline-block; padding-left: 5px; max-width: 100px; width: 100px;" no-label-float>
+                <paper-listbox class="dropdown-content"> 
+                  <paper-item>5 minutes</paper-item>
+                  <paper-item>10 minutes</paper-item>
+                </paper-listbox>
+              </paper-dropdown-menu>
+            </span>
+          </div>
           <br>
         </template>
       </template>

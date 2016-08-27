@@ -54,6 +54,9 @@ polymer_ext {
       array[index] = (moment!.subtract array[index], 'day').format 'ddd MM/D'
       return )
 
+    goal_data = []
+    for i from 0 to progress_values.length
+      goal_data.push Number localStorage[goal_info] #assumes named after goal info as uid
     this.data = {
       labels: reverse progress_labels
       datasets: [
@@ -70,6 +73,20 @@ polymer_ext {
           pointHoverBackgroundColor: "rgba(75,192,192,1)",
           pointHoverBorderColor: "rgba(220,220,220,1)",
           data: reverse progress_values
+        }, 
+        {
+          label: 'Daily goal'
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(0,255,0,0.4)",
+          borderColor: "rgba(0,255,0,1)",
+          pointBorderColor: "rgba(0,255,0,1)",
+          pointBackgroundColor: '#00ff00',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(0,255,0,1)",
+          pointHoverBorderColor: "rgba(0,255,0,1)",
+          data: goal_data
         }
       ]
     }

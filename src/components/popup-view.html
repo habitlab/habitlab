@@ -132,7 +132,7 @@
               <div class="interventioninfo">
                 <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
                   <div class="interventionContainer" id="enabledInterventions">
-                    <span class="interventionName">{{intervention}}</span>
+                    <span class="interventionName">{{get_intervention_description(intervention, intervention_name_to_info)}}</span>
                     
                       <paper-menu-button vertical-offset="35">
                         <paper-button class="dropdown-trigger" raised>

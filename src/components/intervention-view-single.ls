@@ -273,8 +273,7 @@ polymer_ext {
   #    return
   #  get_intervention_parameters self.intervention.name, (parameters) ->
   #    self.$$('#options_input').value = JSON.stringify(parameters)
-  ready: ->
-    console.log this.compact
-    console.log \logged_compact
+  #ready: ->
+    
   #  this.intervention_property_changed()
 }

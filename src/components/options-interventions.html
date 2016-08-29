@@ -44,6 +44,10 @@
       cursor: pointer;
       color: #777777;
     }
+
+    .dailyLimitContainer {
+      
+    }
    
 
     
@@ -62,24 +66,27 @@
       <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals">
         <!-- <h3>{{site_and_goals.sitename}}</h3> -->
         <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; padding-bottom: 15px;">
             <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">
               <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
               <template is="dom-if" if="{{show_internal_names_of_goals()}}">
                 (<span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.name}}</span>)
               </template>
             </paper-toggle-button>
-            <span class="dailyLimitContainer">
-              <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 14px; padding-left: 10px; ">Daily goal: Less than </span>
-              <paper-dropdown-menu label="---------" style="display: inline-block; padding-left: 5px; max-width: 100px; width: 100px;" no-label-float>
-                <paper-listbox class="dropdown-content"> 
-                  <paper-item>5 minutes</paper-item>
-                  <paper-item>10 minutes</paper-item>
-                </paper-listbox>
-              </paper-dropdown-menu>
-            </span>
+            <template is="dom-if" if="{{goal.enabled}}">
+              <span class="dailyLimitContainer">
+                <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 14px; padding-left: 10px; ">Daily goal: Less than </span>
+                <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>3
+                  <paper-listbox class="dropdown-content" selected="4" on-iron-select="time_updated"> 
+                    <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
+                      <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
+                    </template>
+                  </paper-listbox>
+                </paper-dropdown-menu>
+              </span>
+            </template>
           </div>
-          <br>
+          
         </template>
       </template>
 

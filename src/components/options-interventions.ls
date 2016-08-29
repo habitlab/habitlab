@@ -23,6 +23,7 @@ require! {
   get_goals
   set_goal_enabled_manual
   set_goal_disabled_manual
+  set_goal_target
 } = require 'libs_backend/goal_utils'
 
 {
@@ -75,7 +76,12 @@ polymer_ext {
     always_active: {
       type: Boolean
       value: localStorage.work_hours_only != "true"
+    },
+    daily_goal_values: {
+      type: Array
+      value: ["5 minutes", "10 minutes", "15 minutes", "20 minutes", "25 minutes", "30 minutes", "35 minutes", "40 minutes", "45 minutes", "50 minutes", "55 minutes", "60 minutes"]
     }
+
   }
   disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
     enabled_goals = yield get_enabled_goals()
@@ -108,7 +114,10 @@ polymer_ext {
     checked = evt.target.checked
     
     goal_name = evt.target.goal.name
-    
+    #### WRITE DAILY GOAL TO DB
+
+
+
     self = this
     if checked
       yield set_goal_enabled_manual goal_name
@@ -220,6 +229,12 @@ polymer_ext {
 
     # if not, it's a double click so you shouldn't do anything
 
+  time_updated: (evt, obj) ->
+    
+    mins = Number (obj.item.innerText.trim ' ' .split ' ' .0)
+    console.log mins
+    console.log obj.item.class
+    set_goal_target obj.item.class, mins
     
   dismiss_dialog: (evt) ->
     console.log evt

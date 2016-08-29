@@ -16,7 +16,7 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
-setTimeout(() => {
+//setTimeout(() => {
 
 const messages = ["You've spent a questionable amount of time on Facebook.",
                   "Please get off facebook. I'm begging you.",
@@ -132,8 +132,9 @@ function main() {
   }
 }
 
-$(document).ready(main())
+//$(document).ready(main())
+setTimeout(begin, 3000);
 
-}, 3000)
+//}, 3000)
 
 })()

@@ -31,7 +31,22 @@
       font-size: 14px;
       align-content: center;
       text-align: center;
-
+    }
+    #close_button {
+      position: absolute;
+      right: 180px;
+      top: 7px;
+      z-index: 999999;
+      background-color: #8bc34a;
+      color: white;
+    }
+    #continue_scrolling {
+      position: absolute;
+      right: 10px;
+      top: 7px;
+      z-index: 999999;
+      background-color: red;
+      color: white;
     }
   </style>
   <template>
@@ -45,11 +60,13 @@
     <img style="width: 38px; height: 38px" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
     <paper-tooltip for="habitlab_logo" animation-delay="0">A tooltip</paper-tooltip>
     -->
-    <div id="container" on-click="clicked">
+    <div id="container">
       <div class="text_display" >
-        You have already spent <span>{{minutes}}</span> minutes on <span>{{site}}</site>.<br>Click to continue scrolling.
+        You have already spent <span>{{minutes}}</span> minutes on <span>{{site}}</site>.<br>Are you sure you want to continue scrolling?
       </div>
       <habitlab-logo intervention={{intervention}} id="habitlab_logo" ></habitlab-logo>
+      <paper-button id="close_button">Close Facebook</paper-button>
+      <paper-button id="continue_scrolling" on-click="continue_scrolling">Continue Scrolling</paper-button>
     </div>
   </template>
   <script src="fb-scroll-block-display.js"></script>

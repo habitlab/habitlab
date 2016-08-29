@@ -36,11 +36,16 @@ Polymer({
   listeners: {
     
   },
+  /*
   clicked: function(event) {
     if (this.$.habitlab_logo !== Polymer.dom(event).localTarget) {
       this.fire('continue_scrolling', {});
     }
     
+  },
+  */
+  continue_scrolling: function(event) {
+    this.fire('continue_scrolling', {})
   },
   ready: function() {
     console.log('fb-scroll-block-display ready');

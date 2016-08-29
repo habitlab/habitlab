@@ -12,6 +12,10 @@ const {
   url_to_domain,
 } = require('libs_common/domain_utils');
 
+const {
+  close_selected_tab
+} = require('libs_common/tab_utils')
+
 polymer_ext({
   is: 'timespent-view',
   properties: {
@@ -29,12 +33,14 @@ polymer_ext({
     },
     displayText: {
       type: String,
-      
     }
   },
-  ready: function() {
-    console.log('timespent-view loaded')
-    //time_spent_on_facebook <- get_seconds_spent_on_domain_today('www.facebook.com')
+  close_button_clicked: function() {
+    var reward_display = this.$$('#reward_display')
+    reward_display.addEventListener('reward_done', function() {
+      close_selected_tab()
+    })
+    reward_display.play()
   },
   attached: function() {
     /*var update_page = function(self) {

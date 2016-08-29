@@ -5,3 +5,6 @@ interventions:
   - youtube/prompt_before_watch
 measurement: time_spent_on_domain
 domain: www.youtube.com
+target:
+  default: 20
+  units: minutes

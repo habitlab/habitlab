@@ -66,6 +66,7 @@ export get_current_collections = ->
     interventions_active_for_domain_and_session: '[key+key2],key,key2,synced'
     domain_to_last_session_id: 'key,synced'
     interventions_currently_disabled: 'key,synced'
+    goal_targets: 'key,synced'
   }
 
 export getDb = memoizeSingleAsync cfy ->*

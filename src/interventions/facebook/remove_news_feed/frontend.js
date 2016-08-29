@@ -25,6 +25,10 @@ const {
   on_url_change,
 } = require('libs_frontend/common_libs')
 
+const {
+  close_selected_tab
+} = require('libs_common/tab_utils')
+
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 
@@ -65,18 +69,26 @@ function showFeed(intervalID) {
 var intervalID;
 function attachButtons() {
   log_impression(intervention.name)
-  var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed" style="text-align: center; margin: 0 auto; position: relative;"></habitlab-logo>')
+  var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed" style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo>')
   var centerDiv = $('<center id=centerdiv></center>')
-  var cheatButton = $('<paper-button style="background-color:white; text-align: center; margin: 0 auto; position: relative;" raised>Show My News Feed This One Time</paper-button>')
+  var cheatButton = $('<paper-button style="background-color:white; text-align: center; margin: 0 auto; position: relative; background-color: red; color: white" raised>Show My News Feed This One Time</paper-button>')
   cheatButton.click(function(evt) {
     log_action(intervention.name, {'negative': 'Remained on Facebook.'})
     showFeed(intervalID)
+  })
+  var closeButton = $('<paper-button style="background-color:white; text-align: center; margin: 0 auto; position: relative; background-color: #8bc34a" raised>Close Facebook</paper-button>')
+  closeButton.click(function(evt) {
+    log_action(intervention.name, {'positive': 'Closed Facebook.'})
+    close_selected_tab()
   })
 
   habitlab_logo.insertAfter($('#pagelet_composer'))
   centerDiv.insertAfter($('#pagelet_composer'))
 
+  $('#centerdiv').append(closeButton)
+  $('#centerdiv').append('<br><br>')
   $('#centerdiv').append(cheatButton)
+  $('#centerdiv').append('<br><br>')
 }
 
 on_url_change(() => {

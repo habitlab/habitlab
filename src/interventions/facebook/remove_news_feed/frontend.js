@@ -31,6 +31,7 @@ const {
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
+require('components/reward-display.deps')
 
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
@@ -49,8 +50,7 @@ function removeFeed() {
 
 //Shows the news feed
 function showFeed(intervalID) {
-  $('habitlab-logo').remove()
-  $('paper-button').remove()
+  $('#habitlab_show_feed_div').remove()
 
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
 
@@ -79,16 +79,26 @@ function attachButtons() {
   var closeButton = $('<paper-button style="background-color:white; text-align: center; margin: 0 auto; position: relative; background-color: #8bc34a" raised>Close Facebook</paper-button>')
   closeButton.click(function(evt) {
     log_action(intervention.name, {'positive': 'Closed Facebook.'})
-    close_selected_tab()
+    var reward_display = document.querySelector('reward-display')
+    reward_display.addEventListener('reward_done', function() {
+      close_selected_tab()
+    })
+    reward_display.play()
   })
 
-  habitlab_logo.insertAfter($('#pagelet_composer'))
   centerDiv.insertAfter($('#pagelet_composer'))
 
-  $('#centerdiv').append(closeButton)
-  $('#centerdiv').append('<br><br>')
-  $('#centerdiv').append(cheatButton)
-  $('#centerdiv').append('<br><br>')
+  var habitlab_show_feed_div = $('<div>')
+  .attr('id', 'habitlab_show_feed_div')
+  .append([
+    closeButton,
+    '<br><br>',
+    cheatButton,
+    '<br><br>',
+    '<reward-display>',
+    habitlab_logo
+  ])
+  $('#centerdiv').append(habitlab_show_feed_div)
 }
 
 on_url_change(() => {

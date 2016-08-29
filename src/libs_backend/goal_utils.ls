@@ -9,6 +9,11 @@ $ = require 'jquery'
   gexport_module
 } = require 'libs_common/gexport'
 
+{
+  getkey_dict
+  setkey_dict
+} = require 'libs_backend/db_utils'
+
 {cfy, yfy} = require 'cfy'
 
 getAllInterventionsGoalInfo = cfy ->*
@@ -168,6 +173,18 @@ export get_goals_for_intervention = cfy (intervention_name) ->*
   interventions_to_goals = yield get_interventions_to_goals()
   goals_for_intervention = interventions_to_goals[intervention_name] ? []
   return goals_for_intervention
+
+export get_goal_target = cfy (goal_name) ->*
+  result = yield getkey_dict 'goal_targets', goal_name
+  if result?
+    return parseInt(result)
+  all_goals = yield get_goals()
+  goal_info = all_goals[goal_name]
+  return parseInt(goal_info.target.default)
+
+export set_goal_target = cfy (goal_name, target_value) ->*
+  yield setkey_dict 'goal_targets', goal_name, target_value
+  return
 
 intervention_utils = require 'libs_backend/intervention_utils'
 log_utils = require 'libs_backend/log_utils'

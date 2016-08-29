@@ -4,3 +4,6 @@ interventions:
   - gmail/no_new_emails
 measurement: time_spent_on_domain
 domain: mail.google.com
+target:
+  default: 20
+  units: minutes

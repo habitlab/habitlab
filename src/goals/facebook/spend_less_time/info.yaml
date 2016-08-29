@@ -13,3 +13,6 @@ interventions:
   - facebook/block_after_interval_per_visit
 measurement: time_spent_on_domain
 domain: www.facebook.com
+target:
+  default: 20
+  units: minutes

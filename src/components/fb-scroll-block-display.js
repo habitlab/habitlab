@@ -2,6 +2,10 @@ const $ = require('jquery');
 require('jquery-contextmenu');
 
 const {
+  close_selected_tab
+} = require('libs_common/tab_utils')
+
+const {
   load_css_file,
 } = require('libs_common/content_script_utils')
 
@@ -36,11 +40,23 @@ Polymer({
   listeners: {
     
   },
+  /*
   clicked: function(event) {
     if (this.$.habitlab_logo !== Polymer.dom(event).localTarget) {
       this.fire('continue_scrolling', {});
     }
     
+  },
+  */
+  close_button_clicked: function(event) {
+    var reward_display = this.$$('#reward_display')
+    reward_display.addEventListener('reward_done', function() {
+      close_selected_tab()
+    })
+    reward_display.play()
+  },
+  continue_scrolling: function(event) {
+    this.fire('continue_scrolling', {})
   },
   ready: function() {
     console.log('fb-scroll-block-display ready');

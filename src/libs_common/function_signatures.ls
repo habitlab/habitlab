@@ -27,6 +27,9 @@ lib_name_to_func_names_and_signatures =
     get_pages_visited_all_time: []
     get_work_pages_visited_today: []
     get_productivity_classifications: []
+  goal_utils:
+    get_goal_target: ['goal_name']
+    set_goal_target: ['goal_name', 'target_value']
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

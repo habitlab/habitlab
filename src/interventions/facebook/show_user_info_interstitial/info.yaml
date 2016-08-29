@@ -1,4 +1,4 @@
-description: Displays an page showing user time spent/visit count before allowing access to Facebook.
+description: Show user time spent/visit count before visiting Facebook.
 matches:
   - www.facebook.com
 content_scripts:

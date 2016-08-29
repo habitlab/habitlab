@@ -109,7 +109,7 @@
 
       <div class="box">
         <div class="flexcontainer">
-          <paper-button class="paperbuttons" raised id="goalsButton">Goals</paper-button>
+          <paper-button class="paperbuttons" raised id="goalsButton">Goals and Settings</paper-button>
           <paper-button class="paperbuttons" raised id="resultsButton">Dashboard</paper-button>
           <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button> 
         </div>
@@ -124,8 +124,7 @@
         <paper-card>
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Currently Active Interventions</paper-tab>
-            <paper-tab>Upcoming Interventions</paper-tab>
-            <paper-tab>Settings</paper-tab>
+            <paper-tab>Available Interventions</paper-tab>
           </paper-tabs>
 
           <iron-pages selected="{{selected_tab_idx}}">
@@ -133,7 +132,7 @@
               <div class="interventioninfo">
                 <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
                   <div class="interventionContainer" id="enabledInterventions">
-                    <span class="interventionName">{{intervention}}</span>
+                    <span class="interventionName">{{get_intervention_description(intervention, intervention_name_to_info)}}</span>
                     
                       <paper-menu-button vertical-offset="35">
                         <paper-button class="dropdown-trigger" raised>
@@ -155,9 +154,6 @@
               </div>
             </iron-page>
 
-          <iron-page id="upcomingInterventionsPage">
-            Coming soon
-          </iron-page>
           <iron-page id="settingsPage">
             <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
               <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">

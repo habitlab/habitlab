@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="habitlab-logo.html">
-
+<link rel="import" href="reward-display.html">
 
 <dom-module id="feed-item-timer-polymer">
   
@@ -67,6 +67,7 @@
       <div class=timer-text>You have already spent {{minutes}} minute(s) and {{seconds}} seconds on {{site}}. <br/><br/>
       </div>
        <paper-button class="close-button" on-click="closeTab">Close FB</paper-button>
+       <reward-display></reward-display>
     </div>
     <div id="shadow"></div>
     <div id="grey-space"></div>

@@ -5,6 +5,8 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
 <link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="reward-display.html">
+
 <dom-module id="interstitial-screen">
   <style>
     :host {
@@ -100,6 +102,7 @@
         <center><paper-progress id="paperprogress"></paper-progress></center>
         <center><paper-button id="closetabbutton" class="closeTabButton" on-click="buttonclicked2">Close Tab</paper-button></center>
         <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">default</paper-button></center>
+        <reward-display></reward-display>
       </div>
     </div>
 

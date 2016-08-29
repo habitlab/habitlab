@@ -61,9 +61,12 @@ Polymer({
   },
   closeTab: function() {
     console.log("closing...")
-    close_selected_tab().then(() => {
-      console.log("closed it");
-    });
+    this.$$('reward-display').addEventListener('reward_done', () => {
+      close_selected_tab().then(() => {
+        console.log("closed it");
+      });
+    })
+    this.$$('reward-display').play()
   }
   
 });

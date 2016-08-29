@@ -1,4 +1,4 @@
-description: Makes the user wait a certain amount of seconds before accessing Facebook.
+description: Makes the user wait a few seconds before visiting Facebook.
 matches:
   - www.facebook.com
 content_scripts:

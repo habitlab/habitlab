@@ -14,7 +14,8 @@
     log_action,
   } = require('libs_common/log_utils')
 
-  var interst_screen = $('<interstitial-screen class="interst_screen">')
+  var interst_screen = $('<interstitial-screen>')
+  interst_screen.addClass('interst_screen')
   var buttonText = 'Continue to Facebook'
 
   interst_screen.attr('btn-txt', buttonText)

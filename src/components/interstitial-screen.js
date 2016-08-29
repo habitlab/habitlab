@@ -52,11 +52,13 @@ Polymer({
     $(this).hide()
   },
   buttonclicked2: function() {
-    log_action(intervention.name, {'positive': 'Left the site.w'})
-    close_selected_tab().then(() => {
-
-      console.log('done closing tab')
-    });
+    log_action(intervention.name, {'positive': 'Left the site.'})
+    this.$$('reward-display').addEventListener('reward_done', () => {
+      close_selected_tab().then(() => {
+        console.log('done closing tab')
+      });
+    })
+    this.$$('reward-display').play()
   },
   hideButton: function() {
     console.log('button hidden')

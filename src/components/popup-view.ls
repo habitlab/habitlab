@@ -25,6 +25,7 @@ const swal = require 'sweetalert2'
   set_intervention_enabled  
   get_goals_and_interventions
   list_available_interventions_for_location
+  get_interventions
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -79,8 +80,14 @@ polymer_ext {
       type: Array
       value: []
     }
+    intervention_name_to_info: {
+      type: Object
+      value: {}
+    }
   }
 
+  get_intervention_description: (intervention_name, intervention_name_to_info) ->
+    return intervention_name_to_info[intervention_name].description
   noValidInterventions: (gni) ->
     return gni.length == 0
 
@@ -164,6 +171,7 @@ polymer_ext {
     chrome.browserAction.setBadgeText {text: ''}
     chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
+    self.intervention_name_to_info = yield get_interventions()
     url = yield get_active_tab_url()
     
     console.log url_to_domain url

@@ -63,10 +63,15 @@ function divOverVideo(status) {
 
 	//Centered container for text in the white box
 	const $contentContainer = $('<div class="contentContainer">').css({
-							'position': 'absolute',
-							'top': '50%',
-							'left': '50%',
-							'transform': 'translateX(-50%) translateY(-50%)'});
+    'position': 'absolute',
+    'top': '50%',
+    'left': '50%',
+    'transform': 'translateX(-50%) translateY(-50%)',
+    'text-align': 'center'
+  });
+
+  $contentContainer.append('<habitlab-logo>')
+  $contentContainer.append('<br><br>')
 
 	//Message to user
 	const $text1 = $('<h1>');
@@ -89,7 +94,7 @@ function divOverVideo(status) {
       })
 	}
 	$contentContainer.append($text1);
-	$contentContainer.append($('<p>'));
+	$contentContainer.append($('<br>'));
 
 	//Close tab button
 	const $button1 = $('<paper-button>');

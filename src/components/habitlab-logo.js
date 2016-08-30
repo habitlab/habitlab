@@ -78,11 +78,17 @@ polymer_ext({
     yield load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
 
     function get_intervention_name() {
-      return "Intervention: " + intervention.description
+      if (intervention !== null) {
+        return "Intervention: " + intervention.description
+      }
+      return ""
     }
 
     function get_intervention_goal() {
-      return "Goals: " + intervention.goals.map((x) => x.description).join(', ')
+      if (intervention !== null) {
+        return "Goals: " + intervention.goals.map((x) => x.description).join(', ')
+      }
+      return ""
     }
 
     var name = get_intervention_name()

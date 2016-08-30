@@ -130,7 +130,7 @@ polymer_ext {
     if checked
       yield set_goal_enabled_manual goal_name
       
-      check_if_first_goal = cfy () ->*       
+      check_if_first_goal = cfy ->*       
         if !localStorage.first_goal?
           localStorage.first_goal = 'has enabled a goal before'
           add_toolbar_notification!

@@ -62,14 +62,17 @@ function divOverVideo(status) {
 	b.style.opacity = 0.9;
 
 	//Centered container for text in the white box
-	const $contentContainer = $('<div class="contentContainer">').css({
+	const $contentContainer = $('<div>')
+  .addClass('contentContainer')
+  .addClass('habitlab_inserted')
+  .css({
     'position': 'absolute',
     'top': '50%',
     'left': '50%',
     'transform': 'translateX(-50%) translateY(-50%)',
     'text-align': 'center'
   });
-
+  
   $contentContainer.append('<habitlab-logo>')
   $contentContainer.append('<br><br>')
 
@@ -212,3 +215,7 @@ $(document).ready(main);
 //Executed after page load
 //afterNavigate();
 
+document.addEventListener('disable_intervention', function() {
+  $('.habitlab_inserted').remove()
+  removeDivAndPlay()
+})

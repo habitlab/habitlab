@@ -1,10 +1,3 @@
-(() => {
-
-if (window.notification_hijacker) {
-  return
-}
-window.notification_hijacker = true
-
 const $ = require('jquery')
 
 const {
@@ -23,8 +16,6 @@ const {
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/reward-display.deps')
-
-//setTimeout(() => {
 
 const messages = ["You've spent a questionable amount of time on Facebook.",
                   "Please get off facebook. I'm begging you.",
@@ -92,7 +83,7 @@ function showAlert() {
   insertClickNotification();
 }
 
-const reward_display = $('<reward-display>')
+const reward_display = $('<reward-display>').addClass('habitlab_inserted')
 document.body.appendChild(reward_display[0])
 reward_display[0].addEventListener('reward_done', function(evt) {
   close_selected_tab()
@@ -112,7 +103,7 @@ function insertClickNotification() {
           var $messageClone = $($messages[1]).clone();
 
           //Changes attributes to create the notification
-          $messageClone.addClass('jewelItemNew'); //Notification highlighted blue ('new')
+          $messageClone.addClass('habitlab_inserted').addClass('jewelItemNew'); //Notification highlighted blue ('new')
           $messageClone.find('.author.fixemoji').text('HabitLab (Click to Close Facebook)'); //Changes notification sender
           const rand = Math.floor((Math.random() * messages.length));
           $messageClone.find('.snippet.preview').text(messages[rand]); //Changes text
@@ -123,7 +114,7 @@ function insertClickNotification() {
           $messageClone.find('a[href]').attr('href', '#').click(function() {
             reward_display[0].play()
           })
-          const habitlab_logo = $('<habitlab-logo>').css({
+          const habitlab_logo = $('<habitlab-logo>').addClass('habitlab_inserted').css({
             position: 'absolute',
             top: '10px',
             right: '5px',
@@ -161,6 +152,6 @@ function main() {
 //$(document).ready(main())
 setTimeout(begin, 3000);
 
-//}, 3000)
-
-})()
+document.addEventListener('disable_intervention', function() {
+  $('.habitlab_inserted').remove()
+})

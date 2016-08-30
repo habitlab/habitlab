@@ -1,4 +1,4 @@
-description: Displays a notification in the top-right corner of the browser.
+description: Notifies you of time spent in the top-right desktop corner.
 matches:
   - www.facebook.com
 content_scripts:
@@ -7,6 +7,6 @@ background_scripts:
   - backend.js  
 parameters:
   - name: minutes
-    description: The amount of minutes between rich notifications
-    default: 15
+    description: The amount of minutes between notifications
+    default: 1
     type: int

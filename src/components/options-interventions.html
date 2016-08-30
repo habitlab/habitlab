@@ -77,7 +77,7 @@
               <span class="dailyLimitContainer">
                 <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 14px; padding-left: 10px; ">Daily goal: Less than </span>
                 <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>
-                  <paper-listbox class="dropdown-content" selected="[[test[1]]]" on-iron-select="time_updated"> 
+                  <paper-listbox class="dropdown-content" selected="[[goal.number]]" on-iron-select="time_updated"> 
                     <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
                       <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
                     </template>

@@ -50,13 +50,13 @@ const swal = require 'sweetalert2'
 polymer_ext {
   is: 'options-interventions'
   properties: {
-    daily_goal_mins: {
+    index_of_daily_goal_mins: {
       type: Object
       value: {}
     },
     test: {
       type: Array
-      value: [1, 4]
+      value: [1]
     }
     goals_and_interventions: {
       type: Array
@@ -157,7 +157,7 @@ polymer_ext {
     yield this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
     if checked
       yield enable_interventions_because_goal_was_enabled(goal_name)
-    console.log 'goal changed'
+    
     self.fire 'goal_changed', {goal_name: goal_name}
   select_new_interventions: (evt) ->
     self = this
@@ -171,13 +171,12 @@ polymer_ext {
     goals = yield get_goals!
     window.gols = goals
     for goal in Object.keys goals
-      console.log \hi
       if goal == "debug/all_interventions" 
         continue
       mins = yield get_goal_target goal
       mins = mins/5 - 1
-      this.daily_goal_mins[goal] = mins
-    console.log this.daily_goal_mins
+      this.index_of_daily_goal_mins[goal] = mins
+    
 
   ready: ->
     this.rerender()
@@ -196,11 +195,16 @@ polymer_ext {
     list_of_sites_and_goals = []
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
     enabled_goals = yield get_enabled_goals()
+    yield this.get_daily_targets!
+    
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
+      
       for goal in current_item.goals
         goal.enabled = (enabled_goals[goal.name] == true)
+        goal.number = this.index_of_daily_goal_mins[goal.name]
+
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
   show_internal_names_of_goals: ->
@@ -216,7 +220,7 @@ polymer_ext {
     else
       this.$$('#end-dialog').toggle!
   toggle_timepicker_idx: (evt) ->
-    console.log evt.detail.buttonidx
+   
     buttonidx = evt.detail.buttonidx
     if buttonidx == 1
       console.log ' just switched to Work Hours'
@@ -295,7 +299,7 @@ polymer_ext {
     yield this.set_sites_and_goals()
     self = this
     intervention_name_to_info = yield get_interventions()
-    console.log intervention_name_to_info
+    
     enabled_interventions = yield get_enabled_interventions()
     enabled_goals = yield get_enabled_goals()
     all_goals = yield get_goals()

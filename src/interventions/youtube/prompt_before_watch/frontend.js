@@ -1,7 +1,5 @@
 "use strict";
 
-(() => {
-
 const $ = require('jquery')
 
 const {close_selected_tab} = require('libs_frontend/tab_utils')
@@ -22,6 +20,16 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
+require('enable-webcomponents-in-content-scripts')
+require('components/habitlab-logo.deps')
+require('components/reward-display.deps')
+require('bower_components/paper-button/paper-button.deps')
+
+const reward_display = $('<reward-display>')
+reward_display[0].addEventListener('reward_done', function() {
+  close_selected_tab()
+})
+document.body.appendChild(reward_display[0])
 //console.log('youtube prompt before watch loaded frontend')
 
 //Initially pauses the video when the page is loaded
@@ -84,20 +92,28 @@ function divOverVideo(status) {
 	$contentContainer.append($('<p>'));
 
 	//Close tab button
-	const $button1 = $('<button>');
+	const $button1 = $('<paper-button>');
 	$button1.text("Close Tab");
-	$button1.css({'cursor': 'pointer'});
+	$button1.css({
+    'cursor': 'pointer',
+    'background-color': '#8bc34a',
+    'color': 'white',
+  });
 	$button1.click(() => {
     log_action('youtube/prompt_before_watch', {'positive': 'closedYoutube'})
-		closeTab();
+		reward_display[0].play();
 		$button1.hide();
 	})
 	$contentContainer.append($button1);
 
 	//Continue watching video button
-	const $button2 = $('<button>');
+	const $button2 = $('<paper-button>');
 	$button2.text("Watch Video");
-	$button2.css({'cursor': 'pointer', 'padding': '10px'});
+	$button2.css({
+    'cursor': 'pointer',
+    'background-color': 'red',
+    'color': 'white',
+  });
 	$button2.click(() => {
     log_action('youtube/prompt_before_watch', {'negative': 'remainedOnYoutube'})
 		removeDivAndPlay();
@@ -122,13 +138,6 @@ function removeDivAndPlay() {
 //Remove the white div
 function removeDiv() {
 	$('.whiteOverlay').remove();
-}
-
-//Close the current tab
-function closeTab() {
-  close_selected_tab().then(() => {
-    console.log('done closing tab')
-  });
 }
 
 function endWarning() {
@@ -198,4 +207,3 @@ $(document).ready(main);
 //Executed after page load
 //afterNavigate();
 
-})();

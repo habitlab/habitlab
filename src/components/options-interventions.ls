@@ -24,6 +24,7 @@ require! {
   set_goal_enabled_manual
   set_goal_disabled_manual
   set_goal_target
+  get_goal_target
 } = require 'libs_backend/goal_utils'
 
 {
@@ -49,6 +50,14 @@ const swal = require 'sweetalert2'
 polymer_ext {
   is: 'options-interventions'
   properties: {
+    daily_goal_mins: {
+      type: Object
+      value: {}
+    },
+    test: {
+      type: Array
+      value: [1, 4]
+    }
     goals_and_interventions: {
       type: Array
       value: []
@@ -109,21 +118,19 @@ polymer_ext {
         interventions_list: interventions_to_disable
         prev_enabled_interventions: prev_enabled_interventions
       }
+
   goal_changed: cfy (evt) ->*
     
     checked = evt.target.checked
     
     goal_name = evt.target.goal.name
-    #### WRITE DAILY GOAL TO DB
-
 
 
     self = this
     if checked
       yield set_goal_enabled_manual goal_name
       
-      check_if_first_goal = cfy ->* 
-        
+      check_if_first_goal = cfy () ->*       
         if !localStorage.first_goal?
           localStorage.first_goal = 'has enabled a goal before'
           add_toolbar_notification!
@@ -159,8 +166,22 @@ polymer_ext {
     self.rerender()
   on_goal_changed: (evt) ->
     this.rerender()
+
+  get_daily_targets: cfy ->*
+    goals = yield get_goals!
+    window.gols = goals
+    for goal in Object.keys goals
+      console.log \hi
+      if goal == "debug/all_interventions" 
+        continue
+      mins = yield get_goal_target goal
+      mins = mins/5 - 1
+      this.daily_goal_mins[goal] = mins
+    console.log this.daily_goal_mins
+
   ready: ->
     this.rerender()
+    this.get_daily_targets!
   set_sites_and_goals: cfy ->*
     self = this
     goal_name_to_info = yield get_goals()
@@ -229,13 +250,12 @@ polymer_ext {
 
     # if not, it's a double click so you shouldn't do anything
 
-  time_updated: (evt, obj) ->
+  time_updated: cfy (evt, obj) ->*
     
     mins = Number (obj.item.innerText.trim ' ' .split ' ' .0)
-    console.log mins
-    console.log obj.item.class
     set_goal_target obj.item.class, mins
-    
+  
+
   dismiss_dialog: (evt) ->
     console.log evt
     if evt.detail.confirmed and (this.$$('#end-picker').rawValue - this.$$('#start-picker').rawValue > 0)
@@ -252,6 +272,14 @@ polymer_ext {
     else #reset the time picker time to saved time
       this.$$('#start-picker').time = @start_time_string
       this.$$('#end-picker').time = @end_time_string
+
+  # get_selected: cfy (name) ->*
+  #   console.log "boo"
+  #   console.log name
+  #   ##time = yield get_goal_target name
+  #   #console.log time
+  #   return 4
+  #   return (time/5 - 1)
 
   determine_selected: (always_active) ->
     if always_active

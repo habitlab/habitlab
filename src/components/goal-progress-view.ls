@@ -17,6 +17,7 @@
 
 {
   getGoalInfo
+  get_goal_target
 } = require 'libs_backend/goal_utils'
 
 {
@@ -32,6 +33,10 @@ require! {
   moment
 }
 
+{
+  cfy
+} = require 'cfy'
+
 polymer_ext {
   is: 'goal-progress-view'
   properties: {
@@ -41,11 +46,10 @@ polymer_ext {
       observer: 'goalChanged'
     }
   }
-  goalChanged: ->
-    goal_info <~ getGoalInfo(this.goal)
-    goal_progress <~ get_progress_on_goal_this_week(this.goal)
+  goalChanged: cfy ->*
+    goal_info = yield getGoalInfo(this.goal)
+    goal_progress = yield get_progress_on_goal_this_week(this.goal)
     progress_values = goal_progress.map (.progress)
-   
     progress_values = progress_values.map (it) ->
       Math.round(it * 10)/10
     progress_labels = [0 til goal_progress.length]
@@ -54,9 +58,10 @@ polymer_ext {
       array[index] = (moment!.subtract array[index], 'day').format 'ddd MM/D'
       return )
 
+    target = yield get_goal_target this.goal
     goal_data = []
     for i from 0 to progress_values.length
-      goal_data.push Number localStorage[goal_info] #assumes named after goal info as uid
+      goal_data.push target
     this.data = {
       labels: reverse progress_labels
       datasets: [

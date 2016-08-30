@@ -76,7 +76,7 @@ function attachButtons() {
     log_action(intervention.name, {'negative': 'Remained on Facebook.'})
     showFeed(intervalID)
   })
-  var closeButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #8bc34a; color: white" raised>Close Facebook</paper-button>')
+  var closeButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #2EB800; color: white" raised>Close Facebook</paper-button>')
   closeButton.click(function(evt) {
     log_action(intervention.name, {'positive': 'Closed Facebook.'})
     var reward_display = document.querySelector('reward-display')

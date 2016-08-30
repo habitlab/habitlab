@@ -104,7 +104,7 @@ function divOverVideo(status) {
 	$button1.text("Close Tab");
 	$button1.css({
     'cursor': 'pointer',
-    'background-color': '#8bc34a',
+    'background-color': '#2EB800',
     'color': 'white',
   });
 	$button1.click(() => {

@@ -227,10 +227,10 @@ polymer_ext {
 
   toggle_interventions: (evt) ->
     if ((evt.target.innerText.indexOf 'SHOW') > -1)
-      this.$$('#ivn-toggle-btn').innerText = "Hide Interventions"
+      this.$$('#ivn-toggle-btn').innerText = "Hide Intervention Details"
       this.$$('#interventions-list').style.display = "block"
     else 
-      this.$$('#ivn-toggle-btn').innerText = "Show Interventions"
+      this.$$('#ivn-toggle-btn').innerText = "Show Intervention Details"
       this.$$('#interventions-list').style.display = "none"
     window.scrollTo 0, document.body.scrollHeight
 

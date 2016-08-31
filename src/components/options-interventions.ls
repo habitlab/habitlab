@@ -50,14 +50,14 @@ const swal = require 'sweetalert2'
 polymer_ext {
   is: 'options-interventions'
   properties: {
+    enabled_goals: {
+      type: Array
+      value: {}
+    },
     index_of_daily_goal_mins: {
       type: Object
       value: {}
     },
-    test: {
-      type: Array
-      value: [1]
-    }
     goals_and_interventions: {
       type: Array
       value: []
@@ -89,6 +89,10 @@ polymer_ext {
     daily_goal_values: {
       type: Array
       value: ["5 minutes", "10 minutes", "15 minutes", "20 minutes", "25 minutes", "30 minutes", "35 minutes", "40 minutes", "45 minutes", "50 minutes", "55 minutes", "60 minutes"]
+    }
+    seen_tutorial: {
+      type: Boolean
+      value: localStorage.seen_tutorial != "true"
     }
 
   }
@@ -167,6 +171,8 @@ polymer_ext {
   on_goal_changed: (evt) ->
     this.rerender()
 
+    
+
   get_daily_targets: cfy ->*
     goals = yield get_goals!
     window.gols = goals
@@ -177,6 +183,38 @@ polymer_ext {
       mins = mins/5 - 1
       this.index_of_daily_goal_mins[goal] = mins
     
+  goals_set: (evt) ->
+    if (Object.keys this.enabled_goals).length > 0
+      evt.target.style.display = "none"
+      this.$$('#intro1').style.display = "block"
+    
+  intro1_read: (evt) ->
+    evt.target.style.display = "none"
+    this.$$('#intro2').style.display = "block"
+
+  intro2_read: (evt) ->
+    evt.target.style.display = "none"
+    this.$$('#intro3').style.display = "block"
+    window.scrollTo 0, document.body.scrollHeight
+
+  show_how_hl_works: (evt) ->
+    evt.target.style.display = "none"
+    this.$$('#how_hl_works').style.display = "block"
+    window.scrollTo 0, document.body.scrollHeight
+
+  get_icon: ->
+    return chrome.extension.getURL('icons/icon_19.png')
+
+  intro3_read: (evt, xkcd) ->
+    evt.target.style.display = "none"
+    this.$$('#intro4').style.display = "block"
+    this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
+    window.scrollTo 0, document.body.scrollHeight
+    console.log xkcd
+
+  intro4_read: (evt) ->
+    evt.target.style.display = "none"
+    window.scrollTo 0, document.body.scrollHeight
 
   ready: ->
     this.rerender()
@@ -302,6 +340,8 @@ polymer_ext {
     
     enabled_interventions = yield get_enabled_interventions()
     enabled_goals = yield get_enabled_goals()
+    
+    this.enabled_goals = enabled_goals
     all_goals = yield get_goals()
     manually_managed_interventions = yield get_manually_managed_interventions()
     goal_to_interventions = {}
@@ -325,5 +365,7 @@ polymer_ext {
       list_of_goals_and_interventions.push current_item
     self.goals_and_interventions = list_of_goals_and_interventions
     this.fire 'goals_interventions_updated'
+    if (Object.keys this.enabled_goals).length > 0
+      this.$$('#goals-button').style.display = "inline-flex"
 
 }

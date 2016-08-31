@@ -42,7 +42,6 @@ polymer_ext {
     this.$$('#dashboard-view').on_goal_changed(evt.detail)
   icon_clicked: cfy ->*
     
-    console.log \icon_clicked
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     yield swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.
            It will <u>automatically show you interventions</u> to help you keep on track to your goals, and fine-tune its algorithms over time.\n\n\n

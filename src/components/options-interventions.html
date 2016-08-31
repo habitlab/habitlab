@@ -12,25 +12,70 @@
 <link rel="import" href="pill-button-group.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="intervention-view-single.html">
+<link rel="import" href="habitlab-logo.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
 <dom-module id="options-interventions">
-  <style>
+  <style is="custom-style">
     :host {
       display: block;
       width: 100%;
       height: 100%;
       font-family: 'Roboto', 'Noto', sans-serif;
       
+      --paper-item: {
+        min-height: 36px;
+      };
+
+      --paper-input-container: {
+        padding-top: 0px;
+        padding-bottom: 0px;
+      };
       --paper-card: {
         elevation: 5;
-        width: 500px;
-        background-color: #8bc34a;
-
+        padding: 10px;
+        margin-bottom: 10px;
+        width: 750px;
+        background: #88e188;
       };
       --paper-card-content: {
         font-size: 16px;
       }
+       --paper-radio-group: {
+        padding-top: 0px;
+        padding-left: 0px;
+      };
+    }
+
+
+
+    #goals-button {
+      display: none;
+    }
+   
+    .next-button {
+      color: white;
+      background-color: green;
+      margin-left: 16px;
+      margin-bottom: 18px;
+      
+    }
+      
+      
+    .works-button {
+      color: white;
+      background-color: green;
+      margin-bottom: 8px;
+      margin-left: 16px;
+    }
+
+    #timepicker {
+      
+      margin-bottom: 16px;
+    }
+
+    #intro1 {
+      display: none;
     }
 
     .time-string {
@@ -46,111 +91,166 @@
     }
 
     .dailyLimitContainer {
-      
+      margin-top: 2px;
     }
    
+    .card-container {
+      padding-top: 10px;
+      margin: 10px; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+    }
 
+    .radio-group {
+      padding-left: 0px;
+    }
+
+    #iconimg {
+      padding-left: 1px;
+      padding-right: 4px;
+      top: 3px;
+      position: relative;
+    }
     
-    
+    habitlab-logo {
+      display: inline-block;
+      position: relative;
+      top: 15px;
+      padding-left: 3px;
+      padding-right: 3px;
+    }
+
   </style>
   <template>
-    <div style="margin: 10px">
-
-      <h2>What goals should HabitLab help you achieve?</h2>
-      <p style="font-size: 16px">Please tell HabitLab your goals so that it can help you achieve them by making adjustments to websites.</p>
-
+    <div class="card-container">
+    <paper-card heading="What goals should HabitLab help you achieve?" class="papercard">
+      
+      
       <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
 
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
+      <div class="card-content">
+        <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals">
+            <!-- <h3>{{site_and_goals.sitename}}</h3> -->
+            <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
+              <div style="display: flex; align-items: center; padding-bottom: 15px;" >
+                <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">
+                  <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
+                  <template is="dom-if" if="{{show_internal_names_of_goals()}}">
+                    (<span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.name}}</span>)
+                  </template>
+                </paper-toggle-button>
+                <template is="dom-if" if="{{goal.enabled}}">
+                  <span class="dailyLimitContainer">
+                    <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px; padding-left: 30px; ">Daily goal: Less than</span>
+                    <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>
+                      <paper-listbox class="dropdown-content" selected="[[goal.number]]" on-iron-select="time_updated"> 
+                        <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
+                          <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
+                        </template>
+                      </paper-listbox>
+                    </paper-dropdown-menu>
+                  </span>
+                </template>
+              </div>
+            </template>
+          </template>
 
-      <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals">
-        <!-- <h3>{{site_and_goals.sitename}}</h3> -->
-        <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
-          <div style="display: flex; align-items: center; padding-bottom: 15px;">
-            <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">
-              <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
-              <template is="dom-if" if="{{show_internal_names_of_goals()}}">
-                (<span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.name}}</span>)
-              </template>
-            </paper-toggle-button>
-            <template is="dom-if" if="{{goal.enabled}}">
-              <span class="dailyLimitContainer">
-                <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 14px; padding-left: 10px; ">Daily goal: Less than </span>
-                <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>
-                  <paper-listbox class="dropdown-content" selected="[[goal.number]]" on-iron-select="time_updated"> 
-                    <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
-                      <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
-                    </template>
-                  </paper-listbox>
-                </paper-dropdown-menu>
-              </span>
+      </div>
+      <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
+      </paper-card>
+
+      <div id="intro1" style="display:none;">
+        <paper-card heading="What happens now?" class="papercard"> 
+          <div class="card-content">
+          Habitlab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
+          </div>
+          <paper-button class="next-button" on-click="intro1_read">Next</paper-button>
+        </paper-card>
+      </div>
+
+      <div id="intro2" style="display:none;">
+        <paper-card heading="What interventions are shown?" class="papercard"> 
+          <div class="card-content">
+           At first, Habitlab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
+           <div style="display: none;" id="how_hl_works">
+           <br>HabitLab uses an algorithmic technique called the multi-armed-bandit that will explore the efficacy of various interventions. Effectiveness is measured by the decrease in usage of sites when the intervention is deployed. This algorithm is adjusted after each visit you make to a goal site.
+           </div>
+          </div>
+          
+          <paper-button class="works-button" on-click="show_how_hl_works">Tell me how this works</paper-button>
+          <paper-button class="next-button" on-click="intro2_read">Next</paper-button>
+        </paper-card>
+      </div>
+
+      <div id="intro3" style="display: none;">
+        <paper-card heading="Accessing this page" class="papercard">
+          <div class="card-content">
+            You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you can see progress on your goals.
+          </div>
+          <paper-button class="next-button" on-click="intro3_read">Next</paper-button>
+        </paper-card>
+      </div>
+
+      <div id="intro4" style="display: none;" >
+        <paper-card heading="When should interventions be active?">
+          <div class="card-content" >You can set your interventions to be always on, or only active during your selected work hours.
+            <br>
+            <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
+              <paper-radio-button name="always" >Always On</paper-radio-button>
+              <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
+            </paper-radio-group>
+
+            <!--
+            <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
+            -->
+            
+
+            <template is="dom-if" if="{{!always_active}}">
+              <div id="timepicker" >
+                <span class="time-string">Interventions are only active between</span>
+                <span class="time-string timebox" id="start-time" on-tap="show_dialog">{{start_time_string}}</span>
+                <span class="time-string"> and </span>
+                <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time_string}}</span>
+
+                <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
+                  <paper-time-picker id="start-picker" time="[[start_time_string]]"></paper-time-picker>
+                  <div class="buttons">
+                    <paper-button dialog-dismiss>CANCEL</paper-button>
+                    <paper-button dialog-confirm>OK</paper-button>
+                  </div>
+                </paper-dialog>
+
+                <paper-dialog id="end-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
+                  <paper-time-picker id="end-picker" time="[[end_time_string]]"></paper-time-picker>
+                  <div class="buttons">
+                    <paper-button dialog-dismiss>CANCEL</paper-button>
+                    <paper-button dialog-confirm>OK</paper-button>
+                  </div>
+                </paper-dialog>
+
+              </div>
             </template>
           </div>
-          
-        </template>
-      </template>
-
-
-      <template is="dom-if" if="{{have_interventions_available(goals_and_interventions)}}">
-        <paper-card heading="You set a goal!"> 
-          
-          <div class="card-content">
-          You're done setting up HabitLab! Good luck browsing productively.
-          <br><br>
-          Each time you visit a site, Habitlab will choose an intervention to show based on how effective it is for you. If you dislike an intervention, you can disable it below. </div>
+          <br>
+          <paper-button class="next-button" on-click="intro4_read">Next</paper-button>
         </paper-card>
-      </template>
+      </div>
 
-      <template is="dom-if" if="{{have_interventions_available(goals_and_interventions)}}">
-        <h2>Manage Interventions</h2>
-        <!-- <img src="options-goals.png" style="width: 100%"> -->
-
-        <p style="font-size: 16px; margin-bottom: 0px;">You can set your interventions to be always on, or only active during your selected work hours.</p>
-
-        <paper-radio-group selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
-          <paper-radio-button name="always" >Always On</paper-radio-button>
-          <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
-        </paper-radio-group>
-
-        <!--
-        <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
-        -->
-
-
-
-        <template is="dom-if" if="{{!always_active}}">
-          <div id="timepicker">
-            <span class="time-string">Interventions are only active between</span>
-            <span class="time-string timebox" id="start-time" on-tap="show_dialog">{{start_time_string}}</span>
-            <span class="time-string"> and </span>
-            <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time_string}}</span>
-
-            <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
-              <paper-time-picker id="start-picker" time="[[start_time_string]]"></paper-time-picker>
-              <div class="buttons">
-                <paper-button dialog-dismiss>CANCEL</paper-button>
-                <paper-button dialog-confirm>OK</paper-button>
-              </div>
-            </paper-dialog>
-
-            <paper-dialog id="end-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
-              <paper-time-picker id="end-picker" time="[[end_time_string]]"></paper-time-picker>
-              <div class="buttons">
-                <paper-button dialog-dismiss>CANCEL</paper-button>
-                <paper-button dialog-confirm>OK</paper-button>
-              </div>
-            </paper-dialog>
+      <div id="intro5" style="display:inline-flex; padding-top: 0px;">
+        <paper-card heading="Manually managing interventions" class="papercard">
+          <div class="card-content" style="padding-top: 0px;">
+            Every intervention has a 
+            <habitlab-logo></habitlab-logo> 
+            visible. Click it to access more information and disable the intervention if you'd like. 
 
           </div>
-        </template>
+        </paper-card>
+      </div>
 
-        <!--
-        <p>If you'd like to request an intervention that isn't listed below, please <a href="#">send us a suggestion</a></p>
-
-        <paper-checkbox>Send anonymized data about the effectiveness of interventions to researchers so we can make better interventions for you</paper-checkbox>
-        <br><br>
-        -->
-
+      <template is="dom-if" if="{{false}}">
         <template is="dom-if" if="{{show_randomize_button()}}">
           <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
           <br>
@@ -168,7 +268,7 @@
       </template>
 
     </div>
-    
+    <div style="height: 50px"></div>
   </template>
   <script src="options-interventions.js"></script>
 </dom-module>

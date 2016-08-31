@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
@@ -35,7 +36,7 @@
         elevation: 5;
         padding: 10px;
         margin-bottom: 10px;
-        width: 750px;
+        width: 800px;
         background: #88e188;
       };
       --paper-card-content: {
@@ -239,13 +240,37 @@
         </paper-card>
       </div>
 
-      <div id="intro5" style="display:inline-flex; padding-top: 0px;">
-        <paper-card heading="Manually managing interventions" class="papercard">
+      <div id="intro5" style="display: none; padding-top: 0px;">
+        <paper-card heading="Manually manage interventions" class="papercard">
           <div class="card-content" style="padding-top: 0px;">
             Every intervention has a 
-            <habitlab-logo></habitlab-logo> 
-            visible. Click it to access more information and disable the intervention if you'd like. 
+            <habitlab-logo unclickable style="padding-top: 0px;"></habitlab-logo> 
+            visible. Click inside interventions to disable or access more information if you'd like. 
 
+          </div>
+          <paper-button class="next-button" on-click="intro5_read">Next</paper-button>
+        </paper-card>
+      </div>
+
+      <div id="intro6" style="display: none;">
+        <paper-card heading="Configure interventions" class="papercard">
+          <div class="card-content">
+            <span style="font-size: 18px;">
+            <b>That's all you need to know to start using HabitLab! <br>
+            Good luck with your goals and happy browsing!<br><br></b></span>
+
+            You can see the list of available interventions below for your given goals, and test out interventions or disable them from here. HabitLab's algorithm chooses an intervention to show you from the ones in the Sometimes Shown category.
+          </div>
+          <paper-button class="next-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Interventions</paper-button>
+
+          <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list"">
+            <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
+              <h3>{{goal_and_interventions.goal.description}}</h3>
+              <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
+                <intervention-view-single  goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+                <br><br>
+              </template>
+            </template>
           </div>
         </paper-card>
       </div>
@@ -256,15 +281,7 @@
           <br>
         </template>
 
-        <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
-          <h3>{{goal_and_interventions.goal.description}}</h3>
-
-          <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-            <intervention-view-single  goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
-            <br><br>
-          </template>
-
-        </template>
+        
       </template>
 
     </div>

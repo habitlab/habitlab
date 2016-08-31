@@ -205,18 +205,41 @@ polymer_ext {
   get_icon: ->
     return chrome.extension.getURL('icons/icon_19.png')
 
-  intro3_read: (evt, xkcd) ->
+  intro3_read: (evt) ->
     evt.target.style.display = "none"
     this.$$('#intro4').style.display = "block"
     this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
     window.scrollTo 0, document.body.scrollHeight
-    console.log xkcd
+    console.log evt
 
   intro4_read: (evt) ->
     evt.target.style.display = "none"
+    this.$$('#intro5').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
+  intro5_read: (evt) ->
+    evt.target.style.display = "none"
+    this.$$('#intro6').style.display = "block"
+    window.scrollTo 0, document.body.scrollHeight
+
+  toggle_interventions: (evt) ->
+    if (window.x)
+      this.$$('#ivn-toggle-btn').innerText = "Hide Interventions"
+      this.$$('#interventions-list').style.display = "block"
+    else 
+      this.$$('#ivn-toggle-btn').innerText = "Show Interventions"
+      this.$$('#interventions-list').style.display = "none"
+    window.scrollTo 0, document.body.scrollHeight
+
+
+    if (window.x)
+      window.x = false
+    else
+      window.x = true
+
+
   ready: ->
+    window.x = true
     this.rerender()
     this.get_daily_targets!
   set_sites_and_goals: cfy ->*

@@ -43,6 +43,10 @@ polymer_ext({
       type: Boolean,
       value: true
 
+    },
+    unclickable: {
+      type: Boolean,
+      value: false
     }
   },
   clicked: function() {
@@ -72,6 +76,9 @@ polymer_ext({
     })
   },
   ready: cfy(function*() {
+    
+
+
     const self = this;
 
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
@@ -94,7 +101,11 @@ polymer_ext({
     var name = get_intervention_name()
     var goal = get_intervention_goal()
 
-    if (this.context === true) {
+    if (this.unclickable) {
+      this.style.cursor = "default";
+    }
+
+    if (this.context === true && !this.unclickable) {
       $.contextMenu({
         selector: '#habitlab_button',
         trigger: 'left',

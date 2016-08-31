@@ -74,7 +74,7 @@ Polymer({
   ready: function() {
     console.log('interstitial-polymer ready')
     this.$.okbutton.textContent = this.btnTxt
-    this.$.closetabbutton.textContent = this.btnTxt2
+    this.$.closetabbutton.text = this.btnTxt2
     this.$.titletext.textContent = this.titleText
     this.$.messagetext.textContent = this.messageText
     console.log(this.$.titletext.textContent)
@@ -90,7 +90,7 @@ Polymer({
   
   attributeChanged: function() {
     this.$.okbutton.textContent = this.btnTxt 
-    this.$.closetabbutton.textContent = this.btnTxt2
+    this.$.closetabbutton.text = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
     this.$.titletext.textContent = this.titleText
     console.log('attribute changed called')

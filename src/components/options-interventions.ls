@@ -204,7 +204,6 @@ polymer_ext {
   show_how_hl_works: (evt) ->
     evt.target.style.display = "none"
     this.$$('#how_hl_works').style.display = "block"
-    window.scrollTo 0, document.body.scrollHeight
 
   get_icon: ->
     return chrome.extension.getURL('icons/icon_19.png')

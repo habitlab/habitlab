@@ -5,7 +5,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
 <link rel="import" href="../bower_components/paper-progress/paper-progress.html">
-<link rel="import" href="reward-display.html">
+<link rel="import" href="close-tab-button.html">
 
 <dom-module id="interstitial-screen">
   <style>
@@ -62,8 +62,6 @@
       margin-top: 10px;
       margin-bottom: 10px; 
       font-size: 14px;
-      color: white;
-      background-color: #8bc34a; 
     }    
     #logo {
       
@@ -100,9 +98,8 @@
         <div id="messagetext"></div>
         <p><p>
         <center><paper-progress id="paperprogress"></paper-progress></center>
-        <center><paper-button id="closetabbutton" class="closeTabButton" on-click="buttonclicked2">Close Tab</paper-button></center>
+        <center><close-tab-button id="closetabbutton" class="closeTabButton" text="Close Tab"></close-tab-button></center>
         <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">default</paper-button></center>
-        <reward-display></reward-display>
       </div>
     </div>
 

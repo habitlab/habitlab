@@ -1,10 +1,3 @@
-(() => {
-
-if (window.notification_hijacker) {
-  return
-}
-window.notification_hijacker = true
-
 const $ = require('jquery')
 
 const {
@@ -16,7 +9,13 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
-//setTimeout(() => {
+const {
+  close_selected_tab
+} = require('libs_common/tab_utils')
+
+require('enable-webcomponents-in-content-scripts')
+require('components/habitlab-logo.deps')
+require('components/reward-display.deps')
 
 const messages = ["You've spent a questionable amount of time on Facebook.",
                   "Please get off facebook. I'm begging you.",
@@ -84,6 +83,12 @@ function showAlert() {
   insertClickNotification();
 }
 
+const reward_display = $('<reward-display>').addClass('habitlab_inserted')
+document.body.appendChild(reward_display[0])
+reward_display[0].addEventListener('reward_done', function(evt) {
+  close_selected_tab()
+})
+
 //Injects a message from Habitlab when the message button is clicked only the first time
 function insertClickNotification() {
   var selected = false;
@@ -98,14 +103,26 @@ function insertClickNotification() {
           var $messageClone = $($messages[1]).clone();
 
           //Changes attributes to create the notification
-          $messageClone.addClass('jewelItemNew'); //Notification highlighted blue ('new')
-          $messageClone.find('.author.fixemoji').text('HabitLab'); //Changes notification sender
+          $messageClone.addClass('habitlab_inserted').addClass('jewelItemNew'); //Notification highlighted blue ('new')
+          $messageClone.find('.author.fixemoji').text('HabitLab (Click to Close Facebook)'); //Changes notification sender
           const rand = Math.floor((Math.random() * messages.length));
           $messageClone.find('.snippet.preview').text(messages[rand]); //Changes text
           $messageClone.find('.timestamp').text('Just Now'); //Changes time sent
           $messageClone.find('._55lt').html('<img src="https://i.imgur.com/4G2qKQV.png" width="50" height="50" alt="" class="img">'); //Changes icon
-          $messageClone.find('a[href]').attr('href', 'https://habitlab.github.io'); //redirects link to [link in 2nd arg of attr]
-
+          //$messageClone.find('a[href]').attr('href', 'https://habitlab.github.io'); //redirects link to [link in 2nd arg of attr]
+          
+          $messageClone.find('a[href]').attr('href', '#').click(function() {
+            reward_display[0].play()
+          })
+          const habitlab_logo = $('<habitlab-logo>').addClass('habitlab_inserted').css({
+            position: 'absolute',
+            top: '10px',
+            right: '5px',
+            'z-index': 999999,
+            transform: 'scale(0.9, 0.9)',
+          })
+          $messageClone.append(habitlab_logo)
+          
           //Adds the new message to the notifications list
           $($messages[1]).parent().prepend($messageClone);
           
@@ -135,6 +152,6 @@ function main() {
 //$(document).ready(main())
 setTimeout(begin, 3000);
 
-//}, 3000)
-
-})()
+document.addEventListener('disable_intervention', function() {
+  $('.habitlab_inserted').remove()
+})

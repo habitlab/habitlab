@@ -35,13 +35,6 @@ polymer_ext({
       type: String,
     }
   },
-  close_button_clicked: function() {
-    var reward_display = this.$$('#reward_display')
-    reward_display.addEventListener('reward_done', function() {
-      close_selected_tab()
-    })
-    reward_display.play()
-  },
   attached: function() {
     /*var update_page = function(self) {
       console.log('attached')

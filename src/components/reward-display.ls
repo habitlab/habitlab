@@ -23,8 +23,9 @@ polymer_ext {
   play: ->
     console.log 'reward-display play called'
     self = this
-    this.style.display = 'block'
     video = this.$$('#rewardvideo')
+    video.style.display = 'block'
+    video.style.opacity = 1
     video.play()
     setTimeout ->
       if not video.paused

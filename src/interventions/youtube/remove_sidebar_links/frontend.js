@@ -1,7 +1,5 @@
 "use strict";
 
-(() => {
-
 const {
   once_available,
   run_only_one_at_a_time,
@@ -46,4 +44,3 @@ on_url_change(() => {
 }, true);
 */
 
-})()

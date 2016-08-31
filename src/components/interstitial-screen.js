@@ -51,15 +51,6 @@ Polymer({
     log_action(intervention.name, {'negative': 'Continuted to site.'})
     $(this).hide()
   },
-  buttonclicked2: function() {
-    log_action(intervention.name, {'positive': 'Left the site.'})
-    this.$$('reward-display').addEventListener('reward_done', () => {
-      close_selected_tab().then(() => {
-        console.log('done closing tab')
-      });
-    })
-    this.$$('reward-display').play()
-  },
   hideButton: function() {
     console.log('button hidden')
     this.$.okbutton.hidden = true
@@ -83,7 +74,7 @@ Polymer({
   ready: function() {
     console.log('interstitial-polymer ready')
     this.$.okbutton.textContent = this.btnTxt
-    this.$.closetabbutton.textContent = this.btnTxt2
+    this.$.closetabbutton.text = this.btnTxt2
     this.$.titletext.textContent = this.titleText
     this.$.messagetext.textContent = this.messageText
     console.log(this.$.titletext.textContent)
@@ -99,7 +90,7 @@ Polymer({
   
   attributeChanged: function() {
     this.$.okbutton.textContent = this.btnTxt 
-    this.$.closetabbutton.textContent = this.btnTxt2
+    this.$.closetabbutton.text = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
     this.$.titletext.textContent = this.titleText
     console.log('attribute changed called')

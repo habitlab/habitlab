@@ -48,13 +48,6 @@ Polymer({
     
   },
   */
-  close_button_clicked: function(event) {
-    var reward_display = this.$$('#reward_display')
-    reward_display.addEventListener('reward_done', function() {
-      close_selected_tab()
-    })
-    reward_display.play()
-  },
   continue_scrolling: function(event) {
     this.fire('continue_scrolling', {})
   },

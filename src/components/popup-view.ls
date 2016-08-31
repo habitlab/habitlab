@@ -247,6 +247,8 @@ polymer_ext {
     ]
     self.shownGraphs = shownGraphs
 
+    localStorage.setItem 'popup_view_has_been_opened', 'true'
+
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

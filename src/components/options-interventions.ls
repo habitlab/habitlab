@@ -98,7 +98,10 @@ polymer_ext {
       type: Boolean
       value: localStorage.seen_tutorial != "true"
     }
-
+    popup_view_has_been_opened: {
+      type: Boolean
+      value: localStorage.popup_view_has_been_opened == 'true'
+    }
   }
   disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
     enabled_goals = yield get_enabled_goals()
@@ -245,9 +248,15 @@ polymer_ext {
       
       for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
         elem.style.display = 'none';
-     
     this.rerender()
     this.get_daily_targets!
+    self = this
+    if !self.popup_view_has_been_opened
+      popup_view_opened_checker = setInterval ->
+        if localStorage.popup_view_has_been_opened == 'true'
+          self.popup_view_has_been_opened = true
+          clearInterval popup_view_opened_checker
+      , 500
   set_sites_and_goals: cfy ->*
     self = this
     goal_name_to_info = yield get_goals()

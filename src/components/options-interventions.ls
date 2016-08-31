@@ -42,6 +42,10 @@ require! {
 {load_css_file} = require 'libs_common/content_script_utils'
 {cfy} = require 'cfy'
 
+{
+  $$$
+} = require 'libs_frontend/polymer_methods'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 const swal = require 'sweetalert2'
@@ -184,7 +188,7 @@ polymer_ext {
       this.index_of_daily_goal_mins[goal] = mins
     
   goals_set: (evt) ->
-    if (Object.keys this.enabled_goals).length > 0
+    if (Object.keys this.enabled_goals).length > 0 
       evt.target.style.display = "none"
       this.$$('#intro1').style.display = "block"
     
@@ -223,7 +227,7 @@ polymer_ext {
     window.scrollTo 0, document.body.scrollHeight
 
   toggle_interventions: (evt) ->
-    if (window.x)
+    if ((evt.target.innerText.indexOf 'SHOW') > -1)
       this.$$('#ivn-toggle-btn').innerText = "Hide Interventions"
       this.$$('#interventions-list').style.display = "block"
     else 
@@ -232,14 +236,17 @@ polymer_ext {
     window.scrollTo 0, document.body.scrollHeight
 
 
-    if (window.x)
-      window.x = false
-    else
-      window.x = true
-
 
   ready: ->
-    window.x = true
+   
+    if ((window.location.href.indexOf '#introduction') === -1)
+     
+      for elem in Polymer.dom(this.root).querySelectorAll('.intro')
+        elem.style.display = 'inline-flex';
+      
+      for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
+        elem.style.display = 'none';
+     
     this.rerender()
     this.get_daily_targets!
   set_sites_and_goals: cfy ->*
@@ -388,7 +395,7 @@ polymer_ext {
       list_of_goals_and_interventions.push current_item
     self.goals_and_interventions = list_of_goals_and_interventions
     this.fire 'goals_interventions_updated'
-    if (Object.keys this.enabled_goals).length > 0
+    if (Object.keys this.enabled_goals).length > 0 and ((window.location.href.indexOf 'introduction') > -1)
       this.$$('#goals-button').style.display = "inline-flex"
 
 }

@@ -58,7 +58,7 @@
       color: white;
       background-color: green;
       margin-left: 16px;
-      margin-bottom: 18px;
+      margin-bottom: 8px;
       
     }
       
@@ -163,7 +163,7 @@
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
       </paper-card>
 
-      <div id="intro1" style="display:none;">
+      <div id="intro1" class="intro" style="display:none;">
         <paper-card heading="What happens now?" class="papercard"> 
           <div class="card-content">
           Habitlab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
@@ -172,7 +172,7 @@
         </paper-card>
       </div>
 
-      <div id="intro2" style="display:none;">
+      <div id="intro2" class="intro" style="display:none;">
         <paper-card heading="What interventions are shown?" class="papercard"> 
           <div class="card-content">
            At first, Habitlab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
@@ -186,7 +186,7 @@
         </paper-card>
       </div>
 
-      <div id="intro3" style="display: none;">
+      <div id="intro3" class="intro" style="display: none;">
         <paper-card heading="Accessing this page" class="papercard">
           <div class="card-content">
             You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you can see progress on your goals.
@@ -195,7 +195,7 @@
         </paper-card>
       </div>
 
-      <div id="intro4" style="display: none;" >
+      <div id="intro4" class="intro" style="display: none;" >
         <paper-card heading="When should interventions be active?">
           <div class="card-content" >You can set your interventions to be always on, or only active during your selected work hours.
             <br>
@@ -240,7 +240,7 @@
         </paper-card>
       </div>
 
-      <div id="intro5" style="display: none; padding-top: 0px;">
+      <div id="intro5" class="intro" style="display: none; padding-top: 0px;">
         <paper-card heading="Manually manage interventions" class="papercard">
           <div class="card-content" style="padding-top: 0px;">
             Every intervention has a 
@@ -252,7 +252,7 @@
         </paper-card>
       </div>
 
-      <div id="intro6" style="display: inline-flex;">
+      <div id="intro6" class="intro" style="display: none;">
         <paper-card heading="Configure interventions" class="papercard">
           <div class="card-content">
             <span style="font-size: 18px;">
@@ -261,7 +261,7 @@
 
             You can see the list of available interventions below for your given goals, and test out interventions or disable them from here. 
           </div>
-          <paper-button class="next-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Interventions</paper-button>
+          <paper-button class="works-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Interventions</paper-button>
 
           <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list"">
             <br>

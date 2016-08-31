@@ -25,10 +25,6 @@ const {
   on_url_change,
 } = require('libs_frontend/common_libs')
 
-const {
-  close_selected_tab
-} = require('libs_common/tab_utils')
-
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')

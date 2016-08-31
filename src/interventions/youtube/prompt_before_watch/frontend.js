@@ -22,14 +22,9 @@ const {
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
-require('components/reward-display.deps')
+require('components/close-tab-button.deps')
 require('bower_components/paper-button/paper-button.deps')
 
-const reward_display = $('<reward-display>')
-reward_display[0].addEventListener('reward_done', function() {
-  close_selected_tab()
-})
-document.body.appendChild(reward_display[0])
 //console.log('youtube prompt before watch loaded frontend')
 
 //Initially pauses the video when the page is loaded
@@ -100,18 +95,7 @@ function divOverVideo(status) {
 	$contentContainer.append($('<br>'));
 
 	//Close tab button
-	const $button1 = $('<paper-button>');
-	$button1.text("Close Tab");
-	$button1.css({
-    'cursor': 'pointer',
-    'background-color': '#2EB800',
-    'color': 'white',
-  });
-	$button1.click(() => {
-    log_action('youtube/prompt_before_watch', {'positive': 'closedYoutube'})
-		reward_display[0].play();
-		$button1.hide();
-	})
+	const $button1 = $('<close-tab-button text="Close Youtube">');
 	$contentContainer.append($button1);
 
 	//Continue watching video button

@@ -5,7 +5,6 @@
 <dom-module id="reward-display">
   <style>
     :host {
-      display: none;
       position: fixed;
       /*
       width: 100vw;
@@ -21,6 +20,10 @@
       top: 50%;
       transform: perspective(1px) translate(-50%, -50%);
       z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
+    }
+    #rewardvideo {
+      display: none;
+      opacity: 0;
     }
   </style>
   <template>

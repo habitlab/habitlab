@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="habitlab-logo.html">
-<link rel="import" href="reward-display.html">
+<link rel="import" href="close-tab-button.html">
 
 <dom-module id="fb-scroll-block-display">
   <style>
@@ -40,8 +40,6 @@
       right: 180px;
       top: 7px;
       z-index: 999999;
-      background-color: #2EB800;
-      color: white;
     }
     #continue_scrolling {
       position: absolute;
@@ -68,9 +66,8 @@
         You have already spent <span>{{minutes}}</span> minutes on <span>{{site}}</site>.<br>Are you sure you want to continue scrolling?
       </div>
       <habitlab-logo intervention={{intervention}} id="habitlab_logo" ></habitlab-logo>
-      <paper-button id="close_button" on-click="close_button_clicked">Close Facebook</paper-button>
+      <close-tab-button id="close_button" text="Close Facebook"></close-tab-button>
       <paper-button id="continue_scrolling" on-click="continue_scrolling">Continue Scrolling</paper-button>
-      <reward-display id="reward_display"></reward-display>
     </div>
   </template>
   <script src="fb-scroll-block-display.js"></script>

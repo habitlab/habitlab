@@ -252,18 +252,21 @@
         </paper-card>
       </div>
 
-      <div id="intro6" style="display: none;">
+      <div id="intro6" style="display: inline-flex;">
         <paper-card heading="Configure interventions" class="papercard">
           <div class="card-content">
             <span style="font-size: 18px;">
             <b>That's all you need to know to start using HabitLab! <br>
             Good luck with your goals and happy browsing!<br><br></b></span>
 
-            You can see the list of available interventions below for your given goals, and test out interventions or disable them from here. HabitLab's algorithm chooses an intervention to show you from the ones in the Sometimes Shown category.
+            You can see the list of available interventions below for your given goals, and test out interventions or disable them from here. 
           </div>
           <paper-button class="next-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Interventions</paper-button>
 
           <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list"">
+            <br>
+            <div style="font-size: 16px;"> HabitLab's algorithm chooses an intervention to show you from the ones in the Sometimes Shown category.</div>
+
             <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
               <h3>{{goal_and_interventions.goal.description}}</h3>
               <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">

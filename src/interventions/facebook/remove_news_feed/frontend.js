@@ -31,7 +31,7 @@ const {
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
-require('components/reward-display.deps')
+require('components/close-tab-button.deps')
 
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
@@ -76,15 +76,7 @@ function attachButtons() {
     log_action(intervention.name, {'negative': 'Remained on Facebook.'})
     showFeed(intervalID)
   })
-  var closeButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #2EB800; color: white" raised>Close Facebook</paper-button>')
-  closeButton.click(function(evt) {
-    log_action(intervention.name, {'positive': 'Closed Facebook.'})
-    var reward_display = document.querySelector('reward-display')
-    reward_display.addEventListener('reward_done', function() {
-      close_selected_tab()
-    })
-    reward_display.play()
-  })
+  var closeButton = $('<close-tab-button text="Close Facebook">')
 
   centerDiv.insertAfter($('#pagelet_composer'))
 
@@ -95,7 +87,6 @@ function attachButtons() {
     '<br><br>',
     cheatButton,
     '<br><br>',
-    '<reward-display>',
     habitlab_logo
   ])
   $('#centerdiv').append(habitlab_show_feed_div)

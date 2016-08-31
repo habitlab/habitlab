@@ -40,18 +40,18 @@ polymer_ext {
   on_goal_changed: (evt) ->
     this.$$('#options-interventions').on_goal_changed(evt.detail)
     this.$$('#dashboard-view').on_goal_changed(evt.detail)
-  icon_clicked: cfy ->*
+  # icon_clicked: cfy ->*
     
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    yield swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.
-           It will <u>automatically show you interventions</u> to help you keep on track to your goals, and fine-tune its algorithms over time.\n\n\n
+  #   yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+  #   yield swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.
+  #          It will <u>automatically show you interventions</u> to help you keep on track to your goals, and fine-tune its algorithms over time.\n\n\n
           
           
-          <b>Privacy: </b>In order to optimize your interventions, HabitLab needs to <u>modify your webpages</u> and <u>send data to our server</u> about where and when you see interventions.\n
-          \n<b>Icons: </b>A <habitlab-logo style='zoom: 0.5;  padding-left: 5px; padding-right: 5px; display: inline-block'></habitlab-logo> is placed on every intervention, so you can easily identify which elements are from HabitLab. Click the gear to get more information or disable the intervention.\n
-          Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again. 
-          \n\nClick OK to begin selecting your goals!
-          ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
+  #         <b>Privacy: </b>In order to optimize your interventions, HabitLab needs to <u>modify your webpages</u> and <u>send data to our server</u> about where and when you see interventions.\n
+  #         \n<b>Icons: </b>A <habitlab-logo style='zoom: 0.5;  padding-left: 5px; padding-right: 5px; display: inline-block'></habitlab-logo> is placed on every intervention, so you can easily identify which elements are from HabitLab. Click the gear to get more information or disable the intervention.\n
+  #         Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again. 
+  #         \n\nClick OK to begin selecting your goals!
+  #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
   #ready: ->
   #  self = this
   #  self.once_available '#optionstab', ->

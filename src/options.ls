@@ -16,7 +16,7 @@ window.addEventListener 'WebComponentsReady', cfy ->*
   options_view = document.querySelector('#options_view')
   if hash == 'introduction'
     options_view.selected_tab_idx = -1
-    yield options_view.icon_clicked()
+    #yield options_view.icon_clicked()
   options_view.set_selected_tab_by_name(hash)
   options_view.addEventListener 'options_selected_tab_changed', (evt) ->
     window.location.hash = evt.detail.selected_tab_name

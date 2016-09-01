@@ -124,6 +124,16 @@
       padding-left: 3px;
       padding-right: 3px;
     }
+    #pointer-div {
+      background: red;
+      color: white;
+      font-size: 14px;
+      margin: 5px;
+      padding-right: 5px;
+      right: 3px;
+      position: fixed; 
+      top: 0px; 
+    }
 
   </style>
   <template>
@@ -191,10 +201,14 @@
       <div id="intro3" class="intro" style="display: none;">
         <paper-card heading="Accessing this page" class="papercard">
           <div class="card-content">
-            You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you can see progress on your goals.
+            You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
+            Open the popup to continue!
           </div>
-          <paper-button class="next-button" on-click="intro3_read">Next</paper-button>
-        </paper-card>
+          <template is="dom-if" if="{{popup_view_has_been_opened}}">
+            <paper-button id="popup-button" class="next-button" on-click="intro3_read">Next</paper-button>
+          </template>
+        </paper-card>        
+          <div id="pointer-div" >icon is in this area!</div>
       </div>
 
       <div id="intro4" class="intro" style="display: none;" >

@@ -33,6 +33,7 @@ require 'libs_backend/expose_backend_libs'
   list_all_enabled_interventions_for_location
   list_available_interventions_for_location
   get_intervention_parameters
+  is_it_outside_work_hours
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -210,23 +211,8 @@ get_session_id_for_tab_id_and_domain = cfy (tabId, domain) ->*
   tab_id_to_domain_to_session_id[tabId][domain] = session_id
   return session_id
 
-# export is_it_outside_work_hours = ->
-#   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
-#   work_hours_only = work_hours_only == 'true'
-#   start_mins_since_midnight = parseInt start_mins_since_midnight
-#   end_mins_since_midnight = parseInt end_mins_since_midnight
-#   mins_since_midnight = moment().hours()*60 + moment().minutes()
-#   if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
-#     return true
-#   return false
-
 load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
-  {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
-  work_hours_only = work_hours_only == 'true'
-  start_mins_since_midnight = parseInt start_mins_since_midnight
-  end_mins_since_midnight = parseInt end_mins_since_midnight
-  mins_since_midnight = moment().hours()*60 + moment().minutes()
-  if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
+  if is_it_outside_work_hours()
     return
 
   domain = url_to_domain(location)
@@ -242,11 +228,9 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
       possible_interventions = as_array(JSON.parse(override_enabled_interventions))
     else
       possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
-    intervention = possible_interventions[0]
-    if intervention?
-      yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
-    else
-      yield set_active_interventions_for_domain_and_session domain, session_id, []
+    if not possible_interventions?
+      possible_interventions = []
+    yield set_active_interventions_for_domain_and_session domain, session_id, possible_interventions
     localStorage.removeItem('override_enabled_interventions_once')
   else
     active_interventions = JSON.parse active_interventions

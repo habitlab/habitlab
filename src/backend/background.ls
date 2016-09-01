@@ -210,6 +210,16 @@ get_session_id_for_tab_id_and_domain = cfy (tabId, domain) ->*
   tab_id_to_domain_to_session_id[tabId][domain] = session_id
   return session_id
 
+# export is_it_outside_work_hours = ->
+#   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
+#   work_hours_only = work_hours_only == 'true'
+#   start_mins_since_midnight = parseInt start_mins_since_midnight
+#   end_mins_since_midnight = parseInt end_mins_since_midnight
+#   mins_since_midnight = moment().hours()*60 + moment().minutes()
+#   if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
+#     return true
+#   return false
+
 load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
   work_hours_only = work_hours_only == 'true'

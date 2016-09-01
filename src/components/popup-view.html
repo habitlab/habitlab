@@ -35,7 +35,7 @@
         
         margin-bottom: 10px;
         display: block;
-        padding: 0 5px 5px 5px;
+        padding: 5px 5px 5px 5px;
       };      
     }
 
@@ -61,6 +61,14 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      padding-top: 0.3em;
+      padding-bottom: 0.3em;
+      padding-left: 0.3em;
+      
+      font-family: 'Open Sans', sans-serif;
+      margin: 0.3em;
+      margin-top: 0.5em;
+      font-size: 12px;
     }
 
     #enabledInterventions {
@@ -99,7 +107,10 @@
     #settingsPage {
       max-width: 400px;
       font-size: 12px;
+    }
 
+    .iview {
+      padding-top: 5px;
     }
 
   </style>
@@ -134,22 +145,30 @@
                   <div class="interventionContainer" id="enabledInterventions">
                     <span class="interventionName">{{get_intervention_description(intervention, intervention_name_to_info)}}</span>
                     
-                      <paper-menu-button vertical-offset="35">
-                        <paper-button class="dropdown-trigger" raised>
-                          <!-- <iron-icon icon="check"></iron-icon> -->
-                          <span>Disable Intervention &#x25BC;</span>
-                        </paper-button>
-                        <paper-listbox class="dropdown-content">
-                          <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the rest of this visit</paper-item>
-                          <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
-                        </paper-listbox>
-                      </paper-menu-button>            
+                    <paper-menu-button vertical-offset="35">
+                      <paper-button class="dropdown-trigger" raised>
+                        <!-- <iron-icon icon="check"></iron-icon> -->
+                        <span>Disable Intervention &#x25BC;</span>
+                      </paper-button>
+                      <paper-listbox class="dropdown-content">
+                        <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the rest of this visit</paper-item>
+                        <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
+                      </paper-listbox>
+                    </paper-menu-button>            
+                  </div>
+                </template>
+                <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
+                  <template is="dom-if" if="{{outside_work_hours()}}">
+                    <div class="interventionContainer" id="enabledInterventions">
+                      <h4>No interventions being shown outside work hours</h4>
                     </div>
                   </template>
-                  <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
+                 
+                  <template is="dom-if" if="{{!outside_work_hours()}}">
                     <div class="interventionContainer" id="enabledInterventions">
-                    <h4>None</h4>
-                  </div>
+                      <h4>None</h4>
+                    </div>
+                  </template>
                 </template>        
               </div>
             </iron-page>
@@ -157,14 +176,15 @@
           <iron-page id="settingsPage">
             <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
               <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-                <intervention-view-single compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+                <intervention-view-single class="iview" compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
                 <br>
               </template>
-              <template is="dom-if" if="{{noValidInterventions(goals_and_interventions)}}">
-                  <div class="interventionContainer">
-                  <h4>None</h4>
-                </div>
-              </template>
+              
+          </template>
+          <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
+            <div class="interventionContainer">
+              <h4>No interventions available for this site</h4>
+            </div>
           </template>
           </iron-page>
         </paper-card>

@@ -60,6 +60,7 @@ require 'libs_backend/expose_backend_libs'
 
 {
   as_array
+  as_dictset
 } = require 'libs_common/collection_utils'
 
 require! {
@@ -165,21 +166,21 @@ if (!window.loaded_interventions) {
   window.onunhandledrejection = function(evt) {
     throw evt.reason;
   };
+}
 
-  if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
-    window.loaded_interventions['#{intervention_info_copy.name}'] = true;
+if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
+  window.loaded_interventions['#{intervention_info_copy.name}'] = true;
 
-    if (!window.loaded_content_scripts) {
-      window.loaded_content_scripts = {};
-    }
-    if (!window.loaded_content_scripts['#{options.path}']) {
-      window.loaded_content_scripts['#{options.path}'] = true;
-      const intervention = #{JSON.stringify(intervention_info_copy)};
+  if (!window.loaded_content_scripts) {
+    window.loaded_content_scripts = {};
+  }
+  if (!window.loaded_content_scripts['#{options.path}']) {
+    window.loaded_content_scripts['#{options.path}'] = true;
+    const intervention = #{JSON.stringify(intervention_info_copy)};
 
-      #{content_script_code}
-      #{systemjs_content_script_code}
-      #{debug_content_script_code}
-    }
+    #{content_script_code}
+    #{systemjs_content_script_code}
+    #{debug_content_script_code}
   }
 }
     """
@@ -221,6 +222,16 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   console.log 'active_interventions is'
   console.log active_interventions
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
+  if not override_enabled_interventions?
+     permanently_enabled_interventions = localStorage.getItem('override_enabled_interventions_permanent')
+     if permanently_enabled_interventions?
+       permanently_enabled_interventions = as_array(JSON.parse(permanently_enabled_interventions))
+       all_available_interventions = yield list_available_interventions_for_location(location)
+       all_available_interventions = as_dictset(all_available_interventions)
+       permanently_enabled_interventions = permanently_enabled_interventions.filter (x) -> all_available_interventions[x]
+       for intervention in permanently_enabled_interventions
+         yield load_intervention intervention, tabId
+       return
   console.log 'override_enabled_interventions is'
   console.log override_enabled_interventions
   if not active_interventions?

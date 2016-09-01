@@ -51,7 +51,7 @@ polymer_ext {
       labels: seenInterventionsLabels
       datasets: [
         {
-          label: "",
+          label: "Times Deployed",
           backgroundColor: "rgba(65,131,215,0.5)",
           borderColor: "rgba(65,131,215,1)",
           borderWidth: 1,

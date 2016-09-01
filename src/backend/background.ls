@@ -33,6 +33,7 @@ require 'libs_backend/expose_backend_libs'
   list_all_enabled_interventions_for_location
   list_available_interventions_for_location
   get_intervention_parameters
+  is_it_outside_work_hours
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -59,6 +60,7 @@ require 'libs_backend/expose_backend_libs'
 
 {
   as_array
+  as_dictset
 } = require 'libs_common/collection_utils'
 
 require! {
@@ -164,21 +166,21 @@ if (!window.loaded_interventions) {
   window.onunhandledrejection = function(evt) {
     throw evt.reason;
   };
+}
 
-  if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
-    window.loaded_interventions['#{intervention_info_copy.name}'] = true;
+if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
+  window.loaded_interventions['#{intervention_info_copy.name}'] = true;
 
-    if (!window.loaded_content_scripts) {
-      window.loaded_content_scripts = {};
-    }
-    if (!window.loaded_content_scripts['#{options.path}']) {
-      window.loaded_content_scripts['#{options.path}'] = true;
-      const intervention = #{JSON.stringify(intervention_info_copy)};
+  if (!window.loaded_content_scripts) {
+    window.loaded_content_scripts = {};
+  }
+  if (!window.loaded_content_scripts['#{options.path}']) {
+    window.loaded_content_scripts['#{options.path}'] = true;
+    const intervention = #{JSON.stringify(intervention_info_copy)};
 
-      #{content_script_code}
-      #{systemjs_content_script_code}
-      #{debug_content_script_code}
-    }
+    #{content_script_code}
+    #{systemjs_content_script_code}
+    #{debug_content_script_code}
   }
 }
     """
@@ -210,23 +212,8 @@ get_session_id_for_tab_id_and_domain = cfy (tabId, domain) ->*
   tab_id_to_domain_to_session_id[tabId][domain] = session_id
   return session_id
 
-# export is_it_outside_work_hours = ->
-#   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
-#   work_hours_only = work_hours_only == 'true'
-#   start_mins_since_midnight = parseInt start_mins_since_midnight
-#   end_mins_since_midnight = parseInt end_mins_since_midnight
-#   mins_since_midnight = moment().hours()*60 + moment().minutes()
-#   if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
-#     return true
-#   return false
-
 load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
-  {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
-  work_hours_only = work_hours_only == 'true'
-  start_mins_since_midnight = parseInt start_mins_since_midnight
-  end_mins_since_midnight = parseInt end_mins_since_midnight
-  mins_since_midnight = moment().hours()*60 + moment().minutes()
-  if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
+  if is_it_outside_work_hours()
     return
 
   domain = url_to_domain(location)
@@ -279,6 +266,17 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   if not intervention?
     return
   yield load_intervention intervention, tabId
+  if not override_enabled_interventions?
+     permanently_enabled_interventions = localStorage.getItem('permanently_enabled_interventions')
+     if permanently_enabled_interventions?
+       permanently_enabled_interventions = as_array(JSON.parse(permanently_enabled_interventions))
+       all_available_interventions = yield list_available_interventions_for_location(location)
+       all_available_interventions = as_dictset(all_available_interventions)
+       permanently_enabled_interventions = permanently_enabled_interventions.filter (x) -> all_available_interventions[x]
+       for permanently_enabled_intervention in permanently_enabled_interventions
+         if permanently_enabled_intervention != intervention
+           yield load_intervention permanently_enabled_intervention, tabId
+  return
 
 /*
 load_intervention_for_location = cfy (location, tabId) ->*

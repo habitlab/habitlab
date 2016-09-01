@@ -132,7 +132,8 @@
       padding: 15px;
       right: 3px;
       position: fixed; 
-      top: 0px; 
+      top: 0px;
+      border-radius: 5px;
     }
 
   </style>
@@ -185,7 +186,7 @@
       </div>
 
       <div id="intro2" class="intro" style="display:none;">
-        <paper-card heading="Which interventions will HabitLab show me?x" class="papercard"> 
+        <paper-card heading="Which interventions will HabitLab show me?" class="papercard"> 
           <div class="card-content">
            
            At first, Habitlab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
@@ -204,7 +205,7 @@
           <div class="card-content">
             You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
           </div>
-          <paper-button disabled id="popup-button" class="next-button" on-click="intro3_read">Open popup to continue</paper-button>
+          <paper-button disabled id="popup-button" class="next-button" on-click="intro3_read">Click the icon in the toolbar to continue</paper-button>
         </paper-card>        
           <div id="pointer-div" >icon is in this area, just above me!</div>
       </div>

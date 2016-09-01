@@ -247,7 +247,7 @@ polymer_ext {
     window.scrollTo 0, document.body.scrollHeight
 
   attached: ->
-   if ((window.location.href.indexOf '#introduction') === -1)  
+   if window.location.hash != '#introduction'
     for elem in Polymer.dom(this.root).querySelectorAll('.intro')
       elem.style.display = 'inline-flex';
     for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
@@ -260,14 +260,17 @@ polymer_ext {
     this.rerender()
     this.get_daily_targets!
     self = this
-    if !self.popup_view_has_been_opened
+    if window.location.hash == '#introduction'
+      localStorage.removeItem 'popup_view_has_been_opened'
       popup_view_opened_checker = setInterval ->
         if localStorage.popup_view_has_been_opened == 'true'
           self.popup_view_has_been_opened = true
           self.$$('#pointer-div').style.display = 'none'
           self.$$('#popup-button').disabled = false
+          self.$$('#popup-button').innerText = 'Next'
           clearInterval popup_view_opened_checker
       , 500
+    load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     
   set_sites_and_goals: cfy ->*
     self = this

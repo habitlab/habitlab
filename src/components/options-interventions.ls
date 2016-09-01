@@ -220,12 +220,21 @@ polymer_ext {
 
   intro4_read: (evt) ->
     evt.target.style.display = "none"
+    
     this.$$('#intro5').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   intro5_read: (evt) ->
     evt.target.style.display = "none"
     this.$$('#intro6').style.display = "block"
+    window.scrollTo 0, document.body.scrollHeight
+
+  show_swal: (evt) ->
+    evt.target.style.display = "none"
+    swal('You\'re ready!', 'That\'s all you need to know to start using HabitLab. 
+      If you\'d like, you can configure more options and view the list of interventions 
+       for each goal at the bottom of this page.', 'success')
+    this.$$('#configurations').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   toggle_interventions: (evt) ->

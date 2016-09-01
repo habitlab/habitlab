@@ -269,12 +269,21 @@
       </div>
 
       <div id="intro6" class="intro" style="display: none;">
+        <paper-card heading="Dashboard" class="papercard">
+          <div class="card-content">
+            In addition to this tab, Manage Goals and Interventions, you can also view graphs and statistics in the View Results tab at the top.
+            <br><br>
+            That concludes the introduction to HabitLab.
+          </div>
+          <paper-button class="works-button" id="done-btn" on-click="show_swal">Done with introduction</paper-button>
+        </paper-card>
+
+      </div>
+
+      <div id="configurations" class="intro" style="display: none;">
         <paper-card heading="Configure interventions" class="papercard">
           <div class="card-content">
-            <span style="font-size: 18px;">
-            <b>That's all you need to know to start using HabitLab! <br>
-            Good luck with your goals and happy browsing!<br><br></b></span>
-
+            
             You can see the list of available interventions below for your given goals, and test out interventions or disable them from here. 
           </div>
           <paper-button class="works-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Intervention Details</paper-button>

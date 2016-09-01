@@ -237,17 +237,17 @@ polymer_ext {
       this.$$('#interventions-list').style.display = "none"
     window.scrollTo 0, document.body.scrollHeight
 
+  attached: ->
+   if ((window.location.href.indexOf '#introduction') === -1)  
+    for elem in Polymer.dom(this.root).querySelectorAll('.intro')
+      elem.style.display = 'inline-flex';
+    for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
+      elem.style.display = 'none';
+    this.$$('#pointer-div').style.display = 'none';
 
 
   ready: ->
    
-    if ((window.location.href.indexOf '#introduction') === -1)
-     
-      for elem in Polymer.dom(this.root).querySelectorAll('.intro')
-        elem.style.display = 'inline-flex';
-      
-      for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
-        elem.style.display = 'none';
     this.rerender()
     this.get_daily_targets!
     self = this
@@ -255,8 +255,10 @@ polymer_ext {
       popup_view_opened_checker = setInterval ->
         if localStorage.popup_view_has_been_opened == 'true'
           self.popup_view_has_been_opened = true
+          this.$$('#pointer-div').style.display = 'none'
           clearInterval popup_view_opened_checker
       , 500
+    
   set_sites_and_goals: cfy ->*
     self = this
     goal_name_to_info = yield get_goals()

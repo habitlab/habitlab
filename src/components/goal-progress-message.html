@@ -1,0 +1,84 @@
+<head>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+</head>
+<dom-module id="goal-progress-message">
+  <template>
+    <style is="custom-style">
+      :host {
+        --paper-item: {
+          font-family: 'Roboto';
+          font-size: 13px;
+          overflow: hidden;
+          white-space: nowrap;
+          display: block;
+          text-overflow: ellipsis;
+        };
+        --paper-item-min-height: 36px;
+      }
+      
+
+      #rsscontainer {
+        width: 380px;
+        height: 240px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #e6e6ff;
+      }
+
+      
+     @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v15/oMMgfZMQthOryQo9n22dcuvvDin1pK8aKteLpeZ5c0A.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+      }
+
+      #rsstitle {
+        padding-top: 15px;
+        margin-bottom: 15px;
+        font-family: 'Roboto';
+        font-size: 16px;
+      }
+
+      .linktext {
+        
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        width: 350px;
+        display: block;
+      }
+
+      a {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 350px;
+        text-overflow: ellipsis;
+        display: block;
+      }
+
+
+    </style>
+    <div id="rsscontainer">
+      <div id="rsstitle">Progress on your goals</div>
+
+      <div>names of your goals</div>
+      <br><br>
+
+      <template is="dom-repeat" items="{{goal_info_list}}" as="goal_info">
+        <div>
+          Goal: <span>{{goal_info.description}}</span>
+          Target: <span>{{get_goal_target(goal_info.name, goal_name_to_target)}}</span>
+          Today: <span>{{get_goal_progress_on_day(goal_info.name, 0, goal_name_to_progress_this_week)}}</span> <span>{{get_goal_units(goal_info.name, goal_name_to_units)}}</span>
+        </div>
+
+      </template>
+
+    </div>
+  </template>
+  <script src="goal-progress-message.js"></script>
+</dom-module>

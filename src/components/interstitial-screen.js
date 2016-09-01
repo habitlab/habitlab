@@ -37,15 +37,36 @@ Polymer({
     },
     randomizer: {
       type: Boolean,
-      value: Math.floor(Math.random()*2) == 0
+      value: Math.floor(Math.random()*2) == 0,
+    },
+    show_rss_message: {
+      type: Boolean,
+      computed: 'compute_show_rss_message(show_progress_message, randomizer)',
+    },
+    show_workpages_message: {
+      type: Boolean,
+      computed: 'compute_show_workpages_message(show_progress_message, randomizer)',
+    },
+    show_progress_message: {
+      type: Boolean,
+      value: false,
+      //computed: 'compute_progress_message()',
     }
-
   },
 
   listeners: {
     'disable_intervention': 'disableIntervention',
     'show_button': 'showButton'
   },
+  compute_show_rss_message: function(show_progress_message, randomizer) {
+    return (!show_progress_message) && randomizer
+  },
+  compute_show_workpages_message: function(show_progress_message, randomizer) {
+    return !show_progress_message && !randomizer
+  },
+  //compute_show_progress_message: function() {
+  //  return false
+  //},
   buttonclicked: function() {
     console.log('ok button clicked in polymer during loading')
     log_action(intervention.name, {'negative': 'Continuted to site.'})

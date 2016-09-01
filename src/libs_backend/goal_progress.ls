@@ -5,6 +5,10 @@
   gexport_module
 } = require 'libs_common/gexport'
 
+{
+  as_array
+} = require 'libs_common/collection_utils'
+
 {cfy} = require 'cfy'
 
 measurement_functions = require 'goals/progress_measurement'
@@ -49,11 +53,20 @@ export get_progress_on_goal_days_since_today = cfy (goal_name, days_since_today)
 
 export get_progress_on_enabled_goals_days_since_today = cfy (days_since_today) ->*
   enabled_goals = yield goal_utils.get_enabled_goals()
-  enabled_goals_list = Object.keys enabled_goals
+  enabled_goals_list = as_array enabled_goals
   output = {}
   for goal_name in enabled_goals_list
     progress_info = yield get_progress_on_goal_days_since_today goal_name, days_since_today
     output[goal_name] = progress_info
+  return output
+
+export get_progress_on_enabled_goals_this_week = cfy ->*
+  enabled_goals = yield goal_utils.get_enabled_goals()
+  enabled_goals_list = as_array enabled_goals
+  output = {}
+  for goal_name in enabled_goals_list
+    progress_this_week = yield get_progress_on_goal_this_week goal_name
+    output[goal_name] = progress_this_week
   return output
 
 intervention_manager = require 'libs_backend/intervention_manager'

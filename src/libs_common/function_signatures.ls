@@ -32,6 +32,8 @@ lib_name_to_func_names_and_signatures =
     set_goal_target: ['goal_name', 'target_value']
     get_all_goal_targets: []
     list_goal_info_for_enabled_goals: []
+  goal_progress:
+    get_progress_on_enabled_goals_this_week: []
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

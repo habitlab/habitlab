@@ -26,6 +26,7 @@ const swal = require 'sweetalert2'
   get_goals_and_interventions
   list_available_interventions_for_location
   get_interventions
+  is_it_outside_work_hours
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -88,8 +89,11 @@ polymer_ext {
 
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
     return intervention_name_to_info[intervention_name].description
-  noValidInterventions: (gni) ->
-    return gni.length == 0
+  
+  noValidInterventions: ->
+    console.log this.enabledInterventions
+    console.log this.goals_and_interventions
+    return this.goals_and_interventions.length === 0
 
   temp_disable_button_clicked: (evt) ->
     self = this
@@ -154,6 +158,7 @@ polymer_ext {
     return html
 
   isEmpty: (enabledInterventions) ->
+    console.log \isEmpty
     return enabledInterventions? and enabledInterventions.length == 0
 
   submitFeedback: cfy ->*
@@ -165,8 +170,10 @@ polymer_ext {
       yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
       swal "Thanks for the feedback!", "", "success"
 
+  outside_work_hours: ->
+    return is_it_outside_work_hours!
+
   ready: cfy ->*
-    
     
     chrome.browserAction.setBadgeText {text: ''}
     chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
@@ -174,7 +181,7 @@ polymer_ext {
     self.intervention_name_to_info = yield get_interventions()
     url = yield get_active_tab_url()
     
-    console.log url_to_domain url
+   
     #FILTER THIS FOR ONLY THE CURRENT GOAL SITE#
     this.sites = yield list_sites_for_which_goals_are_enabled!
     this.goals_and_interventions = yield get_goals_and_interventions!
@@ -183,9 +190,6 @@ polymer_ext {
     
       return obj.goal.domain == url_to_domain url
 
-    console.log "goals n interv"
-    console.log this.goals_and_interventions
-    window.gni = this.goals_and_interventions
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
 

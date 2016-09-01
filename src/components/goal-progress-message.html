@@ -36,7 +36,7 @@
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
       }
 
-      #rsstitle {
+      #goalprogresstitle {
         padding-top: 15px;
         margin-bottom: 15px;
         font-family: 'Roboto';
@@ -61,14 +61,113 @@
         display: block;
       }
 
+      /*
+      .goalcol {
+        display: table-cell;
+        width: 100px;
+        border-spacing: 10px 10px;
+      }
+
+      .daycol {
+        display: table-cell;
+        width: 100px;
+        border-spacing: 10px 10px;
+      }
+
+      .trow {
+        display: table-row;
+        border-collapse: separate;
+      }
+      */
+
+      .table-row {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 0;
+        flex-wrap: wrap;
+        width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .goalname {
+        flex-grow: 1;
+        overflow: hidden;
+        padding-right: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 100px;
+      }
+
+      .showprogress {
+        flex-grow: 1;
+        overflow: hidden;
+        padding-right: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 100px;
+      }
 
     </style>
     <div id="rsscontainer">
-      <div id="rsstitle">Progress on your goals</div>
+      <div id="goalprogresstitle">Progress on your goals</div>
 
-      <div>names of your goals</div>
-      <br><br>
 
+      <!--
+      <div>
+        <div class="table-row">
+          <div class="goalname"></div>
+          <div class="showprogress">Today</div>
+          <div class="showprogress">Yesterday</div>
+        </div>
+
+        <div class="table-row">
+          <div class="goalname">Spend less time on Facebook</div>
+          <div class="showprogress">Achieved</div>
+          <div class="showprogress">Not achieved</div>
+        </div>
+
+        <div class="table-row">
+          <div class="goalname">Spend less time on Youtube</div>
+          <div class="showprogress">Achieved</div>
+          <div class="showprogress">Not achieved</div>
+        </div>
+      </div>
+      -->
+
+      <div>
+        <div class="table-row">
+          <div class="goalname"></div>
+          <div class="showprogress">Today</div>
+          <div class="showprogress">Yesterday</div>
+        </div>
+
+        <template is="dom-repeat" items="{{goal_info_list}}" as="goal_info">
+          <div class="table-row">
+            <div class="goalname">{{goal_info.description}}</div>
+            <template is="dom-repeat" items='[0,1]'>
+              <div class="showprogress">{{get_goal_progress_on_day(goal_info.name, item, goal_name_to_progress_this_week)}}</div>
+            </template>
+          </div>
+        </template>
+      </div>
+
+      <!--
+      <div style="display: table; border-collapse: separate; border-spacing: 10px">
+        <div class="trow">
+          <div class="goalcol"></div>
+          <div class="daycol">Today</div>
+          <div class="daycol">Yesterday</div>
+        </div>
+        <div class="trow">
+          <div class="goalcol">Spend less time on Facebook</div>
+          <div class="daycol">Achieved</div>
+          <div class="daycol">Not achieved</div>
+        </div>
+      </div>
+      -->
+
+      <!--
       <template is="dom-repeat" items="{{goal_info_list}}" as="goal_info">
         <div>
           Goal: <span>{{goal_info.description}}</span>
@@ -77,6 +176,7 @@
         </div>
 
       </template>
+      -->
 
     </div>
   </template>

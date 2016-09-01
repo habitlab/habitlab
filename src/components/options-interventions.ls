@@ -193,7 +193,7 @@ polymer_ext {
   goals_set: (evt) ->
     if (Object.keys this.enabled_goals).length > 0 
       evt.target.style.display = "none"
-      this.$$('#intro1').style.display = "block"
+      this.$$('#intro2').style.display = "block"
     
   intro1_read: (evt) ->
     evt.target.style.display = "none"
@@ -221,7 +221,7 @@ polymer_ext {
   intro4_read: (evt) ->
     evt.target.style.display = "none"
     
-    this.$$('#intro5').style.display = "block"
+    this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   intro5_read: (evt) ->
@@ -264,7 +264,8 @@ polymer_ext {
       popup_view_opened_checker = setInterval ->
         if localStorage.popup_view_has_been_opened == 'true'
           self.popup_view_has_been_opened = true
-          this.$$('#pointer-div').style.display = 'none'
+          self.$$('#pointer-div').style.display = 'none'
+          self.$$('#popup-button').disabled = false
           clearInterval popup_view_opened_checker
       , 500
     

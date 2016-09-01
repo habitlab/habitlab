@@ -129,7 +129,7 @@
       color: white;
       font-size: 14px;
       margin: 5px;
-      padding-right: 5px;
+      padding: 15px;
       right: 3px;
       position: fixed; 
       top: 0px; 
@@ -175,19 +175,19 @@
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
       </paper-card>
 
-     <!--  <div id="intro1" class="intro" style="display:none;">
+      <div id="intro1" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
           <div class="card-content">
-          
+          Habitlab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
           </div>
           <paper-button class="next-button" on-click="intro1_read">Next</paper-button>
         </paper-card>
-      </div> -->
+      </div>
 
       <div id="intro2" class="intro" style="display:none;">
-        <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
+        <paper-card heading="Which interventions will HabitLab show me?x" class="papercard"> 
           <div class="card-content">
-           Habitlab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.<br><br>
+           
            At first, Habitlab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
            <div style="display: none;" id="how_hl_works">
            <br>Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. Habitlab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
@@ -203,11 +203,10 @@
         <paper-card heading="Accessing this page" class="papercard">
           <div class="card-content">
             You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
-            Open the popup to continue!
           </div>
-          <paper-button disabled id="popup-button" class="next-button" on-click="intro3_read">Next</paper-button>
+          <paper-button disabled id="popup-button" class="next-button" on-click="intro3_read">Open popup to continue</paper-button>
         </paper-card>        
-          <div id="pointer-div" >icon is in this area!</div>
+          <div id="pointer-div" >icon is in this area, just above me!</div>
       </div>
 
       <div id="intro4" class="intro" style="display: none;">
@@ -251,7 +250,7 @@
             </template>
           </div>
           <br>
-          <paper-button class="next-button" on-click="intro4_read">Next</paper-button>
+          <paper-button class="next-button" id="done-btn" on-click="show_swal">Done with introduction</paper-button>
         </paper-card>
       </div>
 <!-- 
@@ -273,7 +272,7 @@
             In addition to this tab, Manage Goals and Interventions, you can also view graphs and statistics in the View Results tab at the top.
             
           </div>
-          <paper-button class="next-button" id="done-btn" on-click="show_swal">Done with introduction</paper-button>
+          
         </paper-card>
 
       </div>

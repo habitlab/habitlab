@@ -193,7 +193,7 @@ polymer_ext {
   goals_set: (evt) ->
     if (Object.keys this.enabled_goals).length > 0 
       evt.target.style.display = "none"
-      this.$$('#intro2').style.display = "block"
+      this.$$('#intro1').style.display = "block"
     
   intro1_read: (evt) ->
     evt.target.style.display = "none"

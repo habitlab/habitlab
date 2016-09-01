@@ -270,6 +270,7 @@ polymer_ext {
           self.$$('#popup-button').innerText = 'Next'
           clearInterval popup_view_opened_checker
       , 500
+    load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     
   set_sites_and_goals: cfy ->*
     self = this

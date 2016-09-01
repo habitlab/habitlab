@@ -222,16 +222,6 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   console.log 'active_interventions is'
   console.log active_interventions
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
-  if not override_enabled_interventions?
-     permanently_enabled_interventions = localStorage.getItem('override_enabled_interventions_permanent')
-     if permanently_enabled_interventions?
-       permanently_enabled_interventions = as_array(JSON.parse(permanently_enabled_interventions))
-       all_available_interventions = yield list_available_interventions_for_location(location)
-       all_available_interventions = as_dictset(all_available_interventions)
-       permanently_enabled_interventions = permanently_enabled_interventions.filter (x) -> all_available_interventions[x]
-       for intervention in permanently_enabled_interventions
-         yield load_intervention intervention, tabId
-       return
   console.log 'override_enabled_interventions is'
   console.log override_enabled_interventions
   if not active_interventions?
@@ -239,9 +229,11 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
       possible_interventions = as_array(JSON.parse(override_enabled_interventions))
     else
       possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
-    if not possible_interventions?
-      possible_interventions = []
-    yield set_active_interventions_for_domain_and_session domain, session_id, possible_interventions
+    intervention = possible_interventions[0]
+    if intervention?
+      yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+    else
+      yield set_active_interventions_for_domain_and_session domain, session_id, []
     localStorage.removeItem('override_enabled_interventions_once')
   else
     active_interventions = JSON.parse active_interventions
@@ -274,6 +266,17 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   if not intervention?
     return
   yield load_intervention intervention, tabId
+  if not override_enabled_interventions?
+     permanently_enabled_interventions = localStorage.getItem('permanently_enabled_interventions')
+     if permanently_enabled_interventions?
+       permanently_enabled_interventions = as_array(JSON.parse(permanently_enabled_interventions))
+       all_available_interventions = yield list_available_interventions_for_location(location)
+       all_available_interventions = as_dictset(all_available_interventions)
+       permanently_enabled_interventions = permanently_enabled_interventions.filter (x) -> all_available_interventions[x]
+       for permanently_enabled_intervention in permanently_enabled_interventions
+         if permanently_enabled_intervention != intervention
+           yield load_intervention permanently_enabled_intervention, tabId
+  return
 
 /*
 load_intervention_for_location = cfy (location, tabId) ->*

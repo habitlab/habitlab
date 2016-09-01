@@ -12,7 +12,12 @@ $ = require 'jquery'
 {
   getkey_dict
   setkey_dict
+  getdict
 } = require 'libs_backend/db_utils'
+
+{
+  as_array
+} = require 'libs_common/collection_utils'
 
 {cfy, yfy} = require 'cfy'
 
@@ -185,6 +190,22 @@ export get_goal_target = cfy (goal_name) ->*
 export set_goal_target = cfy (goal_name, target_value) ->*
   yield setkey_dict 'goal_targets', goal_name, target_value
   return
+
+export get_all_goal_targets = cfy ->*
+  result = yield getdict 'goal_targets'
+  if result?
+    return result
+  all_goals = yield get_goals()
+  output = {}
+  for goal_name,goal_info of all_goals
+    output[goal_name] = goal_info.target.default
+  return output
+
+export list_goal_info_for_enabled_goals = cfy ->*
+  goal_names = yield get_enabled_goals()
+  goal_names = as_array goal_names
+  goal_name_to_info = yield get_goals()
+  return [goal_name_to_info[goal_name] for goal_name in goal_names]
 
 intervention_utils = require 'libs_backend/intervention_utils'
 log_utils = require 'libs_backend/log_utils'

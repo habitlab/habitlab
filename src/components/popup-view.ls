@@ -146,15 +146,15 @@ polymer_ext {
     shownGraphs = shownGraphs.filter((x) -> !self.blacklist[x])
     
     
-    html = ""
+    html = "<div class=\"card-content\">"
     for x in shownGraphs
       if x == 'site-goal-view'
         for site in sites
           
-          html += "<#{x} site=\"#{site}\"></#{x}>"
+          html += "<#{x} site=\"#{site}\"></#{x}><br>"
       else
-        html += "<#{x}></#{x}>"
-    
+        html += "<#{x}></#{x}><br>"
+    html += "</div>"
     return html
 
   isEmpty: (enabledInterventions) ->

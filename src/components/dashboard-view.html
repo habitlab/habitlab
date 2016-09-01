@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
 <link rel="import" href="../bower_components/chart-elements/chart-line.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <link rel="import" href="site-goal-view.html">
 <link rel="import" href="badges-view.html">
@@ -18,6 +19,12 @@
       display: block;
       width: 100%;
       height: 100%;
+      background-color: #C5CAE9;
+      --paper-card: {
+        width: 700px;
+        padding: 10px 20px;
+        margin-top: 10px;
+      };
     }
     .container {
       text-align: center;
@@ -47,61 +54,69 @@
     }
   </style>
   <template>
-
     <div class="container">
-      <div id="encouragement" class="title">Good job so far!</div>
-      <div class="title">HabitLab Analytics</div>
-    
-    
-      <graph-chrome-history></graph-chrome-history>
+      <!-- <div id="encouragement" class="title">Good job so far!</div>
+      <div class="title">HabitLab Analytics</div> -->
 
-      <hr>
-
+      <paper-card heading="HabitLab Analytics">
+      </paper-card>
       
-      <graph-time-saved-daily></graph-time-saved-daily>
-
-      <hr>
-
+      <paper-card>
+        <div class="card-content">
+          <graph-chrome-history></graph-chrome-history>
+        </div>  
+      </paper-card>
       
-      <center>
-        <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>          
-          <template is="dom-repeat" items="{{sites}}" as="site">
-            <paper-tab>{{site}}</paper-tab>
-          </template>
-          <paper-tab>overview</paper-tab>
-        </paper-tabs>
-      </center>
-
-      <iron-pages selected={{selected}}>
-        <template is="dom-repeat" items="{{sites}}" as="site">
-          <div><site-goal-view site="{{site}}"></site-goal-view></div>
-        </template>
-        <div>
+      <paper-card>
+        <div class="card-content">
+          <graph-time-saved-daily></graph-time-saved-daily>
+        </div>  
+      </paper-card>
       
-          <graph-daily-overview></graph-daily-overview>
+      <paper-card>
+        <div class="card-content">
+          <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>          
+            <template is="dom-repeat" items="{{sites}}" as="site">
+              <paper-tab>{{site}}</paper-tab>
+            </template>
+            <paper-tab>overview</paper-tab>
+          </paper-tabs>
+      
+          <iron-pages selected={{selected}}>
+            <template is="dom-repeat" items="{{sites}}" as="site">
+              <div><site-goal-view site="{{site}}"></site-goal-view></div>
+            </template>
+            <div>
+              <graph-daily-overview></graph-daily-overview>
+            </div>
+          </iron-pages>
         </div>
-      </iron-pages>
-
-      <hr>
+      </paper-card>
+      
 
       <!-- Uncomment when badges are implemented -->
       
       <!--
       <div class="description">Which badges have I earned?</div>
       <badges-view></badges-view>
-      <hr>
+      
       -->
 
+      <paper-card>
+        <div class="card-content">
+          <graph-num-times-interventions-deployed></graph-num-times-interventions-deployed>
+      </div>
+      </paper-card>
+
       
-      <graph-num-times-interventions-deployed></graph-num-times-interventions-deployed>
 
-      <hr>
-
-      
-      <graph-donut-top-sites></graph-donut-top-sites>
-
+      <paper-card>
+        <div class="card-content">
+          <graph-donut-top-sites></graph-donut-top-sites>
+        </div>
+      </paper-card>`
     </div>
-
+    <div style="height: 50px;"></div>
 
   </template>
   <script src="dashboard-view.js"></script>

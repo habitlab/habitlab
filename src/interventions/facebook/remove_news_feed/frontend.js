@@ -1,10 +1,3 @@
-(() => {
-
-if (window.remove_news_feed) {
-  return
-}
-window.remove_news_feed = true
-
 const $ = require('jquery')
 
 const {
@@ -103,5 +96,3 @@ window.intervalID = intervalID;
 document.body.addEventListener('disable_intervention', (intervalID) => {
   showFeed(window.intervalID);
 });
-
-})()

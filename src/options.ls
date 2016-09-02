@@ -9,8 +9,8 @@ require 'components/options-view.deps'
 window.addEventListener 'WebComponentsReady', cfy ->*
   hash = window.location.hash
   if not hash? or hash == ''
-    hash = '#results'
-    window.location.hash = '#results'
+    hash = '#settings'
+    window.location.hash = '#settings'
   if hash.startsWith('#')
     hash = hash.substr(1)
   options_view = document.querySelector('#options_view')

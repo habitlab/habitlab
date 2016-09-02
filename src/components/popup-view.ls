@@ -194,11 +194,11 @@ polymer_ext {
     self.enabledInterventions = enabledInterventions
 
     self.S('#resultsButton').click(->
-      chrome.tabs.create {url: 'options.html'}
+      chrome.tabs.create {url: 'options.html#results'}
     )
 
     self.S('#goalsButton').click(->
-      chrome.tabs.create {url: 'options.html#goals'}
+      chrome.tabs.create {url: 'options.html#settings'}
     )
 
     self.S('#feedbackButton').click( ->

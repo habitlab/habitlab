@@ -236,6 +236,11 @@ polymer_ext {
       title: 'Tutorial Complete!'
       text: 'That\'s all you need to know to start using HabitLab. If you\'d like, you can configure more options and view the list of interventions for each goal at the bottom of this page.'
       type: 'success'
+      allowOutsideClick: false
+      allowEscapeKey: false
+      #showCancelButton: true
+      #confirmButtonText: 'Visit Facebook to see an intervention in action'
+      #cancelButtonText: 'Close'
     }
     this.$$('#configurations').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
@@ -269,10 +274,11 @@ polymer_ext {
         if localStorage.popup_view_has_been_opened == 'true'
           self.popup_view_has_been_opened = true
           self.$$('#pointer-div').style.display = 'none'
-          #self.$$('#popup-button').disabled = false
-          #self.$$('#popup-button').innerText = 'Next'
+          self.$$('#popup-button').disabled = false
+          self.$$('#popup-button').innerText = 'Next'
           clearInterval popup_view_opened_checker
-          self.show_swal()
+          if self.$$('#intro4').style.display != 'none'
+            self.show_swal()
       , 500
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     

@@ -229,10 +229,11 @@ polymer_ext {
     this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
-  show_swal: (evt) ->
-    evt.target.style.display = "none"
+  show_swal: ->
+    #evt.target.style.display = "none"
+    this.$$('#popup-button').style.display = 'none'
     swal {
-      title: 'You\'re ready!'
+      title: 'Tutorial Complete!'
       text: 'That\'s all you need to know to start using HabitLab. If you\'d like, you can configure more options and view the list of interventions for each goal at the bottom of this page.'
       type: 'success'
     }
@@ -268,9 +269,10 @@ polymer_ext {
         if localStorage.popup_view_has_been_opened == 'true'
           self.popup_view_has_been_opened = true
           self.$$('#pointer-div').style.display = 'none'
-          self.$$('#popup-button').disabled = false
-          self.$$('#popup-button').innerText = 'Next'
+          #self.$$('#popup-button').disabled = false
+          #self.$$('#popup-button').innerText = 'Next'
           clearInterval popup_view_opened_checker
+          self.show_swal()
       , 500
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     

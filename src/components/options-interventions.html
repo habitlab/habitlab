@@ -130,7 +130,7 @@
     #pointer-div {
       background: red;
       color: white;
-      font-size: 14px;
+      font-size: 20px;
       margin: 5px;
       padding: 15px;
       right: 3px;
@@ -204,16 +204,6 @@
       </div>
 
       <div id="intro3" class="intro" style="display: none;">
-        <paper-card heading="Accessing this page" class="papercard">
-          <div class="card-content">
-            You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
-          </div>
-          <paper-button disabled id="popup-button" class="next-button" on-click="intro3_read">Click the icon in the toolbar to continue</paper-button>
-        </paper-card>        
-          <div id="pointer-div" >icon is in this area, just above me!</div>
-      </div>
-
-      <div id="intro4" class="intro" style="display: none;">
         <paper-card heading="When should interventions be active?">
           <div class="card-content" >You can set your interventions to be always on, or only active during your selected work hours.
             <br>
@@ -254,10 +244,21 @@
             </template>
           </div>
           <br>
-          <paper-button class="next-button" id="done-btn" on-click="show_swal">Done with introduction</paper-button>
+          <paper-button class="next-button" id="done-btn" on-click="intro3_read">Next</paper-button>
         </paper-card>
       </div>
-<!-- 
+
+      <div id="intro4" class="intro" style="display: none;">
+        <paper-card heading="Accessing this page" class="papercard">
+          <div class="card-content">
+            You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
+          </div>
+          <paper-button disabled id="popup-button" class="next-button" on-click="show_swal">Click the icon in the toolbar to continue</paper-button>
+        </paper-card>        
+          <div id="pointer-div" >Click the <img id="iconimg" src="{{get_icon()}}"> icon in the toolbar above!</div>
+      </div>
+
+      <!--
       <div id="intro5" class="intro" style="display: none; padding-top: 0px;">
         <paper-card heading="Disabling interventions" class="papercard">
           <div class="card-content" style="padding-top: 0px;">
@@ -269,7 +270,7 @@
           <paper-button class="next-button" on-click="intro5_read">Next</paper-button>
         </paper-card>
       </div> -->
-
+      <!--
       <div id="intro6" class="intro" style="display: none;">
         <paper-card heading="Dashboard" class="papercard">
           <div class="card-content">
@@ -280,6 +281,7 @@
         </paper-card>
 
       </div>
+      -->
 
       <div id="configurations" class="intro" style="display: none;">
         <paper-card heading="Configure interventions" class="papercard">

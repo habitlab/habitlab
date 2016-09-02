@@ -39,8 +39,7 @@ adjust_css_options = (options, new_options) ->
 
 export insert_console = (eval_func, options) ->
   options = {} <<< options
-  <- load_css_file 'bower_components/jquery.terminal/css/jquer
-  y.terminal.min.css'
+  <- load_css_file 'node_modules_custom/jquery.terminal/css/jquery.terminal.min.css'
   $('body').append($('<div>').attr('id', 'content_script_terminal'))
   term_div = $('#content_script_terminal')
   css_options = {

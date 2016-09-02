@@ -1,1 +1,0 @@
-setTimeout(function(){CodeMirror.colorize();}, 20);

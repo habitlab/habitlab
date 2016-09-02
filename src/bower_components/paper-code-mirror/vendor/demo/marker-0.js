@@ -1,1 +1,0 @@
-eval(document.getElementById("code").value);

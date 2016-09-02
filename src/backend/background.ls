@@ -88,6 +88,10 @@ $ = require 'jquery'
   start_syncing_all_logs
 } = require 'libs_backend/log_utils'
 
+{
+  get_baseline_time_on_domains
+} = require 'libs_common/history_utils'
+
 {cfy, yfy} = require 'cfy'
 
 require 'libs_common/measurement_utils'
@@ -637,3 +641,6 @@ gexport_module 'background', -> eval(it)
 systemjs_require <- System.import('libs_common/systemjs_require').then()
 drequire <- systemjs_require.make_require_frontend().then()
 window.drequire = drequire
+
+if not localStorage.getItem('baseline_time_on_domains')?
+  get_baseline_time_on_domains()

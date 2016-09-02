@@ -94,6 +94,7 @@ copypattern = [
   'src/jspm_packages/**/*'
   'src/components/**/*.js'
   'src/node_modules_custom/**/*.js'
+  'src/node_modules_custom/**/*.css'
   '!src/components/components.html'
   '!src/**/*.deps.js'
 ]

@@ -82,7 +82,7 @@ polymer_ext({
     const self = this;
 
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
-    yield load_css_file('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
+    yield load_css_file('node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu.min.css');
 
     function get_intervention_name() {
       if (intervention !== null) {

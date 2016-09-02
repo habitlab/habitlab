@@ -6,20 +6,12 @@ require('jquery-contextmenu')($)
   load_css_file
 } = require 'libs_common/content_script_utils'
 
-load_css_file 'bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css'
-
-load_css_file 'node_modules/tooltipster/css/tooltipster.css'
+load_css_file 'node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu.min.css'
 
 {
   set_intervention_disabled
   set_intervention_enabled
 } = require 'libs_common/intervention_utils'
-
-fn = !-> $('.tooltip').tooltipster!
-  
-
-$(document).ready fn
-
 
 get_invisible_div = (elem) ->
   #console.log 'get_invisible_div'
@@ -69,7 +61,6 @@ skate.define 'habitlab-logo', {
     intervention: {default: '', attribute: true}
   }
   attached: (elem) ->
-    $(document).ready fn
     invisible_div = get_invisible_div(elem)
     set_position_equal_to_elem(elem, invisible_div)
     console.log elem

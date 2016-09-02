@@ -231,9 +231,11 @@ polymer_ext {
 
   show_swal: (evt) ->
     evt.target.style.display = "none"
-    swal('You\'re ready!', 'That\'s all you need to know to start using HabitLab. 
-      If you\'d like, you can configure more options and view the list of interventions 
-       for each goal at the bottom of this page.', 'success')
+    swal {
+      title: 'You\'re ready!'
+      text: 'That\'s all you need to know to start using HabitLab. If you\'d like, you can configure more options and view the list of interventions for each goal at the bottom of this page.'
+      type: 'success'
+    }
     this.$$('#configurations').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 

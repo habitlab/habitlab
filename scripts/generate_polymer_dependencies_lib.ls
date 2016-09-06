@@ -50,7 +50,7 @@ get_option_parser = ->
       description: 'Include jspm_packages directory among those we generate .deps.js files for'
     }
     {
-      options: 'target_jspm'
+      option: 'target_jspm'
       type: 'Boolean'
       default: 'false'
       description: 'Target for generated files is jspm'
@@ -135,6 +135,8 @@ script_deps = (tag, params) ->
   if not filename_abs?
     return ''
   filename_rel = path.relative src_path, filename_abs
+  if options.target_jspm and filename_rel.endsWith('.ls')
+    filename_rel = filename_rel.replace(/\.ls$/, '.js')
   return "require('#{filename_rel}')"
 
 get_html_import_abspath = (tag, params) ->

@@ -1,5 +1,4 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw evt.reason
 
-require 'webcomponentsjs-custom-element-v0'
-require 'components/popup-view.deps'
+System.import('components/popup-view.jspm')

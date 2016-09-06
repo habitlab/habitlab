@@ -37,7 +37,8 @@ webpack_config_frontend = require './webpack_config_frontend.ls'
 webpack_config_backend = require './webpack_config_backend.ls'
 
 lspattern = [
-  'src/*.ls'
+  'src/popup.ls'
+  'src/components/*.ls'
   'src/fields/*.ls'
   'src/libs_frontend/**/*.ls'
   'src/libs_common/**/*.ls'
@@ -99,6 +100,12 @@ copypattern = [
   '!src/**/*.deps.js'
 ]
 
+copyrootpattern = [
+  'jspm.config.js'
+  'jspm_config_frontend.js'
+  'jspm_config_backend.js'
+]
+
 webpack_pattern = [
   'src/backend/**/*.ls'
   'src/backend/**/*.js'
@@ -106,7 +113,7 @@ webpack_pattern = [
   'src/commonjs_compat/**/*.js'
   'src/index.ls'
   'src/options.ls'
-  'src/popup.ls'
+  #'src/popup.ls'
   '!src/**/*.deps.js'
 ]
 
@@ -339,6 +346,11 @@ gulp.task 'copy_build', ->
   #.pipe(gulp-print( -> "copy: #{it}" ))
   .pipe(gulp.dest('dist'))
 
+gulp.task 'copy_root_build', ->
+  return gulp.src(copyrootpattern, {base: ''})
+  .pipe(gulp-changed('dist'))
+  .pipe(gulp.dest('dist'))
+
 gulp.task 'generate_polymer_dependencies', (done) ->
   gen_deps.set_src_path(path.join(process.cwd(), 'src'))
   gen_deps.set_options()
@@ -477,6 +489,7 @@ gulp.task 'build_base', gulp.parallel(
   'generate_goals_list'
   'yaml_build'
   'copy_build'
+  'copy_root_build'
   'livescript_build'
 )
 
@@ -587,6 +600,9 @@ gulp.task 'yaml_watch', ->
 gulp.task 'copy_watch', ->
   gulp.watch copypattern, gulp.series('copy_build')
 
+gulp.task 'copy_root_watch', ->
+  gulp.watch copyrootpattern, gulp.series('copy_root_build')
+
 gulp.task 'livescript_watch', ->
   gulp.watch lspattern, gulp.series('livescript_build')
 
@@ -613,6 +629,7 @@ gulp.task 'watch_base', gulp.parallel(
   'webpack_content_scripts_watch'
   'yaml_watch'
   'copy_watch'
+  'copy_root_watch'
   'livescript_watch'
   'generate_polymer_dependencies_watch'
   'generate_skate_components_js_watch'
@@ -640,6 +657,7 @@ gulp.task 'clean', ->
     'src_gen'
     'src/generated_libs'
     'src/**/*.deps.js'
+    'src/**/*.jspm.js'
     'src/components_skate/components_skate.js'
     'src/components/components.html'
   ]

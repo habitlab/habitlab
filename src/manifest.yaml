@@ -34,7 +34,6 @@ web_accessible_resources:
 background:
   persistent: true
   scripts:
-    - global_exports.js
     - backend/background.js
     - global_exports_post.js
 browser_action:

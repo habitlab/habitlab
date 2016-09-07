@@ -108,8 +108,8 @@ copyrootpattern = [
 webpack_pattern = [
   'src/backend/background.ls'
   'src/index.ls'
-  'src/options.ls'
-  'src/popup.ls'
+  #'src/options.ls'
+  #'src/popup.ls'
 ]
 
 webpack_pattern_content_scripts = [

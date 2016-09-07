@@ -1,5 +1,33 @@
+<- (-> it!)
+
+window.global_exports = {}
+
 window.addEventListener "unhandledrejection", (evt) ->
   throw evt.reason
+
+if window.location.pathname == '/popup.html'
+  require 'components/popup-view.deps'
+  return
+
+if window.location.pathname == '/options.html'
+  require 'components/options-view.deps'
+
+  hash = window.location.hash
+  if not hash? or hash == ''
+    hash = '#settings'
+    window.location.hash = '#settings'
+  if hash.startsWith('#')
+    hash = hash.substr(1)
+  options_view = document.querySelector('#options_view')
+  if hash == 'introduction'
+    options_view.selected_tab_idx = -1
+    #yield options_view.icon_clicked()
+  options_view.set_selected_tab_by_name(hash)
+  options_view.addEventListener 'options_selected_tab_changed', (evt) ->
+    window.location.hash = evt.detail.selected_tab_name
+  #  options_view
+  return
+
 
 {
   getUrlParameters
@@ -9,8 +37,7 @@ use_polyfill = getUrlParameters().polyfill
 if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
   # force the usage of polyfills
   document.registerElement = null
-
-require 'webcomponentsjs-custom-element-v0'
+  require 'webcomponentsjs-custom-element-v0'
 
 # this script must run before Polymer is imported
 window.Polymer = {
@@ -26,12 +53,7 @@ require! {
 {cfy} = require 'cfy'
 {get_interventions} = require 'libs_backend/intervention_utils'
 
-require 'libs_common/systemjs'
-
 require 'components/components.deps'
-
-if window.jsyaml? and not window.js-yaml?
-  window.js-yaml = window.jsyaml
 
 /*
 export getUrlParameters = ->
@@ -56,7 +78,7 @@ set_nested_property = (tag, property_name, property_value) ->
   property_name_remainder = property_name.substr(dot_index + 1)
   set_nested_property tag[property_name_start], property_name_remainder, property_value
 
-startPage = cfy ->*
+start_page_index = cfy ->*
   interventions = yield get_interventions()
   window.intervention = interventions['debug/fake_intervention']
   params = getUrlParameters()
@@ -86,8 +108,9 @@ startPage = cfy ->*
     index_body.style.height = index_body_height
   return
 
-window.addEventListener 'WebComponentsReady', ->
-  startPage()
+start_page_index()
+
+require 'libs_common/systemjs'
 
 systemjs_require <- System.import('libs_common/systemjs_require').then()
 drequire <- systemjs_require.make_require_frontend().then()

@@ -1,6 +1,8 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw new Error(evt.reason)
 
+window.global_exports = {}
+
 {
   get_all_message_handlers
 } = require 'libs_backend/expose_lib'

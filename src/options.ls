@@ -1,7 +1,6 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw evt.reason
 
-require 'webcomponentsjs-custom-element-v0'
 require 'components/options-view.deps'
 {load_css_file} = require 'libs_common/content_script_utils'
 {cfy} = require 'cfy'

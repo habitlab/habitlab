@@ -2,7 +2,9 @@
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<!--
 <link rel="import" href="../bower_components/paper-code-mirror/paper-code-mirror.html">
+-->
 
 <dom-module id="intervention-parameter-view">
   <style>
@@ -16,9 +18,11 @@
     <template is="dom-if" if="{{is_parameter_type_bool(parameter)}}">
       <paper-checkbox id="parameter_checkbox_input" on-change="parameter_checkbox_value_changed">{{parameter.description}}</paper-checkbox>
     </template>
+    <!--
     <template is="dom-if" if="{{is_parameter_code(parameter)}}">
       <paper-code-mirror id="parameter_code_input" mode="javascript" line-numbers on-change="parameter_code_value_changed"></paper-code-mirror>
     </template>
+    -->
     <template is="dom-if" if="{{is_parameter_multiline(parameter)}}">
       <paper-textarea style="font-family: monospace" id="parameter_textarea_input" label="{{parameter.description}}" on-input="parameter_textarea_value_changed"></paper-textarea>
     </template>

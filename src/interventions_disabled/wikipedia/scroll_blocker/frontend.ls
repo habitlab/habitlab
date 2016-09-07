@@ -1,10 +1,3 @@
-<- (-> it!)
-
-if window.wikipedia_scroll_blocker
-  return
-window.wikipedia_scroll_blocker = true
-
-
 console.log 'scroll_blocker injected'
 
 $ = require 'jquery'

@@ -1,9 +1,3 @@
-<- (-> it!)
-
-if window.facebook_feed_injection_timer
-  return
-window.facebook_feed_injection_timer = true
-
 {
   log_impression,
   log_action,
@@ -16,14 +10,13 @@ window.facebook_feed_injection_timer = true
 $ = require 'jquery'
 
 require 'enable-webcomponents-in-content-scripts'
-require 'components_skate/feed-item-timer'
 require 'components/feed-item-timer-polymer.deps'
 
 component_generator = (numitems) ->
   log_impression intervention.name
   
   feed-item = $('<feed-item-timer-polymer>')
-  feed-item.attr('items': window.itemsseen)
+  feed-item.attr('items', window.itemsseen)
   return feed-item
 
 

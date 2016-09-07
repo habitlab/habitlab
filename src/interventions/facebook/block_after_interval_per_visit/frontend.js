@@ -13,9 +13,6 @@ require('enable-webcomponents-in-content-scripts')
 require('bower_components/paper-slider/paper-slider.deps')
 require('bower_components/paper-input/paper-input.deps')
 
-//SkateJS Component
-require('components_skate/time-spent-display')
-
 require('components/interstitial-screen.deps')
 require('components/timespent-view.deps')
 require('components/habitlab-logo.deps')

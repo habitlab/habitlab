@@ -7,6 +7,7 @@ window.addEventListener "unhandledrejection", (evt) ->
 
 if window.location.pathname == '/popup.html'
   require 'components/popup-view.deps'
+  require 'libs_common/global_exports_post'
   return
 
 if window.location.pathname == '/options.html'
@@ -26,6 +27,7 @@ if window.location.pathname == '/options.html'
   options_view.addEventListener 'options_selected_tab_changed', (evt) ->
     window.location.hash = evt.detail.selected_tab_name
   #  options_view
+  require 'libs_common/global_exports_post'
   return
 
 
@@ -115,3 +117,5 @@ require 'libs_common/systemjs'
 systemjs_require <- System.import('libs_common/systemjs_require').then()
 drequire <- systemjs_require.make_require_frontend().then()
 window.drequire = drequire
+
+require 'libs_common/global_exports_post'

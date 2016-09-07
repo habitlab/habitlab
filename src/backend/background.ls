@@ -646,3 +646,5 @@ window.drequire = drequire
 
 if not localStorage.getItem('baseline_time_on_domains')?
   get_baseline_time_on_domains()
+
+require 'libs_common/global_exports_post'

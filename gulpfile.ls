@@ -59,8 +59,8 @@ yamlpattern = [
 eslintpattern = [
   'src/**/*.js'
   'src_gen/**/*.js'
-  'src/components_skate/**/*.jsx'
-  'src_gen/components_skate/**/*.js'
+  #'src/components_skate/**/*.jsx'
+  #'src_gen/components_skate/**/*.js'
   '!src/bower_components/**/*.js'
   '!src_gen/bower_components/**/*.js'
   '!src/**/*.deps.js'
@@ -477,7 +477,7 @@ gulp.task 'generate_skate_components_js', (done) ->
 gulp.task 'build_base', gulp.parallel(
   gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies', 'generate_polymer_dependencies_jspm')
   'generate_jspm_config'
-  'generate_skate_components_js'
+  #'generate_skate_components_js'
   'generate_libs_frontend'
   'generate_expose_backend_libs'
   'generate_interventions_list'
@@ -627,7 +627,7 @@ gulp.task 'watch_base', gulp.parallel(
   'copy_root_watch'
   'livescript_watch'
   'generate_polymer_dependencies_watch'
-  'generate_skate_components_js_watch'
+  #'generate_skate_components_js_watch'
   'generate_libs_frontend_watch'
   'generate_interventions_list_watch'
   'generate_goals_list_watch'
@@ -653,7 +653,7 @@ gulp.task 'clean', ->
     'src/generated_libs'
     'src/**/*.deps.js'
     'src/**/*.jspm.js'
-    'src/components_skate/components_skate.js'
+    #'src/components_skate/components_skate.js'
     'src/components/components.html'
   ]
 

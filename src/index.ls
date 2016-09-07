@@ -29,7 +29,6 @@ require! {
 require 'libs_common/systemjs'
 
 require 'components/components.deps'
-require 'components_skate/components_skate'
 
 if window.jsyaml? and not window.js-yaml?
   window.js-yaml = window.jsyaml

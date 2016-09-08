@@ -15,7 +15,7 @@ permissions:
   - notifications
   - 'http://*/'
   - 'https://*/'
-content_security_policy: script-src 'self' 'unsafe-eval' 'sha256-KHOQCaofF2kBC4Yociqg3GjszOI6DUrhJZTWr11k3Lk=' 'sha256-DGF1OqBwqB8az84i8z0HljMNyBHLsBrTMZswG3Kf+Go='; object-src 'self'
+content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'
 web_accessible_resources:
   - icons/*.png
   - icons/*.svg

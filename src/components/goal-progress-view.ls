@@ -16,7 +16,7 @@
 } = require 'libs_common/time_utils'
 
 {
-  getGoalInfo
+  get_goals
   get_goal_target
 } = require 'libs_backend/goal_utils'
 
@@ -43,11 +43,23 @@ polymer_ext {
     goal: {
       type: String
       #value: 'facebook/spend_less_time'
+      #observer: 'goalChanged'
+    }
+    goal_name_to_info: {
+      type: Object
+    }
+    goal_info: {
+      type: Object
+      computed: 'compute_goal_info(goal, goal_name_to_info)'
       observer: 'goalChanged'
     }
   }
+  ready: cfy ->*
+    this.goal_name_to_info = yield get_goals()
+  compute_goal_info: (goal, goal_name_to_info) ->
+    return goal_name_to_info[goal]
   goalChanged: cfy ->*
-    goal_info = yield getGoalInfo(this.goal)
+    goal_info = this.goal_name_to_info[this.goal]
     goal_progress = yield get_progress_on_goal_this_week(this.goal)
     progress_values = goal_progress.map (.progress)
     progress_values = progress_values.map (it) ->

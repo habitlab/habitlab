@@ -9,7 +9,7 @@
 } = require 'libs_backend/goal_progress'
 
 {  
-  getGoalInfo
+  get_goals
 } = require 'libs_backend/goal_utils'
 
 {cfy} = require 'cfy'
@@ -33,9 +33,8 @@ polymer_ext {
     goalsDataToday = yield get_progress_on_enabled_goals_today()
     goalKeys = Object.keys(goalsDataToday)
     
-    results = []
-    for item in goalKeys
-      results.push yield getGoalInfo(item)
+    goal_name_to_info = yield get_goals()
+    results = [goal_info for goal_name,goal_info of goal_name_to_info]
 
     self.goalOverviewData = {
       labels: results.map (.description)

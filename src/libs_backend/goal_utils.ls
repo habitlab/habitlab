@@ -125,8 +125,12 @@ export is_goal_enabled = cfy (goal_name) ->*
   return enabled_goals[goal_name]?
 
 export list_all_goals = memoizeSingleAsync cfy ->*
+  cached_list_all_goals = localStorage.getItem 'cached_list_all_goals'
+  if cached_list_all_goals?
+    return JSON.parse cached_list_all_goals
   goals_list_text = yield $.get '/goals/goals.json'
   goals_list = JSON.parse goals_list_text
+  localStorage.setItem 'cached_list_all_goals', goals_list_text
   return goals_list
 
 get_site_to_goals = memoizeSingleAsync cfy ->*
@@ -157,11 +161,13 @@ export list_sites_for_which_goals_are_enabled = cfy ->*
   return output
 
 export get_goals = memoizeSingleAsync cfy ->*
+  cached_get_goals = localStorage.getItem 'cached_get_goals'
+  if cached_get_goals?
+    return JSON.parse cached_get_goals
   goals_list = yield list_all_goals()
-  output = {}
-  for goal_name in goals_list
-    goal_info = yield getGoalInfo(goal_name)
-    output[goal_name] = goal_info
+  goal_name_to_info_promises = {[goal_name, getGoalInfo(goal_name)] for goal_name in goals_list}
+  output = yield goal_name_to_info_promises
+  localStorage.setItem 'cached_get_goals', JSON.stringify(output)
   return output
 
 export get_interventions_to_goals = memoizeSingleAsync cfy ->*

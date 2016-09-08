@@ -108,11 +108,19 @@ export is_intervention_enabled = cfy (intervention_name) ->*
   return enabled_interventions[intervention_name]
 
 export list_all_interventions = memoizeSingleAsync cfy ->*
+  cached_list_all_interventions = localStorage.getItem 'cached_list_all_interventions'
+  if cached_list_all_interventions?
+    return JSON.parse cached_list_all_interventions
   interventions_list_text = yield $.get '/interventions/interventions.json'
   interventions_list = JSON.parse interventions_list_text
+  localStorage.setItem 'cached_list_all_interventions', interventions_list_text
   return interventions_list
 
 export get_interventions = memoizeSingleAsync cfy ->*
+  cached_get_interventions = localStorage.getItem 'cached_get_interventions'
+  if cached_get_interventions?
+    return JSON.parse cached_get_interventions
+  interventions_to_goals_promises = goal_utils.get_interventions_to_goals()
   interventions_list = yield list_all_interventions()
   output = {}
   fix_content_script_options = (options, intervention_name) ->
@@ -157,9 +165,10 @@ export get_interventions = memoizeSingleAsync cfy ->*
       parameter.type = 'bool'
       return
     console.log "warning: invalid parameter.type #{curtype} for intervention #{intervention_info.name}"
-  interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+  intervention_name_to_info_promises = {[intervention_name, getInterventionInfo(intervention_name)] for intervention_name in interventions_list}
+  [intervention_name_to_info, interventions_to_goals] = yield [intervention_name_to_info_promises, interventions_to_goals_promises]
   for intervention_name in interventions_list
-    intervention_info = yield getInterventionInfo intervention_name
+    intervention_info = intervention_name_to_info[intervention_name]
     if not intervention_info.nomatches?
       intervention_info.nomatches = []
     if not intervention_info.matches?
@@ -203,6 +212,7 @@ export get_interventions = memoizeSingleAsync cfy ->*
         if conflict == intervention_name
           continue
         intervention_info.conflicts.push conflict
+  localStorage.setItem 'cached_get_interventions', JSON.stringify(output)
   return output
 
 export list_enabled_interventions_for_location = cfy (location) ->*

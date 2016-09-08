@@ -11,7 +11,6 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
-    "js-yaml": "npm:js-yaml@3.6.1",
     "async": "npm:async@2.0.1",
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
@@ -29,12 +28,10 @@ SystemJS.config({
     "process": "github:jspm/nodelibs-process@0.2.0-alpha",
     "promise-debounce": "npm:promise-debounce@1.0.1",
     "shuffled": "npm:shuffled@1.0.0",
-    "sortablejs": "npm:sortablejs@1.4.2",
     "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
     "sweetalert2": "npm:sweetalert2@4.0.15",
     "text": "github:systemjs/plugin-text@0.0.8",
-    "util": "github:jspm/nodelibs-util@0.2.0-alpha",
-    "webcomponentsjs-custom-element-v0": "npm:webcomponentsjs-custom-element-v0@1.0.1"
+    "util": "github:jspm/nodelibs-util@0.2.0-alpha"
   },
   packages: {
     "npm:cfy@1.0.18": {
@@ -169,17 +166,6 @@ SystemJS.config({
     "npm:shuffled@1.0.0": {
       "map": {
         "shuffle-array": "npm:shuffle-array@1.0.0"
-      }
-    },
-    "npm:js-yaml@3.6.1": {
-      "map": {
-        "argparse": "npm:argparse@1.0.7",
-        "esprima": "npm:esprima@2.7.3"
-      }
-    },
-    "npm:argparse@1.0.7": {
-      "map": {
-        "sprintf-js": "npm:sprintf-js@1.0.3"
       }
     }
   }

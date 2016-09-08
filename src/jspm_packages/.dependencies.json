@@ -316,34 +316,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:js-yaml@3.6.1": {
-    "deps": {
-      "argparse": "npm:argparse@^1.0.7",
-      "esprima": "npm:esprima@^2.6.0"
-    },
-    "peerDeps": {}
-  },
-  "npm:argparse@1.0.7": {
-    "deps": {
-      "sprintf-js": "npm:sprintf-js@~1.0.2"
-    },
-    "peerDeps": {
-      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
-      "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
-      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
-      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
-    }
-  },
-  "npm:esprima@2.7.3": {
-    "deps": {},
-    "peerDeps": {}
-  },
-  "npm:sprintf-js@1.0.3": {
-    "deps": {},
-    "peerDeps": {
-      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha"
-    }
-  },
   "github:jspm/nodelibs-assert@0.2.0-alpha": {
     "deps": {},
     "peerDeps": {}
@@ -362,12 +334,6 @@
     "deps": {},
     "peerDeps": {
       "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
-    }
-  },
-  "npm:sortablejs@1.4.2": {
-    "deps": {},
-    "peerDeps": {
-      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha"
     }
   },
   "github:jspm/nodelibs-fs@0.2.0-alpha": {

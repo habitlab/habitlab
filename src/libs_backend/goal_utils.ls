@@ -164,6 +164,7 @@ export get_goals = memoizeSingleAsync cfy ->*
   cached_get_goals = localStorage.getItem 'cached_get_goals'
   if cached_get_goals?
     return JSON.parse cached_get_goals
+  console.log 'get_goals being called'
   goals_list = yield list_all_goals()
   goal_name_to_info_promises = {[goal_name, getGoalInfo(goal_name)] for goal_name in goals_list}
   output = yield goal_name_to_info_promises

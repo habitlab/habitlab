@@ -7,6 +7,7 @@ window.addEventListener "unhandledrejection", (evt) ->
 
 if window.location.pathname == '/popup.html'
   require 'components/popup-view.deps'
+  document.querySelector('#index_body').appendChild(document.createElement('popup-view'))
   require 'libs_common/global_exports_post'
   return
 

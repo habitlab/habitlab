@@ -1,9 +1,11 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw new Error(evt.reason)
 
-localStorage.removeItem 'cached_get_goals'
+localStorage.removeItem 'cached_indexjs'
 localStorage.removeItem 'cached_list_all_goals'
-
+localStorage.removeItem 'cached_list_all_interventions'
+localStorage.removeItem 'cached_get_goals'
+localStorage.removeItem 'cached_get_interventions'
 
 window.global_exports = {}
 

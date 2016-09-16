@@ -1,0 +1,60 @@
+/*jslint browser: true, devel: true, node: true, ass: true, nomen: true, unparam: true, indent: 4 */
+
+/**
+ * @license
+ * Copyright (c) 2015 The ExpandJS authors. All rights reserved.
+ * This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+ * The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+ */
+(function () {
+    "use strict";
+
+    var assertArgument = require('../assert/assertArgument'),
+        forOwn         = require('../object/forOwn'),
+        isFunction     = require('../tester/isFunction'),
+        isNode         = require('../tester/isNode'),
+        isObject       = require('../tester/isObject'),
+        isString       = require('../tester/isString'),
+        isVoid         = require('../tester/isVoid');
+
+    /**
+     * Adds an event listener to `node`. If no node if passed
+     * the `window` will listen for the set event.
+     *
+     * ```html
+     *  <div id="target"></div>
+     *
+     *  <script>
+     *      //A new text line is added every time the div is clicked
+     *      var elem = document.querySelector("#target");
+     *
+     *      function addText() {
+     *          var newNode = document.createTextNode('This is a text node.\n');
+     *          elem.appendChild(newNode);
+     *      }
+     *
+     *      XP.listen(elem, 'click', addText);
+     *      // => <div id="target"></div>
+     *  </script>
+     * ```
+     *
+     * @function listen
+     * @param {Node | Window} [node] The reference node
+     * @param {Object | string} [event] The event to listen for
+     * @param {Function} [listener] The function to be invoked when the even is triggered
+     * @returns {Node | Window} Returns the reference node with the attached event
+     * @hot
+     */
+    module.exports = function listen(node, event, listener) {
+        if (!isNode(node) && (isObject(node) || isString(node))) { listener = event; event = node; node = global; }
+        assertArgument(isVoid(node) || isNode(node) || node === global, 1, 'Element or Window');
+        assertArgument(isVoid(event) || isObject(event) || isString(event), 2, 'Object or string');
+        assertArgument(isVoid(listener) || isFunction(listener), 3, 'Function');
+        if (isVoid(node)) { return node; }
+        if (isObject(event)) { forOwn(event, function (val, key) { node.addEventListener(key, val); }); }
+        if (isString(event, true) && isFunction(listener)) { node.addEventListener(event, listener); }
+        return node;
+    };
+
+}());

@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="reward-display.html">
+<link rel="import" href="number-count-up.html">
+<link rel="import" href="../bower_components/progress-bubble/progress-bubble.html">
+
+<dom-module id="reward-display-v2">
+  <style>
+    :host {
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      display: none;
+      opacity: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
+    }
+    #rewardvideocontainer {
+      position: fixed;
+      /*
+      width: 100vw;
+      height: 100vh;
+      */
+      /*
+      margin: auto;
+      left: 0;
+      right: 0;
+      transform: perspective(1px) translateY(-50%);
+      */
+      /*
+      left: 50%;
+      top: 50%;
+      transform: perspective(1px) translate(-50%, -50%);
+      */
+      top: 220px;
+      left: 50%;
+      transform: perspective(1px) translate(-50%, 0%);
+    }
+    #rewardvideo {
+      display: none;
+      opacity: 0;
+    }
+    #timesaved_message {
+      position: fixed;
+      top: 60px;
+      left: 0%;
+      width: 100vw;
+      display: inline-block;
+      text-align: center;
+      line-height: 100px;
+      height: 100px;
+      color: white;
+      font-size: 48px;
+    }
+  </style>
+  <template>
+    <div id="timesaved_message">
+      <span style="vertical-align: middle; font-size: 100px">+5⏲</span>
+      <span style="vertical-align: middle; font-size: 48px"><number-count-up start="70" end="75">70</number-count-up> minutes saved total!</span>
+    </div>
+
+<!--
+<progress-bubble value="75" max="100" style="width: 200px; height: 200px; position: fixed; top: 0px; left: 0%">
+  <strong style="text-align: center">80 minutes saved total</strong>
+</progress-bubble>
+-->
+<progress-bubble value="43" max="100" style="width: 200px; height: 200px; position: fixed; top: 0px; right: 0%">
+  <strong style="text-align: center">43 minutes saved with Feed Blocker</strong>
+</progress-bubble>
+
+    <div id="rewardvideocontainer">
+      <video id="rewardvideo" on-ended="video_ended" src="{{video_url}}"></video>
+    </div>
+    <!--
+    <img src="{{img_url}}"></img>
+    -->
+
+  </template>
+  <script src="reward-display-v2.js"></script>
+</dom-module>

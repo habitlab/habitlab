@@ -1,0 +1,152 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+
+<dom-module id="progress-bubble">
+  <style>
+    :host {
+      display: block;
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      position: relative;
+      background: var(--progress-bubble-background, radial-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)));
+      border-radius: 50%;
+      font-size: 24px;
+      text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
+      color: #fff;
+    }
+    svg,
+    div {
+      opacity: 0;
+      transition: opacity 150ms;
+    }
+    :host(.calculation-ready) svg,
+    :host(.calculation-ready) div {
+      opacity: 1;
+    }
+    #reflection {
+      width: 25%;
+      height: 25%;
+      background: url("reflection.svg") top left no-repeat;
+      display: var(--progress-bubble-reflection-display, block);
+      position: absolute;
+      top: 14%;
+      left: 15%;
+      background-size: contain;
+    }
+    #content {
+      width: 100%;
+      height: 100%;
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    }
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    #bgCircle {
+      stroke: var(--progress-bubble-bg-stroke-color, rgba(255, 255, 255, 0.1));
+    }
+    #svgCircle {
+      transition: stroke-dashoffset 150ms;
+      stroke: var(--progress-bubble-stroke-color, rgba(0, 240, 45, 0.8));
+      stroke-linecap: var(--progress-bubble-stroke-linecap, round);
+    }
+  </style>
+  <template>
+    <svg id="progressArc" width="100%" height="100%">
+      <circle id="bgCircle"
+          r$="[[_radius]]"
+          cx$="[[_cx]]"
+          cy$="[[_cy]]"
+          fill="transparent"
+          stroke-width$="[[strokeWidth]]" />
+      <circle id="svgCircle"
+          r$="[[_radius]]"
+          cx$="[[_cx]]"
+          cy$="[[_cy]]"
+          fill="transparent"
+          stroke-width$="[[strokeWidth]]"
+          stroke-dasharray$="[[_dasharray]]"
+          stroke-dashoffset$="[[_dashoffset]]"
+          transform$="[[_transform]]" />
+    </svg>
+    <div id="reflection"></div>
+    <div id="content"><content></content></div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'progress-bubble',
+
+    properties: {
+      value: {
+        type: Number,
+        value: 0
+      },
+      max: {
+        type: Number,
+        value: 100
+      },
+      strokeWidth: {
+        type: Number,
+        value: 6
+      },
+      angle: {
+        type: Number,
+        value: -90
+      },
+      _cx: {
+        type: Number,
+        value: 50
+      },
+      _cy: {
+        type: Number,
+        value: 50
+      },
+      _radius: {
+        type: Number,
+        computed: '_computeRadius(_cx, _cy, strokeWidth)'
+      },
+      _transform: {
+        type: String,
+        computed: '_computeTransform(angle, _cx, _cy)'
+      },
+      _dasharray: {
+        type: Number,
+        computed: '_computeDashArray(_radius)'
+      },
+      _dashoffset: {
+        type: Number,
+        computed: '_computeDashOffset(value, max, _dasharray)'
+      }
+    },
+    _computeRadius: function(_cx, _cy, strokeWidth) {
+      return Math.max(0, Math.min(_cx, _cy) - strokeWidth / 2);
+    },
+    _computeDashArray: function(_radius) {
+      return 2 * Math.PI * _radius;
+    },
+    _computeDashOffset: function(value, max, _dasharray) {
+      return (1 - value / max) * _dasharray;
+    },
+    _computeTransform: function(angle, _cx, _cy) {
+      return 'rotate(' + angle + ', ' + _cx + ', ' + _cy + ')';
+    },
+    redraw: function() {
+      this._cx = this.clientWidth / 2;
+      this._cy = this.clientHeight / 2;
+
+      // Keep the content invisible before first calculation is done.
+      this.classList.add('calculation-ready');
+    },
+    attached: function() {
+      // Must use this.async in order to have clientWidth/clientHeight available.
+      this.async(this.redraw, 100);
+    },
+    attributeChanged: function() {
+      this.redraw();
+    }
+  });
+</script>

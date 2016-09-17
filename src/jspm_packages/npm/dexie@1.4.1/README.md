@@ -20,7 +20,7 @@ Dexie.js solves these limitations and provides a neat database API. Dexie.js aim
 ```html
 <html>
  <head>
-  <script src="https://npmcdn.com/dexie/dist/dexie.js"></script>
+  <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
   <script>
    //
    // Declare Database
@@ -242,11 +242,11 @@ Download
 --------
 For those who don't like package managers, here's the download links:
 
-https://npmcdn.com/dexie/dist/dexie.min.js
+https://unpkg.com/dexie/dist/dexie.min.js
 
-https://npmcdn.com/dexie/dist/dexie.min.js.map
+https://unpkg.com/dexie/dist/dexie.min.js.map
 
-https://npmcdn.com/dexie/dist/dexie.d.ts
+https://unpkg.com/dexie/dist/dexie.d.ts
 
 
 Contributing

@@ -1,4 +1,5 @@
 description: Injects timer into the Facebook feed
+displayname: In-Feed Timer
 matches:
   - www.facebook.com
 content_scripts:

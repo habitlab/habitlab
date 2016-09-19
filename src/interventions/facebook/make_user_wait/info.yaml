@@ -1,4 +1,5 @@
 description: Makes you wait a few seconds before visiting Facebook.
+displayname: Wait Screen
 matches:
   - www.facebook.com
 content_scripts:

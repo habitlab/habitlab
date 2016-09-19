@@ -1,4 +1,5 @@
 description: Notifies you of time spent in the top-right desktop corner.
+displayname: Desktop Notifier
 matches:
   - www.facebook.com
 content_scripts:

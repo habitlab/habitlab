@@ -169,6 +169,8 @@ export get_interventions = memoizeSingleAsync cfy ->*
   [intervention_name_to_info, interventions_to_goals] = yield [intervention_name_to_info_promises, interventions_to_goals_promises]
   for intervention_name in interventions_list
     intervention_info = intervention_name_to_info[intervention_name]
+    if not intervention_info.displayname?
+      intervention_info.displayname = intervention_name.split('/')[*-1].split('_').join(' ')
     if not intervention_info.nomatches?
       intervention_info.nomatches = []
     if not intervention_info.matches?

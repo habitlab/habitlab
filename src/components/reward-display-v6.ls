@@ -13,7 +13,7 @@ $ = require 'jquery'
 } = require 'libs_common/intervention_info'
 
 polymer_ext {
-  is: 'reward-display'
+  is: 'reward-display-v6'
   properties: {
     img_url: {
       type: String

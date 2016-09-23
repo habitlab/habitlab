@@ -36,6 +36,10 @@ if window.location.pathname == '/options.html'
   getUrlParameters
 } = require 'libs_frontend/common_libs'
 
+{
+  set_intervention
+} = require 'libs_common/intervention_info'
+
 use_polyfill = getUrlParameters().polyfill
 if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
   # force the usage of polyfills
@@ -55,8 +59,6 @@ require! {
 
 {cfy} = require 'cfy'
 {get_interventions} = require 'libs_backend/intervention_utils'
-
-require 'components/components.deps'
 
 /*
 export getUrlParameters = ->
@@ -84,6 +86,8 @@ set_nested_property = (tag, property_name, property_value) ->
 start_page_index = cfy ->*
   interventions = yield get_interventions()
   window.intervention = interventions['debug/fake_intervention']
+  require 'components/components.deps'
+  #set_intervention window.intervention
   params = getUrlParameters()
   tagname = params.tag
   {index_body_width, index_body_height} = params

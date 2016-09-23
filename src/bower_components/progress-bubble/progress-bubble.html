@@ -53,11 +53,17 @@
       stroke: var(--progress-bubble-stroke-color, rgba(0, 240, 45, 0.8));
       stroke-linecap: var(--progress-bubble-stroke-linecap, round);
     }
+    #svgCircle2 {
+      transition: stroke-dashoffset 150ms;
+      stroke: var(--progress-bubble-stroke-color2, rgba(255, 255, 0, 0.8));
+      stroke-linecap: var(--progress-bubble-stroke-linecap, round);
+    }
   </style>
   <template>
     <svg id="progressArc" width="100%" height="100%">
       <circle id="bgCircle" r$="[[_radius]]" cx$="[[_cx]]" cy$="[[_cy]]" fill="transparent" stroke-width$="[[strokeWidth]]"></circle>
-      <circle id="svgCircle" r$="[[_radius]]" cx$="[[_cx]]" cy$="[[_cy]]" fill="transparent" stroke-width$="[[strokeWidth]]" stroke-dasharray$="[[_dasharray]]" stroke-dashoffset$="[[_dashoffset]]" transform$="[[_transform]]"></circle>
+      <circle style="display: none" id="svgCircle2" r$="[[_radius]]" cx$="[[_cx]]" cy$="[[_cy]]" fill="transparent" stroke-width$="[[strokeWidth]]" stroke-dasharray$="[[_dasharray]]" stroke-dashoffset$="[[_dashoffset2]]" transform$="[[_transform2]]"></circle>
+      <circle style="display: none" id="svgCircle" r$="[[_radius]]" cx$="[[_cx]]" cy$="[[_cy]]" fill="transparent" stroke-width$="[[strokeWidth]]" stroke-dasharray$="[[_dasharray]]" stroke-dashoffset$="[[_dashoffset]]" transform$="[[_transform]]"></circle>
     </svg>
     <div id="reflection"></div>
     <div id="content"><content></content></div>

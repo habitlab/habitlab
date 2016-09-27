@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Star rating Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../l2t-star-rating.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <!-- Importing a different icon pack for custom icons -->
+    <link rel="import" href="../../iron-icons/social-icons.html">     
+    <style>
+      demo-snippet {
+        width: 768px;
+        margin: 0 auto;
+        text-align: left;
+      }
+      .gold {
+        color : gold;
+      }
+      .pink {
+        color : pink;
+      }
+      .rate {
+        color: #ccc;
+        font-size: 24px;
+      }
+      @media screen and (max-width: 768px) {
+        demo-snippet {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body unresolved>
+    <demo-snippet><b>Default behaviour:</b>
+      <template>
+        <l2t-star-rating></l2t-star-rating>
+        <l2t-star-rating icon="face"></l2t-star-rating>   
+        <l2t-star-rating icon="favorite"></l2t-star-rating>
+      </template>
+    </demo-snippet>
+    <br>
+    <demo-snippet><b>Using other icons:</b>
+      <template>
+        <l2t-star-rating icon="social:cake"></l2t-star-rating>
+        <l2t-star-rating icon="social:person"></l2t-star-rating>
+      </template>
+    </demo-snippet>
+    <demo-snippet>(This bit goes in the head tag)
+      <template>
+        <link rel="import" href="../iron-icons/social-icons.html"> 
+      </template>
+    </demo-snippet>
+    <br>
+    <demo-snippet><b>Custom number of stars:</b>
+      <template>
+        <l2t-star-rating stars="10"></l2t-star-rating>
+      </template>
+    </demo-snippet>
+    <br>
+    <demo-snippet><b>Default rate selected:</b>
+      <template>
+        <l2t-star-rating stars="10" rate="2"></l2t-star-rating>
+      </template>
+    </demo-snippet>
+    <br>
+    <demo-snippet><b>Custom styles:</b>
+      <template>
+        <l2t-star-rating stars="12" rate="7" class="gold"></l2t-star-rating>
+        <l2t-star-rating icon="favorite" stars="12" rate="4" class="pink"></l2t-star-rating>
+      </template>
+    </demo-snippet>
+    <demo-snippet>(This bit goes in the head tag)
+      <template>
+        <style>
+          .gold {
+            color : gold;
+          }
+          .pink {
+            color : pink;
+          }
+        </style>
+      </template>
+    </demo-snippet>
+    <br>
+    <demo-snippet><b>Custom script:</b>
+      <template>
+        <l2t-star-rating stars="12" rate="7" class="custom-class gold rating-update" 
+          onclick="updateRate('rating-update','rating-container')">
+        </l2t-star-rating>
+        <div class="rating-container"></div>
+      </template>
+    </demo-snippet>
+    <demo-snippet><b>Javascript:</b>
+      <template>
+        <script>
+          function updateRate(ratingClass, ratingContainer) {
+            var curRate = document.querySelector('.'+ratingClass).getAttribute('rate'),
+                totRate = document.querySelector('.'+ratingClass).getAttribute('stars'),
+                disRate = curRate+'/'+totRate;
+                
+            document.querySelector('.'+ratingContainer).innerHTML = disRate;
+          }
+        </script>
+      </template>
+    </demo-snippet>
+  </body>
+</html>

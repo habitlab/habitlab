@@ -1,0 +1,35 @@
+{
+  "name": "star-rating",
+  "private": false,
+  "license": "MIT",
+  "description": "Polymer Web Component to deal with star ratings",
+  "main": "star-rating.html",
+  "author": [
+    "Carlos Martinez"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer",
+    "star rating"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cmartinezv/star-rating.git"
+  },
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "iron-icons": "PolymerElements/iron-icons#^1.0.0",
+    "paper-icon-button": "PolymerElements/paper-icon-button#^1.0.0"
+  },
+  "homepage": "https://github.com/cmartinezv/star-rating",
+  "_release": "a5bee906e3",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a5bee906e3da467bb2a6aaeb5d4d0dc81e998b97"
+  },
+  "_source": "https://github.com/cmartinezv/star-rating.git",
+  "_target": "*",
+  "_originalSource": "star-rating",
+  "_direct": true
+}

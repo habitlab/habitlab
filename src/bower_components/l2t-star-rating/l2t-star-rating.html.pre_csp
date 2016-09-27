@@ -1,0 +1,148 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+
+<!--
+A Polymer element for star ratings.<br><br>
+This element uses iron-icons to get it's icons, to see their documenation and a complete list of icons included go here: <a href="https://elements.polymer-project.org/elements/iron-icons">Iron-icons</a>.
+### Examples:
+##### Basic usage:
+    <l2t-star-rating></l2t-star-rating>
+##### Custom number of stars:
+    <l2t-star-rating stars="10"></l2t-star-rating>
+##### Default rate selected:
+    <l2t-star-rating stars="10" rate="3"></l2t-star-rating>
+##### Add your custom styles:
+    <l2t-star-rating stars="10" rate="3" class="custom-class"></l2t-star-rating>
+  
+@demo demo/index.html
+@element l2t-star-rating
+@blurb A Polymer element for star ratings.
+-->
+<style>
+  :host {
+    display: block;
+  }
+  .star-rating-wrapper {
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    -webkit-touch-callout: none;
+    -ms-user-select:none;
+    user-select: none;
+    direction: rtl;
+    text-align: left;
+    margin-left: 16px;
+  }
+  .star-rating-wrapper>span {
+    display:inline-block;
+    width:1em;
+    font-size:1.5em;
+    cursor:pointer;
+    opacity:.4
+  }
+  .star-rating-wrapper>span.active,.star-rating-wrapper>span.active~span {
+    opacity:1
+  }
+  .star-rating-wrapper:hover>span.active,.star-rating-wrapper:hover>span.active~span {
+    opacity:.4
+  }
+   .star-rating-wrapper>span.active:hover~span,.star-rating-wrapper>span:hover,.star-rating-wrapper>span:hover~span {
+    opacity:.8!important
+  }
+  .star-rating-wrapper>span:hover {
+    opacity:.9!important
+  }
+</style>
+<dom-module id="l2t-star-rating">
+  <template>
+    <div class="star-rating-wrapper">
+      <template id="star" is="dom-repeat" items="{{_currentStars}}">
+        <span class$="{{_isActive(index)}}" on-tap="_setRate" data-index$="{{index}}">
+            <paper-icon-button icon="{{icon}}"></paper-icon-button>
+        </span>
+      </template>
+    </div>
+  </template>
+</dom-module>
+<script>
+  ( function () {
+    Polymer({
+      is: 'l2t-star-rating',
+      properties: {
+        /**
+         * stars: maximum number of stars selectable
+         * @type {Number}
+         */
+        stars: {
+          type: Number,
+          value: 5
+        },
+        /**
+         * icon: the icon to use (iron-icons)
+         * @type {String}
+         */
+        icon: {
+          type: String,
+          value: 'star'
+        },
+        /**
+         * rate: numbers of star selected (reflectToAttribute)
+         * @type {Number}
+         */
+        rate: {
+          type: Number,
+          value: 0,
+          reflectToAttribute: true,
+          notify: true
+        },
+        /**
+         * readonly: can the rate be modified
+         * @type {Boolean}
+         */
+        readonly: {
+          type: Boolean,
+          value: false
+        },
+        /**
+         * _currentStars: object for storing stars
+         * @type {Object}
+         */
+        _currentStars: {
+          type: Object,
+          value: []
+        },
+      },
+      /**
+      * Generate stars
+      */
+      attached: function() {
+        this._currentStars=[];
+        for(var i=0;i<this.stars;i++)
+        this._currentStars.push(i);
+      },
+      /**
+      * Determine if element has preset rating, if so update styles
+      */
+      _isActive: function(index) {
+        if (this.stars - index == this.rate) {
+          return "active";
+        }
+      },
+      /**
+      * Determine if element is in readonly mode, if not update rate and styles ontap)
+      */
+      _setRate: function(e) {
+        deep = Polymer.dom(this.root);
+        if(!this.readonly){
+          var index = e.model.index;
+          var indexOld = this.stars - this.rate;
+          this.rate = this.stars - index;
+            if(this.stars - indexOld > 0) {
+              deep.querySelector('[data-index="'+ indexOld +'"]').classList.remove("active")
+            };
+          deep.querySelector('[data-index="'+ index +'"]').classList.add("active");
+        }
+      }
+    });
+   })();
+</script>

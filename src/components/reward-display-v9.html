@@ -1,0 +1,130 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="reward-display.html">
+<link rel="import" href="number-count-up.html">
+<link rel="import" href="../bower_components/progress-bubble/progress-bubble.html">
+<link rel="import" href="../bower_components/l2t-star-rating/l2t-star-rating.html">
+
+<dom-module id="reward-display-v9">
+  <style>
+    :host {
+      /*
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      display: none;
+      opacity: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      z-index: 9007199254740991;
+      */
+    }
+    #rewardvideocontainer {
+      position: fixed;
+      /*
+      width: 100vw;
+      height: 100vh;
+      */
+      /*
+      margin: auto;
+      left: 0;
+      right: 0;
+      transform: perspective(1px) translateY(-50%);
+      */
+      /*
+      left: 50%;
+      top: 50%;
+      transform: perspective(1px) translate(-50%, -50%);
+      */
+      top: 80px;
+      left: 50%;
+      transform: perspective(1px) translate(-50%, 0%);
+    }
+    #rewardvideo {
+      display: none;
+      opacity: 0;
+    }
+    #timesaved_message {
+      position: fixed;
+      top: 10px;
+      left: 0%;
+      width: 100vw;
+      display: inline-block;
+      text-align: center;
+      color: white;
+      font-size: 48px;
+    }
+    #unlock_features_message {
+      position: fixed;
+      top: calc(80px + 50vh);
+      left: 0%;
+      width: 100vw;
+      display: inline-block;
+      text-align: center;
+      color: white;
+      font-size: 18px;
+    }
+    .progress_bubble_green {
+      --progress-bubble-stroke-color: rgba(0, 255, 0, 0.8);
+      --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+    }
+    .progress_bubble_red {
+      --progress-bubble-stroke-color: rgba(255, 0, 0, 0.8);
+      --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+    }
+    .progress_bubble_blue {
+      --progress-bubble-stroke-color: rgba(0, 0, 255, 0.8);
+      --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+    }
+    #left_message_block {
+      position: fixed;
+      text-align: center;
+      width: 33vw;
+      left: 0%;
+      top: 100px;
+      color: white;
+    }
+    #right_message_block {
+      position: fixed;
+      text-align: center;
+      width: 33vw;
+      right: 0%;
+      top: 100px;
+      color: white;
+    }
+    #rewardvideo {
+      height: 50vh;
+    }
+  </style>
+  <template>
+    <!--
+    <div id="timesaved_message">
+      <span style="vertical-align: middle; font-size: 48px">You just saved 3 minutes!</span>
+    </div>
+    -->
+
+<!--
+<div id="left_message_block">
+  <span style="font-size: 80px">640</span><br>minutes saved<br> with HabitLab
+</div>
+<div id="right_message_block">
+  <span style="font-size: 80px">80</span><br>minutes saved<br> with <span>{{intervention_name}}</span>
+</div>
+-->
+
+<l2t-star-rating></l2t-star-rating>
+
+<div id="unlock_features_message">
+
+Keep using interventions to unlock new features!
+
+</div>
+<!--
+    <div id="rewardvideocontainer">
+      <video id="rewardvideo" on-ended="video_ended" src="{{video_url}}"></video>
+    </div>
+-->
+  </template>
+  <script src="reward-display-v9.js"></script>
+</dom-module>

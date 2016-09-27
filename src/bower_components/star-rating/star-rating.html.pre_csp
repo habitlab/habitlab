@@ -1,0 +1,185 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+
+<!--
+A Polymer element for star ratings.
+##### Basic usage:
+    <star-rating></star-rating>
+##### Custom number of stars:
+    <star-rating stars="10"></star-rating>
+##### Default rate selected:
+    <star-rating stars="10" rate="3"></star-rating>
+##### Add your custom styles:
+    <star-rating stars="10" rate="3" class="custom-class"></star-rating>
+    
+@demo
+@element star-rating
+@blurb A Polymer element for star ratings.
+@status alpha
+@url cmartinezv.github.io/webcomponents
+-->
+<style>
+  :host {
+    display: block;
+  }
+
+  .star-rating-wrapper {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+  }
+  .star-rating-wrapper > span {
+    display: inline-block;
+    position: relative;
+    width: 1em;
+    font-size: 1.5em;
+    cursor: pointer;
+    opacity: 0.4;
+  }
+  .star-rating-wrapper > span.active,
+  .star-rating-wrapper > span.active ~ span {
+     opacity: 1;
+  }
+  .star-rating-wrapper:hover > span.active,
+  .star-rating-wrapper:hover > span.active ~ span {
+     opacity: 0.4;
+  }
+  .star-rating-wrapper > span:hover,
+  .star-rating-wrapper > span:hover ~ span,
+  .star-rating-wrapper > span.active:hover ~ span {
+    opacity: 0.8 !important;
+  }
+  .star-rating-wrapper > span:hover {
+    opacity: 0.9 !important;
+  }
+  .star-rating-wrapper > span.totals {
+    opacity: 1 !important;
+    margin-left: 50px;
+  }
+  .star-rating-wrapper > span.totals:hover {
+    opacity: 1 !important;
+  }
+</style>
+<dom-module id="star-rating">
+<template>
+
+  <div class="star-rating-wrapper">
+    <template is="dom-if" if="{{withTotal(showtotals)}}">
+      <span class="totals"><span>{{rate}}</span>/<span>{{stars}}</span></span>
+    </template>
+    <template id="star" is="dom-repeat" items="{{currentStars}}">
+      <span class$="{{isActive(index, rate)}}" on-tap="_setRate" data-index$="{{index}}">
+        <template is="dom-if" if="{{isCustom()}}">
+          <paper-icon-button icon="{{customcharicon}}"></paper-icon-button>
+        </template>
+        <template is="dom-if" if="{{isStar(icon)}}">
+        	<paper-icon-button icon="star"></paper-icon-button>
+        </template>
+        <template is="dom-if" if="{{isHeart(icon)}}">
+        	<paper-icon-button icon="favorite"></paper-icon-button>
+        </template>
+        <template is="dom-if" if="{{isFace(icon)}}">
+        	<paper-icon-button icon="face"></paper-icon-button>
+        </template>
+      </span>
+    </template>
+  </div>
+</template>
+</dom-module>
+<script>
+  ( function () {
+    Polymer({
+      is: 'star-rating',
+      properties: {
+        /**
+         * stars: default number of stars to show
+         * @type {Number}
+         */
+        stars: {
+          type: Number,
+          value: 5
+        },
+        /**
+         * icon: the icon to use. Options: 'star' (defualt), 'heart', 'face'
+         * @type {String}
+         */
+        icon: {
+          type: String,
+          value: 'star'
+        },
+        /**
+         * customCharIcon: custom Unicode character to be used to create icons (e.g. 'Ω'). It supresses icon attribute //TODO: works when set in JS doesn't work when it is * set in html tag (see demo.html). Neitehr works unicode codes.
+         * @type {String}
+         */
+        customcharicon: {
+          type: String,
+          value: null,
+          notify: true
+        },
+        /**
+         * rate: numbers of star selected
+         * @type {Number}
+         */
+        rate: {
+          type: Number,
+          value: 0,
+          reflectToAttribute: true,
+          notify: true
+        },
+        showtotals: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        readonly: {
+          type: Boolean,
+          value: false
+        },
+        currentStars: {
+          type: Object,
+          value: []
+        },
+      },
+    
+       ready: function() {
+        this.currentStars = [];
+        for (var i = this.stars - 1; i >= 0; i--) {
+          this.currentStars.push(i+1);
+        };
+      },
+      isCustom: function() {
+          return this.customcharicon;
+      },
+      isStar: function(icon) {
+        return icon == 'star' && this.customcharicon == null;
+      },
+      isHeart: function(icon) {
+        return icon == 'heart' && self.customcharicon == null;
+      },
+      isFace: function(icon) {
+        return icon == 'face' && this.customcharicon == null;
+      },
+      isActive: function(index, rate) {
+        if ((index - this.stars) * -1 == rate) {
+          return "active";
+        }
+      },
+      withTotal: function(showtotals) {
+        return showtotals;
+      },
+      _setRate: function(e) {
+      deep = Polymer.dom(this.root);
+        if(!this.readonly){
+          var index = e.model.index;
+          var indexOld = (this.rate * -1) + this.stars;
+          this.rate = (index - this.stars) * -1;
+          if (indexOld < this.stars) {
+            deep.querySelector('[data-index="'+ indexOld +'"]').classList.remove("active");
+          }
+          deep.querySelector('[data-index="'+ index +'"]').classList.add("active");
+        }
+      }
+    });
+   })();
+</script>

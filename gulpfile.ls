@@ -476,7 +476,7 @@ gulp.task 'generate_skate_components_js', (done) ->
 
 gulp.task 'build_base', gulp.parallel(
   gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies', 'generate_polymer_dependencies_jspm')
-  'generate_jspm_config'
+  gulp.series('generate_jspm_config', 'copy_root_build')
   #'generate_skate_components_js'
   'generate_libs_frontend'
   'generate_expose_backend_libs'
@@ -484,7 +484,6 @@ gulp.task 'build_base', gulp.parallel(
   'generate_goals_list'
   'yaml_build'
   'copy_build'
-  'copy_root_build'
   'livescript_build'
 )
 

@@ -57,7 +57,7 @@ polymer_ext {
     #, 3000
   video_ended: ->
     console.log 'video_ended called'
-    #this.fire 'reward_done', {finished_playing: true}
+    this.fire 'reward_done', {finished_playing: true}
   query_changed: cfy ->*
     results = yield $.get 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query
     #results = yield $.get 'http://api.giphy.com/v1/gifs/translate?s=' + this.query + '&api_key=dc6zaTOxFJmzC'

@@ -640,8 +640,8 @@ setInterval (cfy ->*
 ), 1000
 */
 
-#start_syncing_all_logs()
-#start_syncing_all_db_collections()
+start_syncing_all_logs()
+start_syncing_all_db_collections()
 
 gexport_module 'background', -> eval(it)
 

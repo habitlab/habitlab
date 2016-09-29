@@ -1,0 +1,9 @@
+description: Spend less time on Reddit
+progress_description: Time spent on Reddit
+#interventions:
+#  - facebook/feed_injection_timer
+measurement: time_spent_on_domain
+domain: www.reddit.com
+target:
+  default: 20
+  units: minutes

@@ -2,6 +2,7 @@ description: Spend less time on Reddit
 progress_description: Time spent on Reddit
 interventions:
   - reddit/green_background
+  - reddit/remove-comment-links
 measurement: time_spent_on_domain
 domain: www.reddit.com
 target:

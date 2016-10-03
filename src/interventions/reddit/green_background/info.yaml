@@ -1,4 +1,4 @@
-description: Make reddit green
+description: Make reddit greeni
 matches:
   - www.reddit.com
 content_scripts:

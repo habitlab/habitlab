@@ -6,5 +6,6 @@ const {
 
 once_available('body', () => {
   $('.first').remove();
+  $('.redditSingleClick').remove();
   alert("Habitlab has removed links to the comment sections. Don't go down the rabbit hole!");
 });

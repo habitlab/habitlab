@@ -219,6 +219,7 @@ upload_log_item_to_server = cfy (name, data) ->*
   collection = yield getInterventionLogCollection(name)
   data = {} <<< data
   data.logname = name
+  upload_successful = true
   try
     response = yield $.ajax({
       type: 'POST'
@@ -230,27 +231,33 @@ upload_log_item_to_server = cfy (name, data) ->*
     if response.success
       yield collection.where('id').equals(data.id).modify({synced: 1})
     else
+      upload_successful = false
       console.log 'response from server was not successful in upload_log_item_to_server'
       console.log response
       console.log data
   catch
+    upload_successful = false
     console.log 'error thrown in upload_log_item_to_server'
     console.log e
     console.log data
     console.log name
-  return
+  return upload_successful
 
 export sync_unsynced_logs = cfy (name) ->*
   collection = yield getInterventionLogCollection(name)
   num_unsynced = yield collection.where('synced').equals(0).count()
   if num_unsynced == 0
-    return
+    return true
   console.log 'num unsynced ' + num_unsynced
   unsynced_items = yield collection.where('synced').equals(0).toArray()
   console.log 'unsynced_items are'
   console.log unsynced_items
+  all_successful = true
   for x in unsynced_items
-    yield upload_log_item_to_server(name, x)
+    item_upload_success = yield upload_log_item_to_server(name, x)
+    if not item_upload_success
+      all_successful = false
+  return all_successful
 
 log_syncers_active = {}
 
@@ -266,8 +273,12 @@ export start_syncing_logs = cfy (name) ->*
   console.log 'start syncing logs for ' + name
   log_syncers_active[name] = true
   while log_syncers_active[name] == true
-    yield sync_unsynced_logs(name)
-    yield -> setTimeout it, 1000
+    all_successful = yield sync_unsynced_logs(name)
+    timeout_duration = 1000
+    if not all_successful
+      console.log 'setting long timeout duration for start_syncing_logs ' + name
+      timeout_duration = 100000
+    yield -> setTimeout it, timeout_duration
 
 export stop_syncing_logs = cfy (name) ->*
   console.log 'stop syncing logs called for ' + name

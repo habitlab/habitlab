@@ -3,6 +3,7 @@
 <link rel="import" href="reward-display.html">
 <link rel="import" href="number-count-up.html">
 <link rel="import" href="../bower_components/progress-bubble/progress-bubble.html">
+<link rel="import" href="star-display.html">
 
 <dom-module id="reward-display-v11">
   <style>
@@ -150,13 +151,34 @@
     -->
 
 <div id="below_gif_section">
+
+<div>
+
+<span style="font-size: 20px; vertical-align: middle">
+<span>{{intervention_name}}</span>
+</span>
+<br>
+<star-display style="vertical-align: middle"></star-display>
+<br>
+<span style="font-size: 20px; vertical-align: middle">
+<span>level up after 5 more uses</span>
+</span>
+
+</div>
+
+<!--
 <progress-bubble value="40" value2="50" max="100" style="font-size: 18px; width: 150px; height: 150px; display: inline-block">
   <strong style="text-align: center; width: 130px">{{intervention_name}}</strong>
 </progress-bubble>
+-->
+
 <br>
+
 <!--<b>75% mastery</b>-->
 <!--75 minutes saved using <span>{{intervention_name}}</span>-->
+<!--
 <span style="font-size: 30px">Keep using interventions to unlock new features!</span>
+-->
 </div>
 
 

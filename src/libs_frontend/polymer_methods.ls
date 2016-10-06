@@ -12,6 +12,12 @@ export SM = (pattern) ->
 export $$$ = (pattern) ->
   Polymer.dom(this.root).querySelectorAll(pattern)
 
+export xrange = (start, end) ->
+  if not end?
+    end = start
+    start = 0
+  return [start til end]
+
 export iterate_object_items = (obj) ->
   [{key: k, value: obj[k]} for k in Object.keys(obj)]
 

@@ -4,12 +4,24 @@
 
 <dom-module id="star-display">
   <style>
+    :host {
+      display: inline-block;
+    }
     .staricon {
       color: yellow;
     }
+    .unfilledstaricon {
+      color: yellow;
+      opacity: 0.5;
+    }
   </style>
   <template>
-    <paper-icon-button class="staricon" icon="star"></paper-icon-button>
+    <template is="dom-repeat" items="{{xrange(num_filled_stars)}}">
+      <paper-icon-button class="staricon" icon="star"></paper-icon-button>
+    </template>
+    <template is="dom-repeat" items="{{xrange(num_unfilled_stars)}}">
+      <paper-icon-button class="unfilledstaricon" icon="star"></paper-icon-button>
+    </template>
   </template>
   <script src="star-display.js"></script>
 </dom-module>

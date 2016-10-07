@@ -1,0 +1,45 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="reward-display.html">
+<link rel="import" href="number-count-up.html">
+<link rel="import" href="star-display.html">
+
+<dom-module id="intervention-mastered-display">
+  <style>
+    :host {
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      opacity: 1;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
+    }
+    .fullscreen_message {
+      width: 100vw;
+      text-align: center;
+      font-size: 40px;
+    }
+  </style>
+  <template>
+    <div class="fullscreen_message">
+      You've leveled up (Intervention Name and Icon)
+      <br><br>
+      <star-display num_filled_stars="10"></star-display>
+      <br><br>
+      Now we can measure how effective it is:
+      <br><br>
+      (Graph showing intervention effectiveness, compared to other interventions)
+      <br><br>
+      You've unlocked the following new interventions:
+      <br><br>
+      (New intervention name and icon)
+      <br><br>
+      <paper-button style="background-color: green; color: white; font-size: 32px">Close Message</paper-button>
+    </div>
+  </template>
+  <script src="intervention-mastered-display.js"></script>
+</dom-module>

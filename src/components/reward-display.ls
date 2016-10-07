@@ -14,6 +14,7 @@ polymer_ext {
     autoplay: {
       type: Boolean
       value: false
+      observer: 'autoplay_changed'
     }
   }
   autoplay_changed: ->

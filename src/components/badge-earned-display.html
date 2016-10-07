@@ -1,0 +1,40 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="reward-display.html">
+<link rel="import" href="number-count-up.html">
+<link rel="import" href="star-display.html">
+
+<dom-module id="badge-earned-display">
+  <style>
+    :host {
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      opacity: 1;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
+    }
+    .fullscreen_message {
+      width: 100vw;
+      text-align: center;
+      font-size: 40px;
+    }
+  </style>
+  <template>
+    <div class="fullscreen_message">
+      (Badge Name and Icon)
+      <br><br>
+      <br><br>
+      You've saved
+      <br><span style="font-size: 80px"><span>{{minutes_saved}}</span> minutes</span><br>
+      total with HabitLab!
+      <br><br>
+      <paper-button style="background-color: green; color: white; font-size: 32px">Close Message</paper-button>
+    </div>
+  </template>
+  <script src="badge-earned-display.js"></script>
+</dom-module>

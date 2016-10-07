@@ -1,0 +1,186 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="reward-display.html">
+<link rel="import" href="number-count-up.html">
+<link rel="import" href="star-display.html">
+
+<dom-module id="reward-display-playgif">
+  <style>
+    :host {
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      display: none;
+      opacity: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
+    }
+    #rewardvideocontainer {
+      position: fixed;
+      /*
+      width: 100vw;
+      height: 100vh;
+      */
+      /*
+      margin: auto;
+      left: 0;
+      right: 0;
+      transform: perspective(1px) translateY(-50%);
+      */
+      /*
+      left: 50%;
+      top: 50%;
+      transform: perspective(1px) translate(-50%, -50%);
+      */
+      top: 110px;
+      left: 50%;
+      transform: perspective(1px) translate(-50%, 0%);
+    }
+    #rewardvideo {
+      display: none;
+      opacity: 0;
+      height: 300px;
+    }
+    #timesaved_message {
+      position: fixed;
+      top: 00px;
+      left: 0%;
+      width: 100vw;
+      display: inline-block;
+      text-align: center;
+      line-height: 100px;
+      height: 100px;
+      color: white;
+      font-size: 48px;
+    }
+    #unlock_features_message {
+      position: fixed;
+      top: 80px;
+      left: 0%;
+      width: 100vw;
+      display: inline-block;
+      text-align: center;
+      color: white;
+      font-size: 18px;
+    }
+    .progress_bubble_green {
+      --progress-bubble-stroke-color: rgba(0, 255, 0, 0.8);
+      --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+    }
+    .progress_bubble_red {
+      --progress-bubble-stroke-color: rgba(255, 0, 0, 0.8);
+      --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+    }
+    .progress_bubble_blue {
+      --progress-bubble-stroke-color: rgba(0, 0, 255, 0.8);
+      --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+    }
+    #left_message_block {
+      position: fixed;
+      text-align: center;
+      width: 33vw;
+      left: 0%;
+      top: 100px;
+      color: white;
+    }
+    #right_message_block {
+      position: fixed;
+      text-align: center;
+      width: 33vw;
+      right: 0%;
+      top: 100px;
+      color: white;
+    }
+    #below_gif_section {
+      position: fixed;
+      top: 420px;
+      text-align: center;
+      width: 100vw;
+      color: white;
+    }
+  </style>
+  <template>
+    <div id="timesaved_message">
+      <!--<span style="vertical-align: middle; font-size: 100px">+5⏲</span>-->
+      <span style="vertical-align: middle; font-size: 48px">You just saved 3 minutes!</span> <!-- <number-count-up start="70" end="75">70</number-count-up> minutes saved total</span> -->
+    </div>
+
+<!--
+<div id="left_message_block">
+  <span style="font-size: 80px">640</span><br>minutes saved<br> with HabitLab
+</div>
+<div id="right_message_block">
+  <span style="font-size: 80px">80</span><br>minutes saved<br> with <span>{{intervention_name}}</span>
+</div>
+-->
+
+<div id="unlock_features_message">
+<!--Master each intervention to unlock new features!<br>-->
+<!--
+<progress-bubble class="progress_bubble_blue" value="37" max="100" style="font-size: 18px; width: 100px; height: 100px; display: inline-block">
+  <strong style="text-align: center">Wait Screen</strong>
+</progress-bubble>
+
+<progress-bubble class="progress_bubble_blue" value="53" max="100" style="font-size: 18px; width: 100px; height: 100px; display: inline-block">
+  <strong style="text-align: center">Scroll<br>Lock</strong>
+</progress-bubble>
+-->
+
+</div>
+
+
+
+<!--
+<progress-bubble value="75" max="100" style="width: 200px; height: 200px; position: fixed; top: 0px; left: 0%">
+  <strong style="text-align: center">80 minutes saved total</strong>
+</progress-bubble>
+-->
+<!--
+<progress-bubble value="43" max="100" style="width: 200px; height: 200px; position: fixed; top: 0px; right: 0%">
+  <strong style="text-align: center">43 minutes saved with Feed Blocker</strong>
+</progress-bubble>
+-->
+    <div id="rewardvideocontainer">
+      <video id="rewardvideo" on-ended="video_ended" src="{{video_url}}"></video>
+    </div>
+    <!--
+    <img src="{{img_url}}"></img>
+    -->
+
+<div id="below_gif_section">
+
+<div>
+
+<span style="font-size: 20px; vertical-align: middle">
+<span>{{intervention_name}}</span>
+</span>
+<br>
+<star-display style="vertical-align: middle"></star-display>
+<br>
+<span style="font-size: 20px; vertical-align: middle">
+<span>level up after 5 more uses</span>
+</span>
+
+</div>
+
+<!--
+<progress-bubble value="40" value2="50" max="100" style="font-size: 18px; width: 150px; height: 150px; display: inline-block">
+  <strong style="text-align: center; width: 130px">{{intervention_name}}</strong>
+</progress-bubble>
+-->
+
+<br>
+
+<!--<b>75% mastery</b>-->
+<!--75 minutes saved using <span>{{intervention_name}}</span>-->
+<!--
+<span style="font-size: 30px">Keep using interventions to unlock new features!</span>
+-->
+</div>
+
+
+  </template>
+  <script src="reward-display-playgif.js"></script>
+</dom-module>

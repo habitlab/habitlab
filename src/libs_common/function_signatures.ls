@@ -38,7 +38,8 @@ lib_name_to_func_names_and_signatures =
     get_num_times_intervention_used: ['intervention_name']
     get_intervention_level: ['intervention_name']
     get_time_saved_total: []
-    get_time_saved_with_intervention: []
+    get_time_saved_with_intervention: ['intervention_name']
+    baseline_time_per_session_for_domain: ['domain']
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

@@ -17,4 +17,7 @@ export get_time_saved_total = cfy ->*
 export get_time_saved_with_intervention = cfy (intervention_name) ->*
   return 20
 
+export baseline_time_per_session_for_domain = cfy (domain) ->*
+  return 5
+
 gexport_module 'gamification_utils', -> eval(it)

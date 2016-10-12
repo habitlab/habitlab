@@ -15,11 +15,15 @@
   cleardict
 } = require 'libs_common/db_utils'
 
-export get_num_times_intervention_used = cfy (intervention_name) ->*
-  return 5
-
 export get_intervention_level = cfy (intervention_name) ->*
+  times_used = get_num_times_intervention_used intervention_name
+  if times_used >= 10
+    return 1
   return 0
+
+export get_num_times_intervention_used = cfy (intervention_name) ->*
+  result = yield getkey_dict 'times_intervention_used', intervention_name
+  return result ? 0
 
 export get_time_saved_total = cfy ->*
   result = yield getvar 'seconds_saved_total'
@@ -37,6 +41,7 @@ export baseline_time_per_session_for_domain = cfy (domain) ->*
   return 5*60
 
 export record_seconds_saved_and_get_rewards = cfy (seconds, intervention_name, domain) ->*
+  yield addtokey_dict 'times_intervention_used', intervention_name, 1
   yield addtovar 'seconds_saved_total', seconds
   yield addtokey_dict 'seconds_saved_for_intervention', intervention_name, seconds
   yield addtokey_dict 'seconds_saved_for_domain', domain, seconds
@@ -44,6 +49,7 @@ export record_seconds_saved_and_get_rewards = cfy (seconds, intervention_name, d
   return []
 
 export add_seconds_saved_with_intervention_on_domain = cfy (seconds, intervention_name, domain) ->*
+  yield addtokey_dict 'times_intervention_used', intervention_name, 1
   yield addtovar 'seconds_saved_total', seconds
   yield addtokey_dict 'seconds_saved_for_intervention', intervention_name, seconds
   yield addtokey_dict 'seconds_saved_for_domain', domain, seconds
@@ -52,6 +58,10 @@ export add_seconds_saved_with_intervention_on_domain = cfy (seconds, interventio
 
 #export set_seconds_saved_with_intervention_on_domain = cfy (seconds, intervention_name, domain) ->*
 #  return
+
+export clear_times_intervention_used = cfy ->*
+  yield clearvar 'times_intervention_used'
+  return
 
 export clear_seconds_saved = cfy ->*
   yield clearvar 'seconds_saved_total'

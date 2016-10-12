@@ -32,6 +32,10 @@ polymer_ext {
       type: Number
       value: 120
     }
+    times_intervention_used: {
+      type: Number
+      value: 1
+    }
     time_saved_message: {
       type: String
       computed: 'compute_time_saved_message(seconds_saved)'

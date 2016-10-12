@@ -11,7 +11,7 @@ polymer_ext {
     }
     num_filled_stars: {
       type: Number
-      value: 5
+      value: 1
     }
     num_unfilled_stars: {
       type: Number

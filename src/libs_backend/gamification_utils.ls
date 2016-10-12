@@ -36,7 +36,12 @@ export get_time_saved_total_with_intervention = cfy (intervention_name) ->*
 export baseline_time_per_session_for_domain = cfy (domain) ->*
   return 5*60
 
-#export record_seconds_saved_and_get_badges = cfy (seconds, intervention_name, domain) ->*
+export record_seconds_saved_and_get_rewards = cfy (seconds, intervention_name, domain) ->*
+  yield addtovar 'seconds_saved_total', seconds
+  yield addtokey_dict 'seconds_saved_for_intervention', intervention_name, seconds
+  yield addtokey_dict 'seconds_saved_for_domain', domain, seconds
+  yield addtokey_dictdict 'seconds_saved_for_intervention_on_domain', intervention_name, domain, seconds
+  return []
 
 export add_seconds_saved_with_intervention_on_domain = cfy (seconds, intervention_name, domain) ->*
   yield addtovar 'seconds_saved_total', seconds

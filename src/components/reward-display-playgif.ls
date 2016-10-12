@@ -28,6 +28,14 @@ polymer_ext {
       value: false
       observer: 'autoplay_changed'
     }
+    seconds_saved: {
+      type: Number
+      value: 120
+    }
+    time_saved_message: {
+      type: String
+      computed: 'compute_time_saved_message(seconds_saved)'
+    }
     intervention_name: {
       type: String
       value: get_intervention().displayname
@@ -36,7 +44,16 @@ polymer_ext {
   autoplay_changed: ->
     if this.autoplay
       this.play()
-  play: ->
+  compute_time_saved_message: (seconds_saved) ->
+    if seconds_saved < 60
+      if seconds_saved == 1
+        return "1 second"
+      return "#{seconds_saved} seconds"
+    minutes_saved = Math.floor(seconds_saved / 60)
+    if minutes_saved == 1
+      return "1 minute"
+    return "#{minutes_saved} minutes"
+  play: cfy ->*
     console.log 'reward-display play called'
     self = this
     video = this.$$('#rewardvideo')

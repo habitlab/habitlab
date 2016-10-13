@@ -11,6 +11,7 @@ $ = require 'jquery'
 {
   baseline_time_per_session_for_domain
   record_seconds_saved_and_get_rewards
+  get_num_times_intervention_used
 } = require 'libs_common/gamification_utils'
 
 {
@@ -23,7 +24,7 @@ polymer_ext {
     autoplay: {
       type: Boolean
       value: false
-      observer: 'autoplay_changed'
+      #observer: 'autoplay_changed'
     }
     time_inserted: {
       type: Number
@@ -38,17 +39,23 @@ polymer_ext {
       value: get_intervention().displayname
     }
   }
-  autoplay_changed: ->
-    if this.autoplay
-      this.play()
-  play: cfy ->*
+  #autoplay_changed: ->
+  #  if this.autoplay
+  #    this.play()
+  ready: cfy ->*
     seconds_spent = (Date.now() - this.time_inserted) / 1000
     baseline_seconds_spent = yield baseline_time_per_session_for_domain(this.domain)
     seconds_saved = baseline_seconds_spent - seconds_spent
+    this.seconds_saved = seconds_saved
     this.$$('#playgif').seconds_saved = seconds_saved
+    this.$$('#playgif').times_intervention_used = yield get_num_times_intervention_used this.intervention_name
+    if this.autoplay
+      this.play()
+  play: cfy ->*
     rewards_to_display = []
-    if seconds_saved > 0
-      rewards_to_display = yield record_seconds_saved_and_get_rewards seconds_saved, this.intervention_name, this.domain
+    if this.seconds_saved > 0
+      rewards_to_display = yield record_seconds_saved_and_get_rewards this.seconds_saved, this.intervention_name, this.domain
+      this.$$('#playgif').times_intervention_used += 1
     this.playgif()
   playgif: ->
     this.style.opacity = 1

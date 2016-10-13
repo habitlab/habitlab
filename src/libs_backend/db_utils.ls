@@ -217,6 +217,7 @@ export setdict = cfy (name, dict) ->*
 export cleardict = cfy (name) ->*
   data = yield getCollection(name)
   num_deleted = yield data
+  .filter(-> true)
   .delete()
   return
 
@@ -294,6 +295,7 @@ export addtokey_dictdict = cfy (name, key, key2, val) ->*
 export clear_dictdict = cfy (name) ->*
   data = yield getCollection(name)
   num_deleted = yield data
+  .filter(-> true)
   .delete()
   return
 

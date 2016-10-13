@@ -60,7 +60,7 @@ export add_seconds_saved_with_intervention_on_domain = cfy (seconds, interventio
 #  return
 
 export clear_times_intervention_used = cfy ->*
-  yield clearvar 'times_intervention_used'
+  yield cleardict 'times_intervention_used'
   return
 
 export clear_seconds_saved = cfy ->*

@@ -34,7 +34,15 @@ polymer_ext {
     }
     times_intervention_used: {
       type: Number
-      value: 1
+      value: 0
+    }
+    stars_to_display: {
+      type: Number
+      computed: 'compute_stars_to_display(times_intervention_used)'
+    }
+    times_used_until_level_up: {
+      type: Number
+      computed: 'compute_times_used_until_level_up(times_intervention_used)'
     }
     time_saved_message: {
       type: String
@@ -45,6 +53,10 @@ polymer_ext {
       value: get_intervention().displayname
     }
   }
+  compute_stars_to_display: (times_intervention_used) ->
+    return Math.min(10, times_intervention_used)
+  compute_times_used_until_level_up: (times_intervention_used) ->
+    return Math.max(0, 10 - times_intervention_used)
   autoplay_changed: ->
     if this.autoplay
       this.play()

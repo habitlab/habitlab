@@ -5,6 +5,7 @@
 <link rel="import" href="star-display.html">
 
 <link rel="import" href="reward-display-playgif.html">
+<link rel="import" href="badges-earned-display.html">
 
 <dom-module id="reward-display">
   <style>
@@ -19,9 +20,18 @@
       background-color: black;
       z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
     }
+    #playgif {
+      opacity: 0;
+      display: none;
+    }
+    #showbadge {
+      opacity: 0;
+      display: none;
+    }
   </style>
   <template>
     <reward-display-playgif id="playgif"></reward-display-playgif>
+    <badges-earned-display id="showbadge"></badges-earned-display>
   </template>
   <script src="reward-display.js"></script>
 </dom-module>

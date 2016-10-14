@@ -5,7 +5,7 @@
 <link rel="import" href="number-count-up.html">
 <link rel="import" href="star-display.html">
 
-<dom-module id="badge-earned-display">
+<dom-module id="badge-earned-timesaved">
   <style>
     :host {
       position: fixed;
@@ -23,18 +23,22 @@
       text-align: center;
       font-size: 40px;
     }
+    .badge_img {
+      height: 300px;
+    }
   </style>
   <template>
     <div class="fullscreen_message">
-      (Badge Name and Icon)
-      <br><br>
-      <br><br>
+      <span>Badge Unlocked: <span>{{badge_details.name}}</span></span>
+      <br>
+      <img class="badge_img" src="{{badge_details.img_url}}"></img>
+      <br>
       You've saved
-      <br><span style="font-size: 80px"><span>{{minutes_saved}}</span> minutes</span><br>
+      <br><span style="font-size: 80px"><span>{{badge_details.minutes_saved}}</span> minutes</span><br>
       total with HabitLab!
       <br><br>
-      <paper-button style="background-color: green; color: white; font-size: 32px">Close Message</paper-button>
+      <span>{{badge_details.message}}</span>
     </div>
   </template>
-  <script src="badge-earned-display.js"></script>
+  <script src="badge-earned-timesaved.js"></script>
 </dom-module>

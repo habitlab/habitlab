@@ -1,0 +1,43 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="reward-display.html">
+<link rel="import" href="number-count-up.html">
+<link rel="import" href="star-display.html">
+<link rel="import" href="badge-earned-timesaved.html">
+<link rel="import" href="intervention-mastered-display.html">
+
+<dom-module id="badges-earned-display">
+  <style>
+    :host {
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      opacity: 1;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
+    }
+    .fullscreen_message {
+      width: 100vw;
+      text-align: center;
+      font-size: 40px;
+    }
+  </style>
+  <template>
+    <template is="dom-repeat" items="{{badges}}" as="badge">
+      <template is="dom-if" if="{{is_timesaved_badge(badge)}}">
+        <badge-earned-timesaved minutes_saved="{{badge.minutes_saved}}"></badge-earned-timesaved>
+      </template>
+      <template is="dom-if" if="{{is_intervention_mastered_badge(badge)}}">
+        <intervention-mastered-display intervention_name="{{badge.intervention_name}}"></intervention-mastered-display>
+      </template>
+    </template>
+
+    <paper-button on-click="close_button_pressed" style="background-color: green; color: white; font-size: 32px">Close Message</paper-button>
+
+  </template>
+  <script src="badges-earned-display.js"></script>
+</dom-module>

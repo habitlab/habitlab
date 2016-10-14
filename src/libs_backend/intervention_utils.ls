@@ -116,6 +116,10 @@ export list_all_interventions = memoizeSingleAsync cfy ->*
   localStorage.setItem 'cached_list_all_interventions', interventions_list_text
   return interventions_list
 
+export get_intervention_info = cfy (intervention_name) ->*
+  all_interventions = yield get_interventions()
+  return all_interventions[intervention_name]
+
 export get_interventions = memoizeSingleAsync cfy ->*
   cached_get_interventions = localStorage.getItem 'cached_get_interventions'
   if cached_get_interventions?

@@ -55,9 +55,23 @@ polymer_ext {
     rewards_to_display = []
     if this.seconds_saved > 0
       rewards_to_display = yield record_seconds_saved_and_get_rewards this.seconds_saved, this.intervention_name, this.domain
-      this.$$('#playgif').times_intervention_used += 1
-    this.playgif()
+      console.log 'rewards_to_display is'
+      console.log rewards_to_display
+      if rewards_to_display.length > 0
+        this.$$('#showbadge').badges = rewards_to_display
+        this.showbadge()
+      else
+        this.$$('#playgif').times_intervention_used += 1
+        this.playgif()
+  showbadge: ->
+    this.$$('#showbadge').style.opacity = 1
+    this.$$('#showbadge').style.display = 'block'
+    this.style.opacity = 1
+    this.style.display = 'block'
+    this.$$('#showbadge').play()
   playgif: ->
+    this.$$('#playgif').style.opacity = 1
+    this.$$('#playgif').style.display = 'block'
     this.style.opacity = 1
     this.style.display = 'block'
     this.$$('#playgif').play()

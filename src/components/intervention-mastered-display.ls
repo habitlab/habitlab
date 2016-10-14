@@ -12,12 +12,16 @@ $ = require 'jquery'
   get_intervention
 } = require 'libs_common/intervention_info'
 
+{
+  get_intervention_info
+} = require 'libs_common/intervention_utils'
+
 polymer_ext {
   is: 'intervention-mastered-display'
   properties: {
-    minutes_saved: {
-      type: Number
-      value: 30
+    intervention: {
+      type: Object
+      value: get_intervention()
     }
   }
 }

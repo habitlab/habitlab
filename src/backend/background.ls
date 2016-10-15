@@ -45,6 +45,8 @@ require 'libs_backend/expose_backend_libs'
 
 {
   get_goals
+  get_enabled_goals
+  get_goal_target
 } = require 'libs_backend/goal_utils'
 
 {
@@ -89,6 +91,7 @@ $ = require 'jquery'
 
 {
   get_progress_on_enabled_goals_today
+  get_progress_on_goal_this_week
 } = require 'libs_backend/goal_progress'
 
 {
@@ -106,6 +109,7 @@ require 'libs_common/measurement_utils'
 require 'libs_common/systemjs'
 
 # console.log 'weblab running in background'
+# alert('hello');
 
 /*
 execute_content_script = (tabid, options, callback) ->
@@ -653,3 +657,5 @@ if not localStorage.getItem('baseline_time_on_domains')?
   get_baseline_time_on_domains()
 
 require 'libs_common/global_exports_post'
+
+require('libs_backend/notification_timer') #lewin notification_timer code

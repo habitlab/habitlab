@@ -248,10 +248,10 @@ export sync_unsynced_logs = cfy (name) ->*
   num_unsynced = yield collection.where('synced').equals(0).count()
   if num_unsynced == 0
     return true
-  console.log 'num unsynced ' + num_unsynced
+  #console.log 'num unsynced ' + num_unsynced
   unsynced_items = yield collection.where('synced').equals(0).toArray()
-  console.log 'unsynced_items are'
-  console.log unsynced_items
+  #console.log 'unsynced_items are'
+  #console.log unsynced_items
   all_successful = true
   for x in unsynced_items
     item_upload_success = yield upload_log_item_to_server(name, x)

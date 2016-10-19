@@ -23,9 +23,6 @@ $ = require 'jquery'
   get_all_goal_targets
 } = require 'libs_common/goal_utils'
 
-{
-  get_progress_on_enabled_goals_this_week
-} = require 'libs_common/goal_progress'
 
 polymer_ext {
   is: 'goal-progress-message'

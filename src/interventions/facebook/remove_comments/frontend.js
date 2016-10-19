@@ -36,8 +36,8 @@ function removeComments() {
           $(item).prop('original_height', $(item).css('height'))
           $(item).css('height', '0px')
           $(item).prop('button_inserted', true)
-          var show_comments_button = $('<paper-button style="background-color: green; color: white">Show Comments</paper-button>')
-          var habitlab_logo = $('<habitlab-logo></habit-lab-logo>')
+          var show_comments_button = $('<paper-button style="background-color: green; color: white; height: 40px">Show Comments</paper-button>')
+          var habitlab_logo = $('<habitlab-logo style="position: relative; top: 13px"></habit-lab-logo>')
           show_comments_button.click(function() {
             $(item).css('height', $(item).prop('original_height'))
             $(item).css('opacity', 1)
@@ -46,8 +46,8 @@ function removeComments() {
             $(this).siblings('close-tab-button').remove()
             $(this).remove()
           })
-          var close_tab_button = $('<close-tab-button></close-tab-button>')
-          var button_container = $('<div class="habitlab_button_container"></div>')
+          var close_tab_button = $('<close-tab-button style="height: 40px"</close-tab-button>')
+          var button_container = $('<div class="habitlab_button_container" style="text-align: center"></div>')
           button_container.append([
             show_comments_button,
             close_tab_button,
@@ -98,11 +98,3 @@ document.body.addEventListener('disable_intervention', function() {
   showComments();
   $('.habitlab_button_container').remove()
 })
-/*
-  console.log 'intervention disabled inside the frontend'
-  console.log scroll_block_display
-  enable_scrolling_and_hide_scroll_block!
-  $(scroll_block_display).remove()
-  disabled := true
-  console.log 'intervention disabled'
-*/

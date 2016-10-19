@@ -99,7 +99,7 @@ $ = require 'jquery'
 } = require 'libs_backend/log_utils'
 
 {
-  get_baseline_time_on_domains
+  ensure_history_utils_data_cached
 } = require 'libs_common/history_utils'
 
 {cfy, yfy} = require 'cfy'
@@ -653,8 +653,7 @@ systemjs_require <- System.import('libs_common/systemjs_require').then()
 drequire <- systemjs_require.make_require_frontend().then()
 window.drequire = drequire
 
-if not localStorage.getItem('baseline_time_on_domains')?
-  get_baseline_time_on_domains()
+ensure_history_utils_data_cached()
 
 require 'libs_common/global_exports_post'
 

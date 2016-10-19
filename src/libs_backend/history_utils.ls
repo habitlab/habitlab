@@ -3,9 +3,12 @@
 {memoizeSingleAsync} = require 'libs_common/memoize'
 $ = require 'jquery'
 
+{gexport, gexport_module} = require 'libs_common/gexport'
+
 require! {
   moment
   prelude
+  mathjs
 }
 
 export get_pages_visited_today = cfy ->*
@@ -144,9 +147,8 @@ export get_domain_to_earliest_visit = cfy ->*
   url_to_visits = yield get_url_to_visits(0, Date.now())
   return get_domain_to_earliest_visit_for_url_to_visits(url_to_visits)
 
-export get_baseline_time_on_domains_real = cfy ->*
-  url_to_visits = yield get_url_to_visits(0, Date.now())
-  total_time_spent_on_domains = get_domain_to_time_spent_for_url_to_visits(url_to_visits, 0, Date.now())
+export get_baseline_time_on_domains_real_passing_url_to_visits_and_time = (url_to_visits, date_now) ->
+  total_time_spent_on_domains = get_domain_to_time_spent_for_url_to_visits(url_to_visits, 0, date_now)
   earliest_visit_to_domains = get_domain_to_earliest_visit_for_url_to_visits(url_to_visits)
   #total_time_spent_on_domains = yield get_domain_to_time_spent(0, Date.now())
   #earliest_visit_to_domains = yield get_domain_to_earliest_visit()
@@ -164,6 +166,10 @@ export get_baseline_time_on_domains_real = cfy ->*
   return baseline_time_on_domains
   # TODO test whether this actually works?
 
+export get_baseline_time_on_domains_real = cfy ->*
+  url_to_visits = yield get_url_to_visits(0, Date.now())
+  return get_baseline_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, Date.now())
+
 export get_baseline_time_on_domains = cfy ->*
   baseline_time_on_domains = localStorage.getItem 'baseline_time_on_domains'
   if baseline_time_on_domains?
@@ -178,3 +184,66 @@ export get_baseline_time_on_domain = cfy (domain) ->*
     return baseline_time_on_domains[domain]
   return 0
 
+export get_baseline_session_time_on_domains_real_passing_url_to_visits_and_time = (url_to_visits, date_now) ->
+  url_and_visit_time_sorted = get_url_and_visit_time_sorted_for_url_to_visits(url_to_visits, 0, date_now)
+  prev_domain = null
+  prev_visit_time_start = 0
+  prev_visit_time_most_recent = 0
+  domain_to_visit_lengths = {}
+  for {url, visitTime} in url_and_visit_time_sorted
+    domain = url_to_domain url
+    if not domain_to_visit_lengths[domain]?
+      domain_to_visit_lengths[domain] = []
+    if visitTime > prev_visit_time_most_recent + 60*60*1000
+      # more than 60 minutes of idle time since last visit
+      if prev_domain?
+        # we will consider the visit to have been the final minute
+        domain_to_visit_lengths[prev_domain].push(prev_visit_time_most_recent + 60*1000 - prev_visit_time_start)
+      prev_domain = domain
+      prev_visit_time_start = visitTime
+      prev_visit_time_most_recent = visitTime
+      continue
+    if domain != prev_domain
+      if prev_domain?
+        prev_visit_end_time = Math.min(visitTime, prev_visit_time_most_recent + 60*60*1000)
+        domain_to_visit_lengths[prev_domain].push(prev_visit_end_time - prev_visit_time_start)
+      prev_domain = domain
+      prev_visit_time_start = visitTime
+      prev_visit_time_most_recent = visitTime
+      continue
+    prev_visit_time_most_recent = visitTime
+  domain_to_average_visit_lengths = {}
+  for domain,visit_lengths of domain_to_visit_lengths
+    if visit_lengths.length == 0
+      continue
+    domain_to_average_visit_lengths[domain] = mathjs.median(visit_lengths) / 1000
+  return domain_to_average_visit_lengths
+
+export get_baseline_session_time_on_domains_real = cfy ->*
+  url_to_visits = yield get_url_to_visits(0, Date.now())
+  return get_baseline_session_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, Date.now())
+
+export get_baseline_session_time_on_domains = cfy ->*
+  baseline_time_on_domains = localStorage.getItem 'baseline_session_time_on_domains'
+  if baseline_time_on_domains?
+    return JSON.parse baseline_time_on_domains
+  baseline_time_on_domains = yield get_baseline_session_time_on_domains_real()
+  localStorage.setItem 'baseline_session_time_on_domains', JSON.stringify(baseline_time_on_domains)
+  return baseline_time_on_domains
+
+export get_baseline_session_time_on_domain = cfy (domain) ->*
+  baseline_time_on_domains = yield get_baseline_session_time_on_domains()
+  if baseline_time_on_domains[domain]?
+    return baseline_time_on_domains[domain]
+  return 0
+
+export ensure_history_utils_data_cached = cfy ->*
+  if !localStorage.getItem('baseline_session_time_on_domains')? or !localStorage.getItem('baseline_time_on_domains')?
+    date_now = Date.now()
+    url_to_visits = yield get_url_to_visits(0, date_now)
+    baseline_session_time_on_domains = yield get_baseline_session_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, date_now)
+    localStorage.setItem 'baseline_session_time_on_domains', JSON.stringify(baseline_session_time_on_domains)
+    baseline_time_on_domains = yield get_baseline_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, date_now)
+    localStorage.setItem 'baseline_time_on_domains', JSON.stringify(baseline_time_on_domains)
+
+gexport_module 'history_utils', -> eval(it)

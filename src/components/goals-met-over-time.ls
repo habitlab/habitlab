@@ -25,6 +25,7 @@ require! {
 
 require! {
   prelude
+  moment
 }
 
 $ = require 'jquery'
@@ -36,10 +37,10 @@ polymer_ext {
   ready: cfy ->*
     self = this
     last_week = [] /* success rates for the last week */
-    var today = moment()
+    today = moment()
     for day from 0 to 6
-      var day = today.subtract(day, 'days')
-      var success_object = goal_success_on_date(day)
+      day = today.subtract(day, 'days')
+      success_object = goal_success_on_date(day)
       last_week.push(success_object)
 
     # Now we add it to the visualization

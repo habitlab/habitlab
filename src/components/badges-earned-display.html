@@ -25,6 +25,15 @@
       text-align: center;
       font-size: 40px;
     }
+    .badges_earned_close_container {
+      width: 100vw;
+      text-align: center;
+    }
+    .badges_earned_close {
+      background-color: green;
+      color: white;
+      font-size: 32px;
+    }
   </style>
   <template>
     <template is="dom-repeat" items="{{badges}}" as="badge">
@@ -36,7 +45,9 @@
       </template>
     </template>
 
-    <paper-button on-click="close_button_pressed" style="background-color: green; color: white; font-size: 32px">Close Message</paper-button>
+    <div class="badges_earned_close_container">
+      <paper-button class="badges_earned_close" on-click="close_button_pressed">Close Message</paper-button>
+    </div>
 
   </template>
   <script src="badges-earned-display.js"></script>

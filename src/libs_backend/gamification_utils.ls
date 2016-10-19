@@ -42,6 +42,9 @@ export get_time_saved_total_with_intervention = cfy (intervention_name) ->*
   return result ? 0
 
 export baseline_time_per_session_for_domain = cfy (domain) ->*
+  baseline_time_on_domains = localStorage.getItem 'baseline_session_time_on_domains'
+  if baseline_time_on_domains?
+    return JSON.parse(baseline_time_on_domains)[domain] ? 5*60
   return 5*60
 
 export record_seconds_saved_and_get_rewards = cfy (seconds, intervention_name, domain) ->*
@@ -88,6 +91,11 @@ export clear_seconds_saved = cfy ->*
   yield cleardict 'seconds_saved_for_intervention'
   yield cleardict 'seconds_saved_for_domain'
   yield cleardict 'seconds_saved_for_intervention_on_domain'
+  return
+
+export clear_gamification_data = cfy ->*
+  yield clear_times_intervention_used()
+  yield clear_seconds_saved()
   return
 
 gexport_module 'gamification_utils', -> eval(it)

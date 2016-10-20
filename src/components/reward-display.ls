@@ -38,7 +38,14 @@ polymer_ext {
       type: String
       value: get_intervention().displayname
     }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
+    }
   }
+  isdemo_changed: (isdemo) ->
+    if isdemo
+      this.autoplay = true
   #autoplay_changed: ->
   #  if this.autoplay
   #    this.play()

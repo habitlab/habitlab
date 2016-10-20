@@ -94,11 +94,13 @@ start_page_index = cfy ->*
   if not tagname?
     tagname = 'debug-view'
   tag = document.createElement(tagname)
+  num_properties = 0
   for k,v of params
     if k == 'tag' or k == 'index_body_width' or k == 'index_body_height'
       continue
     v = js-yaml.safeLoad(v)
     set_nested_property tag, k, v
+    num_properties += 1
     #if k.startsWith('style.')
     #  tag.customStyle[k.replace('style.', '')] = v
     #  continue
@@ -107,6 +109,8 @@ start_page_index = cfy ->*
     #  continue
     #  #tag.updateStyles() or Polymer.updateStyles() doesn't seem to be necessary
     #tag[k] = v
+  if num_properties == 0
+    tag.isdemo = true
   document.getElementById('index_contents').appendChild(tag)
   index_body = document.getElementById('index_body')
   if index_body_width?

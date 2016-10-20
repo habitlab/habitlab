@@ -21,13 +21,19 @@ polymer_ext {
   properties: {
     minutes_saved: {
       type: Number
-      value: 15
     }
     badge_details: {
       type: Object
       computed: 'compute_badge_details(minutes_saved)'
     }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
+    }
   }
+  isdemo_changed: (isdemo) ->
+    if isdemo
+      this.minutes_saved = 15
   compute_badge_details: (minutes_saved) ->
     minutes_saved_to_badges = get_minutes_saved_to_badges()
     return minutes_saved_to_badges[minutes_saved]

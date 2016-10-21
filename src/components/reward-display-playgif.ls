@@ -63,7 +63,13 @@ polymer_ext {
       type: String
       value: get_intervention().displayname
     }
+    is_intervention_mastered: {
+      type: Boolean
+      computed: 'compute_is_intervention_mastered(times_intervention_used)'
+    }
   }
+  compute_is_intervention_mastered: (times_intervention_used) ->
+    return times_intervention_used >= 10
   isdemo_changed: (isdemo) ->
     if isdemo
       this.no_autoclose = true
@@ -119,4 +125,9 @@ polymer_ext {
     #console.log results.data.image_url
     #this.img_url = results.data.image_url
     this.video_url = results.data.image_mp4_url
+}, {
+  source: require 'libs_frontend/polymer_methods'
+  methods: [
+    'is_not'
+  ]
 }

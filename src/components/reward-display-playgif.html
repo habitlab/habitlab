@@ -3,6 +3,7 @@
 <link rel="import" href="reward-display.html">
 <link rel="import" href="number-count-up.html">
 <link rel="import" href="star-display.html">
+<link rel="import" href="intervention-effectiveness-comparison.html">
 
 <dom-module id="reward-display-playgif">
   <style>
@@ -151,19 +152,29 @@
 
 <div id="below_gif_section">
 
-<div>
+<template is="dom-if" if="{{is_not(is_intervention_mastered)}}">
 
-<span style="font-size: 20px; vertical-align: middle">
-<span>{{intervention_name}}</span>
-</span>
-<br>
-<star-display style="vertical-align: middle" num_filled_stars="{{stars_to_display}}"></star-display>
-<br>
-<span style="font-size: 20px; vertical-align: middle">
-<span>level up after <span>{{times_used_until_level_up}}</span> more uses</span>
-</span>
+  <div>
 
-</div>
+  <span style="font-size: 20px; vertical-align: middle">
+  <span>{{intervention_name}}</span>
+  </span>
+  <br>
+  <star-display style="vertical-align: middle" num_filled_stars="{{stars_to_display}}"></star-display>
+  <br>
+  <span style="font-size: 20px; vertical-align: middle">
+  <span>level up after <span>{{times_used_until_level_up}}</span> more uses</span>
+  </span>
+
+  </div>
+
+</template>
+
+<template is="dom-if" if="{{is_intervention_mastered}}">
+
+  <intervention-effectiveness-comparison></intervention-effectiveness-comparison>
+
+</template>
 
 <!--
 <progress-bubble value="40" value2="50" max="100" style="font-size: 18px; width: 150px; height: 150px; display: inline-block">
@@ -171,7 +182,7 @@
 </progress-bubble>
 -->
 
-<br>
+<!-- <br> -->
 
 <!--<b>75% mastery</b>-->
 <!--75 minutes saved using <span>{{intervention_name}}</span>-->

@@ -12,6 +12,24 @@ export SM = (pattern) ->
 export $$$ = (pattern) ->
   Polymer.dom(this.root).querySelectorAll(pattern)
 
+export is_not = (cond) ->
+  return !cond
+
+export is_not_equal = (cond, val) ->
+  return cond != val
+
+export is_greater_than = (cond, val) ->
+  return cond > val
+
+export is_less_than = (cond, val) ->
+  return cond < val
+
+export is_greater_than_or_equal_to = (cond, val) ->
+  return cond >= val
+
+export is_less_than_or_equal_to = (cond, val) ->
+  return cond <= val
+
 export xrange = (start, end) ->
   if not end?
     end = start

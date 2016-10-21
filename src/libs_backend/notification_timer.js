@@ -18,6 +18,9 @@ var {
 // MM/DD/YYYY
 
 var moment = require('moment');
+console.log(moment()._d);
+moment().subtract(1, 'days');
+console.log(moment()._d);
 
 /*
 
@@ -54,7 +57,7 @@ function make_notification(num_met, num_goals) {
 
 
 setInterval(function() {
-  //console.log('hello')
+  // console.log('hello')
   //console.log(url_to_domain('http://facebook.com'))
 }, 1000)
 
@@ -63,5 +66,4 @@ var {
   goal_success_on_date
 } = require('libs_common/goal_success')
 
-
-console.log(goal_success_on_date())
+console.log(goal_success_on_date(moment));

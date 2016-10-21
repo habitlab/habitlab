@@ -17,6 +17,6 @@ Polymer {
   button_clicked: ->
     log_action intervention.name, {'positive': 'close-tab-button clicked'}
     this.$$('#reward_display').play()
-  ready: ->
-    this.$$('#reward_display').addEventListener 'reward_done', close_selected_tab
+  #ready: ->
+  #  this.$$('#reward_display').addEventListener 'reward_done', close_selected_tab
 }

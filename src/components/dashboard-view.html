@@ -12,6 +12,7 @@
 <link rel="import" href="graph-daily-overview.html">
 <link rel="import" href="graph-num-times-interventions-deployed.html">
 <link rel="import" href="graph-donut-top-sites.html">
+<link rel="import" href="goals-met-over-time.html">
 
 <dom-module id="dashboard-view">
   <style>
@@ -120,7 +121,14 @@
         <div class="card-content">
           <graph-donut-top-sites></graph-donut-top-sites>
         </div>
-      </paper-card>`
+      </paper-card>
+
+      <paper-card>
+        <div class="card-content">
+          <goals-met-over-time></goals-met-over-time>
+        </div>
+      </paper-card>
+
     </div>
     <div style="height: 50px;"></div>
 

@@ -9,6 +9,10 @@ $ = require 'jquery'
 } = require 'cfy'
 
 {
+  close_selected_tab
+} = require 'libs_common/tab_utils'
+
+{
   get_intervention
 } = require 'libs_common/intervention_info'
 
@@ -48,11 +52,22 @@ polymer_ext {
       type: String
       computed: 'compute_time_saved_message(seconds_saved)'
     }
+    no_autoclose: {
+      type: Boolean
+    }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
+    }
     intervention_name: {
       type: String
       value: get_intervention().displayname
     }
   }
+  isdemo_changed: (isdemo) ->
+    if isdemo
+      this.no_autoclose = true
+      this.autoplay = true
   compute_stars_to_display: (times_intervention_used) ->
     return Math.min(10, times_intervention_used)
   compute_times_used_until_level_up: (times_intervention_used) ->
@@ -85,12 +100,18 @@ polymer_ext {
         video.play()
     setTimeout ->
       if not video.paused
-        self.fire 'reward_done', {finished_playing: false}
+        if self.no_autoclose
+          self.fire 'reward_done', {finished_playing: false}
+        else
+          close_selected_tab()
     , 2500
     #, 3000
   video_ended: ->
     console.log 'video_ended called'
-    this.fire 'reward_done', {finished_playing: true}
+    if this.no_autoclose
+      this.fire 'reward_done', {finished_playing: true}
+    else
+      close_selected_tab()
   query_changed: cfy ->*
     results = yield $.get 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query
     #results = yield $.get 'http://api.giphy.com/v1/gifs/translate?s=' + this.query + '&api_key=dc6zaTOxFJmzC'

@@ -337,10 +337,10 @@ export sync_unsynced_items_in_db_collection = cfy (name) ->*
   num_unsynced = yield collection.where('synced').equals(0).count()
   if num_unsynced == 0
     return
-  console.log 'num_unsynced: ' + num_unsynced
+  #console.log 'num_unsynced: ' + num_unsynced
   unsynced_items = yield collection.where('synced').equals(0).toArray()
-  console.log 'unsynced_items are'
-  console.log unsynced_items
+  #console.log 'unsynced_items are'
+  #console.log unsynced_items
   for x in unsynced_items
     upload_collection_item_to_server(name, x)
 

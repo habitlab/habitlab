@@ -99,7 +99,7 @@ $ = require 'jquery'
 } = require 'libs_backend/log_utils'
 
 {
-  get_baseline_time_on_domains
+  ensure_history_utils_data_cached
 } = require 'libs_common/history_utils'
 
 {cfy, yfy} = require 'cfy'
@@ -144,7 +144,7 @@ load_background_script = cfy (options, intervention_info) ->*
 
 cached_systemjs_code = null
 
-execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
+execute_content_scripts_for_intervention = cfy (intervention_info, tabId, intervention_list) ->*
   {content_script_options, name} = intervention_info
 
   intervention_info_copy = JSON.parse JSON.stringify intervention_info
@@ -175,20 +175,20 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId) ->*
   for options in content_script_options
     content_script_code = yield $.get options.path
     content_script_code = """
-if (!window.loaded_interventions) {
-  window.loaded_interventions = {};
+if (!window.allowed_interventions) {
+  window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
 
   window.onunhandledrejection = function(evt) {
     throw evt.reason;
   };
+
+  window.loaded_interventions = {};
+  window.loaded_content_scripts = {};
 }
 
-if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
+if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.loaded_interventions['#{intervention_info_copy.name}']) {
   window.loaded_interventions['#{intervention_info_copy.name}'] = true;
 
-  if (!window.loaded_content_scripts) {
-    window.loaded_content_scripts = {};
-  }
   if (!window.loaded_content_scripts['#{options.path}']) {
     window.loaded_content_scripts['#{options.path}'] = true;
     const intervention = #{JSON.stringify(intervention_info_copy)};
@@ -202,6 +202,20 @@ if (!window.loaded_interventions['#{intervention_info_copy.name}']) {
     yield yfy(chrome.tabs.executeScript) tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}
   return
 
+load_intervention_list = cfy (intervention_list, tabId) ->*
+  all_interventions = yield get_interventions()
+  intervention_info_list = [all_interventions[intervention_name] for intervention_name in intervention_list]
+
+  # load background scripts
+  for intervention_info in intervention_info_list
+    for options in intervention_info.background_script_options
+      yield load_background_script options, intervention_info
+
+  # load content scripts
+  for intervention_info in intervention_info_list
+    yield execute_content_scripts_for_intervention intervention_info, tabId, intervention_list
+  return
+
 load_intervention = cfy (intervention_name, tabId) ->*
   all_interventions = yield get_interventions()
   intervention_info = all_interventions[intervention_name]
@@ -211,7 +225,7 @@ load_intervention = cfy (intervention_name, tabId) ->*
     yield load_background_script options, intervention_info
 
   # load content scripts
-  yield execute_content_scripts_for_intervention intervention_info, tabId
+  yield execute_content_scripts_for_intervention intervention_info, tabId, [intervention_name]
   return
 
 list_loaded_interventions = cfy ->*
@@ -278,9 +292,12 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
         else
           yield set_active_interventions_for_domain_and_session domain, session_id, []
         localStorage.removeItem('override_enabled_interventions_once')
-  if not intervention?
-    return
-  yield load_intervention intervention, tabId
+  interventions_to_load = []
+  if intervention?
+    interventions_to_load.push intervention
+  #if not intervention?
+  #  return
+  #yield load_intervention intervention, tabId
   if not override_enabled_interventions?
      permanently_enabled_interventions = localStorage.getItem('permanently_enabled_interventions')
      if permanently_enabled_interventions?
@@ -290,7 +307,9 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
        permanently_enabled_interventions = permanently_enabled_interventions.filter (x) -> all_available_interventions[x]
        for permanently_enabled_intervention in permanently_enabled_interventions
          if permanently_enabled_intervention != intervention
-           yield load_intervention permanently_enabled_intervention, tabId
+           interventions_to_load.push permanently_enabled_intervention
+           #yield load_intervention permanently_enabled_intervention, tabId
+  yield load_intervention_list interventions_to_load, tabId
   return
 
 /*
@@ -535,10 +554,10 @@ message_handlers_requiring_tab = {
 
 chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   {type, data} = request
-  console.log 'onmessage'
-  console.log type
-  console.log data
-  console.log sender
+  #console.log 'onmessage'
+  #console.log type
+  #console.log data
+  #console.log sender
   message_handler = message_handlers[type]
   if not message_handler?
     return
@@ -653,8 +672,7 @@ systemjs_require <- System.import('libs_common/systemjs_require').then()
 drequire <- systemjs_require.make_require_frontend().then()
 window.drequire = drequire
 
-if not localStorage.getItem('baseline_time_on_domains')?
-  get_baseline_time_on_domains()
+ensure_history_utils_data_cached()
 
 require 'libs_common/global_exports_post'
 

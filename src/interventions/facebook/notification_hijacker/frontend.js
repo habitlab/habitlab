@@ -85,9 +85,9 @@ function showAlert() {
 
 const reward_display = $('<reward-display>').addClass('habitlab_inserted')
 document.body.appendChild(reward_display[0])
-reward_display[0].addEventListener('reward_done', function(evt) {
-  close_selected_tab()
-})
+//reward_display[0].addEventListener('reward_done', function(evt) {
+//  close_selected_tab()
+//})
 
 //Injects a message from Habitlab when the message button is clicked only the first time
 function insertClickNotification() {

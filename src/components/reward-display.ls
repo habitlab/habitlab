@@ -15,6 +15,10 @@ $ = require 'jquery'
 } = require 'libs_common/gamification_utils'
 
 {
+  close_selected_tab
+} = require 'libs_common/tab_utils'
+
+{
   get_intervention
 } = require 'libs_common/intervention_info'
 
@@ -34,20 +38,33 @@ polymer_ext {
       type: String
       value: window.location.host
     }
+    seconds_saved: {
+      type: Number
+    }
     intervention_name: {
       type: String
       value: get_intervention().displayname
     }
+    no_autoclose: {
+      type: Boolean
+    }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
+    }
   }
+  isdemo_changed: (isdemo) ->
+    if isdemo
+      this.autoplay = true
+      this.no_autoclose = true
   #autoplay_changed: ->
   #  if this.autoplay
   #    this.play()
-  ready: cfy ->*
-    seconds_spent = (Date.now() - this.time_inserted) / 1000
-    baseline_seconds_spent = yield baseline_time_per_session_for_domain(this.domain)
-    seconds_saved = baseline_seconds_spent - seconds_spent
-    this.seconds_saved = seconds_saved
-    this.$$('#playgif').seconds_saved = seconds_saved
+  attached: cfy ->*
+    if not this.seconds_saved?
+      seconds_spent = (Date.now() - this.time_inserted) / 1000
+      baseline_seconds_spent = yield baseline_time_per_session_for_domain(this.domain)
+      this.seconds_saved = baseline_seconds_spent - seconds_spent
     this.$$('#playgif').times_intervention_used = yield get_num_times_intervention_used this.intervention_name
     if this.autoplay
       this.play()
@@ -55,14 +72,17 @@ polymer_ext {
     rewards_to_display = []
     if this.seconds_saved > 0
       rewards_to_display = yield record_seconds_saved_and_get_rewards this.seconds_saved, this.intervention_name, this.domain
-      console.log 'rewards_to_display is'
-      console.log rewards_to_display
       if rewards_to_display.length > 0
         this.$$('#showbadge').badges = rewards_to_display
         this.showbadge()
       else
         this.$$('#playgif').times_intervention_used += 1
         this.playgif()
+    else
+      if this.no_autoclose
+        this.fire 'reward_done', {finished_playing: true}
+      else
+        close_selected_tab()
   showbadge: ->
     this.$$('#showbadge').style.opacity = 1
     this.$$('#showbadge').style.display = 'block'

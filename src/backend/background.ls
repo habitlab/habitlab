@@ -675,9 +675,6 @@ window.drequire = drequire
 ensure_history_utils_data_cached()
 
 require 'libs_common/global_exports_post'
-<<<<<<< HEAD
-=======
 
 require('libs_backend/message_after_tab_close')
->>>>>>> 18894c6dd670734097ca1faa80aacc1598694ebc
 require('libs_backend/notification_timer') #lewin notification_timer code

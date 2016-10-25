@@ -160,15 +160,61 @@ export list_sites_for_which_goals_are_enabled = cfy ->*
       output_set[sitename] = true
   return output
 
-export get_goals = memoizeSingleAsync cfy ->*
+local_cached_get_goals = null
+
+export get_goals = cfy ->*
+  if local_cached_get_goals?
+    return local_cached_get_goals
   cached_get_goals = localStorage.getItem 'cached_get_goals'
   if cached_get_goals?
-    return JSON.parse cached_get_goals
+    local_cached_get_goals := JSON.parse cached_get_goals
+    return local_cached_get_goals
   goals_list = yield list_all_goals()
   goal_name_to_info_promises = {[goal_name, getGoalInfo(goal_name)] for goal_name in goals_list}
   output = yield goal_name_to_info_promises
   localStorage.setItem 'cached_get_goals', JSON.stringify(output)
+  local_cached_get_goals := output
   return output
+
+export add_custom_goal_info = cfy (goal_info) ->*
+  goals = yield get_goals()
+  custom_goal_name = goal_info.name
+  goals[custom_goal_name] = goal_info
+  local_cached_get_goals := goals
+  localStorage.setItem 'cached_get_goals', JSON.stringify(goals)
+  return
+
+export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
+  goals = yield get_goals()
+  custom_goal_name = "custom/spend_less_time_#{domain}"
+  goal_info = {
+    name: custom_goal_name
+    progress_description: "Time spent on #{domain}"
+    interventions: [
+      'facebook/make_user_wait'
+    ]
+    measurement: 'time_spent_on_domain'
+    domain: domain
+    target: {
+      default: 20
+      units: 'minutes'
+    }
+  }
+  goals[custom_goal_name] = goal_info
+  local_cached_get_goals := goals
+  localStorage.setItem 'cached_get_goals', JSON.stringify(goals)
+  return
+
+export remove_all_custom_goals = cfy ->*
+  goals = yield get_goals()
+  new_goals = {}
+  for goal_name,goal_info of goals
+    if goal_name.startsWith('custom/')
+      continue
+    new_goals[goal_name] = goal_info
+  local_cached_get_goals := new_goals
+  localStorage.setItem 'cached_get_goals', JSON.stringify(new_goals)
+  return
 
 export get_interventions_to_goals = memoizeSingleAsync cfy ->*
   output = {}

@@ -13,6 +13,7 @@ interventions:
   - facebook/block_after_interval_per_visit
   - facebook/remove_comments
   - facebook/close_tab_timer
+  - facebook/remove_clickbait
 measurement: time_spent_on_domain
 domain: www.facebook.com
 target:

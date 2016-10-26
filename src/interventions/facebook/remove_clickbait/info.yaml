@@ -1,0 +1,5 @@
+description: Removes clickbait
+matches:
+  - www.facebook.com
+content_scripts:
+  - frontend.js

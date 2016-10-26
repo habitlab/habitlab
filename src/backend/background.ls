@@ -3,6 +3,7 @@ window.addEventListener "unhandledrejection", (evt) ->
 
 localStorage.removeItem 'cached_list_all_goals'
 localStorage.removeItem 'cached_list_all_interventions'
+localStorage.removeItem 'cached_list_generic_interventions'
 localStorage.removeItem 'cached_get_goals'
 localStorage.removeItem 'cached_get_interventions'
 
@@ -663,8 +664,8 @@ setInterval (cfy ->*
 ), 1000
 */
 
-start_syncing_all_logs()
-start_syncing_all_db_collections()
+#start_syncing_all_logs()
+#start_syncing_all_db_collections()
 
 gexport_module 'background', -> eval(it)
 

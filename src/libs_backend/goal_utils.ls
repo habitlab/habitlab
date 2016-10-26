@@ -191,7 +191,7 @@ export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
     name: custom_goal_name
     progress_description: "Time spent on #{domain}"
     interventions: [
-      'generic/make_user_wait'
+      'generated/#{domain}_make_user_wait'
     ]
     measurement: 'time_spent_on_domain'
     domain: domain

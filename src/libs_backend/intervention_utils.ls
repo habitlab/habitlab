@@ -107,26 +107,45 @@ export is_intervention_enabled = cfy (intervention_name) ->*
   enabled_interventions = yield get_enabled_interventions()
   return enabled_interventions[intervention_name]
 
-export list_all_interventions = memoizeSingleAsync cfy ->*
+/*
+export generate_interventions_for_domain = cfy (domain) ->*
+  generic_interventions = yield list_generic_interventions()
+  for generic_intervention in generic_interventions
+    intervention_info = {
+      
+    }
+*/
+
+export list_generic_interventions = memoizeSingleAsync cfy ->*
+  cached_generic_interventions = localStorage.getItem 'cached_list_generic_interventions'
+  if cached_generic_interventions?
+    return JSON.parse cached_generic_interventions
+  interventions_list_text = yield $.get '/interventions/interventions.json'
+  generic_interventions_list = JSON.parse(interventions_list_text).filter -> it.startsWith('generic/')
+  localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
+  return generic_interventions_list
+
+local_cache_list_all_interventions = null
+
+export list_all_interventions = cfy ->*
+  if local_cache_list_all_interventions?
+    return local_cache_list_all_interventions
   cached_list_all_interventions = localStorage.getItem 'cached_list_all_interventions'
   if cached_list_all_interventions?
-    return JSON.parse cached_list_all_interventions
+    local_cache_list_all_interventions := JSON.parse cached_list_all_interventions
+    return local_cache_list_all_interventions
   interventions_list_text = yield $.get '/interventions/interventions.json'
   interventions_list = JSON.parse interventions_list_text
   localStorage.setItem 'cached_list_all_interventions', interventions_list_text
+  local_cache_list_all_interventions := interventions_list
   return interventions_list
 
 export get_intervention_info = cfy (intervention_name) ->*
   all_interventions = yield get_interventions()
   return all_interventions[intervention_name]
 
-export get_interventions = memoizeSingleAsync cfy ->*
-  cached_get_interventions = localStorage.getItem 'cached_get_interventions'
-  if cached_get_interventions?
-    return JSON.parse cached_get_interventions
-  interventions_to_goals_promises = goal_utils.get_interventions_to_goals()
-  interventions_list = yield list_all_interventions()
-  output = {}
+fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
+  intervention_name = intervention_info.name
   fix_content_script_options = (options, intervention_name) ->
     if typeof options == 'string'
       options = {path: options}
@@ -169,40 +188,55 @@ export get_interventions = memoizeSingleAsync cfy ->*
       parameter.type = 'bool'
       return
     console.log "warning: invalid parameter.type #{curtype} for intervention #{intervention_info.name}"
+  if not intervention_info.displayname?
+    intervention_info.displayname = intervention_name.split('/')[*-1].split('_').join(' ')
+  if not intervention_info.nomatches?
+    intervention_info.nomatches = []
+  if not intervention_info.matches?
+    intervention_info.matches = []
+  if not intervention_info.content_scripts?
+    intervention_info.content_scripts = []
+  if not intervention_info.background_scripts?
+    intervention_info.background_scripts = []
+  if not intervention_info.parameters?
+    intervention_info.parameters = []
+  if not intervention_info.categories?
+    intervention_info.categories = []
+  if not intervention_info.conflicts?
+    intervention_info.conflicts = []
+  intervention_info.parameters.push {
+    name: 'debug'
+    description: 'Insert debug console'
+    type: 'bool'
+    default: false
+  }
+  for parameter in intervention_info.parameters
+    fix_intervention_parameter(parameter, intervention_info)
+  intervention_info.params = {[x.name, x] for x in intervention_info.parameters}
+  intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
+  intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
+  intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
+  intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
+  intervention_info.goals = goals_satisfied_by_intervention
+  return intervention_info
+
+local_cache_get_interventions = null
+
+export get_interventions = cfy ->*
+  if local_cache_get_interventions?
+    return local_cache_get_interventions
+  cached_get_interventions = localStorage.getItem 'cached_get_interventions'
+  if cached_get_interventions?
+    local_cache_get_interventions := JSON.parse cached_get_interventions
+    return local_cache_get_interventions
+  interventions_to_goals_promises = goal_utils.get_interventions_to_goals()
+  interventions_list = yield list_all_interventions()
+  output = {}
   intervention_name_to_info_promises = {[intervention_name, getInterventionInfo(intervention_name)] for intervention_name in interventions_list}
   [intervention_name_to_info, interventions_to_goals] = yield [intervention_name_to_info_promises, interventions_to_goals_promises]
   for intervention_name in interventions_list
     intervention_info = intervention_name_to_info[intervention_name]
-    if not intervention_info.displayname?
-      intervention_info.displayname = intervention_name.split('/')[*-1].split('_').join(' ')
-    if not intervention_info.nomatches?
-      intervention_info.nomatches = []
-    if not intervention_info.matches?
-      intervention_info.matches = []
-    if not intervention_info.content_scripts?
-      intervention_info.content_scripts = []
-    if not intervention_info.background_scripts?
-      intervention_info.background_scripts = []
-    if not intervention_info.parameters?
-      intervention_info.parameters = []
-    if not intervention_info.categories?
-      intervention_info.categories = []
-    if not intervention_info.conflicts?
-      intervention_info.conflicts = []
-    intervention_info.parameters.push {
-      name: 'debug'
-      description: 'Insert debug console'
-      type: 'bool'
-      default: false
-    }
-    for parameter in intervention_info.parameters
-      fix_intervention_parameter(parameter, intervention_info)
-    intervention_info.params = {[x.name, x] for x in intervention_info.parameters}
-    intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
-    intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
-    intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
-    intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
-    intervention_info.goals = interventions_to_goals[intervention_name]
+    fix_intervention_info intervention_info, interventions_to_goals[intervention_name]
     output[intervention_name] = intervention_info
   category_to_interventions = {}
   for intervention_name in interventions_list
@@ -219,6 +253,7 @@ export get_interventions = memoizeSingleAsync cfy ->*
           continue
         intervention_info.conflicts.push conflict
   localStorage.setItem 'cached_get_interventions', JSON.stringify(output)
+  local_cache_get_interventions := output
   return output
 
 export list_enabled_interventions_for_location = cfy (location) ->*

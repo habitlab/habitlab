@@ -93,7 +93,6 @@ document.body.addEventListener('disable_intervention', (intervalID) => {
 
 
 document.body.addEventListener('disable_intervention', function() {
-  console.log('disable intervention button was clicked');
   commentsShown = true;
   showComments();
   $('.habitlab_button_container').remove()

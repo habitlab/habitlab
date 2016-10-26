@@ -191,7 +191,7 @@ export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
     name: custom_goal_name
     progress_description: "Time spent on #{domain}"
     interventions: [
-      'facebook/make_user_wait'
+      'generic/make_user_wait'
     ]
     measurement: 'time_spent_on_domain'
     domain: domain
@@ -205,7 +205,23 @@ export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
   localStorage.setItem 'cached_get_goals', JSON.stringify(goals)
   return
 
+export add_enable_custom_goal_reduce_time_on_domain = cfy (domain) ->*
+  yield add_custom_goal_reduce_time_on_domain(domain)
+  yield set_goal_enabled("custom/spend_less_time_#{domain}")
+  return
+
+export disable_all_custom_goals = cfy ->*
+  enabled_goals = yield get_enabled_goals()
+  new_enabled_goals = {}
+  for goal_name,is_enabled of enabled_goals
+    if goal_name.startsWith('custom/')
+      continue
+    new_enabled_goals[goal_name] = is_enabled
+  yield set_enabled_goals new_enabled_goals
+  return
+
 export remove_all_custom_goals = cfy ->*
+  yield disable_all_custom_goals()
   goals = yield get_goals()
   new_goals = {}
   for goal_name,goal_info of goals

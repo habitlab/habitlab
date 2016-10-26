@@ -14,14 +14,6 @@ var {
 var moment = require('moment');
 var {cfy} = require('cfy');
 
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
-
 /* Function: goal_success_on_date
   ---------------------------------
   Takes in a moment.js object, returns object num_met and num_goals.
@@ -48,7 +40,7 @@ var goal_success_on_date = cfy(function*(date) {
   }
   // console.log("making goal object");
   var goal_object = {};
-  var num_goals = Object.size(enabled_goals);
+  var num_goals = Object.keys(enabled_goals).length;
   if (num_goals === undefined) num_goals = 0;
   goal_object.num_met = success_count;
   goal_object.num_goals = num_goals;

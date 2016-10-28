@@ -34,9 +34,9 @@ polymer_ext {
     self = this
     last_week = [] /* success rates for the last week */
     today = moment()
-    for day from 0 to 6
-      day = today.subtract(day, 'days')
-      success_object = goal_success_on_date(day)
+    for day_num from 0 to 6
+      day = today.subtract(day_num, 'days')
+      success_object = yield goal_success_on_date(day)
       last_week.push(success_object)
 
     # Now we add it to the visualization

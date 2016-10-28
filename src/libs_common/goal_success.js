@@ -33,7 +33,7 @@ var goal_success_on_date = cfy(function*(date) {
     // console.log("progress");
     // console.log(weekly_progress);
     //will need to change moment to 'date'
-    if (weekly_progress[date().day()].progress < time) {
+    if (weekly_progress[date.day()].progress < time) {
       success_count++;
       console.log("succesfully met goal: " + goal);
     }

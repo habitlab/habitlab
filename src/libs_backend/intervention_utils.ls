@@ -165,7 +165,7 @@ export add_new_interventions = cfy (intervention_info_list) ->*
   yield get_interventions()
   return
 
-export disable_all_custom_interventions = ->
+export remove_all_custom_interventions = ->
   clear_cache_all_interventions()
   localStorage.removeItem 'extra_get_interventions'
   localStorage.removeItem 'extra_list_all_interventions'

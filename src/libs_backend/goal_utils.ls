@@ -189,9 +189,13 @@ export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
   custom_goal_name = "custom/spend_less_time_#{domain}"
   goal_info = {
     name: custom_goal_name
+    description: "Spend less time on #{domain}"
+    homepage: "http://#{domain}/"
     progress_description: "Time spent on #{domain}"
+    sitename: domain
+    sitename_printable: domain
     interventions: [
-      'generated/#{domain}_make_user_wait'
+      "generated_#{domain}/make_user_wait"
     ]
     measurement: 'time_spent_on_domain'
     domain: domain
@@ -208,6 +212,7 @@ export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
 export add_enable_custom_goal_reduce_time_on_domain = cfy (domain) ->*
   yield add_custom_goal_reduce_time_on_domain(domain)
   yield set_goal_enabled("custom/spend_less_time_#{domain}")
+  yield intervention_utils.generate_interventions_for_domain domain
   return
 
 export disable_all_custom_goals = cfy ->*

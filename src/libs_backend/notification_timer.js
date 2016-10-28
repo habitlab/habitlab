@@ -66,4 +66,4 @@ var {
   goal_success_on_date
 } = require('libs_common/goal_success')
 
-console.log(goal_success_on_date(moment));
+console.log(goal_success_on_date(moment()));

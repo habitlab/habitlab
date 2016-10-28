@@ -1,0 +1,11 @@
+description: Blocks site after some amount of time per visit
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+parameters:
+  - name: cheatseconds
+    description: Seconds to cheat for after time is up
+    default: 30
+    type: int
+categories:
+  - interstitial

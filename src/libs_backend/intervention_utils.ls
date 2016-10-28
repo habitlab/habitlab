@@ -120,7 +120,7 @@ export is_intervention_enabled = cfy (intervention_name) ->*
 export generate_interventions_for_domain = cfy (domain) ->*
   generic_interventions = yield list_generic_interventions()
   new_intervention_info_list = []
-  goals = yield get_goals()
+  goals = yield goal_utils.get_goals()
   goal_for_intervention = goals["custom/spend_less_time_#{domain}"]
   for generic_intervention in generic_interventions
     intervention_info = yield getInterventionInfo generic_intervention
@@ -129,6 +129,11 @@ export generate_interventions_for_domain = cfy (domain) ->*
     intervention_info.name = generic_intervention.split('generic/').join("generated_#{domain}/")
     intervention_info.matches = [domain]
     make_absolute_path = (content_script) ->
+      if content_script.path?
+        if content_script.path[0] == '/'
+          return content_script
+        content_script.path = '/interventions/' + generic_intervention + '/' + content_script.path
+        return content_script
       if content_script[0] == '/'
         return content_script
       return '/interventions/' + generic_intervention + '/' + content_script

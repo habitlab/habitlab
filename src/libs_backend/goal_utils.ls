@@ -187,7 +187,7 @@ export add_custom_goal_info = cfy (goal_info) ->*
 export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
   goals = yield get_goals()
   custom_goal_name = "custom/spend_less_time_#{domain}"
-  generic_interventions = yield list_generic_interventions()
+  generic_interventions = yield intervention_utils.list_generic_interventions()
   generated_interventions = [x.split('generic/').join("generated_#{domain}/") for x in generic_interventions]
   goal_info = {
     name: custom_goal_name

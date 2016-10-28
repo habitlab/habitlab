@@ -171,9 +171,18 @@
                     </paper-dropdown-menu>
                   </span>
                 </template>
+                <template is="dom-if" if="{{goal.custom}}">
+                  <paper-button style="color: white; background-color: red; font-size: 16px; height: 20px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
+                </template>
               </div>
             </template>
           </template>
+        <!--
+        <div>
+          Add a new domain to reduce time on: <paper-input></paper-input><paper-button>Add</paper-button>
+        </div>
+        -->
+
 
       </div>
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>

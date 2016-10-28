@@ -25,6 +25,7 @@ require! {
   set_goal_disabled_manual
   set_goal_target
   get_goal_target
+  remove_custom_goal_and_generated_interventions
 } = require 'libs_backend/goal_utils'
 
 {
@@ -396,6 +397,10 @@ polymer_ext {
       return 0
     else 
       return 1
+  delete_goal_clicked: cfy (evt) ->*
+    goal_name = evt.target.goal_name
+    yield remove_custom_goal_and_generated_interventions goal_name
+    this.rerender()
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this

@@ -23,6 +23,8 @@ require! {
 {
   as_dictset
   as_array
+  remove_keys_matching_patternfunc_from_localstorage_dict
+  remove_items_matching_patternfunc_from_localstorage_list
 } = require 'libs_common/collection_utils'
 
 {
@@ -174,6 +176,12 @@ export remove_all_custom_interventions = ->
   clear_cache_all_interventions()
   localStorage.removeItem 'extra_get_interventions'
   localStorage.removeItem 'extra_list_all_interventions'
+  return
+
+export remove_generated_interventions_for_domain = (domain) ->
+  clear_cache_all_interventions()
+  remove_keys_matching_patternfunc_from_localstorage_dict 'extra_get_interventions', -> it.startsWith("generated_#{domain}/")
+  remove_items_matching_patternfunc_from_localstorage_list 'extra_list_all_interventions', -> it.startsWith("generated_#{domain}/")
   return
 
 export list_generic_interventions = memoizeSingleAsync cfy ->*

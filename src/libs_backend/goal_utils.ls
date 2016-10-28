@@ -17,6 +17,8 @@ $ = require 'jquery'
 
 {
   as_array
+  remove_key_from_localstorage_dict
+  remove_item_from_localstorage_list
 } = require 'libs_common/collection_utils'
 
 {
@@ -152,7 +154,7 @@ export clear_cache_list_all_goals = ->
   localStorage.removeItem 'cached_list_all_goals'
   return
 
-get_site_to_goals = memoizeSingleAsync cfy ->*
+get_site_to_goals = cfy ->*
   output = {}
   goals = yield get_goals()
   for goal_name,goal_info of goals
@@ -239,6 +241,7 @@ export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
   generated_interventions = [x.split('generic/').join("generated_#{domain}/") for x in generic_interventions]
   goal_info = {
     name: custom_goal_name
+    custom: true
     description: "Spend less time on #{domain}"
     homepage: "http://#{domain}/"
     progress_description: "Time spent on #{domain}"
@@ -278,13 +281,22 @@ export remove_all_custom_goals_and_interventions = cfy ->*
 
 export remove_all_custom_goals = cfy ->*
   yield disable_all_custom_goals()
-  local_cached_get_goals := null
-  local_cached_list_all_goals := null
+  clear_cache_all_goals()
   localStorage.removeItem 'extra_get_goals'
   localStorage.removeItem 'extra_list_all_goals'
   return
 
-export get_interventions_to_goals = memoizeSingleAsync cfy ->*
+export remove_custom_goal_and_generated_interventions = cfy (goal_name) ->*
+  all_goals = yield get_goals()
+  goal = all_goals[goal_name]
+  intervention_utils.remove_generated_interventions_for_domain goal.domain
+  yield set_goal_disabled goal_name
+  clear_cache_all_goals()
+  remove_key_from_localstorage_dict 'extra_get_goals', goal_name
+  remove_item_from_localstorage_list 'extra_list_all_goals', goal_name
+  return
+
+export get_interventions_to_goals = cfy ->*
   output = {}
   goals = yield get_goals()
   for goal_name,goal_info of goals

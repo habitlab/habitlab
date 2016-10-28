@@ -120,6 +120,8 @@ export is_intervention_enabled = cfy (intervention_name) ->*
 export generate_interventions_for_domain = cfy (domain) ->*
   generic_interventions = yield list_generic_interventions()
   new_intervention_info_list = []
+  goals = yield get_goals()
+  goal_for_intervention = goals["custom/spend_less_time_#{domain}"]
   for generic_intervention in generic_interventions
     intervention_info = yield getInterventionInfo generic_intervention
     # TODO replace the above step with something that is non-asynchronous
@@ -135,7 +137,7 @@ export generate_interventions_for_domain = cfy (domain) ->*
     if intervention_info.background_scripts?
       intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
     intervention_info.sitename = domain
-    intervention_info.goals = ["custom/spend_less_time_#{domain}"]
+    intervention_info.goals = [goal_for_intervention]
     #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
     new_intervention_info_list.push intervention_info
   yield add_new_interventions new_intervention_info_list

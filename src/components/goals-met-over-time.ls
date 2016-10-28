@@ -10,10 +10,6 @@
 } = require 'libs_backend/goal_utils'
 
 {
-  get_progress_on_goals_this_week
-} = require 'libs_backend/goal_progress'
-
-{
   goal_success_on_date
 } = require 'libs_common/goal_success'
 

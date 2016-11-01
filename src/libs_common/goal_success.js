@@ -18,8 +18,8 @@ var {cfy} = require('cfy');
   ---------------------------------
   Takes in a moment.js object, returns object num_met and num_goals.
 */
-var success_count = 0;
 var goal_success_on_date = cfy(function*(date) {
+  var success_count = 0;
   var enabled_goals = yield get_enabled_goals();
   var all_goals = yield get_goals();
   // console.log("loaded data");

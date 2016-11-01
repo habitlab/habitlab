@@ -32,13 +32,17 @@ polymer_ext {
   }
   ready: cfy ->*
     self = this
-    last_week = [] /* success rates for the last week */
-    today = moment()
-    for day_num from 0 to 6
-      day = today.subtract(day_num, 'days')
+    last_week = {} /* success rates for the last week */
+    today = moment().startOf('date')
+    for day_num from 1 to 7
+      day = today.subtract(1, 'days')
       success_object = yield goal_success_on_date(day)
-      last_week.push(success_object)
+      last_week[day.format("dddd")] = success_object
 
     # Now we add it to the visualization
 
+    for day, success of last_week
+      msg = "On " + day + ", you met " + success.num_met + " of your " + success.num_goals + " goals"
+      liststring = "<li>" + msg + "</li>"
+      $ \#goals .append liststring
 }

@@ -42,7 +42,7 @@ polymer_ext {
     # Now we add it to the visualization
 
     for day, success of last_week
-      msg = "On " + day + ", you met " + success.num_met + " of your " + success.num_goals + " goals"
+      msg = "On <b>" + day + "</b>, you met " + success.num_met + " of your " + success.num_goals + " goals."
       liststring = "<li>" + msg + "</li>"
       $ \#goals .append liststring
 }

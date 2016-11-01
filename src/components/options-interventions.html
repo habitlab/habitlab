@@ -179,8 +179,8 @@
           </template>
 
         <div>
-          <paper-input label="Add a new website to reduce time spent on" style="display: inline-block; width: calc(100% - 120px)"></paper-input>
-          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center">Add Goal</paper-button>
+          <paper-input id="add_website_input" label="Add a new website to reduce time spent on" style="display: inline-block; width: calc(100% - 120px)" on-keydown="add_website_input_keydown"></paper-input>
+          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center" on-click="add_goal_clicked">Add Goal</paper-button>
         </div>
 
 

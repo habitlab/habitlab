@@ -27,7 +27,7 @@ console.log(moment()._d);
 Write function for Brahm:
 
   Give date/moment object
-  Return object with '3/7' in that format, will be parsed by Brahm
+  Return object with
 
 */
 
@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (Notification.permission !== "granted")
     Notification.requestPermission();
 });
+
+
 
 function make_notification(num_met, num_goals) {
   if (Notification.permission !== "granted")
@@ -55,15 +57,33 @@ function make_notification(num_met, num_goals) {
   }
 }
 
+/*
+  TODO:
+  -----
+  - Function that is called once every day at midnight/when chrome is opened for the first time_utils
+  - Have a marker that resets to true
+  - Check if midnight
+  - if past midnight, check if notif has been sent today already
+*/
 
+var sent_notif_today = false;
+var prev_mom = require('moment');
 setInterval(function() {
-  // console.log('hello')
-  //console.log(url_to_domain('http://facebook.com'))
-}, 1000)
+  console.log('hello')
+  // console.log(url_to_domain('http://facebook.com'))
+  var cur_mom = require('moment');
+  if (cur_mom.format('dddd') != prev_mom.format('dddd')) {
+    //new day
+    var obj = goal_success_on_date(moment());
+    make_notification(obj.num_met, obj.num_goals);
+  }
+  prev_mom = cur_mom;
+}, 60000)
 
 
 var {
   goal_success_on_date
 } = require('libs_common/goal_success')
 
+console.log("hello");
 console.log(goal_success_on_date(moment()));

@@ -67,17 +67,17 @@ function make_notification(num_met, num_goals) {
 */
 
 var sent_notif_today = false;
-var prev_mom = require('moment');
+var prev_date = new Date();
 setInterval(function() {
   console.log('hello')
-  // console.log(url_to_domain('http://facebook.com'))
-  var cur_mom = require('moment');
-  if (cur_mom.format('dddd') != prev_mom.format('dddd')) {
+  var cur_date = new Date();
+  if (cur_date.getDate() != prev_date.getDate()) {
     //new day
+    console.log("new day: will send notification!");
     var obj = goal_success_on_date(moment());
     make_notification(obj.num_met, obj.num_goals);
   }
-  prev_mom = cur_mom;
+  prev_date = cur_date;
 }, 60000)
 
 

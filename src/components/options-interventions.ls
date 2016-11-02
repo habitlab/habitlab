@@ -256,6 +256,11 @@ polymer_ext {
       this.$$('#interventions-list').style.display = "none"
     window.scrollTo 0, document.body.scrollHeight
 
+  show_intro_button_clicked: ->
+    this.$$('#show_intro_button').style.display = 'none'
+    this.$$('#intro2').style.display = 'block'
+    this.$$('#intro4').style.display = 'block'
+
   attached: ->
    if window.location.hash != '#introduction'
     for elem in Polymer.dom(this.root).querySelectorAll('.intro')
@@ -263,7 +268,11 @@ polymer_ext {
     for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
       elem.style.display = 'none';
     this.$$('#pointer-div').style.display = 'none';
-
+    this.$$('#ivn-toggle-btn').style.display = 'none'
+    this.$$('#interventions-list').style.display = 'block'
+    this.$$('#show_intro_button').style.display = 'inline-flex'
+    this.$$('#intro2').style.display = 'none'
+    this.$$('#intro4').style.display = 'none'
 
   ready: ->
    

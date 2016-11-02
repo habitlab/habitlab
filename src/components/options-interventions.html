@@ -159,8 +159,11 @@
                     (<span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.name}}</span>)
                   </template>
                 </paper-toggle-button>
+                <template is="dom-if" if="{{goal.custom}}">
+                  <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: red; font-size: 16px; height: 20px; position: absolute; left: 350px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
+                </template>
                 <template is="dom-if" if="{{goal.enabled}}">
-                  <span class="dailyLimitContainer">
+                  <span class="dailyLimitContainer" style="margin-left: auto">
                     <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px; padding-left: 30px; ">Daily goal: Less than</span>
                     <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>
                       <paper-listbox class="dropdown-content" selected="[[goal.number]]" on-iron-select="time_updated"> 
@@ -171,16 +174,13 @@
                     </paper-dropdown-menu>
                   </span>
                 </template>
-                <template is="dom-if" if="{{goal.custom}}">
-                  <paper-button style="color: white; background-color: red; font-size: 16px; height: 20px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
-                </template>
               </div>
             </template>
           </template>
 
         <div>
-          <paper-input label="Add a new domain to reduce time spent on" style="display: inline-block; width: calc(100% - 120px)"></paper-input>
-          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center">Add Goal</paper-button>
+          <paper-input id="add_website_input" label="Add a new website to reduce time spent on (example: www.amazon.com)" style="display: inline-block; width: calc(100% - 81px)" on-keydown="add_website_input_keydown"></paper-input>
+          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased;" on-click="add_goal_clicked">Add Goal</paper-button>
         </div>
 
 
@@ -191,9 +191,10 @@
 
       <div id="intro1" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
-          <div class="card-content">
+          <div class="card-content" id="intro1_content">
           Habitlab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
           </div>
+          <paper-button class="next-button" id="show_intro_button" style="display: none" on-click="show_intro_button_clicked">Show Explanation</paper-button>
           <paper-button class="next-button" on-click="intro1_read">Next</paper-button>
         </paper-card>
       </div>
@@ -299,11 +300,12 @@
             
             You can see the list of available interventions below for your selected goals, and test out interventions or disable them from here. 
           </div>
+          
           <paper-button class="works-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Intervention Details</paper-button>
 
-          <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list"">
+          <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list">
             <br>
-            <div style="font-size: 16px;"> HabitLab's algorithm chooses an intervention to show you from the ones in the Sometimes Shown category.</div>
+            <div style="font-size: 20px;"> HabitLab's algorithm chooses an intervention to show you from the ones in the Sometimes Shown category.</div>
 
             <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
               <h3>{{goal_and_interventions.goal.description}}</h3>

@@ -399,13 +399,17 @@ polymer_ext {
     else 
       return 1
   add_goal_clicked: cfy (evt) ->*
-    domain = url_to_domain this.$$('#add_website_input').value
+    domain = url_to_domain(this.$$('#add_website_input').value.trim())
+    if domain.length == 0
+      return
     yield add_enable_custom_goal_reduce_time_on_domain(domain)
     this.rerender()
   add_website_input_keydown: cfy (evt) ->*
     if evt.keyCode == 13
       # enter pressed
-      domain = url_to_domain this.$$('#add_website_input').value
+      domain = url_to_domain(this.$$('#add_website_input').value.trim())
+      if domain.length == 0
+        return
       yield add_enable_custom_goal_reduce_time_on_domain(domain)
       this.rerender()
   delete_goal_clicked: cfy (evt) ->*

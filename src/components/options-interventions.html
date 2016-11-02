@@ -160,7 +160,7 @@
                   </template>
                 </paper-toggle-button>
                 <template is="dom-if" if="{{goal.custom}}">
-                  <paper-button style="color: white; background-color: red; font-size: 16px; height: 20px; position: absolute; left: 350px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
+                  <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: red; font-size: 16px; height: 20px; position: absolute; left: 350px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
                 </template>
                 <template is="dom-if" if="{{goal.enabled}}">
                   <span class="dailyLimitContainer" style="margin-left: auto">
@@ -179,8 +179,8 @@
           </template>
 
         <div>
-          <paper-input id="add_website_input" label="Add a new website to reduce time spent on (example: www.amazon.com)" style="display: inline-block; width: calc(100% - 95px)" on-keydown="add_website_input_keydown"></paper-input>
-          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center; margin-right: 0px" on-click="add_goal_clicked">Add Goal</paper-button>
+          <paper-input id="add_website_input" label="Add a new website to reduce time spent on (example: www.amazon.com)" style="display: inline-block; width: calc(100% - 81px)" on-keydown="add_website_input_keydown"></paper-input>
+          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased;" on-click="add_goal_clicked">Add Goal</paper-button>
         </div>
 
 
@@ -191,7 +191,7 @@
 
       <div id="intro1" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
-          <div class="card-content">
+          <div class="card-content" id="intro1_content">
           Habitlab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
           </div>
           <paper-button class="next-button" id="show_intro_button" style="display: none" on-click="show_intro_button_clicked">Show Explanation</paper-button>

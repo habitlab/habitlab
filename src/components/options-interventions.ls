@@ -258,6 +258,7 @@ polymer_ext {
 
   show_intro_button_clicked: ->
     this.$$('#show_intro_button').style.display = 'none'
+    this.$$('#intro1_content').style.display = 'block'
     this.$$('#intro2').style.display = 'block'
     this.$$('#intro4').style.display = 'block'
 
@@ -271,6 +272,7 @@ polymer_ext {
     this.$$('#ivn-toggle-btn').style.display = 'none'
     this.$$('#interventions-list').style.display = 'block'
     this.$$('#show_intro_button').style.display = 'inline-flex'
+    this.$$('#intro1_content').style.display = 'none'
     this.$$('#intro2').style.display = 'none'
     this.$$('#intro4').style.display = 'none'
 

@@ -159,8 +159,11 @@
                     (<span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.name}}</span>)
                   </template>
                 </paper-toggle-button>
+                <template is="dom-if" if="{{goal.custom}}">
+                  <paper-button style="color: white; background-color: red; font-size: 16px; height: 20px; position: absolute; left: 350px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
+                </template>
                 <template is="dom-if" if="{{goal.enabled}}">
-                  <span class="dailyLimitContainer">
+                  <span class="dailyLimitContainer" style="margin-left: auto">
                     <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px; padding-left: 30px; ">Daily goal: Less than</span>
                     <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>
                       <paper-listbox class="dropdown-content" selected="[[goal.number]]" on-iron-select="time_updated"> 
@@ -170,9 +173,6 @@
                       </paper-listbox>
                     </paper-dropdown-menu>
                   </span>
-                </template>
-                <template is="dom-if" if="{{goal.custom}}">
-                  <paper-button style="color: white; background-color: red; font-size: 16px; height: 20px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
                 </template>
               </div>
             </template>

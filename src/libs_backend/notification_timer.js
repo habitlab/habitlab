@@ -13,35 +13,17 @@ var {
 var {
   get_progress_on_goal_this_week
 } = require ('libs_backend/goal_progress')
-
-
-// MM/DD/YYYY
+var {cfy} = require('cfy');
 
 var moment = require('moment');
 console.log(moment()._d);
 moment().subtract(1, 'days');
 console.log(moment()._d);
 
-/*
-
-Write function for Brahm:
-
-  Give date/moment object
-  Return object with
-
-*/
-
-//var given_date_return_goal_completion() {
-//}
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
   if (Notification.permission !== "granted")
     Notification.requestPermission();
 });
-
-
 
 function make_notification(num_met, num_goals) {
   if (Notification.permission !== "granted")
@@ -49,41 +31,37 @@ function make_notification(num_met, num_goals) {
   else {
     var notification = new Notification('Notification title', {
       icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-      body: "You met " + num_met + " out of " + num_goals + "goals"
+      body: "You met " + num_met + " out of " + num_goals + " goal(s)."
     });
     notification.onclick = function () {
-      window.open("http://habitlab.stanford.edu/");
+      window.open(chrome.extension.getURL('index.html?tag=goals-met-over-time'));
     };
   }
 }
 
-/*
-  TODO:
-  -----
-  - Function that is called once every day at midnight/when chrome is opened for the first time_utils
-  - Have a marker that resets to true
-  - Check if midnight
-  - if past midnight, check if notif has been sent today already
-*/
-
 var sent_notif_today = false;
 var prev_date = new Date();
-setInterval(function() {
-  console.log('hello')
+
+/*
+  Function: Recurring Goal Completion Check
+  -----------------------------------------
+  Function that repeatedly checks every minute if the time now signifies that the date has changed. If it has, make a notification on how many goals the user met the previous day.
+*/
+setInterval(cfy(function*() {
+  console.log('checking goal completion');
   var cur_date = new Date();
   if (cur_date.getDate() != prev_date.getDate()) {
     //new day
     console.log("new day: will send notification!");
-    var obj = goal_success_on_date(moment());
+    var obj = yield goal_success_on_date(moment());
     make_notification(obj.num_met, obj.num_goals);
   }
   prev_date = cur_date;
-}, 60000)
+}), 60000)
 
 
 var {
   goal_success_on_date
 } = require('libs_common/goal_success')
 
-console.log("hello");
-console.log(goal_success_on_date(moment()));
+// console.log(goal_success_on_date(moment()));

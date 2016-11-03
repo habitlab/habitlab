@@ -235,7 +235,7 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
     if options.path[0] == '/'
       options.path = options.path.substr(1)
     else
-      options.path = "interventions/#{intervention_name}/#{options.path}"
+      options.path = "/interventions/#{intervention_name}/#{options.path}"
     if not options.run_at?
       options.run_at = 'document_end' # document_start
     if not options.all_frames?
@@ -247,7 +247,7 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
     if options.path[0] == '/'
       options.path = options.path.substr(1)
     else
-      options.path = "interventions/#{intervention_name}/#{options.path}"
+      options.path = "/interventions/#{intervention_name}/#{options.path}"
     return options
   fix_intervention_parameter = (parameter, intervention_info) ->
     if not parameter.name?

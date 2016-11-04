@@ -2,12 +2,16 @@ description: Blocks FB after some amount of time per visit
 matches:
   - www.facebook.com
 content_scripts:
-  - path: frontend.js
+  - path: /interventions/generic/block_after_interval_per_visit/frontend.js
     run_at: document_start
 parameters:
   - name: cheatseconds
     description: Seconds to cheat for after time is up
     default: 30
     type: int
+  - name: sitename
+    description: Name that this site should be referred to as
+    default: Facebook
+    type: string
 categories:
   - interstitial

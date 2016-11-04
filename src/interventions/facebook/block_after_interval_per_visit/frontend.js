@@ -1,10 +1,3 @@
-(() => {
-
-if (window.block_after_interval_per_visit) {
-  return
-}
-window.block_after_interval_per_visit = true
-
 const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')
@@ -205,7 +198,7 @@ function displayCountdown() {
 }
 
 function main() {
-  addBeginDialog("How many minutes would you like to spend on Facebook this visit?");
+  addBeginDialog("How many minutes would you like to spend on " + intervention.params.sitename.value + " this visit?");
 }
 
 once_document_available(main);
@@ -217,5 +210,3 @@ window.onload = () => {
     $('.beginBox').remove()
   });
 }
-
-})()

@@ -45,12 +45,12 @@ polymer_ext {
 
   ready: cfy ->*
     self = this
-    today = moment().startOf('date')
+    day = moment().startOf('date')
     day_num_to_success_object = []
     day_num_to_day_name = {}
 
     for day_num from 1 to 7
-      day = today.subtract(1, 'days')
+      day.subtract(1, 'days')
       success_object = yield goal_success_on_date(day)
       day_num_to_success_object[day_num - 1] = success_object
       day_num_to_day_name[day_num - 1] = day.format("dddd")

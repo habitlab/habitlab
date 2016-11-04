@@ -9,6 +9,9 @@
       list-style-type: none;
       text-align: left;
     }
+    /*.update {
+      font-size: 25px;
+    }*/
     .date_inactive {
       color: grey;
     }
@@ -25,7 +28,7 @@
       <!--<template is="dom-if" if="{{is_first_day(day_idx)}}">
         This is the first day
       </template>-->
-      <div>On <span>{{get_day_name(day_idx)}}</span>,
+      <div>On <b><span>{{get_day_name(day_idx)}}</span></b>,
         you met <span>{{success_object.num_met}}</span>
         of your <span>{{success_object.num_goals}}</span> goals.</div>
     </template>

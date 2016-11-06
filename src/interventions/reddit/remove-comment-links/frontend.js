@@ -15,8 +15,19 @@ const co = require('co')
 co(function*() {
   yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
   once_available('body', () => {
-    $('.first').remove();
-    $('.redditSingleClick').remove();
-    swal("Habitlab has removed links to the comment sections. Don't go down the rabbit hole!");
-  });
-})
+    if(document.URL == "https://www.reddit.com/" || document.URL.includes('https://www.reddit.com/r/')){
+      swal(
+      {title: "Don't go down the rabbit hole!",
+      text: "Should HabitLab remove links to comment sections on this page?",
+      type: "info",
+      showCancelButton: true,
+      confirmButtonText: "Yep, get rid of them!",
+      cancelButtonText: "Nope!"}).then(
+        function(result) {
+          $('.first').remove();
+          $('.redditSingleClick').remove();
+        }
+      );
+    }
+    });
+  })

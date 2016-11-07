@@ -2,6 +2,12 @@ const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')
 
+window.Polymer = {
+  dom: 'shadow',
+  lazyRegister: true,
+  useNativeCSSProperties: true,
+}
+
 //Polymer Component
 require('bower_components/paper-slider/paper-slider.deps')
 require('bower_components/paper-input/paper-input.deps')

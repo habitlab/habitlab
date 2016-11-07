@@ -15,7 +15,8 @@ const co = require('co')
 co(function*() {
   yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
   once_available('body', () => {
-    if(document.URL == "https://www.reddit.com/" || document.URL.includes('https://www.reddit.com/r/')){
+    if(document.URL == "https://www.reddit.com/" ||
+      (document.URL.includes('https://www.reddit.com/r/') && !document.URL.includes('comments'))){
       swal(
       {title: "Don't go down the rabbit hole!",
       text: "Should HabitLab remove links to comment sections on this page?",

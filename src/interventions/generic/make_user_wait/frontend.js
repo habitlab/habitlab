@@ -1,3 +1,6 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 require('enable-webcomponents-in-content-scripts')
 require('components/interstitial-screen.deps')
 const $ = require('jquery')

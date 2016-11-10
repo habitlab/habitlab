@@ -17,7 +17,13 @@ $ = require 'jquery'
 
 {
   as_array
+  remove_key_from_localstorage_dict
+  remove_item_from_localstorage_list
 } = require 'libs_common/collection_utils'
+
+{
+  unique_concat
+} = require 'libs_common/array_utils'
 
 {cfy, yfy} = require 'cfy'
 
@@ -124,16 +130,32 @@ export is_goal_enabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
   return enabled_goals[goal_name]?
 
-export list_all_goals = memoizeSingleAsync cfy ->*
+#local_cached_list_all_goals = null
+
+export list_all_goals = cfy ->*
+  #if local_cached_list_all_goals?
+  #  return local_cached_list_all_goals
   cached_list_all_goals = localStorage.getItem 'cached_list_all_goals'
   if cached_list_all_goals?
     return JSON.parse cached_list_all_goals
+    #local_cached_list_all_goals := JSON.parse cached_list_all_goals
+    #return local_cached_list_all_goals
   goals_list_text = yield $.get '/goals/goals.json'
   goals_list = JSON.parse goals_list_text
-  localStorage.setItem 'cached_list_all_goals', goals_list_text
+  extra_list_all_goals_text = localStorage.getItem 'extra_list_all_goals'
+  if extra_list_all_goals_text?
+    extra_list_all_goals = JSON.parse extra_list_all_goals_text
+    goals_list = unique_concat goals_list, extra_list_all_goals
+  localStorage.setItem 'cached_list_all_goals', JSON.stringify(goals_list)
+  #local_cached_list_all_goals := goals_list
   return goals_list
 
-get_site_to_goals = memoizeSingleAsync cfy ->*
+export clear_cache_list_all_goals = ->
+  #local_cached_list_all_goals := null
+  localStorage.removeItem 'cached_list_all_goals'
+  return
+
+get_site_to_goals = cfy ->*
   output = {}
   goals = yield get_goals()
   for goal_name,goal_info of goals
@@ -160,39 +182,74 @@ export list_sites_for_which_goals_are_enabled = cfy ->*
       output_set[sitename] = true
   return output
 
-local_cached_get_goals = null
+#local_cached_get_goals = null
 
 export get_goals = cfy ->*
-  if local_cached_get_goals?
-    return local_cached_get_goals
+  #if local_cached_get_goals?
+  #  return local_cached_get_goals
   cached_get_goals = localStorage.getItem 'cached_get_goals'
   if cached_get_goals?
-    local_cached_get_goals := JSON.parse cached_get_goals
-    return local_cached_get_goals
+    return JSON.parse cached_get_goals
+    #local_cached_get_goals := JSON.parse cached_get_goals
+    #return local_cached_get_goals
   goals_list = yield list_all_goals()
-  goal_name_to_info_promises = {[goal_name, getGoalInfo(goal_name)] for goal_name in goals_list}
-  output = yield goal_name_to_info_promises
+  output = {}
+  extra_get_goals_text = localStorage.getItem 'extra_get_goals'
+  if extra_get_goals_text?
+    extra_get_goals = JSON.parse extra_get_goals_text
+    for k,v of extra_get_goals
+      output[k] = v
+  goal_name_to_info_promises = {[goal_name, getGoalInfo(goal_name)] for goal_name in goals_list when not output[goal_name]?}
+  goal_info_dict = yield goal_name_to_info_promises
+  for k,v of goal_info_dict
+    output[k] = v
   localStorage.setItem 'cached_get_goals', JSON.stringify(output)
-  local_cached_get_goals := output
+  #local_cached_get_goals := output
   return output
 
+export clear_cache_get_goals = ->
+  #local_cached_get_goals := null
+  localStorage.removeItem 'cached_get_goals'
+  return
+
+export clear_cache_all_goals = ->
+  clear_cache_get_goals()
+  clear_cache_list_all_goals()
+  return
+
 export add_custom_goal_info = cfy (goal_info) ->*
-  goals = yield get_goals()
-  custom_goal_name = goal_info.name
-  goals[custom_goal_name] = goal_info
-  local_cached_get_goals := goals
-  localStorage.setItem 'cached_get_goals', JSON.stringify(goals)
+  extra_get_goals_text = localStorage.getItem 'extra_get_goals'
+  if extra_get_goals_text?
+    extra_get_goals = JSON.parse extra_get_goals_text
+  else
+    extra_get_goals = {}
+  extra_list_all_goals_text = localStorage.getItem 'extra_list_all_goals'
+  if extra_list_all_goals_text?
+    extra_list_all_goals = JSON.parse extra_list_all_goals_text
+  else
+    extra_list_all_goals = []
+  extra_list_all_goals = unique_concat extra_list_all_goals, [goal_info.name]
+  extra_get_goals[goal_info.name] = goal_info
+  clear_cache_all_goals()
+  localStorage.setItem 'extra_list_all_goals', JSON.stringify(extra_list_all_goals)
+  localStorage.setItem 'extra_get_goals', JSON.stringify(extra_get_goals)
+  yield list_all_goals()
+  yield get_goals()
   return
 
 export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
-  goals = yield get_goals()
   custom_goal_name = "custom/spend_less_time_#{domain}"
+  generic_interventions = yield intervention_utils.list_generic_interventions()
+  generated_interventions = [x.split('generic/').join("generated_#{domain}/") for x in generic_interventions]
   goal_info = {
     name: custom_goal_name
+    custom: true
+    description: "Spend less time on #{domain}"
+    homepage: "http://#{domain}/"
     progress_description: "Time spent on #{domain}"
-    interventions: [
-      'generated/#{domain}_make_user_wait'
-    ]
+    sitename: domain
+    sitename_printable: domain
+    interventions: generated_interventions
     measurement: 'time_spent_on_domain'
     domain: domain
     target: {
@@ -200,14 +257,13 @@ export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
       units: 'minutes'
     }
   }
-  goals[custom_goal_name] = goal_info
-  local_cached_get_goals := goals
-  localStorage.setItem 'cached_get_goals', JSON.stringify(goals)
+  yield add_custom_goal_info goal_info
   return
 
 export add_enable_custom_goal_reduce_time_on_domain = cfy (domain) ->*
   yield add_custom_goal_reduce_time_on_domain(domain)
   yield set_goal_enabled("custom/spend_less_time_#{domain}")
+  yield intervention_utils.generate_interventions_for_domain domain
   return
 
 export disable_all_custom_goals = cfy ->*
@@ -220,19 +276,29 @@ export disable_all_custom_goals = cfy ->*
   yield set_enabled_goals new_enabled_goals
   return
 
-export remove_all_custom_goals = cfy ->*
-  yield disable_all_custom_goals()
-  goals = yield get_goals()
-  new_goals = {}
-  for goal_name,goal_info of goals
-    if goal_name.startsWith('custom/')
-      continue
-    new_goals[goal_name] = goal_info
-  local_cached_get_goals := new_goals
-  localStorage.setItem 'cached_get_goals', JSON.stringify(new_goals)
+export remove_all_custom_goals_and_interventions = cfy ->*
+  yield remove_all_custom_goals()
+  intervention_utils.remove_all_custom_interventions()
   return
 
-export get_interventions_to_goals = memoizeSingleAsync cfy ->*
+export remove_all_custom_goals = cfy ->*
+  yield disable_all_custom_goals()
+  clear_cache_all_goals()
+  localStorage.removeItem 'extra_get_goals'
+  localStorage.removeItem 'extra_list_all_goals'
+  return
+
+export remove_custom_goal_and_generated_interventions = cfy (goal_name) ->*
+  all_goals = yield get_goals()
+  goal = all_goals[goal_name]
+  intervention_utils.remove_generated_interventions_for_domain goal.domain
+  yield set_goal_disabled goal_name
+  clear_cache_all_goals()
+  remove_key_from_localstorage_dict 'extra_get_goals', goal_name
+  remove_item_from_localstorage_list 'extra_list_all_goals', goal_name
+  return
+
+export get_interventions_to_goals = cfy ->*
   output = {}
   goals = yield get_goals()
   for goal_name,goal_info of goals

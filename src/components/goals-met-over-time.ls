@@ -27,18 +27,34 @@ require! {
 $ = require 'jquery'
 
 polymer_ext {
+
   is: 'goals-met-over-time'
   properties: {
+    day_num_to_success_object: {
+      type: Array
+    }
+    day_num_to_day_name: {
+      type: Object
+    }
   }
+
+  get_day_name: (day_num) ->
+    return this.day_num_to_day_name[day_num]
+  is_first_day: (day_num) ->
+    return day_num == 0
+
   ready: cfy ->*
     self = this
-    last_week = [] /* success rates for the last week */
-    today = moment()
-    for day from 0 to 6
-      day = today.subtract(day, 'days')
-      success_object = goal_success_on_date(day)
-      last_week.push(success_object)
+    day = moment().startOf('date')
+    day_num_to_success_object = []
+    day_num_to_day_name = {}
 
-    # Now we add it to the visualization
+    for day_num from 1 to 7
+      day.subtract(1, 'days')
+      success_object = yield goal_success_on_date(day)
+      day_num_to_success_object[day_num - 1] = success_object
+      day_num_to_day_name[day_num - 1] = day.format("dddd")
 
+    this.day_num_to_success_object = day_num_to_success_object
+    this.day_num_to_day_name = day_num_to_day_name
 }

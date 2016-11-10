@@ -19,6 +19,12 @@ export list_all_badge_info = ->
       message: 'That is enough time for a workout at the gym!'
       icon: 'workout.svg'
     }
+    {
+      minutes_saved: 60
+      name: 'Surfing'
+      message: 'That is enough time to go surfing!'
+      icon: 'surfing.svg'
+    }
   ]
   for badge_info in output
     if badge_info.icon?

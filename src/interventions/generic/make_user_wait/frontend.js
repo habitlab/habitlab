@@ -1,3 +1,6 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 require('enable-webcomponents-in-content-scripts')
 require('components/interstitial-screen.deps')
 const $ = require('jquery')
@@ -9,11 +12,11 @@ const {
 
 var interst_screen = $('<interstitial-screen>')
 interst_screen.addClass('interst_screen')
-var buttonText = 'Continue to Facebook'
+var buttonText = 'Continue to ' + intervention.params.sitename.value
 
 interst_screen.attr('btn-txt', buttonText)
 
-var buttonText2 = 'Close Facebook'
+var buttonText2 = 'Close ' + intervention.params.sitename.value
 interst_screen.attr('btn-txt2', buttonText2)
 var secondsLeft = intervention.params.seconds.value
 var messageString = 'Loading...';
@@ -31,7 +34,7 @@ var countdown = setInterval(function() {
   value_counter++;
   if (value_counter >= 100) {
     clearInterval(countdown)
-    interst_screen.attr('title-text', 'Facebook is available, if you really want to visit.')
+    interst_screen.attr('title-text', intervention.params.sitename.value + ' is available, if you really want to visit.')
     interst_screen[0].showButton();
   }
 }, 50)

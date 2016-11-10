@@ -23,15 +23,27 @@ require! {
 {
   as_dictset
   as_array
+  remove_keys_matching_patternfunc_from_localstorage_dict
+  remove_items_matching_patternfunc_from_localstorage_list
 } = require 'libs_common/collection_utils'
+
+{
+  unique_concat
+} = require 'libs_common/array_utils'
 
 {cfy, yfy} = require 'cfy'
 
+cached_get_intervention_info = {}
+
 getInterventionInfo = cfy (intervention_name) ->*
+  cached_val = cached_get_intervention_info[intervention_name]
+  if cached_val?
+    return JSON.parse JSON.stringify cached_val
   intervention_info_text = yield $.get "/interventions/#{intervention_name}/info.json"
   intervention_info = JSON.parse intervention_info_text
   intervention_info.name = intervention_name
   intervention_info.sitename = intervention_name.split('/')[0]
+  cached_get_intervention_info[intervention_name] = intervention_info
   return intervention_info
 
 export set_override_enabled_interventions_once = (intervention_name) ->
@@ -107,14 +119,70 @@ export is_intervention_enabled = cfy (intervention_name) ->*
   enabled_interventions = yield get_enabled_interventions()
   return enabled_interventions[intervention_name]
 
-/*
 export generate_interventions_for_domain = cfy (domain) ->*
   generic_interventions = yield list_generic_interventions()
+  new_intervention_info_list = []
+  goals = yield goal_utils.get_goals()
+  goal_for_intervention = goals["custom/spend_less_time_#{domain}"]
   for generic_intervention in generic_interventions
-    intervention_info = {
-      
-    }
-*/
+    intervention_info = yield getInterventionInfo generic_intervention
+    # TODO replace the above step with something that is non-asynchronous
+    intervention_info = JSON.parse JSON.stringify intervention_info
+    intervention_info.name = generic_intervention.split('generic/').join("generated_#{domain}/")
+    intervention_info.matches = [domain]
+    make_absolute_path = (content_script) ->
+      if content_script.path?
+        if content_script.path[0] == '/'
+          return content_script
+        content_script.path = '/interventions/' + generic_intervention + '/' + content_script.path
+        return content_script
+      if content_script[0] == '/'
+        return content_script
+      return '/interventions/' + generic_intervention + '/' + content_script
+    if intervention_info.content_scripts?
+      intervention_info.content_scripts = intervention_info.content_scripts.map make_absolute_path
+    if intervention_info.background_scripts?
+      intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
+    intervention_info.sitename = domain
+    intervention_info.goals = [goal_for_intervention]
+    #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
+    new_intervention_info_list.push intervention_info
+  yield add_new_interventions new_intervention_info_list
+  return
+
+export add_new_interventions = cfy (intervention_info_list) ->*
+  extra_get_interventions = localStorage.getItem 'extra_get_interventions'
+  if extra_get_interventions?
+    extra_get_interventions = JSON.parse extra_get_interventions
+  else
+    extra_get_interventions = {}
+  extra_list_all_interventions = localStorage.getItem 'extra_list_all_interventions'
+  if extra_list_all_interventions?
+    extra_list_all_interventions = JSON.parse extra_list_all_interventions
+  else
+    extra_list_all_interventions = []
+  new_intervention_names = intervention_info_list.map (.name)
+  extra_list_all_interventions = unique_concat extra_list_all_interventions, new_intervention_names
+  localStorage.setItem 'extra_list_all_interventions', JSON.stringify(extra_list_all_interventions)
+  for intervention_info in intervention_info_list
+    extra_get_interventions[intervention_info.name] = intervention_info
+  localStorage.setItem 'extra_get_interventions', JSON.stringify(extra_get_interventions)
+  clear_cache_all_interventions()
+  yield list_all_interventions()
+  yield get_interventions()
+  return
+
+export remove_all_custom_interventions = ->
+  clear_cache_all_interventions()
+  localStorage.removeItem 'extra_get_interventions'
+  localStorage.removeItem 'extra_list_all_interventions'
+  return
+
+export remove_generated_interventions_for_domain = (domain) ->
+  clear_cache_all_interventions()
+  remove_keys_matching_patternfunc_from_localstorage_dict 'extra_get_interventions', -> it.startsWith("generated_#{domain}/")
+  remove_items_matching_patternfunc_from_localstorage_list 'extra_list_all_interventions', -> it.startsWith("generated_#{domain}/")
+  return
 
 export list_generic_interventions = memoizeSingleAsync cfy ->*
   cached_generic_interventions = localStorage.getItem 'cached_list_generic_interventions'
@@ -125,20 +193,35 @@ export list_generic_interventions = memoizeSingleAsync cfy ->*
   localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
   return generic_interventions_list
 
-local_cache_list_all_interventions = null
+#local_cache_list_all_interventions = null
 
 export list_all_interventions = cfy ->*
-  if local_cache_list_all_interventions?
-    return local_cache_list_all_interventions
+  #if local_cache_list_all_interventions?
+  #  return local_cache_list_all_interventions
   cached_list_all_interventions = localStorage.getItem 'cached_list_all_interventions'
   if cached_list_all_interventions?
-    local_cache_list_all_interventions := JSON.parse cached_list_all_interventions
-    return local_cache_list_all_interventions
+    return JSON.parse cached_list_all_interventions
+    #local_cache_list_all_interventions := JSON.parse cached_list_all_interventions
+    #return local_cache_list_all_interventions
   interventions_list_text = yield $.get '/interventions/interventions.json'
   interventions_list = JSON.parse interventions_list_text
-  localStorage.setItem 'cached_list_all_interventions', interventions_list_text
-  local_cache_list_all_interventions := interventions_list
+  interventions_list_extra_text = localStorage.getItem 'extra_list_all_interventions'
+  if interventions_list_extra_text?
+    interventions_list_extra = JSON.parse interventions_list_extra_text
+    interventions_list = unique_concat interventions_list, interventions_list_extra
+  localStorage.setItem 'cached_list_all_interventions', JSON.stringify(interventions_list)
+  #local_cache_list_all_interventions := interventions_list
   return interventions_list
+
+export clear_cache_all_interventions = ->
+  clear_cache_list_all_interventions()
+  clear_cache_get_interventions()
+  return
+
+export clear_cache_list_all_interventions = ->
+  #local_cache_list_all_interventions := null
+  localStorage.removeItem 'cached_list_all_interventions'
+  return
 
 export get_intervention_info = cfy (intervention_name) ->*
   all_interventions = yield get_interventions()
@@ -152,7 +235,7 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
     if options.path[0] == '/'
       options.path = options.path.substr(1)
     else
-      options.path = "interventions/#{intervention_name}/#{options.path}"
+      options.path = "/interventions/#{intervention_name}/#{options.path}"
     if not options.run_at?
       options.run_at = 'document_end' # document_start
     if not options.all_frames?
@@ -164,7 +247,7 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
     if options.path[0] == '/'
       options.path = options.path.substr(1)
     else
-      options.path = "interventions/#{intervention_name}/#{options.path}"
+      options.path = "/interventions/#{intervention_name}/#{options.path}"
     return options
   fix_intervention_parameter = (parameter, intervention_info) ->
     if not parameter.name?
@@ -217,44 +300,61 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
   intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
   intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
   intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
-  intervention_info.goals = goals_satisfied_by_intervention
+  if not intervention_info.goals?
+    intervention_info.goals = goals_satisfied_by_intervention
   return intervention_info
 
-local_cache_get_interventions = null
-
-export get_interventions = cfy ->*
-  if local_cache_get_interventions?
-    return local_cache_get_interventions
-  cached_get_interventions = localStorage.getItem 'cached_get_interventions'
-  if cached_get_interventions?
-    local_cache_get_interventions := JSON.parse cached_get_interventions
-    return local_cache_get_interventions
-  interventions_to_goals_promises = goal_utils.get_interventions_to_goals()
-  interventions_list = yield list_all_interventions()
-  output = {}
-  intervention_name_to_info_promises = {[intervention_name, getInterventionInfo(intervention_name)] for intervention_name in interventions_list}
-  [intervention_name_to_info, interventions_to_goals] = yield [intervention_name_to_info_promises, interventions_to_goals_promises]
-  for intervention_name in interventions_list
-    intervention_info = intervention_name_to_info[intervention_name]
+fix_intervention_name_to_intervention_info_dict = (intervention_name_to_info, interventions_to_goals) ->
+  for intervention_name,intervention_info of intervention_name_to_info
     fix_intervention_info intervention_info, interventions_to_goals[intervention_name]
-    output[intervention_name] = intervention_info
   category_to_interventions = {}
-  for intervention_name in interventions_list
-    intervention_info = output[intervention_name]
+  for intervention_name,intervention_info of intervention_name_to_info
     for category in intervention_info.categories
       if not category_to_interventions[category]?
         category_to_interventions[category] = []
       category_to_interventions[category].push intervention_name
-  for intervention_name in interventions_list
-    intervention_info = output[intervention_name]
+  for intervention_name,intervention_info of intervention_name_to_info
     for category in intervention_info.categories
       for conflict in category_to_interventions[category]
         if conflict == intervention_name
           continue
         intervention_info.conflicts.push conflict
+  return intervention_name_to_info
+
+#local_cache_get_interventions = null
+
+export get_interventions = cfy ->*
+  #if local_cache_get_interventions?
+    #return local_cache_get_interventions
+  cached_get_interventions = localStorage.getItem 'cached_get_interventions'
+  if cached_get_interventions?
+    interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+    intervention_name_to_info = JSON.parse cached_get_interventions
+    fix_intervention_name_to_intervention_info_dict intervention_name_to_info, interventions_to_goals
+    return intervention_name_to_info
+    #return JSON.parse cached_get_interventions
+    #local_cache_get_interventions := JSON.parse cached_get_interventions
+    #return local_cache_get_interventions
+  interventions_to_goals_promises = goal_utils.get_interventions_to_goals()
+  interventions_list = yield list_all_interventions()
+  output = {}
+  extra_get_interventions_text = localStorage.getItem 'extra_get_interventions'
+  if extra_get_interventions_text?
+    extra_get_interventions = JSON.parse extra_get_interventions_text
+    for intervention_name,intervention_info of extra_get_interventions
+      output[intervention_name] = intervention_info
+  intervention_name_to_info_promises = {[intervention_name, getInterventionInfo(intervention_name)] for intervention_name in interventions_list when not output[intervention_name]?}
+  [intervention_name_to_info, interventions_to_goals] = yield [intervention_name_to_info_promises, interventions_to_goals_promises]
+  for intervention_name,intervention_info of intervention_name_to_info
+    output[intervention_name] = intervention_info
   localStorage.setItem 'cached_get_interventions', JSON.stringify(output)
-  local_cache_get_interventions := output
+  fix_intervention_name_to_intervention_info_dict output, interventions_to_goals
   return output
+
+export clear_cache_get_interventions = ->
+  #local_cache_get_interventions := null
+  localStorage.removeItem 'cached_get_interventions'
+  return
 
 export list_enabled_interventions_for_location = cfy (location) ->*
   available_interventions = yield list_available_interventions_for_location(location)
@@ -472,9 +572,7 @@ export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
   return output
 
 export get_goals_and_interventions = cfy ->*
-  
   intervention_name_to_info = yield get_interventions()
-  console.log intervention_name_to_info
   enabled_interventions = yield get_enabled_interventions()
   enabled_goals = yield goal_utils.get_enabled_goals()
   all_goals = yield goal_utils.get_goals()

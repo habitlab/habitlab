@@ -13,28 +13,12 @@ var {
 var {
   get_progress_on_goal_this_week
 } = require ('libs_backend/goal_progress')
-
-
-// MM/DD/YYYY
+var {cfy} = require('cfy');
 
 var moment = require('moment');
 console.log(moment()._d);
 moment().subtract(1, 'days');
 console.log(moment()._d);
-
-/*
-
-Write function for Brahm:
-
-  Give date/moment object
-  Return object with '3/7' in that format, will be parsed by Brahm
-
-*/
-
-//var given_date_return_goal_completion() {
-//}
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
   if (Notification.permission !== "granted")
@@ -47,23 +31,37 @@ function make_notification(num_met, num_goals) {
   else {
     var notification = new Notification('Notification title', {
       icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-      body: "You met " + num_met + " out of " + num_goals + "goals"
+      body: "You met " + num_met + " out of " + num_goals + " goal(s)."
     });
     notification.onclick = function () {
-      window.open("http://habitlab.stanford.edu/");
+      window.open(chrome.extension.getURL('index.html?tag=goals-met-over-time'));
     };
   }
 }
 
+var sent_notif_today = false;
+var prev_date = new Date();
 
-setInterval(function() {
-  // console.log('hello')
-  //console.log(url_to_domain('http://facebook.com'))
-}, 1000)
+/*
+  Function: Recurring Goal Completion Check
+  -----------------------------------------
+  Function that repeatedly checks every minute if the time now signifies that the date has changed. If it has, make a notification on how many goals the user met the previous day.
+*/
+setInterval(cfy(function*() {
+  console.log('checking goal completion');
+  var cur_date = new Date();
+  if (cur_date.getDate() != prev_date.getDate()) {
+    //new day
+    console.log("new day: will send notification!");
+    var obj = yield goal_success_on_date(moment());
+    make_notification(obj.num_met, obj.num_goals);
+  }
+  prev_date = cur_date;
+}), 60000)
 
 
 var {
   goal_success_on_date
 } = require('libs_common/goal_success')
 
-console.log(goal_success_on_date(moment));
+// console.log(goal_success_on_date(moment()));

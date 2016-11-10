@@ -1,8 +1,6 @@
-description: Blocks FB after some amount of time per visit
-matches:
-  - www.facebook.com
+description: Blocks site after some amount of time per visit
 content_scripts:
-  - path: /interventions/generic/block_after_interval_per_visit/frontend.js
+  - path: frontend.js
     run_at: document_start
 parameters:
   - name: cheatseconds
@@ -11,7 +9,7 @@ parameters:
     type: int
   - name: sitename
     description: Name that this site should be referred to as
-    default: Facebook
+    default: Website
     type: string
 categories:
   - interstitial

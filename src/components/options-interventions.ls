@@ -25,6 +25,8 @@ require! {
   set_goal_disabled_manual
   set_goal_target
   get_goal_target
+  remove_custom_goal_and_generated_interventions
+  add_enable_custom_goal_reduce_time_on_domain
 } = require 'libs_backend/goal_utils'
 
 {
@@ -39,12 +41,12 @@ require! {
   add_toolbar_notification
 } = require 'libs_frontend/common_libs'
 
+{
+  url_to_domain
+} = require 'libs_common/domain_utils'
+
 {load_css_file} = require 'libs_common/content_script_utils'
 {cfy} = require 'cfy'
-
-{
-  $$$
-} = require 'libs_frontend/polymer_methods'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
@@ -254,6 +256,12 @@ polymer_ext {
       this.$$('#interventions-list').style.display = "none"
     window.scrollTo 0, document.body.scrollHeight
 
+  show_intro_button_clicked: ->
+    this.$$('#show_intro_button').style.display = 'none'
+    this.$$('#intro1_content').style.display = 'block'
+    this.$$('#intro2').style.display = 'block'
+    this.$$('#intro4').style.display = 'block'
+
   attached: ->
    if window.location.hash != '#introduction'
     for elem in Polymer.dom(this.root).querySelectorAll('.intro')
@@ -261,7 +269,12 @@ polymer_ext {
     for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
       elem.style.display = 'none';
     this.$$('#pointer-div').style.display = 'none';
-
+    this.$$('#ivn-toggle-btn').style.display = 'none'
+    this.$$('#interventions-list').style.display = 'block'
+    this.$$('#show_intro_button').style.display = 'inline-flex'
+    this.$$('#intro1_content').style.display = 'none'
+    this.$$('#intro2').style.display = 'none'
+    this.$$('#intro4').style.display = 'none'
 
   ready: ->
    
@@ -396,6 +409,24 @@ polymer_ext {
       return 0
     else 
       return 1
+  add_goal_clicked: cfy (evt) ->*
+    domain = url_to_domain(this.$$('#add_website_input').value.trim())
+    if domain.length == 0
+      return
+    yield add_enable_custom_goal_reduce_time_on_domain(domain)
+    this.rerender()
+  add_website_input_keydown: cfy (evt) ->*
+    if evt.keyCode == 13
+      # enter pressed
+      domain = url_to_domain(this.$$('#add_website_input').value.trim())
+      if domain.length == 0
+        return
+      yield add_enable_custom_goal_reduce_time_on_domain(domain)
+      this.rerender()
+  delete_goal_clicked: cfy (evt) ->*
+    goal_name = evt.target.goal_name
+    yield remove_custom_goal_and_generated_interventions goal_name
+    this.rerender()
   rerender: cfy ->*
     yield this.set_sites_and_goals()
     self = this

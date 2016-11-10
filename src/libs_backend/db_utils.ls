@@ -73,7 +73,11 @@ export get_current_collections = ->
     times_intervention_used: 'key,synced'
   }
 
-export getDb = memoizeSingleAsync cfy ->*
+local_cache_db = null
+
+export getDb = cfy ->*
+  if local_cache_db?
+    return local_cache_db
   yield delete_db_if_outdated_db()
   db = new dexie('habitlab', {autoOpen: false})
   dbver = get_current_dbver_db()
@@ -93,8 +97,18 @@ export getDb = memoizeSingleAsync cfy ->*
       localStorage.setItem 'current_schema_db', JSON.stringify(new_schema)
       localStorage.setItem 'current_dbver_db', dbver
   db.version(dbver).stores(new_schema)
-  realdb = yield db.open()
-  return realdb
+  /*
+  db.on 'versionchange', ->
+    console.log '====================!!!!!!!!!------------#################'
+    console.log 'versionchange'
+    console.log '=====================~~~~~~~~~~~~~%%%%%%%%%###############'
+    db.close()
+    db.open().then (new_db) ->
+      local_cache_db := new_db
+    return false
+  */
+  local_cache_db := yield db.open()
+  return local_cache_db
 
 export deleteDb = cfy ->*
   console.log 'deleteDb called'

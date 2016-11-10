@@ -3,11 +3,15 @@ displayname: Wait Screen
 matches:
   - www.facebook.com
 content_scripts:
-  - frontend.js
+  - /interventions/generic/block_after_interval_per_visit/frontend.js
 parameters:
   - name: seconds
     description: Seconds that the user must wait before the page loads
     default: 10
     type: int
+  - name: sitename
+    description: Name that this site should be referred to as
+    default: Facebook
+    type: string
 categories:
   - interstitial

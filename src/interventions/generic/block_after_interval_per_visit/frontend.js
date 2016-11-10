@@ -1,17 +1,22 @@
-(() => {
-
-if (window.block_after_interval_per_visit) {
-  return
-}
-window.block_after_interval_per_visit = true
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
 
 const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')
 
+/*
+window.Polymer = {
+  dom: 'shadow',
+  lazyRegister: true,
+  useNativeCSSProperties: true,
+}
+*/
+
 //Polymer Component
 require('bower_components/paper-slider/paper-slider.deps')
 require('bower_components/paper-input/paper-input.deps')
+require('bower_components/paper-button/paper-button.deps')
 
 require('components/interstitial-screen.deps')
 require('components/timespent-view.deps')
@@ -69,10 +74,12 @@ function addBeginDialog(message) {
 
   const $slider = $('<paper-slider id="ratings" pin snaps min="1" max="5" max-markers="5" step="1" value="3" style="width: 500px" editable></paper-slider>')
 
-  const $okButton = $('<button>');
+  //const $okButton = $('<button>');
+  const $okButton = $('<paper-button>');
   $okButton.text("Restrict My Minutes!");
-  $okButton.css({'cursor': 'pointer', 'padding': '5px'});
-  $okButton.click(() => {
+  $okButton.css({'cursor': 'pointer', 'padding': '5px', 'background-color': '#3367d6', 'color': 'white', 'font-weight': 'normal'});
+  //$okButton.click(() => {
+  $okButton.on('click', () => {
     var minutes = document.querySelector("paper-slider").value
     if (minutes === "") {
       if ($('.wrongInputText').length === 0) {
@@ -205,7 +212,7 @@ function displayCountdown() {
 }
 
 function main() {
-  addBeginDialog("How many minutes would you like to spend on Facebook this visit?");
+  addBeginDialog("How many minutes would you like to spend on " + intervention.params.sitename.value + " this visit?");
 }
 
 once_document_available(main);
@@ -217,5 +224,3 @@ window.onload = () => {
     $('.beginBox').remove()
   });
 }
-
-})()

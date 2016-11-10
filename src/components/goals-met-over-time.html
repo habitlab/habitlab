@@ -5,12 +5,34 @@
       display: block;
       height: 100%;
     }
+    ul {
+      list-style-type: none;
+      text-align: left;
+    }
+    /*.update {
+      font-size: 25px;
+    }*/
+    .date_inactive {
+      color: grey;
+    }
+    .date_active {
+      color: red;
+    }
   </style>
   <template>
-    <h4> My success history </h4>
-    <h5> How you've been doing </h5>
+    <h4> How you've been doing </h4>
     <ul id="goals">
     </ul>
+
+    <template is="dom-repeat" items="{{day_num_to_success_object}}" as="success_object" index-as="day_idx">
+      <!--<template is="dom-if" if="{{is_first_day(day_idx)}}">
+        This is the first day
+      </template>-->
+      <div>On <b><span>{{get_day_name(day_idx)}}</span></b>,
+        you met <span>{{success_object.num_met}}</span>
+        of your <span>{{success_object.num_goals}}</span> goals.</div>
+    </template>
+
   </template>
   <script src='goals-met-over-time.js'></script>
 </dom-module>

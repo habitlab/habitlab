@@ -1,7 +1,5 @@
-description: Makes you wait a few seconds before visiting Facebook.
+description: Makes you wait a few seconds before visiting.
 displayname: Wait Screen
-matches:
-  - slashdot.org
 content_scripts:
   - frontend.js
 parameters:
@@ -9,5 +7,9 @@ parameters:
     description: Seconds that the user must wait before the page loads
     default: 10
     type: int
+  - name: sitename
+    description: Name that this site should be referred to as
+    default: Website
+    type: string
 categories:
   - interstitial

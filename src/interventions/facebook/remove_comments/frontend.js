@@ -19,10 +19,8 @@ require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')
 //require('components/timespent-view.deps')
 
-
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
-
 
 //Removes comments
 function removeComments() {
@@ -44,7 +42,7 @@ function removeComments() {
             $(item).css('pointer-events', 'all')
             $(this).siblings('habitlab-logo').remove()
             $(this).siblings('close-tab-button').remove()
-            $(this).remove()
+            $(this).siblings('paper-button').remove()
           })
           var close_tab_button = $('<close-tab-button style="height: 40px"</close-tab-button>')
           var button_container = $('<div class="habitlab_button_container" style="text-align: center"></div>')
@@ -57,10 +55,9 @@ function removeComments() {
         }
       }
     }
-  } else {
-    //showComments()
-  } 
+  }
 }
+
 function showComments() {
   if (commentsShown) {
     for (const item of $('.commentable_item')) {
@@ -83,17 +80,10 @@ function showComments() {
 }
 
 var commentsShown = false;
-
 var intervalID = window.setInterval(removeComments, 200);
 window.intervalID = intervalID;
 document.body.addEventListener('disable_intervention', (intervalID) => {
+  $('.habitlab_button_container').remove()
   commentsShown = true;
   showComments();
 });
-
-
-document.body.addEventListener('disable_intervention', function() {
-  commentsShown = true;
-  showComments();
-  $('.habitlab_button_container').remove()
-})

@@ -16,9 +16,9 @@ var {
 var {cfy} = require('cfy');
 
 var moment = require('moment');
-console.log(moment()._d);
+// console.log(moment()._d);
 moment().subtract(1, 'days');
-console.log(moment()._d);
+// console.log(moment()._d);
 
 document.addEventListener('DOMContentLoaded', function () {
   if (Notification.permission !== "granted")
@@ -29,8 +29,8 @@ function make_notification(num_met, num_goals) {
   if (Notification.permission !== "granted")
     Notification.requestPermission();
   else {
-    var notification = new Notification('Notification title', {
-      icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+    var notification = new Notification('HabitLab Goal Checkup', {
+      icon: chrome.extension.getURL('icons/icon_38.png'),
       body: "You met " + num_met + " out of " + num_goals + " goal(s)."
     });
     notification.onclick = function () {
@@ -50,7 +50,7 @@ var prev_date = new Date();
 setInterval(cfy(function*() {
   console.log('checking goal completion');
   var cur_date = new Date();
-  if (cur_date.getDate() != prev_date.getDate()) {
+  if (cur_date.getDate() !== prev_date.getDate()) {
     //new day
     console.log("new day: will send notification!");
     var obj = yield goal_success_on_date(moment());
@@ -58,7 +58,6 @@ setInterval(cfy(function*() {
   }
   prev_date = cur_date;
 }), 60000)
-
 
 var {
   goal_success_on_date

@@ -146,7 +146,7 @@ polymer_ext {
       check_if_first_goal = cfy ->*       
         if !localStorage.first_goal?
           localStorage.first_goal = 'has enabled a goal before'
-          add_toolbar_notification!
+          #add_toolbar_notification!
 
           # yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
           # try

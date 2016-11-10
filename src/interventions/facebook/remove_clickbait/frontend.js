@@ -21,74 +21,42 @@ require('components/close-tab-button.deps')
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
-//Removes comments
-function removeComments() {
-  if (!commentsShown) {
-    for (const item of $('.commentable_item')) {
-      var original_height = $(item).css('height')
-      if (original_height != null && original_height != undefined && original_height != '0px') {
-        if ($(item).prop('button_inserted') != true) {
-          $(item).css('opacity', 0)
-          $(item).css('pointer-events', 'none')
-          $(item).prop('original_height', $(item).css('height'))
-          $(item).css('height', '0px')
-          $(item).prop('button_inserted', true)
-          var show_comments_button = $('<paper-button style="background-color: green; color: white; height: 40px">Show Comments</paper-button>')
-          var habitlab_logo = $('<habitlab-logo style="position: relative; top: 13px"></habit-lab-logo>')
-          show_comments_button.click(function() {
-            $(item).css('height', $(item).prop('original_height'))
-            $(item).css('opacity', 1)
-            $(item).css('pointer-events', 'all')
-            $(this).siblings('habitlab-logo').remove()
-            $(this).siblings('close-tab-button').remove()
-            $(this).remove()
-          })
-          var close_tab_button = $('<close-tab-button style="height: 40px"</close-tab-button>')
-          var button_container = $('<div class="habitlab_button_container" style="text-align: center"></div>')
-          button_container.append([
-            show_comments_button,
-            close_tab_button,
-            habitlab_logo
-          ])
-          $(item).parent().append(button_container)
-        }
-      }
-    }
-  } 
+function addNotification() {
+  var textNotification = $('<span style = "font-size: 20px">HabitLab has removed clickbait  </span>')
+  //var textNotification = document.createTextNode("HabitLab has removed clickbait")
+  var habitlab_logo = $('<habitlab-logo style="position: relative; top: 13px"></habit-lab-logo>')
+  var close_tab_button = $('<close-tab-button style="height: 40px"</close-tab-button>')
+  var button_container = $('<div class="habitlab_button_container" style="text-align: center"></div>')
+  button_container.append([
+    textNotification,
+    close_tab_button,
+    habitlab_logo
+  ])
+  $('#pagelet_composer').parent().prepend(button_container)
 }
-function showComments() {
-  if (commentsShown) {
-    for (const item of $('.commentable_item')) {
-      if ($(item).prop('button_inserted') == true) {
-        $(item).prop('button_inserted', false)
-        var curr_height = $(item).css('height')
-        var stored_height = $(item).prop('original_height')
-        if (curr_height != stored_height) {
-          $(item).css('height', $(item).prop('original_height'))
-          $(item).css('opacity', 1)
-          $(item).css('pointer-events', 'all')
-        }
-        $(this).siblings('habitlab_logo').remove()
-        $(this).siblings('close-tab-button').remove()
-        $(this).siblings('paper-button').remove()
-      }
+
+function removeClickBait() {
+  if (removeCB) {
+    for (const item of $('._5g-l')) {
+      var suggestedPost = $(item).closest('div[class^="_5jmm _5pat _3lb4 w_dqmgvr46j _x72"]')
+      suggestedPost.remove()
+    }
+    for (const item of $('.uiStreamSponsoredLink')) {
+      var sponsored = $(item).closest('div[class^="_5jmm _5pat _3lb4 w_dqmgvr46j _x72"]')
+      sponsored.remove()
     }
   }
-  clearInterval(intervalID)
 }
 
-var commentsShown = false;
-
-var intervalID = window.setInterval(removeComments, 200);
+var removeCB = true;
+window.onload = () => {
+  removeCB = true;
+  addNotification();
+}
+var intervalID = window.setInterval(removeClickBait, 100);
 window.intervalID = intervalID;
 document.body.addEventListener('disable_intervention', (intervalID) => {
-  commentsShown = true;
-  showComments();
+  $('.habitlab_button_container').remove()
+  removeCB = false;
 });
 
-
-document.body.addEventListener('disable_intervention', function() {
-  commentsShown = true;
-  showComments();
-  $('.habitlab_button_container').remove()
-})

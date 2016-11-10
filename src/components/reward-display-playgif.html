@@ -15,7 +15,8 @@
       opacity: 0;
       width: 100vw;
       height: 100vh;
-      background-color: black;
+      background-color: white;
+      color: black;
       z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
     }
     #rewardvideocontainer {
@@ -53,7 +54,7 @@
       text-align: center;
       line-height: 100px;
       height: 100px;
-      color: white;
+      color: black;
       font-size: 48px;
     }
     #unlock_features_message {
@@ -63,7 +64,7 @@
       width: 100vw;
       display: inline-block;
       text-align: center;
-      color: white;
+      color: black;
       font-size: 18px;
     }
     .progress_bubble_green {
@@ -84,7 +85,7 @@
       width: 33vw;
       left: 0%;
       top: 100px;
-      color: white;
+      color: black;
     }
     #right_message_block {
       position: fixed;
@@ -92,14 +93,14 @@
       width: 33vw;
       right: 0%;
       top: 100px;
-      color: white;
+      color: black;
     }
     #below_gif_section {
       position: fixed;
       top: 420px;
       text-align: center;
       width: 100vw;
-      color: white;
+      color: black;
     }
   </style>
   <template>
@@ -150,6 +151,7 @@
     <img src="{{img_url}}"></img>
     -->
 
+<!--
 <div id="below_gif_section">
 
 <template is="dom-if" if="{{is_not(is_intervention_mastered)}}">
@@ -176,21 +178,8 @@
 
 </template>
 
-<!--
-<progress-bubble value="40" value2="50" max="100" style="font-size: 18px; width: 150px; height: 150px; display: inline-block">
-  <strong style="text-align: center; width: 130px">{{intervention_name}}</strong>
-</progress-bubble>
--->
-
-<!-- <br> -->
-
-<!--<b>75% mastery</b>-->
-<!--75 minutes saved using <span>{{intervention_name}}</span>-->
-<!--
-<span style="font-size: 30px">Keep using interventions to unlock new features!</span>
--->
 </div>
-
+-->
 
   </template>
   <script src="reward-display-playgif.js"></script>

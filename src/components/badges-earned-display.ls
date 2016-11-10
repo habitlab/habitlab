@@ -32,6 +32,8 @@ polymer_ext {
       observer: 'isdemo_changed'
     }
   }
+  compute_close_button_img_src: ->
+    return chrome.extension.getURL 'icons/close_button.svg'
   isdemo_changed: (isdemo) ->
     if isdemo
       this.badges = [

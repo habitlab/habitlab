@@ -16,8 +16,8 @@
       opacity: 1;
       width: 100vw;
       height: 100vh;
-      background-color: black;
-      color: white;
+      background-color: white;
+      color: black;
       z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
     }
     .fullscreen_message {
@@ -28,6 +28,24 @@
     .badges_earned_close_container {
       width: 100vw;
       text-align: center;
+    }
+    /*
+    .close_button {
+      background-color: red;
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+    }
+    */
+    .close_button {
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      width: 100px;
+      cursor: pointer;
     }
     .badges_earned_close {
       background-color: green;
@@ -45,9 +63,16 @@
       </template>
     </template>
 
+
+    <img src="{{compute_close_button_img_src()}}" class="close_button" on-click="close_button_pressed"></img>
+    <!--
+    <paper-button class="close_button">X</paper-button>
+    -->
+    <!--
     <div class="badges_earned_close_container">
       <paper-button class="badges_earned_close" on-click="close_button_pressed">Close Message</paper-button>
     </div>
+    -->
 
   </template>
   <script src="badges-earned-display.js"></script>

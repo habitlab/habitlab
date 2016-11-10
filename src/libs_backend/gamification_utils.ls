@@ -60,7 +60,7 @@ export record_seconds_saved_and_get_rewards = cfy (seconds, intervention_name, d
       rewards.push timesaved_badge
 
   times_used = yield addtokey_dict 'times_intervention_used', intervention_name, 1
-  add_times_used_reward times_used, times_used - 1
+  #add_times_used_reward times_used, times_used - 1
 
   seconds_saved_prev = yield get_time_saved_total()
   seconds_saved = yield addtovar 'seconds_saved_total', seconds

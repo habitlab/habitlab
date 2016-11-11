@@ -1,0 +1,25 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
+
+<dom-module id="graph-intervention-effectiveness-comparison-fake">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    h4 {
+      margin-bottom: 20px;
+    }
+  </style>
+  <template>
+  <h4>Intervention effectiveness: Spend less time on Facebook</h4>
+    <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 530px"></chart-horizontal-bar>
+  </template>
+  <script src="graph-intervention-effectiveness-comparison-fake.js"></script>
+</dom-module>

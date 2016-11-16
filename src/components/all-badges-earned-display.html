@@ -1,82 +1,25 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="reward-display.html">
-<link rel="import" href="number-count-up.html">
-<link rel="import" href="star-display.html">
+<link rel="import" href="badge-display-mini.html">
 
 <dom-module id="all-badges-earned-display">
   <style>
     :host {
+      /*
       opacity: 1;
       width: 100vw;
       background-color: white;
       color: black;
-      z-index: 9007199254740991; /* Number.MAX_SAFE_INTEGER */
+      z-index: 9007199254740991;
+      */
     }
-    .fullscreen_message {
-      width: 100vw;
-      background-color: white;
-      color: black;
-      text-align: center;
-      font-size: 40px;
-    }
-    .badge_img {
-      height: 300px;
-    }
-    .badge_unlocked_header_text {
-      background-color: #5E9CD3;
-      display: inline-block;
-      padding: 10px;
-      border-radius: 10px;
-      color: white;
-      border-color: #43729A;
-      border-width: 1px;
-      border-style: solid;
-      text-shadow: 1px 1px black;
-    }
-    .badge_unlocked_bottom_text {
-      background-color: #5E9CD3;
-      display: inline-block;
-      padding: 10px;
-      border-radius: 10px;
-      color: white;
-      border-color: #43729A;
-      border-width: 1px;
-      border-style: solid;
-      text-shadow: 1px 1px black;
-    }
-    .center_badge_display {
-      width: 250px;
-      height: 250px;
-      border-radius: 250px;
-      border-color: green;
-      border-width: 2px;
-      border-style: solid;
-      background-color: #70AD47;
-      display: inline-block;
-    }
+
   </style>
   <template>
-    <div class="fullscreen_message">
-      <div style="width: 100%; text-align: center">
-        <div class="badge_unlocked_header_text"><div style="font-size: 20px">Badge Unlocked:</div><div>{{badge_details.name}}</div></div>
-      </div>
-      <br>
-      <div class="center_badge_display">
-        <img src="{{badge_details.img_url}}" style="margin-top: 37px; height: 175px"></img>
-      </div>
-      <!--
-      <img class="badge_img" src="{{badge_details.img_url}}"></img>
-      -->
-      <br>
-      <br>
-      <div style="width: 100%; text-align: center">
-        <div class="badge_unlocked_bottom_text">
-          <div><span>{{badge_details.minutes_saved}}</span> minutes saved</div>
-          <div style="font-size: 20px">{{badge_details.message}}</div>
-        </div>
-      </div>
+    <div style="display: inline-block">
+      <template is="dom-repeat" items="{{badges}}" as="badge">
+        <badge-display-mini minutes_saved="{{badge.minutes_saved}}" style="display: inline-block; padding: 5px"></badge-display-mini>
+      </template>
     </div>
   </template>
   <script src="all-badges-earned-display.js"></script>

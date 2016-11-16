@@ -79,4 +79,11 @@ export get_timesaved_badge_that_should_be_awarded = (seconds_saved, seconds_save
       return badge_info
   return
 
+export get_all_badges_earned_for_minutes_saved = (minutes_saved) ->
+  output = []
+  for badge_info in list_all_badge_info()
+    if badge_info.minutes_saved <= minutes_saved
+      output.push badge_info
+  return output
+
 gexport_module 'badges_utils', -> eval(it)

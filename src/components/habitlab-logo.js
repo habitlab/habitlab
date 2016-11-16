@@ -1,6 +1,6 @@
 const $ = require('jquery');
 
-require('jquery-contextmenu')($)
+//require('jquery-contextmenu')($)
 
 const {
   load_css_file
@@ -47,7 +47,15 @@ polymer_ext({
     unclickable: {
       type: Boolean,
       value: false
-    }
+    },
+    intervention_description: {
+      type: String,
+      value: (typeof(intervention) != 'undefined' && intervention) ? intervention.description : '',
+    },
+    goal_descriptions: {
+      type: String,
+      value: (typeof(intervention) != 'undefined' && intervention) ? intervention.goals.map((x) => x.description).join(', ') : '',
+    },
   },
   clicked: function() {
     console.log('habitlab-logo clicked');
@@ -57,6 +65,7 @@ polymer_ext({
     return `width: ${this.width}; height: ${this.height};`
   },
   disable_temp_callback: function() {
+    this.$$('#intervention_info_dialog').close()
     const self = this;
     this.fire('disable_intervention');
 
@@ -67,6 +76,7 @@ polymer_ext({
     })
   },
   disable_perm_callback: function() {
+    this.$$('#intervention_info_dialog').close()
     const self = this;
     this.fire('disable_intervention');
 
@@ -79,11 +89,12 @@ polymer_ext({
     
 
 
-    const self = this;
+    //const self = this;
 
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
-    yield load_css_file('node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu.min.css');
+    //yield load_css_file('node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu.min.css');
 
+    /*
     function get_intervention_name() {
       if (intervention !== null) {
         return "Intervention: " + intervention.description
@@ -100,11 +111,14 @@ polymer_ext({
 
     var name = get_intervention_name()
     var goal = get_intervention_goal()
+    console.log('habitlab-logo: intervention name: ' + name)
+    console.log('habitlab-logo: intervention goal: ' + goal)
+    */
 
     if (this.unclickable) {
       this.style.cursor = "default";
     }
-
+    /*
     if (this.context === true && !this.unclickable) {
       $.contextMenu({
         selector: '#habitlab_button',
@@ -124,7 +138,17 @@ polymer_ext({
         }
       });
     }
+    */
   }),
+
+  open_interventions_page: function() {
+    open_url_in_new_tab("options.html#interventions")
+    this.$$('#intervention_info_dialog').close()
+  },
+
+  habitlab_button_clicked: function() {
+    this.$$('#intervention_info_dialog').open()
+  },
 
   get_url: function() {
     return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');

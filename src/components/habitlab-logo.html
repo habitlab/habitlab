@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 
 <dom-module id="habitlab-logo">
   <style>
@@ -38,7 +39,21 @@
   <template>
   <!--<paper-icon-button icon="settings" id="habitlab_button">-->
   <!--<paper-icon-button src="{{get_url()}}" id="habitlab_button"></paper-icon-button>-->
-  <img id="habitlab_button" src="{{get_url()}}" alt="icon" />
+  <img id="habitlab_button" src="{{get_url()}}" alt="icon" on-click="habitlab_button_clicked" />
+
+  <paper-dialog id="intervention_info_dialog" with-backdrop>
+    <h2>Habitlab Intervention Info</h2>
+    <p>Intervention name: <span>{{intervention_description}}</span></p>
+    <p>Goal: <span>{{goal_descriptions}}</span></p>
+    <p>Disable Intervention:
+      <paper-button on-click="disable_temp_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of this visit</paper-button>
+      <paper-button on-click="disable_perm_callback" style="color: white; background-color: #3687D3; text-transform: none;">Permanently</paper-button>
+    </p>
+    <div class="buttons">
+      <paper-button on-click="open_interventions_page">HabitLab Options</paper-button>
+      <paper-button dialog-dismiss>Close</paper-button>
+    </div>
+  </paper-dialog>
 
     <!--<img class="habitlab_logo_img" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
     <paper-tooltip for="habitlab_button" id="tooltip">This is a HabitLab intervention.<br>Click for options.</paper-tooltip>-->

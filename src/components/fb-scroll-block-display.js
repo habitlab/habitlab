@@ -1,5 +1,4 @@
 const $ = require('jquery');
-require('jquery-contextmenu');
 
 const {
   close_selected_tab

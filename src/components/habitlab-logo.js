@@ -1,7 +1,3 @@
-const $ = require('jquery');
-
-//require('jquery-contextmenu')($)
-
 const {
   load_css_file
 } = require('libs_common/content_script_utils')
@@ -86,59 +82,10 @@ polymer_ext({
     })
   },
   ready: cfy(function*() {
-    
-
-
-    //const self = this;
-
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
-    //yield load_css_file('node_modules_custom/jquery-contextmenu/dist/jquery.contextMenu.min.css');
-
-    /*
-    function get_intervention_name() {
-      if (intervention !== null) {
-        return "Intervention: " + intervention.description
-      }
-      return ""
-    }
-
-    function get_intervention_goal() {
-      if (intervention !== null) {
-        return "Goals: " + intervention.goals.map((x) => x.description).join(', ')
-      }
-      return ""
-    }
-
-    var name = get_intervention_name()
-    var goal = get_intervention_goal()
-    console.log('habitlab-logo: intervention name: ' + name)
-    console.log('habitlab-logo: intervention goal: ' + goal)
-    */
-
     if (this.unclickable) {
       this.style.cursor = "default";
     }
-    /*
-    if (this.context === true && !this.unclickable) {
-      $.contextMenu({
-        selector: '#habitlab_button',
-        trigger: 'left',
-        items: {
-          "name": {name: name, disabled: true},
-          "goal": {name: goal, disabled: true},
-//        "disable": {name: "Disable this intervention", callback: () => self.disable_callback()},
-          "disableFold": {
-              "name": "Disable intervention",
-              items: {
-                  "tempDisable": {name: "For the rest of this visit", callback: () => self.disable_temp_callback()},
-                  "permDisable": {name: "Permamently",  callback: () => self.disable_perm_callback()}
-              }
-          },
-          "options": {name: "View all interventions", callback: () => open_url_in_new_tab("options.html#interventions")}
-        }
-      });
-    }
-    */
   }),
 
   open_interventions_page: function() {

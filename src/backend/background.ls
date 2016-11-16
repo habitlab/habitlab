@@ -242,6 +242,8 @@ get_session_id_for_tab_id_and_domain = cfy (tabId, domain) ->*
   tab_id_to_domain_to_session_id[tabId][domain] = session_id
   return session_id
 
+tab_id_to_loaded_interventions = {}
+
 load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   if is_it_outside_work_hours()
     return
@@ -310,6 +312,7 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
          if permanently_enabled_intervention != intervention
            interventions_to_load.push permanently_enabled_intervention
            #yield load_intervention permanently_enabled_intervention, tabId
+  tab_id_to_loaded_interventions[tabId] = interventions_to_load
   yield load_intervention_list interventions_to_load, tabId
   return
 
@@ -480,6 +483,11 @@ chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
       tabId: tabId
     }
     navigation_occurred tab.url, tabId
+    loaded_interventions = tab_id_to_loaded_interventions[tabId]
+    if loaded_interventions? and loaded_interventions.length > 0
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
+    else
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
 
 chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
   send_message_to_tabid info.tabId, 'navigation_occurred', {

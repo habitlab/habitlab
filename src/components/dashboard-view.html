@@ -13,7 +13,8 @@
 <link rel="import" href="graph-num-times-interventions-deployed.html">
 <link rel="import" href="graph-donut-top-sites.html">
 <link rel="import" href="goals-met-over-time.html">
-<link rel="import" href="all-badges-earned-display">
+<!--<link rel="import" href="all-badges-earned-display.html">-->
+<link rel="import" href="graph-intervention-effectiveness-comparison.html">
 
 <dom-module id="dashboard-view">
   <style>
@@ -70,26 +71,26 @@
       <paper-card>
         <div class="card-content">
           <graph-chrome-history></graph-chrome-history>
-        </div>  
+        </div>
       </paper-card>
-      
+
       <!--
       <paper-card>
         <div class="card-content">
           <graph-time-saved-daily></graph-time-saved-daily>
-        </div>  
+        </div>
       </paper-card>
       -->
-      
+
       <paper-card>
         <div class="card-content">
-          <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>          
+          <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}}>
             <template is="dom-repeat" items="{{sites}}" as="site">
               <paper-tab>{{site}}</paper-tab>
             </template>
             <paper-tab>overview</paper-tab>
           </paper-tabs>
-      
+
           <iron-pages selected={{selected}}>
             <template is="dom-repeat" items="{{sites}}" as="site">
               <div><site-goal-view site="{{site}}"></site-goal-view></div>
@@ -100,14 +101,14 @@
           </iron-pages>
         </div>
       </paper-card>
-      
+
 
       <!-- Uncomment when badges are implemented -->
-      
+
       <!--
       <div class="description">Which badges have I earned?</div>
       <badges-view></badges-view>
-      
+
       -->
 
       <paper-card>
@@ -116,7 +117,7 @@
       </div>
       </paper-card>
 
-      
+
 
       <paper-card>
         <div class="card-content">
@@ -127,6 +128,12 @@
       <paper-card>
         <div class="card-content">
           <all-badges-earned-display></all-badges-earned-display>
+        </div>
+      </paper-card>
+
+      <paper-card>
+        <div class="card-content">
+          <graph-intervention-effectiveness-comparison></graph-intervention-effectiveness-comparison>
         </div>
       </paper-card>
 

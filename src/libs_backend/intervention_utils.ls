@@ -574,10 +574,7 @@ export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
   return output
 */
 
-export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
-  goal_info = yield goal_utils.get_goal_info(goal_name)
-  domain = goal_info.domain
-  intervention_names = goal_info.interventions
+get_seconds_spent_on_domain_for_each_intervention = cfy (domain) ->*
   session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
   session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
   intervention_to_session_lengths = {}
@@ -595,15 +592,65 @@ export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
     intervention_to_session_lengths[intervention].push seconds_spent
   output = {}
   for intervention,session_lengths of intervention_to_session_lengths
-    effectiveness_seconds = mathjs.median(session_lengths)
+    output[intervention] = mathjs.median session_lengths
+  return output
+
+export get_seconds_saved_per_session_for_each_intervention_for_goal = cfy (goal_name) ->*
+  goal_info = yield goal_utils.get_goal_info(goal_name)
+  domain = goal_info.domain
+  intervention_names = goal_info.interventions
+  session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+  intervention_to_seconds_per_session = yield get_seconds_spent_on_domain_for_each_intervention(domain)
+  baseline_session_time = yield get_baseline_session_time_on_domain(domain)
+  output = {}
+  for intervention in intervention_names
+    seconds_per_session = intervention_to_seconds_per_session[intervention]
+    if not seconds_per_session?
+      output[intervention] = NaN
+      continue
+    time_saved = baseline_session_time - seconds_per_session
+    output[intervention] = time_saved
+  return output
+
+export get_seconds_spent_per_session_for_each_intervention_for_goal = cfy (goal_name) ->*
+  goal_info = yield goal_utils.get_goal_info(goal_name)
+  domain = goal_info.domain
+  intervention_names = goal_info.interventions
+  session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+  intervention_to_seconds_per_session = yield get_seconds_spent_on_domain_for_each_intervention(domain)
+  baseline_session_time = yield get_baseline_session_time_on_domain(domain)
+  output = {}
+  for intervention in intervention_names
+    seconds_per_session = intervention_to_seconds_per_session[intervention]
+    if not seconds_per_session?
+      output[intervention] = NaN
+      continue
+    output[intervention] = seconds_per_session
+  return output
+
+# only kept for legacy compatibility purposes, will be removed, do not use
+export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
+  goal_info = yield goal_utils.get_goal_info(goal_name)
+  domain = goal_info.domain
+  intervention_names = goal_info.interventions
+  session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+  intervention_to_seconds_per_session = yield get_seconds_spent_on_domain_for_each_intervention(domain)
+  output = {}
+  for intervention,seconds_per_session of intervention_to_session_lengths
+    minutes_per_session = seconds_per_session / 60
     output[intervention] = {
-      progress: effectiveness_seconds
-      message: "#{effectiveness_seconds} seconds"
+      progress: minutes_per_session
+      units: 'minutes'
+      message: "#{effectiveness_minutes} minutes"
     }
   for intervention in intervention_names
     if not output[intervention]?
       output[intervention] = {
         progress: NaN
+        units: 'minutes'
         message: 'no data'
       }
   return output

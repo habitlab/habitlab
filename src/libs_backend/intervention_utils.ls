@@ -639,12 +639,12 @@ export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
   session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
   intervention_to_seconds_per_session = yield get_seconds_spent_on_domain_for_each_intervention(domain)
   output = {}
-  for intervention,seconds_per_session of intervention_to_session_lengths
+  for intervention,seconds_per_session of intervention_to_seconds_per_session
     minutes_per_session = seconds_per_session / 60
     output[intervention] = {
       progress: minutes_per_session
       units: 'minutes'
-      message: "#{effectiveness_minutes} minutes"
+      message: "#{minutes_per_session} minutes"
     }
   for intervention in intervention_names
     if not output[intervention]?

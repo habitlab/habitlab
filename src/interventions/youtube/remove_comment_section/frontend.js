@@ -1,5 +1,11 @@
 const $ = require('jquery')
 
+require('enable-webcomponents-in-content-scripts')
+require('bower_components/paper-button/paper-button.deps')
+require('components/habitlab-logo.deps')
+
+console.log("comments being removed!");
+
 const {
   once_available
 } = require('libs_frontend/common_libs')
@@ -9,17 +15,23 @@ once_available('#watch-discussion', () => {
 })
 
 document.body.addEventListener('disable_intervention', (intervalID) => {
-  $('#watch-discussion').show();
+    $('#watch-discussion').show();
+
 });
 
 //Cheat button
-const $show_comments = $('<paper-button raised style="display: block; width: 100px; margin: 10px auto 0px auto; color: #fff; background-color: red; text-align: center;">')
+const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: block; width: 100px; margin: 10px auto 0px auto; color: #fff; background-color: red; text-align: center;">')
 $show_comments.text("Show Comment Section")
 $show_comments.css({'cursor': 'pointer', 'padding': '5px'});
 $show_comments.click(() => {
-  $('#watch-discussion').show();
+    console.log("hiding buttons");
+    $('#watch-discussion').show();
+    $('#show_comment_btn').hide();
+    $('#hb_logo').hide();
 })
 
+
+$('#action-panel-details').append($('<habitlab-logo id="hb_logo" style="display: block; width: 100px; margin: 10px auto 0px auto;">'))
 $('#action-panel-details').append($show_comments)
 
 /*
@@ -30,4 +42,17 @@ showFeed(window.intervalID);
 });
 //switch behavior to outright, so swith
 //otherwise keep going on with github issues
+*/
+
+/*
+
+    Issue 104
+    -----
+    - need to hook up the intervention effectivesness
+    - check the comments for the correct code
+    - keep going on front end stuff for youtube comment Section
+    - edit the polymer component (intervention effectivesness graph), do it all in livescript
+    - remember, that polymer component is then required into the dashboard
+    - visual studio code
+
 */

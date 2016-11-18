@@ -3,6 +3,7 @@ $ = require 'jquery'
 require! {
   prelude
   moment
+  mathjs
 }
 
 {
@@ -548,6 +549,7 @@ export get_intervention_parameters = cfy (intervention_name) ->*
     output[k] = cast_to_type(parameter_value, parameter_type)
   return output
 
+/*
 export get_effectiveness_of_intervention_for_goal = cfy (intervention_name, goal_name) ->*
   progress_info_base = yield goal_progress.get_progress_on_goal_days_since_today goal_name, 0
   days_deployed = yield intervention_manager.get_days_since_today_on_which_intervention_was_deployed intervention_name
@@ -569,6 +571,41 @@ export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
   for intervention_name in interventions
     progress_info = yield get_effectiveness_of_intervention_for_goal intervention_name, goal_name
     output[intervention_name] = progress_info
+  return output
+*/
+
+export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
+  goal_info = yield goal_utils.get_goal_info(goal_name)
+  domain = goal_info.domain
+  intervention_names = goal_info.interventions
+  session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+  intervention_to_session_lengths = {}
+  for session_id,interventions of session_id_to_interventions
+    interventions = JSON.parse interventions
+    if interventions.length != 1
+      # cannot currently deal with multiple simultaneous interventions
+      continue
+    intervention = interventions[0]
+    seconds_spent = session_id_to_seconds[session_id]
+    if not seconds_spent?
+      continue
+    if not intervention_to_session_lengths[intervention]?
+      intervention_to_session_lengths[intervention] = []
+    intervention_to_session_lengths[intervention].push seconds_spent
+  output = {}
+  for intervention,session_lengths of intervention_to_session_lengths
+    effectiveness_seconds = mathjs.median(session_lengths)
+    output[intervention] = {
+      progress: effectiveness_seconds
+      message: "#{effectiveness_seconds} seconds"
+    }
+  for intervention in intervention_names
+    if not output[intervention]?
+      output[intervention] = {
+        progress: NaN
+        message: 'no data'
+      }
   return output
 
 export get_goals_and_interventions = cfy ->*

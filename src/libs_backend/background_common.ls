@@ -111,6 +111,8 @@ export get_active_tab_url = cfy ->*
 
 export printcb = (x) -> console.log(x)
 
+export printcb_json = (x) -> console.log(JSON.stringify(x, 0, 2))
+
 export printfunc = (func, ...args) ->
   nargs = [x for x in args]
   nargs.push printcb

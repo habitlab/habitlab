@@ -182,6 +182,10 @@ export list_sites_for_which_goals_are_enabled = cfy ->*
       output_set[sitename] = true
   return output
 
+export get_goal_info = cfy (goal_name) ->*
+  goals = yield get_goals()
+  return goals[goal_name]
+
 #local_cached_get_goals = null
 
 export get_goals = cfy ->*

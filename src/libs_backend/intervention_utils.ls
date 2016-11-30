@@ -17,6 +17,10 @@ require! {
 } = require 'libs_backend/db_utils'
 
 {
+  get_baseline_session_time_on_domain
+} = require 'libs_backend/history_utils'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'

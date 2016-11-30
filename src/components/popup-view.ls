@@ -187,7 +187,7 @@ polymer_ext {
       yield this.set_goals_and_interventions!
     else
       # is disabling this goal
-      yield set_goal_disabled goal_name
+      yield set_goal_disabled goal.name
       yield this.set_goals_and_interventions!
 
   set_goals_and_interventions: cfy ->*

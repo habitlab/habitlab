@@ -18,7 +18,7 @@ Now you will have the chrome extension built in the `dist` directory. You can si
 
 ## Adding an intervention
 
-First add an directory under the [`src/interventions`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions) directory. It should contain 2 files: `info.yaml` and `frontend.ls`. Follow [`google/blue_background`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/google/blue_background) as an example of how these files should look like.
+First add an directory under the [`src/interventions`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions) directory. It should contain 2 files: `info.yaml` and `frontend.ls`. Follow [`facebook/remove_news_feed`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/facebook/remove_news_feed) as an example of how these files should look like.
 
 Now run `gulp` and reload the chrome extension. Your goal should now be there on the options page.
 

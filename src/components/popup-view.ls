@@ -36,6 +36,8 @@ const swal = require 'sweetalert2'
 {
   list_sites_for_which_goals_are_enabled
   list_goals_for_site
+  set_goal_enabled
+  set_goal_disabled
 } = require 'libs_backend/goal_utils'
 
 const $ = require('jquery')
@@ -85,6 +87,9 @@ polymer_ext {
       type: Object
       value: {}
     }
+    url_override: {
+      type: String
+    }
   }
 
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
@@ -95,30 +100,30 @@ polymer_ext {
     console.log this.goals_and_interventions
     return this.goals_and_interventions.length === 0
 
-  temp_disable_button_clicked: (evt) ->
+  temp_disable_button_clicked: cfy (evt) ->*
     self = this
     intervention = evt.target.intervention
     # <- set_intervention_disabled intervention
-    url <- get_active_tab_url()
-    enabledInterventions <- list_currently_loaded_interventions()
+    url = yield get_active_tab_url()
+    enabledInterventions = yield list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
-    <- disable_interventions_in_active_tab()
+    yield disable_interventions_in_active_tab()
     this.fire 'disable_intervention' 
     swal({
       title: 'Disabled!',
       text: 'This intervention will be disabled temporarily.'
     })
 
-  perm_disable_button_clicked: (evt) ->
+  perm_disable_button_clicked: cfy (evt) ->*
     self = this
     intervention = evt.target.intervention
-    <- set_intervention_disabled_permanently intervention
-    url <- get_active_tab_url()
-    enabledInterventions <- list_currently_loaded_interventions()
+    yield set_intervention_disabled_permanently intervention
+    url = yield get_active_tab_url()
+    enabledInterventions = yield list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
-    <- disable_interventions_in_active_tab()
+    yield disable_interventions_in_active_tab()
     this.fire 'disable_intervention'
     swal({
       title: 'Disabled!',
@@ -173,25 +178,57 @@ polymer_ext {
   outside_work_hours: ->
     return is_it_outside_work_hours!
 
+  goal_enable_button_changed: cfy (evt) ->*
+    console.log evt
+    console.log evt.target
+    console.log evt.target.goal
+    console.log evt.target.checked
+    goal_name = evt.target.goal.name
+    if evt.target.checked
+      # is enabling this goal
+      yield set_goal_enabled goal_name
+      yield this.set_goals_and_interventions!
+    else
+      # is disabling this goal
+      yield set_goal_disabled goal_name
+      yield this.set_goals_and_interventions!
+
+  set_goals_and_interventions: cfy ->*
+    if this.url_override?
+      console.log 'this.url_override is'
+      console.log this.url_override
+      url = this.url_override
+    else
+      url = yield get_active_tab_url()
+    
+    console.log 'url is'
+    console.log url
+
+    all_goals_and_interventions = yield get_goals_and_interventions!
+    
+    this.goals_and_interventions = all_goals_and_interventions.filter (obj) ->
+    
+      return (obj.goal.domain == url_to_domain url) # and obj.enabled
+
+    console.log 'this.goals_and_interventions is'
+    console.log this.goals_and_interventions
+    this.sites = yield list_sites_for_which_goals_are_enabled!
+
   ready: cfy ->*
     
     chrome.browserAction.setBadgeText {text: ''}
     chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
     self.intervention_name_to_info = yield get_interventions()
-    url = yield get_active_tab_url()
-    
    
     #FILTER THIS FOR ONLY THE CURRENT GOAL SITE#
-    this.sites = yield list_sites_for_which_goals_are_enabled!
-    this.goals_and_interventions = yield get_goals_and_interventions!
-    
-    this.goals_and_interventions = this.goals_and_interventions.filter (obj) ->
-    
-      return obj.goal.domain == url_to_domain url
+    yield this.set_goals_and_interventions!
 
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
+
+    if self.enabledInterventions.length == 0
+      self.selected_tab_idx = 1
 
     self.S('#resultsButton').click(->
       chrome.tabs.create {url: 'options.html#results'}

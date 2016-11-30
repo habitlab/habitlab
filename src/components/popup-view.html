@@ -74,6 +74,22 @@
       font-size: 12px;
     }
 
+    /* Flexbox */
+    .goalsContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.3em;
+      padding-bottom: 0.3em;
+      padding-left: 0.3em;
+      
+      font-family: 'Open Sans', sans-serif;
+      margin: 0.3em;
+      margin-top: 0.5em;
+      font-size: 12px;
+    }
+
     #enabledInterventions {
       padding-top: 0.3em;
       padding-bottom: 0.3em;
@@ -138,7 +154,7 @@
         <paper-card>
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Currently Active Interventions</paper-tab>
-            <paper-tab>Available Interventions</paper-tab>
+            <paper-tab>Goals and Available Interventions</paper-tab>
           </paper-tabs>
 
           <iron-pages selected="{{selected_tab_idx}}">
@@ -168,7 +184,7 @@
                   </template>
                   <template is="dom-if" if="{{!outside_work_hours()}}">
                     <div class="interventionContainer" id="enabledInterventions">
-                      <h4>None</h4>
+                      <h4>No interventions enabled, please enable some goals</h4>
                     </div>
                   </template>
                 </template>        
@@ -177,15 +193,19 @@
 
           <iron-page id="settingsPage">
             <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
-              <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-                <intervention-view-single class="iview" compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
-                <br>
+              <paper-toggle-button on-change="goal_enable_button_changed" goal="{{goal_and_interventions.goal}}" checked="{{goal_and_interventions.enabled}}">{{goal_and_interventions.goal.description}}</paper-toggle-button>
+              <br>
+              <template is="dom-if" if="{{goal_and_interventions.enabled}}">
+                <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
+                  <intervention-view-single class="iview" compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+                  <br>
+                </template>
               </template>
               
           </template>
           <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
             <div class="interventionContainer">
-              <h4>No interventions available for this site</h4>
+              <h4>No interventions available, please enable some goals.</h4>
             </div>
           </template>
           </iron-page>

@@ -97,8 +97,6 @@ polymer_ext {
     return intervention_name_to_info[intervention_name].description
   
   noValidInterventions: ->
-    console.log this.enabledInterventions
-    console.log this.goals_and_interventions
     return this.goals_and_interventions.length === 0
 
   temp_disable_button_clicked: cfy (evt) ->*
@@ -164,7 +162,6 @@ polymer_ext {
     return html
 
   isEmpty: (enabledInterventions) ->
-    console.log \isEmpty
     return enabledInterventions? and enabledInterventions.length == 0
 
   submitFeedback: cfy ->*
@@ -180,10 +177,6 @@ polymer_ext {
     return is_it_outside_work_hours!
 
   goal_enable_button_changed: cfy (evt) ->*
-    console.log evt
-    console.log evt.target
-    console.log evt.target.goal
-    console.log evt.target.checked
     goal = evt.target.goal
     if evt.target.checked
       # is enabling this goal
@@ -199,14 +192,10 @@ polymer_ext {
 
   set_goals_and_interventions: cfy ->*
     if this.url_override?
-      console.log 'this.url_override is'
-      console.log this.url_override
       url = this.url_override
     else
       url = yield get_active_tab_url()
     
-    console.log 'url is'
-    console.log url
     domain = url_to_domain url
 
     all_goals_and_interventions = yield get_goals_and_interventions!
@@ -226,8 +215,6 @@ polymer_ext {
         }
       ]
     this.goals_and_interventions = filtered_goals_and_interventions
-    console.log 'this.goals_and_interventions is'
-    console.log filtered_goals_and_interventions
     this.sites = yield list_sites_for_which_goals_are_enabled!
 
   ready: cfy ->*
@@ -255,7 +242,6 @@ polymer_ext {
     )
 
     self.S('#feedbackButton').click( ->
-      console.log \feedback_clicked
       if self.$$('.feedbackform').style.display == "block"
         self.$$('.feedbackform').style.display = "none"
       else

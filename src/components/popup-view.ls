@@ -38,6 +38,7 @@ const swal = require 'sweetalert2'
   list_goals_for_site
   set_goal_enabled
   set_goal_disabled
+  add_enable_custom_goal_reduce_time_on_domain
 } = require 'libs_backend/goal_utils'
 
 const $ = require('jquery')
@@ -183,10 +184,13 @@ polymer_ext {
     console.log evt.target
     console.log evt.target.goal
     console.log evt.target.checked
-    goal_name = evt.target.goal.name
+    goal = evt.target.goal
     if evt.target.checked
       # is enabling this goal
-      yield set_goal_enabled goal_name
+      if goal.name?
+        yield set_goal_enabled goal.name
+      else
+        yield add_enable_custom_goal_reduce_time_on_domain goal.domain
       yield this.set_goals_and_interventions!
     else
       # is disabling this goal
@@ -203,15 +207,27 @@ polymer_ext {
     
     console.log 'url is'
     console.log url
+    domain = url_to_domain url
 
     all_goals_and_interventions = yield get_goals_and_interventions!
     
-    this.goals_and_interventions = all_goals_and_interventions.filter (obj) ->
+    filtered_goals_and_interventions = all_goals_and_interventions.filter (obj) ->
     
-      return (obj.goal.domain == url_to_domain url) # and obj.enabled
+      return (obj.goal.domain == domain) # and obj.enabled
 
+    if filtered_goals_and_interventions.length == 0
+      filtered_goals_and_interventions = [
+        {
+          enabled: false
+          goal: {
+            domain: domain
+            description: "Spend less time on #{domain}"
+          }
+        }
+      ]
+    this.goals_and_interventions = filtered_goals_and_interventions
     console.log 'this.goals_and_interventions is'
-    console.log this.goals_and_interventions
+    console.log filtered_goals_and_interventions
     this.sites = yield list_sites_for_which_goals_are_enabled!
 
   ready: cfy ->*

@@ -247,6 +247,8 @@ tab_id_to_loaded_interventions = {}
 load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   if is_it_outside_work_hours()
     return
+  if localStorage.getItem('habitlab_disabled')
+    return
 
   domain = url_to_domain(location)
   session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)

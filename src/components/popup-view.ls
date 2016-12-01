@@ -91,6 +91,10 @@ polymer_ext {
     url_override: {
       type: String
     }
+    is_habitlab_disabled: {
+      type: Boolean
+      value: (localStorage.getItem('habitlab_disabled') == 'true')
+    }
   }
 
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
@@ -176,6 +180,18 @@ polymer_ext {
   outside_work_hours: ->
     return is_it_outside_work_hours!
 
+  disable_habitlab_changed: (evt) ->
+    if evt.target.checked
+      localStorage.setItem 'habitlab_disabled', true
+      this.is_habitlab_disabled = true
+    else
+      localStorage.removeItem 'habitlab_disabled'
+      this.is_habitlab_disabled = false
+
+  enable_habitlab_button_clicked: ->
+    localStorage.removeItem 'habitlab_disabled'
+    this.is_habitlab_disabled = false
+
   goal_enable_button_changed: cfy (evt) ->*
     goal = evt.target.goal
     if evt.target.checked
@@ -217,8 +233,11 @@ polymer_ext {
     this.goals_and_interventions = filtered_goals_and_interventions
     this.sites = yield list_sites_for_which_goals_are_enabled!
 
+  get_power_icon_src: ->
+    return chrome.extension.getURL('icons/power_button.svg')
+
   ready: cfy ->*
-    
+
     chrome.browserAction.setBadgeText {text: ''}
     chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this

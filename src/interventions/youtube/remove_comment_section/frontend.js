@@ -15,19 +15,20 @@ once_available('#watch-discussion', () => {
 })
 
 document.body.addEventListener('disable_intervention', (intervalID) => {
-    $('#watch-discussion').show();
-
+  $('#watch-discussion').show();
+  $('#show_comment_btn').hide();
+  $('#hb_logo').hide();
 });
 
 //Cheat button
 const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: block; width: 100px; margin: 10px auto 0px auto; color: #fff; background-color: red; text-align: center;">')
-$show_comments.text("Show Comment Section")
+$show_comments.text("Show Comments")
 $show_comments.css({'cursor': 'pointer', 'padding': '5px'});
 $show_comments.click(() => {
-    console.log("hiding buttons");
-    $('#watch-discussion').show();
-    $('#show_comment_btn').hide();
-    $('#hb_logo').hide();
+  console.log("hiding buttons");
+  $('#watch-discussion').show();
+  $('#show_comment_btn').hide();
+  $('#hb_logo').hide();
 })
 
 

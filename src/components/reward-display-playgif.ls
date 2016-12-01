@@ -83,6 +83,7 @@ polymer_ext {
       this.play()
   compute_time_saved_message: (seconds_saved) ->
     if seconds_saved < 60
+      seconds_saved = Math.round(seconds_saved)
       if seconds_saved == 1
         return "1 second"
       return "#{seconds_saved} seconds"

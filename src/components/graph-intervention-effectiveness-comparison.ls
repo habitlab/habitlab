@@ -68,7 +68,7 @@ polymer_ext {
           borderColor: "rgba(65,131,215,1)",
           borderWidth: 1,
           data: [
-            0.8
+            1.6
             0.57
             0.54
             0.34
@@ -105,3 +105,9 @@ polymer_ext {
     'once_available'
   ]
 }
+
+# Steps:
+# - Find out which goal/website are we mapping this effectivess chart to - is it to the website we spend the most time on?
+# - Find out the api call which gives us the minutes saved per visit, or should it be the minutes you have saved total by using the intervention?
+# - Make it tab like view so that you can generate the graph for all the goals
+# - The ^^ function aggregates data across all time 

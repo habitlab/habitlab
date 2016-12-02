@@ -17,6 +17,10 @@ require! {
 } = require 'libs_backend/db_utils'
 
 {
+  get_baseline_session_time_on_domain
+} = require 'libs_backend/history_utils'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
@@ -660,6 +664,36 @@ export get_goals_and_interventions = cfy ->*
   enabled_interventions = yield get_enabled_interventions()
   enabled_goals = yield goal_utils.get_enabled_goals()
   all_goals = yield goal_utils.get_goals()
+  all_goals_list = yield goal_utils.list_all_goals()
+  manually_managed_interventions = yield get_manually_managed_interventions()
+  goal_to_interventions = {}
+  for intervention_name,intervention_info of intervention_name_to_info
+    for goal in intervention_info.goals
+      goalname = goal.name
+      if not goal_to_interventions[goalname]?
+        goal_to_interventions[goalname] = []
+      goal_to_interventions[goalname].push intervention_info
+  list_of_goals_and_interventions = []
+  list_of_goals = prelude.sort as_array(all_goals_list)
+  for goalname in list_of_goals
+    current_item = {goal: all_goals[goalname]}
+    current_item.enabled = enabled_goals[goalname] == true
+    current_item.interventions = prelude.sort-by (.name), goal_to_interventions[goalname]
+    for intervention in current_item.interventions
+      intervention.enabled_goals = []
+      #if intervention.goals?
+      #  intervention.enabled_goals = [goal for goal in intervention.goals when enabled_goals[goal.name]]
+      intervention.enabled = (enabled_interventions[intervention.name] == true)
+      intervention.automatic = (manually_managed_interventions[intervention.name] != true)
+    list_of_goals_and_interventions.push current_item
+  return list_of_goals_and_interventions
+
+/*
+export get_goals_and_interventions = cfy ->*
+  intervention_name_to_info = yield get_interventions()
+  enabled_interventions = yield get_enabled_interventions()
+  enabled_goals = yield goal_utils.get_enabled_goals()
+  all_goals = yield goal_utils.get_goals()
   manually_managed_interventions = yield get_manually_managed_interventions()
   goal_to_interventions = {}
   for intervention_name,intervention_info of intervention_name_to_info
@@ -681,7 +715,7 @@ export get_goals_and_interventions = cfy ->*
       intervention.automatic = (manually_managed_interventions[intervention.name] != true)
     list_of_goals_and_interventions.push current_item
   return list_of_goals_and_interventions
-
+*/
 
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'

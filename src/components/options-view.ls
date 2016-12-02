@@ -1,6 +1,12 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 {load_css_file} = require 'libs_common/content_script_utils'
 {cfy} = require 'cfy'
+
+{
+  is_habitlab_enabled
+  enable_habitlab
+} = require 'libs_common/disable_habitlab_utils'
+
 swal = require 'sweetalert2'
 require 'components/habitlab-logo.deps'
 require 'bower_components/iron-icon/iron-icon.deps.js'
@@ -17,10 +23,18 @@ polymer_ext {
       computed: 'compute_selected_tab_name(selected_tab_idx)'
       observer: 'selected_tab_name_changed'
     }
+    is_habitlab_disabled: {
+      type: Boolean
+    }
   }
   listeners: {
     goal_changed: 'on_goal_changed'
   }
+  enable_habitlab_button_clicked: ->
+    this.is_habitlab_disabled = false
+    enable_habitlab()
+  get_power_icon_src: ->
+    return chrome.extension.getURL('icons/power_button.svg')
   set_selected_tab_by_name: (selected_tab_name) ->
     selected_tab_idx = switch selected_tab_name
     | 'progress' => 1
@@ -55,8 +69,9 @@ polymer_ext {
   #         Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again. 
   #         \n\nClick OK to begin selecting your goals!
   #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
-  #ready: ->
-  #  self = this
+  ready: ->
+    self = this
+    is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)
 }, {

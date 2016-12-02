@@ -9,6 +9,7 @@
   <style>
     :host {
       display: inline-block;
+      height: 38px;
       /*
       --width: 38px;
       --height: 38px;
@@ -41,10 +42,16 @@
     <div style="text-align: left">
       <p>Intervention name: <span>{{intervention_description}}</span></p>
       <p>Goal: <span>{{goal_descriptions}}</span></p>
-      <p>Disable Intervention:
+      <div>
+        <span>Disable Intervention:</span>
         <paper-button on-click="disable_temp_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of this visit</paper-button>
         <paper-button on-click="disable_perm_callback" style="color: white; background-color: #3687D3; text-transform: none;">Permanently</paper-button>
-      </p>
+      </div>
+      <br>
+      <div>
+        <span>Disable Habitlab:</span>
+        <paper-button on-click="disable_habitlab_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of today</paper-button>
+      </div>
     </div>
     <div class="buttons">
       <paper-button on-click="open_interventions_page">HabitLab Options</paper-button>

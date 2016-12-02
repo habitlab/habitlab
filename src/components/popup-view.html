@@ -74,6 +74,22 @@
       font-size: 12px;
     }
 
+    /* Flexbox */
+    .goalsContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.3em;
+      padding-bottom: 0.3em;
+      padding-left: 0.3em;
+      
+      font-family: 'Open Sans', sans-serif;
+      margin: 0.3em;
+      margin-top: 0.5em;
+      font-size: 12px;
+    }
+
     #enabledInterventions {
       padding-top: 0.3em;
       padding-bottom: 0.3em;
@@ -122,11 +138,14 @@
     <div>
 
       <div class="box">
+        <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed">Disable Habitlab</paper-toggle-button>
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="goalsButton">Settings</paper-button>
           <paper-button class="paperbuttons" raised id="resultsButton">View Results</paper-button>
           <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button> 
         </div>
+
+        <template is="dom-if" if="{{!is_habitlab_disabled}}">
 
         <paper-card style="display:none;" class="feedbackform">
           <div class="feedbackcontents">
@@ -138,7 +157,7 @@
         <paper-card>
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Currently Active Interventions</paper-tab>
-            <paper-tab>Available Interventions</paper-tab>
+            <paper-tab>Goals and Available Interventions</paper-tab>
           </paper-tabs>
 
           <iron-pages selected="{{selected_tab_idx}}">
@@ -168,7 +187,7 @@
                   </template>
                   <template is="dom-if" if="{{!outside_work_hours()}}">
                     <div class="interventionContainer" id="enabledInterventions">
-                      <h4>None</h4>
+                      <h4>No interventions enabled, please enable some goals</h4>
                     </div>
                   </template>
                 </template>        
@@ -177,17 +196,16 @@
 
           <iron-page id="settingsPage">
             <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
-              <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-                <intervention-view-single class="iview" compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
-                <br>
+              <paper-toggle-button on-change="goal_enable_button_changed" goal="{{goal_and_interventions.goal}}" checked="{{goal_and_interventions.enabled}}">{{goal_and_interventions.goal.description}}</paper-toggle-button>
+              <br>
+              <template is="dom-if" if="{{goal_and_interventions.enabled}}">
+                <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
+                  <intervention-view-single class="iview" compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+                  <br>
+                </template>
               </template>
               
-          </template>
-          <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
-            <div class="interventionContainer">
-              <h4>No interventions available for this site</h4>
-            </div>
-          </template>
+            </template>
           </iron-page>
         </paper-card>
         
@@ -220,7 +238,18 @@
 
         
 
-             
+        </template>
+
+        <template is="dom-if" if="{{is_habitlab_disabled}}">
+          <paper-card style="cursor: pointer" on-click="enable_habitlab_button_clicked">
+            <div style="width: 100%">
+              <div style="margin-top: 10px; font-size: 36px; text-align: center">HabitLab is disabled.<br>Click to re-enable</div>
+              <div style="margin: 20px; width: calc(100% - 40px); height: 300px; display: flex; justify-content: center">
+                <img style="display: inline-block; width: 100%; text-align: center" src="{{get_power_icon_src()}}"></img>
+              </div>
+            </div>
+          </paper-card>
+        </template>
 
       </div>
 

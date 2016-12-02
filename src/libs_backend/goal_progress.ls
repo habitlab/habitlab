@@ -49,6 +49,10 @@ export get_progress_on_enabled_goals_today = cfy ->*
 
 export get_progress_on_goal_days_since_today = cfy (goal_name, days_since_today) ->*
   goal_measurement_function = yield get_progress_measurement_function_for_goal_name goal_name
+  if not goal_measurement_function?
+    console.log 'no goal_measurement_function found for goal'
+    console.log goal_name
+    return
   yield goal_measurement_function days_since_today
 
 export get_progress_on_enabled_goals_days_since_today = cfy (days_since_today) ->*

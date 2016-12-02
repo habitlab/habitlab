@@ -100,6 +100,10 @@ $ = require 'jquery'
 } = require 'libs_backend/log_utils'
 
 {
+  is_habitlab_enabled_sync
+} = require 'libs_backend/disable_habitlab_utils'
+
+{
   ensure_history_utils_data_cached
 } = require 'libs_common/history_utils'
 
@@ -246,6 +250,8 @@ tab_id_to_loaded_interventions = {}
 
 load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   if is_it_outside_work_hours()
+    return
+  if localStorage.getItem('habitlab_disabled')
     return
 
   domain = url_to_domain(location)
@@ -483,11 +489,15 @@ chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
       tabId: tabId
     }
     navigation_occurred tab.url, tabId
+
     loaded_interventions = tab_id_to_loaded_interventions[tabId]
-    if loaded_interventions? and loaded_interventions.length > 0
-      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
+    if is_habitlab_enabled_sync()
+      if loaded_interventions? and loaded_interventions.length > 0
+        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
+      else
+        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
     else
-      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
 
 chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
   send_message_to_tabid info.tabId, 'navigation_occurred', {

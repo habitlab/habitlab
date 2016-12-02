@@ -42,6 +42,10 @@ lib_name_to_func_names_and_signatures =
     get_time_saved_total_with_intervention: ['intervention_name']
     baseline_time_per_session_for_domain: ['domain']
     record_seconds_saved_and_get_rewards: ['seconds', 'intervention_name', 'domain']
+  disable_habitlab_utils:
+    disable_habitlab: []
+    enable_habitlab: []
+    is_habitlab_enabled: []
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

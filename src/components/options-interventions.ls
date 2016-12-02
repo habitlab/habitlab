@@ -38,10 +38,6 @@ require! {
 } = require 'libs_backend/log_utils'
 
 {
-  add_toolbar_notification
-} = require 'libs_frontend/common_libs'
-
-{
   url_to_domain
 } = require 'libs_common/domain_utils'
 

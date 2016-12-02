@@ -1,4 +1,4 @@
- {polymer_ext} = require 'libs_frontend/polymer_utils'
+{polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {cfy} = require 'cfy'
 {load_css_file} = require 'libs_common/content_script_utils'
@@ -34,8 +34,17 @@ const swal = require 'sweetalert2'
 } = require 'libs_common/time_spent_utils'
 
 {
+  is_habitlab_enabled
+  disable_habitlab
+  enable_habitlab
+} = require 'libs_common/disable_habitlab_utils'
+
+{
   list_sites_for_which_goals_are_enabled
   list_goals_for_site
+  set_goal_enabled
+  set_goal_disabled
+  add_enable_custom_goal_reduce_time_on_domain
 } = require 'libs_backend/goal_utils'
 
 const $ = require('jquery')
@@ -85,40 +94,44 @@ polymer_ext {
       type: Object
       value: {}
     }
+    url_override: {
+      type: String
+    }
+    is_habitlab_disabled: {
+      type: Boolean
+    }
   }
 
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
     return intervention_name_to_info[intervention_name].description
   
   noValidInterventions: ->
-    console.log this.enabledInterventions
-    console.log this.goals_and_interventions
     return this.goals_and_interventions.length === 0
 
-  temp_disable_button_clicked: (evt) ->
+  temp_disable_button_clicked: cfy (evt) ->*
     self = this
     intervention = evt.target.intervention
     # <- set_intervention_disabled intervention
-    url <- get_active_tab_url()
-    enabledInterventions <- list_currently_loaded_interventions()
+    url = yield get_active_tab_url()
+    enabledInterventions = yield list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
-    <- disable_interventions_in_active_tab()
+    yield disable_interventions_in_active_tab()
     this.fire 'disable_intervention' 
     swal({
       title: 'Disabled!',
       text: 'This intervention will be disabled temporarily.'
     })
 
-  perm_disable_button_clicked: (evt) ->
+  perm_disable_button_clicked: cfy (evt) ->*
     self = this
     intervention = evt.target.intervention
-    <- set_intervention_disabled_permanently intervention
-    url <- get_active_tab_url()
-    enabledInterventions <- list_currently_loaded_interventions()
+    yield set_intervention_disabled_permanently intervention
+    url = yield get_active_tab_url()
+    enabledInterventions = yield list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
-    <- disable_interventions_in_active_tab()
+    yield disable_interventions_in_active_tab()
     this.fire 'disable_intervention'
     swal({
       title: 'Disabled!',
@@ -158,7 +171,6 @@ polymer_ext {
     return html
 
   isEmpty: (enabledInterventions) ->
-    console.log \isEmpty
     return enabledInterventions? and enabledInterventions.length == 0
 
   submitFeedback: cfy ->*
@@ -173,25 +185,78 @@ polymer_ext {
   outside_work_hours: ->
     return is_it_outside_work_hours!
 
+  disable_habitlab_changed: cfy (evt) ->*
+    if evt.target.checked
+      this.is_habitlab_disabled = true
+      disable_habitlab()
+    else
+      this.is_habitlab_disabled = false
+      enable_habitlab()
+
+  enable_habitlab_button_clicked: ->
+    enable_habitlab()
+    this.is_habitlab_disabled = false
+
+  goal_enable_button_changed: cfy (evt) ->*
+    goal = evt.target.goal
+    if evt.target.checked
+      # is enabling this goal
+      if goal.name?
+        yield set_goal_enabled goal.name
+      else
+        yield add_enable_custom_goal_reduce_time_on_domain goal.domain
+      yield this.set_goals_and_interventions!
+    else
+      # is disabling this goal
+      yield set_goal_disabled goal.name
+      yield this.set_goals_and_interventions!
+
+  set_goals_and_interventions: cfy ->*
+    if this.url_override?
+      url = this.url_override
+    else
+      url = yield get_active_tab_url()
+    
+    domain = url_to_domain url
+
+    all_goals_and_interventions = yield get_goals_and_interventions!
+    
+    filtered_goals_and_interventions = all_goals_and_interventions.filter (obj) ->
+    
+      return (obj.goal.domain == domain) # and obj.enabled
+
+    if filtered_goals_and_interventions.length == 0
+      filtered_goals_and_interventions = [
+        {
+          enabled: false
+          goal: {
+            domain: domain
+            description: "Spend less time on #{domain}"
+          }
+        }
+      ]
+    this.goals_and_interventions = filtered_goals_and_interventions
+    this.sites = yield list_sites_for_which_goals_are_enabled!
+
+  get_power_icon_src: ->
+    return chrome.extension.getURL('icons/power_button.svg')
+
   ready: cfy ->*
-    
-    chrome.browserAction.setBadgeText {text: ''}
-    chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
+
+    #chrome.browserAction.setBadgeText {text: ''}
+    #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
+    is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
     self.intervention_name_to_info = yield get_interventions()
-    url = yield get_active_tab_url()
-    
    
     #FILTER THIS FOR ONLY THE CURRENT GOAL SITE#
-    this.sites = yield list_sites_for_which_goals_are_enabled!
-    this.goals_and_interventions = yield get_goals_and_interventions!
-    
-    this.goals_and_interventions = this.goals_and_interventions.filter (obj) ->
-    
-      return obj.goal.domain == url_to_domain url
+    yield this.set_goals_and_interventions!
 
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
+
+    if self.enabledInterventions.length == 0
+      self.selected_tab_idx = 1
 
     self.S('#resultsButton').click(->
       chrome.tabs.create {url: 'options.html#results'}
@@ -202,7 +267,6 @@ polymer_ext {
     )
 
     self.S('#feedbackButton').click( ->
-      console.log \feedback_clicked
       if self.$$('.feedbackform').style.display == "block"
         self.$$('.feedbackform').style.display = "none"
       else

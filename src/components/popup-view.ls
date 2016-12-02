@@ -1,4 +1,4 @@
- {polymer_ext} = require 'libs_frontend/polymer_utils'
+{polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {cfy} = require 'cfy'
 {load_css_file} = require 'libs_common/content_script_utils'
@@ -32,6 +32,12 @@ const swal = require 'sweetalert2'
 {
   get_seconds_spent_on_all_domains_today        # map for all domains
 } = require 'libs_common/time_spent_utils'
+
+{
+  is_habitlab_enabled
+  disable_habitlab
+  enable_habitlab
+} = require 'libs_common/disable_habitlab_utils'
 
 {
   list_sites_for_which_goals_are_enabled
@@ -93,7 +99,6 @@ polymer_ext {
     }
     is_habitlab_disabled: {
       type: Boolean
-      value: (localStorage.getItem('habitlab_disabled') == 'true')
     }
   }
 
@@ -182,16 +187,14 @@ polymer_ext {
 
   disable_habitlab_changed: cfy (evt) ->*
     if evt.target.checked
-      localStorage.setItem 'habitlab_disabled', true
       this.is_habitlab_disabled = true
-      yield disable_interventions_in_active_tab()
-      this.fire 'disable_intervention'
+      disable_habitlab()
     else
-      localStorage.removeItem 'habitlab_disabled'
       this.is_habitlab_disabled = false
+      enable_habitlab()
 
   enable_habitlab_button_clicked: ->
-    localStorage.removeItem 'habitlab_disabled'
+    enable_habitlab()
     this.is_habitlab_disabled = false
 
   goal_enable_button_changed: cfy (evt) ->*
@@ -243,6 +246,7 @@ polymer_ext {
     chrome.browserAction.setBadgeText {text: ''}
     chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
+    is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
     self.intervention_name_to_info = yield get_interventions()
    
     #FILTER THIS FOR ONLY THE CURRENT GOAL SITE#

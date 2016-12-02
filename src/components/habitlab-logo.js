@@ -13,6 +13,10 @@ const {
   close_selected_tab
 } = require('libs_common/tab_utils')
 
+const {
+  disable_habitlab
+} = require('libs_common/disable_habitlab_utils')
+
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 const {cfy} = require('cfy');
 
@@ -59,6 +63,15 @@ polymer_ext({
   },
   get_img_style: function() {
     return `width: ${this.width}; height: ${this.height};`
+  },
+  disable_habitlab_callback: function() {
+    this.$$('#intervention_info_dialog').close()
+    const self = this;
+    disable_habitlab()
+    swal({
+      title: 'Habitlab Disabled!',
+      text: 'Habitlab will not deploy interventions for the rest of today.'
+    })
   },
   disable_temp_callback: function() {
     this.$$('#intervention_info_dialog').close()

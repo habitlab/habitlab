@@ -180,10 +180,12 @@ polymer_ext {
   outside_work_hours: ->
     return is_it_outside_work_hours!
 
-  disable_habitlab_changed: (evt) ->
+  disable_habitlab_changed: cfy (evt) ->*
     if evt.target.checked
       localStorage.setItem 'habitlab_disabled', true
       this.is_habitlab_disabled = true
+      yield disable_interventions_in_active_tab()
+      this.fire 'disable_intervention'
     else
       localStorage.removeItem 'habitlab_disabled'
       this.is_habitlab_disabled = false

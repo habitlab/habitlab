@@ -17,10 +17,19 @@ polymer_ext {
       computed: 'compute_selected_tab_name(selected_tab_idx)'
       observer: 'selected_tab_name_changed'
     }
+    is_habitlab_disabled: {
+      type: Boolean
+      value: (localStorage.getItem('habitlab_disabled') == 'true')
+    }
   }
   listeners: {
     goal_changed: 'on_goal_changed'
   }
+  enable_habitlab_button_clicked: ->
+    localStorage.removeItem 'habitlab_disabled'
+    this.is_habitlab_disabled = false
+  get_power_icon_src: ->
+    return chrome.extension.getURL('icons/power_button.svg')
   set_selected_tab_by_name: (selected_tab_name) ->
     selected_tab_idx = switch selected_tab_name
     | 'progress' => 1

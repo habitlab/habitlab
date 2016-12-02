@@ -138,7 +138,7 @@
     <div>
 
       <div class="box">
-        <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed">Disable Habitlab</paper-toggle-button>
+        <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed">Disable Habitlab Today</paper-toggle-button>
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="goalsButton">Settings</paper-button>
           <paper-button class="paperbuttons" raised id="resultsButton">View Results</paper-button>
@@ -243,7 +243,7 @@
         <template is="dom-if" if="{{is_habitlab_disabled}}">
           <paper-card style="cursor: pointer" on-click="enable_habitlab_button_clicked">
             <div style="width: 100%">
-              <div style="margin-top: 10px; font-size: 36px; text-align: center">HabitLab is disabled.<br>Click to re-enable</div>
+              <div style="margin-top: 10px; font-size: 36px; text-align: center">You've disabled HabitLab today.<br>Click to re-enable</div>
               <div style="margin: 20px; width: calc(100% - 40px); height: 300px; display: flex; justify-content: center">
                 <img style="display: inline-block; width: 100%; text-align: center" src="{{get_power_icon_src()}}"></img>
               </div>

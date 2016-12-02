@@ -243,8 +243,8 @@ polymer_ext {
 
   ready: cfy ->*
 
-    chrome.browserAction.setBadgeText {text: ''}
-    chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
+    #chrome.browserAction.setBadgeText {text: ''}
+    #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
     is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
     self.intervention_name_to_info = yield get_interventions()

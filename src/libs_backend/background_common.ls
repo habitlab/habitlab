@@ -99,6 +99,11 @@ export disable_interventions_in_active_tab = cfy ->*
   tab = yield get_active_tab_info()
   yield disable_interventions_for_tabid tab.id
 
+export disable_interventions_in_all_tabs = cfy ->*
+  tabs = yield chrome_tabs_query {}
+  yield [disable_interventions_for_tabid(tab.id) for tab in tabs]
+  return
+
 export get_active_tab_info = cfy ->*
   tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
   if tabs.length == 0
@@ -108,6 +113,10 @@ export get_active_tab_info = cfy ->*
 export get_active_tab_url = cfy ->*
   active_tab_info = yield get_active_tab_info()
   return active_tab_info.url
+
+export get_active_tab_id = cfy ->*
+  active_tab_info = yield get_active_tab_info()
+  return active_tab_info.id
 
 export printcb = (x) -> console.log(x)
 

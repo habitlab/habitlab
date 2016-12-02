@@ -16,7 +16,6 @@ once_available('#watch-discussion', () => {
 
 document.body.addEventListener('disable_intervention', (intervalID) => {
     $('#watch-discussion').show();
-
 });
 
 //Cheat button
@@ -45,7 +44,6 @@ showFeed(window.intervalID);
 */
 
 /*
-
     Issue 104
     -----
     - need to hook up the intervention effectivesness
@@ -54,5 +52,4 @@ showFeed(window.intervalID);
     - edit the polymer component (intervention effectivesness graph), do it all in livescript
     - remember, that polymer component is then required into the dashboard
     - visual studio code
-
 */

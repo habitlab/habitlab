@@ -6,6 +6,10 @@
 } = require 'libs_backend/background_common'
 
 {
+  get_days_since_epoch
+} = require 'libs_common/time_utils'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
@@ -14,7 +18,8 @@ if chrome?tabs?query?
   chrome_tabs_query = yfy(chrome.tabs.query)
 
 export disable_habitlab = cfy ->*
-  localStorage.setItem 'habitlab_disabled', 'true'
+  days_since_epoch = get_days_since_epoch()
+  localStorage.setItem 'habitlab_disabled', (days_since_epoch).toString()
   #yield disable_interventions_in_active_tab()
   #tabId = yield get_active_tab_id()
   #chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
@@ -36,6 +41,7 @@ export is_habitlab_enabled = cfy ->*
   return is_habitlab_enabled_sync()
 
 export is_habitlab_enabled_sync = ->
-  return localStorage.getItem('habitlab_disabled') != 'true'
+  days_since_epoch = get_days_since_epoch()
+  return localStorage.getItem('habitlab_disabled') != (days_since_epoch).toString()
 
 gexport_module 'disable_habitlab_utils', -> eval(it)

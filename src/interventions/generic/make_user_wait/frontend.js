@@ -10,38 +10,57 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
-var interst_screen = $('<interstitial-screen>')
-interst_screen.addClass('interst_screen')
-var buttonText = 'Continue to ' + intervention.params.sitename.value
+const {
+  get_selected_tab_id
+} = require('libs_common/tab_utils')
 
-interst_screen.attr('btn-txt', buttonText)
+const {
+  is_on_same_domain_and_same_tab
+} = require('libs_common/session_utils')
 
-var buttonText2 = 'Close ' + intervention.params.sitename.value
-interst_screen.attr('btn-txt2', buttonText2)
-var secondsLeft = intervention.params.seconds.value
-var messageString = 'Loading...';
-secondsLeft--
-interst_screen.attr('title-text', messageString)
-interst_screen[0].hideButton();
-interst_screen[0].showProgress();
-interst_screen.attr('intervention', intervention.name)
-log_impression(intervention.name)
-var value_counter = 0;
+const co = require('co')
 
+co(function*() {
 
-var countdown = setInterval(function() {
-  interst_screen[0].incrementProgress();
-  value_counter++;
-  if (value_counter >= 100) {
-    clearInterval(countdown)
-    interst_screen.attr('title-text', intervention.params.sitename.value + ' is available, if you really want to visit.')
-    interst_screen[0].showButton();
+  const tab_id = yield get_selected_tab_id()
+  const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
+  if (on_same_domain_and_same_tab) {
+    return
   }
-}, 50)
 
-$(document.body).append(interst_screen)
+  var interst_screen = $('<interstitial-screen>')
+  interst_screen.addClass('interst_screen')
+  var buttonText = 'Continue to ' + intervention.params.sitename.value
 
-document.body.addEventListener('disable_intervention', () => {
-  $('.interst_screen').remove();
-});
+  interst_screen.attr('btn-txt', buttonText)
+
+  var buttonText2 = 'Close ' + intervention.params.sitename.value
+  interst_screen.attr('btn-txt2', buttonText2)
+  var secondsLeft = intervention.params.seconds.value
+  var messageString = 'Loading...';
+  secondsLeft--
+  interst_screen.attr('title-text', messageString)
+  interst_screen[0].hideButton();
+  interst_screen[0].showProgress();
+  interst_screen.attr('intervention', intervention.name)
+  log_impression(intervention.name)
+  var value_counter = 0;
+
+  var countdown = setInterval(function() {
+    interst_screen[0].incrementProgress();
+    value_counter++;
+    if (value_counter >= 100) {
+      clearInterval(countdown)
+      interst_screen.attr('title-text', intervention.params.sitename.value + ' is available, if you really want to visit.')
+      interst_screen[0].showButton();
+    }
+  }, 50)
+
+  $(document.body).append(interst_screen)
+
+  document.body.addEventListener('disable_intervention', () => {
+    $('.interst_screen').remove();
+  });
+
+})
 

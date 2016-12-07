@@ -69,6 +69,10 @@ require 'libs_backend/expose_backend_libs'
 } = require 'libs_common/domain_utils'
 
 {
+  add_tab_navigation_event
+} = require 'libs_backend/session_utils'
+
+{
   as_array
   as_dictset
 } = require 'libs_common/collection_utils'
@@ -484,6 +488,7 @@ chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
     #    url: tab.url
     #    tabId: tabId
     #  }
+    add_tab_navigation_event tabId, tab.url
     send_message_to_tabid tabId, 'navigation_occurred', {
       url: tab.url
       tabId: tabId

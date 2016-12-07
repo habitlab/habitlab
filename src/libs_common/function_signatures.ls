@@ -48,6 +48,10 @@ lib_name_to_func_names_and_signatures =
     disable_habitlab: []
     enable_habitlab: []
     is_habitlab_enabled: []
+  session_utils:
+    is_on_same_domain_and_same_tab: 'tab_id'
+    is_on_same_domain: 'tab_id'
+
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

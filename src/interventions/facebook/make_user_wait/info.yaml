@@ -3,7 +3,7 @@ displayname: Wait Screen
 matches:
   - www.facebook.com
 content_scripts:
-  - /interventions/generic/block_after_interval_per_visit/frontend.js
+  - /interventions/generic/make_user_wait/frontend.js
 parameters:
   - name: seconds
     description: Seconds that the user must wait before the page loads

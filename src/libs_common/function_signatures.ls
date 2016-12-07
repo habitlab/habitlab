@@ -23,6 +23,8 @@ lib_name_to_func_names_and_signatures =
   tab_utils:
     close_selected_tab: []
     open_url_in_new_tab: 'url'
+    get_selected_tab_id: []
+    close_tab_with_id: 'tab_id'
   history_utils:
     get_pages_visited_today: []
     get_pages_visited_all_time: []

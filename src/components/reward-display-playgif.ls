@@ -9,7 +9,8 @@ $ = require 'jquery'
 } = require 'cfy'
 
 {
-  close_selected_tab
+  close_tab_with_id
+  get_selected_tab_id
 } = require 'libs_common/tab_utils'
 
 {
@@ -67,6 +68,9 @@ polymer_ext {
       type: Boolean
       computed: 'compute_is_intervention_mastered(times_intervention_used)'
     }
+    tab_id: {
+      type: Number
+    }
   }
   compute_is_intervention_mastered: (times_intervention_used) ->
     return times_intervention_used >= 10
@@ -91,6 +95,8 @@ polymer_ext {
     if minutes_saved == 1
       return "1 minute"
     return "#{minutes_saved} minutes"
+  ready: cfy ->*
+    this.tab_id = yield get_selected_tab_id()
   play: cfy ->*
     console.log 'reward-display play called'
     self = this
@@ -110,7 +116,7 @@ polymer_ext {
         if self.no_autoclose
           self.fire 'reward_done', {finished_playing: false}
         else
-          close_selected_tab()
+          close_tab_with_id(self.tab_id)
     , 2500
     #, 3000
   video_ended: ->
@@ -118,7 +124,7 @@ polymer_ext {
     if this.no_autoclose
       this.fire 'reward_done', {finished_playing: true}
     else
-      close_selected_tab()
+      close_tab_with_id(this.tab_id)
   query_changed: cfy ->*
     results = yield $.get 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query
     #results = yield $.get 'http://api.giphy.com/v1/gifs/translate?s=' + this.query + '&api_key=dc6zaTOxFJmzC'

@@ -15,7 +15,8 @@ $ = require 'jquery'
 } = require 'libs_common/gamification_utils'
 
 {
-  close_selected_tab
+  close_tab_with_id
+  get_selected_tab_id
 } = require 'libs_common/tab_utils'
 
 {
@@ -48,6 +49,9 @@ polymer_ext {
     no_autoclose: {
       type: Boolean
     }
+    tab_id: {
+      type: Number
+    }
     isdemo: {
       type: Boolean
       observer: 'isdemo_changed'
@@ -60,6 +64,8 @@ polymer_ext {
   #autoplay_changed: ->
   #  if this.autoplay
   #    this.play()
+  ready: cfy ->*
+    this.tab_id = yield get_selected_tab_id()
   attached: cfy ->*
     if not this.seconds_saved?
       seconds_spent = (Date.now() - this.time_inserted) / 1000
@@ -82,7 +88,7 @@ polymer_ext {
       if this.no_autoclose
         this.fire 'reward_done', {finished_playing: true}
       else
-        close_selected_tab()
+        close_tab_with_id(this.tab_id)
   showbadge: ->
     this.$$('#showbadge').style.opacity = 1
     this.$$('#showbadge').style.display = 'block'

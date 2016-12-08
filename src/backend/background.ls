@@ -201,6 +201,7 @@ if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.lo
   if (!window.loaded_content_scripts['#{options.path}']) {
     window.loaded_content_scripts['#{options.path}'] = true;
     const intervention = #{JSON.stringify(intervention_info_copy)};
+    const tab_id = #{tabId};
 
     #{content_script_code}
     #{systemjs_content_script_code}

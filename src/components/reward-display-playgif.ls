@@ -96,7 +96,10 @@ polymer_ext {
       return "1 minute"
     return "#{minutes_saved} minutes"
   ready: cfy ->*
-    this.tab_id = yield get_selected_tab_id()
+    if tab_id?
+      this.tab_id = tab_id
+    else
+      this.tab_id = yield get_selected_tab_id()
   play: cfy ->*
     console.log 'reward-display play called'
     self = this

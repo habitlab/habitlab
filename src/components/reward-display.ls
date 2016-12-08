@@ -65,7 +65,10 @@ polymer_ext {
   #  if this.autoplay
   #    this.play()
   ready: cfy ->*
-    this.tab_id = yield get_selected_tab_id()
+    if tab_id?
+      this.tab_id = tab_id
+    else
+      this.tab_id = yield get_selected_tab_id()
   attached: cfy ->*
     if not this.seconds_saved?
       seconds_spent = (Date.now() - this.time_inserted) / 1000

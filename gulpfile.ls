@@ -197,6 +197,7 @@ gulp.task 'eslint', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'),
       'global_exports': true
       'Polymer': true
       'intervention': true
+      'tab_id': true
       #'jsyaml': true
       #'IS_CONTENT_SCRIPT': true
     }

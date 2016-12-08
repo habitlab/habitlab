@@ -11,25 +11,16 @@ const {
 } = require('libs_common/log_utils')
 
 const {
-  get_selected_tab_id
-} = require('libs_common/tab_utils')
-
-const {
   is_on_same_domain_and_same_tab
 } = require('libs_common/session_utils')
 
 const co = require('co')
 
 co(function*() {
-  console.log('get_selected_tab_id running')
-  const tab_id = yield get_selected_tab_id()
-  console.log('is_on_same_domain_and_same_tab running')
   const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
-  console.log('result of on_same_domain_and_same_tab is ' + on_same_domain_and_same_tab)
   if (on_same_domain_and_same_tab) {
     return
   }
-  console.log('actual intervention running')
 
   var interst_screen = $('<interstitial-screen>')
   interst_screen.addClass('interst_screen')

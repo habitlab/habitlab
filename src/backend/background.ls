@@ -488,7 +488,9 @@ chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
     #    url: tab.url
     #    tabId: tabId
     #  }
-    add_tab_navigation_event tabId, tab.url
+    if changeInfo.status == 'loading'
+      add_tab_navigation_event tabId, tab.url
+
     send_message_to_tabid tabId, 'navigation_occurred', {
       url: tab.url
       tabId: tabId

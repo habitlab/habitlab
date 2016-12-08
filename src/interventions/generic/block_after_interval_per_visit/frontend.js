@@ -36,191 +36,205 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
-var timeLimitThisVisit;
-var timeBegun;
+const {
+  is_on_same_domain_and_same_tab
+} = require('libs_common/session_utils')
 
-//Adds a dialog that prompts user for the amount of time they would like to be on Facebook
-function addBeginDialog(message) {
-  //Adds dialog that covers entire screen
-  const $whiteDiv = $('<div class="beginBox">').css({
-              'position': 'fixed',
-              'top': '0%',
-              'left': '0%',
-              'width': '100%',
-              'height': '100%',
-              'background-color': '#f2fcff',
-              'opacity': '0.97',
-              'z-index': 350
-  });
-  $(document.body).append($whiteDiv)
+const co = require('co')
 
-  //Centered container for text in the white box
-  const $contentContainer = $('<div class="contentContainer">').css({
-              'position': 'absolute',
-              'top': '50%',
-              'left': '50%',
-              'transform': 'translateX(-50%) translateY(-50%)'
-  });
+co(function*() {
+  const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
+  if (on_same_domain_and_same_tab) {
+    return
+  }  
 
-  const $timeText = $('<div class="titleText">').css({
-    'font-size': '1.3em'
-  });
-  $timeText.html(message)
+  var timeLimitThisVisit;
+  var timeBegun;
 
-  const $logo = $('<center><habitlab-logo></habitlab-logo></center>').css({
-    'margin-bottom': '80px'
-  });
-  $contentContainer.append($logo);
+  //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
+  function addBeginDialog(message) {
+    //Adds dialog that covers entire screen
+    const $whiteDiv = $('<div class="beginBox">').css({
+                'position': 'fixed',
+                'top': '0%',
+                'left': '0%',
+                'width': '100%',
+                'height': '100%',
+                'background-color': '#f2fcff',
+                'opacity': '0.97',
+                'z-index': 350
+    });
+    $(document.body).append($whiteDiv)
 
-  const $slider = $('<paper-slider id="ratings" pin snaps min="1" max="5" max-markers="5" step="1" value="3" style="width: 500px" editable></paper-slider>')
+    //Centered container for text in the white box
+    const $contentContainer = $('<div class="contentContainer">').css({
+                'position': 'absolute',
+                'top': '50%',
+                'left': '50%',
+                'transform': 'translateX(-50%) translateY(-50%)'
+    });
 
-  //const $okButton = $('<button>');
-  const $okButton = $('<paper-button>');
-  $okButton.text("Restrict My Minutes!");
-  $okButton.css({'cursor': 'pointer', 'padding': '5px', 'background-color': '#3367d6', 'color': 'white', 'font-weight': 'normal'});
-  //$okButton.click(() => {
-  $okButton.on('click', () => {
-    var minutes = document.querySelector("paper-slider").value
-    if (minutes === "") {
-      if ($('.wrongInputText').length === 0) {
-        const $wrongInputText = $('<div class="wrongInputText">').css({
-          'color': 'red'
-        })
-        $wrongInputText.html("You must input a number.")
-        $wrongInputText.insertAfter($slider)
-      }
-    } else {
-      log_impression(intervention.name)
-      timeBegun = Math.floor(Date.now() / 1000)
-      timeLimitThisVisit = minutes * 60
+    const $timeText = $('<div class="titleText">').css({
+      'font-size': '1.3em'
+    });
+    $timeText.html(message)
 
-      $('.beginBox').remove()
-      displayCountdown()
-    }
-  })
+    const $logo = $('<center><habitlab-logo></habitlab-logo></center>').css({
+      'margin-bottom': '80px'
+    });
+    $contentContainer.append($logo);
 
-  const $center = $('<center>')
-  $center.append($timeText)
-  $center.append($('<p>'))
-  $center.append($slider)
-  $center.append($('<p>'))  
-  $center.append($okButton)
-  $contentContainer.append($center);
+    const $slider = $('<paper-slider id="ratings" pin snaps min="1" max="5" max-markers="5" step="1" value="3" style="width: 500px" editable></paper-slider>')
 
-  $whiteDiv.append($contentContainer)
-}
+    //const $okButton = $('<button>');
+    const $okButton = $('<paper-button>');
+    $okButton.text("Restrict My Minutes!");
+    $okButton.css({'cursor': 'pointer', 'padding': '5px', 'background-color': '#3367d6', 'color': 'white', 'font-weight': 'normal'});
+    //$okButton.click(() => {
+    $okButton.on('click', () => {
+      var minutes = document.querySelector("paper-slider").value
+      if (minutes === "") {
+        if ($('.wrongInputText').length === 0) {
+          const $wrongInputText = $('<div class="wrongInputText">').css({
+            'color': 'red'
+          })
+          $wrongInputText.html("You must input a number.")
+          $wrongInputText.insertAfter($slider)
+        }
+      } else {
+        log_impression(intervention.name)
+        timeBegun = Math.floor(Date.now() / 1000)
+        timeLimitThisVisit = minutes * 60
 
-//End message displayed after time spent
-function addEndDialog(message) {
-  //White dialog box containing time's up messages
-  const $dialogBox = $('<div class="dialogBox">').css({
-              'position': 'fixed',
-              'top': '0%',
-              'left': '0%',
-              'width': '100%',
-              'height': '100%',
-              'background-color': 'white',
-              'z-index': 350
-  });
-  $(document.body).append($dialogBox)
-
-  //Centered container for text in the white box
-  const $contentContainer = $('<div class="contentContainer">').css({
-              'position': 'absolute',
-              'top': '50%',
-              'left': '50%',
-              'transform': 'translateX(-50%) translateY(-50%)',
-              'display': 'flex',
-              'align-items': 'center',
-              'justify-content': 'center',
-              'flex-direction': 'column'
-  }); 
-
-  //Time up message displayed to user
-  const $timeText = $('<div class="titleText">').css({
-    'font-size': '3em',
-    'color': 'red'
-  });
-  $timeText.html(message)
-  $contentContainer.append($timeText)
-  $contentContainer.append($('<p>'))  
-
-  //Cheat button
-  const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')
-  $cheatButton.text("Cheat for " + intervention.params.cheatseconds.value + " Seconds")
-  $cheatButton.css({'cursor': 'pointer', 'padding': '5px'});
-  $cheatButton.click(() => {
-    $dialogBox.remove()
-    cheat(intervention.params.cheatseconds.value)
-  })
-
-  $contentContainer.append($cheatButton);
-  $dialogBox.append($contentContainer);
-}
-
-function cheat(minutes) {
-  getTimeSpent((time) => {
-    localStorage.cheatStart = time
-    cheatCountdown()
-  })
-}
-
-function cheatCountdown() {
-  const timeCheatingUp = parseInt(intervention.params.cheatseconds.value) + parseInt(localStorage.cheatStart)
-
-  var cheatTimer = setInterval(() => {
-    getTimeSpent((timeSpent) => {
-      console.log("Cheat start: " + localStorage.cheatStart)
-      console.log("Cheat Seconds Allowed: " + intervention.params.cheatseconds.value)
-      console.log("Time Cheating Up: " + timeCheatingUp)
-      console.log("Time Spent: " + timeSpent)
-      if (timeSpent > timeCheatingUp) {
-        clearInterval(cheatTimer)
-        addEndDialog('Your Cheating Time is Up!')
+        $('.beginBox').remove()
+        displayCountdown()
       }
     })
-  }, 1000);
-}
 
-function getTimeSpent(callback) {
-  get_seconds_spent_on_current_domain_today((secondsSpent) => {
-    callback(secondsSpent)
-  })
-}
+    const $center = $('<center>')
+    $center.append($timeText)
+    $center.append($('<p>'))
+    $center.append($slider)
+    $center.append($('<p>'))  
+    $center.append($okButton)
+    $contentContainer.append($center);
 
-//Retrieves the remaining time left for the user to spend on facebook
-function getRemainingTimeThisVisit() {
-  const timeSpent = Math.floor(Date.now() / 1000) - timeBegun 
-  return timeLimitThisVisit - timeSpent
-}
+    $whiteDiv.append($contentContainer)
+  }
 
-//Displays the countdown on the bottom left corner of the Facebook page
-function displayCountdown() {
-  var display_timespent_div = $('<timespent-view>')
-  $('body').append(display_timespent_div)
-  var countdownTimer = setInterval(() => {
-    const timeRemaining = getRemainingTimeThisVisit();
-    var minutes = Math.floor(timeRemaining / 60);
-    var seconds = timeRemaining % 60;
-    display_timespent_div.attr('display-text', minutes + " minute(s) and " + seconds + " seconds left.");
-    if (timeRemaining < 0) {
+  //End message displayed after time spent
+  function addEndDialog(message) {
+    //White dialog box containing time's up messages
+    const $dialogBox = $('<div class="dialogBox">').css({
+                'position': 'fixed',
+                'top': '0%',
+                'left': '0%',
+                'width': '100%',
+                'height': '100%',
+                'background-color': 'white',
+                'z-index': 350
+    });
+    $(document.body).append($dialogBox)
+
+    //Centered container for text in the white box
+    const $contentContainer = $('<div class="contentContainer">').css({
+                'position': 'absolute',
+                'top': '50%',
+                'left': '50%',
+                'transform': 'translateX(-50%) translateY(-50%)',
+                'display': 'flex',
+                'align-items': 'center',
+                'justify-content': 'center',
+                'flex-direction': 'column'
+    }); 
+
+    //Time up message displayed to user
+    const $timeText = $('<div class="titleText">').css({
+      'font-size': '3em',
+      'color': 'red'
+    });
+    $timeText.html(message)
+    $contentContainer.append($timeText)
+    $contentContainer.append($('<p>'))  
+
+    //Cheat button
+    const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')
+    $cheatButton.text("Cheat for " + intervention.params.cheatseconds.value + " Seconds")
+    $cheatButton.css({'cursor': 'pointer', 'padding': '5px'});
+    $cheatButton.click(() => {
+      $dialogBox.remove()
+      cheat(intervention.params.cheatseconds.value)
+    })
+
+    $contentContainer.append($cheatButton);
+    $dialogBox.append($contentContainer);
+  }
+
+  function cheat(minutes) {
+    getTimeSpent((time) => {
+      localStorage.cheatStart = time
+      cheatCountdown()
+    })
+  }
+
+  function cheatCountdown() {
+    const timeCheatingUp = parseInt(intervention.params.cheatseconds.value) + parseInt(localStorage.cheatStart)
+
+    var cheatTimer = setInterval(() => {
+      getTimeSpent((timeSpent) => {
+        console.log("Cheat start: " + localStorage.cheatStart)
+        console.log("Cheat Seconds Allowed: " + intervention.params.cheatseconds.value)
+        console.log("Time Cheating Up: " + timeCheatingUp)
+        console.log("Time Spent: " + timeSpent)
+        if (timeSpent > timeCheatingUp) {
+          clearInterval(cheatTimer)
+          addEndDialog('Your Cheating Time is Up!')
+        }
+      })
+    }, 1000);
+  }
+
+  function getTimeSpent(callback) {
+    get_seconds_spent_on_current_domain_today((secondsSpent) => {
+      callback(secondsSpent)
+    })
+  }
+
+  //Retrieves the remaining time left for the user to spend on facebook
+  function getRemainingTimeThisVisit() {
+    const timeSpent = Math.floor(Date.now() / 1000) - timeBegun 
+    return timeLimitThisVisit - timeSpent
+  }
+
+  //Displays the countdown on the bottom left corner of the Facebook page
+  function displayCountdown() {
+    var display_timespent_div = $('<timespent-view>')
+    $('body').append(display_timespent_div)
+    var countdownTimer = setInterval(() => {
+      const timeRemaining = getRemainingTimeThisVisit();
+      var minutes = Math.floor(timeRemaining / 60);
+      var seconds = timeRemaining % 60;
+      display_timespent_div.attr('display-text', minutes + " minute(s) and " + seconds + " seconds left.");
+      if (timeRemaining < 0) {
+        $('.timespent-view').remove();
+        addEndDialog("Your time this visit is up!");
+        clearInterval(countdownTimer);
+      }
+    }, 1000);
+  }
+
+  function main() {
+    addBeginDialog("How many minutes would you like to spend on " + intervention.params.sitename.value + " this visit?");
+  }
+
+  once_document_available(main);
+  window.onload = () => {
+    document.body.addEventListener("disable_intervention", () => {
       $('.timespent-view').remove();
-      addEndDialog("Your time this visit is up!");
-      clearInterval(countdownTimer);
-    }
-  }, 1000);
-}
+      $('.contentContainer').remove();
+      $('.dialogBox').remove();
+      $('.beginBox').remove()
+    });
+  }
 
-function main() {
-  addBeginDialog("How many minutes would you like to spend on " + intervention.params.sitename.value + " this visit?");
-}
-
-once_document_available(main);
-window.onload = () => {
-  document.body.addEventListener("disable_intervention", () => {
-    $('.timespent-view').remove();
-    $('.contentContainer').remove();
-    $('.dialogBox').remove();
-    $('.beginBox').remove()
-  });
-}
+})

@@ -42,6 +42,27 @@ export add_tab_navigation_event = (tab_id, url) ->
       tab_id_to_current_session_id[tab_id] = session_id_counter
   return
 
+session_id_to_data = {}
+
+set_session_data_sync = (session_id, key, val) ->
+  if not session_id_to_data[session_id]?
+    session_id_to_data[session_id] = {}
+  session_id_to_data[key] = val
+  return
+
+export set_session_data = cfy (session_id, key, val) ->*
+  set_session_data_sync session_id, key, val
+  return
+
+get_session_data_sync = (session_id, key) ->
+  session_data = session_id_to_data[session_id]
+  if session_data?
+    return session_data[key]
+  return null
+
+export get_session_data = cfy (session_id, key) ->*
+  return get_session_data_sync session_id, key
+
 /*
 export is_on_same_domain_and_same_tab = cfy (tab_id) ->*
   current_url = tab_id_to_prev1_url_visited[tab_id]

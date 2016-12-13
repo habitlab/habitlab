@@ -70,7 +70,7 @@ function showComments() {
           $(item).css('opacity', 1)
           $(item).css('pointer-events', 'all')
         }
-        $(this).siblings('habitlab_logo').remove()
+        $(this).siblings('habitlab-logo').remove()
         $(this).siblings('close-tab-button').remove()
         $(this).siblings('paper-button').remove()
       }

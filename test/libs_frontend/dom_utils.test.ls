@@ -80,7 +80,7 @@ describe 'libs_frontend/dom-utils', ->
     specify 'default-theme dom-module imported', ->
       spy = sandbox.spy_internal dom_utils, 'recreateDomModule'
       spy2 = sandbox.spy_internal dom_utils, 'recreateCustomStyle'
-      spy3 = sandbox.spy_internal dom_utils, 'recreateGlobalStyle'
+      spy3 = sandbox.spy_internal dom_utils, 'recreateFileLocalStyle'
       result = dom_utils.import_dom_modules(default_theme_html)
       spy.callCount.should.equal(0)
       spy2.callCount.should.equal(1)
@@ -88,7 +88,7 @@ describe 'libs_frontend/dom-utils', ->
     specify 'iron-flex-layout custom-style and global style imported', ->
       spy = sandbox.spy_internal dom_utils, 'recreateDomModule'
       spy2 = sandbox.spy_internal dom_utils, 'recreateCustomStyle'
-      spy3 = sandbox.spy_internal dom_utils, 'recreateGlobalStyle'
+      spy3 = sandbox.spy_internal dom_utils, 'recreateFileLocalStyle'
       result = dom_utils.import_dom_modules(iron_flex_layout_html)
       spy.callCount.should.equal(0)
       spy2.callCount.should.equal(1)

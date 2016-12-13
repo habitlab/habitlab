@@ -277,7 +277,7 @@ polymer_ext {
 
     #Map from graph option names to graph polymer component
     graphNamesToOptions = {
-      "Goal Website History Graph" : "graph-chrome-history",
+      "Goal Website History Graph" : "graph-time-spent-on-goal-sites-daily",
       "Daily Overview" : "site-goal-view",
       "Donut Graph" : "graph-donut-top-sites",
       "Interventions Deployed Graph" : "graph-num-times-interventions-deployed",
@@ -290,7 +290,7 @@ polymer_ext {
       blacklist = JSON.parse localStorage.blacklist
     else
       blacklist = {
-        "graph-chrome-history" : false, 
+        "graph-time-spent-on-goal-sites-daily" : false, 
         "site-goal-view" : true, 
         "graph-donut-top-sites" : true, 
         "graph-num-times-interventions-deployed": true,      
@@ -307,7 +307,7 @@ polymer_ext {
     self.graphOptions = graphOptions 
 
     shownGraphs = [
-      'graph-chrome-history'
+      'graph-time-spent-on-goal-sites-daily'
       'site-goal-view'
       'graph-donut-top-sites'
       'graph-num-times-interventions-deployed'

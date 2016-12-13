@@ -28,7 +28,7 @@ polymer_ext {
 
   on_goal_changed: (evt) ->
     this.rerender()
-    this.$$('graph-chrome-history').ready()
+    this.$$('graph-time-spent-on-goal-sites-daily').ready()
     #this.$$('graph-time-saved-daily').ready()
     this.$$('graph-daily-overview').ready()
     this.$$('graph-num-times-interventions-deployed').ready()

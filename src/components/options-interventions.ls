@@ -41,6 +41,10 @@ require! {
   url_to_domain
 } = require 'libs_common/domain_utils'
 
+{
+  get_canonical_domain
+} = require 'libs_backend/canonical_url_utils'
+
 {load_css_file} = require 'libs_common/content_script_utils'
 {cfy} = require 'cfy'
 
@@ -48,6 +52,7 @@ require! {
 
 const swal = require 'sweetalert2'
 
+const $ = require 'jquery'
 
 polymer_ext {
   is: 'options-interventions'
@@ -405,20 +410,33 @@ polymer_ext {
       return 0
     else 
       return 1
-  add_goal_clicked: cfy (evt) ->*
+  add_custom_website_from_input: cfy ->*
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
     if domain.length == 0
       return
-    yield add_enable_custom_goal_reduce_time_on_domain(domain)
+    this.$$('#add_website_input').value = ''
+    canonical_domain = yield get_canonical_domain(domain)
+    if not canonical_domain?
+      swal {
+        title: 'Invalid Domain'
+        html: $('<div>').append([
+          $('<div>').text('You entered an invalid domain: ' + domain)
+          $('<div>').text('Please enter a valid domain such as www.amazon.com')
+        ])
+        type: 'error'
+      }
+      return
+    yield add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
     this.rerender()
-  add_website_input_keydown: cfy (evt) ->*
+    return
+  add_goal_clicked: (evt) ->
+    this.add_custom_website_from_input()
+    return
+  add_website_input_keydown: (evt) ->
     if evt.keyCode == 13
       # enter pressed
-      domain = url_to_domain(this.$$('#add_website_input').value.trim())
-      if domain.length == 0
-        return
-      yield add_enable_custom_goal_reduce_time_on_domain(domain)
-      this.rerender()
+      this.add_custom_website_from_input()
+      return
   delete_goal_clicked: cfy (evt) ->*
     goal_name = evt.target.goal_name
     yield remove_custom_goal_and_generated_interventions goal_name

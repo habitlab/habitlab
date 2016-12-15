@@ -108,7 +108,7 @@ function insertClickNotification() {
           const rand = Math.floor((Math.random() * messages.length));
           $messageClone.find('.snippet.preview').text(messages[rand]); //Changes text
           $messageClone.find('.timestamp').text('Just Now'); //Changes time sent
-          $messageClone.find('._55lt').html('<img src="https://i.imgur.com/4G2qKQV.png" width="50" height="50" alt="" class="img">'); //Changes icon
+          $messageClone.find('._8o._8s').html('<img src="https://i.imgur.com/4G2qKQV.png" width="50" height="50" alt="" class="img">'); //Changes icon
           //$messageClone.find('a[href]').attr('href', 'https://habitlab.github.io'); //redirects link to [link in 2nd arg of attr]
           
           $messageClone.find('a[href]').attr('href', '#').click(function() {

@@ -1,4 +1,5 @@
-"use strict";
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
 
 const $ = require('jquery')
 
@@ -66,7 +67,7 @@ function divOverVideo(status) {
   if (window.location.href.indexOf('watch') == -1) {
     return
   }
-  const $a = $('<div class="whiteOverlay">').css({'position': 'absolute'});
+  const $a = $('<div class="whiteOverlay">').css({'position': 'absolute', 'display': 'table'});
 	$a.width(video.width());
 	$a.height(video.height());
 	$a.css({'background-color': 'white'});
@@ -83,11 +84,13 @@ function divOverVideo(status) {
   .addClass('contentContainer')
   .addClass('habitlab_inserted')
   .css({
-    'position': 'absolute',
-    'top': '50%',
-    'left': '50%',
-    'transform': 'translateX(-50%) translateY(-50%)',
-    'text-align': 'center'
+    //'position': 'absolute',
+    //'top': '50%',
+    //'left': '50%',
+    //'transform': 'translateX(-50%) translateY(-50%)',
+    'text-align': 'center',
+    'display': 'table-cell',
+    'vertical-align': 'middle'
   });
   
   $contentContainer.append('<habitlab-logo>')

@@ -40,7 +40,12 @@ function removeSidebar() {
   $('#watch7-sidebar-contents').prepend(habitlab_inserted_div)
 }
 
+var intervention_disabled = false
+
 const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
+  if (intervention_disabled) {
+    return
+  }
   log_impression('youtube/remove_sidebar_links')
   once_available('.watch-sidebar-section', () => {
     removeSidebar()
@@ -63,7 +68,10 @@ function disable_intervention() {
   }
 }
 
-document.body.addEventListener('disable_intervention', disable_intervention)
+document.body.addEventListener('disable_intervention', function() {
+  intervention_disabled = true
+  disable_intervention()
+})
 
 /*
 (document.body || document.documentElement).addEventListener('transitionend',

@@ -1,3 +1,6 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 const $ = require('jquery')
 
 const {
@@ -152,6 +155,6 @@ function main() {
 //$(document).ready(main())
 setTimeout(begin, 3000);
 
-document.addEventListener('disable_intervention', function() {
+document.body.addEventListener('disable_intervention', function() {
   $('.habitlab_inserted').remove()
 })

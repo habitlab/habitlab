@@ -1,3 +1,6 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')

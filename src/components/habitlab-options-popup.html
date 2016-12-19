@@ -1,0 +1,36 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
+
+<dom-module id="habitlab-options-popup">
+  <style>
+  </style>
+  <template>
+    <paper-dialog id="intervention_info_dialog" with-backdrop>
+    <h2>Habitlab Intervention Info</h2>
+    <div style="text-align: left">
+      <p>Intervention name: <span>{{intervention_description}}</span></p>
+      <p>Goal: <span>{{goal_descriptions}}</span></p>
+      <div>
+        <span>Disable Intervention:</span>
+        <paper-button on-click="disable_temp_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of this visit</paper-button>
+        <paper-button on-click="disable_perm_callback" style="color: white; background-color: #3687D3; text-transform: none;">Permanently</paper-button>
+      </div>
+      <br>
+      <div>
+        <span>Disable Habitlab:</span>
+        <paper-button on-click="disable_habitlab_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of today</paper-button>
+      </div>
+    </div>
+    <div class="buttons">
+      <paper-button on-click="open_interventions_page">HabitLab Options</paper-button>
+      <paper-button dialog-dismiss>Close</paper-button>
+    </div>
+  </paper-dialog>
+  </template>
+  <script src="habitlab-options-popup.js"></script>
+</dom-module>

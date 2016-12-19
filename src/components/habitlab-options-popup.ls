@@ -1,9 +1,24 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 {cfy} = require 'cfy'
 
+swal = require 'sweetalert2'
+
 {
+  load_css_file
+} = require 'libs_common/content_script_utils'
+
+{
+  set_intervention_disabled
   set_intervention_disabled_permanently
 } = require 'libs_common/intervention_utils'
+
+{
+  disable_habitlab
+} = require 'libs_common/disable_habitlab_utils'
+
+{
+  open_url_in_new_tab
+} = require 'libs_common/tab_utils'
 
 intervention = require('libs_common/intervention_info').get_intervention()
 
@@ -23,15 +38,16 @@ polymer_ext {
       value: if intervention? then intervention.description else ''
     }
     goal_descriptions: {
-      type: String,
+      type: String
       value: if intervention? then (intervention.goals.map((.description)).join(', ')) else ''
     }
   }
   isdemo_changed: ->
     if this.isdemo
       this.open()
-  ready: ->
+  ready: cfy ->*
     console.log 'habitlab-options-popup ready'
+    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
   open: ->
     this.$$('#intervention_info_dialog').open()
   disable_temp_callback: ->
@@ -53,5 +69,15 @@ polymer_ext {
       console.log "disabled #{self.intervention}"
       swal('Disabled!', 'This intervention will be disabled permanently.')
     )
+  disable_habitlab_callback: ->
+    this.$$('#intervention_info_dialog').close()
+    disable_habitlab()
+    swal {
+      title: 'Habitlab Disabled!',
+      text: 'Habitlab will not deploy interventions for the rest of today.'
+    }
+  open_interventions_page: ->
+    open_url_in_new_tab("options.html#interventions")
+    this.$$('#intervention_info_dialog').close()
 }
 

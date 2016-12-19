@@ -25,7 +25,9 @@ polymer_ext({
     }
   },
   habitlab_button_clicked: function() {
-    this.$.habitlab_options_popup.open()
+    habitlab_options_popup = document.createElement('habitlab-options-popup')
+    document.body.appendChild(habitlab_options_popup)
+    habitlab_options_popup.open()
   },
   get_url: function() {
     return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');

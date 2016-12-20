@@ -50,9 +50,9 @@ require! {
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
-const swal = require 'sweetalert2'
+swal = require 'sweetalert2'
 
-const $ = require 'jquery'
+$ = require 'jquery'
 
 polymer_ext {
   is: 'options-interventions'
@@ -410,6 +410,12 @@ polymer_ext {
       return 0
     else 
       return 1
+  sort_custom_goals_and_interventions_after: (goals_and_interventions) ->
+    [custom_goals_and_interventions,normal_goals_and_interventions] = prelude.partition (.goal.custom), goals_and_interventions
+    return normal_goals_and_interventions.concat custom_goals_and_interventions
+  sort_custom_sites_after: (sites_and_goals) ->
+    [custom_sites_and_goals,normal_sites_and_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_goals
+    return normal_sites_and_goals.concat custom_sites_and_goals
   add_custom_website_from_input: cfy ->*
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
     if domain.length == 0

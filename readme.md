@@ -14,9 +14,11 @@ npm install -g gulp-cli karma-cli webpack vulcanize cspify crisper livescript
 gulp
 ```
 
-Now you will have the chrome extension built in the `dist` directory. You can sideload it using the [extensions developer tool](https://chrome.google.com/webstore/detail/chrome-apps-extensions-de/ohmmkhmmmpcnpikjeljgnaoabkaalbgc) or by going to [chrome://extensions](chrome://extensions) and clicking `Load Unpacked Extension` and selecting the `dist` directory under the `habitlab-chrome` folder.
+Once gulp finishes (leave gulp running in the background; it will keep compiling the code and tell you about errors), you will have the chrome extension built in the `dist` directory.
 
-Note that you may want to use [Cốc Cốc](https://coccoc.com/en) or [Opera](http://www.opera.com/) instead of Chrome for development, as Chrome prompts you to disable sideloaded extensions each time you open it.
+Next we will sideload the extension. You may want to sideload the extension onto [Cốc Cốc](https://coccoc.com/en) or [Opera](http://www.opera.com/) instead of Chrome, as Chrome prompts you to disable sideloaded extensions each time you open it.
+
+You can sideload the extension using the [extensions developer tool](https://chrome.google.com/webstore/detail/chrome-apps-extensions-de/ohmmkhmmmpcnpikjeljgnaoabkaalbgc) or by going to [chrome://extensions](chrome://extensions) and clicking `Load Unpacked Extension` and selecting the `dist` directory under the `habitlab-chrome` folder.
 
 ## Developer Options Page
 

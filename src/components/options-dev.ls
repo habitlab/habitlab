@@ -25,6 +25,10 @@ polymer_ext {
             description: 'Show internal names of goals and interventions'
           }
           {
+            name: 'index_show_url_bar'
+            description: 'Show URL bar on the bottom of configuration pages for developers using Opera'
+          }
+          {
             name: 'intervention_view_show_debug_all_interventions_goal'
             description: 'Show the debug/all_interventions goal'
           }
@@ -35,10 +39,6 @@ polymer_ext {
           {
             name: 'intervention_view_show_parameters'
             description: 'Show the parameters for each intervention'
-          }
-          {
-            name: 'index_show_url_bar'
-            description: 'Shows a URL bar on the index pages (primarily for developers using Opera)'
           }
         ]
       }

@@ -31,6 +31,9 @@ add_url_input_if_needed = ->
     document.body.appendChild(url_input)
   return
 
+window.developer_options = ->
+  window.location.href = '/index.html?tag=options-dev'
+
 if window.location.pathname == '/options.html'
   require 'components/options-view.deps'
 

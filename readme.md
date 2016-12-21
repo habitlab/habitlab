@@ -16,6 +16,12 @@ gulp
 
 Now you will have the chrome extension built in the `dist` directory. You can sideload it using the [extensions developer tool](https://chrome.google.com/webstore/detail/chrome-apps-extensions-de/ohmmkhmmmpcnpikjeljgnaoabkaalbgc) or by going to [chrome://extensions](chrome://extensions) and clicking `Load Unpacked Extension` and selecting the `dist` directory under the `habitlab-chrome` folder.
 
+Note that you may want to use [Cốc Cốc](https://coccoc.com/en) or Opera instead of Chrome for development, as Chrome prompts you to disable sideloaded extensions each time you open it.
+
+## Developer Options Page
+
+If you open the developer console (Command-Option-J on macOS, or Control-Shift-J on Windows) and type `developer_options()` this will give you a configuration page with some useful options for developers. In particular, if you are using Opera, enable the Show URL bar option.
+
 ## Adding an intervention
 
 First add an directory under the [`src/interventions`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions) directory. It should contain 2 files: `info.yaml` and `frontend.ls`. Follow [`facebook/remove_news_feed`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/facebook/remove_news_feed) as an example of how these files should look like.

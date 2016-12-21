@@ -11,6 +11,24 @@ if window.location.pathname == '/popup.html'
   require 'libs_common/global_exports_post'
   return
 
+add_url_input_if_needed = ->
+  if localStorage.index_show_url_bar == 'true'
+    url_input = document.createElement('input')
+    url_input.style.position = 'fixed'
+    url_input.style.bottom = '0px'
+    url_input.style.left = '0px'
+    url_input.value = window.location.href
+    url_input.style.width = '100vw'
+    url_input.addEventListener 'keydown', (evt) ->
+      console.log evt
+      if evt.keyCode == 13
+        if url_input.value != window.location.href
+          window.location.href = url_input.value
+        else
+          window.location.reload()
+    document.body.appendChild(url_input)
+  return
+
 if window.location.pathname == '/options.html'
   require 'components/options-view.deps'
 
@@ -29,6 +47,7 @@ if window.location.pathname == '/options.html'
     window.location.hash = evt.detail.selected_tab_name
   #  options_view
   require 'libs_common/global_exports_post'
+  add_url_input_if_needed()
   return
 
 
@@ -117,6 +136,7 @@ start_page_index = cfy ->*
     index_body.style.width = index_body_width
   if index_body_height
     index_body.style.height = index_body_height
+  add_url_input_if_needed()
   return
 
 start_page_index()

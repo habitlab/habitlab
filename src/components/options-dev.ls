@@ -36,6 +36,10 @@ polymer_ext {
             name: 'intervention_view_show_parameters'
             description: 'Show the parameters for each intervention'
           }
+          {
+            name: 'index_show_url_bar'
+            description: 'Shows a URL bar on the index pages (primarily for developers using Opera)'
+          }
         ]
       }
     ]

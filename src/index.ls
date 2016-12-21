@@ -20,7 +20,6 @@ add_url_input_if_needed = ->
     url_input.value = window.location.href
     url_input.style.width = '100vw'
     url_input.addEventListener 'keydown', (evt) ->
-      console.log evt
       if evt.keyCode == 13
         if url_input.value != window.location.href
           window.location.href = url_input.value

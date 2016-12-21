@@ -19,6 +19,9 @@ add_url_input_if_needed = ->
     url_input.style.left = '0px'
     url_input.value = window.location.href
     url_input.style.width = '100vw'
+    url_input.style.backgroundColor = 'transparent'
+    url_input.style.border = 'none'
+    url_input.style.color = 'red'
     url_input.addEventListener 'keydown', (evt) ->
       if evt.keyCode == 13
         if url_input.value != window.location.href

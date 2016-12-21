@@ -22,7 +22,7 @@ You can sideload the extension using the [extensions developer tool](https://chr
 
 ## Developer Options Page
 
-If you open the developer console (`Command-Option-J` on macOS, or `Control-Shift-J` on Windows) and type `developer_options()` this will give you a configuration page with some useful options for developers. In particular, if you are using Opera, enable the `Show URL bar` option.
+If you open the developer console (`Command-Option-J` on macOS, or `Control-Shift-J` on Windows) and type `developer_options()` this will give you a configuration page with some useful options for developers.
 
 ## Adding an intervention
 

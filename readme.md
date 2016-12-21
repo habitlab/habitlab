@@ -16,7 +16,7 @@ gulp
 
 Once gulp finishes (leave gulp running in the background; it will keep compiling the code and tell you about errors), you will have the chrome extension built in the `dist` directory.
 
-Next we will sideload the extension. You should sideload the extension onto [Cốc Cốc](http://coccoc.com/en) instead of Chrome, as Chrome prompts you to disable sideloaded extensions each time you open it.
+Next we will sideload the extension. You should sideload the extension onto [Blisk](https://blisk.io/) or [Cốc Cốc](http://coccoc.com/en) instead of Chrome, as Chrome prompts you to disable sideloaded extensions each time you open it (if using Blisk, please disable its `Scroll Sync` feature).
 
 You can sideload the extension using the [extensions developer tool](https://chrome.google.com/webstore/detail/chrome-apps-extensions-de/ohmmkhmmmpcnpikjeljgnaoabkaalbgc) or by going to [chrome://extensions](chrome://extensions) and clicking `Load Unpacked Extension` and selecting the `dist` directory under the `habitlab-chrome` folder.
 

@@ -2,7 +2,7 @@ const {
   get_num_enabled_goals
 } = require ('libs_backend/goal_utils')
 const {
-  get_num_goals_met_today
+  get_num_goals_met_yesterday
 } = require ('libs_backend/goal_progress')
 
 const {cfy} = require('cfy');
@@ -37,7 +37,7 @@ setInterval(cfy(function*() {
   var cur_date = new Date();
   if (cur_date.getDate() !== prev_date.getDate()) {
     //new day
-    var num_goals_met = yield get_num_goals_met_today();
+    var num_goals_met = yield get_num_goals_met_yesterday();
     var num_goals_total = yield get_num_enabled_goals();
     make_notification(num_goals_met, num_goals_total);
   }

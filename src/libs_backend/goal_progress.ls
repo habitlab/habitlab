@@ -58,6 +58,9 @@ export get_progress_on_goal_days_since_today = cfy (goal_name, days_since_today)
 export get_num_goals_met_today = cfy ->*
   yield get_num_goals_met_days_since_today 0
 
+export get_num_goals_met_yesterday = cfy ->*
+  yield get_num_goals_met_days_since_today 1
+
 export get_num_goals_met_days_since_today = cfy (days_since_today) ->*
   enabled_goals = yield goal_utils.get_enabled_goals()
   goal_targets = yield goal_utils.get_all_goal_targets()

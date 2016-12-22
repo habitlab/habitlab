@@ -9,7 +9,7 @@
 
 {
   get_interventions
-  get_effectiveness_of_all_interventions_for_goal
+  get_seconds_saved_per_session_for_each_intervention_for_goal
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -40,26 +40,22 @@ polymer_ext {
     #Retrieves the number of impressions for each enabled intervention        
     time_saved_on_enabled_goals = []
     for item in enabledGoalsKeys
-      enabledGoalsResults = yield get_effectiveness_of_all_interventions_for_goal(item)
+      enabledGoalsResults = yield get_seconds_saved_per_session_for_each_intervention_for_goal(item)
       time_saved_on_enabled_goals.push(enabledGoalsResults)
 
     #Retrieves intervention names and values
-    control = [] #for now, control is the max value 
     interventions_list = []
     intervention_progress = []
     for item in time_saved_on_enabled_goals
       for key,value of item
 
         #only push not-empty interventions
-        if !isNaN value.progress
-          intervention_progress.push value.progress
+        if !isNaN value
+          value = value / 60 # convert to minues
+          if value < 0
+            value = 0
+          intervention_progress.push value
           interventions_list.push key
-
-          if value.progress > control
-            control = value.progress
-
-    for i from 0 to intervention_progress.length - 1 by 1
-      intervention_progress[i] = control - intervention_progress[i]    
 
     #Retrieves all intervention descriptions
     intervention_descriptions = yield get_interventions()

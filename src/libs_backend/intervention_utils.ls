@@ -553,32 +553,7 @@ export get_intervention_parameters = cfy (intervention_name) ->*
     output[k] = cast_to_type(parameter_value, parameter_type)
   return output
 
-/*
-export get_effectiveness_of_intervention_for_goal = cfy (intervention_name, goal_name) ->*
-  progress_info_base = yield goal_progress.get_progress_on_goal_days_since_today goal_name, 0
-  days_deployed = yield intervention_manager.get_days_since_today_on_which_intervention_was_deployed intervention_name
-  progress_list = []
-  for day in days_deployed
-    progress_info = yield goal_progress.get_progress_on_goal_days_since_today goal_name, day
-    progress_list.push progress_info.progress
-  if progress_list.length > 0
-    progress_info_base.progress = prelude.average progress_list
-    progress_info_base.message = "#{progress_info_base.progress} minutes"
-  else
-    progress_info_base.progress = NaN
-    progress_info_base.message = "no data"
-  return progress_info_base
-
-export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
-  output = {}
-  interventions = yield list_available_interventions_for_goal goal_name
-  for intervention_name in interventions
-    progress_info = yield get_effectiveness_of_intervention_for_goal intervention_name, goal_name
-    output[intervention_name] = progress_info
-  return output
-*/
-
-get_seconds_spent_on_domain_for_each_intervention = cfy (domain) ->*
+export get_seconds_spent_on_domain_for_each_intervention = cfy (domain) ->*
   session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
   session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
   intervention_to_session_lengths = {}
@@ -634,7 +609,9 @@ export get_seconds_spent_per_session_for_each_intervention_for_goal = cfy (goal_
     output[intervention] = seconds_per_session
   return output
 
+/*
 # only kept for legacy compatibility purposes, will be removed, do not use
+# replacement: get_seconds_saved_per_session_for_each_intervention_for_goal
 export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
   goal_info = yield goal_utils.get_goal_info(goal_name)
   domain = goal_info.domain
@@ -658,6 +635,7 @@ export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
         message: 'no data'
       }
   return output
+*/
 
 export get_goals_and_interventions = cfy ->*
   intervention_name_to_info = yield get_interventions()

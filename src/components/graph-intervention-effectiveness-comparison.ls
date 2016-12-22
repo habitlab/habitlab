@@ -1,16 +1,11 @@
 {
   polymer_ext
-  list_polymer_ext_tags_with_info
 } = require 'libs_frontend/polymer_utils'
 
 {
-  get_num_impressions_today
-  get_num_actions_today
-  get_interventions_seen_today
-} = require 'libs_backend/log_utils'
-
-{
   get_interventions
+  list_enabled_interventions_for_goal
+  get_seconds_saved_per_session_for_each_intervention_for_goal
 } = require 'libs_backend/intervention_utils'
 
 {cfy} = require 'cfy'
@@ -26,57 +21,45 @@ require! {
 polymer_ext {
   is: 'graph-intervention-effectiveness-comparison'
   properties: {
+    goal_name: {
+      type: String
+      value: 'facebook/spend_less_time'
+    }
   }
   ready: cfy ->*
     self = this
 
-    #MARK: Num Times Interventions Deployed Graph
-    #Retrieves all interventions
-    seenInterventions = yield get_interventions_seen_today()
+    all_interventions = yield get_interventions()
+    enabled_interventions = yield list_enabled_interventions_for_goal(self.goal_name)
+    intervention_to_seconds_saved = yield get_seconds_saved_per_session_for_each_intervention_for_goal(self.goal_name)
 
-    results = []
-    for intv in seenInterventions
-      results.push yield get_num_impressions_today(intv)
+    minutes_saved_list = []
+    intervention_description_list = []
 
-    console.log 'results are'
-    console.log results
-
-    #Retrieves all intervention descriptions
-    interv_descriptions = yield get_interventions()
-
-    #Retrieves necessary intervention descriptions
-    seenInterventionsLabels = []
-    for item in seenInterventions
-      seenInterventionsLabels.push(interv_descriptions[item].description)
+    for intervention_name in enabled_interventions
+      seconds_saved = intervention_to_seconds_saved[intervention_name]
+      if isNaN seconds_saved
+        continue
+      minutes_saved = seconds_saved / 60
+      if minutes_saved < 0
+        minutes_saved = 0
+      intervention_info = all_interventions[intervention_name]
+      intervention_description = intervention_info.description
+      intervention_description_list.push intervention_description
+      minutes_saved_list.push minutes_saved
+      
 
     #displays onto the graph
     self.interventionFreqData = {
       #labels: seenInterventionsLabels
-      labels: [
-        'Hide news feed'
-        'Hide comments'
-        'Slow down scrolling'
-        'Insert timer into feed'
-        'Wait before visiting site'
-        'Show time spent each visit'
-        'Send fake messages to user'
-      ]
+      labels: intervention_description_list
       datasets: [
         {
           label: "Minutes saved per visit",
           backgroundColor: "rgba(65,131,215,0.5)",
           borderColor: "rgba(65,131,215,1)",
           borderWidth: 1,
-          data: [
-            1.6
-            0.57
-            0.54
-            0.34
-            0.25
-            0.18
-            0.13
-          ]
-          #data: results
+          data: minutes_saved_list
         }
       ]
     }
@@ -105,9 +88,3 @@ polymer_ext {
     'once_available'
   ]
 }
-
-# Steps:
-# - Find out which goal/website are we mapping this effectivess chart to - is it to the website we spend the most time on?
-# - Find out the api call which gives us the minutes saved per visit, or should it be the minutes you have saved total by using the intervention?
-# - Make it tab like view so that you can generate the graph for all the goals
-# - The ^^ function aggregates data across all time 

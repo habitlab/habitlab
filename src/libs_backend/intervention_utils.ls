@@ -495,6 +495,12 @@ export list_available_interventions_for_goal = cfy (goal_name) ->*
         output_set[intervention_name] = true
   return output
 
+export list_enabled_interventions_for_goal = cfy (goal_name) ->*
+  # outputs a list of intervention names
+  enabled_interventions = yield get_enabled_interventions()
+  available_interventions_for_goal = yield list_available_interventions_for_goal(goal_name)
+  return available_interventions_for_goal.filter(-> enabled_interventions[it])
+
 cast_to_bool = (parameter_value) ->
   if typeof(parameter_value) != 'string'
     return Boolean(parameter_value)

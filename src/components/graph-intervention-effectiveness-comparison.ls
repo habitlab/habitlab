@@ -3,6 +3,10 @@
 } = require 'libs_frontend/polymer_utils'
 
 {
+  get_goal_info
+} = require 'libs_backend/goal_utils'
+
+{
   get_interventions
   list_enabled_interventions_for_goal
   get_seconds_saved_per_session_for_each_intervention_for_goal
@@ -23,15 +27,28 @@ polymer_ext {
   properties: {
     goal_name: {
       type: String
-      value: 'facebook/spend_less_time'
+      observer: 'goal_name_changed'
+    }
+    goal_info: {
+      type: Object
+      observer: 'goal_info_changed'
+    }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
     }
   }
-  ready: cfy ->*
+  isdemo_changed: (isdemo) ->
+    if isdemo
+      this.goal_name = 'facebook/spend_less_time'
+  goal_name_changed: cfy ->*
+    this.goal_info = yield get_goal_info(this.goal_name)
+  goal_info_changed: cfy ->*
     self = this
 
     all_interventions = yield get_interventions()
-    enabled_interventions = yield list_enabled_interventions_for_goal(self.goal_name)
-    intervention_to_seconds_saved = yield get_seconds_saved_per_session_for_each_intervention_for_goal(self.goal_name)
+    enabled_interventions = yield list_enabled_interventions_for_goal(self.goal_info.name)
+    intervention_to_seconds_saved = yield get_seconds_saved_per_session_for_each_intervention_for_goal(self.goal_info.name)
 
     minutes_saved_list = []
     intervention_description_list = []
@@ -81,10 +98,4 @@ polymer_ext {
       }
     }
 
-}, {
-  source: require 'libs_frontend/polymer_methods'
-  methods: [
-    'S'
-    'once_available'
-  ]
 }

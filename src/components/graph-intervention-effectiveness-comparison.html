@@ -18,7 +18,7 @@
     }
   </style>
   <template>
-  <h4>Intervention effectiveness: Spend less time on Facebook</h4>
+  <h4>Intervention effectiveness: <span>{{goal_info.description}}</span></h4>
     <chart-horizontal-bar data="[[interventionFreqData]]" options="[[interventionFreqOptions]]" style="width: 530px"></chart-horizontal-bar>
   </template>
   <script src="graph-intervention-effectiveness-comparison.js"></script>

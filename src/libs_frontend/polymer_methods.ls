@@ -30,6 +30,12 @@ export is_greater_than_or_equal_to = (cond, val) ->
 export is_less_than_or_equal_to = (cond, val) ->
   return cond <= val
 
+export first_elem = (list) ->
+  return list[0]
+
+export at_index = (list, index) ->
+  return list[index]
+
 export xrange = (start, end) ->
   if not end?
     end = start

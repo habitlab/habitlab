@@ -9,7 +9,6 @@
 <link rel="import" href="badges-view.html">
 <link rel="import" href="graph-time-spent-on-goal-sites-daily.html">
 <link rel="import" href="graph-time-saved-daily.html">
-<link rel="import" href="graph-daily-overview.html">
 <link rel="import" href="graph-num-times-interventions-deployed.html">
 <link rel="import" href="graph-donut-top-sites.html">
 <link rel="import" href="goals-met-over-time.html">
@@ -84,20 +83,16 @@
 
       <paper-card>
         <div class="card-content">
-          <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected}} scrollable>
-            <template is="dom-repeat" items="{{sites}}" as="site">
-              <paper-tab>{{site}}</paper-tab>
+          <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected_goal_view}} scrollable>
+            <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
+              <paper-tab>{{site_info.sitename_printable}}</paper-tab>
             </template>
-            <paper-tab>overview</paper-tab>
           </paper-tabs>
 
-          <iron-pages selected={{selected}}>
-            <template is="dom-repeat" items="{{sites}}" as="site">
-              <div><site-goal-view site="{{site}}"></site-goal-view></div>
+          <iron-pages selected={{selected_goal_view}}>
+            <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
+              <div><site-goal-view site="{{site_info.sitename}}"></site-goal-view></div>
             </template>
-            <div>
-              <graph-daily-overview></graph-daily-overview>
-            </div>
           </iron-pages>
         </div>
       </paper-card>
@@ -133,7 +128,17 @@
 
       <paper-card>
         <div class="card-content">
-          <graph-intervention-effectiveness-comparison></graph-intervention-effectiveness-comparison>
+          <paper-tabs id="graphsOfInterventionEffectivenessTab" style="width: 500px;" selected={{selected_intervention_effectiveness_idx}} scrollable>
+            <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
+              <paper-tab>{{site_info.sitename_printable}}</paper-tab>
+            </template>
+          </paper-tabs>
+
+          <iron-pages selected={{selected_intervention_effectiveness_idx}}>
+            <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
+              <div><graph-intervention-effectiveness-comparison goal_info="{{first_elem(site_info.goal)}}"></graph-intervention-effectiveness-comparison></div>
+            </template>
+          </iron-pages>
         </div>
       </paper-card>
 

@@ -159,15 +159,18 @@ export clear_cache_list_all_goals = ->
   localStorage.removeItem 'cached_list_all_goals'
   return
 
-get_site_to_goals = cfy ->*
+get_site_to_goals_sync = (goals) ->
   output = {}
-  goals = yield get_goals()
   for goal_name,goal_info of goals
     sitename = goal_info.sitename
     if not output[sitename]?
       output[sitename] = []
     output[sitename].push goal_info
   return output
+
+get_site_to_goals = cfy ->*
+  goals = yield get_goals()
+  return get_site_to_goals_sync(goals)
 
 export list_goals_for_site = cfy (sitename) ->*
   # sitename example: facebook
@@ -183,6 +186,24 @@ export list_sites_for_which_goals_are_enabled = cfy ->*
     sitename = goal_info.sitename
     if enabled_goals[goal_name]? and not output_set[sitename]?
       output.push sitename
+      output_set[sitename] = true
+  return output
+
+export list_site_info_for_sites_for_which_goals_are_enabled = cfy ->*
+  goals = yield get_goals()
+  enabled_goals = yield get_enabled_goals()
+  site_to_goals = get_site_to_goals_sync(goals)
+  output = []
+  output_set = {}
+  for goal_name,goal_info of goals
+    sitename = goal_info.sitename
+    if enabled_goals[goal_name]? and not output_set[sitename]?
+      output.push {
+        sitename: sitename
+        sitename_printable: goal_info.sitename_printable
+        goals: site_to_goals[sitename]
+        goal_names: site_to_goals[sitename].map((.name))
+      }
       output_set[sitename] = true
   return output
 

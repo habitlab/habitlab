@@ -10,13 +10,13 @@ require! {
 {cfy} = require 'cfy'
 
 {  
-  list_sites_for_which_goals_are_enabled
+  list_site_info_for_sites_for_which_goals_are_enabled
 } = require 'libs_backend/goal_utils'
 
 polymer_ext {
   is: 'dashboard-view'
   properties: {
-    sites: {
+    site_info_list: {
       type: Array
     }
   }
@@ -41,14 +41,17 @@ polymer_ext {
     self = this
     self.once_available '#graphsOfGoalsTab', ->
       self.S('#graphsOfGoalsTab').prop('selected', 0)
+    self.once_available '#graphsOfInterventionEffectivenessTab', ->
+      self.S('#graphsOfInterventionEffectivenessTab').prop('selected', 0)
 
-    sites = yield list_sites_for_which_goals_are_enabled()
-    self.sites = sites
+    site_info_list = yield list_site_info_for_sites_for_which_goals_are_enabled()
+    self.site_info_list = site_info_list
 
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [
     'S'
     'once_available'
+    'first_elem'
   ]
 }

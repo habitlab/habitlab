@@ -41,9 +41,11 @@ polymer_ext {
     labels = []
     time_spent = []
     for goal_name in as_array(enabled_goals)
-      goal_domain = goals[goal_name].domain
-      labels.push goal_domain
       minutes_spent = goal_to_progress[goal_name].progress
+      if isNaN minutes_spent
+        continue
+      goal_domain = goals[goal_name].sitename_printable
+      labels.push goal_domain
       time_spent.push minutes_spent
 
     self.chromeHistoryData = {

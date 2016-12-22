@@ -45,7 +45,6 @@ function create_video_pauser() {
       return;
     }
     pauseVideo();
-    console.log('video pauser running')
   }, 250);
 }
 
@@ -173,7 +172,6 @@ function endWarning() {
 
 //All method calls
 function main() {
-  console.log('main called');
   create_video_pauser()
   removeDiv();
 	divOverVideo("begin");
@@ -184,14 +182,11 @@ function main() {
 
 //Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
 function afterNavigate() {
-  console.log('afterNavigate')
   if ('/watch' === location.pathname) {
-    console.log('youtube watch page')
     //if (video_pauser) {
     //  clearInterval(video_pauser);
     //  video_pauser = null;
     //}
-    console.log('right before main gets called')
     //$(document).ready(main);
     main();
   } else {

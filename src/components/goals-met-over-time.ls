@@ -4,14 +4,12 @@
 } = require 'libs_frontend/polymer_utils'
 
 {
-  get_enabled_goals
-  get_goals
-  get_goal_target
+  get_num_enabled_goals
 } = require 'libs_backend/goal_utils'
 
 {
-  goal_success_on_date
-} = require 'libs_common/goal_success'
+  get_num_goals_met_this_week
+} = require 'libs_backend/goal_progress'
 
 {cfy} = require 'cfy'
 
@@ -46,15 +44,14 @@ polymer_ext {
   ready: cfy ->*
     self = this
     day = moment().startOf('date')
-    day_num_to_success_object = []
     day_num_to_day_name = {}
+    day_num_to_num_goals_met = yield get_num_goals_met_this_week()
+    num_enabled_goals = yield get_num_enabled_goals()
 
-    for day_num from 1 to 7
+    for day_num from 0 to 6
+      day_num_to_day_name[day_num] = day.format("dddd")
       day.subtract(1, 'days')
-      success_object = yield goal_success_on_date(day)
-      day_num_to_success_object[day_num - 1] = success_object
-      day_num_to_day_name[day_num - 1] = day.format("dddd")
 
-    this.day_num_to_success_object = day_num_to_success_object
+    this.day_num_to_success_object = [{num_met: x, num_goals: num_enabled_goals} for x in day_num_to_num_goals_met]
     this.day_num_to_day_name = day_num_to_day_name
 }

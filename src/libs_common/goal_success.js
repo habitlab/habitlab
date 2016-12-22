@@ -29,13 +29,12 @@ var goal_success_on_date = cfy(function*(date) {
     // console.log(goal);
     var time = all_goals[goal].target.default;
     // console.log(time);
-    var weekly_progress = yield get_progress_on_goal_this_week(goal, 0); // this should work
+    var weekly_progress = yield get_progress_on_goal_this_week(goal); // this should work
     // console.log("progress");
     // console.log(weekly_progress);
     //will need to change moment to 'date'
     if (weekly_progress[date.day()].progress < time) {
       success_count++;
-      console.log("succesfully met goal: " + goal);
     }
   }
   // console.log("making goal object");

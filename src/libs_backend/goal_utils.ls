@@ -52,6 +52,10 @@ export getGoalInfo = cfy (goal_name) ->*
     goal_info.homepage = "https://www.#{goal_info.sitename}.com/"
   return goal_info
 
+export get_num_enabled_goals = cfy ->*
+  enabled_goals = yield get_enabled_goals()
+  return as_array(enabled_goals).length
+
 export get_enabled_goals = cfy ->*
   enabled_goals_str = localStorage.getItem('enabled_goals')
   if not enabled_goals_str?

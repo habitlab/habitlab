@@ -55,6 +55,34 @@ export get_progress_on_goal_days_since_today = cfy (goal_name, days_since_today)
     return
   yield goal_measurement_function days_since_today
 
+export get_num_goals_met_today = cfy ->*
+  yield get_num_goals_met_days_since_today 0
+
+export get_num_goals_met_days_since_today = cfy (days_since_today) ->*
+  enabled_goals = yield goal_utils.get_enabled_goals()
+  goal_targets = yield goal_utils.get_all_goal_targets()
+  num_goals_met = 0
+  for goal_name in as_array(enabled_goals)
+    progress_info = yield get_progress_on_goal_days_since_today goal_name, days_since_today
+    goal_target = goal_targets[goal_name]
+    if progress_info.progress < goal_target
+      num_goals_met += 1
+  return num_goals_met
+
+export get_num_goals_met_this_week = cfy ->*
+  enabled_goals = yield goal_utils.get_enabled_goals()
+  goal_targets = yield goal_utils.get_all_goal_targets()
+  days_since_today_to_num_goals_met = [0]*7
+  for days_since_today from 0 to 6
+    num_goals_met = 0
+    for goal_name in as_array(enabled_goals)
+      progress_info = yield get_progress_on_goal_days_since_today goal_name, days_since_today
+      goal_target = goal_targets[goal_name]
+      if progress_info.progress < goal_target
+        num_goals_met += 1
+    days_since_today_to_num_goals_met[days_since_today] = num_goals_met
+  return days_since_today_to_num_goals_met
+
 export get_progress_on_enabled_goals_days_since_today = cfy (days_since_today) ->*
   enabled_goals = yield goal_utils.get_enabled_goals()
   enabled_goals_list = as_array enabled_goals

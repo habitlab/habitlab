@@ -1,24 +1,11 @@
-var {
-  url_to_domain
-} = require('libs_common/domain_utils')
-var {
-  get_goals
+const {
+  get_num_enabled_goals
 } = require ('libs_backend/goal_utils')
-var {
-  get_enabled_goals
-} = require ('libs_backend/goal_utils')
-var {
-  get_goal_target
-} = require ('libs_backend/goal_utils')
-var {
-  get_progress_on_goal_this_week
+const {
+  get_num_goals_met_today
 } = require ('libs_backend/goal_progress')
-var {cfy} = require('cfy');
 
-var moment = require('moment');
-// console.log(moment()._d);
-moment().subtract(1, 'days');
-// console.log(moment()._d);
+const {cfy} = require('cfy');
 
 document.addEventListener('DOMContentLoaded', function () {
   if (Notification.permission !== "granted")
@@ -39,7 +26,6 @@ function make_notification(num_met, num_goals) {
   }
 }
 
-var sent_notif_today = false;
 var prev_date = new Date();
 
 /*
@@ -48,19 +34,13 @@ var prev_date = new Date();
   Function that repeatedly checks every minute if the time now signifies that the date has changed. If it has, make a notification on how many goals the user met the previous day.
 */
 setInterval(cfy(function*() {
-  console.log('checking goal completion');
   var cur_date = new Date();
   if (cur_date.getDate() !== prev_date.getDate()) {
     //new day
-    console.log("new day: will send notification!");
-    var obj = yield goal_success_on_date(moment());
-    make_notification(obj.num_met, obj.num_goals);
+    var num_goals_met = yield get_num_goals_met_today();
+    var num_goals_total = yield get_num_enabled_goals();
+    make_notification(num_goals_met, num_goals_total);
   }
   prev_date = cur_date;
 }), 60000)
 
-var {
-  goal_success_on_date
-} = require('libs_common/goal_success')
-
-// console.log(goal_success_on_date(moment()));

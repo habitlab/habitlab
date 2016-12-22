@@ -25,7 +25,7 @@ polymer_ext({
     }
   },
   habitlab_button_clicked: function() {
-    habitlab_options_popup = document.createElement('habitlab-options-popup')
+    const habitlab_options_popup = document.createElement('habitlab-options-popup')
     document.body.appendChild(habitlab_options_popup)
     habitlab_options_popup.open()
   },

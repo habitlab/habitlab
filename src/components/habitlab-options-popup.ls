@@ -77,7 +77,7 @@ polymer_ext {
       text: 'Habitlab will not deploy interventions for the rest of today.'
     }
   open_interventions_page: ->
-    open_url_in_new_tab("options.html#interventions")
+    open_url_in_new_tab('options.html#interventions')
     this.$$('#intervention_info_dialog').close()
 }
 

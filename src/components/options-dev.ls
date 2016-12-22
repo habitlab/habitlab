@@ -1,3 +1,8 @@
+{
+  localstorage_getbool
+  localstorage_setbool
+} = require 'libs_common/localstorage_utils'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 polymer_ext {
@@ -11,10 +16,7 @@ polymer_ext {
   option_changed: (evt) ->
     checked = evt.target.checked
     option_name = evt.target.option_name
-    if checked
-      localStorage.setItem(option_name, 'true')
-    else
-      localStorage.setItem(option_name, 'false')
+    localstorage_setbool(option_name, checked)
   ready: ->
     categories_and_option_info = [
       {
@@ -45,6 +47,6 @@ polymer_ext {
     ]
     for {options} in categories_and_option_info
       for option in options
-        option.value = localStorage.getItem(option.name) == 'true'
+        option.value = localstorage_getbool(option.name)
     this.categories_and_option_info = categories_and_option_info
 }

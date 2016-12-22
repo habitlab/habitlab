@@ -47,6 +47,12 @@ const swal = require 'sweetalert2'
   add_enable_custom_goal_reduce_time_on_domain
 } = require 'libs_backend/goal_utils'
 
+{
+  localstorage_getjson
+  localstorage_setjson
+  localstorage_setbool
+} = require 'libs_common/localstorage_utils'
+
 const $ = require('jquery')
 
 polymer_ext {
@@ -147,7 +153,7 @@ polymer_ext {
     graph = evt.target.graph
     self.blacklist[self.graphNamesToOptions[graph]] = !evt.target.checked
     self.blacklist = JSON.parse JSON.stringify self.blacklist
-    localStorage.blacklist = JSON.stringify self.blacklist
+    localstorage_setjson('blacklist', self.blacklist)
 
   sortableupdated: (evt) ->
     self = this
@@ -286,9 +292,8 @@ polymer_ext {
     self.graphNamesToOptions = graphNamesToOptions
 
     #retrieves blacklist from localstorage; else, initializes default blacklist
-    if (localStorage.getItem 'blacklist') isnt null
-      blacklist = JSON.parse localStorage.blacklist
-    else
+    blacklist = localstorage_getjson('blacklist')
+    if not blacklist?
       blacklist = {
         "graph-time-spent-on-goal-sites-daily" : false, 
         "site-goal-view" : true, 
@@ -296,7 +301,7 @@ polymer_ext {
         "graph-num-times-interventions-deployed": true,      
         "graph-time-saved-daily": true
       }
-      localStorage.blacklist = JSON.stringify(blacklist)
+      localstorage_setjson('blacklist', blacklist)
 
     self.blacklist = blacklist
 
@@ -315,7 +320,7 @@ polymer_ext {
     ]
     self.shownGraphs = shownGraphs
 
-    localStorage.setItem 'popup_view_has_been_opened', 'true'
+    localstorage_setbool('popup_view_has_been_opened', true)
 
 }, {
   source: require 'libs_frontend/polymer_methods'

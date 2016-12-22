@@ -19,6 +19,10 @@
   get_timesaved_badge_that_should_be_awarded
 } = require 'libs_common/badges_utils'
 
+{
+  localstorage_getjson
+} = require 'libs_common/localstorage_utils'
+
 export get_intervention_level = cfy (intervention_name) ->*
   times_used = get_num_times_intervention_used intervention_name
   if times_used >= 10
@@ -42,9 +46,9 @@ export get_time_saved_total_with_intervention = cfy (intervention_name) ->*
   return result ? 0
 
 export baseline_time_per_session_for_domain = cfy (domain) ->*
-  baseline_time_on_domains = localStorage.getItem 'baseline_session_time_on_domains'
+  baseline_time_on_domains = localstorage_getjson('baseline_session_time_on_domains')
   if baseline_time_on_domains?
-    return JSON.parse(baseline_time_on_domains)[domain] ? 5*60
+    return baseline_time_on_domains[domain] ? 5*60
   return 5*60
 
 export record_seconds_saved_and_get_rewards = cfy (seconds, intervention_name, domain) ->*

@@ -31,6 +31,11 @@ const {
   once_document_available
 } = require('libs_frontend/common_libs')
 
+const {
+  localstorage_getint,
+  localstorage_setint
+} = require('libs_common/localstorage_utils')
+
 /*
 Local storage constants:
 - timeLimitNoPrompt (seconds): The time limit the user chose to spend on facebook daily.
@@ -41,7 +46,7 @@ Local storage constants:
 
 function setTime(minutes) {
   //Save the time limit in the database
-  localStorage.setItem('timeLimitNoPrompt', minutes * 60) //time limit stored in seconds
+  localstorage_setint('timeLimitNoPrompt', minutes * 60) //time limit stored in seconds
   displayCountdownOrBlock()
 }
 
@@ -138,7 +143,7 @@ function cheatCountdown() {
 //Retrieves the remaining time left for the user to spend on facebook
 function getRemainingTimeDaily(callback) {
   getTimeSpent(function(timeSpent) {
-    const timeLimitDaily = parseInt(localStorage.timeLimitNoPrompt)
+    const timeLimitDaily = localstorage_getint('timeLimitNoPrompt')
     callback(timeLimitDaily - timeSpent)
   })
 }

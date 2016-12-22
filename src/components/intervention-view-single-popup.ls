@@ -13,6 +13,10 @@
   add_log_interventions
 } = require 'libs_backend/log_utils'
 
+{
+  localstorage_getbool
+} = require 'libs_common/localstorage_utils'
+
 {cfy} = require 'cfy'
 
 #debounce = require('async-debounce-jt')
@@ -91,7 +95,7 @@ polymer_ext {
   #intervention_never_shown: (enabled, automatic) ->
   #  return !enabled and !automatic
   display_internal_names_for_interventions: ->
-    return localStorage.getItem('intervention_view_show_internal_names') == 'true'
+    return localstorage_getbool('intervention_view_show_internal_names')
   /*
   pill_button_selected: cfy (evt) ->*
     buttonidx = evt.detail.buttonidx
@@ -158,11 +162,9 @@ polymer_ext {
   preview_intervention: ->
     intervention_name = this.intervention.name
     set_override_enabled_interventions_once intervention_name
-    console.log 'preview_intervention'
-    console.log localStorage.getItem('override_enabled_interventions_once')
     chrome.tabs.create {url: this.goal.homepage }
   parameters_shown: ->
-    return localStorage.getItem('intervention_view_show_parameters') == 'true'
+    return localstorage_getbool('intervention_view_show_parameters')
   /*
   dropdown_menu_changed: cfy (evt) ->*
     selected = this.$$('#enabled_selector').selected

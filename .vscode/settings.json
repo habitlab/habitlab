@@ -20,6 +20,9 @@
     "releases": true,
     "screenshots": true,
     "src_gen": true,
-    "src_disabled": true
+    "src_disabled": true,
+    ".babelrc": true,
+    ".bowerrc": true,
+    ".gitignore": true
   }
 }

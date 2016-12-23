@@ -11,6 +11,7 @@
     ".vscode": true,
     "jspm_packages": true,
     "bower_components": true,
-    "node_modules_custom": true
+    "node_modules_custom": true,
+    "generated_libs": true
   }
 }

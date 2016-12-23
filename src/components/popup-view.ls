@@ -4,7 +4,7 @@
 {load_css_file} = require 'libs_common/content_script_utils'
 {add_log_feedback} = require 'libs_common/log_utils'
 
-const swal = require 'sweetalert2'
+swal = require 'sweetalert2'
 
 {
   get_active_tab_url
@@ -53,7 +53,7 @@ const swal = require 'sweetalert2'
   localstorage_setbool
 } = require 'libs_common/localstorage_utils'
 
-const $ = require('jquery')
+$ = require 'jquery'
 
 polymer_ext {
   is: 'popup-view'

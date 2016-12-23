@@ -1,0 +1,16 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "node_modules": true,
+    "mongodata": true,
+    ".vscode": true,
+    "jspm_packages": true,
+    "bower_components": true,
+    "node_modules_custom": true
+  }
+}

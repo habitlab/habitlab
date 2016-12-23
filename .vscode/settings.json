@@ -1,0 +1,25 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "node_modules": true,
+    "mongodata": true,
+    ".vscode": true,
+    "src/.vscode": true,
+    "src/jspm_packages": true,
+    "src/bower_components": true,
+    "src/node_modules_custom": true,
+    "src/generated_libs": true,
+    "src/icons": true,
+    ".tmp": true,
+    "dist": true,
+    "releases": true,
+    "screenshots": true,
+    "src_gen": true,
+    "src_disabled": true
+  }
+}

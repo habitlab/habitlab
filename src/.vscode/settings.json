@@ -12,6 +12,7 @@
     "jspm_packages": true,
     "bower_components": true,
     "node_modules_custom": true,
-    "generated_libs": true
+    "generated_libs": true,
+    "icons": true
   }
 }

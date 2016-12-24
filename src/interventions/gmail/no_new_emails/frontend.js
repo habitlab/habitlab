@@ -1,5 +1,4 @@
-//const $ = require('jquery')
-const $ = require('zepto')
+const $ = require('jquery')
 
 const {
   log_impression,

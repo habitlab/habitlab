@@ -95,7 +95,6 @@ webpack_config = {
       '.js'
     ]
     alias: {
-      'zepto': npmdir 'npm-zepto'
       'prelude': npmdir 'prelude-ls'
       'skatejs': npmdir 'skatejs1'
     }

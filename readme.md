@@ -9,8 +9,8 @@ Ensure that you have [git](https://git-scm.com/) and [nodejs](https://nodejs.org
 ```bash
 git clone git@github.com:habitlab/habitlab-chrome.git
 cd habitlab-chrome
-npm install
-npm install -g gulp-cli karma-cli webpack vulcanize cspify crisper livescript
+npm install -g gulp-cli karma-cli webpack vulcanize cspify crisper livescript yarn
+yarn
 gulp
 ```
 
@@ -130,10 +130,10 @@ $('body').append(paper_button_example)
 
 You can use any [npm](https://www.npmjs.com/) modules as follows. (This example illustrates usage of the [moment](http://momentjs.com/docs/) package)
 
-1) Install the npm module, and save it (the `--save` option will modify [`package.json`](https://github.com/habitlab/habitlab-chrome/blob/master/package.json) and add it as a dependency)
+1) Install the npm module, and save it (adds the dependency to [`package.json`](https://github.com/habitlab/habitlab-chrome/blob/master/package.json))
 
 ```bash
-npm install --save moment
+yarn add moment
 ```
 
 2) Require the module and use it in any of the Javascript or Livescript files:
@@ -235,7 +235,7 @@ Did you recently do a `git pull`, or modified a file, and have errors along the 
 1) All npm modules are installed:
 
 ```bash
-npm install
+yarn
 ```
 
 2) All files are building correctly:

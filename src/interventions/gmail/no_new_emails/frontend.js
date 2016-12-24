@@ -1,4 +1,4 @@
-const $ = require('sprint-js');
+const $ = require('jquery');
 
 const {
   log_impression,

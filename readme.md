@@ -16,7 +16,7 @@ gulp
 
 Once gulp finishes (leave gulp running in the background; it will keep compiling the code and tell you about errors), you will have the chrome extension built in the `dist` directory.
 
-Next we will sideload the extension. You should sideload the extension onto [Cốc Cốc](http://coccoc.com/en) instead of Chrome, as Chrome prompts you to disable sideloaded extensions each time you open it ([Opera](http://www.opera.com/) and [Vivaldi](https://vivaldi.com/) also work).
+Next we will sideload the extension. You should sideload the extension onto [Cốc Cốc](http://coccoc.com/en) instead of Chrome, as Chrome prompts you to disable sideloaded extensions each time you open it (Cốc Cốc has an annoying new tab page; install [Empty New Tab Page](https://chrome.google.com/webstore/detail/empty-new-tab-page/dpjamkmjmigaoobjbekmfgabipmfilij) to fix this. [Opera](http://www.opera.com/) and [Vivaldi](https://vivaldi.com/) are alternative browsers).
 
 You can sideload the extension using the [extensions developer tool](https://chrome.google.com/webstore/detail/chrome-apps-extensions-de/ohmmkhmmmpcnpikjeljgnaoabkaalbgc) or by going to [chrome://extensions](chrome://extensions) and clicking `Load Unpacked Extension` and selecting the `dist` directory under the `habitlab-chrome` folder.
 

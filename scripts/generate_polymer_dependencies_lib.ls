@@ -6,10 +6,11 @@ require! {
   fs
   cheerio
   process
-  path
   optionator
   glob
 }
+
+path = require 'upath'
 
 src_path = null
 

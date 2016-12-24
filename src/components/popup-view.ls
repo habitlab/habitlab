@@ -87,6 +87,7 @@ polymer_ext {
     selected_tab_idx: {
       type: Number
       value: 0
+      observer: 'selected_tab_idx_changed'
     },
     selected_graph_tab: {
       type: Number,
@@ -107,6 +108,11 @@ polymer_ext {
       type: Boolean
     }
   }
+
+  selected_tab_idx_changed: (selected_tab_idx) ->
+    if selected_tab_idx == 2
+      $(this.$$('#debugPage')).blur()
+      this.$$('#debug_terminal_view').focus_terminal()
 
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
     return intervention_name_to_info[intervention_name].description

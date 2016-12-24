@@ -23,6 +23,7 @@
 <link rel="import" href="graph-donut-top-sites.html">
 <link rel="import" href="site-goal-view.html">
 <link rel="import" href="intervention-view-single.html">
+<link rel="import" href="terminal-view.html">
 
 <dom-module id="popup-view">
   <style is="custom-style">
@@ -40,6 +41,11 @@
         display: block;
         padding: 5px 5px 5px 5px;
       };      
+    }
+
+    .popup_view_outer_div {
+      width:600px;
+      height:580px;
     }
 
     .flexcontainer {
@@ -139,7 +145,7 @@
   </style>
 
   <template>
-    <div>
+    <div class="popup_view_outer_div">
 
       <div class="box">
         <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed">Disable Habitlab Today</paper-toggle-button>
@@ -160,8 +166,9 @@
 
         <paper-card>
           <paper-tabs selected="{{selected_tab_idx}}">
-            <paper-tab>Currently Active Interventions</paper-tab>
-            <paper-tab>Goals and Available Interventions</paper-tab>
+            <paper-tab>Active Intervention</paper-tab>
+            <paper-tab>Available Goals and Interventions</paper-tab>
+            <paper-tab>Debug</paper-tab>
           </paper-tabs>
 
           <iron-pages selected="{{selected_tab_idx}}">
@@ -198,19 +205,27 @@
               </div>
             </iron-page>
 
-          <iron-page id="settingsPage">
-            <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
-              <paper-toggle-button on-change="goal_enable_button_changed" goal="{{goal_and_interventions.goal}}" checked="{{goal_and_interventions.enabled}}">{{goal_and_interventions.goal.description}}</paper-toggle-button>
-              <br>
-              <template is="dom-if" if="{{goal_and_interventions.enabled}}">
-                <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-                  <intervention-view-single class="iview" compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
-                  <br>
+            <iron-page id="settingsPage">
+              <template is="dom-repeat" items="{{goals_and_interventions}}" as="goal_and_interventions">
+                <paper-toggle-button on-change="goal_enable_button_changed" goal="{{goal_and_interventions.goal}}" checked="{{goal_and_interventions.enabled}}">{{goal_and_interventions.goal.description}}</paper-toggle-button>
+                <br>
+                <template is="dom-if" if="{{goal_and_interventions.enabled}}">
+                  <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
+                    <intervention-view-single class="iview" compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+                    <br>
+                  </template>
                 </template>
+                
               </template>
-              
-            </template>
-          </iron-page>
+            </iron-page>
+
+            <iron-page id="debugPage">
+              <div style="display: inline-block; width: 566px; height: 400px">
+                <terminal-view id="debug_terminal_view"></terminal-view>
+              </div>
+            </iron-page>
+
+          </iron-pages>
         </paper-card>
         
         <paper-card>

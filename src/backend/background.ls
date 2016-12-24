@@ -77,6 +77,11 @@ require 'libs_backend/expose_backend_libs'
   as_dictset
 } = require 'libs_common/collection_utils'
 
+{
+  localstorage_getjson
+  localstorage_setjson
+} = require 'libs_common/localstorage_utils'
+
 require! {
   async
   moment
@@ -205,7 +210,22 @@ if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.lo
 
     #{content_script_code}
     #{systemjs_content_script_code}
-    #{debug_content_script_code}
+    (function() {
+      var console_log_orig = window.console.log;
+      var hlog = function(...args) {
+        if (args.length == 0) {
+          return;
+        } else {
+          for (var arg of args) {
+            console_log_orig(arg);
+          }
+          chrome.runtime.sendMessage({type: 'send_to_debug_terminal', data: args});
+        }
+      }
+      var console = Object.create(window.console);
+      console.log = hlog;
+      #{debug_content_script_code}
+    })();
   }
 }
     """
@@ -398,6 +418,13 @@ message_handlers <<< {
     tabid = tab.id
     chrome.tabs.insertCSS tabid, {code: css_code}, ->
       callback()
+  'send_to_debug_terminal': (data, callback) ->
+    existing_messages = localstorage_getjson('debug_terminal_messages')
+    if not existing_messages?
+      existing_messages = []
+    existing_messages.push data
+    localstorage_setjson('debug_terminal_messages', existing_messages)
+    callback()
 }
 
 ext_message_handlers = {

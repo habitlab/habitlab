@@ -1,4 +1,4 @@
-const $ = require('jquery')
+const $ = require('sprint-js');
 
 const {
   log_impression,
@@ -168,4 +168,5 @@ function main() {
   processEmails();
 }
 
-$(document).ready(main);
+main();
+

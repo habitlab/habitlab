@@ -24,6 +24,7 @@
     "promise-debounce": "^1.0.1",
     "shuffled": "^1.0.0",
     "sortablejs": "^1.4.2",
+    "sprint-js": "^0.1.0",
     "sweetalert2": "^4.0.12",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1"
@@ -97,8 +98,7 @@
       "sweetalert2": "npm:sweetalert2@^4.0.15",
       "text": "github:systemjs/plugin-text@^0.0.8"
     },
-    "devDependencies": {
-    },
+    "devDependencies": {},
     "peerDependencies": {
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
       "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",

@@ -332,7 +332,7 @@
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
   },
-  "npm:prettyprintjs@0.1.8": {
+  "npm:prettyprintjs@0.1.9": {
     "deps": {},
     "peerDeps": {
       "fs": "npm:jspm-nodelibs-fs@^0.2.0",

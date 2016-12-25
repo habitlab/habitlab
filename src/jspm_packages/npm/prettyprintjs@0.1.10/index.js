@@ -171,6 +171,9 @@ module.exports = function (jsObject, indentLength, outputTo, fullFunction, max_c
         return fromArray + 'circular reference';
     };
 
+    if ((typeof jsObject) === 'string') {
+        return jsObject;
+    }
     if (jsObject) {
         if (indentLength === undefined) {
             indentLength = 4;

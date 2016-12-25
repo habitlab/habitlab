@@ -208,15 +208,43 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
         throw err_to_throw;
       }
     }
-    var reqlib = function(libname, callback) {
+    var uselib = function(libname, callback) {
       if (typeof(callback) == 'function') {
         System.import(libname).then(callback);
       } else if (typeof(callback) == 'string') {
         System.import(libname).then(function(imported_lib) {
           window[callback] = imported_lib;
+          console.log('imported as this.' + callback);
+        }, function(err) {
+          console.log(err.message);
+          throw err;
+        });
+      } else if (typeof(libname) == 'string') {
+        callback = libname.toLowerCase().split('').filter((x) => 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('');
+        System.import(libname).then(function(imported_lib) {
+          window[callback] = imported_lib;
+          console.log('imported as this.' + callback);
+        }, function(err) {
+          console.log(err.message);
+          throw err;
         });
       } else {
-        return System.import(libname);
+        console.log([
+          'Use uselib() to import jspm libraries.',
+          'The first argument is the library name (under SystemJS, see jspm)',
+          'The second argument is the name it should be given (in the \\'this\\' object)',
+          'Example of using moment:',
+          '    uselib(\\'moment\\', \\'moment\\')',
+          '    this.moment().format()',
+          'Example of using jquery:',
+          '    uselib(\\'jquery\\', \\'$\\')',
+          '    this.$(\\'body\\').css(\\'background-color\\', \\'black\\')',
+          'Example of using sweetalert2:',
+          '    uselib(\\'libs_common/content_script_utils\\', \\'content_script_utils\\')',
+          '    content_script_utils.load_css_file(\\'bower_components/sweetalert2/dist/sweetalert2.css\\')',
+          '    uselib(\\'sweetalert2\\', \\'swal\\')',
+          '    swal(\\'hello world\\')'
+        ].join('\\n'))
       }
     }
     var console = Object.create(window.console);
@@ -747,14 +775,35 @@ gexport_module 'background', -> eval(it)
 # systemjs_require <- System.import('libs_common/systemjs_require').then()
 # drequire <- systemjs_require.make_require_frontend().then()
 # window.require = drequire
-window.reqlib = (libname, callback) ->
+window.uselib = (libname, callback) ->
   if typeof(callback) == 'function'
     System.import(libname).then(callback)
   else if typeof(callback) == 'string'
     System.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
+      console.log('imported as this.' + callback)
+  else if typeof(libname) == 'string'
+    callback = libname.toLowerCase().split('').filter((x) -> 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('')
+    System.import(libname).then (imported_lib) ->
+      window[callback] = imported_lib
+      console.log('imported as this.' + callback)
   else
-    return System.import(package_name)
+    console.log([
+      'Use uselib() to import jspm libraries.'
+      'The first argument is the library name (under SystemJS, see jspm)'
+      'The second argument is the name it should be given (in the \'this\' object)'
+      'Example of using moment:'
+      '    uselib(\'moment\', \'moment\')'
+      '    this.moment().format()'
+      'Example of using jquery:'
+      '    uselib(\'jquery\', \'$\')'
+      '    this.$(\'body\').css(\'background-color\', \'black\')'
+      'Example of using sweetalert2:'
+      '    uselib(\'libs_common/content_script_utils\', \'content_script_utils\')'
+      '    content_script_utils.load_css_file(\'bower_components/sweetalert2/dist/sweetalert2.css\')'
+      '    uselib(\'sweetalert2\', \'swal\')'
+      '    swal(\'hello world\')'
+    ].join('\n'))
 
 ensure_history_utils_data_cached()
 

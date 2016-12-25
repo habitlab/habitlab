@@ -195,13 +195,6 @@
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
   },
-  "npm:prettyprintjs@0.1.9": {
-    "deps": {},
-    "peerDeps": {
-      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
-      "process": "npm:jspm-nodelibs-process@^0.2.0"
-    }
-  },
   "npm:livescript15@1.5.4": {
     "deps": {
       "prelude-ls": "npm:prelude-ls@~1.1.2"
@@ -232,10 +225,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:jspm-nodelibs-fs@0.2.0": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:jspm-nodelibs-path@0.2.0": {
     "deps": {},
     "peerDeps": {
@@ -243,10 +232,6 @@
     }
   },
   "npm:jspm-nodelibs-readline@0.2.0": {
-    "deps": {},
-    "peerDeps": {}
-  },
-  "npm:jspm-nodelibs-process@0.2.0": {
     "deps": {},
     "peerDeps": {}
   },
@@ -687,5 +672,20 @@
     "peerDeps": {
       "buffer": "npm:jspm-nodelibs-buffer@^0.2.0"
     }
+  },
+  "npm:prettyprintjs@0.1.10": {
+    "deps": {},
+    "peerDeps": {
+      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
+      "process": "npm:jspm-nodelibs-process@^0.2.0"
+    }
+  },
+  "npm:jspm-nodelibs-process@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:jspm-nodelibs-fs@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
   }
 }

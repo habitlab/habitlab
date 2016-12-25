@@ -54,21 +54,19 @@ polymer_ext {
       'Content Script Debugger (Livescript)'
       'Switch to Javascript by entering #js'
       'Assign variables to this (this.x = 3) to persist them'
-      'Import jspm libraries with reqlib:'
-      'reqlib \'moment\', \'moment\''
-      'this.moment().format()'
+      'Use uselib() to import jspm libraries, type #help for examples'
       'Check the Javascript console for error messages.'
       'You can open it with Command-Option-J or Ctrl-Shift-J'
+      'For more tips, type #help'
     ]
     messages_javascript = [
       'Content Script Debugger (Javascript)'
       'Switch to Livescript by entering #ls'
       'Assign variables to this (this.x = 3) to persist them'
-      'Import jspm libraries with reqlib:'
-      'reqlib(\'moment\', \'moment\')'
-      'this.moment().format()'
+      'Use uselib() to import jspm libraries, type #help for examples'
       'Check the Javascript console for error messages'
       'You can open it with Command-Option-J or Ctrl-Shift-J'
+      'For more tips, type #help'
     ]
     custom_commands = {
       ls: ->
@@ -77,6 +75,31 @@ polymer_ext {
       js: ->
         localStorage.removeItem('debug_terminal_livescript')
         term_div.echo messages_javascript.join('\n')
+      help: ->
+        messages_help = [
+          'The following commands are available:'
+          '#ls switches to Livescript mode'
+          '#js switches to Javascript mode'
+          'Assign variables to this or window to persist them'
+          'Example:'
+          '    this.x = 3'
+          '    console.log(this.x)'
+          'Use uselib() to import jspm libraries.'
+          'The first argument is the library name (under SystemJS, see jspm)'
+          'The second argument is the name it should be given (in the \'this\' object)'
+          'Example of using moment:'
+          '    uselib(\'moment\', \'moment\')'
+          '    this.moment().format()'
+          'Example of using jquery:'
+          '    uselib(\'jquery\', \'$\')'
+          '    this.$(\'body\').css(\'background-color\', \'black\')'
+          'Example of using sweetalert2:'
+          '    uselib(\'libs_common/content_script_utils\', \'content_script_utils\')'
+          '    content_script_utils.load_css_file(\'bower_components/sweetalert2/dist/sweetalert2.css\')'
+          '    uselib(\'sweetalert2\', \'swal\')'
+          '    swal(\'hello world\')'
+        ]
+        term_div.echo messages_help.join('\n')
     }
     custom_commands.javascript = custom_commands.js
     custom_commands.livescript = custom_commands.ls

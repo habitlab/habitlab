@@ -169,6 +169,9 @@ module.exports = function (jsObject, indentLength, outputTo, fullFunction) {
     if (jsObject === null) {
         return 'null';
     }
+    if (jsObject === undefined) {
+        return 'undefined';
+    }
 
     return 'Error: no Javascript object provided';
 };

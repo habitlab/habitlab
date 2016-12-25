@@ -176,16 +176,43 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
 
   debug_content_script_code = """
     System.import('libs_frontend/content_script_debug').then(function(content_script_debug) {
-      content_script_debug.listen_for_eval(function(x) { return eval(x); });
+      content_script_debug.listen_for_eval((x) => { return eval(x); });
     });
   """
   if intervention_info_copy.params.debug? and intervention_info_copy.params.debug.value
     debug_content_script_code = """
     System.import('libs_frontend/content_script_debug').then(function(content_script_debug) {
-      content_script_debug.listen_for_eval(function(x) { return eval(x); });
-      content_script_debug.insert_console(function(x) { return eval(x); }, {lang: 'livescript'});
+      content_script_debug.listen_for_eval((x) => { return eval(x); });
+      content_script_debug.insert_console((x) => { return eval(x); }, {lang: 'livescript'});
     });
     """
+  debug_content_script_code_with_hlog = """
+  System.import('prettyprintjs').then(function(prettyprintjs) {
+    var console_log_orig = window.console.log;
+    var hlog = function(...args) {
+      console_log_orig(...args);
+      var data_string;
+      var err_to_throw = null;
+      try {
+        if (args.length == 1) {
+          data_string = prettyprintjs(args[0]);
+        } else {
+          data_string = prettyprintjs(args);
+        }
+      } catch (err) {
+        data_string = 'Error was thrown. Check Javascript console (Command+Option+J or Ctrl+Shift+J)\\n' + err.message;
+        err_to_throw = err;
+      }
+      chrome.runtime.sendMessage({type: 'send_to_debug_terminal', data: data_string});
+      if (err_to_throw) {
+        throw err_to_throw;
+      }
+    }
+    var console = Object.create(window.console);
+    console.log = hlog;
+    #{debug_content_script_code}
+  })
+  """
   for options in content_script_options
     content_script_code = yield $.get options.path
     content_script_code = """
@@ -210,31 +237,7 @@ if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.lo
 
     #{content_script_code}
     #{systemjs_content_script_code}
-    System.import('prettyprintjs').then(function(prettyprintjs) {
-      var console_log_orig = window.console.log;
-      var hlog = function(...args) {
-        console_log_orig(...args);
-        var data_string;
-        var err_to_throw = null;
-        try {
-          if (args.length == 1) {
-            data_string = prettyprintjs(args[0]);
-          } else {
-            data_string = prettyprintjs(args);
-          }
-        } catch (err) {
-          data_string = 'Error was thrown. Check Javascript console (Command+Option+J or Ctrl+Shift+J)\\n' + err.message;
-          err_to_throw = err;
-        }
-        chrome.runtime.sendMessage({type: 'send_to_debug_terminal', data: data_string});
-        if (err_to_throw) {
-          throw err_to_throw;
-        }
-      }
-      var console = Object.create(window.console);
-      console.log = hlog;
-      #{debug_content_script_code}
-    })
+    #{debug_content_script_code_with_hlog}
   }
 }
     """

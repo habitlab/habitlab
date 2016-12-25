@@ -7,7 +7,7 @@
 {cfy} = require 'cfy'
 
 {
-  eval_content_script_for_active_tab
+  eval_content_script_debug_for_active_tab
 } = require 'libs_backend/background_common'
 
 {
@@ -42,7 +42,7 @@ polymer_ext {
     terminal_handler = cfy (command, term) ->*
       # TODO: implement a command "livescript" which switches to lsc, and "javascript" which switches to js
       #console.log command
-      result = yield eval_content_script_for_active_tab(command)
+      result = yield eval_content_script_debug_for_active_tab(command)
       term.echo result
     term_div.terminal terminal_handler, {
       greetings: "content script debugger\nsupports new lines as well"

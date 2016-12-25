@@ -1,6 +1,10 @@
 $ = require 'jquery'
 require('jquery.terminal')($)
 
+require! {
+  prettyprintjs
+}
+
 {
   load_css_file
 } = require 'libs_common/content_script_utils'
@@ -15,8 +19,25 @@ export listen_for_eval = (eval_func) ->
     if type != 'eval_content_script'
       return
     result = eval_func data
-    console.log result
     sendResponse result
+    return true
+
+  chrome.runtime.onMessage.addListener (message, sender, sendResponse) ->
+    {type, data} = message
+    if type != 'eval_content_script_debug'
+      return
+    result = ''
+    error_to_throw = null
+    try
+      result = eval_func data
+      console.log result
+      result = prettyprintjs(result)
+    catch err
+      error_to_throw = err
+      result = err.message
+    sendResponse result
+    if error_to_throw?
+      throw error_to_throw
     return true
 
 adjust_css_options = (options, new_options) ->

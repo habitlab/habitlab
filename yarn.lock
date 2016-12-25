@@ -1756,7 +1756,7 @@ es6-promise@^3.0.2:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
 
-es6-promise@latest:
+es6-promise@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.0.5.tgz#7882f30adde5b240ccfa7f7d78c548330951ae42"
 
@@ -5085,11 +5085,11 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-sweetalert2@4.0.12:
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-4.0.12.tgz#db5004ae115edb226777abd16488692d7a398b2a"
+sweetalert2@^6.2.4:
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-6.2.4.tgz#e7987b9b63c54c5c411717ce5074ff0eff7937ff"
   dependencies:
-    es6-promise latest
+    es6-promise "^4.0.5"
 
 "symbol-tree@>= 3.1.0 < 4.0.0":
   version "3.2.1"

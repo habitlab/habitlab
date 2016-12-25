@@ -10,15 +10,17 @@
     "es6-promise": "*"
   },
   "ignore": [
-    "package.json",
-    "gulpfile.js",
-    "example",
-    "images",
-    "sweetalert2.gif",
-    ".eslintrc",
-    ".github",
+    "assets",
+    "config",
+    "test",
+    ".babelrc",
+    ".editorcofig",
     ".gitignore",
-    ".travis.yml"
+    ".sass-lint.yml",
+    ".travis.yml",
+    "contributing.md",
+    "gulpfile.js",
+    "package.json"
   ],
   "description": "A replacement for JavaScript's popup boxes, supported fork of sweetalert",
   "main": [
@@ -35,15 +37,15 @@
     "url": "git@github.com:limonte/sweetalert2.git"
   },
   "license": "MIT",
-  "version": "4.0.12",
-  "_release": "4.0.12",
+  "version": "6.2.4",
+  "_release": "6.2.4",
   "_resolution": {
     "type": "version",
-    "tag": "v4.0.12",
-    "commit": "fb9f46c9b5b6242a688fbb67f256edd8aa607e05"
+    "tag": "v6.2.4",
+    "commit": "19111ec17cf92c64d6844103ee05ea6809afd36c"
   },
   "_source": "https://github.com/limonte/sweetalert2.git",
-  "_target": "^4.0.12",
+  "_target": "^6.2.4",
   "_originalSource": "sweetalert2",
   "_direct": true
 }

@@ -12,26 +12,26 @@ SystemJS.config({
   ],
   map: {
     "async": "npm:async@2.0.1",
-    "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
-    "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
+    "assert": "npm:jspm-nodelibs-assert@0.2.0",
+    "buffer": "npm:jspm-nodelibs-buffer@0.2.0",
     "cfy": "npm:cfy@1.0.18",
     "dexie": "npm:dexie@1.4.1",
     "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@1.0.7",
-    "events": "github:jspm/nodelibs-events@0.2.0-alpha",
-    "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
+    "events": "npm:jspm-nodelibs-events@0.2.0",
+    "fs": "npm:jspm-nodelibs-fs@0.2.0",
     "jquery": "npm:jquery@3.1.0",
     "moment": "npm:moment@2.14.1",
-    "os": "github:jspm/nodelibs-os@0.2.0-alpha",
-    "path": "github:jspm/nodelibs-path@0.2.0-alpha",
+    "os": "npm:jspm-nodelibs-os@0.2.0",
+    "path": "npm:jspm-nodelibs-path@0.2.0",
     "percipio": "npm:percipio@0.1.2",
     "prelude-ls": "npm:prelude-ls@1.1.2",
-    "process": "github:jspm/nodelibs-process@0.2.0-alpha",
+    "process": "npm:jspm-nodelibs-process@0.2.0",
     "promise-debounce": "npm:promise-debounce@1.0.1",
     "shuffled": "npm:shuffled@1.0.0",
-    "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
-    "sweetalert2": "npm:sweetalert2@4.0.15",
+    "stream": "npm:jspm-nodelibs-stream@0.2.0",
+    "sweetalert2": "npm:sweetalert2@6.2.4",
     "text": "github:systemjs/plugin-text@0.0.8",
-    "util": "github:jspm/nodelibs-util@0.2.0-alpha"
+    "util": "npm:jspm-nodelibs-util@0.2.0"
   },
   packages: {
     "npm:cfy@1.0.18": {
@@ -48,11 +48,6 @@ SystemJS.config({
     "npm:enable-webcomponents-in-content-scripts@1.0.7": {
       "map": {
         "webcomponentsjs-custom-element-v0": "npm:webcomponentsjs-custom-element-v0@1.0.1"
-      }
-    },
-    "npm:sweetalert2@4.0.15": {
-      "map": {
-        "es6-promise": "npm:es6-promise@3.2.1"
       }
     },
     "npm:percipio@0.1.2": {
@@ -119,21 +114,11 @@ SystemJS.config({
         "is-extended": "npm:is-extended@0.0.10"
       }
     },
-    "github:jspm/nodelibs-buffer@0.2.0-alpha": {
-      "map": {
-        "buffer-browserify": "npm:buffer@4.7.1"
-      }
-    },
     "npm:buffer@4.7.1": {
       "map": {
         "base64-js": "npm:base64-js@1.1.2",
         "isarray": "npm:isarray@1.0.0",
         "ieee754": "npm:ieee754@1.1.6"
-      }
-    },
-    "github:jspm/nodelibs-stream@0.2.0-alpha": {
-      "map": {
-        "stream-browserify": "npm:stream-browserify@2.0.1"
       }
     },
     "npm:stream-browserify@2.0.1": {
@@ -153,11 +138,6 @@ SystemJS.config({
         "inherits": "npm:inherits@2.0.1"
       }
     },
-    "github:jspm/nodelibs-os@0.2.0-alpha": {
-      "map": {
-        "os-browserify": "npm:os-browserify@0.2.1"
-      }
-    },
     "npm:async@2.0.1": {
       "map": {
         "lodash": "npm:lodash@4.14.1"
@@ -166,6 +146,26 @@ SystemJS.config({
     "npm:shuffled@1.0.0": {
       "map": {
         "shuffle-array": "npm:shuffle-array@1.0.0"
+      }
+    },
+    "npm:jspm-nodelibs-buffer@0.2.0": {
+      "map": {
+        "buffer-browserify": "npm:buffer@4.7.1"
+      }
+    },
+    "npm:jspm-nodelibs-stream@0.2.0": {
+      "map": {
+        "stream-browserify": "npm:stream-browserify@2.0.1"
+      }
+    },
+    "npm:jspm-nodelibs-os@0.2.0": {
+      "map": {
+        "os-browserify": "npm:os-browserify@0.2.1"
+      }
+    },
+    "npm:sweetalert2@6.2.4": {
+      "map": {
+        "es6-promise": "npm:es6-promise@4.0.5"
       }
     }
   }

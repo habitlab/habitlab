@@ -23,7 +23,7 @@
     "promise-debounce": "^1.0.1",
     "shuffled": "^1.0.0",
     "sortablejs": "^1.5.0-rc1",
-    "sweetalert2": "4.0.12",
+    "sweetalert2": "^6.2.4",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1"
   },
@@ -92,26 +92,29 @@
       "prelude-ls": "npm:prelude-ls@^1.1.2",
       "promise-debounce": "npm:promise-debounce@^1.0.1",
       "shuffled": "npm:shuffled@^1.0.0",
-      "sweetalert2": "npm:sweetalert2@^4.0.15",
+      "sweetalert2": "npm:sweetalert2@^6.2.4",
       "text": "github:systemjs/plugin-text@^0.0.8"
     },
     "devDependencies": {},
     "peerDependencies": {
-      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
-      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
-      "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
-      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
-      "os": "github:jspm/nodelibs-os@^0.2.0-alpha",
-      "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
-      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
-      "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
-      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
+      "assert": "npm:jspm-nodelibs-assert@^0.2.0",
+      "buffer": "npm:jspm-nodelibs-buffer@^0.2.0",
+      "events": "npm:jspm-nodelibs-events@^0.2.0",
+      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
+      "os": "npm:jspm-nodelibs-os@^0.2.0",
+      "path": "npm:jspm-nodelibs-path@^0.2.0",
+      "process": "npm:jspm-nodelibs-process@^0.2.0",
+      "stream": "npm:jspm-nodelibs-stream@^0.2.0",
+      "util": "npm:jspm-nodelibs-util@^0.2.0"
     },
     "overrides": {
       "npm:inherits@2.0.1": {
         "ignore": [
           "test.js"
         ]
+      },
+      "npm:jquery@3.1.0": {
+        "format": "amd"
       },
       "npm:lodash@4.14.1": {
         "map": {

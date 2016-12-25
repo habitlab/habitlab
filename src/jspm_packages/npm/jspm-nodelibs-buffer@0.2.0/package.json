@@ -1,0 +1,16 @@
+{
+  "main": "buffer.js",
+  "name": "jspm-nodelibs-buffer",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./buffer.js": {
+      "node": "@node/buffer",
+      "browser": "buffer-browserify"
+    }
+  },
+  "dependencies": {
+    "buffer-browserify": "npm:buffer@^4.0.0"
+  },
+  "jspmNodeConversion": false
+}

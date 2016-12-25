@@ -1,0 +1,12 @@
+{
+  "main": "assert.js",
+  "name": "jspm-nodelibs-assert",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./assert.js": {
+      "node": "@node/assert"
+    }
+  },
+  "jspmNodeConversion": false
+}

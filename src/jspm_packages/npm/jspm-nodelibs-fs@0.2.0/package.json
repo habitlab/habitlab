@@ -1,0 +1,12 @@
+{
+  "main": "./fs.js",
+  "name": "jspm-nodelibs-fs",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./fs.js": {
+      "node": "@node/fs"
+    }
+  },
+  "jspmNodeConversion": false
+}

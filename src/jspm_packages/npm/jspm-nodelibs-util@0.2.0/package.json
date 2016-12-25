@@ -1,0 +1,18 @@
+{
+  "main": "./util.js",
+  "name": "jspm-nodelibs-util",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./isBuffer.js": {
+      "~node": "./isBufferBrowser.js"
+    },
+    "./util.js": {
+      "node": "@node/util"
+    }
+  },
+  "peerDependencies": {
+    "process": "jspm/nodelibs-process@^0.2.0-alpha"
+  },
+  "jspmNodeConversion": false
+}

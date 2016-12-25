@@ -7,4 +7,14 @@ if (!window.SystemJS) {
   } else {
     require('../../jspm_config_backend.js')
   }
+  SystemJS.import_multi = function(libs_list, callback) {
+    if (callback) {
+      Promise.all(libs_list.map(lib_name => SystemJS.import(lib_name))).then(function(args) {
+        callback(...args);
+      });
+    } else {
+      return Promise.all(libs_list.map(lib_name => SystemJS.import(lib_name)));
+    }
+  }
+  System.import_multi = SystemJS.import_multi;
 }

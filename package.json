@@ -7,7 +7,6 @@
     "async-debounce-jt": "^1.0.1",
     "cfy": "^1.0.18",
     "co": "^4.6.0",
-    "d3": "3.5.17",
     "dexie": "^1.4.1",
     "enable-webcomponents-in-content-scripts": "^1.0.7",
     "gulp-shell": "^0.5.2",

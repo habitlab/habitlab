@@ -3351,14 +3351,6 @@ livescript-loader@^0.1.5:
     livescript "^1.4.0"
     loader-utils "0.2.x"
 
-livescript15@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/livescript15/-/livescript15-1.5.1.tgz#efe10137b2335b03d3d1613ca255446d0eb08ac4"
-  dependencies:
-    optionator "~0.8.1"
-    prelude-ls "~1.1.2"
-    source-map "^0.5.6"
-
 livescript@^1.4.0, livescript@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/livescript/-/livescript-1.5.0.tgz#4fe7121c41217e4608e334eb9cbe1762e63e5566"

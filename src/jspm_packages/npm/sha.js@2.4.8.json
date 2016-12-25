@@ -1,0 +1,54 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "hash.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "sha.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "sha1.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "sha224.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "sha256.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "sha384.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "sha512.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

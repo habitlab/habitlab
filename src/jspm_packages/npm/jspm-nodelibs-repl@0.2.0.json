@@ -1,0 +1,8 @@
+{
+  "main": "./repl.js",
+  "map": {
+    "./repl.js": {
+      "node": "@node/repl"
+    }
+  }
+}

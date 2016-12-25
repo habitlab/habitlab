@@ -1,0 +1,12 @@
+{
+  "main": "./tty.js",
+  "name": "jspm-nodelibs-tty",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./tty.js": {
+      "node": "@node/tty"
+    }
+  },
+  "jspmNodeConversion": false
+}

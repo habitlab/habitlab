@@ -1,0 +1,16 @@
+{
+  "main": "./string_decoder.js",
+  "name": "jspm-nodelibs-string_decoder",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./string_decoder.js": {
+      "node": "@node/string_decoder",
+      "browser": "string_decoder-browserify"
+    }
+  },
+  "dependencies": {
+    "string_decoder-browserify": "npm:string_decoder@^0.10.31"
+  },
+  "jspmNodeConversion": false
+}

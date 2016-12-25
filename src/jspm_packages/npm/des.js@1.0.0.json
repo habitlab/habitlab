@@ -1,0 +1,24 @@
+{
+  "main": "lib/des.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "test/cbc-test.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/des-test.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/ede-test.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

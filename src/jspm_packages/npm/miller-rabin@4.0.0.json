@@ -1,0 +1,9 @@
+{
+  "main": "lib/mr.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

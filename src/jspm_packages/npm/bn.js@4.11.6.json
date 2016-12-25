@@ -1,0 +1,24 @@
+{
+  "main": "lib/bn.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "test/constructor-test.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/pummel/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/red-test.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

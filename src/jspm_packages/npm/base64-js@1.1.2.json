@@ -1,9 +1,0 @@
-{
-  "main": "lib/b64.js",
-  "format": "cjs",
-  "meta": {
-    "*.json": {
-      "format": "json"
-    }
-  }
-}

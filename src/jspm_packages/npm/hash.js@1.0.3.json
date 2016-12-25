@@ -1,0 +1,9 @@
+{
+  "main": "lib/hash.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

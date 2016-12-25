@@ -1,0 +1,1 @@
+throw new Error('The NodeJS "readline" module is not available in the browser.');

@@ -1,0 +1,1 @@
+var path,stripString,nameFromPath;path=require("path"),stripString=function(r){var t;return(t=/^['"](.*)['"]$/.exec(r.trim()))?t[1]:r},nameFromPath=function(r){return path.basename(stripString(r)).split(".")[0].replace(/-[a-z]/gi,function(r){return r.charAt(1).toUpperCase()})},module.exports={nameFromPath:nameFromPath,stripString:stripString};

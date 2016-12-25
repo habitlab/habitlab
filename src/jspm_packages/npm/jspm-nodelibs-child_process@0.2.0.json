@@ -1,0 +1,8 @@
+{
+  "main": "./child_process.js",
+  "map": {
+    "./child_process.js": {
+      "node": "@node/child_process"
+    }
+  }
+}

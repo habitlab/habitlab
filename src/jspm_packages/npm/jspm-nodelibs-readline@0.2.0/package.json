@@ -1,0 +1,12 @@
+{
+  "main": "./readline.js",
+  "name": "jspm-nodelibs-readline",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./readline.js": {
+      "node": "@node/readline"
+    }
+  },
+  "jspmNodeConversion": false
+}

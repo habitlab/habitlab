@@ -1,0 +1,8 @@
+{
+  "main": "./readline.js",
+  "map": {
+    "./readline.js": {
+      "node": "@node/readline"
+    }
+  }
+}

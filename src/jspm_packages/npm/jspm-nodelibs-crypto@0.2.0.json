@@ -1,0 +1,9 @@
+{
+  "main": "./crypto.js",
+  "map": {
+    "./crypto.js": {
+      "node": "@node/crypto",
+      "browser": "crypto-browserify"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "main": "lib/asn1.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "lib/asn1/base/buffer.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/asn1/decoders/pem.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/asn1/encoders/der.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib/asn1/base": "./lib/asn1/base/index.js",
+    "./lib/asn1/constants": "./lib/asn1/constants/index.js",
+    "./lib/asn1/decoders": "./lib/asn1/decoders/index.js",
+    "./lib/asn1/encoders": "./lib/asn1/encoders/index.js"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "algos.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "browser.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "sign.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "verify.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./index.js": {
+      "browser": "./browser.js"
+    }
+  }
+}

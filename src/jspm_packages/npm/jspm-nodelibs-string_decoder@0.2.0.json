@@ -1,0 +1,9 @@
+{
+  "main": "./string_decoder.js",
+  "map": {
+    "./string_decoder.js": {
+      "node": "@node/string_decoder",
+      "browser": "string_decoder-browserify"
+    }
+  }
+}

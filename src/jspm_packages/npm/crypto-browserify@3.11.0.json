@@ -1,0 +1,51 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "test/aes.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/create-hash.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/create-hmac.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/public-encrypt.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/random-bytes.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/sign.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./test": "./test/index.js",
+    "crypto": {
+      "browser": "@empty"
+    },
+    "crypto-browserify": "."
+  }
+}

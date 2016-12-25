@@ -1,0 +1,74 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "aes.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "authCipher.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "decrypter.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "encrypter.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "ghash.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "modes/cfb.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "modes/cfb1.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "modes/cfb8.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "modes/ctr.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "modes/ofb.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "populateFixtures.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "streamCipher.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./index.js": {
+      "browser": "./browser.js"
+    }
+  }
+}

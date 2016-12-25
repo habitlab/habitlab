@@ -1,0 +1,8 @@
+{
+  "main": "./tty.js",
+  "map": {
+    "./tty.js": {
+      "node": "@node/tty"
+    }
+  }
+}

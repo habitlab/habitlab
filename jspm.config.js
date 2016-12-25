@@ -1,8 +1,4 @@
-SystemJS.config({
-  map: {
-    "prelude": "npm:prelude-ls@1.1.2"
-  }
-});
+SystemJS.config({});
 
 SystemJS.config({
   packageConfigPaths: [
@@ -14,7 +10,7 @@ SystemJS.config({
     "child_process": "npm:jspm-nodelibs-child_process@0.2.0",
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
-    "livescript15": "npm:livescript15@1.5.3",
+    "livescript15": "npm:livescript15@1.5.4",
     "async": "npm:async@2.0.1",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
     "buffer": "npm:jspm-nodelibs-buffer@0.2.0",
@@ -260,11 +256,6 @@ SystemJS.config({
         "buffer-xor": "npm:buffer-xor@1.0.3"
       }
     },
-    "npm:livescript15@1.5.3": {
-      "map": {
-        "prelude-ls": "npm:prelude-ls@1.1.2"
-      }
-    },
     "npm:create-ecdh@4.0.0": {
       "map": {
         "elliptic": "npm:elliptic@6.3.2",
@@ -342,6 +333,11 @@ SystemJS.config({
         "buffer-shims": "npm:buffer-shims@1.0.0",
         "process-nextick-args": "npm:process-nextick-args@1.0.7",
         "util-deprecate": "npm:util-deprecate@1.0.2"
+      }
+    },
+    "npm:livescript15@1.5.4": {
+      "map": {
+        "prelude-ls": "npm:prelude-ls@1.1.2"
       }
     }
   }

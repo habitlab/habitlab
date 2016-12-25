@@ -5,6 +5,8 @@ window.global_exports = {}
 window.addEventListener "unhandledrejection", (evt) ->
   throw evt.reason
 
+require 'libs_common/systemjs'
+
 if window.location.pathname == '/popup.html'
   require 'components/popup-view.deps'
   document.querySelector('#index_body').appendChild(document.createElement('popup-view'))
@@ -146,10 +148,8 @@ start_page_index = cfy ->*
 
 start_page_index()
 
-require 'libs_common/systemjs'
-
 systemjs_require <- System.import('libs_common/systemjs_require').then()
 drequire <- systemjs_require.make_require_frontend().then()
-window.drequire = drequire
+window.require = drequire
 
 require 'libs_common/global_exports_post'

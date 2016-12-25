@@ -86,7 +86,7 @@
       "dexie": "npm:dexie@^1.4.1",
       "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@^1.0.7",
       "jquery": "npm:jquery@^3.1.0",
-      "livescript15": "npm:livescript15@^1.5.3",
+      "livescript15": "npm:livescript15@^1.5.4",
       "moment": "npm:moment@^2.14.1",
       "percipio": "npm:percipio@^0.1.2",
       "prelude-ls": "npm:prelude-ls@^1.1.2",

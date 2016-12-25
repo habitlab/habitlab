@@ -9,6 +9,8 @@ localStorage.removeItem 'cached_get_interventions'
 
 window.global_exports = {}
 
+require 'libs_common/systemjs'
+
 {
   get_all_message_handlers
 } = require 'libs_backend/expose_lib'
@@ -118,9 +120,7 @@ $ = require 'jquery'
 
 {cfy, yfy} = require 'cfy'
 
-require 'libs_common/measurement_utils'
-
-require 'libs_common/systemjs'
+# require 'libs_common/measurement_utils'
 
 # console.log 'weblab running in background'
 # alert('hello');
@@ -735,7 +735,7 @@ gexport_module 'background', -> eval(it)
 
 systemjs_require <- System.import('libs_common/systemjs_require').then()
 drequire <- systemjs_require.make_require_frontend().then()
-window.drequire = drequire
+window.require = drequire
 
 ensure_history_utils_data_cached()
 

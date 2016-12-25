@@ -208,6 +208,17 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
         throw err_to_throw;
       }
     }
+    var reqlib = function(libname, callback) {
+      if (typeof(callback) == 'function') {
+        System.import(libname).then(callback);
+      } else if (typeof(callback) == 'string') {
+        System.import(libname).then(function(imported_lib) {
+          window[callback] = imported_lib;
+        });
+      } else {
+        return System.import(libname);
+      }
+    }
     var console = Object.create(window.console);
     console.log = hlog;
     #{debug_content_script_code}
@@ -733,9 +744,17 @@ setInterval (cfy ->*
 
 gexport_module 'background', -> eval(it)
 
-systemjs_require <- System.import('libs_common/systemjs_require').then()
-drequire <- systemjs_require.make_require_frontend().then()
-window.require = drequire
+# systemjs_require <- System.import('libs_common/systemjs_require').then()
+# drequire <- systemjs_require.make_require_frontend().then()
+# window.require = drequire
+window.reqlib = (libname, callback) ->
+  if typeof(callback) == 'function'
+    System.import(libname).then(callback)
+  else if typeof(callback) == 'string'
+    System.import(libname).then (imported_lib) ->
+      window[callback] = imported_lib
+  else
+    return System.import(package_name)
 
 ensure_history_utils_data_cached()
 

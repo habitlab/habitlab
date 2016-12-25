@@ -148,8 +148,16 @@ start_page_index = cfy ->*
 
 start_page_index()
 
-systemjs_require <- System.import('libs_common/systemjs_require').then()
-drequire <- systemjs_require.make_require_frontend().then()
-window.require = drequire
+# systemjs_require <- System.import('libs_common/systemjs_require').then()
+# drequire <- systemjs_require.make_require_frontend().then()
+# window.require = drequire
+window.reqlib = (libname, callback) ->
+  if typeof(callback) == 'function'
+    System.import(libname).then(callback)
+  else if typeof(callback) == 'string'
+    System.import(libname).then (imported_lib) ->
+      window[callback] = imported_lib
+  else
+    return System.import(package_name)
 
 require 'libs_common/global_exports_post'

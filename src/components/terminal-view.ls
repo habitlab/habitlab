@@ -18,15 +18,6 @@
 
 $ = require 'jquery'
 
-cached_livescript = null
-
-compile_livescript = cfy (code) ->*
-  if cached_livescript?
-    return cached_livescript.compile(code, {bare: true, header: false})
-  livescript = yield System.import('livescript15')
-  cached_livescript := livescript
-  return cached_livescript.compile(code, {bare: true, header: false})
-
 polymer_ext {
   is: 'terminal-view'
   properties: {
@@ -59,15 +50,33 @@ polymer_ext {
     }
     term_div = $(this.$.content_script_terminal)
     term_div.css(css_options)
+    messages_livescript = [
+      'Content Script Debugger (Livescript)'
+      'Switch to Javascript by entering #js'
+      'Assign variables to this (this.x = 3) to persist them'
+      'Import jspm libraries with reqlib:'
+      'reqlib \'moment\', \'moment\''
+      'this.moment().format()'
+      'Check the Javascript console for error messages.'
+      'You can open it with Command-Option-J or Ctrl-Shift-J'
+    ]
+    messages_javascript = [
+      'Content Script Debugger (Javascript)'
+      'Switch to Livescript by entering #ls'
+      'Assign variables to this (this.x = 3) to persist them'
+      'Import jspm libraries with reqlib:'
+      'reqlib(\'moment\', \'moment\')'
+      'this.moment().format()'
+      'Check the Javascript console for error messages'
+      'You can open it with Command-Option-J or Ctrl-Shift-J'
+    ]
     custom_commands = {
       ls: ->
         localstorage_setbool('debug_terminal_livescript', true)
-        term_div.echo 'Switched to Livescript. Switch to Javascript with command #js'
-        term_div.echo 'Assign variables to this (ie, this.x = 3) to persist them'
+        term_div.echo messages_livescript.join('\n')
       js: ->
         localStorage.removeItem('debug_terminal_livescript')
-        term_div.echo 'Switched to Javascript. Switch to Livescript with command #ls'
-        term_div.echo 'Assign variables to this (ie, this.x = 3) to persist them'
+        term_div.echo messages_javascript.join('\n')
     }
     custom_commands.javascript = custom_commands.js
     custom_commands.livescript = custom_commands.ls
@@ -78,15 +87,21 @@ polymer_ext {
         custom_commands[command.substr(1)]()
         return
       if localstorage_getbool('debug_terminal_livescript')
-        command = yield compile_livescript(command)
+        livescript = yield System.import('livescript15')
+        try
+          command = livescript.compile(command, {bare: true, header: false})
+        catch err
+          term.echo 'Livescript compilation error'
+          prettyprintjs = yield System.import('prettyprintjs')
+          term.echo prettyprintjs(err)
+          return
       result = yield eval_content_script_debug_for_active_tab(command)
       term.echo result
     messages = []
     if not localstorage_getbool('debug_terminal_livescript')
-      messages.push 'Content Script Debugger (Javascript)\nSwitch to Livescript with command #ls'
+      messages = messages_javascript
     else
-      messages.push 'Content Script Debugger (Livescript)\nSwitch to Javascript with command #js'
-    messages.push 'Assign variables to this (ie, this.x = 3) to persist them'
+      messages = messages_livescript
     term_div.terminal terminal_handler, {
       greetings: messages.join('\n')
       width: css_options.width

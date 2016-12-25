@@ -210,22 +210,31 @@ if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.lo
 
     #{content_script_code}
     #{systemjs_content_script_code}
-    (function() {
+    System.import('prettyprintjs').then(function(prettyprintjs) {
       var console_log_orig = window.console.log;
       var hlog = function(...args) {
-        if (args.length == 0) {
-          return;
-        } else {
-          for (var arg of args) {
-            console_log_orig(arg);
+        console_log_orig(...args);
+        var data_string;
+        var err_to_throw = null;
+        try {
+          if (args.length == 1) {
+            data_string = prettyprintjs(args[0]);
+          } else {
+            data_string = prettyprintjs(args);
           }
-          chrome.runtime.sendMessage({type: 'send_to_debug_terminal', data: args});
+        } catch (err) {
+          data_string = 'Error was thrown. Check Javascript console (Command+Option+J or Ctrl+Shift+J)\\n' + err.message;
+          err_to_throw = err;
+        }
+        chrome.runtime.sendMessage({type: 'send_to_debug_terminal', data: data_string});
+        if (err_to_throw) {
+          throw err_to_throw;
         }
       }
       var console = Object.create(window.console);
       console.log = hlog;
       #{debug_content_script_code}
-    })();
+    })
   }
 }
     """

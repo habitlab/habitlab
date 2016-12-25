@@ -37,10 +37,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:jspm-nodelibs-fs@0.2.0": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:async@2.0.1": {
     "deps": {
       "lodash": "npm:lodash@^4.8.0"
@@ -336,7 +332,18 @@
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
   },
+  "npm:prettyprintjs@0.1.7": {
+    "deps": {},
+    "peerDeps": {
+      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
+      "process": "npm:jspm-nodelibs-process@^0.2.0"
+    }
+  },
   "npm:jspm-nodelibs-process@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:jspm-nodelibs-fs@0.2.0": {
     "deps": {},
     "peerDeps": {}
   }

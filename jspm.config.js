@@ -25,6 +25,7 @@ SystemJS.config({
     "path": "npm:jspm-nodelibs-path@0.2.0",
     "percipio": "npm:percipio@0.1.2",
     "prelude-ls": "npm:prelude-ls@1.1.2",
+    "prettyprintjs": "npm:prettyprintjs@0.1.7",
     "process": "npm:jspm-nodelibs-process@0.2.0",
     "promise-debounce": "npm:promise-debounce@1.0.1",
     "shuffled": "npm:shuffled@1.0.0",

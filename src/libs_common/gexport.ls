@@ -8,7 +8,6 @@ export gexport = (vardict) ->
 
 export gexport_module = (module_name, eval_func) ->
   if not global_exports?
-    console.log 'calling gexport_module but global_exports is not defined'
     return
   global_exports['eval_' + module_name] = eval_func
   if not global_exports.gexport_eval_funcs?

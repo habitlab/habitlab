@@ -53,7 +53,7 @@ polymer_ext {
     messages_livescript = [
       'Content Script Debugger (Livescript)'
       'Switch to Javascript by entering #js'
-      'Assign variables to this (this.x = 3) to persist them'
+      'Use hlog() instead of console.log()'
       'Use uselib() to import jspm libraries, type #help for examples'
       'Check the Javascript console for error messages.'
       'You can open it with Command-Option-J or Ctrl-Shift-J'
@@ -62,7 +62,7 @@ polymer_ext {
     messages_javascript = [
       'Content Script Debugger (Javascript)'
       'Switch to Livescript by entering #ls'
-      'Assign variables to this (this.x = 3) to persist them'
+      'Use hlog() instead of console.log()'
       'Use uselib() to import jspm libraries, type #help for examples'
       'Check the Javascript console for error messages'
       'You can open it with Command-Option-J or Ctrl-Shift-J'
@@ -98,8 +98,40 @@ polymer_ext {
           '    content_script_utils.load_css_file(\'bower_components/sweetalert2/dist/sweetalert2.css\')'
           '    uselib(\'sweetalert2\', \'swal\')'
           '    swal(\'hello world\')'
+          'You can set a custom evaluation function by setting window.customeval'
+          'For example, this will allow you to access the variables \'intervention\' and \'tab_id\''
+          '    window.customeval = window.localeval'
+          'The alias #local does the same as above'
+          'Some interventions also define window.debugeval which you can use as follows:'
+          '    window.customeval = window.debugeval'
+          'The alias #debug does the same as above'
+          'You can reset the effects of the above by doing #global'
+          'If you override window.customeval, assign variables to \'window\' to persist them'
+          'So instead of doing \'var x = 3;\' do \'window.x = 3\''
         ]
         term_div.echo messages_help.join('\n')
+    }
+    aliases = {
+      '#local': '''
+        if (window.localeval) {
+          window.customeval = window.localeval;
+          hlog('set window.customeval to window.localeval')
+        } else {
+          hlog('window.localeval is not defined');
+        }
+      '''
+      '#debug': '''
+        if (window.debugeval) {
+          window.customeval = window.debugeval;
+          hlog('set window.customeval to window.debugeval')
+        } else {
+          hlog('window.debugeval is not defined');
+        }
+      '''
+      '#global': '''
+        window.customeval = null;
+          hlog('reset window.customeval to global eval')
+      '''
     }
     custom_commands.javascript = custom_commands.js
     custom_commands.livescript = custom_commands.ls
@@ -109,7 +141,9 @@ polymer_ext {
       if command[0] == '#' and custom_commands[command.substr(1)]?
         custom_commands[command.substr(1)]()
         return
-      if localstorage_getbool('debug_terminal_livescript')
+      if aliases[command]?
+        command = aliases[command]
+      else if localstorage_getbool('debug_terminal_livescript')
         livescript = yield System.import('livescript15')
         try
           command = livescript.compile(command, {bare: true, header: false})

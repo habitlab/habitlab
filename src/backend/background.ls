@@ -175,19 +175,24 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
     cached_systemjs_code := systemjs_content_script_code
 
   debug_content_script_code = """
-    System.import('libs_frontend/content_script_debug').then(function(content_script_debug) {
-      content_script_debug.listen_for_eval((x) => { return eval(x); });
-    });
+  content_script_debug.listen_for_eval(function(command_to_evaluate) {
+    if (window.customeval) {
+      return window.customeval(command_to_evaluate);
+    } else {
+      return eval.bind(this)(command_to_evaluate);
+    }
+  });
   """
   if intervention_info_copy.params.debug? and intervention_info_copy.params.debug.value
     debug_content_script_code = """
-    System.import('libs_frontend/content_script_debug').then(function(content_script_debug) {
-      content_script_debug.listen_for_eval((x) => { return eval(x); });
-      content_script_debug.insert_console((x) => { return eval(x); }, {lang: 'livescript'});
-    });
+    content_script_debug.listen_for_eval((x) => { return eval(x); });
+    content_script_debug.insert_console((x) => { return eval(x); }, {lang: 'livescript'});
     """
   debug_content_script_code_with_hlog = """
-  System.import('prettyprintjs').then(function(prettyprintjs) {
+  System.import_multi(['prettyprintjs', 'libs_frontend/content_script_debug'], function(prettyprintjs, content_script_debug) {
+    window.console.log('after system.import_multi')
+    window.console.log(prettyprintjs)
+    window.console.log(content_script_debug)
     var console_log_orig = window.console.log;
     var hlog = function(...args) {
       console_log_orig(...args);
@@ -249,7 +254,13 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
     }
     var console = Object.create(window.console);
     console.log = hlog;
+    window.hlog = hlog;
+    window.uselib = uselib;
+    window.localeval = function(command_to_evaluate) {
+      return eval(command_to_evaluate);
+    }
     #{debug_content_script_code}
+    return;
   })
   """
   for options in content_script_options

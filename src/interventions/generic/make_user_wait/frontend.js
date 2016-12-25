@@ -62,3 +62,4 @@ co(function*() {
 
 })
 
+window.debugeval = x => eval(x);

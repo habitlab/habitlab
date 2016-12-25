@@ -187,20 +187,20 @@ gulp.task 'eslint', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'),
       'webextensions'
       #'node'
     ]
-    globals: {
-      #'$': true
-      'SystemJS': true
-      'require': true
-      'env': true
-      'exports': true
-      'module': true
-      'global_exports': true
-      'Polymer': true
-      'intervention': true
-      'tab_id': true
-      #'jsyaml': true
-      #'IS_CONTENT_SCRIPT': true
-    }
+    globals: [
+      #'$'
+      'SystemJS'
+      'require'
+      'env'
+      'exports'
+      'module'
+      'global_exports'
+      'Polymer'
+      'intervention'
+      'tab_id'
+      #'jsyaml'
+      #'IS_CONTENT_SCRIPT'
+    ]
     rules: {
       'no-console': 'off'
       'no-unused-vars': 'off'

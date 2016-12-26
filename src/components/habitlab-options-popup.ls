@@ -46,7 +46,6 @@ polymer_ext {
     if this.isdemo
       this.open()
   ready: cfy ->*
-    console.log 'habitlab-options-popup ready'
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
   open: ->
     this.$$('#intervention_info_dialog').open()

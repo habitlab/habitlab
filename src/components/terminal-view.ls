@@ -80,24 +80,25 @@ polymer_ext {
           'The following commands are available:'
           '#ls switches to Livescript mode'
           '#js switches to Javascript mode'
-          'Assign variables to this or window to persist them'
-          'Example:'
-          '    this.x = 3'
-          '    console.log(this.x)'
+          '#global alias for window.customeval = null'
+          '#local alias for window.customeval = window.localeval'
+          '#debug alias for window.customeval = window.debugeval'
+          ''
           'Use uselib() to import jspm libraries.'
           'The first argument is the library name (under SystemJS, see jspm)'
-          'The second argument is the name it should be given (in the \'this\' object)'
+          'The second argument is the name it should be given (in the \'window\' object)'
           'Example of using moment:'
           '    uselib(\'moment\', \'moment\')'
-          '    this.moment().format()'
+          '    window.moment().format()'
           'Example of using jquery:'
           '    uselib(\'jquery\', \'$\')'
-          '    this.$(\'body\').css(\'background-color\', \'black\')'
+          '    window.$(\'body\').css(\'background-color\', \'black\')'
           'Example of using sweetalert2:'
           '    uselib(\'libs_common/content_script_utils\', \'content_script_utils\')'
           '    content_script_utils.load_css_file(\'bower_components/sweetalert2/dist/sweetalert2.css\')'
           '    uselib(\'sweetalert2\', \'swal\')'
           '    swal(\'hello world\')'
+          ''
           'You can set a custom evaluation function by setting window.customeval'
           'For example, this will allow you to access the variables \'intervention\' and \'tab_id\''
           '    window.customeval = window.localeval'
@@ -105,9 +106,10 @@ polymer_ext {
           'Some interventions also define window.debugeval which you can use as follows:'
           '    window.customeval = window.debugeval'
           'The alias #debug does the same as above'
-          'You can reset the effects of the above by doing #global'
-          'If you override window.customeval, assign variables to \'window\' to persist them'
-          'So instead of doing \'var x = 3;\' do \'window.x = 3\''
+          'You can reset the effects of #local or #debug with #global'
+          ''
+          'If using #local or #debug, assign variables to \'window\' to persist them'
+          'So instead of doing \'var x = 3;\' do \'window.x = 3;\''
         ]
         term_div.echo messages_help.join('\n')
     }
@@ -115,7 +117,12 @@ polymer_ext {
       '#local': '''
         if (window.localeval) {
           window.customeval = window.localeval;
-          hlog('set window.customeval to window.localeval')
+          hlog([
+            '#local has set window.customeval to window.localeval',
+            'In #local mode, assign variables to \\'window\\' to persist them',
+            'So instead of doing \\'var x = 3;\\' do \\'window.x = 3;\\'',
+            'Return to default global eval mode by typing #global'
+          ].join('\\n'));
         } else {
           hlog('window.localeval is not defined');
         }
@@ -123,14 +130,19 @@ polymer_ext {
       '#debug': '''
         if (window.debugeval) {
           window.customeval = window.debugeval;
-          hlog('set window.customeval to window.debugeval')
+          hlog([
+            '#debug has set window.customeval to window.debugeval',
+            'In #debug mode, assign variables to \\'window\\' to persist them',
+            'So instead of doing \\'var x = 3;\\' do \\'window.x = 3;\\'',
+            'Return to default global eval mode by typing #global'
+          ].join('\\n'));
         } else {
           hlog('window.debugeval is not defined');
         }
       '''
       '#global': '''
         window.customeval = null;
-          hlog('reset window.customeval to global eval')
+          hlog('#global has reset window.customeval to global eval')
       '''
     }
     custom_commands.javascript = custom_commands.js

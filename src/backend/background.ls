@@ -220,7 +220,7 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
       } else if (typeof(callback) == 'string') {
         System.import(libname).then(function(imported_lib) {
           window[callback] = imported_lib;
-          console.log('imported as this.' + callback);
+          hlog('imported as window.' + callback);
         }, function(err) {
           console.log(err.message);
           throw err;
@@ -229,22 +229,22 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
         callback = libname.toLowerCase().split('').filter((x) => 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('');
         System.import(libname).then(function(imported_lib) {
           window[callback] = imported_lib;
-          console.log('imported as this.' + callback);
+          hlog('imported as window.' + callback);
         }, function(err) {
           console.log(err.message);
           throw err;
         });
       } else {
-        console.log([
+        hlog([
           'Use uselib() to import jspm libraries.',
           'The first argument is the library name (under SystemJS, see jspm)',
           'The second argument is the name it should be given (in the \\'this\\' object)',
           'Example of using moment:',
           '    uselib(\\'moment\\', \\'moment\\')',
-          '    this.moment().format()',
+          '    window.moment().format()',
           'Example of using jquery:',
           '    uselib(\\'jquery\\', \\'$\\')',
-          '    this.$(\\'body\\').css(\\'background-color\\', \\'black\\')',
+          '    window.$(\\'body\\').css(\\'background-color\\', \\'black\\')',
           'Example of using sweetalert2:',
           '    uselib(\\'libs_common/content_script_utils\\', \\'content_script_utils\\')',
           '    content_script_utils.load_css_file(\\'bower_components/sweetalert2/dist/sweetalert2.css\\')',
@@ -792,23 +792,23 @@ window.uselib = (libname, callback) ->
   else if typeof(callback) == 'string'
     System.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
-      console.log('imported as this.' + callback)
+      console.log('imported as window.' + callback)
   else if typeof(libname) == 'string'
     callback = libname.toLowerCase().split('').filter((x) -> 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('')
     System.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
-      console.log('imported as this.' + callback)
+      console.log('imported as window.' + callback)
   else
     console.log([
       'Use uselib() to import jspm libraries.'
       'The first argument is the library name (under SystemJS, see jspm)'
-      'The second argument is the name it should be given (in the \'this\' object)'
+      'The second argument is the name it should be given (in the \'window\' object)'
       'Example of using moment:'
       '    uselib(\'moment\', \'moment\')'
-      '    this.moment().format()'
+      '    window.moment().format()'
       'Example of using jquery:'
       '    uselib(\'jquery\', \'$\')'
-      '    this.$(\'body\').css(\'background-color\', \'black\')'
+      '    window.$(\'body\').css(\'background-color\', \'black\')'
       'Example of using sweetalert2:'
       '    uselib(\'libs_common/content_script_utils\', \'content_script_utils\')'
       '    content_script_utils.load_css_file(\'bower_components/sweetalert2/dist/sweetalert2.css\')'

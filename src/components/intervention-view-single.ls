@@ -166,7 +166,8 @@ polymer_ext {
   preview_intervention: ->
     intervention_name = this.intervention.name
     set_override_enabled_interventions_once intervention_name
-    chrome.tabs.create {url: this.goal.homepage }
+    preview_page = this.intervention.preview ? this.goal.preview ? this.goal.homepage
+    chrome.tabs.create {url: preview_page}
   parameters_shown: ->
     return localstorage_getbool('intervention_view_show_parameters')
   /*

@@ -23,24 +23,28 @@ polymer_ext {
         category: 'Intervention Manager Page Options'
         options: [
           {
+            name: 'display_dlog'
+            description: 'Recommended: Display info logged with dlog under console.log'
+          }
+          {
             name: 'intervention_view_show_internal_names'
-            description: 'Show internal names of goals and interventions'
+            description: 'Recommended: Show internal names of goals and interventions'
           }
           {
             name: 'index_show_url_bar'
-            description: 'Show URL bar on the bottom of configuration pages for developers using Opera'
+            description: 'Recommended for developers using Opera: Show URL bar on the bottom of extension pages'
           }
           {
             name: 'intervention_view_show_debug_all_interventions_goal'
             description: 'Show the debug/all_interventions goal'
           }
           {
-            name: 'intervention_view_show_randomize_button'
-            description: 'Show the randomize interventions button'
-          }
-          {
             name: 'intervention_view_show_parameters'
             description: 'Show the parameters for each intervention'
+          }
+          {
+            name: 'intervention_view_show_randomize_button'
+            description: 'Show the randomize interventions button'
           }
         ]
       }

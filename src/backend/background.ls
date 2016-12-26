@@ -9,6 +9,10 @@ localStorage.removeItem 'cached_get_interventions'
 
 window.global_exports = {}
 
+dlog = window.dlog = (...args) ->
+  if localStorage.getItem('display_dlog') == 'true'
+    console.log(...args)
+
 require 'libs_common/systemjs'
 
 {
@@ -122,7 +126,7 @@ $ = require 'jquery'
 
 # require 'libs_common/measurement_utils'
 
-# console.log 'weblab running in background'
+# dlog 'weblab running in background'
 # alert('hello');
 
 /*
@@ -190,9 +194,6 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
     """
   debug_content_script_code_with_hlog = """
   System.import_multi(['prettyprintjs', 'libs_frontend/content_script_debug'], function(prettyprintjs, content_script_debug) {
-    window.console.log('after system.import_multi')
-    window.console.log(prettyprintjs)
-    window.console.log(content_script_debug)
     var console_log_orig = window.console.log;
     var hlog = function(...args) {
       console_log_orig(...args);
@@ -252,8 +253,6 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
         ].join('\\n'))
       }
     }
-    var console = Object.create(window.console);
-    console.log = hlog;
     window.hlog = hlog;
     window.uselib = uselib;
     window.localeval = function(command_to_evaluate) {
@@ -284,6 +283,7 @@ if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.lo
     window.loaded_content_scripts['#{options.path}'] = true;
     const intervention = #{JSON.stringify(intervention_info_copy)};
     const tab_id = #{tabId};
+    const dlog = function(...args) { console.log(...args); };
 
     #{content_script_code}
     #{systemjs_content_script_code}
@@ -344,11 +344,11 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
   domain = url_to_domain(location)
   session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)
   active_interventions = yield getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
-  console.log 'active_interventions is'
-  console.log active_interventions
+  dlog 'active_interventions is'
+  dlog active_interventions
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
-  console.log 'override_enabled_interventions is'
-  console.log override_enabled_interventions
+  dlog 'override_enabled_interventions is'
+  dlog override_enabled_interventions
   if not active_interventions?
     if override_enabled_interventions?
       possible_interventions = as_array(JSON.parse(override_enabled_interventions))
@@ -367,14 +367,14 @@ load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
       all_enabled_interventions = yield list_all_enabled_interventions_for_location(location)
       if all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
         # the intervention is no longer enabled. need to choose a new session id
-        console.log 'intervention is no longer enabled. choosing new session id'
-        console.log 'tabid is ' + tabId
-        console.log 'domain is ' + domain
-        console.log 'old session_id is ' + session_id
-        console.log 'active_interventions'
-        console.log active_interventions
-        console.log 'all_enabled_interventions'
-        console.log all_enabled_interventions
+        dlog 'intervention is no longer enabled. choosing new session id'
+        dlog 'tabid is ' + tabId
+        dlog 'domain is ' + domain
+        dlog 'old session_id is ' + session_id
+        dlog 'active_interventions'
+        dlog active_interventions
+        dlog 'all_enabled_interventions'
+        dlog all_enabled_interventions
         session_id = yield get_new_session_id_for_domain(domain)
         tab_id_to_domain_to_session_id[tabId][domain] = session_id
         if override_enabled_interventions?
@@ -459,8 +459,8 @@ message_handlers <<< {
     getfields_uncached fieldnames, callback
   'getLocation': (data, callback) ->
     getLocation (location) ->
-      console.log 'getLocation background page:'
-      console.log location
+      dlog 'getLocation background page:'
+      dlog location
       callback location
   'load_intervention': (data, callback) ->
     {intervention_name, tabId} = data
@@ -498,16 +498,16 @@ ext_message_handlers = {
       if not accepted
         return
       getfields info.fieldnames, (results) ->
-        console.log 'getfields result:'
-        console.log results
+        dlog 'getfields result:'
+        dlog results
         callback results
   'requestfields_uncached': (info, callback) ->
     confirm_permissions info, (accepted) ->
       if not accepted
         return
       getfields_uncached info.fieldnames, (results) ->
-        console.log 'getfields result:'
-        console.log results
+        dlog 'getfields result:'
+        dlog results
         callback results
   'get_field_descriptions': (namelist, callback) ->
     field_info <- get_field_info()
@@ -539,7 +539,7 @@ domain_changed = (new_domain) ->
   prev_domain := new_domain
   current_day = get_days_since_epoch()
   addtokey_dictdict 'visits_to_domain_per_day', new_domain, current_day, 1, (total_visits) ->
-    console.log "total visits to #{new_domain} today is #{total_visits}"
+    dlog "total visits to #{new_domain} today is #{total_visits}"
 
 # our definition of a session:
 # how long a tab was open and on Facebook (or other site of interest) until it was closed
@@ -549,7 +549,7 @@ tab_id_to_domain_to_session_id = {}
 
 export list_domain_to_session_ids = ->
   for tab_id,domain_to_session_id of tab_id_to_domain_to_session_id
-    console.log domain_to_session_id
+    dlog domain_to_session_id
 
 navigation_occurred = (url, tabId) ->
   new_domain = url_to_domain(url)
@@ -564,13 +564,13 @@ navigation_occurred = (url, tabId) ->
   #else
   #  chrome.pageAction.hide(tabId)
   #send_pageupdate_to_tab(tabId)
-  console.log "navigation_occurred to #{url}"
+  dlog "navigation_occurred to #{url}"
   load_intervention_for_location url, tabId
 
 chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
   if tab.url
-    #console.log 'tabs updated!'
-    #console.log tab.url
+    #dlog 'tabs updated!'
+    #dlog tab.url
     #if changeInfo.status != 'complete'
     #  return
     #if changeInfo.status == 'complete'
@@ -653,12 +653,12 @@ chrome.runtime.onMessageExternal.addListener (request, sender, sendResponse) ->
     return
   #tabId = sender.tab.id
   message_handler data, (response) ~>
-    #console.log 'response is:'
-    #console.log response
+    #dlog 'response is:'
+    #dlog response
     #response_string = JSON.stringify(response)
-    #console.log 'length of response_string: ' + response_string.length
-    #console.log 'turned into response_string:'
-    #console.log response_string
+    #dlog 'length of response_string: ' + response_string.length
+    #dlog 'turned into response_string:'
+    #dlog response_string
     if sendResponse?
       sendResponse response
   return true # async response
@@ -670,10 +670,10 @@ message_handlers_requiring_tab = {
 
 chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   {type, data} = request
-  #console.log 'onmessage'
-  #console.log type
-  #console.log data
-  #console.log sender
+  #dlog 'onmessage'
+  #dlog type
+  #dlog data
+  #dlog sender
   message_handler = message_handlers[type]
   if not message_handler?
     return
@@ -683,10 +683,10 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
       data = {} <<< data
       data.tab = sender.tab
   message_handler data, (response) ->
-    #console.log 'message handler response:'
-    #console.log response
+    #dlog 'message handler response:'
+    #dlog response
     #response_data = {response}
-    #console.log response_data
+    #dlog response_data
     # chrome bug - doesn't seem to actually send the response back....
     #sendResponse response_data
     if sendResponse?
@@ -700,13 +700,13 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
     return false
 
 #browser_focus_changed = (new_focused) ->
-#  console.log "browser focus changed: #{new_focused}"
+#  dlog "browser focus changed: #{new_focused}"
 
 current_idlestate = 'active'
 
 chrome.idle.onStateChanged.addListener (idlestate) ->
   current_idlestate := idlestate
-  console.log "idle state changed: #{idlestate}"
+  dlog "idle state changed: #{idlestate}"
 
 prev_browser_focused = false
 setInterval ->
@@ -723,7 +723,7 @@ export list_current_tab_ids = ->
     output = {}
     for tab in tabs
       output[tab.url] = tab.id
-    console.log output
+    dlog output
 */
 
 setInterval (cfy ->*
@@ -738,13 +738,13 @@ setInterval (cfy ->*
     return
   current_domain = url_to_domain(active_tab.url)
   current_day = get_days_since_epoch()
-  # console.log "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
+  # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
   session_id = yield get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
-  #console.log "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
+  #dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
   yield addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
   yield addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
   #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
-  #  console.log "total seconds spent on #{current_domain} today is #{total_seconds}"
+  #  dlog "total seconds spent on #{current_domain} today is #{total_seconds}"
 ), 1000
 
 do ->
@@ -769,12 +769,12 @@ setInterval (cfy ->*
   if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
     return
   current_domain = url_to_domain(active_tab.url)
-  console.log "current domain is #{current_domain}"
-  console.log "current tab id is #{active_tab.id}"
+  dlog "current domain is #{current_domain}"
+  dlog "current tab id is #{active_tab.id}"
   session_id = yield get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
-  console.log "session_id: #{session_id}"
+  dlog "session_id: #{session_id}"
   seconds_spent = yield get_seconds_spent_on_domain_in_session(current_domain, session_id)
-  console.log "seconds spent: #{seconds_spent}"
+  dlog "seconds spent: #{seconds_spent}"
 ), 1000
 */
 

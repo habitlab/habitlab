@@ -50,6 +50,7 @@ swal = require 'sweetalert2'
 {
   localstorage_getjson
   localstorage_setjson
+  localstorage_getbool
   localstorage_setbool
 } = require 'libs_common/localstorage_utils'
 
@@ -119,6 +120,9 @@ polymer_ext {
   
   noValidInterventions: ->
     return this.goals_and_interventions.length === 0
+  
+  is_debug_terminal_enabled: ->
+    return localstorage_getjson('enable_debug_terminal')
 
   temp_disable_button_clicked: cfy (evt) ->*
     self = this
@@ -267,7 +271,9 @@ polymer_ext {
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
 
-    if self.enabledInterventions.length == 0
+    if localstorage_getbool('debug_terminal_is_default') and localstorage_getbool('enable_debug_terminal')
+      self.selected_tab_idx = 2
+    else if self.enabledInterventions.length == 0
       self.selected_tab_idx = 1
 
     self.S('#resultsButton').click(->

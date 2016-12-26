@@ -75,6 +75,12 @@ polymer_ext {
       js: ->
         localStorage.removeItem('debug_terminal_livescript')
         term_div.echo messages_javascript.join('\n')
+      makedefault: ->
+        localstorage_setbool('debug_terminal_is_default', true)
+        term_div.echo 'Debug Terminal is now the default tab in popup-view'
+      resetdefault: ->
+        localstorage_setbool('debug_terminal_is_default', false)
+        term_div.echo 'Debug Terminal is no longer the default tab in popup-view'
       help: ->
         messages_help = [
           'The following commands are available:'
@@ -83,6 +89,8 @@ polymer_ext {
           '#global alias for window.customeval = null'
           '#local alias for window.customeval = window.localeval'
           '#debug alias for window.customeval = window.debugeval'
+          '#makedefault makes this terminal the default tab in popup-view'
+          '#resetdefault resets the default tab in popup-view'
           ''
           'Use uselib() to import jspm libraries.'
           'The first argument is the library name (under SystemJS, see jspm)'
@@ -114,7 +122,7 @@ polymer_ext {
         term_div.echo messages_help.join('\n')
     }
     aliases = {
-      '#local': '''
+      local: '''
         if (window.localeval) {
           window.customeval = window.localeval;
           hlog([
@@ -127,7 +135,7 @@ polymer_ext {
           hlog('window.localeval is not defined');
         }
       '''
-      '#debug': '''
+      debug: '''
         if (window.debugeval) {
           window.customeval = window.debugeval;
           hlog([
@@ -140,9 +148,9 @@ polymer_ext {
           hlog('window.debugeval is not defined');
         }
       '''
-      '#global': '''
+      global: '''
         window.customeval = null;
-          hlog('#global has reset window.customeval to global eval')
+          hlog('#global has reset window.customeval to global eval');
       '''
     }
     custom_commands.javascript = custom_commands.js
@@ -150,12 +158,16 @@ polymer_ext {
     terminal_handler = cfy (command, term) ->*
       # TODO: implement a command "livescript" which switches to lsc, and "javascript" which switches to js
       #console.log command
-      if command[0] == '#' and custom_commands[command.substr(1)]?
-        custom_commands[command.substr(1)]()
-        return
-      if aliases[command]?
-        command = aliases[command]
-      else if localstorage_getbool('debug_terminal_livescript')
+      is_livescript = localstorage_getbool('debug_terminal_livescript')
+      if command[0] == '#'
+        after_hash = command.substr(1)
+        if custom_commands[after_hash]?
+          custom_commands[after_hash]()
+          return
+        if aliases[after_hash]?
+          command = aliases[after_hash]
+          is_livescript = false
+      if is_livescript
         livescript = yield System.import('livescript15')
         try
           command = livescript.compile(command, {bare: true, header: false})

@@ -168,7 +168,9 @@
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Active Intervention</paper-tab>
             <paper-tab>Available Goals and Interventions</paper-tab>
-            <paper-tab>Debug</paper-tab>
+            <template is="dom-if" if="{{is_debug_terminal_enabled()}}">
+              <paper-tab>Debug</paper-tab>
+            </template>
           </paper-tabs>
 
           <iron-pages selected="{{selected_tab_idx}}">
@@ -219,11 +221,13 @@
               </template>
             </iron-page>
 
-            <iron-page id="debugPage">
-              <div style="display: inline-block; width: 566px; height: 400px">
-                <terminal-view id="debug_terminal_view"></terminal-view>
-              </div>
-            </iron-page>
+            <template is="dom-if" if="{{is_debug_terminal_enabled()}}">
+              <iron-page id="debugPage">
+                <div style="display: inline-block; width: 566px; height: 400px">
+                  <terminal-view id="debug_terminal_view"></terminal-view>
+                </div>
+              </iron-page>
+            </template>
 
           </iron-pages>
         </paper-card>

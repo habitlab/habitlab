@@ -31,7 +31,9 @@ export is_less_than_or_equal_to = (cond, val) ->
   return cond <= val
 
 export first_elem = (list) ->
-  return list[0]
+  if list? and list.length > 0
+    return list[0]
+  return
 
 export at_index = (list, index) ->
   return list[index]

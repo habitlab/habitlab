@@ -22,6 +22,7 @@ require! {
   'chrome-web-store-item-property'
 }
 
+fse = require 'fs-extra'
 webpack-stream = require 'webpack-stream-watch'
 
 process.on 'unhandledRejection', (reason, p) ->
@@ -95,9 +96,15 @@ copypattern = [
   'src/components/**/*.js'
   'src/node_modules_custom/**/*.js'
   'src/node_modules_custom/**/*.css'
-  '!src/components/components.html'
   '!src/**/*.deps.js'
+  '!src/**/*.jspm.js'
 ]
+
+#copyjspmpattern = [
+#  'src/components/**/*.jspm.js'
+#  'src/components/*.jspm.js'
+#  'src/bower_components/**/*.jspm.js'
+#]
 
 copyrootpattern = [
   'jspm.config.js'
@@ -346,6 +353,14 @@ gulp.task 'copy_build', ->
   #.pipe(gulp-print( -> "copy: #{it}" ))
   .pipe(gulp.dest('dist'))
 
+#gulp.task 'copy_jspm_build', ->
+#  console.log glob.sync('src/components/*.jspm.js')
+#  #console.log gulp.src(copyjspmpattern, {base: 'src'}).pipe(gulp-print( -> "copy_jspm_available_files: #{it}" ))
+#  return gulp.src(copyjspmpattern, {base: 'src'})
+#  #.pipe(gulp-changed('dist'))
+#  .pipe(gulp-print( -> "copy_jspm: #{it}" ))
+#  .pipe(gulp.dest('dist'))
+
 gulp.task 'copy_root_build', ->
   return gulp.src(copyrootpattern, {base: ''})
   .pipe(gulp-changed('dist'))
@@ -357,10 +372,33 @@ gulp.task 'generate_polymer_dependencies', (done) ->
   gen_deps.generate_dependencies_for_all_files_in_src_path()
   done()
 
+copy_file_patterns = (patterns, overwrite) ->
+  if not overwrite?
+    overwrite = false
+  for pattern in patterns
+    copy_file_pattern pattern, overwrite
+  return
+
+copy_file_pattern = (pattern, overwrite) ->
+  if not overwrite?
+    overwrite = false
+  files_list = glob.sync path.join('src', pattern)
+  existing_files_list = glob.sync path.join('dist', pattern)
+  existing_files = {[x, true] for x in existing_files_list}
+  for src_file in files_list
+    dist_file = src_file.replace(/^src\//, 'dist/')
+    if not overwrite
+      if existing_files[dist_file]?
+        continue
+    fse.copySync src_file, dist_file
+  return
+
 gulp.task 'generate_polymer_dependencies_jspm', (done) ->
   gen_deps.set_src_path(path.join(process.cwd(), 'src'))
   gen_deps.set_options({target_jspm: true})
   gen_deps.generate_dependencies_for_all_files_in_src_path()
+  copy_file_pattern 'bower_components/**/*.jspm.js', false
+  copy_file_pattern 'components/**/*.jspm.js', true
   done()
 
 gulp.task 'generate_interventions_list', (done) ->

@@ -24,6 +24,8 @@ You can sideload the extension by going to [chrome://extensions](chrome://extens
 
 If you open the developer console (`Command-Option-J` on macOS, or `Control-Shift-J` on Windows) and type `developer_options()` this will take you to the developer options page, which has some configuration options useful for developers. (If using Opera as your browser, enable the `Show URL bar` option on the developer options page).
 
+You may also wish to check the `Disable cache` option under the Network tab of the Chrome developer console.
+
 ## Adding an intervention
 
 First add an directory under the [`src/interventions`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions) directory. It should contain 2 files: `info.yaml` and `frontend.ls`. Follow [`facebook/remove_news_feed`](https://github.com/habitlab/habitlab-chrome/tree/master/src/interventions/facebook/remove_news_feed) as an example of how these files should look like.

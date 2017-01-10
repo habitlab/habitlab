@@ -7,9 +7,7 @@
   get_baseline_time_on_domains
 } = require 'libs_backend/history_utils'
 
-require! {
-  prelude
-}
+prelude = require 'prelude-ls'
 
 sorted_by_values_descending = (dict) ->
   items = [[k,v] for k,v of dict]

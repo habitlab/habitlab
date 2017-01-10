@@ -1,6 +1,4 @@
-require! {
-  prelude
-}
+prelude = require 'prelude-ls'
 
 {
   get_interventions

@@ -10,14 +10,6 @@
 
 {cfy} = require 'cfy'
 
-require! {
-  async
-}
-
-require! {
-  prelude
-}
-
 polymer_ext {
   is: 'graph-donut-top-sites'
   properties: {

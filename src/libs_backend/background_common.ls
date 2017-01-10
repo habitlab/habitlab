@@ -1,7 +1,3 @@
-require! {
-  async
-}
-
 {
   gexport
   gexport_module

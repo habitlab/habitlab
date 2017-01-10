@@ -1,7 +1,8 @@
 require! {
   async
-  prelude
 }
+
+prelude = require 'prelude-ls'
 
 {
   getlist

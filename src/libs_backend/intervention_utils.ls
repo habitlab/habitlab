@@ -1,10 +1,11 @@
 $ = require 'jquery'
 
 require! {
-  prelude
   moment
   mathjs
 }
+
+prelude = require 'prelude-ls'
 
 {
   memoizeSingleAsync

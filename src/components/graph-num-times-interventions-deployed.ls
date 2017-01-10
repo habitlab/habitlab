@@ -15,14 +15,6 @@
 
 {cfy} = require 'cfy'
 
-require! {
-  async
-}
-
-require! {
-  prelude
-}
-
 polymer_ext {
   is: 'graph-num-times-interventions-deployed'
   properties: {

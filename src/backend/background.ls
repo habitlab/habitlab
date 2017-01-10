@@ -89,7 +89,6 @@ require 'libs_backend/expose_backend_libs'
 } = require 'libs_common/localstorage_utils'
 
 require! {
-  async
   moment
   'promise-debounce'
 }

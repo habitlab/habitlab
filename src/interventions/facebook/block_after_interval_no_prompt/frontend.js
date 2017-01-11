@@ -1,10 +1,3 @@
-(() => {
-
-if (window.block_after_interval_daily) {
-  return
-}
-window.block_after_interval_daily = true
-
 const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')
@@ -211,5 +204,4 @@ window.onload = () => {
   });
 }
 
-
-})()
+window.debugeval = x => eval(x);

@@ -53,3 +53,5 @@ function closeNotif(notifId) {
   chrome.notifications.clear(notifId, function callback(wasCleared) {        
   });  
 }
+
+window.debugeval = x => eval(x);

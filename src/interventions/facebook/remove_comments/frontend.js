@@ -66,3 +66,6 @@ document.body.addEventListener('disable_intervention', (intervalID) => {
   $('.habitlab_button_container').remove()
   showComments();
 });
+
+
+window.debugeval = x => eval(x);

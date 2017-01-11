@@ -158,3 +158,5 @@ setTimeout(begin, 3000);
 document.body.addEventListener('disable_intervention', function() {
   $('.habitlab_inserted').remove()
 })
+
+window.debugeval = x => eval(x);

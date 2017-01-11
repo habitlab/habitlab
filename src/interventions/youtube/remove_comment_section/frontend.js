@@ -59,3 +59,5 @@ showFeed(window.intervalID);
     - remember, that polymer component is then required into the dashboard
     - visual studio code
 */
+
+window.debugeval = x => eval(x);

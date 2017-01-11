@@ -60,3 +60,4 @@ document.body.addEventListener('disable_intervention', (intervalID) => {
   removeCB = false;
 });
 
+window.debugeval = x => eval(x);

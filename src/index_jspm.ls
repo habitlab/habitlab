@@ -93,7 +93,8 @@ start_page_index = cfy ->*
   {index_body_width, index_body_height} = params
   if not tagname?
     tagname = 'debug-view'
-  yield System.import('components/components.jspm')
+  yield System.import('components/' + tagname + '.jspm')
+  #yield System.import('components/components.jspm')
   #require 'components/components.deps'
   #set_intervention window.intervention
   tag = document.createElement(tagname)

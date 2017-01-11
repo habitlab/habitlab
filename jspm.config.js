@@ -11,6 +11,7 @@ SystemJS.config({
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
     "js-yaml": "npm:js-yaml@3.7.0",
+    "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
     "livescript15": "npm:livescript15@1.5.4",
     "async": "npm:async@2.0.1",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",

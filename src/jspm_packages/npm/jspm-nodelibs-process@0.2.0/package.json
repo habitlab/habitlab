@@ -1,0 +1,12 @@
+{
+  "main": "./process.js",
+  "name": "jspm-nodelibs-process",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./process.js": {
+      "node": "./process-node.js"
+    }
+  },
+  "jspmNodeConversion": false
+}

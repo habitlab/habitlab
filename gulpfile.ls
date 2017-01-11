@@ -117,8 +117,8 @@ webpack_pattern = [
   'src/backend/background.ls'
   'src/index.ls'
   'src/index_jspm.ls'
-  #'src/options.ls'
-  #'src/popup.ls'
+  'src/options.ls'
+  'src/popup.ls'
 ]
 
 webpack_pattern_content_scripts = [
@@ -662,7 +662,7 @@ gulp.task 'watch', ['build'], (done) ->
   done()
 */
 
-gulp.task 'release', gulp.series 'newver', 'clean', 'build', 'mkzip'
+gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip'
 
 gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch'))
 

@@ -132,6 +132,7 @@ webpack_pattern_content_scripts = [
   'src/frontend_utils/*.js'
   #'src/components_skate/components_skate.js'
   '!src/**/*.deps.js'
+  '!src/**/*.jspm.js'
 ]
 
 webpack_vulcanize_pattern = [
@@ -151,6 +152,7 @@ vulcanize_watch_pattern = [
   'src/components/**/*.js'
   'src/components/**/*.ls'
   '!src/**/*.deps.js'
+  '!src/**/*.jspm.js'
 ]
 
 eslint_config = js-yaml.safeLoad fs.readFileSync('.eslintrc.yaml', 'utf-8')

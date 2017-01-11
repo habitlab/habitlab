@@ -1,0 +1,49 @@
+#parser: 'babel-eslint'
+parserOptions:
+  sourceType: 'script'
+  ecmaVersion: 6
+  ecmaFeatures:
+    'impliedStrict': true
+    # 'jsx': true
+plugins:
+  #- 'jsx-control-statements'
+extends:
+  - 'eslint:recommended'
+  #- 'plugin:jsx-control-statements/recommended'
+#env:
+#  "jsx-control-statements/jsx-control-statements": true
+env:
+  'es6': true
+  'browser': true
+  'webextensions': true
+  'commonjs': true
+  #'node': true
+globals:
+  #'$': true
+  'SystemJS': true
+  'require': true
+  'env': true
+  'exports': true
+  'module': true
+  'global_exports': true
+  'Polymer': true
+  'intervention': true
+  'tab_id': true
+  'jsyaml': true
+  'IS_CONTENT_SCRIPT': true
+rules:
+  'no-console': 'off'
+  'no-unused-vars': 'off'
+  'require-yield': 'off'
+  #'no-unused-vars': ['warn', {args: 'none', vars: 'local'}]
+  'comma-dangle': ['warn', 'only-multiline']
+  #'strict': 2
+  # "jsx-control-statements/jsx-choose-not-empty": 1
+  # "jsx-control-statements/jsx-for-require-each": 1
+  # "jsx-control-statements/jsx-for-require-of": 1
+  # "jsx-control-statements/jsx-if-require-condition": 1
+  # "jsx-control-statements/jsx-otherwise-once-last": 1
+  # "jsx-control-statements/jsx-use-if-tag": 1
+  # "jsx-control-statements/jsx-when-require-condition": 1
+  # "jsx-control-statements/jsx-jcs-no-undef": 1
+  # "no-undef": 0 # Replace this with jsx-jcs-no-undef

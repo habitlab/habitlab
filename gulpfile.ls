@@ -65,6 +65,7 @@ eslintpattern = [
   '!src/bower_components/**/*.js'
   '!src_gen/bower_components/**/*.js'
   '!src/**/*.deps.js'
+  '!src/**/*.jspm.js'
   '!src/jspm_packages/**/*.js'
   '!src_gen/jspm_packages/**/*.js'
   '!src/node_modules_custom/**/*.js'
@@ -152,6 +153,9 @@ vulcanize_watch_pattern = [
   '!src/**/*.deps.js'
 ]
 
+eslint_config = js-yaml.safeLoad fs.readFileSync('.eslintrc.yaml', 'utf-8')
+eslint_config.globals = Object.keys(eslint_config.globals)
+
 gulp.task 'livescript_srcgen', ->
   gulp.src(lspattern_srcgen, {base: 'src'})
   .pipe(gulp-changed('src_gen', {extension: '.js'}))
@@ -169,63 +173,7 @@ gulp.task 'js_srcgen', ->
 gulp.task 'eslint', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'), ->
   gulp.src(eslintpattern, {base: 'src'})
   #.pipe(gulp-print( -> "eslint_frontend: #{it}" ))
-  .pipe(gulp-eslint({
-    #parser: 'babel-eslint'
-    parserOptions: {
-      sourceType: 'script'
-      ecmaVersion: 6
-      ecmaFeatures: {
-        'impliedStrict': true
-        # 'jsx': true
-      }
-    }
-    plugins: [
-      # 'jsx-control-statements'
-    ]
-    extends: [
-      'eslint:recommended'
-      #'plugin:jsx-control-statements/recommended'
-    ]
-    env: {
-      "jsx-control-statements/jsx-control-statements": true
-    }
-    envs: [
-      'es6'
-      'browser'
-      'webextensions'
-      #'node'
-    ]
-    globals: [
-      #'$'
-      'SystemJS'
-      'require'
-      'env'
-      'exports'
-      'module'
-      'global_exports'
-      'Polymer'
-      'intervention'
-      'tab_id'
-      #'jsyaml'
-      #'IS_CONTENT_SCRIPT'
-    ]
-    rules: {
-      'no-console': 'off'
-      'no-unused-vars': 'off'
-      #'no-unused-vars': ['warn', {args: 'none', vars: 'local'}]
-      'comma-dangle': ['warn', 'only-multiline']
-      #'strict': 2
-      # "jsx-control-statements/jsx-choose-not-empty": 1
-      # "jsx-control-statements/jsx-for-require-each": 1
-      # "jsx-control-statements/jsx-for-require-of": 1
-      # "jsx-control-statements/jsx-if-require-condition": 1
-      # "jsx-control-statements/jsx-otherwise-once-last": 1
-      # "jsx-control-statements/jsx-use-if-tag": 1
-      # "jsx-control-statements/jsx-when-require-condition": 1
-      # "jsx-control-statements/jsx-jcs-no-undef": 1
-      # "no-undef": 0 # Replace this with jsx-jcs-no-undef
-    }
-  }))
+  .pipe(gulp-eslint(eslint_config))
   .pipe(gulp-eslint.formatEach('compact', process.stderr))
 
 gulp.task 'livescript_build', ->

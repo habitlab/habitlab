@@ -142,7 +142,10 @@ load_background_script = cfy (options, intervention_info) ->*
   if running_background_scripts[options.path]?
     # already running
     return
-  background_script_text = yield $.get options.path
+  if options.code?
+    background_script_text = options.code
+  else
+    background_script_text = yield $.get options.path
   background_script_function = new Function('env', background_script_text)
   env = {
     intervention_info: intervention_info
@@ -254,7 +257,10 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
   })
   """
   for options in content_script_options
-    content_script_code = yield $.get options.path
+    if options.code?
+      content_script_code = options.code
+    else
+      content_script_code = yield $.get options.path
     content_script_code = """
 if (!window.allowed_interventions) {
   window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
@@ -276,8 +282,10 @@ if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.lo
     const tab_id = #{tabId};
     const dlog = function(...args) { console.log(...args); };
 
+    if (!window.SystemJS) {
+      #{systemjs_content_script_code}
+    }
     #{content_script_code}
-    #{systemjs_content_script_code}
     #{debug_content_script_code_with_hlog}
   }
 }

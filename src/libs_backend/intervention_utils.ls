@@ -238,10 +238,14 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
   fix_content_script_options = (options, intervention_name) ->
     if typeof options == 'string'
       options = {path: options}
-    if options.path[0] == '/'
-      options.path = options.path.substr(1)
+    if options.code?
+      if not options.path?
+        options.path = 'content_script_' + Math.floor(Math.random()*1000000)
     else
-      options.path = "/interventions/#{intervention_name}/#{options.path}"
+      if options.path[0] == '/'
+        options.path = options.path.substr(1)
+      else
+        options.path = "/interventions/#{intervention_name}/#{options.path}"
     if not options.run_at?
       options.run_at = 'document_end' # document_start
     if not options.all_frames?
@@ -250,10 +254,14 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
   fix_background_script_options = (options, intervention_name) ->
     if typeof options == 'string'
       options = {path: options}
-    if options.path[0] == '/'
-      options.path = options.path.substr(1)
+    if options.code?
+      if not options.path?
+        options.path = 'background_script_' + Math.floor(Math.random()*1000000)
     else
-      options.path = "/interventions/#{intervention_name}/#{options.path}"
+      if options.path[0] == '/'
+        options.path = options.path.substr(1)
+      else
+        options.path = "/interventions/#{intervention_name}/#{options.path}"
     return options
   fix_intervention_parameter = (parameter, intervention_info) ->
     if not parameter.name?

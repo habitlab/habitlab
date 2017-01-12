@@ -19,7 +19,7 @@ polymer_ext {
       type: Array
       value: [
         {
-          category: 'General Habitlab Developer Options'
+          category: 'General HabitLab Developer Options'
           options: [
             {
               name: 'display_dlog'

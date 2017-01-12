@@ -92,7 +92,7 @@ document.body.appendChild(reward_display[0])
 //  close_selected_tab()
 //})
 
-//Injects a message from Habitlab when the message button is clicked only the first time
+//Injects a message from HabitLab when the message button is clicked only the first time
 function insertClickNotification() {
   var selected = false;
 

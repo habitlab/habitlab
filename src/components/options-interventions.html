@@ -304,16 +304,24 @@
           <paper-button class="works-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Intervention Details</paper-button>
 
           <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list">
+
+            <!--
             <br>
             <div style="font-size: 20px;"> HabitLab's algorithm chooses an intervention to show you from the ones in the Sometimes Shown category.</div>
+            -->
 
             <template is="dom-repeat" items="{{sort_custom_goals_and_interventions_after(goals_and_interventions)}}" as="goal_and_interventions">
               <h3>{{goal_and_interventions.goal.description}}</h3>
+
+              <div style="font-size: 16px">Each time you visit <span>{{goal_and_interventions.goal.sitename_printable}}</span>, HabitLab will choose one of the enabled interventions to deploy:</div>
+              <br>
               <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
                 <intervention-view-single  goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
                 <br><br>
               </template>
+
             </template>
+
           </div>
         </paper-card>
       </div>

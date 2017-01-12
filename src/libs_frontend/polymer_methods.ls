@@ -35,6 +35,16 @@ export first_elem = (list) ->
     return list[0]
   return
 
+export get_key = (obj, key) ->
+  if obj?
+    return obj[key]
+  return
+
+export get_key_for_first_elem = (list, key) ->
+  if list? and list[0]?
+    return list[0][key]
+  return
+
 export at_index = (list, index) ->
   return list[index]
 

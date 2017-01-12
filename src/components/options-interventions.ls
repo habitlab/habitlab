@@ -200,10 +200,17 @@ polymer_ext {
     evt.target.style.display = "none"
     this.$$('#intro2').style.display = "block"
 
+  #intro2_read: (evt) ->
+  #  evt.target.style.display = "none"
+  #  this.$$('#intro3').style.display = "block"
+  #  window.scrollTo 0, document.body.scrollHeight
+
   intro2_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro3').style.display = "block"
+    this.$$('#intro4').style.display = "block"
+    this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
     window.scrollTo 0, document.body.scrollHeight
+    console.log evt
 
   show_how_hl_works: (evt) ->
     evt.target.style.display = "none"
@@ -244,6 +251,7 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
     this.$$('#configurations').style.display = "block"
+    this.$$('#intro3').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   toggle_interventions: (evt) ->

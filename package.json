@@ -3,7 +3,6 @@
   "private": true,
   "description": "",
   "dependencies": {
-    "async": "^2.0.0-rc.6",
     "async-debounce-jt": "^1.0.1",
     "cfy": "^1.0.18",
     "co": "^4.6.0",

@@ -135,7 +135,7 @@
 
           <iron-pages selected={{selected_intervention_effectiveness_idx}}>
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
-              <div><graph-intervention-effectiveness-comparison goal_info="{{first_elem(site_info.goal)}}"></graph-intervention-effectiveness-comparison></div>
+              <div><graph-intervention-effectiveness-comparison goal_info="{{first_elem(site_info.goals)}}"></graph-intervention-effectiveness-comparison></div>
             </template>
           </iron-pages>
         </div>

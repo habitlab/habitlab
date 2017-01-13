@@ -1,5 +1,3 @@
-$ = require 'jquery'
-
 require! {
   moment
   mathjs
@@ -45,8 +43,7 @@ getInterventionInfo = cfy (intervention_name) ->*
   cached_val = cached_get_intervention_info[intervention_name]
   if cached_val?
     return JSON.parse JSON.stringify cached_val
-  intervention_info_text = yield $.get "/interventions/#{intervention_name}/info.json"
-  intervention_info = JSON.parse intervention_info_text
+  intervention_info = yield fetch("/interventions/#{intervention_name}/info.json").then((.json!))
   intervention_info.name = intervention_name
   intervention_info.sitename = intervention_name.split('/')[0]
   cached_get_intervention_info[intervention_name] = intervention_info
@@ -160,7 +157,7 @@ export add_new_intervention = cfy (intervention_info) ->*
   yield add_new_interventions [intervention_info]
   /*
   add_new_intervention({
-    
+
   })
   */
 
@@ -202,8 +199,8 @@ export list_generic_interventions = memoizeSingleAsync cfy ->*
   cached_generic_interventions = localStorage.getItem 'cached_list_generic_interventions'
   if cached_generic_interventions?
     return JSON.parse cached_generic_interventions
-  interventions_list_text = yield $.get '/interventions/interventions.json'
-  generic_interventions_list = JSON.parse(interventions_list_text).filter -> it.startsWith('generic/')
+  interventions_list = yield fetch('/interventions/interventions.json').then((.json!))
+  generic_interventions_list = interventions_list.filter -> it.startsWith('generic/')
   localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
   return generic_interventions_list
 
@@ -217,8 +214,7 @@ export list_all_interventions = cfy ->*
     return JSON.parse cached_list_all_interventions
     #local_cache_list_all_interventions := JSON.parse cached_list_all_interventions
     #return local_cache_list_all_interventions
-  interventions_list_text = yield $.get '/interventions/interventions.json'
-  interventions_list = JSON.parse interventions_list_text
+  interventions_list = yield fetch('/interventions/interventions.json').then((.json!))
   interventions_list_extra_text = localStorage.getItem 'extra_list_all_interventions'
   if interventions_list_extra_text?
     interventions_list_extra = JSON.parse interventions_list_extra_text

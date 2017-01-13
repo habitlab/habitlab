@@ -261,6 +261,16 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
       content_script_code = options.code
     else
       content_script_code = yield $.get options.path
+    if options.jspm_require
+      content_script_code = """
+      System.import('co').then(function(co) {
+        co(function*() {
+          const systemjs_require = yield System.import('libs_common/systemjs_require')
+          const require = yield make_require(#{options.jspm_deps})
+          #{content_script_code}
+        })
+      })
+      """
     content_script_code = """
 if (!window.allowed_interventions) {
   window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};

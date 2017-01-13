@@ -156,6 +156,9 @@ export generate_interventions_for_domain = cfy (domain) ->*
   yield add_new_interventions new_intervention_info_list
   return
 
+export add_new_intervention = cfy (intervention_info) ->*
+  yield add_new_interventions [intervention_info]
+
 export add_new_interventions = cfy (intervention_info_list) ->*
   extra_get_interventions = localStorage.getItem 'extra_get_interventions'
   if extra_get_interventions?

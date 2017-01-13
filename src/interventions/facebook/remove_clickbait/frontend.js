@@ -37,11 +37,11 @@ function addNotification() {
 
 function removeClickBait() {
   if (removeCB) {
-    for (const item of $('._5g-l')) {
+    for (let item of $('._5g-l')) {
       var suggestedPost = $(item).closest('div[class^="_5jmm _5pat _3lb4 w_dqmgvr46j _x72"]')
       suggestedPost.remove()
     }
-    for (const item of $('.uiStreamSponsoredLink')) {
+    for (let item of $('.uiStreamSponsoredLink')) {
       var sponsored = $(item).closest('div[class^="_5jmm _5pat _3lb4 w_dqmgvr46j _x72"]')
       sponsored.remove()
     }

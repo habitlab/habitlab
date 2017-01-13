@@ -24,7 +24,7 @@ require('bower_components/paper-button/paper-button.deps')
 
 //Removes comments
 function removeComments() {
-  for (const item of $('.commentable_item')) {
+  for (let item of $('.commentable_item')) {
     if (!$(item).prop('button_inserted')) {
       $(item).css('display','none')
       $(item).prop('button_inserted', true)
@@ -50,7 +50,7 @@ function removeComments() {
 
 // showComments
 function showComments() {
-  for (const item of $('.commentable_item')) {
+  for (let item of $('.commentable_item')) {
     if ($(item).prop('button_inserted')) {
       $(item).css('display','block')
       $(this).siblings('.habitlab_button_container').remove()

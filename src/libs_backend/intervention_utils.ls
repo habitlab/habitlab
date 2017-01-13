@@ -158,6 +158,11 @@ export generate_interventions_for_domain = cfy (domain) ->*
 
 export add_new_intervention = cfy (intervention_info) ->*
   yield add_new_interventions [intervention_info]
+  /*
+  add_new_intervention({
+    
+  })
+  */
 
 export add_new_interventions = cfy (intervention_info_list) ->*
   extra_get_interventions = localStorage.getItem 'extra_get_interventions'

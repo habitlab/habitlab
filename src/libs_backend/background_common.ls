@@ -22,6 +22,8 @@ chrome_tabs_sendmessage = yfy (tab_id, data, options, callback) ->
 if chrome?tabs?query?
   chrome_tabs_query = yfy(chrome.tabs.query)
 
+chrome_storage_sync = chrome.storage?sync ? chrome.storage?local
+
 cached_user_id = null
 
 export get_user_id = cfy ->*
@@ -31,7 +33,7 @@ export get_user_id = cfy ->*
   else
     cached_user_id := null
     localStorage.removeItem('userid')
-    yield add_noerr -> chrome.storage.sync.remove 'userid', it
+    yield add_noerr -> chrome_storage_sync.remove 'userid', it
     return yield get_user_id_real()
 
 get_user_id_real = cfy ->*
@@ -41,7 +43,7 @@ get_user_id_real = cfy ->*
   if userid?
     cached_user_id := userid
     return userid
-  items = yield add_noerr -> chrome.storage.sync.get 'userid', it
+  items = yield add_noerr -> chrome_storage_sync.get 'userid', it
   userid = items.userid
   if userid?
     cached_user_id := userid
@@ -50,7 +52,7 @@ get_user_id_real = cfy ->*
   userid = generate_random_id()
   cached_user_id := userid
   localStorage.setItem('userid', userid)
-  yield -> chrome.storage.sync.set {userid}, it
+  yield -> chrome_storage_sync.set {userid}, it
   return userid
 
 export send_message_to_active_tab = cfy (type, data) ->*

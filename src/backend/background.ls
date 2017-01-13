@@ -601,7 +601,8 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
 
 current_idlestate = 'active'
 
-chrome.idle.onStateChanged.addListener (idlestate) ->
+# not supported by firefox
+chrome.idle?onStateChanged?addListener? (idlestate) ->
   current_idlestate := idlestate
   dlog "idle state changed: #{idlestate}"
 

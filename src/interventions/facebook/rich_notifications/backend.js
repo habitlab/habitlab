@@ -44,9 +44,11 @@ chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
 });
 
 function closeTab() {
-    chrome.tabs.getSelected(function(tab) {
-    chrome.tabs.remove(tab.id);
-  });
+  chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, function(tabs) {
+    for (let tab of tabs) {
+      chrome.tabs.remove(tab.id)
+    }
+  })
 }
 
 function closeNotif(notifId) {

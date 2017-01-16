@@ -1,8 +1,10 @@
 {cfy, yfy} = require 'cfy'
 
 export close_selected_tab = cfy ->*
-  tab = yield yfy(chrome.tabs.getSelected)()
-  chrome.tabs.remove(tab.id)
+  chrome_tabs_query = yfy(chrome.tabs.query)
+  tabs = yield chrome_tabs_query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT})
+  if tabs[0]?
+    chrome.tabs.remove(tabs[0].id)
   return
 
 export close_tab_with_id = cfy (tab_id) ->*
@@ -14,5 +16,8 @@ export open_url_in_new_tab = cfy (url) ->*
   return
 
 export get_selected_tab_id = cfy ->*
-  tab = yield yfy(chrome.tabs.getSelected)()
-  return tab.id
+  chrome_tabs_query = yfy(chrome.tabs.query)
+  tabs = yield chrome_tabs_query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT})
+  if tabs[0]?
+    return tabs[0].id
+  return

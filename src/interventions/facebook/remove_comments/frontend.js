@@ -16,6 +16,7 @@ const {
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
+require('components/feedback-button.deps')
 require('components/close-tab-button.deps')
 //require('components/timespent-view.deps')
 
@@ -34,13 +35,15 @@ function removeComments() {
           $(item).siblings('.habitlab_button_container').remove()
           $(item).css('display','block')
       })
-      var habitlab_logo = $('<habitlab-logo style="position: relative; top: 13px"></habit-lab-logo>')
+      var habitlab_logo = $('<habitlab-logo style="position: relative; top: 13px"></habitlab-logo>')
+      var feedback_button = $('<feedback-button style="position: relative; top: 13px"></feedback-button>')
       var close_tab_button = $('<close-tab-button style="height: 40px"</close-tab-button>')
       var button_container = $('<div class="habitlab_button_container" style="text-align: center"></div>')
       button_container.append([
         show_comments_button,
         close_tab_button,
-        habitlab_logo
+        habitlab_logo,
+        feedback_button
       ])
 
       $(item).parent().append(button_container)

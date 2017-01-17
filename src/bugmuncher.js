@@ -64,6 +64,19 @@ window.bugmuncher = new function() {
         }), !1
     }
 
+    window.open_bugmuncher = function() {
+      window.bugmuncher_options = {
+        //api_key: "b746ad902aa9cf4d33f5"
+        api_key: 'b53059b110c08683bf98'
+      };
+      e();
+      t();
+      document.querySelector('#bugmuncher_button').style.display = 'none';
+      document.querySelector('#bugmuncher_button').style.opacity = 0;
+      document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
+      r();
+    }
+
     function i() {
         var e = b.viewport_size(),
             t = b.page_size(),

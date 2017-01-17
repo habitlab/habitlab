@@ -7,9 +7,10 @@ $ = require 'jquery'
 
 require! {
   moment
-  prelude
   mathjs
 }
+
+prelude = require 'prelude-ls'
 
 export get_pages_visited_today = cfy ->*
   yesterday = Date.now() - 24*3600*1000

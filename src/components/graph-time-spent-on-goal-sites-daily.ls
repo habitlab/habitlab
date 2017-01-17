@@ -18,15 +18,6 @@
 
 {cfy} = require 'cfy'
 
-require! {
-  async
-}
-
-require! {
-  prelude
-}
-
-
 polymer_ext {
   is: 'graph-time-spent-on-goal-sites-daily'
   properties: {

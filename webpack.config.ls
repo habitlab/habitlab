@@ -95,7 +95,6 @@ webpack_config = {
       '.js'
     ]
     alias: {
-      'prelude': npmdir 'prelude-ls'
     }
     fallback: [
       fromcwd('src')

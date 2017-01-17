@@ -57,3 +57,5 @@ document.body.addEventListener('disable_intervention', function() {
   timeLeft = -1;
   display_timespent_div.remove()
 })
+
+window.debugeval = x => eval(x);

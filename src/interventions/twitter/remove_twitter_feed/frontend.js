@@ -1,10 +1,3 @@
-(() => {
-
-if (window.remove_twitter_feed) {
-  return
-}
-window.remove_twitter_feed = true
-
 const $ = require('jquery')
 
 const {
@@ -63,4 +56,4 @@ $('.content-main.top-timeline-tweetbox').append(habitlab_logo)
 
 intervalID = window.setInterval(removeFeed, 200);
 
-})()
+window.debugeval = x => eval(x);

@@ -8,8 +8,6 @@
 } = require 'libs_common/disable_habitlab_utils'
 
 swal = require 'sweetalert2'
-require 'components/habitlab-logo.deps'
-require 'bower_components/iron-icon/iron-icon.deps.js'
 
 polymer_ext {
   is: 'options-view'

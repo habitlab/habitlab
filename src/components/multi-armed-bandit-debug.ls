@@ -3,9 +3,10 @@
 {cfy} = require 'cfy'
 
 require! {
-  prelude
   moment
 }
+
+prelude = require 'prelude-ls'
 
 {
   get_multi_armed_bandit_algorithm

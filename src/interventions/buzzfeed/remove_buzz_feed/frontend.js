@@ -1,10 +1,3 @@
-(() => {
-
-if (window.remove_buzz_feed) {
-  return
-}
-window.remove_buzz_feed = true
-
 const $ = require('jquery')
 
 const {
@@ -67,4 +60,4 @@ $('.col1').append($center)
 
 intervalID = window.setInterval(removeFeed, 200);
 
-})()
+window.debugeval = x => eval(x);

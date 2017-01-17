@@ -170,3 +170,4 @@ function main() {
 
 main();
 
+window.debugeval = x => eval(x);

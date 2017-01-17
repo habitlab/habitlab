@@ -257,6 +257,24 @@ polymer_ext {
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
 
+  help_icon_clicked: cfy ->*
+    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    swal {
+      title: 'How HabitLab Works'
+      html: '''
+      HabitLab will help you achieve your goal by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal site.
+      <br><br>
+      At first, HabitLab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
+      <br><br>
+      Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
+      '''
+      allowOutsideClick: true
+      allowEscapeKey: true
+      #showCancelButton: true
+      #confirmButtonText: 'Visit Facebook to see an intervention in action'
+      #cancelButtonText: 'Close'
+    }
+
   ready: cfy ->*
 
     #chrome.browserAction.setBadgeText {text: ''}

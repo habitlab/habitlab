@@ -1,0 +1,12 @@
+{
+  "main": "Sortable.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "jquery.binding.js": {
+      "format": "amd"
+    }
+  }
+}

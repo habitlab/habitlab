@@ -8,8 +8,6 @@ const {
   load_css_file,
 } = require('libs_common/content_script_utils')
 
-require('libs_frontend/polymer_methods.ls') 
-
 const {
   get_minutes_spent_on_domain_today,
 } = require('libs_common/time_spent_utils');
@@ -18,7 +16,11 @@ const {
   url_to_domain,
 } = require('libs_common/domain_utils');
 
-Polymer({
+const {
+  polymer_ext
+} = require('libs_frontend/polymer_utils');
+
+polymer_ext({
   is: 'fb-scroll-block-display',
   properties: {
     intervention: {

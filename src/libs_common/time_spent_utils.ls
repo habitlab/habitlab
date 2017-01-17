@@ -1,7 +1,8 @@
 require! {
   moment
-  prelude
 }
+
+prelude = require 'prelude-ls'
 
 {
   getkey_dictdict

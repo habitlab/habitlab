@@ -82,3 +82,4 @@ document.body.addEventListener('disable_intervention', function() {
 }, true);
 */
 
+window.debugeval = x => eval(x);

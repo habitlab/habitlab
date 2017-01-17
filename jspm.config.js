@@ -10,6 +10,8 @@ SystemJS.config({
     "child_process": "npm:jspm-nodelibs-child_process@0.2.0",
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
+    "js-yaml": "npm:js-yaml@3.7.0",
+    "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
     "livescript15": "npm:livescript15@1.5.4",
     "async": "npm:async@2.0.1",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
@@ -20,6 +22,7 @@ SystemJS.config({
     "events": "npm:jspm-nodelibs-events@0.2.0",
     "fs": "npm:jspm-nodelibs-fs@0.2.0",
     "jquery": "npm:jquery@3.1.0",
+    "mathjs": "npm:mathjs@3.8.1",
     "moment": "npm:moment@2.14.1",
     "os": "npm:jspm-nodelibs-os@0.2.0",
     "path": "npm:jspm-nodelibs-path@0.2.0",
@@ -31,6 +34,7 @@ SystemJS.config({
     "readline": "npm:jspm-nodelibs-readline@0.2.0",
     "repl": "npm:jspm-nodelibs-repl@0.2.0",
     "shuffled": "npm:shuffled@1.0.0",
+    "sortablejs": "npm:sortablejs@1.5.0-rc1",
     "stream": "npm:jspm-nodelibs-stream@0.2.0",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.0",
     "sweetalert2": "npm:sweetalert2@6.2.4",
@@ -338,6 +342,26 @@ SystemJS.config({
     "npm:livescript15@1.5.4": {
       "map": {
         "prelude-ls": "npm:prelude-ls@1.1.2"
+      }
+    },
+    "npm:js-yaml@3.7.0": {
+      "map": {
+        "argparse": "npm:argparse@1.0.9",
+        "esprima": "npm:esprima@2.7.3"
+      }
+    },
+    "npm:argparse@1.0.9": {
+      "map": {
+        "sprintf-js": "npm:sprintf-js@1.0.3"
+      }
+    },
+    "npm:mathjs@3.8.1": {
+      "map": {
+        "complex.js": "npm:complex.js@2.0.1",
+        "decimal.js": "npm:decimal.js@5.0.8",
+        "tiny-emitter": "npm:tiny-emitter@1.0.2",
+        "fraction.js": "npm:fraction.js@3.3.1",
+        "typed-function": "npm:typed-function@0.10.5"
       }
     }
   }

@@ -1,10 +1,3 @@
-(() => {
-
-if (window.rich_notifications) {
-  return
-}
-window.rich_notifications = true
-
 const $ = require('jquery')
 
 const {
@@ -58,4 +51,4 @@ function main() {
 
 $(document).ready(main);
 
-})()
+window.debugeval = x => eval(x);

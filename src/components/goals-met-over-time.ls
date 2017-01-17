@@ -14,11 +14,6 @@
 {cfy} = require 'cfy'
 
 require! {
-  async
-}
-
-require! {
-  prelude
   moment
 }
 

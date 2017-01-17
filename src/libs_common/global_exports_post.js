@@ -1,4 +1,4 @@
-for (const k of Object.keys(window.global_exports)) {
+for (let k of Object.keys(window.global_exports)) {
   window[k] = window.global_exports[k]
 }
 
@@ -16,11 +16,11 @@ function gexport_finish_exporting_modules() {
   if (!window.global_exports.gexport_eval_funcs) {
     return
   }
-  for (const pagename of Object.keys(window.global_exports.gexport_eval_funcs)) {
+  for (let pagename of Object.keys(window.global_exports.gexport_eval_funcs)) {
     const eval_page = window.global_exports.gexport_eval_funcs[pagename]
     const exports_page = eval_page('module.exports')
     window[`exports_${pagename}`] = exports_page
-    for (const k of Object.keys(exports_page)) {
+    for (let k of Object.keys(exports_page)) {
       window[k] = exports_page[k]
     }
     window[`gexport_item_${pagename}`] = (str) => gexport_item(pagename, str)

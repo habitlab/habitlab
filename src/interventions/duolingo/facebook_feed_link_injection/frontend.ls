@@ -185,3 +185,5 @@ root.firststartprocess = setInterval loadfirststart, 5000
 
 #sxl = root.sxl = ->
 #  console.log 'hello world again!'
+
+window.debugeval = -> eval(it)

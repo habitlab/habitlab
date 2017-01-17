@@ -22,6 +22,7 @@ require! {
   'chrome-web-store-item-property'
 }
 
+fse = require 'fs-extra'
 webpack-stream = require 'webpack-stream-watch'
 
 process.on 'unhandledRejection', (reason, p) ->
@@ -64,6 +65,7 @@ eslintpattern = [
   '!src/bower_components/**/*.js'
   '!src_gen/bower_components/**/*.js'
   '!src/**/*.deps.js'
+  '!src/**/*.jspm.js'
   '!src/jspm_packages/**/*.js'
   '!src_gen/jspm_packages/**/*.js'
   '!src/node_modules_custom/**/*.js'
@@ -96,9 +98,15 @@ copypattern = [
   'src/components/**/*.js'
   'src/node_modules_custom/**/*.js'
   'src/node_modules_custom/**/*.css'
-  '!src/components/components.html'
   '!src/**/*.deps.js'
+  '!src/**/*.jspm.js'
 ]
+
+#copyjspmpattern = [
+#  'src/components/**/*.jspm.js'
+#  'src/components/*.jspm.js'
+#  'src/bower_components/**/*.jspm.js'
+#]
 
 copyrootpattern = [
   'jspm.config.js'
@@ -109,8 +117,9 @@ copyrootpattern = [
 webpack_pattern = [
   'src/backend/background.ls'
   'src/index.ls'
-  #'src/options.ls'
-  #'src/popup.ls'
+  'src/index_jspm.ls'
+  'src/options.ls'
+  'src/popup.ls'
 ]
 
 webpack_pattern_content_scripts = [
@@ -124,6 +133,7 @@ webpack_pattern_content_scripts = [
   'src/frontend_utils/*.js'
   #'src/components_skate/components_skate.js'
   '!src/**/*.deps.js'
+  '!src/**/*.jspm.js'
 ]
 
 webpack_vulcanize_pattern = [
@@ -143,7 +153,11 @@ vulcanize_watch_pattern = [
   'src/components/**/*.js'
   'src/components/**/*.ls'
   '!src/**/*.deps.js'
+  '!src/**/*.jspm.js'
 ]
+
+eslint_config = js-yaml.safeLoad fs.readFileSync('.eslintrc.yaml', 'utf-8')
+eslint_config.globals = Object.keys(eslint_config.globals)
 
 gulp.task 'livescript_srcgen', ->
   gulp.src(lspattern_srcgen, {base: 'src'})
@@ -162,63 +176,7 @@ gulp.task 'js_srcgen', ->
 gulp.task 'eslint', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'), ->
   gulp.src(eslintpattern, {base: 'src'})
   #.pipe(gulp-print( -> "eslint_frontend: #{it}" ))
-  .pipe(gulp-eslint({
-    #parser: 'babel-eslint'
-    parserOptions: {
-      sourceType: 'script'
-      ecmaVersion: 6
-      ecmaFeatures: {
-        'impliedStrict': true
-        # 'jsx': true
-      }
-    }
-    plugins: [
-      # 'jsx-control-statements'
-    ]
-    extends: [
-      'eslint:recommended'
-      #'plugin:jsx-control-statements/recommended'
-    ]
-    env: {
-      "jsx-control-statements/jsx-control-statements": true
-    }
-    envs: [
-      'es6'
-      'browser'
-      'webextensions'
-      #'node'
-    ]
-    globals: [
-      #'$'
-      'SystemJS'
-      'require'
-      'env'
-      'exports'
-      'module'
-      'global_exports'
-      'Polymer'
-      'intervention'
-      'tab_id'
-      #'jsyaml'
-      #'IS_CONTENT_SCRIPT'
-    ]
-    rules: {
-      'no-console': 'off'
-      'no-unused-vars': 'off'
-      #'no-unused-vars': ['warn', {args: 'none', vars: 'local'}]
-      'comma-dangle': ['warn', 'only-multiline']
-      #'strict': 2
-      # "jsx-control-statements/jsx-choose-not-empty": 1
-      # "jsx-control-statements/jsx-for-require-each": 1
-      # "jsx-control-statements/jsx-for-require-of": 1
-      # "jsx-control-statements/jsx-if-require-condition": 1
-      # "jsx-control-statements/jsx-otherwise-once-last": 1
-      # "jsx-control-statements/jsx-use-if-tag": 1
-      # "jsx-control-statements/jsx-when-require-condition": 1
-      # "jsx-control-statements/jsx-jcs-no-undef": 1
-      # "no-undef": 0 # Replace this with jsx-jcs-no-undef
-    }
-  }))
+  .pipe(gulp-eslint(eslint_config))
   .pipe(gulp-eslint.formatEach('compact', process.stderr))
 
 gulp.task 'livescript_build', ->
@@ -347,6 +305,14 @@ gulp.task 'copy_build', ->
   #.pipe(gulp-print( -> "copy: #{it}" ))
   .pipe(gulp.dest('dist'))
 
+#gulp.task 'copy_jspm_build', ->
+#  console.log glob.sync('src/components/*.jspm.js')
+#  #console.log gulp.src(copyjspmpattern, {base: 'src'}).pipe(gulp-print( -> "copy_jspm_available_files: #{it}" ))
+#  return gulp.src(copyjspmpattern, {base: 'src'})
+#  #.pipe(gulp-changed('dist'))
+#  .pipe(gulp-print( -> "copy_jspm: #{it}" ))
+#  .pipe(gulp.dest('dist'))
+
 gulp.task 'copy_root_build', ->
   return gulp.src(copyrootpattern, {base: ''})
   .pipe(gulp-changed('dist'))
@@ -358,10 +324,33 @@ gulp.task 'generate_polymer_dependencies', (done) ->
   gen_deps.generate_dependencies_for_all_files_in_src_path()
   done()
 
+copy_file_patterns = (patterns, overwrite) ->
+  if not overwrite?
+    overwrite = false
+  for pattern in patterns
+    copy_file_pattern pattern, overwrite
+  return
+
+copy_file_pattern = (pattern, overwrite) ->
+  if not overwrite?
+    overwrite = false
+  files_list = glob.sync path.join('src', pattern)
+  existing_files_list = glob.sync path.join('dist', pattern)
+  existing_files = {[x, true] for x in existing_files_list}
+  for src_file in files_list
+    dist_file = src_file.replace(/^src\//, 'dist/')
+    if not overwrite
+      if existing_files[dist_file]?
+        continue
+    fse.copySync src_file, dist_file
+  return
+
 gulp.task 'generate_polymer_dependencies_jspm', (done) ->
   gen_deps.set_src_path(path.join(process.cwd(), 'src'))
   gen_deps.set_options({target_jspm: true})
   gen_deps.generate_dependencies_for_all_files_in_src_path()
+  copy_file_pattern 'bower_components/**/*.jspm.js', false
+  copy_file_pattern 'components/**/*.jspm.js', true
   done()
 
 gulp.task 'generate_interventions_list', (done) ->
@@ -674,7 +663,7 @@ gulp.task 'watch', ['build'], (done) ->
   done()
 */
 
-gulp.task 'release', gulp.series 'newver', 'clean', 'build', 'mkzip'
+gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip'
 
 gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch'))
 

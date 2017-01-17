@@ -15,6 +15,7 @@
 <link rel="import" href="intervention-view-single.html">
 <link rel="import" href="habitlab-logo.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="options-interventions">
   <style is="custom-style">
@@ -192,7 +193,7 @@
       <div id="intro1" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
           <div class="card-content" id="intro1_content">
-          Habitlab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
+          HabitLab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
           </div>
           <paper-button class="next-button" id="show_intro_button" style="display: none" on-click="show_intro_button_clicked">Show Explanation</paper-button>
           <paper-button class="next-button" on-click="intro1_read">Next</paper-button>
@@ -203,9 +204,9 @@
         <paper-card heading="Which interventions will HabitLab show me?" class="papercard"> 
           <div class="card-content">
            
-           At first, Habitlab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
+           At first, HabitLab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
            <div style="display: none;" id="how_hl_works">
-           <br>Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. Habitlab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
+           <br>Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
            </div>
           </div>
           
@@ -213,6 +214,85 @@
           <paper-button class="next-button" on-click="intro2_read">Next</paper-button>
         </paper-card>
       </div>
+
+      <div id="intro4" class="intro" style="display: none;">
+        <paper-card heading="Accessing this page" class="papercard">
+          <div class="card-content">
+            You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
+          </div>
+          <paper-button disabled id="popup-button" class="next-button" on-click="show_swal">Click the icon in the toolbar to continue</paper-button>
+        </paper-card>        
+          <div id="pointer-div" >Click the <img id="iconimg" src="{{get_icon()}}"> icon in the toolbar above!</div>
+      </div>
+
+      <!--
+      <div id="intro5" class="intro" style="display: none; padding-top: 0px;">
+        <paper-card heading="Disabling interventions" class="papercard">
+          <div class="card-content" style="padding-top: 0px;">
+            In each intervention, you will find a "HabitLab Options" button: 
+            <habitlab-logo unclickable style="padding-top: 0px; position: relative; top: 10px;"></habitlab-logo> <br><br>
+            You can click the button to disable the intervention or access more information about it. 
+
+          </div>
+          <paper-button class="next-button" on-click="intro5_read">Next</paper-button>
+        </paper-card>
+      </div> -->
+      <!--
+      <div id="intro6" class="intro" style="display: none;">
+        <paper-card heading="Dashboard" class="papercard">
+          <div class="card-content">
+            In addition to this tab, Manage Goals and Interventions, you can also view graphs and statistics in the View Results tab at the top.
+            
+          </div>
+          
+        </paper-card>
+
+      </div>
+      -->
+
+      <div id="configurations" class="intro" style="display: none;">
+        <paper-card heading="Configure interventions" class="papercard">
+          <div class="card-content">
+            
+            You can see the list of available interventions below for your selected goals, and test out interventions or disable them from here. 
+          </div>
+          
+          <paper-button class="works-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Intervention Details</paper-button>
+
+          <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list">
+
+            <!--
+            <br>
+            <div style="font-size: 20px;"> HabitLab's algorithm chooses an intervention to show you from the ones in the Sometimes Shown category.</div>
+            -->
+
+            <template is="dom-repeat" items="{{sort_custom_goals_and_interventions_after(goals_and_interventions)}}" as="goal_and_interventions">
+              <h3>{{goal_and_interventions.goal.description}}</h3>
+
+              <div style="font-size: 16px">
+                Each time you visit <span>{{goal_and_interventions.goal.sitename_printable}}</span>, HabitLab will choose one of the enabled interventions to deploy:
+                <iron-icon icon="help-outline" on-click="help_icon_clicked"></iron-icon>
+              </div>
+              <br>
+              <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
+                <intervention-view-single  goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+                <br><br>
+              </template>
+
+            </template>
+
+          </div>
+        </paper-card>
+      </div>
+
+      <template is="dom-if" if="{{false}}">
+        <template is="dom-if" if="{{show_randomize_button()}}">
+          <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
+          <br>
+        </template>
+
+        
+      </template>
 
       <div id="intro3" class="intro" style="display: none;">
         <paper-card heading="When should interventions be active?">
@@ -254,78 +334,12 @@
               </div>
             </template>
           </div>
+          <!--
           <br>
           <paper-button class="next-button" id="done-btn" on-click="intro3_read">Next</paper-button>
+          -->
         </paper-card>
       </div>
-
-      <div id="intro4" class="intro" style="display: none;">
-        <paper-card heading="Accessing this page" class="papercard">
-          <div class="card-content">
-            You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
-          </div>
-          <paper-button disabled id="popup-button" class="next-button" on-click="show_swal">Click the icon in the toolbar to continue</paper-button>
-        </paper-card>        
-          <div id="pointer-div" >Click the <img id="iconimg" src="{{get_icon()}}"> icon in the toolbar above!</div>
-      </div>
-
-      <!--
-      <div id="intro5" class="intro" style="display: none; padding-top: 0px;">
-        <paper-card heading="Disabling interventions" class="papercard">
-          <div class="card-content" style="padding-top: 0px;">
-            In each intervention, you will find a "Habitlab Options" button: 
-            <habitlab-logo unclickable style="padding-top: 0px; position: relative; top: 10px;"></habitlab-logo> <br><br>
-            You can click the button to disable the intervention or access more information about it. 
-
-          </div>
-          <paper-button class="next-button" on-click="intro5_read">Next</paper-button>
-        </paper-card>
-      </div> -->
-      <!--
-      <div id="intro6" class="intro" style="display: none;">
-        <paper-card heading="Dashboard" class="papercard">
-          <div class="card-content">
-            In addition to this tab, Manage Goals and Interventions, you can also view graphs and statistics in the View Results tab at the top.
-            
-          </div>
-          
-        </paper-card>
-
-      </div>
-      -->
-
-      <div id="configurations" class="intro" style="display: none;">
-        <paper-card heading="Configure interventions" class="papercard">
-          <div class="card-content">
-            
-            You can see the list of available interventions below for your selected goals, and test out interventions or disable them from here. 
-          </div>
-          
-          <paper-button class="works-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Intervention Details</paper-button>
-
-          <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list">
-            <br>
-            <div style="font-size: 20px;"> HabitLab's algorithm chooses an intervention to show you from the ones in the Sometimes Shown category.</div>
-
-            <template is="dom-repeat" items="{{sort_custom_goals_and_interventions_after(goals_and_interventions)}}" as="goal_and_interventions">
-              <h3>{{goal_and_interventions.goal.description}}</h3>
-              <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-                <intervention-view-single  goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
-                <br><br>
-              </template>
-            </template>
-          </div>
-        </paper-card>
-      </div>
-
-      <template is="dom-if" if="{{false}}">
-        <template is="dom-if" if="{{show_randomize_button()}}">
-          <paper-button raised style="background-color: #446E9B; color: white" on-click="select_new_interventions">Click to select a new set of randomly chosen interventions</paper-button>
-          <br>
-        </template>
-
-        
-      </template>
 
     </div>
     <div style="height: 50px"></div>

@@ -26,10 +26,9 @@
 
 {
   reverse
-} = require 'prelude'
+} = require 'prelude-ls'
 
 require! {
-  async
   moment
 }
 

@@ -31,6 +31,7 @@ document.body.addEventListener 'disable_intervention', (evt) ->
   window.active = false
   clearInterval(window.firststartprocess)
 
+window.debugeval = -> eval(it)
 
 
 

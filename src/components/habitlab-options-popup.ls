@@ -72,8 +72,8 @@ polymer_ext {
     this.$$('#intervention_info_dialog').close()
     disable_habitlab()
     swal {
-      title: 'Habitlab Disabled!',
-      text: 'Habitlab will not deploy interventions for the rest of today.'
+      title: 'HabitLab Disabled!',
+      text: 'HabitLab will not deploy interventions for the rest of today.'
     }
   open_interventions_page: ->
     open_url_in_new_tab('options.html#interventions')

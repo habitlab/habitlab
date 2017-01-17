@@ -1,5 +1,3 @@
-$ = require 'jquery'
-
 {
   memoizeSingleAsync
 } = require 'libs_common/memoize'
@@ -41,8 +39,7 @@ getAllInterventionsGoalInfo = cfy ->*
 export getGoalInfo = cfy (goal_name) ->*
   if goal_name == 'debug/all_interventions'
     return yield getAllInterventionsGoalInfo()
-  goal_info_text = yield $.get "/goals/#{goal_name}/info.json"
-  goal_info = JSON.parse goal_info_text
+  goal_info = yield fetch("/goals/#{goal_name}/info.json").then((.json!))
   goal_info.name = goal_name
   if not goal_info.sitename?
     goal_info.sitename = goal_name.split('/')[0]
@@ -144,8 +141,7 @@ export list_all_goals = cfy ->*
     return JSON.parse cached_list_all_goals
     #local_cached_list_all_goals := JSON.parse cached_list_all_goals
     #return local_cached_list_all_goals
-  goals_list_text = yield $.get '/goals/goals.json'
-  goals_list = JSON.parse goals_list_text
+  goals_list = yield fetch('/goals/goals.json').then((.json!))
   extra_list_all_goals_text = localStorage.getItem 'extra_list_all_goals'
   if extra_list_all_goals_text?
     extra_list_all_goals = JSON.parse extra_list_all_goals_text

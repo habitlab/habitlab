@@ -1,10 +1,9 @@
-$ = require 'jquery'
-
 require! {
-  prelude
   moment
   mathjs
 }
+
+prelude = require 'prelude-ls'
 
 {
   memoizeSingleAsync
@@ -44,8 +43,7 @@ getInterventionInfo = cfy (intervention_name) ->*
   cached_val = cached_get_intervention_info[intervention_name]
   if cached_val?
     return JSON.parse JSON.stringify cached_val
-  intervention_info_text = yield $.get "/interventions/#{intervention_name}/info.json"
-  intervention_info = JSON.parse intervention_info_text
+  intervention_info = yield fetch("/interventions/#{intervention_name}/info.json").then((.json!))
   intervention_info.name = intervention_name
   intervention_info.sitename = intervention_name.split('/')[0]
   cached_get_intervention_info[intervention_name] = intervention_info
@@ -155,6 +153,14 @@ export generate_interventions_for_domain = cfy (domain) ->*
   yield add_new_interventions new_intervention_info_list
   return
 
+export add_new_intervention = cfy (intervention_info) ->*
+  yield add_new_interventions [intervention_info]
+  /*
+  add_new_intervention({
+
+  })
+  */
+
 export add_new_interventions = cfy (intervention_info_list) ->*
   extra_get_interventions = localStorage.getItem 'extra_get_interventions'
   if extra_get_interventions?
@@ -193,8 +199,8 @@ export list_generic_interventions = memoizeSingleAsync cfy ->*
   cached_generic_interventions = localStorage.getItem 'cached_list_generic_interventions'
   if cached_generic_interventions?
     return JSON.parse cached_generic_interventions
-  interventions_list_text = yield $.get '/interventions/interventions.json'
-  generic_interventions_list = JSON.parse(interventions_list_text).filter -> it.startsWith('generic/')
+  interventions_list = yield fetch('/interventions/interventions.json').then((.json!))
+  generic_interventions_list = interventions_list.filter -> it.startsWith('generic/')
   localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
   return generic_interventions_list
 
@@ -208,8 +214,7 @@ export list_all_interventions = cfy ->*
     return JSON.parse cached_list_all_interventions
     #local_cache_list_all_interventions := JSON.parse cached_list_all_interventions
     #return local_cache_list_all_interventions
-  interventions_list_text = yield $.get '/interventions/interventions.json'
-  interventions_list = JSON.parse interventions_list_text
+  interventions_list = yield fetch('/interventions/interventions.json').then((.json!))
   interventions_list_extra_text = localStorage.getItem 'extra_list_all_interventions'
   if interventions_list_extra_text?
     interventions_list_extra = JSON.parse interventions_list_extra_text
@@ -237,10 +242,14 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
   fix_content_script_options = (options, intervention_name) ->
     if typeof options == 'string'
       options = {path: options}
-    if options.path[0] == '/'
-      options.path = options.path.substr(1)
+    if options.code?
+      if not options.path?
+        options.path = 'content_script_' + Math.floor(Math.random()*1000000)
     else
-      options.path = "/interventions/#{intervention_name}/#{options.path}"
+      if options.path[0] == '/'
+        options.path = options.path.substr(1)
+      else
+        options.path = "/interventions/#{intervention_name}/#{options.path}"
     if not options.run_at?
       options.run_at = 'document_end' # document_start
     if not options.all_frames?
@@ -249,10 +258,14 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
   fix_background_script_options = (options, intervention_name) ->
     if typeof options == 'string'
       options = {path: options}
-    if options.path[0] == '/'
-      options.path = options.path.substr(1)
+    if options.code?
+      if not options.path?
+        options.path = 'background_script_' + Math.floor(Math.random()*1000000)
     else
-      options.path = "/interventions/#{intervention_name}/#{options.path}"
+      if options.path[0] == '/'
+        options.path = options.path.substr(1)
+      else
+        options.path = "/interventions/#{intervention_name}/#{options.path}"
     return options
   fix_intervention_parameter = (parameter, intervention_info) ->
     if not parameter.name?

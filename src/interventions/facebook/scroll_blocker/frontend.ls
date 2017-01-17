@@ -1,11 +1,3 @@
-<- (-> it!)
-
-if window.facebook_scroll_blocker
-  return
-window.facebook_scroll_blocker = true
-
-console.log 'scroll_blocker injected'
-
 {
   log_impression
   log_action
@@ -76,3 +68,5 @@ document.body.addEventListener 'disable_intervention' ->
   $(scroll_block_display).remove()
   disabled := true
   console.log 'intervention disabled'
+
+window.debugeval = -> eval(it)

@@ -28,14 +28,6 @@ require 'libs_backend/expose_backend_libs'
 } = require 'libs_backend/db_utils'
 
 {
-  getfield
-  getfields
-  getfield_uncached
-  getfields_uncached
-  get_field_info
-} = require 'fields/get_field'
-
-{
   send_message_to_active_tab
   send_message_to_tabid
   get_active_tab_info
@@ -89,7 +81,6 @@ require 'libs_backend/expose_backend_libs'
 } = require 'libs_common/localstorage_utils'
 
 require! {
-  async
   moment
   'promise-debounce'
 }
@@ -151,7 +142,10 @@ load_background_script = cfy (options, intervention_info) ->*
   if running_background_scripts[options.path]?
     # already running
     return
-  background_script_text = yield $.get options.path
+  if options.code?
+    background_script_text = options.code
+  else
+    background_script_text = yield $.get options.path
   background_script_function = new Function('env', background_script_text)
   env = {
     intervention_info: intervention_info
@@ -263,7 +257,20 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
   })
   """
   for options in content_script_options
-    content_script_code = yield $.get options.path
+    if options.code?
+      content_script_code = options.code
+    else
+      content_script_code = yield $.get options.path
+    if options.jspm_require
+      content_script_code = """
+      System.import('co').then(function(co) {
+        co(function*() {
+          const systemjs_require = yield System.import('libs_common/systemjs_require')
+          const require = yield make_require(#{options.jspm_deps})
+          #{content_script_code}
+        })
+      })
+      """
     content_script_code = """
 if (!window.allowed_interventions) {
   window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
@@ -285,8 +292,10 @@ if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.lo
     const tab_id = #{tabId};
     const dlog = function(...args) { console.log(...args); };
 
+    if (!window.SystemJS) {
+      #{systemjs_content_script_code}
+    }
     #{content_script_code}
-    #{systemjs_content_script_code}
     #{debug_content_script_code_with_hlog}
   }
 }
@@ -445,18 +454,6 @@ split_list_by_length = (list, len) ->
 message_handlers = get_all_message_handlers()
 
 message_handlers <<< {
-  'getfield': (name, callback) ->
-    getfield name, callback
-  'getfields': (namelist, callback) ->
-    getfields namelist, callback
-  'getfields_uncached': (namelist, callback) ->
-    getfields_uncached namelist, callback
-  'requestfields': (info, callback) ->
-    {fieldnames} = info
-    getfields fieldnames, callback
-  'requestfields_uncached': (info, callback) ->
-    {fieldnames} = info
-    getfields_uncached fieldnames, callback
   'getLocation': (data, callback) ->
     getLocation (location) ->
       dlog 'getLocation background page:'
@@ -488,46 +485,6 @@ message_handlers <<< {
     localstorage_setjson('debug_terminal_messages', existing_messages)
     callback()
 }
-
-ext_message_handlers = {
-  'is_extension_installed': (info, callback) ->
-    callback true
-  # 'getfields': message_handers.getfields
-  'requestfields': (info, callback) ->
-    confirm_permissions info, (accepted) ->
-      if not accepted
-        return
-      getfields info.fieldnames, (results) ->
-        dlog 'getfields result:'
-        dlog results
-        callback results
-  'requestfields_uncached': (info, callback) ->
-    confirm_permissions info, (accepted) ->
-      if not accepted
-        return
-      getfields_uncached info.fieldnames, (results) ->
-        dlog 'getfields result:'
-        dlog results
-        callback results
-  'get_field_descriptions': (namelist, callback) ->
-    field_info <- get_field_info()
-    output = {}
-    for x in namelist
-      if field_info[x]? and field_info[x].description?
-        output[x] = field_info[x].description
-    callback output
-}
-
-confirm_permissions = (info, callback) ->
-  {pagename, fieldnames} = info
-  field_info <- get_field_info()
-  field_info_list = []
-  for x in fieldnames
-    output = {name: x}
-    if field_info[x]? and field_info[x].description?
-      output.description = field_info[x].description
-    field_info_list.push output
-  send_message_to_active_tab 'confirm_permissions', {pagename, fields: field_info_list}, callback
 
 #tabid_to_current_location = {}
 
@@ -603,66 +560,6 @@ chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
   }
   navigation_occurred info.url, info.tabId
 
-chrome.runtime.onMessageExternal.addListener (request, sender, sendResponse) ->
-  {type, data} = request
-  message_handler = ext_message_handlers[type]
-  if type == 'requestfields' or type == 'requestfields_uncached'
-    # do not prompt for permissions for these urls
-    whitelist = [
-      'http://localhost:8080/previewdata.html'
-      'http://tmi.netlify.com/previewdata.html'
-      'https://tmi.netlify.com/previewdata.html'
-      'https://tmi.stanford.edu/previewdata.html'
-      'https://tmisurvey.herokuapp.com/'
-      'http://localhost:8080/'
-      'https://localhost:8081/'
-      'https://tmi.stanford.edu/'
-      'http://localhost:3000/'
-      'http://browsingsurvey.herokuapp.com/'
-      'https://browsingsurvey.herokuapp.com/'
-      'http://browsingsurvey2.herokuapp.com/'
-      'https://browsingsurvey2.herokuapp.com/'
-      'http://browsingsurvey3.herokuapp.com/'
-      'https://browsingsurvey3.herokuapp.com/'
-      'http://browsingsurvey4.herokuapp.com/'
-      'https://browsingsurvey4.herokuapp.com/'
-      'http://browsingsurvey5.herokuapp.com/'
-      'https://browsingsurvey5.herokuapp.com/'
-      'http://browsingsurvey6.herokuapp.com/'
-      'https://browsingsurvey6.herokuapp.com/'
-      'http://browsingsurvey7.herokuapp.com/'
-      'https://browsingsurvey7.herokuapp.com/'
-      'http://browsingsurvey8.herokuapp.com/'
-      'https://browsingsurvey8.herokuapp.com/'
-      'http://browsingsurvey9.herokuapp.com/'
-      'https://browsingsurvey9.herokuapp.com/'
-      'http://browsingsurvey10.herokuapp.com/'
-      'https://browsingsurvey10.herokuapp.com/'
-      'http://browsingsurvey11.herokuapp.com/'
-      'https://browsingsurvey11.herokuapp.com/'
-      'http://browsingsurvey12.herokuapp.com/'
-      'https://browsingsurvey12.herokuapp.com/'
-      'http://browsingsurvey13.herokuapp.com/'
-      'https://browsingsurvey13.herokuapp.com/'
-    ]
-    for whitelisted_url in whitelist
-      if sender.url.indexOf(whitelisted_url) == 0
-        message_handler = message_handlers[type]
-        break
-  if not message_handler?
-    return
-  #tabId = sender.tab.id
-  message_handler data, (response) ~>
-    #dlog 'response is:'
-    #dlog response
-    #response_string = JSON.stringify(response)
-    #dlog 'length of response_string: ' + response_string.length
-    #dlog 'turned into response_string:'
-    #dlog response_string
-    if sendResponse?
-      sendResponse response
-  return true # async response
-
 message_handlers_requiring_tab = {
   'load_css_file': true
   'load_css_code': true
@@ -704,7 +601,8 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
 
 current_idlestate = 'active'
 
-chrome.idle.onStateChanged.addListener (idlestate) ->
+# not supported by firefox
+chrome.idle?onStateChanged?addListener? (idlestate) ->
   current_idlestate := idlestate
   dlog "idle state changed: #{idlestate}"
 

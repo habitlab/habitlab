@@ -1,0 +1,9 @@
+{
+  "main": "decimal.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

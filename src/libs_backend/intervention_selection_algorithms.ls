@@ -1,7 +1,8 @@
 require! {
   shuffled
-  prelude
 }
+
+prelude = require 'prelude-ls'
 
 {
   list_available_interventions_for_enabled_goals

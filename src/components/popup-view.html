@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
@@ -148,7 +149,7 @@
     <div class="popup_view_outer_div">
 
       <div class="box">
-        <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed">Disable Habitlab Today</paper-toggle-button>
+        <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed">Disable HabitLab Today</paper-toggle-button>
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="goalsButton">Settings</paper-button>
           <paper-button class="paperbuttons" raised id="resultsButton">View Results</paper-button>
@@ -212,6 +213,11 @@
                 <paper-toggle-button on-change="goal_enable_button_changed" goal="{{goal_and_interventions.goal}}" checked="{{goal_and_interventions.enabled}}">{{goal_and_interventions.goal.description}}</paper-toggle-button>
                 <br>
                 <template is="dom-if" if="{{goal_and_interventions.enabled}}">
+                  <div style="margin-left: 10px; margin-right: 10px; font-size: 14px">
+                    Each time you visit <span>{{goal_and_interventions.goal.sitename_printable}}</span>, HabitLab will choose one of the enabled interventions to deploy:
+                    <iron-icon icon="help-outline" on-click="help_icon_clicked"></iron-icon>
+                  </div>
+                  <br>
                   <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
                     <intervention-view-single class="iview" compact="true" goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
                     <br>

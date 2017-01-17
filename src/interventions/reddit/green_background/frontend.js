@@ -13,3 +13,5 @@ const {
 once_available('body', () => {
   $('body').css('background-color', 'green')
 })
+
+window.debugeval = x => eval(x);

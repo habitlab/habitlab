@@ -217,3 +217,5 @@ document.addEventListener('disable_intervention', function() {
   $('.habitlab_inserted').remove()
   removeDivAndPlay()
 })
+
+window.debugeval = x => eval(x);

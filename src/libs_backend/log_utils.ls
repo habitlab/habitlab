@@ -20,10 +20,6 @@ require! {
   dexie
 }
 
-require! {
-  async
-}
-
 {generate_random_id} = require 'libs_common/generate_random_id'
 
 $ = require 'jquery'

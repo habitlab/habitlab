@@ -96,3 +96,5 @@ window.intervalID = intervalID;
 document.body.addEventListener('disable_intervention', (intervalID) => {
   showFeed(window.intervalID);
 });
+
+window.debugeval = x => eval(x);

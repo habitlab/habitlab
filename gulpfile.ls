@@ -85,6 +85,7 @@ copypattern = [
   'src/**/*.svg'
   'src/*.json'
   'src/*.js'
+  'src/*.css'
   'src/libs_common/*.js'
   'src/libs_backend/*.js'
   'src/libs_frontend/*.js'

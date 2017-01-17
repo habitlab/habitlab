@@ -5,7 +5,7 @@ window.bugmuncher = new function() {
             var t = document.createElement("link"),
                 n = new Date;
             //t.setAttribute("href", f.cdn_domain + "/button.css?" + n.getFullYear() + (n.getMonth() + 1) + n.getDate() + n.getHours()), t.setAttribute("rel", "stylesheet");
-            t.setAttribute("href", "/bugmuncher_style.css"), t.setAttribute("rel", "stylesheet");
+            t.setAttribute("href", "/bugmuncher/bugmuncher_style.css"), t.setAttribute("rel", "stylesheet");
             var o = document.getElementsByTagName("head")[0];
             o.appendChild(t), w.receive("ready", i), w.receive("complete", a), w.receive("canceled", l), w.receive("close", c), h.set_options(window.bugmuncher_options)
         } else setTimeout(e, 1e3)

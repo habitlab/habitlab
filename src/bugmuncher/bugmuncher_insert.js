@@ -7,6 +7,6 @@
     e.setAttribute("type", "text/javascript"); 
     var d = new Date(); var n = '?'+d.getFullYear()+(d.getMonth()+1)+d.getDate()+d.getHours();
     //e.setAttribute("src", "https://cdn.bugmuncher.com/bugmuncher.js"+n); 
-    e.setAttribute('src', 'bugmuncher.js')
+    e.setAttribute('src', '/bugmuncher/bugmuncher.js')
     document.getElementsByTagName("head")[0].appendChild(e); 
   })();

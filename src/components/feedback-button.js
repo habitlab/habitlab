@@ -1,6 +1,6 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 
-require('bugmuncher.js')
+require('bugmuncher/bugmuncher')
 
 polymer_ext({
   is: 'feedback-button',

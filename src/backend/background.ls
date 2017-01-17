@@ -157,6 +157,9 @@ load_background_script = cfy (options, intervention_info) ->*
 cached_systemjs_code = null
 
 execute_content_scripts_for_intervention = cfy (intervention_info, tabId, intervention_list) ->*
+  console.log 'running execute_content_scripts_for_intervention'
+  console.log intervention_info
+  console.log tabId
   {content_script_options, name} = intervention_info
 
   intervention_info_copy = JSON.parse JSON.stringify intervention_info

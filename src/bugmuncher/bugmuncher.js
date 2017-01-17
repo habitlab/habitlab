@@ -1,4 +1,10 @@
 "use strict";
+
+const {
+    add_screenshot_overlay,
+    remove_screenshot_overlay
+} = require('libs_common/screenshot_overlay_utils')
+
 window.bugmuncher = new function() {
     function e() {
         if (g = document.getElementsByTagName("body")[0]) {
@@ -59,22 +65,35 @@ window.bugmuncher = new function() {
         if (e && e.preventDefault(), E) return !1;
         E = !0;
         var t = A[x.language] || A.en;
-        return m.innerHTML = t.loading, x.on_open && x.on_open(), b.disable_scroll(), v.log_bugmuncher("Feedback Button Clicked"), _ = document.createElement("iframe"), _.setAttribute("id", "bugmuncher_widget_iframe"), _.setAttribute("src", f.widget_domain), _.setAttribute("scrolling", "no"), _.setAttribute("frameborder", 0), _.setAttribute("allowTransparency", !0), g.appendChild(_), b.fit_element_to_viewport(_), b.on_window_resize(function() {
+        return m.innerHTML = t.loading, x.on_open && x.on_open(), b.disable_scroll(), v.log_bugmuncher("Feedback Button Clicked"), _ = document.createElement("iframe"), _.setAttribute("id", "bugmuncher_widget_iframe"), _.setAttribute("src", f.widget_domain), _.setAttribute("scrolling", "no"), _.setAttribute("frameborder", 0), _.setAttribute("allowTransparency", !0), _.style.zIndex = 2147483647, g.appendChild(_), b.fit_element_to_viewport(_), b.on_window_resize(function() {
             b.fit_element_to_viewport(_)
         }), !1
     }
-
+x
     window.open_bugmuncher = function() {
       window.bugmuncher_options = {
         //api_key: "b746ad902aa9cf4d33f5"
-        api_key: 'b53059b110c08683bf98'
+        api_key: 'b53059b110c08683bf98',
+        on_close: function() {
+            console.log('on_close')
+            document.querySelector('#bugmuncher_button').style.display = 'none';
+            document.querySelector('#bugmuncher_button').style.opacity = 0;
+            document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
+            remove_screenshot_overlay()
+            // TODO we need to actually hide bugmuncher_button
+        }
       };
-      e();
-      //t();
-      document.querySelector('#bugmuncher_button').style.display = 'none';
-      document.querySelector('#bugmuncher_button').style.opacity = 0;
-      document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
-      r();
+      console.log('calling add_screenshot_overlay')
+      add_screenshot_overlay().then(function() {
+        console.log('add_screenshot_overlay complete')
+        e();
+        //t();
+        document.querySelector('#bugmuncher_button').style.display = 'none';
+        document.querySelector('#bugmuncher_button').style.opacity = 0;
+        document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
+        console.log('add_screenshot_overlay complete 2')
+        r();
+      })
     }
 
     function i() {

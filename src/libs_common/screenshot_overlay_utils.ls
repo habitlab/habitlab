@@ -13,7 +13,7 @@ export add_screenshot_overlay = cfy ->*
     height: '100vh'
     top: '0px'
     left: '0px'
-    'z-index': 99999999999
+    'z-index': 2147483646
   }
   overlay_img.appendTo($('body'))
 

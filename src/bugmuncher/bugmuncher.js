@@ -70,7 +70,7 @@ window.bugmuncher = new function() {
         api_key: 'b53059b110c08683bf98'
       };
       e();
-      t();
+      //t();
       document.querySelector('#bugmuncher_button').style.display = 'none';
       document.querySelector('#bugmuncher_button').style.opacity = 0;
       document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';

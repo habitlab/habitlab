@@ -51,6 +51,8 @@ lib_name_to_func_names_and_signatures =
   session_utils:
     is_on_same_domain_and_same_tab: 'tab_id'
     is_on_same_domain: 'tab_id'
+  screenshot_utils:
+    get_screenshot_as_base64: []
 
 
 func_name_to_signature = {}

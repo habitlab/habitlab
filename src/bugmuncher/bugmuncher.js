@@ -1,10 +1,5 @@
 "use strict";
 
-const {
-    add_screenshot_overlay,
-    remove_screenshot_overlay
-} = require('libs_common/screenshot_overlay_utils')
-
 window.bugmuncher = new function() {
     function e() {
         if (g = document.getElementsByTagName("body")[0]) {
@@ -74,25 +69,31 @@ x
       window.bugmuncher_options = {
         //api_key: "b746ad902aa9cf4d33f5"
         api_key: 'b53059b110c08683bf98',
+        default_include_screenshot: true,
+        skip_to: 'general',
         on_close: function() {
             console.log('on_close')
             document.querySelector('#bugmuncher_button').style.display = 'none';
             document.querySelector('#bugmuncher_button').style.opacity = 0;
             document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
-            remove_screenshot_overlay()
+            System.import('libs_common/screenshot_overlay_utils').then(function(screenshot_overlay_utils) {
+                screenshot_overlay_utils.remove_screenshot_overlay()
+            })
             // TODO we need to actually hide bugmuncher_button
         }
       };
       console.log('calling add_screenshot_overlay')
-      add_screenshot_overlay().then(function() {
-        console.log('add_screenshot_overlay complete')
-        e();
-        //t();
-        document.querySelector('#bugmuncher_button').style.display = 'none';
-        document.querySelector('#bugmuncher_button').style.opacity = 0;
-        document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
-        console.log('add_screenshot_overlay complete 2')
-        r();
+      System.import('libs_common/screenshot_overlay_utils').then(function(screenshot_overlay_utils) {
+        screenshot_overlay_utils.add_screenshot_overlay().then(function() {
+            console.log('add_screenshot_overlay complete')
+            e();
+            //t();
+            document.querySelector('#bugmuncher_button').style.display = 'none';
+            document.querySelector('#bugmuncher_button').style.opacity = 0;
+            document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
+            console.log('add_screenshot_overlay complete 2')
+            r();
+        })
       })
     }
 

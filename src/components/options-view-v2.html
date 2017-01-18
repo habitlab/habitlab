@@ -1,0 +1,95 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-themes/ice.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+
+<link rel="import" href="habitlab-logo.html">
+<link rel="import" href="options-goals.html">
+<link rel="import" href="options-interventions.html">
+<link rel="import" href="dashboard-view.html">
+
+<dom-module id="options-view-v2">
+<style is="custom-style">
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.leftside {
+    width: 49%;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.rightside {
+    width: 49%;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.questionicon {
+    position: fixed;
+    right: 9px;
+    top: 9px;
+}
+paper-button.fancy {
+    color: #8CD4F5;
+}
+
+</style>
+<template>
+    <div>
+        hello there
+    </div>
+    <template is="dom-if" if="{{!is_habitlab_disabled}}">
+
+        <div style="width: 100%;">
+            <div class="leftside">
+                1
+            </div>
+            <div class="rightside">
+                2
+            </div>
+        </div>
+
+
+        <paper-tabs class="main-tabs" id="optionstab" selected="{{selected_tab_idx}}" autoselect>
+            <paper-tab class="main-tab">Manage Goals and Interventions</paper-tab>
+            <paper-tab class="main-tab">View Progress and Results</paper-tab>
+        </paper-tabs>
+
+        <iron-pages selected="{{selected_tab_idx}}">
+            <options-interventions id="options-interventions"></options-interventions>
+            <dashboard-view id="dashboard-view"></dashboard-view>
+        </iron-pages>
+
+
+
+    </template>
+
+    <template is="dom-if" if="{{is_habitlab_disabled}}">
+        <div style="width: calc(100% - 20px); display: inline-block; margin: 10px;">
+            <paper-card style="cursor: pointer; margin-bottom: 10px; display: inline-block; width: 100%" on-click="enable_habitlab_button_clicked">
+                <div style="width: 100%; margin: 10px">
+                    <div style="font-size: 36px; text-align: center">You've disabled HabitLab today.<br>Click to re-enable</div>
+                    <div style="margin: 20px; width: calc(100% - 40px); height: 300px; display: flex; justify-content: center">
+                        <img style="display: inline-block; width: 100%; text-align: center" src="{{get_power_icon_src()}}"></img>
+                    </div>
+                </div>
+            </paper-card>
+        </div>
+    </template>
+
+</template>
+
+<script src="options-view-v2.js"></script>
+
+</dom-module>

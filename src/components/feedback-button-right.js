@@ -1,7 +1,7 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 
 polymer_ext({
-  is: 'feedback-button',
+  is: 'feedback-button-right',
   properties: {
     width: {
       type: String,

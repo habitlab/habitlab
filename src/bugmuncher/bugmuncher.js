@@ -85,19 +85,15 @@ x
             System.import('libs_common/screenshot_overlay_utils').then(function(screenshot_overlay_utils) {
                 screenshot_overlay_utils.remove_screenshot_overlay()
             })
-            // TODO we need to actually hide bugmuncher_button
         }
       };
-      console.log('calling add_screenshot_overlay')
       System.import('libs_common/screenshot_overlay_utils').then(function(screenshot_overlay_utils) {
         screenshot_overlay_utils.add_screenshot_overlay().then(function() {
-            console.log('add_screenshot_overlay complete')
             e();
             //t();
             document.querySelector('#bugmuncher_button').style.display = 'none';
             document.querySelector('#bugmuncher_button').style.opacity = 0;
             document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
-            console.log('add_screenshot_overlay complete 2')
             r();
         })
       })

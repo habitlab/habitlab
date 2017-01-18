@@ -72,10 +72,16 @@ x
         default_include_screenshot: true,
         skip_to: 'general',
         on_close: function() {
-            console.log('on_close')
-            document.querySelector('#bugmuncher_button').style.display = 'none';
-            document.querySelector('#bugmuncher_button').style.opacity = 0;
-            document.querySelector('#bugmuncher_button').style.pointerEvents = 'none';
+            System.import('libs_frontend/common_libs').then(function(common_libs) {
+                common_libs.once_true(function() {
+                    return document.querySelector('#bugmuncher_button').style.display != 'none';
+                }, function() {
+                    var bugmuncher_button = document.querySelector('#bugmuncher_button');
+                    bugmuncher_button.style.display = 'none'
+                    bugmuncher_button.style.opacity = 0
+                    bugmuncher_button.style.pointerEvents = 'none'
+                })
+            })
             System.import('libs_common/screenshot_overlay_utils').then(function(screenshot_overlay_utils) {
                 screenshot_overlay_utils.remove_screenshot_overlay()
             })

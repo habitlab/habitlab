@@ -147,7 +147,7 @@
     "test": "karma start"
   },
   "author": "Geza Kovacs (http://gkovacs.github.com)",
-  "license": "MIT",
+  "license": "GPL",
   "bugs": {
     "url": "https://github.com/habitlab/habitlab-chrome/issues"
   },

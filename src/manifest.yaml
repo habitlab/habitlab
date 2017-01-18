@@ -13,6 +13,7 @@ permissions:
   - history
   - idle
   - notifications
+  - <all_urls>
   - 'http://*/'
   - 'https://*/'
 content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'

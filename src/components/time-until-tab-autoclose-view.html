@@ -16,7 +16,8 @@
       }
 
       #displayText {
-        background-color: #3498DB; 
+        background-color: #2C97DE; 
+        fill-opacity: 0.5;
         position: fixed; 
         color: white; 
         width: 120px; 
@@ -39,10 +40,10 @@
     </style>
 
     <div id="displayText">
-      <habitlab-logo id="logo"></habitlab-logo><br/>
       <close-tab-button id="close_button" on-click="close_button_clicked" text="Close Tab"></close-tab-button>
       <div>{{displayText}}</div>
-      <paper-button id = "more-time-button" style="background-color: red" on-click="more_time_button_clicked">Give me time</paper-button>
+      <paper-button id = "more-time-button" style="background-color: #415D67" on-click="more_time_button_clicked">Give me time</paper-button>
+      <habitlab-logo id="logo"></habitlab-logo><br/>
     </div>
   </template>
   <script src="time-until-tab-autoclose-view.js"></script>

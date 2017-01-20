@@ -14,10 +14,12 @@
       }
       .close-button {
         margin-top: 70px;
+        box-shadow: 5px 5px 5px #888888;
+        height: 50px;
       }
 
       .container {
-        background-color: #3498DB;
+        background-color: #95CBEE;
         width: 500px;
         height: 300px;
         color: white;
@@ -32,7 +34,10 @@
       }
 
       .habitlab-logo {
-        align-self: flex-start;
+        align-self: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         
         flex-shrink: 0;
       }
@@ -60,10 +65,10 @@
 
     
     <div class="container">
-      <habitlab-logo class="habitlab-logo"></habitlab-logo><br/>
       <div class=timer-text>You have already spent {{minutes}} minute(s) and {{seconds}} seconds on {{site}}. <br/><br/>
       </div>
        <close-tab-button class="close-button" on-click="closeTab" text="Close Facebook"></close-tab-button>
+       <habitlab-logo class="habitlab-logo"></habitlab-logo>
     </div>
     <div id="shadow"></div>
     <div id="grey-space"></div>

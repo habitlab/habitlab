@@ -415,6 +415,8 @@ gulp.task 'generate_jspm_config_frontend', (done) ->
     {path, frontend} = alias_info
     path_map[path] = frontend
   for libname in fs.readdirSync 'src/node_modules_custom'
+    if libname.startsWith('.')
+      continue
     package_json_file = "src/node_modules_custom/#{libname}/package.json"
     package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
     path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
@@ -433,6 +435,8 @@ gulp.task 'generate_jspm_config_backend', (done) ->
     {path, backend} = alias_info
     path_map[path] = backend
   for libname in fs.readdirSync 'src/node_modules_custom'
+    if libname.startsWith('.')
+      continue
     package_json_file = "src/node_modules_custom/#{libname}/package.json"
     package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
     path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"

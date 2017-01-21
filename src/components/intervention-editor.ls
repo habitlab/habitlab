@@ -2,6 +2,10 @@
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
+{
+  add_new_intervention
+} = require 'libs_backend/intervention_utils'
+
 polymer_ext {
   is: 'intervention-editor'
   properties: {
@@ -29,14 +33,33 @@ polymer_ext {
       self.js_editor.getSession().setValue(js_text)
       self.ls_editor.getSession().clearAnnotations()
     catch e
-      self.ls_editor.getSession().setAnnotations([
-        {
-          row: e.hash.line
-          text: e.message
-          type: 'error'
-        }
-      ])
+      if e?hash?line?
+        self.ls_editor.getSession().setAnnotations([
+          {
+            row: e.hash.line
+            text: e.message
+            type: 'error'
+          }
+        ])
       console.log e
+  save_intervention: cfy ->*
+    console.log 'save button pressed'
+    intervention_info = {
+      name: this.$.intervention_name.value
+      displayname: this.$.intervention_name.value
+      description: this.$.intervention_description.value
+      domain: this.$.intervention_domain.value
+      matches: [this.$.intervention_domain.value]
+      content_scripts: [
+        {
+          code: this.js_editor.getSession().getValue()
+        }
+      ]
+      # TODO: set goals to the goal that it satisfies
+    }
+    console.log intervention_info
+    yield add_new_intervention(intervention_info)
+    return
   ready: cfy ->*
     self = this
     brace = yield System.import('brace')

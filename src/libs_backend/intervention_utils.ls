@@ -319,7 +319,10 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
   intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
   intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
   if not intervention_info.goals?
-    intervention_info.goals = goals_satisfied_by_intervention
+    if goals_satisfied_by_intervention?
+      intervention_info.goals = goals_satisfied_by_intervention
+    else
+      intervention_info.goals = []
   return intervention_info
 
 fix_intervention_name_to_intervention_info_dict = (intervention_name_to_info, interventions_to_goals) ->

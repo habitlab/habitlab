@@ -16,7 +16,7 @@ polymer_ext({
     return `width: ${this.width}; height: ${this.height};`
   },
   feedback_button_clicked: function() {
-    System.import('bugmuncher/bugmuncher').then(function() {
+    SystemJS.import('bugmuncher/bugmuncher').then(function() {
       window.open_bugmuncher()
     })
   },

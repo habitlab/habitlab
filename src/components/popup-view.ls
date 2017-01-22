@@ -258,7 +258,7 @@ polymer_ext {
     return chrome.extension.getURL('icons/power_button.svg')
 
   submit_feedback_clicked: cfy ->*
-    yield System.import('bugmuncher/bugmuncher')
+    yield SystemJS.import('bugmuncher/bugmuncher')
     window.open_bugmuncher()
 
   help_icon_clicked: cfy ->*

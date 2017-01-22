@@ -22,7 +22,7 @@ polymer_ext {
     self = this
     if self.livescript?
       return self.livescript
-    self.livescript = yield System.import('livescript15')
+    self.livescript = yield SystemJS.import('livescript15')
     return self.livescript
   ls_editor_changed: cfy ->*
     self = this
@@ -62,10 +62,10 @@ polymer_ext {
     return
   ready: cfy ->*
     self = this
-    brace = yield System.import('brace')
-    yield System.import('brace/mode/javascript')
-    yield System.import('brace/mode/livescript')
-    yield System.import('brace/theme/monokai')
+    brace = yield SystemJS.import('brace')
+    yield SystemJS.import('brace/mode/javascript')
+    yield SystemJS.import('brace/mode/livescript')
+    yield SystemJS.import('brace/theme/monokai')
     self.js_editor = js_editor = brace.edit('javascript_editor')
     js_editor.getSession().setMode('ace/mode/javascript')
     js_editor.setTheme('ace/theme/monokai')

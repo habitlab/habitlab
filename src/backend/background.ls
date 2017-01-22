@@ -190,7 +190,7 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
     content_script_debug.insert_console((x) => { return eval(x); }, {lang: 'livescript'});
     """
   debug_content_script_code_with_hlog = """
-  System.import_multi(['prettyprintjs', 'libs_frontend/content_script_debug'], function(prettyprintjs, content_script_debug) {
+  SystemJS.import_multi(['prettyprintjs', 'libs_frontend/content_script_debug'], function(prettyprintjs, content_script_debug) {
     var console_log_orig = window.console.log;
     var hlog = function(...args) {
       console_log_orig(...args);
@@ -213,9 +213,9 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
     }
     var uselib = function(libname, callback) {
       if (typeof(callback) == 'function') {
-        System.import(libname).then(callback);
+        SystemJS.import(libname).then(callback);
       } else if (typeof(callback) == 'string') {
-        System.import(libname).then(function(imported_lib) {
+        SystemJS.import(libname).then(function(imported_lib) {
           window[callback] = imported_lib;
           hlog('imported as window.' + callback);
         }, function(err) {
@@ -224,7 +224,7 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
         });
       } else if (typeof(libname) == 'string') {
         callback = libname.toLowerCase().split('').filter((x) => 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('');
-        System.import(libname).then(function(imported_lib) {
+        SystemJS.import(libname).then(function(imported_lib) {
           window[callback] = imported_lib;
           hlog('imported as window.' + callback);
         }, function(err) {
@@ -266,9 +266,9 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
       content_script_code = yield $.get options.path
     if options.jspm_require
       content_script_code = """
-      System.import('co').then(function(co) {
+      SystemJS.import('co').then(function(co) {
         co(function*() {
-          const systemjs_require = yield System.import('libs_common/systemjs_require')
+          const systemjs_require = yield SystemJS.import('libs_common/systemjs_require')
           const require = yield make_require(#{options.jspm_deps})
           #{content_script_code}
         })
@@ -684,19 +684,19 @@ setInterval (cfy ->*
 
 gexport_module 'background', -> eval(it)
 
-# systemjs_require <- System.import('libs_common/systemjs_require').then()
+# systemjs_require <- SystemJS.import('libs_common/systemjs_require').then()
 # drequire <- systemjs_require.make_require_frontend().then()
 # window.require = drequire
 window.uselib = (libname, callback) ->
   if typeof(callback) == 'function'
-    System.import(libname).then(callback)
+    SystemJS.import(libname).then(callback)
   else if typeof(callback) == 'string'
-    System.import(libname).then (imported_lib) ->
+    SystemJS.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
       console.log('imported as window.' + callback)
   else if typeof(libname) == 'string'
     callback = libname.toLowerCase().split('').filter((x) -> 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('')
-    System.import(libname).then (imported_lib) ->
+    SystemJS.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
       console.log('imported as window.' + callback)
   else

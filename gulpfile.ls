@@ -24,7 +24,7 @@ require! {
 }
 
 fse = require 'fs-extra'
-webpack-stream = require 'webpack-stream-watch'
+webpack-stream = require 'webpack2-stream-watch'
 
 process.on 'unhandledRejection', (reason, p) ->
   throw new Error(reason)
@@ -232,32 +232,34 @@ with_created_object = (orig_obj, func_to_apply) ->
 
 webpack_config_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
-  o.devtool = null # comment out to generate source maps
+  o.devtool = false # comment out to generate source maps
 
 webpack_config_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
-  o.devtool = null # comment out to generate source maps
+  o.devtool = false # comment out to generate source maps
 
 webpack_config_watch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = true
-  o.devtool = null # comment out to generate source maps
+  o.devtool = false # comment out to generate source maps
 
 webpack_config_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
-  o.devtool = null # comment out to generate source maps
+  o.devtool = false # comment out to generate source maps
 
 webpack_config_nosrcmap_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
-  o.devtool = null
+  o.devtool = false
 
 webpack_config_nosrcmap_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
-  o.devtool = null
+  o.devtool = false
 
 webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
-  o.devtool = null
-  o.debug = false
+  o.devtool = false
+  o.plugins.push new webpack.LoaderOptionsPlugin {
+    debug: false
+  }
   o.module.loaders.push {
     test: /\.js$/
     loader: 'uglify-loader'
@@ -270,7 +272,9 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
 webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
   o.devtool = null
-  o.debug = false
+  o.plugins.push new webpack.LoaderOptionsPlugin {
+    debug: false
+  }
   o.module.loaders.push {
     test: /\.js$/
     loader: 'uglify-loader'
@@ -426,7 +430,7 @@ gulp.task 'generate_jspm_config_frontend', (done) ->
     package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
     path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
   fs.writeFileSync 'jspm_config_frontend.js', """
-  System.config({
+  SystemJS.config({
   map: #{JSON.stringify(path_map, null, 2)}
   });
   """
@@ -446,7 +450,7 @@ gulp.task 'generate_jspm_config_backend', (done) ->
     package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
     path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
   fs.writeFileSync 'jspm_config_backend.js', """
-  System.config({
+  SystemJS.config({
   map: #{JSON.stringify(path_map, null, 2)}
   });
   """

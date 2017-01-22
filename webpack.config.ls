@@ -22,15 +22,16 @@ fromcwd = (x) ->
 
 webpack_config = {
   #devtool: 'eval-cheap-module-source-map'
-  devtool: 'cheap-module-source-map'
+  #devtool: 'cheap-module-source-map'
+  devtool: false
   #devtool: 'linked-src'
   #devtool: null
-  debug: true
+  #debug: true
   watch: false
   plugins: [
     # new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-    new webpack.optimize.DedupePlugin()
+    # new webpack.optimize.DedupePlugin()
   ]
   module: {
     loaders: [
@@ -107,18 +108,19 @@ webpack_config = {
     ]
   }
   resolve: {
-    moduleDirectories: ['node_modules']
+    unsafeCache: true
+    modules: [
+      fromcwd('src')
+      'node_modules'
+    ]
     extensions: [
-      ''
+      #''
       # '.jsx'
       '.ls'
       '.js'
     ]
     alias: {
     }
-    fallback: [
-      fromcwd('src')
-    ]
   }
   node: {
     fs: 'empty'

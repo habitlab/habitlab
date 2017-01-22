@@ -152,19 +152,19 @@ start_page_index = cfy ->*
 
 start_page_index()
 
-# systemjs_require <- System.import('libs_common/systemjs_require').then()
+# systemjs_require <- SystemJS.import('libs_common/systemjs_require').then()
 # drequire <- systemjs_require.make_require_frontend().then()
 # window.require = drequire
 window.uselib = (libname, callback) ->
   if typeof(callback) == 'function'
-    System.import(libname).then(callback)
+    SystemJS.import(libname).then(callback)
   else if typeof(callback) == 'string'
-    System.import(libname).then (imported_lib) ->
+    SystemJS.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
       console.log('imported as window.' + callback)
   else if typeof(libname) == 'string'
     callback = libname.toLowerCase().split('').filter((x) -> 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('')
-    System.import(libname).then (imported_lib) ->
+    SystemJS.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
       console.log('imported as window.' + callback)
   else

@@ -24,7 +24,8 @@
     "sortablejs": "^1.5.0-rc1",
     "sweetalert2": "^6.2.4",
     "underscore": "^1.8.3",
-    "webcomponentsjs-custom-element-v0": "^1.0.1"
+    "webcomponentsjs-custom-element-v0": "^1.0.1",
+    "webpack2-stream-watch": "^3.2.2"
   },
   "devDependencies": {
     "bestzip": "^1.1.3",
@@ -66,9 +67,8 @@
     "upath": "^0.2.0",
     "vinyl-named": "^1.1.0",
     "watchify": "^3.7.0",
-    "webpack": "^1.13.1",
-    "webpack-stream": "^3.2.0",
-    "webpack-stream-watch": "^3.2.1"
+    "webpack": "2.2.0",
+    "webpack-stream": "^3.2.0"
   },
   "jspm": {
     "main": "habitlab.js",

@@ -936,7 +936,7 @@ cheerio@^0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-chokidar@^1.0.0, chokidar@^1.4.1, chokidar@^1.4.3:
+chokidar@^1.0.0, chokidar@^1.4.1, chokidar@^1.4.3, chokidar@^1.6.0:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.6.1.tgz#2f4447ab5e96e50fb3d789fd90d4c72e0e4c70c2"
   dependencies:
@@ -3358,6 +3358,14 @@ list_requires@^1.0.0:
     esprima "^2.7.2"
     esprima-walk "^0.1.0"
 
+livereload@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/livereload/-/livereload-0.6.0.tgz#ac02fe5b5e8b3ab768e14c7eb9bc6a9b0b37cef2"
+  dependencies:
+    chokidar "^1.6.0"
+    opts ">= 1.2.0"
+    ws "^1.1.1"
+
 livescript-loader@^0.1.5:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/livescript-loader/-/livescript-loader-0.1.6.tgz#ea80e6ab9a41f330d11000001999eec675cdf755"
@@ -4083,6 +4091,10 @@ optionator@^0.8.1, optionator@^0.8.2, optionator@~0.8.1:
 options@>=0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
+
+"opts@>= 1.2.0":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/opts/-/opts-1.2.2.tgz#81782b93014a1cd88d56c226643fd4282473853d"
 
 ordered-read-streams@^0.3.0:
   version "0.3.0"
@@ -5762,6 +5774,13 @@ write@^0.2.1:
 ws@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ws/-/ws-1.0.1.tgz#7d0b2a2e58cddd819039c29c9de65045e1b310e9"
+  dependencies:
+    options ">=0.0.5"
+    ultron "1.0.x"
+
+ws@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.1.tgz#082ddb6c641e85d4bb451f03d52f06eabdb1f018"
   dependencies:
     options ">=0.0.5"
     ultron "1.0.x"

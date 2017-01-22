@@ -20,6 +20,7 @@ require! {
   'glob'
   'bestzip'
   'chrome-web-store-item-property'
+  'livereload'
 }
 
 fse = require 'fs-extra'
@@ -677,5 +678,9 @@ gulp.task 'watch', ['build'], (done) ->
 gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip'
 
 gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch'))
+
+gulp.task 'livereload', ->
+  livereload_server = livereload.createServer()
+  livereload_server.watch('dist')
 
 gulp.task 'default', gulp.series('watch')

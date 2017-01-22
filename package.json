@@ -14,6 +14,7 @@
     "jspm": "^0.17.0-beta.22",
     "levn": "^0.3.0",
     "list_requires": "^1.0.0",
+    "livereload": "^0.6.0",
     "mathjs": "^3.5.3",
     "moment": "^2.13.0",
     "percipio": "^0.1.2",

@@ -37,21 +37,41 @@ webpack_config = {
         {
           test: /\.html$/
           loader: 'html-loader?attrs=false'
+          exclude: [
+            fromcwd('node_modules')
+            #fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
         }
         {
           # asset loader
           test: /\.(woff|woff2|ttf|eot)$/,
           loader: 'file-loader?name=[path][name]'
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
         }
         {
           # image loader
           test: /\.(jpe?g|png|gif|svg)$/i,
           loader:'file-loader?name=[path][name]'
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
         }
         {
           # html loader
           test: /\.(jpe?g|png|gif|svg)$/i,
           loader:'file-loader?name=[path][name]'
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
         }
         # {
         #  test: /\.ls$/
@@ -70,9 +90,9 @@ webpack_config = {
           loader: 'livescript-loader'
           include: [fromcwd('src')]
           exclude: [
-            fromcwd('src/components_skate')
             fromcwd('node_modules')
-            fromcwd('bower_components')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
           ]
         }
         # {

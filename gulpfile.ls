@@ -231,15 +231,19 @@ with_created_object = (orig_obj, func_to_apply) ->
 
 webpack_config_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
+  o.devtool = null # comment out to generate source maps
 
 webpack_config_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
+  o.devtool = null # comment out to generate source maps
 
 webpack_config_watch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = true
+  o.devtool = null # comment out to generate source maps
 
 webpack_config_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
+  o.devtool = null # comment out to generate source maps
 
 webpack_config_nosrcmap_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true

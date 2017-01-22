@@ -29,7 +29,7 @@ webpack_config.module.loaders = [
   }
 ]
 
-webpack_config.plugins.push(new RewirePlugin())
+#webpack_config.plugins.push(new RewirePlugin())
 
 {get_alias_info} = require './alias_utils.ls'
 

@@ -40,6 +40,7 @@ webpack_config_backend = require './webpack_config_backend.ls'
 
 lspattern = [
   'src/redirect.ls'
+  'src/habitlab_website_redirect.ls'
   'src/components/*.ls'
   'src/fields/*.ls'
   'src/libs_frontend/**/*.ls'

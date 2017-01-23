@@ -18,6 +18,9 @@ permissions:
   - 'https://*/'
 content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'
 web_accessible_resources:
+  - options.html
+  - popup.html
+  - index.html
   - icons/*.png
   - icons/*.svg
   - node_modules_custom/**/*
@@ -38,6 +41,16 @@ background:
   persistent: true
   scripts:
     - backend/background.js
+content_scripts:
+  - all_frames: true
+    run_at: document_start
+    js:
+      - habitlab_website_redirect.js
+    matches:
+      - http://habitlab.github.io/redirect.html*
+      - https://habitlab.github.io/redirect.html*
+      - http://habitlab.stanford.edu/redirect.html*
+      - https://habitlab.stanford.edu/redirect.html*
 icons:
   '19': icons/icon_19.png
   '32': icons/icon_32.png

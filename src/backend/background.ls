@@ -266,14 +266,31 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
       content_script_code = yield $.get options.path
     if options.jspm_require
       content_script_code = """
+      window.Polymer = window.Polymer || {}
+      window.Polymer.dom = 'shadow'
+      SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
+        intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)})
+        SystemJS.import('libs_common/systemjs_require').then(function(systemjs_require) {
+          systemjs_require.make_require(#{JSON.stringify(options.jspm_deps)}).then(function(require) {
+            #{content_script_code}
+          })
+        })
+      })
+      """
+
+      /*
+      content_script_code = """
       SystemJS.import('co').then(function(co) {
         co(function*() {
-          const systemjs_require = yield SystemJS.import('libs_common/systemjs_require')
-          const require = yield make_require(#{options.jspm_deps})
+          var intervention_info_setter_lib = yield SystemJS.import('libs_common/intervention_info')
+          intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)})
+          var systemjs_require = yield SystemJS.import('libs_common/systemjs_require')
+          const require = yield systemjs_require.make_require(#{JSON.stringify(options.jspm_deps)})
           #{content_script_code}
         })
       })
       """
+      */
     content_script_code = """
 if (!window.allowed_interventions) {
   window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};

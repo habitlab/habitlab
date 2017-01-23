@@ -124,10 +124,6 @@
       "util": "npm:jspm-nodelibs-util@^0.2.0"
     }
   },
-  "npm:co@4.6.0": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:webcomponentsjs-custom-element-v0@1.0.1": {
     "deps": {},
     "peerDeps": {}
@@ -789,6 +785,10 @@
     "peerDeps": {}
   },
   "npm:esprima-walk@0.1.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:co@4.6.0": {
     "deps": {},
     "peerDeps": {}
   }

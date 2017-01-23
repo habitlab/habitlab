@@ -57,13 +57,6 @@ polymer_ext {
     code = this.js_editor.getSession().getValue()
     list_requires = yield get_list_requires()
     dependencies = list_requires(code)
-    new_code = """
-    SystemJS.import('libs_common/systemjs_require').then(function(systemjs_require) {
-      systemjs_require.make_require(#{JSON.stringify(dependencies)}).then(function(require) {
-        #{code}
-      })
-    })
-    """
     intervention_info = {
       name: this.$.intervention_name.value
       displayname: this.$.intervention_name.value
@@ -73,7 +66,9 @@ polymer_ext {
       matches: [this.$.intervention_domain.value]
       content_scripts: [
         {
-          code: new_code
+          code: code
+          jspm_require: true
+          jspm_deps: dependencies
         }
       ]
       goals: [this.$.goal_selector.selectedItem.goal_info]

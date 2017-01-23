@@ -85,6 +85,7 @@
       "async": "npm:async@^2.0.1",
       "brace": "npm:brace@^0.9.1",
       "cfy": "npm:cfy@^1.0.18",
+      "co": "npm:co@^4.6.0",
       "dexie": "npm:dexie@^1.4.1",
       "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@^1.0.7",
       "jquery": "npm:jquery@^3.1.0",

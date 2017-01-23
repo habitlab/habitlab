@@ -9,6 +9,7 @@ SystemJS.config({
   map: {
     "brace": "npm:brace@0.9.1",
     "child_process": "npm:jspm-nodelibs-child_process@0.2.0",
+    "co": "npm:co@4.6.0",
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
     "js-yaml": "npm:js-yaml@3.7.0",

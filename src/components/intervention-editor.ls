@@ -88,6 +88,54 @@ polymer_ext {
     this.$.intervention_domain.value = goal_info.domain
     preview_page = goal_info.preview ? goal_info.homepage
     this.$.intervention_preview_url.value = preview_page
+  language_selector_changed: cfy (change_info) ->*
+    lang = change_info.detail.item.lang
+    this.set_edit_mode(lang)
+  set_edit_mode: (lang) ->
+    self = this
+    lse = this.S('#livescript_editor')
+    jse = this.S('#javascript_editor')
+    lslen = this.ls_editor.getSession().getLength()
+    jslen = this.js_editor.getSession().getLength()
+    if lang == 'ls_and_js'
+      jse.css {
+        width: 'calc(50vw - 10px)'
+        display: 'inline-block'
+      }
+      lse.css {
+        width: 'calc(50vw - 10px)'
+        display: 'inline-block'
+      }
+      self.js_editor.focus()
+      self.js_editor.setValue(self.js_editor.getValue())
+      self.js_editor.gotoLine(jslen)
+      self.ls_editor.focus()
+      self.ls_editor.setValue(self.ls_editor.getValue())
+      self.ls_editor.gotoLine(lslen)
+    else if lang == 'ls'
+      jse.css {
+        width: '0px'
+        display: 'none'
+      }
+      lse.css {
+        width: 'calc(100vw - 20px)'
+        display: 'inline-block'
+      }
+      self.ls_editor.focus()
+      self.ls_editor.setValue(self.ls_editor.getValue())
+      self.ls_editor.gotoLine(lslen)
+    else if lang == 'js'
+      jse.css {
+        width: 'calc(100vw - 20px)'
+        display: 'inline-block'
+      }
+      lse.css {
+        width: '0px'
+        display: 'none'
+      }
+      self.js_editor.focus()
+      self.js_editor.setValue(self.js_editor.getValue())
+      self.js_editor.gotoLine(jslen)
   preview_intervention: cfy ->*
     yield this.save_intervention()
     intervention_name = this.$.intervention_name.value
@@ -115,4 +163,9 @@ polymer_ext {
     #self.goal_info_list = [all_goals[x] for x in enabled_goals]
     goals_list = yield list_all_goals()
     self.goal_info_list = [all_goals[x] for x in goals_list]
+}, {
+  source: require 'libs_frontend/polymer_methods'
+  methods: [
+    'S'
+  ]
 }

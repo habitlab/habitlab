@@ -50,10 +50,10 @@
 
     <div>
       <paper-dropdown-menu style="width: 300px">
-        <paper-listbox id="language_selector" class="dropdown-content" selected="0">
-          <paper-item>LiveScript and JavaScript</paper-item>
-          <paper-item>LiveScript</paper-item>
-          <paper-item>JavaScript</paper-item>
+        <paper-listbox id="language_selector" on-iron-select="language_selector_changed" class="dropdown-content" selected="0">
+          <paper-item lang="ls_and_js">LiveScript and JavaScript</paper-item>
+          <paper-item lang="ls">LiveScript</paper-item>
+          <paper-item lang="js">JavaScript</paper-item>
         </paper-listbox>
       </paper-dropdown-menu>
     </div>

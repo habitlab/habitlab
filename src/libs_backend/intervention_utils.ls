@@ -29,6 +29,8 @@ prelude = require 'prelude-ls'
   as_array
   remove_keys_matching_patternfunc_from_localstorage_dict
   remove_items_matching_patternfunc_from_localstorage_list
+  remove_key_from_localstorage_dict
+  remove_item_from_localstorage_list
 } = require 'libs_common/collection_utils'
 
 {
@@ -161,6 +163,10 @@ export add_new_intervention = cfy (intervention_info) ->*
   })
   */
 
+export list_custom_interventions = cfy ->*
+  all_interventions = yield get_interventions()
+  return prelude.sort [name for name,info of all_interventions when info.custom]
+
 export add_new_interventions = cfy (intervention_info_list) ->*
   extra_get_interventions = localStorage.getItem 'extra_get_interventions'
   if extra_get_interventions?
@@ -193,6 +199,12 @@ export remove_generated_interventions_for_domain = (domain) ->
   clear_cache_all_interventions()
   remove_keys_matching_patternfunc_from_localstorage_dict 'extra_get_interventions', -> it.startsWith("generated_#{domain}/")
   remove_items_matching_patternfunc_from_localstorage_list 'extra_list_all_interventions', -> it.startsWith("generated_#{domain}/")
+  return
+
+export remove_custom_intervention = (intervention_name) ->
+  clear_cache_all_interventions()
+  remove_key_from_localstorage_dict 'extra_get_interventions', intervention_name
+  remove_item_from_localstorage_list 'extra_list_all_interventions', intervention_name
   return
 
 export list_generic_interventions = memoizeSingleAsync cfy ->*

@@ -694,7 +694,7 @@ gulp.task 'livereload', ->
       'components/*'
       'components/**/*'
     ]
-    delay: 300
+    delay: 500
   })
   livereload_server.watch([
     'dist/index.js'

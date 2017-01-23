@@ -273,7 +273,7 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
 
 webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
-  o.devtool = null
+  o.devtool = false
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }

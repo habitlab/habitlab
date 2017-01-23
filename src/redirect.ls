@@ -77,6 +77,9 @@ if query.startsWith('index.html') or query.startsWith('options.html') or query.s
   url = chrome.extension.getURL('/') + query
 else
   query = query.split('?').join('&')
+  delete params.q
+  if Object.keys(params).length > 0
+    query = query + '&' + serialize(params)
   url = chrome.extension.getURL('/index.html?tag=' + query)
   if url.endsWith('=')
     url = url.substr(0, url.length - 1)

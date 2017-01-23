@@ -79,6 +79,8 @@ polymer_ext {
           localstorage_setbool(option.name, true)
         else if is_opera and option.recommended == 'opera'
           localstorage_setbool(option.name, true)
+  register_protocol_handler: ->
+    navigator.registerProtocolHandler('web+habitlab', chrome.extension.getURL('/redirect.html?query=') + '%s', 'HabitLab')
   ready: ->
     if not localstorage_getbool('options_dev_already_opened')
       this.enable_recommended()

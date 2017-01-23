@@ -700,4 +700,4 @@ gulp.task 'livereload', ->
     'dist/index.js'
   ])
 
-gulp.task 'default', gulp.series('watch', 'livereload')
+gulp.task 'default', gulp.parallel('watch', 'livereload')

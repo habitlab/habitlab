@@ -39,6 +39,7 @@ webpack_config_frontend = require './webpack_config_frontend.ls'
 webpack_config_backend = require './webpack_config_backend.ls'
 
 lspattern = [
+  'src/redirect.ls'
   'src/components/*.ls'
   'src/fields/*.ls'
   'src/libs_frontend/**/*.ls'
@@ -124,7 +125,6 @@ webpack_pattern = [
   'src/index_jspm.ls'
   'src/options.ls'
   'src/popup.ls'
-  'src/redirect.ls'
 ]
 
 webpack_pattern_content_scripts = [

@@ -74,6 +74,12 @@ if query == 'options'
 if query == 'popup'
   query = 'popup.html'
 if query.startsWith('index.html') or query.startsWith('options.html') or query.startsWith('popup.html') or query.startsWith('index_jspm.html')
+  delete params.q
+  if Object.keys(params).length > 0
+    if query.indexOf('?') == -1
+      query = query + '?' + serialize(params)
+    else
+      query = query + '&' + serialize(params)
   url = chrome.extension.getURL('/') + query
 else
   query = query.split('?').join('&')

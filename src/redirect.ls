@@ -46,12 +46,17 @@ query = params.q
 if not query?
   if params.tag?
     query = 'index.html?' + serialize(params)
+    params = {}
   else
     qidx = location_url.indexOf('?')
     if qidx != -1
       query = location_url.substr(qidx + 1)
+      if query.endsWith('=')
+        query = query.substr(0, query.length - 1)
+      params = {}
     else
       query = 'options'
+      params = {}
 
 do ->
   if not query.startsWith('web habitlab:')
@@ -69,10 +74,20 @@ do ->
       return
   query := 'options'
 
-if query == 'options'
+hash = window.location.hash
+if not hash?
+  hash = ''
+if hash.startsWith('#')
+  hash = hash.substr(1)
+
+if query == 'options' or query == 'settings' or query == 'config'
   query = 'options.html'
+  hash = 'settings'
 if query == 'popup'
   query = 'popup.html'
+if query == 'dashboard' or query == 'results'
+  query = 'options.html'
+  hash = 'results'
 if query.startsWith('index.html') or query.startsWith('options.html') or query.startsWith('popup.html') or query.startsWith('index_jspm.html')
   delete params.q
   if Object.keys(params).length > 0
@@ -86,15 +101,11 @@ else
   delete params.q
   if Object.keys(params).length > 0
     query = query + '&' + serialize(params)
+  query = query.split('=&').join('&')
+  if query.endsWith('=')
+    query = query.substr(0, query.length - 1)
   url = chrome.extension.getURL('/index.html?tag=' + query)
-  if url.endsWith('=')
-    url = url.substr(0, url.length - 1)
 
-hash = window.location.hash
-if not hash?
-  hash = ''
-if hash.startsWith('#')
-  hash = hash.substr(1)
 
 if hash.length > 0
   window.location.href = url + '#' + hash

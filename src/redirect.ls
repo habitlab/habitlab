@@ -1,5 +1,19 @@
-getUrlParameters = ->
+get_url_without_trim_params = ->
   url = window.location.href
+  for x in [
+    '&utm_source=tr.im'
+    '&utm_medium=no_referer'
+    '&utm_campaign=tr.im%2Fhab'
+    '&utm_content=direct_input'
+  ]
+    if url.indexOf(x) != -1
+      url = url.split(x).join('')
+  return url
+
+location_url = get_url_without_trim_params()
+
+getUrlParameters = ->
+  url = location_url
   hash = url.lastIndexOf('#')
   if hash != -1
     url = url.slice(0, hash)
@@ -10,13 +24,36 @@ getUrlParameters = ->
   )
   return map
 
+serialize = (obj, prefix) ->
+  str = []
+  for p, v of obj
+    k = if prefix then prefix + "[" + p + "]" else p
+    if typeof v == "object"
+      str.push(serialize(v, k))
+    else
+      str.push(encodeURIComponent(k) + "=" + encodeURIComponent(v))
+
+  str.join("&")
+
 params = getUrlParameters()
+if params.utm_source == 'tr.im'
+  delete params.utm_source
+  delete params.utm_medium
+  delete params.utm_campaign
+  delete params.utm_content
+
 query = params.q
+if not query?
+  if params.tag?
+    query = 'index.html?' + serialize(params)
+  else
+    qidx = location_url.indexOf('?')
+    if qidx != -1
+      query = location_url.substr(qidx + 1)
+    else
+      query = 'options'
 
 do ->
-  if not query?
-    query := 'options'
-    return
   if not query.startsWith('web habitlab:')
     return
   seen_colon = false
@@ -41,5 +78,16 @@ if query.startsWith('index.html') or query.startsWith('options.html') or query.s
 else
   query = query.split('?').join('&')
   url = chrome.extension.getURL('/index.html?tag=' + query)
+  if url.endsWith('=')
+    url = url.substr(0, url.length - 1)
 
-window.location.href = url
+hash = window.location.hash
+if not hash?
+  hash = ''
+if hash.startsWith('#')
+  hash = hash.substr(1)
+
+if hash.length > 0
+  window.location.href = url + '#' + hash
+else
+  window.location.href = url

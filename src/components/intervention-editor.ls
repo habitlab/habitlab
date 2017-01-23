@@ -14,6 +14,7 @@
 {
   get_goals
   get_enabled_goals
+  list_all_goals
 } = require 'libs_backend/goal_utils'
 
 {
@@ -110,6 +111,8 @@ polymer_ext {
     ls_editor.on 'change', ->
       self.ls_editor_changed()
     all_goals = yield get_goals()
-    enabled_goals = as_array(yield get_enabled_goals())
-    self.goal_info_list = [all_goals[x] for x in enabled_goals]
+    #enabled_goals = as_array(yield get_enabled_goals())
+    #self.goal_info_list = [all_goals[x] for x in enabled_goals]
+    goals_list = yield list_all_goals()
+    self.goal_info_list = [all_goals[x] for x in goals_list]
 }

@@ -26,6 +26,10 @@ polymer_ext {
               description: 'Display info logged with dlog under console.log'
               recommended: 'all'
             }
+            {
+              name: 'refresh_livereload'
+              description: 'Automatically refresh pages as files are updated'
+            }
           ]
         }
         {

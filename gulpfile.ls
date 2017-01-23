@@ -686,7 +686,18 @@ gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip'
 gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch'))
 
 gulp.task 'livereload', ->
-  livereload_server = livereload.createServer()
-  livereload_server.watch('dist')
+  livereload_server = livereload.createServer({
+    applyCSSLive: false
+    applyImgLive: false
+    exclusions: [
+      '*.jspm.js'
+      'components/*'
+      'components/**/*'
+    ]
+    delay: 300
+  })
+  livereload_server.watch([
+    'dist/index.js'
+  ])
 
-gulp.task 'default', gulp.series('watch')
+gulp.task 'default', gulp.series('watch', 'livereload')

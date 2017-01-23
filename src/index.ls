@@ -185,4 +185,18 @@ window.uselib = (libname, callback) ->
       '    swal(\'hello world\')'
     ].join('\n'))
 
+if localStorage.refresh_livereload == 'true'
+  {co} = require 'co'
+  co ->*
+    try
+      script_fetch_result = yield fetch('http://localhost:35729/livereload.js?snipver=1')
+      script_text = yield script_fetch_result.text()
+      script_tag = document.createElement('script')
+      #script_tag.src = chrome.extension.getURL('/livereload.js?snipver=1')
+      script_tag.src = 'http://localhost:35729/livereload.js?snipver=1'
+      document.getElementsByTagName('head')[0].appendChild(script_tag)
+      eval(script_text)
+    catch e
+      console.log e
+
 require 'libs_common/global_exports_post'

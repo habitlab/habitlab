@@ -80,8 +80,8 @@ polymer_ext {
     # return this.$.intervention_name.value
     return this.$.intervention_selector.selectedItem.intervention_name
   save_intervention: cfy ->*
-    code = this.js_editor.getSession().getValue()
-    lscode = this.ls_editor.getSession().getValue()
+    code = this.js_editor.getSession().getValue().trim()
+    lscode = this.ls_editor.getSession().getValue().trim()
     list_requires = yield get_list_requires()
     dependencies = list_requires(code)
     intervention_info = {
@@ -98,24 +98,22 @@ polymer_ext {
           jspm_deps: dependencies
         }
       ]
-      livescript_code: lscode
       edit_mode: this.get_edit_mode()
       goals: [this.$.goal_selector.selectedItem.goal_info]
       custom: true
     }
+    if lscode.length > 0 and (intervention_info.edit_mode == 'ls' or intervention_info.edit_mode == 'ls_and_js')
+      intervention_info.livescript_code = lscode
     this.intervention_info = intervention_info
     yield add_new_intervention(intervention_info)
     return
   intervention_selector_changed: cfy (change_info) ->*
-    console.log 'intervention_selector_changed'
     intervention_name = change_info.detail.item.intervention_name
     this.intervention_info = intervention_info = yield get_intervention_info(intervention_name)
     goal_name = intervention_info.goals[0].name
     goal_names_list = this.goal_info_list.map (.name)
     goal_idx = goal_names_list.indexOf(goal_name)
     this.$.goal_selector.selected = goal_idx
-    console.log 'edit mode is'
-    console.log intervention_info.edit_mode
     edit_mode_idx = switch intervention_info.edit_mode
     | 'ls_and_js' => 0
     | 'ls' => 1
@@ -124,7 +122,8 @@ polymer_ext {
     this.$.language_selector.selected = edit_mode_idx
     this.set_edit_mode intervention_info.edit_mode
     this.js_editor.setValue(intervention_info.content_scripts[0].code)
-    this.ls_editor.setValue(intervention_info.livescript_code)
+    if intervention_info.livescript_code?
+      this.ls_editor.setValue(intervention_info.livescript_code)
   goal_selector_changed: cfy (change_info) ->*
     if not this.intervention_info?
       return
@@ -168,6 +167,8 @@ polymer_ext {
       self.ls_editor.focus()
       self.ls_editor.setValue(self.ls_editor.getValue())
       self.ls_editor.gotoLine(lslen)
+      self.js_editor.setReadOnly(true)
+      self.ls_editor.setReadOnly(false)
     else if lang == 'ls'
       jse.css {
         width: '0px'
@@ -180,6 +181,8 @@ polymer_ext {
       self.ls_editor.focus()
       self.ls_editor.setValue(self.ls_editor.getValue())
       self.ls_editor.gotoLine(lslen)
+      self.js_editor.setReadOnly(true)
+      self.ls_editor.setReadOnly(false)
     else if lang == 'js'
       jse.css {
         width: 'calc(100vw - 20px)'
@@ -192,6 +195,8 @@ polymer_ext {
       self.js_editor.focus()
       self.js_editor.setValue(self.js_editor.getValue())
       self.js_editor.gotoLine(jslen)
+      self.ls_editor.setReadOnly(true)
+      self.js_editor.setReadOnly(false)
   delete_intervention: cfy ->*
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     intervention_name = this.get_intervention_name()

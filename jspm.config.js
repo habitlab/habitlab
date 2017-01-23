@@ -13,6 +13,7 @@ SystemJS.config({
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
     "js-yaml": "npm:js-yaml@3.7.0",
     "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
+    "list_requires": "npm:list_requires@1.0.0",
     "livescript15": "npm:livescript15@1.5.4",
     "async": "npm:async@2.0.1",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
@@ -368,6 +369,12 @@ SystemJS.config({
         "bn.js": "npm:bn.js@4.11.6",
         "inherits": "npm:inherits@2.0.3",
         "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
+      }
+    },
+    "npm:list_requires@1.0.0": {
+      "map": {
+        "esprima": "npm:esprima@2.7.3",
+        "esprima-walk": "npm:esprima-walk@0.1.0"
       }
     }
   }

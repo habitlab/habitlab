@@ -6,6 +6,20 @@
   add_new_intervention
 } = require 'libs_backend/intervention_utils'
 
+{
+  as_array
+} = require 'libs_common/collection_utils'
+
+{
+  memoizeSingleAsync
+} = require 'libs_common/memoize'
+
+get_livescript = memoizeSingleAsync cfy ->*
+  yield SystemJS.import('livescript15')
+
+get_list_requires = memoizeSingleAsync cfy ->*
+  yield SystemJS.import('list_requires')
+
 polymer_ext {
   is: 'intervention-editor'
   properties: {
@@ -17,17 +31,14 @@ polymer_ext {
       type: String
       value: '38px'
     }
+    goal_info_list: {
+      type: Array
+    }
   }
-  get_livescript: cfy ->*
-    self = this
-    if self.livescript?
-      return self.livescript
-    self.livescript = yield SystemJS.import('livescript15')
-    return self.livescript
   ls_editor_changed: cfy ->*
     self = this
     ls_text = self.ls_editor.getValue()
-    ls_compiler = yield self.get_livescript()
+    ls_compiler = yield get_livescript()
     try
       js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
       self.js_editor.getSession().setValue(js_text)
@@ -43,23 +54,44 @@ polymer_ext {
         ])
       console.log e
   save_intervention: cfy ->*
-    console.log 'save button pressed'
+    code = this.js_editor.getSession().getValue()
+    list_requires = yield get_list_requires()
+    dependencies = list_requires(code)
+    new_code = """
+    SystemJS.import('libs_common/systemjs_require').then(function(systemjs_require) {
+      systemjs_require.make_require(#{JSON.stringify(dependencies)}).then(function(require) {
+        #{code}
+      })
+    })
+    """
     intervention_info = {
       name: this.$.intervention_name.value
       displayname: this.$.intervention_name.value
       description: this.$.intervention_description.value
       domain: this.$.intervention_domain.value
+      preview: this.$.intervention_preview_url.value
       matches: [this.$.intervention_domain.value]
       content_scripts: [
         {
-          code: this.js_editor.getSession().getValue()
+          code: new_code
         }
       ]
+      goals: [this.$.goal_selector.selectedItem.goal_info]
       # TODO: set goals to the goal that it satisfies
     }
-    console.log intervention_info
     yield add_new_intervention(intervention_info)
     return
+  goal_selector_changed: cfy (change_info) ->*
+    goal_info = change_info.detail.item.goal_info
+    this.$.intervention_domain.value = goal_info.domain
+    preview_page = goal_info.preview ? goal_info.homepage
+    this.$.intervention_preview_url.value = preview_page
+  preview_intervention: cfy ->*
+    yield this.save_intervention()
+    intervention_name = this.$.intervention_name.value
+    set_override_enabled_interventions_once intervention_name
+    preview_page = this.$.intervention_preview_url.value
+    chrome.tabs.create {url: preview_page}
   ready: cfy ->*
     self = this
     brace = yield SystemJS.import('brace')
@@ -76,5 +108,7 @@ polymer_ext {
     ls_editor.$blockScrolling = Infinity
     ls_editor.on 'change', ->
       self.ls_editor_changed()
-  
+    all_goals = yield get_goals()
+    enabled_goals = as_array(yield get_enabled_goals())
+    self.goal_info_list = [all_goals[x] for x in enabled_goals]
 }

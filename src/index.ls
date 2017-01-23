@@ -148,6 +148,7 @@ start_page_index = cfy ->*
   if index_body_height
     index_body.style.height = index_body_height
   add_url_input_if_needed()
+  window.basetag = tag
   return
 
 start_page_index()

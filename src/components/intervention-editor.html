@@ -30,14 +30,27 @@
   </style>
   <template>
 
-    <paper-input id="intervention_name" label="Intervention Name"></paper-input>
-    <paper-input id="intervention_description" label="Intervention Description"></paper-input>
-    <paper-input id="intervention_domain" label="Domain"></paper-input>
-    <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
+    <paper-input id="intervention_name" label="Intervention Name" value="custom/my_intervention"></paper-input>
+    <paper-input id="intervention_description" label="Intervention Description" value="Describe your intervention here"></paper-input>
 
     <div>
-      <paper-dropdown-menu style="width: 250px">
-        <paper-listbox class="dropdown-content" selected="0">
+      <paper-dropdown-menu style="width: 300px">
+        <paper-listbox id="goal_selector" on-iron-select="goal_selector_changed" class="dropdown-content" selected="0">
+          <template is="dom-repeat" items="{{goal_info_list}}" as="goal_info">
+            <paper-item goal_info="{{goal_info}}">{{goal_info.description}}</paper-item>
+          </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
+    </div>
+
+    <paper-input id="intervention_preview_url" label="Preview URL"></paper-input>
+    <paper-input id="intervention_domain" label="Domain"></paper-input>
+    <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
+    <paper-button style="background-color: green; color: white" on-click="preview_intervention">Try Now</paper-button>
+
+    <div>
+      <paper-dropdown-menu style="width: 300px">
+        <paper-listbox id="language_selector" class="dropdown-content" selected="0">
           <paper-item>LiveScript and JavaScript</paper-item>
           <paper-item>LiveScript</paper-item>
           <paper-item>JavaScript</paper-item>

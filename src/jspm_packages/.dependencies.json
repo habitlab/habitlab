@@ -109,10 +109,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:esprima@2.7.3": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:lodash@4.14.1": {
     "deps": {},
     "peerDeps": {}
@@ -778,6 +774,21 @@
     }
   },
   "npm:jspm-nodelibs-events@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:list_requires@1.0.0": {
+    "deps": {
+      "esprima": "npm:esprima@^2.7.2",
+      "esprima-walk": "npm:esprima-walk@^0.1.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:esprima@2.7.3": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:esprima-walk@0.1.0": {
     "deps": {},
     "peerDeps": {}
   }

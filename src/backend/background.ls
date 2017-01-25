@@ -268,6 +268,19 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
       content_script_code = """
       window.Polymer = window.Polymer || {}
       window.Polymer.dom = 'shadow'
+      SystemJS.import('co').then(function(co) {
+        co(function*() {
+          var intervention_info_setter_lib = yield SystemJS.import('libs_common/intervention_info');
+          intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
+          var systemjs_require = yield SystemJS.import('libs_common/systemjs_require');
+          var require = yield systemjs_require.make_require(#{JSON.stringify(options.jspm_deps)});
+          var require_css = function() {};
+          var require_package = require;
+          #{content_script_code}
+        })
+      })
+      """
+      /*
       SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
         intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)})
         SystemJS.import('libs_common/systemjs_require').then(function(systemjs_require) {
@@ -276,8 +289,7 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
           })
         })
       })
-      """
-
+      */
       /*
       content_script_code = """
       SystemJS.import('co').then(function(co) {
@@ -332,6 +344,15 @@ load_intervention_list = cfy (intervention_list, tabId) ->*
     for options in intervention_info.background_script_options
       yield load_background_script options, intervention_info
 
+  # load css files
+  for intervention_info in intervention_info_list
+    if intervention_info.css_files?
+      for css_file in intervention_info.css_files
+        yield -> chrome.tabs.insertCSS {file: css_file}, it
+    if intervention_info.styles?
+      for css_code in intervention_info.styles
+        yield -> chrome.tabs.insertCSS {code: css_code}, it
+
   # load content scripts
   for intervention_info in intervention_info_list
     yield execute_content_scripts_for_intervention intervention_info, tabId, intervention_list
@@ -344,6 +365,14 @@ load_intervention = cfy (intervention_name, tabId) ->*
   # load background scripts
   for options in intervention_info.background_script_options
     yield load_background_script options, intervention_info
+
+  # load css files
+  if intervention_info.css_files?
+    for css_file in intervention_info.css_files
+      yield -> chrome.tabs.insertCSS {file: css_file}, it
+  if intervention_info.styles?
+    for css_code in intervention_info.styles
+      yield -> chrome.tabs.insertCSS {code: css_code}, it
 
   # load content scripts
   yield execute_content_scripts_for_intervention intervention_info, tabId, [intervention_name]

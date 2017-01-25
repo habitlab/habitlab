@@ -29,6 +29,11 @@
   load_css_file
 } = require 'libs_common/content_script_utils'
 
+{
+  get_css_for_package_list
+  get_npm_for_package_list
+} = require 'libs_backend/require_utils'
+
 swal = require 'sweetalert2'
 
 get_livescript = memoizeSingleAsync cfy ->*
@@ -83,7 +88,11 @@ polymer_ext {
     code = this.js_editor.getSession().getValue().trim()
     lscode = this.ls_editor.getSession().getValue().trim()
     list_requires = yield get_list_requires()
-    dependencies = list_requires(code)
+    dependencies = list_requires(code, ['require', 'require_css', 'require_style', 'require_package', 'require_component'])
+    required_css_files = dependencies.require_css
+    required_css_files = required_css_files.concat (yield get_css_for_package_list(dependencies.require_package))
+    required_jspm_deps = dependencies.require
+    required_jspm_deps = required_jspm_deps.concat (yield get_npm_for_package_list(dependencies.require_package))
     intervention_info = {
       name: this.get_intervention_name()
       displayname: this.get_intervention_name()
@@ -91,11 +100,13 @@ polymer_ext {
       domain: this.$.intervention_domain.value
       preview: this.$.intervention_preview_url.value
       matches: [this.$.intervention_domain.value]
+      css_files: required_css_files
+      styles: dependencies.require_style
       content_scripts: [
         {
           code: code
           jspm_require: true
-          jspm_deps: dependencies.require
+          jspm_deps: required_jspm_deps
         }
       ]
       edit_mode: this.get_edit_mode()

@@ -414,7 +414,7 @@ polymer_ext {
     yield self.refresh_intervention_list()
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     setTimeout ->
-      if self.intervention_info.edit_mode
+      if self.intervention_info?edit_mode?
         self.set_edit_mode(self.intervention_info.edit_mode)
     , 500
 }, {

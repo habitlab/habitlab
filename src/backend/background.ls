@@ -276,6 +276,7 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
           var require = yield systemjs_require.make_require(#{JSON.stringify(options.jspm_deps)});
           var require_css = function() {};
           var require_package = require;
+          var require_component = function() {};
           #{content_script_code}
         })
       })

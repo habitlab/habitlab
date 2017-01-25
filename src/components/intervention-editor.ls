@@ -93,10 +93,12 @@ polymer_ext {
     required_css_files_from_require_css = dependencies.require_css
     required_css_files_from_require_package = yield get_css_for_package_list(dependencies.require_package)
     required_css_files = required_css_files_from_require_css.concat required_css_files_from_require_package
-    jspm_deps_from_require = dependencies.require
+    jspm_deps_from_require = yield get_requires_for_package_list(dependencies.require)
     jspm_deps_from_require_package = yield get_requires_for_package_list(dependencies.require_package)
     jspm_deps_from_require_component = yield get_requires_for_component_list(dependencies.require_component)
     required_jspm_deps = jspm_deps_from_require.concat jspm_deps_from_require_package.concat jspm_deps_from_require_component
+    if jspm_deps_from_require_component.length > 0
+      required_jspm_deps = ['enable-webcomponents-in-content-scripts'].concat required_jspm_deps
     for css_file in required_css_files_from_require_css
       try
         css_file_request = yield fetch(css_file)
@@ -108,6 +110,7 @@ polymer_ext {
           check your require_css statements
           '''
         }
+        return
     for css_file in required_css_files_from_require_package
       try
         css_file_request = yield fetch(css_file)
@@ -119,10 +122,14 @@ polymer_ext {
           check your require_package statements
           '''
         }
+        return
+    /*
     for required_jspm_dep in jspm_deps_from_require
       try
+        console.log required_jspm_dep
         jspm_import = yield System.import(required_jspm_dep)
-      catch
+      catch e
+        console.log e
         swal {
           title: 'missing jspm package'
           html: required_jspm_dep + '''<br>
@@ -132,24 +139,28 @@ polymer_ext {
     for required_jspm_dep in jspm_deps_from_require_package
       try
         jspm_import = yield System.import(required_jspm_dep)
-      catch
+      catch e
+        console.log e
         swal {
           title: 'missing jspm package'
           html: required_jspm_dep + '''<br>
           check your require_package statements
           '''
         }
+    */
     for required_component in jspm_deps_from_require_component
       try
         js_file_request = yield fetch(required_component)
         js_file_text = yield js_file_request.text()
-      catch
+      catch e
+        console.log e
         swal {
           title: 'missing component'
           html: required_component + '''<br>
           check your require_component statements
           '''
         }
+        return
     intervention_info = {
       name: this.get_intervention_name()
       displayname: this.get_intervention_name()

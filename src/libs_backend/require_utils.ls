@@ -29,6 +29,10 @@ export get_requires_for_package_list = cfy (packages) ->*
   for package_name in packages
     if package_aliases[package_name]?
       package_name = package_aliases[package_name]
+    else if package_name.endsWith('.deps')
+      package_name = package_name.substr(0, package_name.length - 5) + '.jspm'
+    else if package_name.endsWith('.deps.js')
+      package_name = package_name.substr(0, package_name.length - 8) + '.jspm.js'
     output.push package_name
   return output
 
@@ -41,7 +45,7 @@ export get_requires_for_component_list = cfy (components) ->*
       component_html = yield component_request.text()
     catch
       try
-        component_path = "/components/#{component}.jspm.js"
+        component_path = "components/#{component}.jspm.js"
         component_request = yield fetch(component_path)
         component_html = yield component_request.text()
       catch

@@ -1,0 +1,22 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+
+<dom-module id="pretty-paper-slider">
+  <template>
+    <style is="custom-style">
+      :host {
+        --paper-slider-knob-color: red;
+        --paper-slider-active-color: red;
+        --paper-slider: {
+          --paper-slider-knob-color: red;
+          --paper-slider-active-color: red;
+        };
+      }
+    </style>
+    
+    <paper-slider class="red" value="211" max="255" editable></paper-slider>
+
+  </template>
+  <script src="pretty-paper-slider.js"></script>
+</dom-module>

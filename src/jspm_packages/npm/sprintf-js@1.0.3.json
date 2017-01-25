@@ -1,9 +1,0 @@
-{
-  "main": "src/sprintf.js",
-  "format": "cjs",
-  "meta": {
-    "*.json": {
-      "format": "json"
-    }
-  }
-}

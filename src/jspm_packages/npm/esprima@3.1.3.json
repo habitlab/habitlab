@@ -1,0 +1,9 @@
+{
+  "main": "dist/esprima.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

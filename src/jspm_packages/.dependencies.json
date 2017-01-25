@@ -7,13 +7,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:js-yaml@3.7.0": {
-    "deps": {
-      "argparse": "npm:argparse@^1.0.7",
-      "esprima": "npm:esprima@^2.6.0"
-    },
-    "peerDeps": {}
-  },
   "npm:dexie@1.4.1": {
     "deps": {},
     "peerDeps": {
@@ -113,17 +106,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:argparse@1.0.9": {
-    "deps": {
-      "sprintf-js": "npm:sprintf-js@~1.0.2"
-    },
-    "peerDeps": {
-      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
-      "path": "npm:jspm-nodelibs-path@^0.2.0",
-      "process": "npm:jspm-nodelibs-process@^0.2.0",
-      "util": "npm:jspm-nodelibs-util@^0.2.0"
-    }
-  },
   "npm:webcomponentsjs-custom-element-v0@1.0.1": {
     "deps": {},
     "peerDeps": {}
@@ -167,12 +149,6 @@
   "github:systemjs/plugin-text@0.0.8": {
     "deps": {},
     "peerDeps": {}
-  },
-  "npm:sprintf-js@1.0.3": {
-    "deps": {},
-    "peerDeps": {
-      "assert": "npm:jspm-nodelibs-assert@^0.2.0"
-    }
   },
   "npm:util-arity@1.0.2": {
     "deps": {},
@@ -325,10 +301,6 @@
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
   },
-  "npm:jspm-nodelibs-process@0.2.0": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:jspm-nodelibs-buffer@0.2.0": {
     "deps": {
       "buffer-browserify": "npm:buffer@^4.0.0"
@@ -359,10 +331,6 @@
     "peerDeps": {
       "buffer": "npm:jspm-nodelibs-buffer@^0.2.0"
     }
-  },
-  "npm:jspm-nodelibs-assert@0.2.0": {
-    "deps": {},
-    "peerDeps": {}
   },
   "npm:isarray@1.0.0": {
     "deps": {},
@@ -399,12 +367,6 @@
       "os-browserify": "npm:os-browserify@^0.2.0"
     },
     "peerDeps": {}
-  },
-  "npm:jspm-nodelibs-util@0.2.0": {
-    "deps": {},
-    "peerDeps": {
-      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
-    }
   },
   "npm:browserify-sign@4.0.0": {
     "deps": {
@@ -550,10 +512,6 @@
       "constants": "npm:jspm-nodelibs-constants@^0.2.0",
       "crypto": "npm:jspm-nodelibs-crypto@^0.2.0"
     }
-  },
-  "npm:jspm-nodelibs-fs@0.2.0": {
-    "deps": {},
-    "peerDeps": {}
   },
   "npm:cipher-base@1.0.3": {
     "deps": {
@@ -739,12 +697,6 @@
       "buffer": "npm:jspm-nodelibs-buffer@^0.2.0"
     }
   },
-  "npm:jspm-nodelibs-path@0.2.0": {
-    "deps": {},
-    "peerDeps": {
-      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
-    }
-  },
   "npm:process-nextick-args@1.0.7": {
     "deps": {},
     "peerDeps": {
@@ -773,22 +725,50 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:list_requires@1.0.0": {
-    "deps": {
-      "esprima": "npm:esprima@^2.7.2",
-      "esprima-walk": "npm:esprima-walk@^0.1.0"
-    },
+  "npm:co@4.6.0": {
+    "deps": {},
     "peerDeps": {}
   },
-  "npm:esprima@2.7.3": {
-    "deps": {},
+  "npm:list_requires_multi@1.0.0": {
+    "deps": {
+      "esprima": "npm:esprima@^3.1.3",
+      "esprima-walk": "npm:esprima-walk@^0.1.0"
+    },
     "peerDeps": {}
   },
   "npm:esprima-walk@0.1.0": {
     "deps": {},
     "peerDeps": {}
   },
-  "npm:co@4.6.0": {
+  "npm:esprima@3.1.3": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:jspm-nodelibs-path@0.2.0": {
+    "deps": {},
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:jspm-nodelibs-process@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:jspm-nodelibs-fs@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:jspm-nodelibs-util@0.2.0": {
+    "deps": {},
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:jspm-nodelibs-assert@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:nodeca/js-yaml@master": {
     "deps": {},
     "peerDeps": {}
   }

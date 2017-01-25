@@ -12,9 +12,10 @@ SystemJS.config({
     "co": "npm:co@4.6.0",
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
-    "js-yaml": "npm:js-yaml@3.7.0",
+    "esprima": "npm:esprima@3.1.3",
+    "js-yaml": "github:nodeca/js-yaml@master",
     "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
-    "list_requires": "npm:list_requires@1.0.0",
+    "list_requires_multi": "npm:list_requires_multi@1.0.0",
     "livescript15": "npm:livescript15@1.5.4",
     "async": "npm:async@2.0.1",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
@@ -27,6 +28,7 @@ SystemJS.config({
     "jquery": "npm:jquery@3.1.0",
     "mathjs": "npm:mathjs@3.8.1",
     "moment": "npm:moment@2.14.1",
+    "nodeca/js-yaml": "github:nodeca/js-yaml@master",
     "os": "npm:jspm-nodelibs-os@0.2.0",
     "path": "npm:jspm-nodelibs-path@0.2.0",
     "percipio": "npm:percipio@0.1.2",
@@ -340,17 +342,6 @@ SystemJS.config({
         "prelude-ls": "npm:prelude-ls@1.1.2"
       }
     },
-    "npm:js-yaml@3.7.0": {
-      "map": {
-        "argparse": "npm:argparse@1.0.9",
-        "esprima": "npm:esprima@2.7.3"
-      }
-    },
-    "npm:argparse@1.0.9": {
-      "map": {
-        "sprintf-js": "npm:sprintf-js@1.0.3"
-      }
-    },
     "npm:mathjs@3.8.1": {
       "map": {
         "complex.js": "npm:complex.js@2.0.1",
@@ -372,9 +363,9 @@ SystemJS.config({
         "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
       }
     },
-    "npm:list_requires@1.0.0": {
+    "npm:list_requires_multi@1.0.0": {
       "map": {
-        "esprima": "npm:esprima@2.7.3",
+        "esprima": "npm:esprima@3.1.3",
         "esprima-walk": "npm:esprima-walk@0.1.0"
       }
     }

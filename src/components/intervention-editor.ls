@@ -35,7 +35,7 @@ get_livescript = memoizeSingleAsync cfy ->*
   yield SystemJS.import('livescript15')
 
 get_list_requires = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('list_requires')
+  yield SystemJS.import('list_requires_multi')
 
 polymer_ext {
   is: 'intervention-editor'
@@ -95,7 +95,7 @@ polymer_ext {
         {
           code: code
           jspm_require: true
-          jspm_deps: dependencies
+          jspm_deps: dependencies.require
         }
       ]
       edit_mode: this.get_edit_mode()

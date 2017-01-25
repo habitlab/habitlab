@@ -31,7 +31,8 @@
 
 {
   get_css_for_package_list
-  get_npm_for_package_list
+  get_requires_for_package_list
+  get_requires_for_component_list
 } = require 'libs_backend/require_utils'
 
 swal = require 'sweetalert2'
@@ -89,10 +90,66 @@ polymer_ext {
     lscode = this.ls_editor.getSession().getValue().trim()
     list_requires = yield get_list_requires()
     dependencies = list_requires(code, ['require', 'require_css', 'require_style', 'require_package', 'require_component'])
-    required_css_files = dependencies.require_css
-    required_css_files = required_css_files.concat (yield get_css_for_package_list(dependencies.require_package))
-    required_jspm_deps = dependencies.require
-    required_jspm_deps = required_jspm_deps.concat (yield get_npm_for_package_list(dependencies.require_package))
+    required_css_files_from_require_css = dependencies.require_css
+    required_css_files_from_require_package = yield get_css_for_package_list(dependencies.require_package)
+    required_css_files = required_css_files_from_require_css.concat required_css_files_from_require_package
+    jspm_deps_from_require = dependencies.require
+    jspm_deps_from_require_package = yield get_requires_for_package_list(dependencies.require_package)
+    jspm_deps_from_require_component = yield get_requires_for_component_list(dependencies.require_component)
+    required_jspm_deps = jspm_deps_from_require.concat jspm_deps_from_require_package.concat jspm_deps_from_require_component
+    for css_file in required_css_files_from_require_css
+      try
+        css_file_request = yield fetch(css_file)
+        css_file_text = yield css_file_request.text()
+      catch
+        swal {
+          title: 'missing css file'
+          html: css_file + '''<br>
+          check your require_css statements
+          '''
+        }
+    for css_file in required_css_files_from_require_package
+      try
+        css_file_request = yield fetch(css_file)
+        css_file_text = yield css_file_request.text()
+      catch
+        swal {
+          title: 'missing css file'
+          html: css_file + '''<br>
+          check your require_package statements
+          '''
+        }
+    for required_jspm_dep in jspm_deps_from_require
+      try
+        jspm_import = yield System.import(required_jspm_dep)
+      catch
+        swal {
+          title: 'missing jspm package'
+          html: required_jspm_dep + '''<br>
+          check your require statements
+          '''
+        }
+    for required_jspm_dep in jspm_deps_from_require_package
+      try
+        jspm_import = yield System.import(required_jspm_dep)
+      catch
+        swal {
+          title: 'missing jspm package'
+          html: required_jspm_dep + '''<br>
+          check your require_package statements
+          '''
+        }
+    for required_component in jspm_deps_from_require_component
+      try
+        js_file_request = yield fetch(required_component)
+        js_file_text = yield js_file_request.text()
+      catch
+        swal {
+          title: 'missing component'
+          html: required_component + '''<br>
+          check your require_component statements
+          '''
+        }
     intervention_info = {
       name: this.get_intervention_name()
       displayname: this.get_intervention_name()
@@ -209,7 +266,6 @@ polymer_ext {
       self.ls_editor.setReadOnly(true)
       self.js_editor.setReadOnly(false)
   delete_intervention: cfy ->*
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     intervention_name = this.get_intervention_name()
     if not intervention_name
       return
@@ -230,7 +286,6 @@ polymer_ext {
     this.$.intervention_selector.selected = 0
   prompt_new_intervention: cfy ->*
     self = this
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     new_intervention_name = null
     cancelable = this.intervention_list.length > 0
     all_interventions = yield list_all_interventions()
@@ -346,6 +401,7 @@ polymer_ext {
     goals_list = yield list_all_goals()
     self.goal_info_list = [all_goals[x] for x in goals_list]
     yield self.refresh_intervention_list()
+    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     setTimeout ->
       if self.intervention_info.edit_mode
         self.set_edit_mode(self.intervention_info.edit_mode)

@@ -24,10 +24,28 @@ export get_css_for_package_list = cfy (packages) ->*
         output.push css_file
   return output
 
-export get_npm_for_package_list = cfy (packages) ->*
+export get_requires_for_package_list = cfy (packages) ->*
   output = []
   for package_name in packages
     if package_aliases[package_name]?
       package_name = package_aliases[package_name]
     output.push package_name
+  return output
+
+export get_requires_for_component_list = cfy (components) ->*
+  output = []
+  for component in components
+    try
+      component_path = "/bower_components/#{component}/#{component}.jspm.js"
+      component_request = yield fetch(component_path)
+      component_html = yield component_request.text()
+    catch
+      try
+        component_path = "/components/#{component}.jspm.js"
+        component_request = yield fetch(component_path)
+        component_html = yield component_request.text()
+      catch
+        component_path = component
+    output.push component_path
+  #console.log output
   return output

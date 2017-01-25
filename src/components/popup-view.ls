@@ -257,6 +257,10 @@ polymer_ext {
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
 
+  submit_feedback_clicked: cfy ->*
+    yield SystemJS.import('bugmuncher/bugmuncher')
+    window.open_bugmuncher()
+
   help_icon_clicked: cfy ->*
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     swal {
@@ -302,12 +306,14 @@ polymer_ext {
       chrome.tabs.create {url: 'options.html#settings'}
     )
 
+    /*
     self.S('#feedbackButton').click( ->
       if self.$$('.feedbackform').style.display == "block"
         self.$$('.feedbackform').style.display = "none"
       else
         self.$$('.feedbackform').style.display = "block"
     )
+    */
 
     #MARK: Graphs on popup view
 

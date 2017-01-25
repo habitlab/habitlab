@@ -22,36 +22,57 @@ fromcwd = (x) ->
 
 webpack_config = {
   #devtool: 'eval-cheap-module-source-map'
-  devtool: 'cheap-module-source-map'
+  #devtool: 'cheap-module-source-map'
+  devtool: false
   #devtool: 'linked-src'
   #devtool: null
-  debug: true
+  #debug: true
   watch: false
   plugins: [
     # new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-    new webpack.optimize.DedupePlugin()
+    # new webpack.optimize.DedupePlugin()
   ]
   module: {
     loaders: [
         {
           test: /\.html$/
           loader: 'html-loader?attrs=false'
+          exclude: [
+            fromcwd('node_modules')
+            #fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
         }
         {
           # asset loader
           test: /\.(woff|woff2|ttf|eot)$/,
           loader: 'file-loader?name=[path][name]'
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
         }
         {
           # image loader
           test: /\.(jpe?g|png|gif|svg)$/i,
           loader:'file-loader?name=[path][name]'
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
         }
         {
           # html loader
           test: /\.(jpe?g|png|gif|svg)$/i,
           loader:'file-loader?name=[path][name]'
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
         }
         # {
         #  test: /\.ls$/
@@ -70,9 +91,9 @@ webpack_config = {
           loader: 'livescript-loader'
           include: [fromcwd('src')]
           exclude: [
-            fromcwd('src/components_skate')
             fromcwd('node_modules')
-            fromcwd('bower_components')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
           ]
         }
         # {
@@ -87,18 +108,19 @@ webpack_config = {
     ]
   }
   resolve: {
-    moduleDirectories: ['node_modules']
+    unsafeCache: true
+    modules: [
+      fromcwd('src')
+      'node_modules'
+    ]
     extensions: [
-      ''
+      #''
       # '.jsx'
       '.ls'
       '.js'
     ]
     alias: {
     }
-    fallback: [
-      fromcwd('src')
-    ]
   }
   node: {
     fs: 'empty'

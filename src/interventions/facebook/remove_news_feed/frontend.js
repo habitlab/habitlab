@@ -60,7 +60,7 @@ function attachButtons() {
   log_impression(intervention.name)
   var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed" style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo>')
   var centerDiv = $('<center id=centerdiv></center>')
-  var cheatButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: red; color: white" raised>Show My News Feed This One Time</paper-button>')
+  var cheatButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #415D67; color: #D8D8D8" raised>Show my News Feed</paper-button>')
   cheatButton.click(function(evt) {
     log_action(intervention.name, {'negative': 'Remained on Facebook.'})
     showFeed(intervalID)

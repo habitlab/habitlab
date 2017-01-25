@@ -39,13 +39,13 @@ co ->*
 
   {
     getUrlParameters
-  } = yield System.import 'libs_frontend/common_libs'
+  } = yield SystemJS.import 'libs_frontend/common_libs'
 
   use_polyfill = getUrlParameters().polyfill
   if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
     # force the usage of polyfills
     document.registerElement = null
-    yield System.import 'webcomponentsjs-custom-element-v0'
+    yield SystemJS.import 'webcomponentsjs-custom-element-v0'
 
   # this script must run before Polymer is imported
   window.Polymer = {
@@ -54,9 +54,9 @@ co ->*
     lazyRegister: true,
   }
 
-  js-yaml = yield System.import 'js-yaml'
-  {cfy} = yield System.import 'cfy'
-  {get_interventions} = yield System.import 'libs_backend/intervention_utils'
+  js-yaml = yield SystemJS.import 'js-yaml'
+  {cfy} = yield SystemJS.import 'cfy'
+  {get_interventions} = yield SystemJS.import 'libs_backend/intervention_utils'
 
   /*
   export getUrlParameters = ->
@@ -89,8 +89,8 @@ co ->*
     {index_body_width, index_body_height} = params
     if not tagname?
       tagname = 'debug-view'
-    yield System.import('components/' + tagname + '.jspm')
-    #yield System.import('components/components.jspm')
+    yield SystemJS.import('components/' + tagname + '.jspm')
+    #yield SystemJS.import('components/components.jspm')
     #require 'components/components.deps'
     tag = document.createElement(tagname)
     num_properties = 0
@@ -121,19 +121,19 @@ co ->*
 
   start_page_index()
 
-  # systemjs_require <- System.import('libs_common/systemjs_require').then()
+  # systemjs_require <- SystemJS.import('libs_common/systemjs_require').then()
   # drequire <- systemjs_require.make_require_frontend().then()
   # window.require = drequire
   window.uselib = (libname, callback) ->
     if typeof(callback) == 'function'
-      System.import(libname).then(callback)
+      SystemJS.import(libname).then(callback)
     else if typeof(callback) == 'string'
-      System.import(libname).then (imported_lib) ->
+      SystemJS.import(libname).then (imported_lib) ->
         window[callback] = imported_lib
         console.log('imported as window.' + callback)
     else if typeof(libname) == 'string'
       callback = libname.toLowerCase().split('').filter((x) -> 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('')
-      System.import(libname).then (imported_lib) ->
+      SystemJS.import(libname).then (imported_lib) ->
         window[callback] = imported_lib
         console.log('imported as window.' + callback)
     else
@@ -154,4 +154,4 @@ co ->*
         '    swal(\'hello world\')'
       ].join('\n'))
 
-  yield System.import 'libs_common/global_exports_post'
+  yield SystemJS.import 'libs_common/global_exports_post'

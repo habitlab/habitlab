@@ -4,7 +4,7 @@ short_name: habitlab
 description: >-
   Build better habits online! Tell HabitLab your goals, and it will determine
   the appropriate interventions via experimentation.
-version: 1.0.59
+version: 1.0.62
 permissions:
   - tabs
   - webNavigation
@@ -18,6 +18,9 @@ permissions:
   - 'https://*/'
 content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'
 web_accessible_resources:
+  - options.html
+  - popup.html
+  - index.html
   - icons/*.png
   - icons/*.svg
   - node_modules_custom/**/*
@@ -32,10 +35,30 @@ web_accessible_resources:
   - libs_frontend/**/*
   - libs_common/*
   - libs_common/**/*
+  - bugmuncher/*
+  - bugmuncher/**/*
 background:
   persistent: true
   scripts:
     - backend/background.js
+content_scripts:
+  - all_frames: true
+    run_at: document_start
+    js:
+      - habitlab_website_redirect.js
+    matches:
+      - 'http://habitlab.github.io/redirect*'
+      - 'https://habitlab.github.io/redirect*'
+      - 'http://habitlab.stanford.edu/redirect*'
+      - 'https://habitlab.stanford.edu/redirect*'
+      - 'http://habitlab.github.io/go*'
+      - 'https://habitlab.github.io/go*'
+      - 'http://habitlab.stanford.edu/go*'
+      - 'https://habitlab.stanford.edu/go*'
+      - 'http://habitlab.github.io/to*'
+      - 'https://habitlab.github.io/to*'
+      - 'http://habitlab.stanford.edu/to*'
+      - 'https://habitlab.stanford.edu/to*'
 icons:
   '19': icons/icon_19.png
   '32': icons/icon_32.png

@@ -1,13 +1,9 @@
-require! {
-  rewire
-}
+paper_button_html = require('html-loader!./dom_utils_test_files/paper-button.html')
+paper_slider_html = require('html-loader!./dom_utils_test_files/paper-slider.html')
+iron_flex_layout_html = require('html-loader!./dom_utils_test_files/iron-flex-layout.html')
+default_theme_html = require('html-loader!./dom_utils_test_files/default-theme.html')
 
-paper_button_html = require('html!./dom_utils_test_files/paper-button.html')
-paper_slider_html = require('html!./dom_utils_test_files/paper-slider.html')
-iron_flex_layout_html = require('html!./dom_utils_test_files/iron-flex-layout.html')
-default_theme_html = require('html!./dom_utils_test_files/default-theme.html')
-
-describe 'libs_frontend/dom-utils', ->
+describe 'libs_frontend/dom_utils', ->
   sandbox = null
   dom_utils = null
   expose_method = (rewired_module, func_name) !->
@@ -15,7 +11,8 @@ describe 'libs_frontend/dom-utils', ->
     rewired_module[func_name] = func_body
   beforeEach !->
     sandbox := sinon.sandbox.create()
-    dom_utils := rewire('libs_frontend/dom_utils')
+    delete require.cache[require.resolve('libs_frontend/dom_utils')]
+    dom_utils := require('libs_frontend/dom_utils')
     sandbox.spy_rewire = (rewired_module, func_name) ->
       spy = sandbox.spy(rewired_module, func_name)
       rewired_module.__set__(func_name, spy)
@@ -58,6 +55,7 @@ describe 'libs_frontend/dom-utils', ->
       result = dom_utils.import_dom_modules('<div>hello world</div>')
       spy.callCount.should.equal(0)
     specify 'test that spy_rewire works', ->
+      dom_utils.__set__('recreateDomModule', -> 3)
       spy = sandbox.spy_internal dom_utils, 'recreateDomModule'
       result = dom_utils.import_dom_modules('<dom-module id="foodom"></dom-module>')
       spy.callCount.should.equal(1)
@@ -93,3 +91,4 @@ describe 'libs_frontend/dom-utils', ->
       spy.callCount.should.equal(0)
       spy2.callCount.should.equal(1)
       spy3.callCount.should.equal(1)
+

@@ -7,11 +7,14 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
+    "brace": "npm:brace@0.9.1",
     "child_process": "npm:jspm-nodelibs-child_process@0.2.0",
+    "co": "npm:co@4.6.0",
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
     "js-yaml": "npm:js-yaml@3.7.0",
     "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
+    "list_requires": "npm:list_requires@1.0.0",
     "livescript15": "npm:livescript15@1.5.4",
     "async": "npm:async@2.0.1",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
@@ -278,7 +281,7 @@ SystemJS.config({
         "create-hash": "npm:create-hash@1.1.2",
         "evp_bytestokey": "npm:evp_bytestokey@1.0.0",
         "pbkdf2": "npm:pbkdf2@3.0.9",
-        "asn1.js": "npm:asn1.js@4.9.0"
+        "asn1.js": "npm:asn1.js@4.9.1"
       }
     },
     "npm:elliptic@6.3.2": {
@@ -314,13 +317,6 @@ SystemJS.config({
     "npm:hash.js@1.0.3": {
       "map": {
         "inherits": "npm:inherits@2.0.3"
-      }
-    },
-    "npm:asn1.js@4.9.0": {
-      "map": {
-        "bn.js": "npm:bn.js@4.11.6",
-        "inherits": "npm:inherits@2.0.3",
-        "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
       }
     },
     "npm:jspm-nodelibs-string_decoder@0.2.0": {
@@ -362,6 +358,24 @@ SystemJS.config({
         "tiny-emitter": "npm:tiny-emitter@1.0.2",
         "fraction.js": "npm:fraction.js@3.3.1",
         "typed-function": "npm:typed-function@0.10.5"
+      }
+    },
+    "npm:brace@0.9.1": {
+      "map": {
+        "w3c-blob": "npm:w3c-blob@0.0.1"
+      }
+    },
+    "npm:asn1.js@4.9.1": {
+      "map": {
+        "bn.js": "npm:bn.js@4.11.6",
+        "inherits": "npm:inherits@2.0.3",
+        "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
+      }
+    },
+    "npm:list_requires@1.0.0": {
+      "map": {
+        "esprima": "npm:esprima@2.7.3",
+        "esprima-walk": "npm:esprima-walk@0.1.0"
       }
     }
   }

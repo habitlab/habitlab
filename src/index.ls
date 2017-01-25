@@ -148,23 +148,24 @@ start_page_index = cfy ->*
   if index_body_height
     index_body.style.height = index_body_height
   add_url_input_if_needed()
+  window.basetag = tag
   return
 
 start_page_index()
 
-# systemjs_require <- System.import('libs_common/systemjs_require').then()
+# systemjs_require <- SystemJS.import('libs_common/systemjs_require').then()
 # drequire <- systemjs_require.make_require_frontend().then()
 # window.require = drequire
 window.uselib = (libname, callback) ->
   if typeof(callback) == 'function'
-    System.import(libname).then(callback)
+    SystemJS.import(libname).then(callback)
   else if typeof(callback) == 'string'
-    System.import(libname).then (imported_lib) ->
+    SystemJS.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
       console.log('imported as window.' + callback)
   else if typeof(libname) == 'string'
     callback = libname.toLowerCase().split('').filter((x) -> 'abcdefghijklmnopqrstuvwxyz0123456789'.indexOf(x) != -1).join('')
-    System.import(libname).then (imported_lib) ->
+    SystemJS.import(libname).then (imported_lib) ->
       window[callback] = imported_lib
       console.log('imported as window.' + callback)
   else
@@ -184,5 +185,19 @@ window.uselib = (libname, callback) ->
       '    uselib(\'sweetalert2\', \'swal\')'
       '    swal(\'hello world\')'
     ].join('\n'))
+
+if localStorage.refresh_livereload == 'true'
+  {co} = require 'co'
+  co ->*
+    try
+      script_fetch_result = yield fetch('http://localhost:35729/livereload.js?snipver=1')
+      script_text = yield script_fetch_result.text()
+      script_tag = document.createElement('script')
+      #script_tag.src = chrome.extension.getURL('/livereload.js?snipver=1')
+      script_tag.src = 'http://localhost:35729/livereload.js?snipver=1'
+      document.getElementsByTagName('head')[0].appendChild(script_tag)
+      eval(script_text)
+    catch e
+      console.log e
 
 require 'libs_common/global_exports_post'

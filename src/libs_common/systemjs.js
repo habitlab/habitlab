@@ -1,5 +1,5 @@
 if (!window.SystemJS) {
-  require('script!jspm_packages/system.js')
+  require('script-loader!jspm_packages/system.js')
   require('../systemjs_paths.js')
   require('../../jspm.config.js')
   if (!chrome.windows) { // is content script
@@ -16,5 +16,4 @@ if (!window.SystemJS) {
       return Promise.all(libs_list.map(lib_name => SystemJS.import(lib_name)));
     }
   }
-  System.import_multi = SystemJS.import_multi;
 }

@@ -20,10 +20,11 @@ require! {
   'glob'
   'bestzip'
   'chrome-web-store-item-property'
+  'livereload'
 }
 
 fse = require 'fs-extra'
-webpack-stream = require 'webpack-stream-watch'
+webpack-stream = require 'webpack2-stream-watch'
 
 process.on 'unhandledRejection', (reason, p) ->
   throw new Error(reason)
@@ -38,6 +39,8 @@ webpack_config_frontend = require './webpack_config_frontend.ls'
 webpack_config_backend = require './webpack_config_backend.ls'
 
 lspattern = [
+  'src/redirect.ls'
+  'src/habitlab_website_redirect.ls'
   'src/components/*.ls'
   'src/fields/*.ls'
   'src/libs_frontend/**/*.ls'
@@ -231,28 +234,34 @@ with_created_object = (orig_obj, func_to_apply) ->
 
 webpack_config_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
+  o.devtool = false # comment out to generate source maps
 
 webpack_config_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
+  o.devtool = false # comment out to generate source maps
 
 webpack_config_watch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = true
+  o.devtool = false # comment out to generate source maps
 
 webpack_config_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
+  o.devtool = false # comment out to generate source maps
 
 webpack_config_nosrcmap_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
-  o.devtool = null
+  o.devtool = false
 
 webpack_config_nosrcmap_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
-  o.devtool = null
+  o.devtool = false
 
 webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.watch = false
-  o.devtool = null
-  o.debug = false
+  o.devtool = false
+  o.plugins.push new webpack.LoaderOptionsPlugin {
+    debug: false
+  }
   o.module.loaders.push {
     test: /\.js$/
     loader: 'uglify-loader'
@@ -264,8 +273,10 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
 
 webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
-  o.devtool = null
-  o.debug = false
+  o.devtool = false
+  o.plugins.push new webpack.LoaderOptionsPlugin {
+    debug: false
+  }
   o.module.loaders.push {
     test: /\.js$/
     loader: 'uglify-loader'
@@ -415,11 +426,13 @@ gulp.task 'generate_jspm_config_frontend', (done) ->
     {path, frontend} = alias_info
     path_map[path] = frontend
   for libname in fs.readdirSync 'src/node_modules_custom'
+    if libname.startsWith('.')
+      continue
     package_json_file = "src/node_modules_custom/#{libname}/package.json"
     package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
     path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
   fs.writeFileSync 'jspm_config_frontend.js', """
-  System.config({
+  SystemJS.config({
   map: #{JSON.stringify(path_map, null, 2)}
   });
   """
@@ -433,11 +446,13 @@ gulp.task 'generate_jspm_config_backend', (done) ->
     {path, backend} = alias_info
     path_map[path] = backend
   for libname in fs.readdirSync 'src/node_modules_custom'
+    if libname.startsWith('.')
+      continue
     package_json_file = "src/node_modules_custom/#{libname}/package.json"
     package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
     path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
   fs.writeFileSync 'jspm_config_backend.js', """
-  System.config({
+  SystemJS.config({
   map: #{JSON.stringify(path_map, null, 2)}
   });
   """
@@ -670,4 +685,19 @@ gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip'
 
 gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch'))
 
-gulp.task 'default', gulp.series('watch')
+gulp.task 'livereload', ->
+  livereload_server = livereload.createServer({
+    applyCSSLive: false
+    applyImgLive: false
+    exclusions: [
+      '*.jspm.js'
+      'components/*'
+      'components/**/*'
+    ]
+    delay: 500
+  })
+  livereload_server.watch([
+    'dist/index.js'
+  ])
+
+gulp.task 'default', gulp.parallel('watch', 'livereload')

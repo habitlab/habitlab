@@ -26,6 +26,10 @@ polymer_ext {
               description: 'Display info logged with dlog under console.log'
               recommended: 'all'
             }
+            {
+              name: 'refresh_livereload'
+              description: 'Automatically refresh pages as files are updated'
+            }
           ]
         }
         {
@@ -79,6 +83,9 @@ polymer_ext {
           localstorage_setbool(option.name, true)
         else if is_opera and option.recommended == 'opera'
           localstorage_setbool(option.name, true)
+  register_protocol_handler: ->
+    #navigator.registerProtocolHandler('web+habitlab', chrome.extension.getURL('/redirect.html?q=') + '%s', 'HabitLab')
+    navigator.registerProtocolHandler('web+habitlab', 'http://habitlab.github.io/to.html?q=%s', 'HabitLab')
   ready: ->
     if not localstorage_getbool('options_dev_already_opened')
       this.enable_recommended()

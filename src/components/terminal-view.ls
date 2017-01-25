@@ -30,7 +30,7 @@ polymer_ext {
     self = this
     if not self.terminal_loaded
       [jquery_terminal,_] = yield [
-        System.import('jquery.terminal')
+        SystemJS.import('jquery.terminal')
         load_css_file('node_modules_custom/jquery.terminal/css/jquery.terminal.min.css')
       ]
       jquery_terminal($)
@@ -168,12 +168,12 @@ polymer_ext {
           command = aliases[after_hash]
           is_livescript = false
       if is_livescript
-        livescript = yield System.import('livescript15')
+        livescript = yield SystemJS.import('livescript15')
         try
           command = livescript.compile(command, {bare: true, header: false})
         catch err
           term.echo 'Livescript compilation error'
-          prettyprintjs = yield System.import('prettyprintjs')
+          prettyprintjs = yield SystemJS.import('prettyprintjs')
           term.echo prettyprintjs(err)
           return
       result = yield eval_content_script_debug_for_active_tab(command)

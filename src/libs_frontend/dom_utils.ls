@@ -101,3 +101,9 @@ parseHTML = (str) ->
   tmp = document.implementation.createHTMLDocument()
   tmp.body.innerHTML = str
   return tmp.body.children
+
+export __get__ = (name) ->
+  return eval(name)
+
+export __set__ = (name, val) ->
+  eval(name + ' = val')

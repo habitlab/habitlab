@@ -1,0 +1,39 @@
+{
+	"name": "esprima-walk",
+	"version": "0.1.0",
+	"description": "Walk the primary nodes of an esprima parse tree - fast.",
+	"main": "esprima-walk.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/jrajav/esprima-walk.git"
+	},
+	"devDependencies": {
+		"mocha": "~1.19.0",
+		"chai": "~1.9.1",
+		"eslint": "~0.6.2"
+	},
+	"scripts": {
+		"test": "node_modules/eslint/bin/eslint.js . && node_modules/mocha/bin/mocha --reporter spec test.js"
+	},
+	"keywords": [
+		"esprima",
+		"parse",
+		"parser",
+		"source",
+		"code",
+		"ast",
+		"syntax",
+		"tree",
+		"walk",
+		"walker",
+		"traverse",
+		"fast",
+		"quick",
+		"quickly",
+		"performant",
+		"performance"
+	],
+	"author": "Jonathan Rajavuori <jrajav@gmail.com>",
+	"license": "MIT",
+	"readmeFilename": "README.md"
+}

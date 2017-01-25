@@ -90,3 +90,9 @@ export get_next_intervention_to_test_for_goal = cfy (goal_name, intervention_nam
 intervention_utils = require 'libs_backend/intervention_utils'
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_progress = require 'libs_backend/goal_progress'
+
+export __get__ = (name) ->
+  return eval(name)
+
+export __set__ = (name, val) ->
+  eval(name + ' = val')

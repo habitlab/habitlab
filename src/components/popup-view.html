@@ -153,7 +153,7 @@
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="goalsButton">Settings</paper-button>
           <paper-button class="paperbuttons" raised id="resultsButton">View Results</paper-button>
-          <paper-button class="paperbuttons" raised id="feedbackButton">Submit Feedback</paper-button> 
+          <paper-button class="paperbuttons" raised id="feedbackButton" on-click="submit_feedback_clicked">Submit Feedback</paper-button> 
         </div>
 
         <template is="dom-if" if="{{!is_habitlab_disabled}}">

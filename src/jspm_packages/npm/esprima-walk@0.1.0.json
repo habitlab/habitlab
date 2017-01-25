@@ -1,0 +1,9 @@
+{
+  "main": "esprima-walk.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

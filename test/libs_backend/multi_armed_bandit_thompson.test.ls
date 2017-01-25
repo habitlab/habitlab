@@ -1,7 +1,3 @@
-require! {
-  rewire
-}
-
 describe 'libs_backend/multi_armed_bandit_thompson', ->
   sandbox = null
   multi_armed_bandit = null
@@ -10,7 +6,8 @@ describe 'libs_backend/multi_armed_bandit_thompson', ->
     rewired_module[func_name] = func_body
   beforeEach !->
     sandbox := sinon.sandbox.create()
-    multi_armed_bandit := rewire('libs_backend/multi_armed_bandit_thompson')
+    delete require.cache[require.resolve('libs_backend/multi_armed_bandit_thompson')]
+    multi_armed_bandit := require('libs_backend/multi_armed_bandit_thompson')
     sandbox.spy_rewire = (rewired_module, func_name) ->
       spy = sandbox.spy(rewired_module, func_name)
       rewired_module.__set__(func_name, spy)

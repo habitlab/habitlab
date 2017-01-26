@@ -1,9 +1,0 @@
-{
-  "main": "buffer.js",
-  "map": {
-    "./buffer.js": {
-      "node": "@node/buffer",
-      "browser": "buffer-browserify"
-    }
-  }
-}

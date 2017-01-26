@@ -1,0 +1,70 @@
+{
+  "name": "sweetalert2",
+  "version": "6.3.2",
+  "repository": "limonte/sweetalert2",
+  "homepage": "https://limonte.github.io/sweetalert2/",
+  "description": "A replacement for JavaScript's popup boxes, supported fork of sweetalert",
+  "main": "dist/sweetalert2.js",
+  "jsnext:main": "src/sweetalert2.js",
+  "types": "sweetalert2.d.ts",
+  "dependencies": {
+    "es6-promise": "^4.0.5"
+  },
+  "devDependencies": {
+    "babel-plugin-external-helpers": "latest",
+    "babel-plugin-transform-object-assign": "latest",
+    "babel-preset-es2015": "latest",
+    "gulp": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-clean-css": "latest",
+    "gulp-rename": "latest",
+    "gulp-rollup": "latest",
+    "gulp-sass": "latest",
+    "gulp-sass-lint": "latest",
+    "gulp-standard": "latest",
+    "gulp-uglify": "latest",
+    "rollup": "latest",
+    "rollup-plugin-babel": "latest",
+    "standard": "latest",
+    "testee": "^0.3.0",
+    "uglify-js": "latest"
+  },
+  "standard": {
+    "ignore": [
+      "dist/"
+    ],
+    "global": [
+      "MutationObserver"
+    ]
+  },
+  "files": [
+    "dist",
+    "src",
+    "sweetalert2.d.ts"
+  ],
+  "author": "Limon Monte <limon.monte@gmail.com> (https://limonte.github.io)",
+  "contributors": [
+    "Johan Fagerberg (https://github.com/birjolaxew)",
+    "Morgan Touverey-Quilling <mtouverey@alembic-dev.com> (https://github.com/toverux)",
+    "Sam Turrell <sam@samturrell.co.uk> (http://samturrell.co.uk)",
+    "Tristan Edwards <tristan.edwards@me.com> (http://tristanedwards.me)",
+    "Leo Correa <lcorr005@gmail.com> (https://leonardocorrea.com/)",
+    "Joseph Schultz (https://github.com/acupajoe)"
+  ],
+  "keywords": [
+    "sweetalert",
+    "sweetalert2",
+    "alert",
+    "prompt"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "testee qunit",
+    "assume-dist-unchanged": "git ls-files dist | tr '\\n' ' ' | xargs git update-index --assume-unchanged",
+    "no-assume-dist-unchanged": "git ls-files dist | tr '\\n' ' ' | xargs git update-index --no-assume-unchanged"
+  },
+  "bugs": "https://github.com/limonte/sweetalert2/issues",
+  "license": "MIT"
+}

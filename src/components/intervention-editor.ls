@@ -173,6 +173,7 @@ polymer_ext {
       content_scripts: [
         {
           code: code
+          run_at: 'document_start'
           jspm_require: true
           jspm_deps: required_jspm_deps
         }
@@ -336,16 +337,28 @@ polymer_ext {
       content_scripts: [
         {
           code: '''
-          var swal, co, load_css_file;
-          swal = require('sweetalert2');
-          co = require('co');
-          load_css_file = require('libs_common/content_script_utils').load_css_file;
-          co(function*(){
-            (yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css'));
-            return swal({
-              title: 'Hello World',
-              text: 'This is a sample intervention'
-            });
+          /*
+          LiveScript code is displayed on the left side,
+          which is compiled to JavaScript on the right.
+          To learn LiveScript, see http://livescript.net/
+
+          If you would prefer to write in JavaScript,
+          select JavaScript from the dropdown menu above.
+          To learn JavaScript, see https://www.javascript.com/try
+
+          This sample intervention will display a popup with SweetAlert.
+          Click the 'Try Now' button to see it run.
+
+          To learn how to write HabitLab interventions, see
+          https://github.com/habitlab/habitlab/wiki/Writing-Interventions-within-HabitLab
+
+          require_package: returns an NPM module, and ensures that the CSS it uses is loaded
+          https://github.com/habitlab/habitlab/wiki/require_package
+          */
+          var swal = require_package('sweetalert2');
+          swal({
+            title: 'Hello World',
+            text: 'This is a sample intervention'
           });
           '''
           jspm_require: true
@@ -357,16 +370,30 @@ polymer_ext {
         }
       ]
       livescript_code: '''
-      swal = require('sweetalert2')
-      co = require('co')
-      {load_css_file} = require('libs_common/content_script_utils')
+      /*
+      LiveScript code is displayed on the left side,
+      which is compiled to JavaScript on the right.
+      To learn LiveScript, see http://livescript.net/
 
-      co ->*
-        yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-        swal({
-          title: 'Hello World'
-          text: 'This is a sample intervention'
-        })
+      If you would prefer to write in JavaScript,
+      select JavaScript from the dropdown menu above.
+      To learn JavaScript, see https://www.javascript.com/try
+
+      This sample intervention will display a popup with SweetAlert.
+      Click the 'Try Now' button to see it run.
+
+      To learn how to write HabitLab interventions, see
+      https://github.com/habitlab/habitlab/wiki/Writing-Interventions-within-HabitLab
+
+      require_package: returns an NPM module, and ensures that the CSS it uses is loaded
+      https://github.com/habitlab/habitlab/wiki/require_package
+      */
+      swal = require_package('sweetalert2')
+
+      swal({
+        title: 'Hello World'
+        text: 'This is a sample intervention'
+      })
       '''
       edit_mode: 'ls_and_js'
       goals: [

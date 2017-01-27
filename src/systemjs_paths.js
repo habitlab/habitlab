@@ -1,6 +1,8 @@
 SystemJS.config({
-  defaultJSExtensions: true,
   baseURL: chrome.extension.getURL('/'),
+  packages: {
+    '.': {}
+  },
   browserConfig: {
     baseURL: chrome.extension.getURL('/'),
     paths: {

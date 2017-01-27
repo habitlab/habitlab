@@ -110,7 +110,7 @@ polymer_ext {
           check your require_css statements
           '''
         }
-        return
+        return false
     for css_file in required_css_files_from_require_package
       try
         css_file_request = yield fetch(css_file)
@@ -122,12 +122,18 @@ polymer_ext {
           check your require_package statements
           '''
         }
-        return
-    /*
+        return false
+    available_libs = SystemJS.getConfig().map
     for required_jspm_dep in jspm_deps_from_require
+      if available_libs[required_jspm_dep]?
+        continue
       try
+        required_jspm_path = required_jspm_dep
+        if not required_jspm_path.endsWith('.js')
+          required_jspm_path = required_jspm_path + '.js'
         console.log required_jspm_dep
-        jspm_import = yield System.import(required_jspm_dep)
+        jspm_request = yield fetch(required_jspm_path)
+        jspm_text = yield jspm_request.text()
       catch e
         console.log e
         swal {
@@ -136,9 +142,17 @@ polymer_ext {
           check your require statements
           '''
         }
+        return false
     for required_jspm_dep in jspm_deps_from_require_package
+      if available_libs[required_jspm_dep]?
+        continue
       try
-        jspm_import = yield System.import(required_jspm_dep)
+        required_jspm_path = required_jspm_dep
+        if not required_jspm_path.endsWith('.js')
+          required_jspm_path = required_jspm_path + '.js'
+        console.log required_jspm_dep
+        jspm_request = yield fetch(required_jspm_path)
+        jspm_text = yield jspm_request.text()
       catch e
         console.log e
         swal {
@@ -147,7 +161,7 @@ polymer_ext {
           check your require_package statements
           '''
         }
-    */
+        return false
     for required_component in jspm_deps_from_require_component
       try
         js_file_request = yield fetch(required_component)
@@ -160,7 +174,7 @@ polymer_ext {
           check your require_component statements
           '''
         }
-        return
+        return false
     intervention_info = {
       name: this.get_intervention_name()
       displayname: this.get_intervention_name()
@@ -186,7 +200,7 @@ polymer_ext {
       intervention_info.livescript_code = lscode
     this.intervention_info = intervention_info
     yield add_new_intervention(intervention_info)
-    return
+    return true
   intervention_selector_changed: cfy (change_info) ->*
     intervention_name = change_info.detail.item.intervention_name
     this.intervention_info = intervention_info = yield get_intervention_info(intervention_name)
@@ -412,7 +426,8 @@ polymer_ext {
     if this.intervention_list.length == 0
       this.prompt_new_intervention()
   preview_intervention: cfy ->*
-    yield this.save_intervention()
+    if not (yield this.save_intervention())
+      return
     intervention_name = this.get_intervention_name()
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value

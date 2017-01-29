@@ -1,5 +1,4 @@
 SystemJS.config({
-  defaultJSExtensions: true,
   baseURL: chrome.extension.getURL('/'),
   packages: {
     'libs_frontend': {
@@ -20,9 +19,11 @@ SystemJS.config({
     'components': {
       defaultExtension: 'js',
     },
+    'bugmuncher': {
+      defaultExtension: 'js',
+    },
   },
   browserConfig: {
-    defaultJSExtensions: true,
     baseURL: chrome.extension.getURL('/'),
     paths: {
       'npm:': chrome.extension.getURL("/jspm_packages/npm/"),

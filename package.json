@@ -4,7 +4,7 @@
   "description": "",
   "dependencies": {
     "async-debounce-jt": "^1.0.1",
-    "cfy": "^1.0.19",
+    "cfy": "^1.0.20",
     "cloner": "^0.4.0",
     "co": "^4.6.0",
     "dexie": "^1.4.1",

@@ -54,24 +54,21 @@ paper-button.fancy {
         <div style="width: 100%;">
             <div class="leftside">
                 Menu
+
+                <paper-tabs id="dashtab" selected="{{selected_tab_idx}}" autoselect>
+                    <paper-tab>Home</paper-tab>
+                    <paper-tab>Settings</paper-tab>
+                </paper-tabs>
+
             </div>
             <div class="rightside">
-                <dashboard-view-v2></dashboard-view-v2>
+
+                <iron-pages selected="{{selected_tab_idx}}">
+                    <dashboard-view-v2></dashboard-view-v2>
+                    <dash-settings></dash-settings>
+                </iron-pages>
             </div>
         </div>
-
-
-        <paper-tabs class="main-tabs" id="optionstab" selected="{{selected_tab_idx}}" autoselect>
-            <paper-tab class="main-tab">Manage Goals and Interventions</paper-tab>
-            <paper-tab class="main-tab">View Progress and Results</paper-tab>
-        </paper-tabs>
-
-        <iron-pages selected="{{selected_tab_idx}}">
-            <options-interventions id="options-interventions"></options-interventions>
-            <dashboard-view id="dashboard-view"></dashboard-view>
-        </iron-pages>
-
-
 
     </template>
 

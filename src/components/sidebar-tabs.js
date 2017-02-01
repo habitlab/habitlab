@@ -1,6 +1,6 @@
 Polymer({
 
-  is: 'paper-vert-tabs',
+  is: 'sidebar-tabs',
   properties: {
     items: {
       type: Array

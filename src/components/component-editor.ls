@@ -92,12 +92,12 @@ polymer_ext {
     this.$.component_selector.selected = 0
   prompt_new_component: cfy ->*
     self = this
-    new_component_name = null
+    component_name = null
     cancelable = this.component_list.length > 0
     all_components = yield list_custom_components()
     while true
       try
-        new_component_name := yield swal {
+        component_name := yield swal {
           title: 'Enter a new component name'
           input: 'text'
           inputValue: 'custom-component'
@@ -121,23 +121,29 @@ polymer_ext {
       catch
         if cancelable
           return
-      if new_component_name?
+      if component_name?
         break
     component_info = {
-      name: new_component_name
+      name: component_name
       html: """
-      <dom-module>
+      <dom-module id="#{component_name}">
+        <template>
+          <div>Hello world</div>
+        </template>
       </dom-module>
       """
       js: """
       Polymer({
-
+        is: '#{component_name}',
+        ready: function() {
+          alert('hello world')
+        }
       })
       """
     }
     yield add_custom_component(component_info)
     yield this.refresh_component_list()
-    this.select_component_by_name(new_component_name)
+    this.select_component_by_name(component_name)
   select_component_by_name: (component_name) ->
     component_idx = this.component_list.indexOf(component_name)
     this.$.component_selector.selected = component_idx

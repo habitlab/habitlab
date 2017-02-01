@@ -34,11 +34,22 @@
       <paper-dropdown-menu style="width: 300px">
         <paper-listbox id="component_selector" on-iron-select="component_selector_changed" class="dropdown-content" selected="0">
           <template is="dom-repeat" items="{{component_list}}" as="component_name">
-            <paper-item intervention_name="{{component_name}}">{{component_name}}</paper-item>
+            <paper-item component_name="{{component_name}}">{{component_name}}</paper-item>
           </template>
         </paper-listbox>
       </paper-dropdown-menu>
     </div>
+
+    <paper-button style="background-color: green; color: white" on-click="prompt_new_component">Add New Component</paper-button>
+    <paper-button style="background-color: red; color: white" on-click="delete_component">Delete This Component</paper-button>
+
+    <br><br>
+
+    <paper-button style="background-color: green; color: white" on-click="save_component">Save</paper-button>
+    <paper-button style="background-color: green; color: white" on-click="preview_component">Try Now</paper-button>
+
+    <br><br>
+
 
     <!--
     <div>

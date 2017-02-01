@@ -44,26 +44,13 @@ list_custom_components = cfy ->*
 polymer_ext {
   is: 'component-editor'
   properties: {
-    width: {
+    component_name: {
       type: String
-      value: '38px'
-    }
-    height: {
-      type: String
-      value: '38px'
-    }
-    goal_info_list: {
-      type: Array
-    }
-    intervention_list: {
-      type: Array
-    }
-    intervention_info: {
-      type: Object
     }
   }
   component_selector_changed: cfy (change_info) ->*
     component_name = change_info.detail.item.component_name
+    this.component_name = component_name
     console.log component_name
   refresh_component_list: cfy ->*
     this.component_list = yield list_custom_components()
@@ -84,11 +71,11 @@ polymer_ext {
     ls_editor.$blockScrolling = Infinity
     #ls_editor.on 'change', ->
     #  self.ls_editor_changed()
-    all_goals = yield get_goals()
+    #all_goals = yield get_goals()
     #enabled_goals = as_array(yield get_enabled_goals())
     #self.goal_info_list = [all_goals[x] for x in enabled_goals]
-    goals_list = yield list_all_goals()
-    self.goal_info_list = [all_goals[x] for x in goals_list]
+    #goals_list = yield list_all_goals()
+    #self.goal_info_list = [all_goals[x] for x in goals_list]
     yield self.refresh_component_list()
 }, {
   source: require 'libs_frontend/polymer_methods'

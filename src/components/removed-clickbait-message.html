@@ -1,0 +1,47 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="close-tab-button.html">
+<link rel="import" href="habitlab-logo.html">
+
+<dom-module id="removed-clickbait-message">
+  <style>
+    :host {
+      display: inline-block;
+    }
+   #displayText {
+        background-color: #95CBEE; 
+        fill-opacity: 0.5;
+        position: fixed; 
+        color:#415D67; 
+        width: 400px; 
+        height: 120px;
+        z-index: 99999;
+        font-size: 1em;
+        padding: 3px;
+        position:relative;
+      }
+
+    .habitlab_button_container {
+        margin-top:20px;
+    }
+    #close-tab {
+      box-shadow: 2px 2px 2px grey;
+       width: 100px; 
+       height: 95%;
+    }
+
+
+  </style>
+  <template>
+    
+ <div id="displayText">
+    <div class="habitlab_button_container" style="text-align: center">
+      <span style = "font-size: 20px; display: block">HabitLab has removed clickbait  </span>
+      <close-tab-button id=close-tab style="height: 40px;margin-right: 10px"></close-tab-button>
+      <habitlab-logo style="position: relative; top: 13px"></habitlab-logo>
+    </div>
+</div>
+  </template>
+
+  <script src="removed-clickbait-message.js"></script>
+</dom-module>

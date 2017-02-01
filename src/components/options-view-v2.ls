@@ -28,6 +28,8 @@ polymer_ext {
   listeners: {
     goal_changed: 'on_goal_changed'
   }
+  tab_elem_selected_changed: (evt) ->
+    this.selected_tab_idx = evt.detail.idx
   enable_habitlab_button_clicked: ->
     this.is_habitlab_disabled = false
     enable_habitlab()

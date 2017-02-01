@@ -1,0 +1,27 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="sidebar-tabs">
+
+<style>
+
+.tab_elem {
+  background-color: blue;
+  color: white;
+  width: 100%;
+}
+
+</style>
+
+<template>
+
+  <template is="dom-repeat" items="{{items}}" as="item">
+    <div class="tab_elem" on-click="tab_elem_selected" name="{{item}}">
+      {{item}}
+    </div>
+  </template>
+
+</template>
+
+<script src="sidebar-tabs.js"></script>
+
+</dom-module>

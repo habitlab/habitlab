@@ -12,6 +12,7 @@
 <link rel="import" href="options-goals.html">
 <link rel="import" href="options-interventions.html">
 <link rel="import" href="dashboard-view.html">
+<link rel="import" href="sidebar-tabs.html">
 
 <dom-module id="options-view-v2">
 <style is="custom-style">
@@ -55,10 +56,25 @@ paper-button.fancy {
             <div class="leftside">
                 Menu
 
-                <paper-tabs id="dashtab" selected="{{selected_tab_idx}}" autoselect>
+            <sidebar-tabs items='["Home", "Settings"]' on-tab-elem-selected="tab_elem_selected_changed"></sidebar-tabs>
+
+<!--
+                <paper-vert-tabs id="dashtab" selected="{{selected_tab_idx}}" autoselect>
                     <paper-tab>Home</paper-tab>
                     <paper-tab>Settings</paper-tab>
-                </paper-tabs>
+                </paper-vert-tabs>
+
+                <paper-vert-tabs id="tabs" selected="0">
+    <paper-tab>Tab 1</paper-tab>
+    <paper-tab>Tab 2</paper-tab>
+</paper-vert-tabs>
+
+<paper-vert-tabs id="tabs" selected="0">
+<paper-tab>Tab 1</paper-tab>
+<paper-tab>Tab 2</paper-tab>
+</paper-vert-tabs>
+
+-->
 
             </div>
             <div class="rightside">

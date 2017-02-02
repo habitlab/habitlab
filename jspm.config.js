@@ -8,27 +8,30 @@ SystemJS.config({
   ],
   map: {
     "brace": "npm:brace@0.9.1",
+    "cheerio": "npm:cheerio@0.22.0",
     "child_process": "npm:jspm-nodelibs-child_process@0.2.0",
     "co": "npm:co@4.6.0",
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
-    "js-yaml": "npm:js-yaml@3.7.0",
+    "esprima": "npm:esprima@3.1.3",
+    "js-yaml": "github:nodeca/js-yaml@master",
     "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
-    "list_requires": "npm:list_requires@1.0.0",
+    "list_requires_multi": "npm:list_requires_multi@1.0.0",
     "livescript15": "npm:livescript15@1.5.4",
-    "async": "npm:async@2.0.1",
+    "async": "npm:async@2.1.4",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
-    "buffer": "npm:jspm-nodelibs-buffer@0.2.0",
+    "buffer": "npm:jspm-nodelibs-buffer@0.2.1",
     "cfy": "npm:cfy@1.0.18",
-    "dexie": "npm:dexie@1.4.1",
+    "dexie": "npm:dexie@1.5.1",
     "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@1.0.7",
     "events": "npm:jspm-nodelibs-events@0.2.0",
     "fs": "npm:jspm-nodelibs-fs@0.2.0",
-    "jquery": "npm:jquery@3.1.0",
-    "mathjs": "npm:mathjs@3.8.1",
-    "moment": "npm:moment@2.14.1",
+    "jquery": "npm:jquery@3.1.1",
+    "mathjs": "npm:mathjs@3.9.0",
+    "moment": "npm:moment@2.17.1",
+    "nodeca/js-yaml": "github:nodeca/js-yaml@master",
     "os": "npm:jspm-nodelibs-os@0.2.0",
-    "path": "npm:jspm-nodelibs-path@0.2.0",
+    "path": "npm:jspm-nodelibs-path@0.2.1",
     "percipio": "npm:percipio@0.1.2",
     "prelude-ls": "npm:prelude-ls@1.1.2",
     "prettyprintjs": "npm:prettyprintjs@0.1.10",
@@ -40,22 +43,17 @@ SystemJS.config({
     "sortablejs": "npm:sortablejs@1.5.0-rc1",
     "stream": "npm:jspm-nodelibs-stream@0.2.0",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.0",
-    "sweetalert2": "npm:sweetalert2@6.2.4",
+    "sweetalert2": "npm:sweetalert2@6.3.2",
     "text": "github:systemjs/plugin-text@0.0.8",
     "tty": "npm:jspm-nodelibs-tty@0.2.0",
-    "util": "npm:jspm-nodelibs-util@0.2.0",
+    "util": "npm:jspm-nodelibs-util@0.2.1",
     "vm": "npm:jspm-nodelibs-vm@0.2.0"
   },
   packages: {
     "npm:cfy@1.0.18": {
       "map": {
         "co": "npm:co@4.6.0",
-        "unthenify": "npm:unthenify@1.0.2"
-      }
-    },
-    "npm:unthenify@1.0.2": {
-      "map": {
-        "util-arity": "npm:util-arity@1.0.2"
+        "unthenify": "npm:unthenify@1.0.4"
       }
     },
     "npm:enable-webcomponents-in-content-scripts@1.0.7": {
@@ -133,19 +131,9 @@ SystemJS.config({
         "inherits": "npm:inherits@2.0.3"
       }
     },
-    "npm:async@2.0.1": {
-      "map": {
-        "lodash": "npm:lodash@4.14.1"
-      }
-    },
     "npm:shuffled@1.0.0": {
       "map": {
         "shuffle-array": "npm:shuffle-array@1.0.0"
-      }
-    },
-    "npm:jspm-nodelibs-buffer@0.2.0": {
-      "map": {
-        "buffer-browserify": "npm:buffer@4.9.1"
       }
     },
     "npm:jspm-nodelibs-stream@0.2.0": {
@@ -156,11 +144,6 @@ SystemJS.config({
     "npm:jspm-nodelibs-os@0.2.0": {
       "map": {
         "os-browserify": "npm:os-browserify@0.2.1"
-      }
-    },
-    "npm:sweetalert2@6.2.4": {
-      "map": {
-        "es6-promise": "npm:es6-promise@4.0.5"
       }
     },
     "npm:buffer@4.9.1": {
@@ -340,26 +323,6 @@ SystemJS.config({
         "prelude-ls": "npm:prelude-ls@1.1.2"
       }
     },
-    "npm:js-yaml@3.7.0": {
-      "map": {
-        "argparse": "npm:argparse@1.0.9",
-        "esprima": "npm:esprima@2.7.3"
-      }
-    },
-    "npm:argparse@1.0.9": {
-      "map": {
-        "sprintf-js": "npm:sprintf-js@1.0.3"
-      }
-    },
-    "npm:mathjs@3.8.1": {
-      "map": {
-        "complex.js": "npm:complex.js@2.0.1",
-        "decimal.js": "npm:decimal.js@5.0.8",
-        "tiny-emitter": "npm:tiny-emitter@1.0.2",
-        "fraction.js": "npm:fraction.js@3.3.1",
-        "typed-function": "npm:typed-function@0.10.5"
-      }
-    },
     "npm:brace@0.9.1": {
       "map": {
         "w3c-blob": "npm:w3c-blob@0.0.1"
@@ -372,10 +335,101 @@ SystemJS.config({
         "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
       }
     },
-    "npm:list_requires@1.0.0": {
+    "npm:list_requires_multi@1.0.0": {
       "map": {
-        "esprima": "npm:esprima@2.7.3",
+        "esprima": "npm:esprima@3.1.3",
         "esprima-walk": "npm:esprima-walk@0.1.0"
+      }
+    },
+    "npm:mathjs@3.9.0": {
+      "map": {
+        "decimal.js": "npm:decimal.js@5.0.8",
+        "typed-function": "npm:typed-function@0.10.5",
+        "complex.js": "npm:complex.js@2.0.1",
+        "tiny-emitter": "npm:tiny-emitter@1.0.2",
+        "fraction.js": "npm:fraction.js@3.3.1"
+      }
+    },
+    "npm:sweetalert2@6.3.2": {
+      "map": {
+        "es6-promise": "npm:es6-promise@4.0.5"
+      }
+    },
+    "npm:jspm-nodelibs-buffer@0.2.1": {
+      "map": {
+        "buffer": "npm:buffer@4.9.1"
+      }
+    },
+    "npm:async@2.1.4": {
+      "map": {
+        "lodash": "npm:lodash@4.17.4"
+      }
+    },
+    "npm:unthenify@1.0.4": {
+      "map": {
+        "util-arity": "npm:util-arity@1.0.2",
+        "any-promise": "npm:any-promise@1.3.0"
+      }
+    },
+    "npm:cheerio@0.22.0": {
+      "map": {
+        "lodash.defaults": "npm:lodash.defaults@4.2.0",
+        "dom-serializer": "npm:dom-serializer@0.1.0",
+        "entities": "npm:entities@1.1.1",
+        "lodash.assignin": "npm:lodash.assignin@4.2.0",
+        "lodash.pick": "npm:lodash.pick@4.4.0",
+        "htmlparser2": "npm:htmlparser2@3.9.2",
+        "css-select": "npm:css-select@1.2.0",
+        "lodash.bind": "npm:lodash.bind@4.2.1",
+        "lodash.reduce": "npm:lodash.reduce@4.6.0",
+        "lodash.flatten": "npm:lodash.flatten@4.4.0",
+        "lodash.foreach": "npm:lodash.foreach@4.5.0",
+        "lodash.merge": "npm:lodash.merge@4.6.0",
+        "lodash.map": "npm:lodash.map@4.6.0",
+        "lodash.some": "npm:lodash.some@4.6.0",
+        "lodash.filter": "npm:lodash.filter@4.6.0",
+        "lodash.reject": "npm:lodash.reject@4.6.0"
+      }
+    },
+    "npm:dom-serializer@0.1.0": {
+      "map": {
+        "entities": "npm:entities@1.1.1",
+        "domelementtype": "npm:domelementtype@1.1.3"
+      }
+    },
+    "npm:htmlparser2@3.9.2": {
+      "map": {
+        "entities": "npm:entities@1.1.1",
+        "domutils": "npm:domutils@1.5.1",
+        "inherits": "npm:inherits@2.0.3",
+        "domelementtype": "npm:domelementtype@1.3.0",
+        "readable-stream": "npm:readable-stream@2.2.2",
+        "node-readable-stream": "npm:readable-stream@2.2.2",
+        "domhandler": "npm:domhandler@2.3.0"
+      }
+    },
+    "npm:css-select@1.2.0": {
+      "map": {
+        "domutils": "npm:domutils@1.5.1",
+        "boolbase": "npm:boolbase@1.0.0",
+        "css-what": "npm:css-what@2.1.0",
+        "nth-check": "npm:nth-check@1.0.1"
+      }
+    },
+    "npm:domutils@1.5.1": {
+      "map": {
+        "dom-serializer": "npm:dom-serializer@0.1.0",
+        "domelementtype": "npm:domelementtype@1.3.0"
+      }
+    },
+    "npm:nth-check@1.0.1": {
+      "map": {
+        "boolbase": "npm:boolbase@1.0.0"
+      }
+    },
+    "npm:domhandler@2.3.0": {
+      "map": {
+        "domelementtype": "npm:domelementtype@1.3.0"
       }
     }
   }

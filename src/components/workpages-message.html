@@ -24,7 +24,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #e6e6ff;
+        background-color: #95CBEE;
       }
 
       
@@ -68,7 +68,9 @@
 
       <template is="dom-repeat" items={{links}}>
         <div class="linktext">
-          <a href="http://{{item}}">
+          <img src="https://www.google.com/s2/favicons?domain_url={{item}}" style="width: 32px; height: 32px; display: inline-block"></img>
+
+          <a href="http://{{item}}" style="display: inline-block">
             <paper-item>{{item}}</paper-item>
           </a>
         <div>

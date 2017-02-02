@@ -30,6 +30,7 @@ $('body').append($('<close-tab-button id="habitlab_close_tab_button"></close-tab
 var display_timespent_div = $('<time-until-tab-autoclose-view>');
 $('body').append(display_timespent_div);
 
+/*
 var timeLeft = 6000;
 var numClicked = 0;
 
@@ -52,9 +53,13 @@ var countdownTimer = setInterval(() => {
   timeLeft = timeLeft - 100;
   display_timespent_div.attr('display-text', timeLeft/100 + " seconds left. Added time " + numClicked + " times."); 
 }, 1000);
+*/
+
+document.body.addEventListener('time_has_run_out', function() {
+  document.querySelector('#habitlab_close_tab_button').button_clicked();
+})
 
 document.body.addEventListener('disable_intervention', function() {
-  timeLeft = -1;
   display_timespent_div.remove()
 })
 

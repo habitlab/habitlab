@@ -12,7 +12,7 @@
     }
     #container {
       height: 50px;
-      background-color: #3498DB;
+      background-color: #95CBEE;
       position: fixed;
       color: white;
       width: 100%;
@@ -27,9 +27,10 @@
     #habitlab_logo {
       position: absolute;
       left: 10px;
-      top: 5px;
+      top: -5px;
       z-index: 999999;
     }
+
     .text_display {
       font-size: 14px;
       align-content: center;
@@ -37,17 +38,20 @@
     }
     #close_button {
       position: absolute;
+      height: 31px;
       right: 180px;
       top: 7px;
       z-index: 999999;
+      box-shadow: 2px 2px 2px #888888;
     }
     #continue_scrolling {
       position: absolute;
       right: 10px;
       top: 7px;
       z-index: 999999;
-      background-color: red;
+      background-color: #415D67;
       color: white;
+      box-shadow: 2px 2px 2px #888888;
     }
   </style>
   <template>
@@ -62,9 +66,18 @@
     <paper-tooltip for="habitlab_logo" animation-delay="0">A tooltip</paper-tooltip>
     -->
     <div id="container">
-      <div class="text_display" >
-        You have already spent <span>{{minutes}}</span> minutes on <span>{{site}}</site>.<br>Are you sure you want to continue scrolling?
+      <div class="text_display" style="color: #415D67; font-size: 20px">You have spent </div>
+        <div style="color: #415D67">
+        <div style="display: inline-block; margin-left: 20px; margin-right: 20px">
+          <div style="font-size: 35px">{{minutes}}</div>
+          <div>min</div>
+        </div>
+        <div style="display: inline-block; margin-right: 20px">
+          <div style="font-size: 35px">{{seconds}}</div>
+          <div>sec</div>
+        </div>
       </div>
+      <div class="text_display" style="color: #415D67; font-size: 20px">on <span>{{site}}</site> </div>
       <habitlab-logo intervention={{intervention}} id="habitlab_logo" ></habitlab-logo>
       <close-tab-button id="close_button" text="Close Facebook"></close-tab-button>
       <paper-button id="continue_scrolling" on-click="continue_scrolling">Continue Scrolling</paper-button>

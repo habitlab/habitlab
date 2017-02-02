@@ -1,7 +1,7 @@
 require('enable-webcomponents-in-content-scripts')
 
 const $ = require('jquery')
-require('components/interstitial-screen.deps')
+require('components/interstitial-screen-num-visits.deps')
 const {
   get_minutes_spent_on_domain_today,
   get_visits_to_domain_today
@@ -29,11 +29,14 @@ co(function*() {
   var buttonText = 'Click to continue to Facebook'
   var buttonText2 = 'Close Facebook'
 
-  var interst_screen = $('<interstitial-screen class="interst_screen">')
+  var interst_screen = $('<interstitial-screen-num-visits class="interst_screen">')
   interst_screen.attr('intervention', intervention.name)
   interst_screen.attr('btn-txt', buttonText)
   interst_screen.attr('btn-txt2', buttonText2)
   interst_screen.attr('title-text', titleString)
+  interst_screen.attr('minutes', numMins);
+  interst_screen.attr('visits', numVisits);
+  interst_screen.attr('seconds', 0);
   log_impression(intervention.name)
   $(document.body).append(interst_screen)
 })

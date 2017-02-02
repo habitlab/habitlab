@@ -1,0 +1,13 @@
+description: Spend less time on Netflix
+progress_description: Time spent on Netflix
+interventions:
+  - generic/make_user_wait
+  - generic/block_after_interval_per_visit
+  - netflix/link_articles
+  - netflix/show_user_info_interstitial
+  - netflix/num_episodes
+measurement: time_spent_on_domain
+domain: www.netflix.com
+target:
+  default: 20
+  units: minutes

@@ -24,6 +24,13 @@ export remove_custom_component: (component_name) ->
 
 export add_custom_component = cfy (component_info) ->*
   component_name = component_info.name
+
+  # TODO: shoud list out:
+  # require_component
+  # require_package
+  # html imports
+  # and then add them to the required modules list
+
   component_info.code = """
   const {import_dom_modules} = require('libs_frontend/dom_utils');
 

@@ -24,6 +24,15 @@ export remove_custom_component: (component_name) ->
 
 export add_custom_component = cfy (component_info) ->*
   component_name = component_info.name
+  component_info.code = """
+  const {import_dom_modules} = require('libs_frontend/dom_utils');
+
+  // TODO: other required modules should go here
+
+  import_dom_modules(`#{component_info.html}`);
+
+  #{component_info.js}
+  """
   add_key_val_to_localstorage_dict 'custom_components', component_name, component_info
   /*
   {

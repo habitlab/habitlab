@@ -130,9 +130,7 @@ start_page_index = cfy ->*
   component_info = yield get_custom_component_info(tagname)
   if component_info?
     # custom component, need to load it
-    dom_utils = yield System.import('libs_frontend/dom_utils')
-    dom_utils.import_dom_modules(component_info.html, component_info.name + '.html')
-    yield SystemJS.import('data:text/javascript;base64,' + btoa(component_info.js))
+    yield SystemJS.import('data:text/javascript;base64,' + btoa(component_info.code))
   tag = document.createElement(tagname)
   num_properties = 0
   for k,v of params

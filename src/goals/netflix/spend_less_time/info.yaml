@@ -5,7 +5,7 @@ interventions:
   - generic/block_after_interval_per_visit
   - netflix/link_articles
   - netflix/show_user_info_interstitial
-  - netflix/num_episodes
+  #- netflix/num_episodes
 measurement: time_spent_on_domain
 domain: www.netflix.com
 target:

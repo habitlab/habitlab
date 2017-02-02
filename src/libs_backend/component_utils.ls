@@ -28,6 +28,9 @@ get_cheerio = memoizeSingleAsync cfy ->*
 get_require_utils = memoizeSingleAsync cfy ->*
   yield SystemJS.import('libs_backend/require_utils')
 
+get_list_requires = memoizeSingleAsync cfy ->*
+  yield SystemJS.import('list_requires_multi')
+
 list_html_imports_raw_paths = cfy (html_text) ->*
   output = []
   cheerio = yield get_cheerio()
@@ -69,27 +72,26 @@ export remove_custom_component: (component_name) ->
   return
 
 export add_custom_component = cfy (component_info) ->*
+  code = component_info.js
+  html = component_info.html
   component_name = component_info.name
   systemjs_config = {
     map: {}
   }
-  systemjs_config.map['components/' + component_name + '.html'] = 'data:text/html;base64,' + btoa(component_info.html)
-  systemjs_config.map['components/' + component_name + '.js'] = 'data:text/javascript;base64,' + btoa(component_info.js)
+  systemjs_config.map['components/' + component_name + '.html'] = 'data:text/html;base64,' + btoa(html)
+  systemjs_config.map['components/' + component_name + '.js'] = 'data:text/javascript;base64,' + btoa(code)
   #SystemJS.config({map: {'components/' + component_name + '.html': }})
-  #SystemJS.config({map: {'components/' + component_name + '.js': 'data:text/javascript;base64,' + btoa(component_info.js)}})
+  #SystemJS.config({map: {'components/' + component_name + '.js': 'data:text/javascript;base64,' + btoa(code)}})
   #console.log 'foo'
-  requires_list_html_imports = yield list_html_imports_as_jspm(component_info.html)
+  requires_list_html_imports = yield list_html_imports_as_jspm(html)
   require_utils = yield get_require_utils()
-  #requires_list_components = yield require_utils.get_requires_for_component_list()
-  #requires_list_packages = yield require_utils.get_requires_for_package_list()
-  #requires_list = requires_list_html_imports.concat requires_list_components
-  requires_list = requires_list_html_imports
-
-  # TODO: shoud list out:
-  # require_component
-  # require_package
-  # html imports
-  # and then add them to the required modules list
+  list_requires = yield get_list_requires()
+  # TODO: this implementation of require_package is technically broken. as it behaves like require and does not import any CSS
+  # TODO: require_css, require_style are not supported at all
+  dependencies = list_requires(code, ['require_package', 'require_component'])
+  requires_list_components = yield require_utils.get_requires_for_component_list(dependencies.require_component)
+  requires_list_packages = yield require_utils.get_requires_for_package_list(dependencies.require_package)
+  requires_list = requires_list_html_imports.concat requires_list_components.concat requires_list_packages
 
   jspm_deps_js = []
   jspm_deps_js.push "const {import_dom_modules} = require('libs_frontend/dom_utils');"

@@ -1,0 +1,7 @@
+description: Show user time spent/visit count before visiting Netflix.
+matches:
+  - www.netflix.com
+content_scripts:
+  - frontend.js
+categories:
+  - interstitial

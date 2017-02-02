@@ -64,11 +64,39 @@ polymer_ext {
     this.component_info = component_info = yield get_custom_component_info(component_name)
     this.js_editor.setValue(component_info.js)
     this.html_editor.setValue(component_info.html)
+    this.set_js_edit_mode(component_info.js_edit_mode)
+    this.set_html_edit_mode(component_info.html_edit_mode)
     console.log component_name
+  set_js_edit_mode: (js_edit_mode) ->
+    self = this
+    jslen = self.js_editor.getSession().getLength()
+    self.js_editor.focus()
+    self.js_editor.setValue(self.js_editor.getValue())
+    self.js_editor.gotoLine(jslen)
+  set_html_edit_mode: (html_edit_mode) ->
+    self = this
+    htmllen = self.html_editor.getSession().getLength()
+    self.html_editor.focus()
+    self.html_editor.setValue(self.html_editor.getValue())
+    self.html_editor.gotoLine(htmllen)
   save_component: cfy ->*
-    console.log this.component_name
+    js_code = this.js_editor.getSession().getValue().trim()
+    html_code = this.html_editor.getSession().getValue().trim()
+    component_info = {
+      name: this.get_component_name()
+      html: html_code
+      js: js_code
+      js_edit_mode: 'js'
+      html_edit_mode: 'html'
+    }
+    yield add_custom_component(component_info)
+    return true
   preview_component: cfy ->*
-    console.log this.component_name
+    if not (yield this.save_component())
+      return
+    component_name = this.get_component_name()
+    preview_page = chrome.extension.getURL('/index.html?tag=' + component_name)
+    chrome.tabs.create {url: preview_page}
   get_component_name: ->
     return this.$.component_selector.selectedItem.component_name
   delete_component: cfy ->*
@@ -127,19 +155,38 @@ polymer_ext {
       name: component_name
       html: """
       <dom-module id="#{component_name}">
+        <style>
+          .white_on_black {
+            color: white;
+            background-color: black;
+          }
+        </style>
         <template>
-          <div>Hello world</div>
+          <div class="white_on_black">
+            You've been here for {{seconds_elapsed}} seconds
+          </div>
         </template>
       </dom-module>
       """
       js: """
       Polymer({
         is: '#{component_name}',
+        properties: {
+          seconds_elapsed: {
+            type: Number,
+            value: 0
+          }
+        },
         ready: function() {
-          alert('hello world')
+          var self = this
+          setInterval(function() {
+            self.seconds_elapsed += 1
+          }, 1000)
         }
       })
       """
+      js_edit_mode: 'js'
+      html_edit_mode: 'html'
     }
     yield add_custom_component(component_info)
     yield this.refresh_component_list()

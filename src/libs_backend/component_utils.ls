@@ -37,8 +37,8 @@ export add_custom_component = cfy (component_info) ->*
 export get_custom_component_info = cfy (component_name) ->*
   custom_components = localstorage_getjson('custom_components')
   if not custom_components?
-    return {}
+    return
   component_info = custom_components[component_name]
   if not component_info?
-    return {}
+    return
   return component_info

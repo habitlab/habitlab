@@ -17,6 +17,8 @@
     "icons": true,
     "*.deps.js": true,
     "*.jspm.js": true,
+    "**/*.deps.js": true,
+    "**/*.jspm.js": true,
     "*.sublime-project": true,
     "*.sublime-workspace": true
   }

@@ -3,7 +3,7 @@
     {
       "path": ".",
       "folder_exclude_patterns": [".tmp", ".vscode", "jspm_packages", "bower_components", "node_modules_custom", "generated_libs", "icons"],
-      "file_exclude_patterns": [".*", ".DS_Store", "*.sublime-project", "*.sublime-workspace"]
+      "file_exclude_patterns": [".*", "*.deps.js", "*.jspm.js", ".DS_Store", "*.sublime-project", "*.sublime-workspace"]
     }
   ],
   "settings": {

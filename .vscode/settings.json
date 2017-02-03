@@ -27,6 +27,8 @@
     ".gitignore": true,
     ".eslintrc.yaml": true,
     "yarn.lock": true,
+    "*.deps.js": true,
+    "*.jspm.js": true,
     "*.sublime-project": true,
     "*.sublime-workspace": true
   }

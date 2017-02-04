@@ -136,8 +136,9 @@ script_deps = (tag, params) ->
   if not filename_abs?
     return ''
   filename_rel = path.relative src_path, filename_abs
-  if options.target_jspm and filename_rel.endsWith('.ls')
-    filename_rel = filename_rel.replace(/\.ls$/, '.js')
+  #if options.target_jspm and filename_rel.endsWith('.ls')
+  #  filename_rel = filename_rel.replace(/\.ls$/, '.js')
+  filename_rel = filename_rel.replace(/\.ls$/, '').replace(/\.js$/, '')
   return "require('#{filename_rel}')"
 
 get_html_import_abspath = (tag, params) ->
@@ -156,10 +157,11 @@ html_import_deps = (tag, params) ->
   filename_rel = path.relative src_path, filename_abs
   output = []
   #output.push "import_dom_modules(require('html!#{relative_path}'))"
-  if options.target_jspm
-    deps_file = filename_rel.replace(/\.html$/, '.jspm.js')
-  else
-    deps_file = filename_rel.replace(/\.html$/, '.deps.js')
+  deps_file = filename_rel.replace(/\.html$/, '.deps.js')
+  #if options.target_jspm
+  #  deps_file = filename_rel.replace(/\.html$/, '.jspm.js')
+  #else
+  #  deps_file = filename_rel.replace(/\.html$/, '.deps.js')
   output.push "require('#{deps_file}')"
   return output.join "\n"
 

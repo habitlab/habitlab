@@ -135,7 +135,8 @@ start_page_index = cfy ->*
       SystemJS.config(systemjs_config_extra)
     # custom component, need to load it
     #yield SystemJS.import('data:text/javascript;base64,' + btoa(component_info.code))
-    yield SystemJS.import('components/' + component_info.name + '.jspm.js')
+    #yield SystemJS.import('components/' + component_info.name + '.jspm.js')
+    yield SystemJS.import('components/' + component_info.name + '.deps.js')
   tag = document.createElement(tagname)
   num_properties = 0
   for k,v of params

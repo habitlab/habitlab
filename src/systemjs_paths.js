@@ -22,6 +22,14 @@ SystemJS.config({
     'bugmuncher': {
       defaultExtension: 'js',
     },
+    'bower_components': {
+      defaultExtension: 'js',
+    },
+  },
+  meta: {
+    '*.html': {
+      loader: 'text'
+    }
   },
   browserConfig: {
     baseURL: chrome.extension.getURL('/'),

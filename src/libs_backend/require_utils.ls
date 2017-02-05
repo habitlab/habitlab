@@ -52,7 +52,27 @@ export get_requires_for_component_list = cfy (components) ->*
         component_request = yield fetch(component_path)
         component_html = yield component_request.text()
       catch
-        component_path = component
+        component_path = "components/#{component}.deps.js"
     output.push component_path
+  #console.log output
+  return output
+
+export get_components_to_require_statements = cfy (components) ->*
+  output = {}
+  for component in components
+    try
+      #component_path = "/bower_components/#{component}/#{component}.jspm.js"
+      component_path = "/bower_components/#{component}/#{component}.deps.js"
+      component_request = yield fetch(component_path)
+      component_html = yield component_request.text()
+    catch
+      try
+        #component_path = "components/#{component}.jspm.js"
+        component_path = "components/#{component}.deps.js"
+        component_request = yield fetch(component_path)
+        component_html = yield component_request.text()
+      catch
+        component_path = "components/#{component}.deps.js"
+    output[component] = component_path
   #console.log output
   return output

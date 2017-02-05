@@ -1,0 +1,9 @@
+{
+  "main": "dist/term-spec.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

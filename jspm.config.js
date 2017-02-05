@@ -34,6 +34,7 @@ SystemJS.config({
     "path": "npm:jspm-nodelibs-path@0.2.1",
     "percipio": "npm:percipio@0.1.2",
     "prelude-ls": "npm:prelude-ls@1.1.2",
+    "prettier-min": "npm:prettier-min@0.15.3",
     "prettyprintjs": "npm:prettyprintjs@0.1.10",
     "process": "npm:jspm-nodelibs-process@0.2.0",
     "promise-debounce": "npm:promise-debounce@1.0.1",
@@ -44,6 +45,7 @@ SystemJS.config({
     "stream": "npm:jspm-nodelibs-stream@0.2.0",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.0",
     "sweetalert2": "npm:sweetalert2@6.3.2",
+    "sweetjs-min": "npm:sweetjs-min@2.2.3",
     "text": "github:systemjs/plugin-text@0.0.8",
     "tty": "npm:jspm-nodelibs-tty@0.2.0",
     "util": "npm:jspm-nodelibs-util@0.2.1",
@@ -430,6 +432,152 @@ SystemJS.config({
     "npm:domhandler@2.3.0": {
       "map": {
         "domelementtype": "npm:domelementtype@1.3.0"
+      }
+    },
+    "npm:shift-codegen@5.0.2": {
+      "map": {
+        "shift-reducer": "npm:shift-reducer@4.0.0",
+        "object-assign": "npm:object-assign@4.1.1",
+        "esutils": "npm:esutils@2.0.2"
+      }
+    },
+    "npm:shift-parser@5.0.2": {
+      "map": {
+        "shift-reducer": "npm:shift-reducer@4.0.0",
+        "es6-map": "npm:es6-map@0.1.4",
+        "shift-ast": "npm:shift-ast@4.0.0",
+        "multimap": "npm:multimap@0.1.1",
+        "esutils": "npm:esutils@2.0.2"
+      }
+    },
+    "npm:ramda-fantasy@0.7.0": {
+      "map": {
+        "ramda": "npm:ramda@0.23.0"
+      }
+    },
+    "npm:shift-reducer@4.0.0": {
+      "map": {
+        "shift-ast": "npm:shift-ast@4.0.0"
+      }
+    },
+    "npm:shift-reducer@3.0.3": {
+      "map": {
+        "shift-spec": "npm:shift-spec@2015.2.1"
+      }
+    },
+    "npm:es6-map@0.1.4": {
+      "map": {
+        "event-emitter": "npm:event-emitter@0.3.4",
+        "es6-set": "npm:es6-set@0.1.4",
+        "es6-iterator": "npm:es6-iterator@2.0.0",
+        "d": "npm:d@0.1.1",
+        "es6-symbol": "npm:es6-symbol@3.1.0",
+        "es5-ext": "npm:es5-ext@0.10.12"
+      }
+    },
+    "npm:es6-set@0.1.4": {
+      "map": {
+        "es6-iterator": "npm:es6-iterator@2.0.0",
+        "event-emitter": "npm:event-emitter@0.3.4",
+        "d": "npm:d@0.1.1",
+        "es6-symbol": "npm:es6-symbol@3.1.0",
+        "es5-ext": "npm:es5-ext@0.10.12"
+      }
+    },
+    "npm:event-emitter@0.3.4": {
+      "map": {
+        "d": "npm:d@0.1.1",
+        "es5-ext": "npm:es5-ext@0.10.12"
+      }
+    },
+    "npm:es6-iterator@2.0.0": {
+      "map": {
+        "d": "npm:d@0.1.1",
+        "es6-symbol": "npm:es6-symbol@3.1.0",
+        "es5-ext": "npm:es5-ext@0.10.12"
+      }
+    },
+    "npm:es6-symbol@3.1.0": {
+      "map": {
+        "d": "npm:d@0.1.1",
+        "es5-ext": "npm:es5-ext@0.10.12"
+      }
+    },
+    "npm:d@0.1.1": {
+      "map": {
+        "es5-ext": "npm:es5-ext@0.10.12"
+      }
+    },
+    "npm:es5-ext@0.10.12": {
+      "map": {
+        "es6-iterator": "npm:es6-iterator@2.0.0",
+        "es6-symbol": "npm:es6-symbol@3.1.0"
+      }
+    },
+    "npm:sweetjs-min@2.2.3": {
+      "map": {
+        "ramda-fantasy": "npm:ramda-fantasy@0.7.0",
+        "sweet-spec": "npm:sweet-spec@1.1.0",
+        "immutable": "npm:immutable@3.8.1",
+        "shift-parser": "npm:shift-parser@5.0.2",
+        "transit-js": "npm:transit-js@0.8.846",
+        "ramda": "npm:ramda@0.23.0",
+        "shift-reducer": "npm:shift-reducer@3.0.3",
+        "shift-codegen": "npm:shift-codegen@5.0.2"
+      }
+    },
+    "npm:babel-code-frame@6.22.0": {
+      "map": {
+        "chalk": "npm:chalk@1.1.3",
+        "js-tokens": "npm:js-tokens@3.0.1",
+        "esutils": "npm:esutils@2.0.2"
+      }
+    },
+    "npm:chalk@1.1.3": {
+      "map": {
+        "has-ansi": "npm:has-ansi@2.0.0",
+        "ansi-styles": "npm:ansi-styles@2.2.1",
+        "strip-ansi": "npm:strip-ansi@3.0.1",
+        "supports-color": "npm:supports-color@2.0.0",
+        "escape-string-regexp": "npm:escape-string-regexp@1.0.5"
+      }
+    },
+    "npm:jest-validate@18.2.0": {
+      "map": {
+        "chalk": "npm:chalk@1.1.3",
+        "leven": "npm:leven@2.0.0",
+        "jest-matcher-utils": "npm:jest-matcher-utils@18.1.0",
+        "pretty-format": "npm:pretty-format@18.1.0"
+      }
+    },
+    "npm:has-ansi@2.0.0": {
+      "map": {
+        "ansi-regex": "npm:ansi-regex@2.1.1"
+      }
+    },
+    "npm:strip-ansi@3.0.1": {
+      "map": {
+        "ansi-regex": "npm:ansi-regex@2.1.1"
+      }
+    },
+    "npm:jest-matcher-utils@18.1.0": {
+      "map": {
+        "chalk": "npm:chalk@1.1.3",
+        "pretty-format": "npm:pretty-format@18.1.0"
+      }
+    },
+    "npm:pretty-format@18.1.0": {
+      "map": {
+        "ansi-styles": "npm:ansi-styles@2.2.1"
+      }
+    },
+    "npm:prettier-min@0.15.3": {
+      "map": {
+        "babel-code-frame": "npm:babel-code-frame@6.22.0",
+        "esutils": "npm:esutils@2.0.2",
+        "jest-validate": "npm:jest-validate@18.2.0",
+        "babylon": "npm:babylon@6.15.0",
+        "ast-types": "npm:ast-types@0.9.4"
       }
     }
   }

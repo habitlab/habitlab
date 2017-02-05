@@ -1,0 +1,30 @@
+{
+  "name": "sweet-spec",
+  "version": "1.1.0",
+  "description": "The Sweet.js Term specification",
+  "main": "dist/term-spec.js",
+  "scripts": {
+    "test": "ava",
+    "prebuild": "mkdir -p dist && mkdir -p build",
+    "build:sweet": "sjs --out-dir build src/term-spec.js",
+    "build:babel": "babel --out-dir dist build",
+    "build": "npm run build:sweet && npm run build:babel",
+    "publish": "npm run build && cp term-spec.js.flow dist"
+  },
+  "author": "Tim Disney",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.14.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.14.0",
+    "babel-preset-es2015-node5": "^1.2.0",
+    "eslint": "^3.3.1",
+    "sweet-spec-macro": "1.0.0",
+    "sweet.js": "^2.2.0"
+  },
+  "ava": {
+    "files": [
+      "test/*.js"
+    ]
+  }
+}

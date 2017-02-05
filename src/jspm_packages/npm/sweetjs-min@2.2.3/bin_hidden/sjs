@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+var argv = require('yargs')
+  .usage('Usage: sjs [options] files ...')
+  .demand(1)
+  .alias('o', 'out-file')
+  .alias('d', 'out-dir')
+  .alias('b', 'no-babel')
+  .describe('b', 'do not use babel backend')
+  .describe('o', 'write output to file')
+  .describe('d', 'write output to directory')
+  .nargs('out-file', 1)
+  .nargs('out-dir', 1)
+  .help('h')
+  .alias('h', 'help')
+  .argv;
+
+var path = require('path');
+var fs   = require('fs');
+var dir  = path.join(path.dirname(fs.realpathSync(__filename)), '../dist');
+var sweetjs = require(dir + '/sweet.js');
+var semver = require('semver');
+
+if (!semver.satisfies(process.version, '>=5.0.0')) {
+  console.log('Sweet requires node >=5.0.0, you have: ' + process.version);
+  process.exit(1);
+}
+
+argv._.forEach(function (file) {
+  var infile = fs.readFileSync(file, 'utf8');
+  var fdir = path.dirname(fs.realpathSync(file));
+  var output = sweetjs.compile(infile, {
+    cwd: fdir,
+    noBabel: true,
+    filename: file
+  });
+
+  if (argv.outFile) {
+    fs.writeFileSync(argv.outFile, output.code, 'utf8');
+  } else if (argv.outDir) {
+    fs.writeFileSync(path.join(argv.outDir, path.basename(file)), output.code, 'utf8');
+  } else {
+    console.log(output.code);
+  }
+});

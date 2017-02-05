@@ -268,19 +268,17 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
       content_script_code = """
       window.Polymer = window.Polymer || {}
       window.Polymer.dom = 'shadow'
-      SystemJS.import('co').then(function(co) {
-        co(function*() {
-          var intervention_info_setter_lib = yield SystemJS.import('libs_common/intervention_info');
-          intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
-          var systemjs_require = yield SystemJS.import('libs_common/systemjs_require');
-          var require = yield systemjs_require.make_require(#{JSON.stringify(options.jspm_deps)});
-          var require_css = function() {};
-          var require_package = require;
-          var require_component = function() {};
-          #{content_script_code}
-        })
+      SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
+        intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
+        SystemJS.import('data:text/javascript;base64,#{btoa(content_script_code)}');
       })
       """
+      /*
+      SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
+        intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)})
+        #{content_script_code}
+      })
+      */
       /*
       SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
         intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});

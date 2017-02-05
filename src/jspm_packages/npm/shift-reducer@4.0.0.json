@@ -1,0 +1,12 @@
+{
+  "main": "dist/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./dist": "./dist/index.js"
+  }
+}

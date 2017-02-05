@@ -1,0 +1,36 @@
+{
+  "name": "shift-spec",
+  "version": "2015.2.1",
+  "description": "JavaScript representation of the Shift AST specification",
+  "author": "Shape Security Labs",
+  "homepage": "https://github.com/shapesecurity/shift-spec-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shapesecurity/shift-spec-js.git"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "node src/generate-spec.js",
+    "test": "node ./",
+    "prepublish": "rm -rf dist/* && npm update && npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "Shift",
+    "AST",
+    "specification",
+    "abstract",
+    "syntax",
+    "tree",
+    "implementation"
+  ],
+  "devDependencies": {
+    "shift-spec-idl": "2015.1.x"
+  },
+  "bugs": {
+    "url": "https://github.com/shapesecurity/shift-spec-js/issues"
+  },
+  "license": "Apache-2.0"
+}

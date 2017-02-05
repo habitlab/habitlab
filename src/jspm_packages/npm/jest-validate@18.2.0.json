@@ -1,0 +1,13 @@
+{
+  "main": "build/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./build": "./build/index.js",
+    "./src": "./src/index.js"
+  }
+}

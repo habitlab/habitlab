@@ -25,6 +25,9 @@ SystemJS.config({
     'bower_components': {
       defaultExtension: 'js',
     },
+    'goals': {
+      defaultExtension: 'js',
+    },
   },
   meta: {
     '*.html': {

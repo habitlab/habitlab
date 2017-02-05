@@ -15,7 +15,47 @@ swal = require 'sweetalert2'
 get_list_requires = memoizeSingleAsync cfy ->*
   yield SystemJS.import('list_requires_multi')
 
-export add_requires_to_intervention_info = cfy (intervention_info, code) ->*
+get_sweetjs_utils = memoizeSingleAsync cfy ->*
+  yield SystemJS.import('libs_backend/sweetjs_utils')
+
+export compile_intervention_code = cfy (intervention_info) ->*
+  sweetjs_utils = yield get_sweetjs_utils()
+  code = intervention_info.code
+  try
+    compiled_code = yield sweetjs_utils.compile(code)
+    compiled_code = """
+    var co = require('co');
+    var intervention = require('libs_common/intervention_info').get_intervention();
+    co(function*() {
+      #{compiled_code}
+    });
+    """
+    /*
+    compiled_code = """
+    SystemJS.import('co').then(function(co) {
+      co(function*() {
+        #{compiled_code}
+      })
+    })
+    """
+    */
+  catch err
+    swal {
+      title: 'syntax error in your code'
+      text: err
+    }
+    return false
+  intervention_info.content_scripts = [
+    {
+      code: compiled_code
+      run_at: 'document_start'
+      jspm_require: true
+    }
+  ]
+  return true
+
+export add_requires_to_intervention_info = cfy (intervention_info) ->*
+  code = intervention_info.code
   list_requires = yield get_list_requires()
   dependencies = list_requires(code, ['require', 'require_css', 'require_style', 'require_package', 'require_component'])
   required_css_files_from_require_css = dependencies.require_css

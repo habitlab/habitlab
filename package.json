@@ -98,11 +98,13 @@
       "nodeca/js-yaml": "github:nodeca/js-yaml@master",
       "percipio": "npm:percipio@^0.1.2",
       "prelude-ls": "npm:prelude-ls@^1.1.2",
+      "prettier-min": "npm:prettier-min@^0.15.3",
       "prettyprintjs": "npm:prettyprintjs@^0.1.10",
       "promise-debounce": "npm:promise-debounce@^1.0.1",
       "shuffled": "npm:shuffled@^1.0.0",
       "sortablejs": "npm:sortablejs@^1.5.0-rc1",
       "sweetalert2": "npm:sweetalert2@^6.2.4",
+      "sweetjs-min": "npm:sweetjs-min@^2.2.3",
       "text": "github:systemjs/plugin-text@^0.0.8"
     },
     "devDependencies": {},

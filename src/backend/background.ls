@@ -283,6 +283,12 @@ execute_content_scripts_for_intervention = cfy (intervention_info, tabId, interv
       """
       /*
       SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
+        intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
+        SystemJS.import('data:text/javascript;base64,#{btoa(content_script_code)}');
+      })
+      */
+      /*
+      SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
         intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)})
         SystemJS.import('libs_common/systemjs_require').then(function(systemjs_require) {
           systemjs_require.make_require(#{JSON.stringify(options.jspm_deps)}).then(function(require) {
@@ -501,6 +507,8 @@ split_list_by_length = (list, len) ->
     output.push curlist
   return output
 
+css_packages = require('libs_common/css_packages')
+
 message_handlers = get_all_message_handlers()
 
 message_handlers <<< {
@@ -520,6 +528,8 @@ message_handlers <<< {
   'load_css_file': (data, callback) ->
     {css_file, tab} = data
     tabid = tab.id
+    if css_packages[css_file]?
+      css_file = css_packages[css_file]
     chrome.tabs.insertCSS tabid, {file: css_file}, ->
       callback()
   'load_css_code': (data, callback) ->

@@ -77,8 +77,8 @@ export add_custom_component = cfy (component_info) ->*
   component_name = component_info.name
   systemjs_config_map = {}
   systemjs_config_map['components/' + component_name + '.html'] = 'data:text/html;base64,' + btoa(html)
-  systemjs_config_map['components/' + component_name + '.js'] = 'data:text/javascript;base64,' + btoa(code)
-  #systemjs_config_map['components/' + component_name] = 'components/' + component_name + '.js'
+  systemjs_config_map['components/' + component_name] = 'data:text/javascript;base64,' + btoa(code)
+  systemjs_config_map['components/' + component_name + '.js'] = 'data:text/javascript;base64,' + btoa('module.exports = require("components/' + component_name + '")')
   #SystemJS.config({map: {'components/' + component_name + '.html': }})
   #SystemJS.config({map: {'components/' + component_name + '.js': 'data:text/javascript;base64,' + btoa(code)}})
   #console.log 'foo'
@@ -96,10 +96,10 @@ export add_custom_component = cfy (component_info) ->*
   jspm_deps_js.push "const {import_dom_modules} = require('libs_frontend/dom_utils');"
   for required_item in requires_list
     jspm_deps_js.push "require('#{required_item}')"
-  jspm_deps_js.push "import_dom_modules(require('components/#{component_name}.html!text'));"
-  jspm_deps_js.push "require('components/#{component_name}.js');"
+  jspm_deps_js.push "import_dom_modules(require('components/#{component_name}.html'));"
+  jspm_deps_js.push "require('components/#{component_name}');"
   systemjs_config_map['components/' + component_name + '.deps.js'] = 'data:text/javascript;base64,' + btoa(jspm_deps_js.join('\n'))
-  #systemjs_config_map['components/' + component_name + '.deps'] = 'components/' + component_name + '.deps.js'
+  systemjs_config_map['components/' + component_name + '.deps'] = 'data:text/javascript;base64,' + btoa('module.exports = require("components/' + component_name + '.deps.js")')
   add_dict_to_localstorage_dict 'systemjs_config_extra_map', systemjs_config_map
   SystemJS.config({map: systemjs_config_map})
   add_key_val_to_localstorage_dict 'custom_components', component_name, component_info

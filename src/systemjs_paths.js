@@ -29,6 +29,9 @@ SystemJS.config({
   meta: {
     '*.html': {
       loader: 'text'
+    },
+    'data:text/html;base64,*': {
+      loader: 'text'
     }
   },
   browserConfig: {

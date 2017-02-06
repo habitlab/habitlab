@@ -20,7 +20,6 @@
     display: block;
     width: 100%;
     height: 100%;
-    background-color: #C5CAE9;
     --paper-card: {
         width: 90%;
         padding: 10px 20px;
@@ -149,37 +148,6 @@ habitlab-logo {
         <div class="title">HabitLab Settings</div>
 
         <options-interventions></options-interventions>
-
-
-
-        <paper-card>
-            <div class="card-content">
-                <graph-donut-top-sites></graph-donut-top-sites>
-            </div>
-        </paper-card>
-
-        <paper-card>
-            <div class="card-content">
-                <all-badges-earned-display></all-badges-earned-display>
-            </div>
-        </paper-card>
-
-        <paper-card>
-            <div class="card-content">
-                <paper-tabs id="graphsOfInterventionEffectivenessTab" style="width: 500px;" selected={{selected_intervention_effectiveness_idx}} scrollable>
-                    <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
-                        <paper-tab>{{site_info.sitename_printable}}</paper-tab>
-                    </template>
-                </paper-tabs>
-
-                <iron-pages selected={{selected_intervention_effectiveness_idx}}>
-                    <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
-                        <div><graph-intervention-effectiveness-comparison goal_info="{{first_elem(site_info.goals)}}"></graph-intervention-effectiveness-comparison></div>
-                    </template>
-                </iron-pages>
-            </div>
-        </paper-card>
-
     </div>
     <div style="height: 50px;"></div>
 

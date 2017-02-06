@@ -30,10 +30,12 @@
 }
 
 .rightside {
-    width: 70%;
+    width: 69%;
     margin: 0;
     padding: 0;
     display: inline-block;
+    position: absolute;
+    top: 0;
 }
 
 .questionicon {
@@ -47,38 +49,13 @@ paper-button.fancy {
 
 </style>
 <template>
-    <div>
-        hello there2
-    </div>
     <template is="dom-if" if="{{!is_habitlab_disabled}}">
 
-        <div style="width: 100%;">
+        <div>
             <div class="leftside">
-                Menu
-
-            <sidebar-tabs items='["Home", "Settings"]' on-tab-elem-selected="tab_elem_selected_changed"></sidebar-tabs>
-
-<!--
-                <paper-vert-tabs id="dashtab" selected="{{selected_tab_idx}}" autoselect>
-                    <paper-tab>Home</paper-tab>
-                    <paper-tab>Settings</paper-tab>
-                </paper-vert-tabs>
-
-                <paper-vert-tabs id="tabs" selected="0">
-    <paper-tab>Tab 1</paper-tab>
-    <paper-tab>Tab 2</paper-tab>
-</paper-vert-tabs>
-
-<paper-vert-tabs id="tabs" selected="0">
-<paper-tab>Tab 1</paper-tab>
-<paper-tab>Tab 2</paper-tab>
-</paper-vert-tabs>
-
--->
-
+                <sidebar-tabs items='["Home", "Settings", "Facebook", "random"]' on-tab-elem-selected="tab_elem_selected_changed"></sidebar-tabs>
             </div>
             <div class="rightside">
-
                 <iron-pages selected="{{selected_tab_idx}}">
                     <dashboard-view-v2></dashboard-view-v2>
                     <dash-settings></dash-settings>

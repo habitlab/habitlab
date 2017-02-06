@@ -5,9 +5,31 @@
 <style>
 
 .tab_elem {
-  background-color: blue;
+  background-color: #7EAFEA;
   color: white;
   width: 100%;
+  height: 80px;
+  text-align: center;
+  font-size: 35px;
+}
+
+.tab_elem:hover {
+    cursor: pointer;
+    background-color: #23466E;
+}
+
+.vertical_align {
+	display: flex;
+	align-items: center;
+}
+
+.horizontal_align {
+	margin: auto;
+	display: block;
+}
+
+.hta {
+	text-align: center;
 }
 
 </style>
@@ -15,7 +37,7 @@
 <template>
 
   <template is="dom-repeat" items="{{items}}" as="item">
-    <div class="tab_elem" on-click="tab_elem_selected" name="{{item}}">
+    <div class="tab_elem vertical_align" on-click="tab_elem_selected" name="{{item}}">
       {{item}}
     </div>
   </template>

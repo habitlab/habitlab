@@ -24,6 +24,10 @@ polymer_ext {
     is_habitlab_disabled: {
       type: Boolean
     }
+    sidebar_array: {
+        type: Array
+        value: {"Home", "Settings", "Facebook", "omg"}
+    }
   }
   listeners: {
     goal_changed: 'on_goal_changed'

@@ -55,6 +55,8 @@ lib_name_to_func_names_and_signatures =
     get_screenshot_as_base64: []
   fetch_page_utils:
     fetch_page_text: 'url'
+  ajax_utils:
+    ajax: 'options'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

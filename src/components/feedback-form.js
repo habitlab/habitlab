@@ -54,12 +54,30 @@ polymer_ext({
   },
   textarea_changed: _.throttle(function() {
     this.$$('#feedback_dialog').notifyResize();
+    this.save_feedback();
   }, 300),
+  save_feedback: _.throttle(function() {
+    localStorage.setItem('feedback_form_feedback', this.feedback);
+  }, 1000),
+  email_changed_keydown: _.throttle(function() {
+    this.save_email();
+  }, 1000),
+  save_email: function() {
+    localStorage.setItem('feedback_form_email', this.email);
+  },
   feedback_button_clicked: cfy(function*() {
     var screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils');
     var screenshot = yield screenshot_utils.get_screenshot_as_base64();
   }),
   open: function() {
+    var saved_feedback = localStorage.getItem('feedback_form_feedback');
+    if (saved_feedback && saved_feedback.length > 0) {
+      this.feedback = saved_feedback;
+    }
+    var saved_email = localStorage.getItem('feedback_form_email');
+    if (saved_email && saved_email.length > 0) {
+      this.email = saved_email;
+    }
     this.$$('#feedback_dialog').open();
   },
   submit_feedback: cfy(function*() {

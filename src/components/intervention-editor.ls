@@ -34,6 +34,10 @@
   load_css_file
 } = require 'libs_common/content_script_utils'
 
+{
+  once_true
+} = require 'libs_frontend/common_libs'
+
 swal = require 'sweetalert2'
 
 get_livescript = memoizeSingleAsync cfy ->*
@@ -372,10 +376,10 @@ polymer_ext {
       if self.intervention_info?edit_mode?
         self.set_edit_mode(self.intervention_info.edit_mode)
     , 500
-    # preload libraries which take forever to load
-    SystemJS.import('libs_backend/sweetjs_utils')
-    SystemJS.import('sweetjs-min')
-    get_livescript()
+    once_true(-> self?intervention_info?code?
+    , ->
+      compile_intervention_code(self.intervention_info)
+    )
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

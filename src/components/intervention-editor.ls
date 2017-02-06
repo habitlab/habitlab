@@ -62,6 +62,8 @@ polymer_ext {
   }
   ls_editor_changed: cfy ->*
     self = this
+    if self.get_edit_mode() == 'js'
+      return
     ls_text = self.ls_editor.getValue()
     ls_compiler = yield get_livescript()
     try
@@ -125,9 +127,9 @@ polymer_ext {
     goal_idx = goal_names_list.indexOf(goal_name)
     this.$.goal_selector.selected = goal_idx
     edit_mode_idx = switch intervention_info.edit_mode
-    | 'ls_and_js' => 0
+    | 'js' => 0
     | 'ls' => 1
-    | 'js' => 2
+    | 'ls_and_js' => 2
     | _ => 0
     this.$.language_selector.selected = edit_mode_idx
     this.set_edit_mode intervention_info.edit_mode
@@ -320,7 +322,7 @@ polymer_ext {
         text: 'This is a sample intervention'
       })
       '''
-      edit_mode: 'ls_and_js'
+      edit_mode: 'js'
       goals: [
         all_goals['buzzfeed/spend_less_time']
       ]

@@ -48,6 +48,7 @@ SystemJS.config({
     "sweetjs-min": "npm:sweetjs-min@2.2.3",
     "text": "github:systemjs/plugin-text@0.0.8",
     "tty": "npm:jspm-nodelibs-tty@0.2.0",
+    "underscore": "npm:underscore@1.8.3",
     "util": "npm:jspm-nodelibs-util@0.2.1",
     "vm": "npm:jspm-nodelibs-vm@0.2.0"
   },

@@ -227,10 +227,6 @@
       "assert": "npm:jspm-nodelibs-assert@^0.2.0"
     }
   },
-  "npm:underscore@1.8.3": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:webcomponentsjs-custom-element-v0@1.0.1": {
     "deps": {},
     "peerDeps": {}
@@ -1188,6 +1184,10 @@
     "peerDeps": {}
   },
   "npm:jspm-nodelibs-assert@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:underscore@1.8.3": {
     "deps": {},
     "peerDeps": {}
   }

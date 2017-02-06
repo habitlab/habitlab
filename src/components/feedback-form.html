@@ -6,6 +6,8 @@
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/html-echo/html-echo.html">
 
 <dom-module id="feedback-form">
   <style>
@@ -45,6 +47,14 @@
           <paper-button on-click="submit_feedback">Submit Feedback</paper-button>
         </div>
 
+    </paper-dialog>
+
+    <paper-dialog id="submitting_wait_dialog" with-backdrop style="z-index: 9007199254740991;">
+      <paper-dialog-scrollable>
+        <div style="margin: 20px">
+          <html-echo html="{{wait_dialog_html}}"></html-echo>
+        </div>
+      </paper-dialog-scrollable>
     </paper-dialog>
 
   </template>

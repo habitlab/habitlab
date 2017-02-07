@@ -32,7 +32,7 @@
             <div>Thank you for providing your feedback! It will be emailed to us, along with a screenshot of this page, at <a href="mailto:{{mailing_list}}" target="_blank">{{mailing_list}}</a></div>
             <form>
               <paper-textarea on-change="textarea_changed" on-keydown="textarea_changed" value="{{feedback}}" label="Your Feedback"></paper-textarea>
-              <gold-email-input on-change="email_changed" on-keydown="email_changed_keydown" auto-validate value="{{email}}" label="Email (optional, so we can send you a response)" error-message="Please enter a valid email"></gold-email-input>
+              <gold-email-input on-change="save_email" on-keydown="email_changed_keydown" auto-validate value="{{email}}" label="Email (optional, so we can send you a response)" error-message="Please enter a valid email"></gold-email-input>
             </form>
 
             <paper-checkbox checked="{{submit_to_gitter}}">Post on the HabitLab community forum at <a href="https://gitter.im/habitlab/habitlab" target="_blank">Gitter</a></paper-checkbox><br>

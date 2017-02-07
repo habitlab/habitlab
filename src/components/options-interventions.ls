@@ -59,10 +59,6 @@ polymer_ext {
       type: Array
       value: {}
     },
-    index_of_daily_goal_mins: {
-      type: Object
-      value: {}
-    },
     goals_and_interventions: {
       type: Array
       value: []
@@ -70,7 +66,7 @@ polymer_ext {
     sites_and_goals: {
       type: Array
       value: []
-    }, 
+    },
     start_time_string: {
       type: String
       value: if localStorage.start_as_string then localStorage.start_as_string else '9:00 AM'
@@ -91,10 +87,6 @@ polymer_ext {
       type: Boolean
       value: localStorage.work_hours_only != "true"
     },
-    daily_goal_values: {
-      type: Array
-      value: ["5 minutes", "10 minutes", "15 minutes", "20 minutes", "25 minutes", "30 minutes", "35 minutes", "40 minutes", "45 minutes", "50 minutes", "55 minutes", "60 minutes"]
-    }
     seen_tutorial: {
       type: Boolean
       value: localStorage.seen_tutorial != "true"
@@ -104,73 +96,6 @@ polymer_ext {
       value: localStorage.popup_view_has_been_opened == 'true'
     }
   }
-  disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
-    enabled_goals = yield get_enabled_goals()
-    enabled_interventions = yield get_enabled_interventions()
-    all_interventions = yield get_interventions()
-    interventions_to_disable = []
-    for intervention_name,intervention_enabled of enabled_interventions
-      if not intervention_enabled
-        continue
-      intervention_info = all_interventions[intervention_name]
-      intervention_satisfies_an_enabled_goal = false
-      for goal_info in intervention_info.goals
-        if enabled_goals[goal_info.name]
-          intervention_satisfies_an_enabled_goal = true
-      if not intervention_satisfies_an_enabled_goal
-        interventions_to_disable.push intervention_name
-    prev_enabled_interventions = {} <<< enabled_interventions
-    for intervention_name in interventions_to_disable
-      yield set_intervention_disabled intervention_name
-    if interventions_to_disable.length > 0
-      add_log_interventions {
-        type: 'interventions_disabled_due_to_user_disabling_goal'
-        manual: false
-        goal_name: goal_name
-        interventions_list: interventions_to_disable
-        prev_enabled_interventions: prev_enabled_interventions
-      }
-
-  goal_changed: cfy (evt) ->*
-    
-    checked = evt.target.checked
-    
-    goal_name = evt.target.goal.name
-
-
-    self = this
-    if checked
-      yield set_goal_enabled_manual goal_name
-      
-      check_if_first_goal = cfy ->*       
-        if !localStorage.first_goal?
-          localStorage.first_goal = 'has enabled a goal before'
-          #add_toolbar_notification!
-
-          # yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-          # try
-          #   yield swal {
-          #     title: 'You set a goal!'
-          #     text: 'HabitLab will use its algorithms to try different interventions on your webpages, and intelligently figure out what works best for you. You can manually tinker with settings if you\'d like.'
-          #     type: 'success'
-          #     confirmButtonText: 'See it in action'
-          #   }
-            
-          #   set_override_enabled_interventions_once('facebook/show_user_info_interstitial')
-          #   all_goals = yield get_goals()
-          #   goal_info = all_goals[goal_name]
-          #   chrome.tabs.create {url: goal_info.homepage }
-          # catch
-          #   console.log 'failure'
-      check_if_first_goal!
-    else
-      
-      yield set_goal_disabled_manual goal_name
-    yield this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
-    if checked
-      yield enable_interventions_because_goal_was_enabled(goal_name)
-    
-    self.fire 'goal_changed', {goal_name: goal_name}
   select_new_interventions: (evt) ->
     self = this
     self.goals_and_interventions = []
@@ -178,18 +103,6 @@ polymer_ext {
     self.rerender()
   on_goal_changed: (evt) ->
     this.rerender()
-
-    
-
-  get_daily_targets: cfy ->*
-    goals = yield get_goals!
-    window.gols = goals
-    for goal in Object.keys goals
-      if goal == "debug/all_interventions" 
-        continue
-      mins = yield get_goal_target goal
-      mins = mins/5 - 1
-      this.index_of_daily_goal_mins[goal] = mins
     
   goals_set: (evt) ->
     if (Object.keys this.enabled_goals).length > 0 
@@ -286,7 +199,6 @@ polymer_ext {
   ready: ->
    
     this.rerender()
-    this.get_daily_targets!
     self = this
     if window.location.hash == '#introduction'
       localStorage.removeItem 'popup_view_has_been_opened'
@@ -301,35 +213,7 @@ polymer_ext {
             self.show_swal()
       , 500
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    
-  set_sites_and_goals: cfy ->*
-    self = this
-    goal_name_to_info = yield get_goals()
-    sitename_to_goals = {}
-    for goal_name,goal_info of goal_name_to_info
-      if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
-        continue
-      sitename = goal_info.sitename
-      if not sitename_to_goals[sitename]?
-        sitename_to_goals[sitename] = []
-      sitename_to_goals[sitename].push goal_info
-    list_of_sites_and_goals = []
-    list_of_sites = prelude.sort Object.keys(sitename_to_goals)
-    enabled_goals = yield get_enabled_goals()
-    yield this.get_daily_targets!
-    
-    for sitename in list_of_sites
-      current_item = {sitename: sitename}
-      current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
-      
-      for goal in current_item.goals
-        goal.enabled = (enabled_goals[goal.name] == true)
-        goal.number = this.index_of_daily_goal_mins[goal.name]
 
-      list_of_sites_and_goals.push current_item
-    self.sites_and_goals = list_of_sites_and_goals
-  show_internal_names_of_goals: ->
-    return localStorage.getItem('intervention_view_show_internal_names') == 'true'
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->
@@ -375,11 +259,6 @@ polymer_ext {
 
     # if not, it's a double click so you shouldn't do anything
 
-  time_updated: cfy (evt, obj) ->*
-    
-    mins = Number (obj.item.innerText.trim ' ' .split ' ' .0)
-    set_goal_target obj.item.class, mins
-  
 
   dismiss_dialog: (evt) ->
     console.log evt
@@ -419,40 +298,6 @@ polymer_ext {
   sort_custom_goals_and_interventions_after: (goals_and_interventions) ->
     [custom_goals_and_interventions,normal_goals_and_interventions] = prelude.partition (.goal.custom), goals_and_interventions
     return normal_goals_and_interventions.concat custom_goals_and_interventions
-  sort_custom_sites_after: (sites_and_goals) ->
-    [custom_sites_and_goals,normal_sites_and_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_goals
-    return normal_sites_and_goals.concat custom_sites_and_goals
-  add_custom_website_from_input: cfy ->*
-    domain = url_to_domain(this.$$('#add_website_input').value.trim())
-    if domain.length == 0
-      return
-    this.$$('#add_website_input').value = ''
-    canonical_domain = yield get_canonical_domain(domain)
-    if not canonical_domain?
-      swal {
-        title: 'Invalid Domain'
-        html: $('<div>').append([
-          $('<div>').text('You entered an invalid domain: ' + domain)
-          $('<div>').text('Please enter a valid domain such as www.amazon.com')
-        ])
-        type: 'error'
-      }
-      return
-    yield add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
-    this.rerender()
-    return
-  add_goal_clicked: (evt) ->
-    this.add_custom_website_from_input()
-    return
-  add_website_input_keydown: (evt) ->
-    if evt.keyCode == 13
-      # enter pressed
-      this.add_custom_website_from_input()
-      return
-  delete_goal_clicked: cfy (evt) ->*
-    goal_name = evt.target.goal_name
-    yield remove_custom_goal_and_generated_interventions goal_name
-    this.rerender()
   help_icon_clicked: ->
     swal {
       title: 'How HabitLab Works'
@@ -470,7 +315,9 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
   rerender: cfy ->*
-    yield this.set_sites_and_goals()
+    yield this.$.goal_selector.set_sites_and_goals()
+    yield this.rerender_outside_goal_selector()
+  rerender_outside_goal_selector: cfy ->*    
     self = this
     intervention_name_to_info = yield get_interventions()
     

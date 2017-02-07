@@ -16,6 +16,7 @@
 <link rel="import" href="habitlab-logo.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="goal-selector.html">
 
 <dom-module id="options-interventions">
   <style is="custom-style">
@@ -93,10 +94,6 @@
       cursor: pointer;
       color: #777777;
     }
-
-    .dailyLimitContainer {
-      margin-top: 2px;
-    }
    
     .card-container {
       padding-top: 10px;
@@ -143,52 +140,11 @@
   </style>
   <template>
     <div class="card-container">
+
     <paper-card heading="What goals should HabitLab help you achieve?" class="papercard">
-      
-      
-      <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
-
-      <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
-      <div class="card-content">
-        <template is="dom-repeat" items="{{sort_custom_sites_after(sites_and_goals)}}" as="site_and_goals">
-            <!-- <h3>{{site_and_goals.sitename}}</h3> -->
-            <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
-              <div style="display: flex; align-items: center; padding-bottom: 15px;" >
-                <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">
-                  <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
-                  <template is="dom-if" if="{{show_internal_names_of_goals()}}">
-                    <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
-                  </template>
-                </paper-toggle-button>
-                <template is="dom-if" if="{{goal.custom}}">
-                  <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: red; font-size: 16px; height: 20px; position: absolute; left: 350px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
-                </template>
-                <template is="dom-if" if="{{goal.enabled}}">
-                  <span class="dailyLimitContainer" style="margin-left: auto">
-                    <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px; padding-left: 30px; ">Daily goal: Less than</span>
-                    <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>
-                      <paper-listbox class="dropdown-content" selected="[[goal.number]]" on-iron-select="time_updated"> 
-                        <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
-                          <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
-                        </template>
-                      </paper-listbox>
-                    </paper-dropdown-menu>
-                  </span>
-                </template>
-              </div>
-            </template>
-          </template>
-
-        <div style="display: flex">
-          <paper-input id="add_website_input" label="Add a new website to reduce time spent on (example: www.amazon.com)" style="display: inline-block; width: calc(100% - 100px)" on-keydown="add_website_input_keydown"></paper-input>
-          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
-        </div>
-
-
-
-      </div>
+      <goal-selector on-need_rerender="rerender_outside_goal_selector" on-goal_changed="rerender_outside_goal_selector" id="goal_selector"></goal-selector>
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
-      </paper-card>
+    </paper-card>
 
       <div id="intro1" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 

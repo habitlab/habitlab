@@ -53,12 +53,18 @@ paper-button.fancy {
 
         <div>
             <div class="leftside">
-                <sidebar-tabs items='["Home", "Settings", "Facebook", "random"]' on-tab-elem-selected="tab_elem_selected_changed"></sidebar-tabs>
+                <sidebar-tabs items="{{sidebar_items}}" on-tab-elem-selected="tab_elem_selected_changed"></sidebar-tabs>
             </div>
             <div class="rightside">
                 <iron-pages selected="{{selected_tab_idx}}">
                     <dashboard-view-v2></dashboard-view-v2>
                     <dash-settings></dash-settings>
+                    <template is="dom-repeat" items="{{enabled_goal_info_list}}" as="goal_info">
+                      <!--<site-view site="{{goal_info.sitename_printable}}"></site-view>-->
+                      <div>
+                        {{goal_info.sitename_printable}}
+                      </div>
+                    </template>
                 </iron-pages>
             </div>
         </div>

@@ -1,0 +1,139 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="habitlab-logo.html">
+<link rel="import" href="goal-progress-message.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="close-tab-button.html">
+
+<dom-module id="netflix-screen">
+  <style>
+    :host {
+      position: fixed;
+      display: block;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: #f2fcff;
+      opacity: 0.97;
+      z-index: 35000000;
+      font-family: 'Roboto'
+    }
+
+    .contentContainer {
+      margin-top: 20px;
+    }
+
+    .titleText {
+     
+      font-size: 1.5em;
+      text-align: center;
+    }
+
+    #messagetext {
+      font-size: 1.3em;
+      text-align: center;
+    }
+
+    .whiteDiv {
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: #f2fcff;
+      opacity: 0.97;
+      z-index: 35000000;
+    }
+    .okButton {
+      cursor: pointer;
+      padding: 5px;
+      background-color: red;      
+      color: white;
+      font-size: 14px;
+    }
+    .closeTabButton {
+      cursor: pointer;
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px; 
+      font-size: 14px;
+    }    
+    #logo {
+      
+      padding-bottom: 40px;
+    }
+
+    .message-block {
+      padding-top: 40px;
+      align-self: center;
+
+    }
+
+    #paperprogress {
+      display: none;
+      margin-bottom: 10px;
+    }
+
+    #question{
+      color: black;
+      font-size: 20px;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 250;
+    }
+
+    #fact{
+      color: black;
+      font-size:12px;
+      font-family: 'Helvetica Neue', Helvetica,Arial,sans-serif;
+    }
+
+    #fact-box{
+      background-color: #E6E6FA;
+      margin-right: 300px;
+      margin-left: 300px;
+      padding: 2px;
+    }
+
+    #link{
+      font-size:12px;
+      font-family: 'Helvetica Neue', Helvetica,Arial,sans-serif;
+    }
+
+  </style>
+
+  <template>
+    <div class="whiteDiv">
+      
+      <template is="dom-if" if="{{show_netflix_message}}">
+        <netflix-articles class="message-block"></netflix-articles>
+      </template>
+
+      <div class="contentContainer">
+        <div id = "fact-box">
+          <center><p id = "question"> Did you Know? </p> </center>
+          <center><p id = "fact"> {{fact_info.text}} </p> </center>
+          <center><a href= "{{fact_info.link}}" id = "link"> Read the full article here! </a> </center>
+          <p></p>
+        </div>
+        <p></p>
+
+        <center><habitlab-logo id="logo"></habitlab-logo><center>
+        <div id="titletext" class="titleText"></div>
+        <div id="messagetext"></div>
+        <p><p>
+        <center><paper-progress id="paperprogress"></paper-progress></center>
+        <center><close-tab-button id="closetabbutton" class="closeTabButton" text="Close Tab"></close-tab-button></center>
+        <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">default</paper-button></center>
+      </div>
+    </div>
+
+  </template>
+  
+  <script src="netflix-screen.js"></script>
+
+</dom-module>

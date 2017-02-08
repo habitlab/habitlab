@@ -6,6 +6,7 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/.DS_Store": true,
+    ".*": true,
     "node_modules": true,
     "mongodata": true,
     ".vscode": true,
@@ -23,6 +24,14 @@
     "src_disabled": true,
     ".babelrc": true,
     ".bowerrc": true,
-    ".gitignore": true
+    ".gitignore": true,
+    ".eslintrc.yaml": true,
+    "yarn.lock": true,
+    "*.deps.js": true,
+    "*.jspm.js": true,
+    "**/*.deps.js": true,
+    "**/*.jspm.js": true,
+    "*.sublime-project": true,
+    "*.sublime-workspace": true
   }
 }

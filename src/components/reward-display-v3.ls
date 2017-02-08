@@ -24,7 +24,14 @@ polymer_ext {
       value: false
       observer: 'autoplay_changed'
     }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
+    }
   }
+  isdemo_changed: (isdemo) ->
+    if isdemo
+      this.autoplay = true
   autoplay_changed: ->
     if this.autoplay
       this.play()

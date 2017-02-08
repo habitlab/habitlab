@@ -1,0 +1,21 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "lib/WritableStream.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js",
+    "readable-stream": {
+      "browser": "@empty",
+      "default": "node-readable-stream"
+    }
+  }
+}

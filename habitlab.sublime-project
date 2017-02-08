@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "folder_exclude_patterns": ["mongodata", "node_modules", ".tmp", ".vscode", "dist", "node_modules", "src_gen", "src_disabled", "releases", "screenshots", "src/.vscode", "src/jspm_packages", "src/bower_components", "src/node_modules_custom", "src/generated_libs", "src/icons"],
+      "file_exclude_patterns": [".*", "*.deps.js", "*.jspm.js", "yarn.lock", ".DS_Store", "*.sublime-project", "*.sublime-workspace"]
+    }
+  ],
+  "settings": {
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true
+  }
+}

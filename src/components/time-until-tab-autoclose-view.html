@@ -15,13 +15,17 @@
         height: 100%;
       }
 
+      .timer-text {
+        padding-top: 20px;
+      }
+
       #displayText {
-        background-color: #2C97DE; 
+        background-color: #95CBEE; 
         fill-opacity: 0.5;
         position: fixed; 
         color: white; 
-        width: 120px; 
-        height: 150px;
+        width: 215px; 
+        height: 341px;
         bottom: 0px; 
         left: 0px; 
         z-index: 99999;
@@ -30,19 +34,50 @@
       }
 
       #logo {
-        height: 19px;
-        margin-bottom: 7px;
+        margin-top: 5px;
       }
 
       #close_button {
-        margin-bottom: 7px;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        width: 100px;
+        box-shadow: 2px 2px 2px #888888;
       }
+
+      #more-time-button {
+        margin-top: 50px;
+        width: 80px;
+        box-shadow: 2px 2px 2px #888888;
+        float: left;
+        text-align: center;
+        line-height: 25px;
+      }
+
     </style>
+
+//Currently shows time on site, rather than time remaining
 
     <div id="displayText">
       <close-tab-button id="close_button" on-click="close_button_clicked" text="Close Tab"></close-tab-button>
-      <div>{{displayText}}</div>
-      <paper-button id = "more-time-button" style="background-color: #415D67" on-click="more_time_button_clicked">Give me time</paper-button>
+      <div class=timer-text style= "color: #415D67">Time remaining:</div>
+       <div style="color: white; margin-top: 5px">
+        <div style="display: inline-block; margin-right: 10px">
+          <div style="font-size: 40px">{{minutes}}</div>
+          <div>min</div>
+        </div>
+        <div style="display: inline-block; margin-left: 10px">
+          <div style="font-size: 40px">{{seconds}}</div>
+          <div>sec</div>
+        </div>
+      </div>
+      <paper-button id = "more-time-button" style="background-color: #415D67; display: inline-block" on-click="more_time_button_clicked">ADD TIME</paper-button>
+      <div class=timer-text style= "color: #415D67; display: inline-block">Time added:</div>
+      <div style="color: white; margin-top: 5px">
+        <div style="display: inline-block">
+          <div style="font-size: 40px">{{numClicked}}</div>
+          <div>min</div>
+        </div>
+      </div>
       <habitlab-logo id="logo"></habitlab-logo><br/>
     </div>
   </template>

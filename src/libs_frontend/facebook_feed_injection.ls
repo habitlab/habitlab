@@ -32,7 +32,7 @@ export inject_into_feed = (component_generator) ->
     
     
 
-    for $feeditem in $('.mbm._5jmm,.userContentWrapper._5pcr')
+    for $feeditem in $('.mbm,.userContentWrapper._5pcr')
       # if $($feeditem).isInView()  
       #   if $feeditem.seen
       #     console.log 'you already saw me'

@@ -5,7 +5,11 @@
 
 $ = require 'jquery'
 
+css_packages = require('libs_common/css_packages')
+
 export load_css_file = cfy (filename) ->*
+  if css_packages[filename]?
+    filename = css_packages[filename]
   css_code = yield $.get(filename)
   yield load_css_code(css_code)
 

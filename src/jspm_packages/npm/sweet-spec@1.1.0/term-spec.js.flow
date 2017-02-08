@@ -1,0 +1,26 @@
+// @flow
+
+type AttrType = {
+  name: string;
+}
+type AttrInfo = {
+  attrName: string;
+  attrType: AttrType;
+}
+
+type Spec = {
+  // getName(): string;
+  //
+  // getChildren(): Array<Spec>;
+  // getParent(): Spec;
+
+  // hasAncestor(ancestor: Spec): boolean;
+
+  hasDescendant(name: string): boolean;
+  getDescendant(name: string): ?Spec;
+
+  hasAttribute(name: string): boolean;
+  getAttributes(): Array<AttrInfo>;
+}
+
+declare export default Spec;

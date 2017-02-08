@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.gensym=gensym;let internedMap=new Map,counter=0;function gensym(a){let b=null==a?"s_":a+"_",c=new Symbol(b+counter);return counter++,c}function Symbol(a){this.name=a}Symbol.prototype.toString=function(){return this.name};function makeSymbol(a){if(internedMap.has(a))return internedMap.get(a);let b=new Symbol(a);return internedMap.set(a,b),b}exports.Symbol=makeSymbol,exports.SymbolClass=Symbol;
+

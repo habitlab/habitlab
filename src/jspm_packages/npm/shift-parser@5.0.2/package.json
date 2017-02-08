@@ -1,0 +1,67 @@
+{
+  "name": "shift-parser",
+  "version": "5.0.2",
+  "description": "ECMAScript parser that produces a Shift format AST",
+  "author": "Shape Security Labs",
+  "homepage": "https://github.com/shapesecurity/shift-parser-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shapesecurity/shift-parser-js.git"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot --slow 200 --timeout 5000 --recursive test",
+    "build": "babel --source-maps-inline --out-dir dist src",
+    "prepublish": "rm -rf dist/* && npm update && npm run build",
+    "benchmark": "node benchmark",
+    "profile": "node --prof profile.js && node-tick-processor",
+    "cjsify": "npm run build && cjsify dist/index.js --no-node --export Shift --output dist/shift.js"
+  },
+  "dependencies": {
+    "es6-map": "^0.1.1",
+    "esutils": "^2.0.2",
+    "multimap": "^0.1.1",
+    "shift-ast": "^4.0.0",
+    "shift-reducer": "^4.0.0"
+  },
+  "devDependencies": {
+    "acorn": "2.1.0",
+    "angular": "1.4.3",
+    "babel-cli": "6.3.13",
+    "babel-register": "6.3.13",
+    "babel-preset-es2015": "6.3.13",
+    "benchmark": "1.0.0",
+    "commonjs-everywhere": "0.9.7",
+    "esprima": "2.5.0",
+    "everything.js": "1.0.3",
+    "expect.js": "0.3.1",
+    "microtime": "^2.0.0",
+    "mocha": "2.3.4",
+    "shift-spec": "^2016.0.0",
+    "tick": "0.1.1",
+    "traceur": "0.0.91",
+    "uglifyjs": "2.4.10"
+  },
+  "keywords": [
+    "Shift",
+    "AST",
+    "node",
+    "parser",
+    "SpiderMonkey",
+    "Parser",
+    "API",
+    "parse",
+    "spider",
+    "monkey",
+    "abstract",
+    "syntax",
+    "tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/shapesecurity/shift-parser-js/issues"
+  },
+  "license": "Apache-2.0"
+}

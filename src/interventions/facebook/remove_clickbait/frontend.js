@@ -15,24 +15,11 @@ const {
 } = require('libs_common/log_utils')
 
 require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
-
-//Polymer button
-require('bower_components/paper-button/paper-button.deps')
+require('components/removed-clickbait-message.deps')
 
 function addNotification() {
-  var textNotification = $('<span style = "font-size: 20px">HabitLab has removed clickbait  </span>')
-  //var textNotification = document.createTextNode("HabitLab has removed clickbait")
-  var habitlab_logo = $('<habitlab-logo style="position: relative; top: 13px"></habit-lab-logo>')
-  var close_tab_button = $('<close-tab-button style="height: 40px"</close-tab-button>')
-  var button_container = $('<div class="habitlab_button_container" style="text-align: center"></div>')
-  button_container.append([
-    textNotification,
-    close_tab_button,
-    habitlab_logo
-  ])
-  $('#pagelet_composer').parent().prepend(button_container)
+  var removed_clickbait_message = $('<removed-clickbait-message></removed-clickbait-message>')
+  $('#pagelet_composer').parent().prepend(removed_clickbait_message)
 }
 
 function removeClickBait() {
@@ -56,7 +43,7 @@ window.onload = () => {
 var intervalID = window.setInterval(removeClickBait, 100);
 window.intervalID = intervalID;
 document.body.addEventListener('disable_intervention', (intervalID) => {
-  $('.habitlab_button_container').remove()
+  $('removed-clickbait-message').remove()
   removeCB = false;
 });
 

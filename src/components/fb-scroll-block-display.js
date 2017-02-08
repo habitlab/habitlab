@@ -9,6 +9,7 @@ const {
 } = require('libs_common/content_script_utils')
 
 const {
+  get_seconds_spent_on_current_domain_today,
   get_minutes_spent_on_domain_today,
 } = require('libs_common/time_spent_utils');
 
@@ -32,7 +33,7 @@ polymer_ext({
     },
     site: {
       type: String,
-      value: url_to_domain(window.location.href),
+      value: url_to_domain(window.location.hostname),
     },
     visits: {
       type: Number,
@@ -56,9 +57,9 @@ polymer_ext({
     console.log('fb-scroll-block-display ready');
     const self = this;
     setInterval(() => {
-      get_minutes_spent_on_domain_today(self.site, (minutes_spent) => {
-        self.minutes = minutes_spent;
-        
+      get_seconds_spent_on_current_domain_today(function(seconds_spent) {
+        self.minutes = Math.floor(seconds_spent/60);
+        self.seconds = seconds_spent % 60;
       });
     }, 1000);
   },

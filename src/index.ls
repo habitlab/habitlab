@@ -90,6 +90,10 @@ require! {
 {cfy} = require 'cfy'
 {get_interventions} = require 'libs_backend/intervention_utils'
 
+{
+  get_custom_component_info
+} = require 'libs_backend/component_utils'
+
 /*
 export getUrlParameters = ->
   url = window.location.href
@@ -123,6 +127,16 @@ start_page_index = cfy ->*
   {index_body_width, index_body_height} = params
   if not tagname?
     tagname = 'debug-view'
+  component_info = yield get_custom_component_info(tagname)
+  if component_info?
+    systemjs_config_extra_map = localStorage.getItem('systemjs_config_extra_map')
+    if systemjs_config_extra_map?
+      systemjs_config_extra_map = JSON.parse systemjs_config_extra_map
+      SystemJS.config({map: systemjs_config_extra_map})
+    # custom component, need to load it
+    #yield SystemJS.import('data:text/javascript;base64,' + btoa(component_info.code))
+    #yield SystemJS.import('components/' + component_info.name + '.jspm.js')
+    yield SystemJS.import('components/' + component_info.name + '.deps')
   tag = document.createElement(tagname)
   num_properties = 0
   for k,v of params

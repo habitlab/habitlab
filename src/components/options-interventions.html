@@ -16,6 +16,7 @@
 <link rel="import" href="habitlab-logo.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="goal-selector.html">
 
 <dom-module id="options-interventions">
   <style is="custom-style">
@@ -25,7 +26,8 @@
       height: 100%;
       min-height: 100vh;
       font-family: 'Roboto', 'Noto', sans-serif;
-
+      background-color: #C5CAE9;
+      
       --paper-item: {
         min-height: 36px;
       };
@@ -55,16 +57,16 @@
     #goals-button {
       display: none;
     }
-
+   
     .next-button {
       color: white;
       background-color: green;
       margin-left: 16px;
       margin-bottom: 8px;
-
+      
     }
-
-
+      
+      
     .works-button {
       color: white;
       background-color: green;
@@ -73,7 +75,7 @@
     }
 
     #timepicker {
-
+      
       margin-bottom: 16px;
     }
 
@@ -92,17 +94,13 @@
       cursor: pointer;
       color: #777777;
     }
-
-    .dailyLimitContainer {
-      margin-top: 2px;
-    }
-
+   
     .card-container {
       padding-top: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
-
+      
     }
 
     .card-content {
@@ -119,7 +117,7 @@
       top: 3px;
       position: relative;
     }
-
+    
     habitlab-logo {
       display: inline-block;
       position: relative;
@@ -134,7 +132,7 @@
       margin: 5px;
       padding: 15px;
       right: 3px;
-      position: fixed;
+      position: fixed; 
       top: 0px;
       border-radius: 5px;
     }
@@ -142,55 +140,14 @@
   </style>
   <template>
     <div class="card-container">
+
     <paper-card heading="What goals should HabitLab help you achieve?" class="papercard">
-
-
-      <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
-
-      <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
-      <div class="card-content">
-        <template is="dom-repeat" items="{{sort_custom_sites_after(sites_and_goals)}}" as="site_and_goals">
-            <!-- <h3>{{site_and_goals.sitename}}</h3> -->
-            <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
-              <div style="display: flex; align-items: center; padding-bottom: 15px;" >
-                <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">
-                  <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px">{{goal.description}}</span>
-                  <template is="dom-if" if="{{show_internal_names_of_goals()}}">
-                    <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
-                  </template>
-                </paper-toggle-button>
-                <template is="dom-if" if="{{goal.custom}}">
-                  <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: red; font-size: 16px; height: 20px; position: absolute; left: 350px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
-                </template>
-                <template is="dom-if" if="{{goal.enabled}}">
-                  <span class="dailyLimitContainer" style="margin-left: auto">
-                    <span style="font-family: 'Roboto', 'Noto', sans-serif; font-size: 16px; padding-left: 30px; ">Daily goal: Less than</span>
-                    <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>
-                      <paper-listbox class="dropdown-content" selected="[[goal.number]]" on-iron-select="time_updated">
-                        <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
-                          <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
-                        </template>
-                      </paper-listbox>
-                    </paper-dropdown-menu>
-                  </span>
-                </template>
-              </div>
-            </template>
-          </template>
-
-        <div style="display: flex">
-          <paper-input id="add_website_input" label="Add a new website to reduce time spent on (example: www.amazon.com)" style="display: inline-block; width: calc(100% - 100px)" on-keydown="add_website_input_keydown"></paper-input>
-          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
-        </div>
-
-
-
-      </div>
+      <goal-selector on-need_rerender="rerender_outside_goal_selector" on-goal_changed="rerender_outside_goal_selector" id="goal_selector"></goal-selector>
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
-      </paper-card>
+    </paper-card>
 
       <div id="intro1" class="intro" style="display:none;">
-        <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard">
+        <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
           <div class="card-content" id="intro1_content">
           HabitLab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
           </div>
@@ -200,15 +157,15 @@
       </div>
 
       <div id="intro2" class="intro" style="display:none;">
-        <paper-card heading="Which interventions will HabitLab show me?" class="papercard">
+        <paper-card heading="Which interventions will HabitLab show me?" class="papercard"> 
           <div class="card-content">
-
+           
            At first, HabitLab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
            <div style="display: none;" id="how_hl_works">
            <br>Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
            </div>
           </div>
-
+          
           <paper-button class="works-button" on-click="show_how_hl_works">Tell me how this works</paper-button>
           <paper-button class="next-button" on-click="intro2_read">Next</paper-button>
         </paper-card>
@@ -220,7 +177,7 @@
             You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
           </div>
           <paper-button disabled id="popup-button" class="next-button" on-click="show_swal">Click the icon in the toolbar to continue</paper-button>
-        </paper-card>
+        </paper-card>        
           <div id="pointer-div" >Click the <img id="iconimg" src="{{get_icon()}}"> icon in the toolbar above!</div>
       </div>
 
@@ -228,9 +185,9 @@
       <div id="intro5" class="intro" style="display: none; padding-top: 0px;">
         <paper-card heading="Disabling interventions" class="papercard">
           <div class="card-content" style="padding-top: 0px;">
-            In each intervention, you will find a "HabitLab Options" button:
+            In each intervention, you will find a "HabitLab Options" button: 
             <habitlab-logo unclickable style="padding-top: 0px; position: relative; top: 10px;"></habitlab-logo> <br><br>
-            You can click the button to disable the intervention or access more information about it.
+            You can click the button to disable the intervention or access more information about it. 
 
           </div>
           <paper-button class="next-button" on-click="intro5_read">Next</paper-button>
@@ -241,9 +198,9 @@
         <paper-card heading="Dashboard" class="papercard">
           <div class="card-content">
             In addition to this tab, Manage Goals and Interventions, you can also view graphs and statistics in the View Results tab at the top.
-
+            
           </div>
-
+          
         </paper-card>
 
       </div>
@@ -252,10 +209,10 @@
       <div id="configurations" class="intro" style="display: none;">
         <paper-card heading="Configure interventions" class="papercard">
           <div class="card-content">
-
-            You can see the list of available interventions below for your selected goals, and test out interventions or disable them from here.
+            
+            You can see the list of available interventions below for your selected goals, and test out interventions or disable them from here. 
           </div>
-
+          
           <paper-button class="works-button" id="ivn-toggle-btn" on-click="toggle_interventions">Show Intervention Details</paper-button>
 
           <div style="display: none; margin: 0 16px 0 16px;" id="interventions-list">
@@ -290,7 +247,7 @@
           <br>
         </template>
 
-
+        
       </template>
 
       <div id="intro3" class="intro" style="display: none;">
@@ -305,7 +262,7 @@
             <!--
             <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
             -->
-
+            
 
             <template is="dom-if" if="{{!always_active}}">
               <div id="timepicker" >

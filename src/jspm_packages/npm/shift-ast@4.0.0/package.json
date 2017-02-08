@@ -1,0 +1,43 @@
+{
+  "name": "shift-ast",
+  "version": "4.0.0",
+  "description": "constructors for the Shift AST format",
+  "author": "Shape Security Labs",
+  "homepage": "https://github.com/shapesecurity/shift-ast-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shapesecurity/shift-ast-js.git"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "checked.js",
+    "dist"
+  ],
+  "scripts": {
+    "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "build": "mkdir -p gen dist && babel-node src/generate.js && babel-node src/generate-checked.js && babel --out-dir dist gen",
+    "prepublish": "rm -rf gen dist && npm update && npm run build"
+  },
+  "devDependencies": {
+    "babel-cli": "6.3.13",
+    "babel-register": "6.3.13",
+    "babel-preset-es2015": "6.3.13",
+    "esutils": "^2.0.2",
+    "mocha": "^2.3.4",
+    "shift-spec": "^2016.0.0"
+  },
+  "keywords": [
+    "Shift",
+    "AST",
+    "node",
+    "constructor",
+    "class",
+    "abstract",
+    "syntax",
+    "tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/shapesecurity/shift-ast-js/issues"
+  },
+  "license": "Apache-2.0"
+}

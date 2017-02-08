@@ -1,0 +1,2 @@
+'use strict';Object.defineProperty(exports,'__esModule',{value:!0});var _vm=require('vm'),_vm2=_interopRequireDefault(_vm);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}class Store{constructor(){this.map=new Map,this.nodeContext=_vm2.default.createContext()}has(a){return this.map.has(a)}get(a){return this.map.get(a)}set(a,b){return this.nodeContext[a]=b,this.map.set(a,b)}getNodeContext(){return this.nodeContext}}exports.default=Store;
+

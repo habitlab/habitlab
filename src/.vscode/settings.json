@@ -6,6 +6,7 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/.DS_Store": true,
+    ".*": true,
     "node_modules": true,
     "mongodata": true,
     ".vscode": true,
@@ -13,6 +14,12 @@
     "bower_components": true,
     "node_modules_custom": true,
     "generated_libs": true,
-    "icons": true
+    "icons": true,
+    "*.deps.js": true,
+    "*.jspm.js": true,
+    "**/*.deps.js": true,
+    "**/*.jspm.js": true,
+    "*.sublime-project": true,
+    "*.sublime-workspace": true
   }
 }

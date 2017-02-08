@@ -1,0 +1,27 @@
+{
+  "main": "transit.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "src/com/cognitect/transit/handlers.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "src/com/cognitect/transit/types.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "src/com/cognitect/transit_amd.js": {
+      "format": "amd"
+    },
+    "transit.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

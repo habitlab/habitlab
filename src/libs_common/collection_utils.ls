@@ -43,6 +43,17 @@ export add_key_val_to_localstorage_dict = (dictname, key, val) ->
   localStorage.setItem dictname, JSON.stringify(dict)
   return
 
+export add_dict_to_localstorage_dict = (dictname, dict_to_add) ->
+  dict_text = localStorage.getItem dictname
+  if dict_text?
+    dict = JSON.parse dict_text
+  else
+    dict = {}
+  for key,val of dict_to_add
+    dict[key] = val
+  localStorage.setItem dictname, JSON.stringify(dict)
+  return
+
 export remove_item_from_localstorage_list = (listname, item) ->
   list_text = localStorage.getItem listname
   if list_text?

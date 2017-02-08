@@ -21,11 +21,11 @@ polymer_ext({
   properties: {
     minutes: {
       type: Number,
-      value: 0
+      computed: 'compute_minutes(secondsRemaining)'
     },
     seconds: {
       type: Number,
-      value: 0
+      computed: 'compute_seconds(secondsRemaining)'
     },
     site: {
       type: String,
@@ -33,35 +33,57 @@ polymer_ext({
     },
     displayText: {
       type: String,
+      computed: 'compute_displayText(minutes, seconds)'
     },
     numClicked: {
         type: Number,
         value: 0
-    }
+    },
+    secondsRemaining: {
+      type: Number,
+      value: 60
+    },
   },
   more_time_button_clicked: function() {
     var self = this;
     if (!self.numClicked) self.numClicked = 0;
     self.numClicked++;
+    self.secondsRemaining += 60;
+  },
+  compute_displayText: function(minutes, seconds) {
+    return minutes + " minutes and " + seconds;
+  },
+  compute_minutes: function(secondsRemaining) {
+    return Math.floor(secondsRemaining/60);
+  },
+  compute_seconds: function(secondsRemaining) {
+    return secondsRemaining % 60;
   },
 
 
   attached: function() {
-    /*var update_page = function(self) {
+    var update_page = function(self) {
       console.log('attached')
       
+      /*
       get_seconds_spent_on_current_domain_today(function(seconds_spent) {
         self.minutes = Math.floor(seconds_spent/60);
         self.seconds = seconds_spent % 60;
         self.displayText = self.minutes + " minutes and " + self.seconds
       });
+      */
+
     };
     update_page(this);
     var self = this;
     setInterval(function() {
       update_page(self);
-      
-    }, 1000); */
+      if (self.secondsRemaining <= 0) {
+        self.fire('time_has_run_out', {});
+      } else {
+        self.secondsRemaining -= 1;
+      }
+    }, 1000); 
   }
     
 });

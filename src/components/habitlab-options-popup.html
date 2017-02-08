@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="feedback-form.html">
 
 <dom-module id="habitlab-options-popup">
   <style>
@@ -26,6 +27,7 @@
       </div>
     </div>
     <div class="buttons">
+      <paper-button on-click="open_feedback_form">Submit Feedback</paper-button>
       <paper-button on-click="open_interventions_page">HabitLab Options</paper-button>
       <paper-button dialog-dismiss>Close</paper-button>
     </div>

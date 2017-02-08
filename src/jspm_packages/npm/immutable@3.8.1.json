@@ -1,0 +1,12 @@
+{
+  "main": "dist/immutable.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./contrib/cursor": "./contrib/cursor/index.js"
+  }
+}

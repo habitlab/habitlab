@@ -4,7 +4,7 @@
   "description": "",
   "dependencies": {
     "async-debounce-jt": "^1.0.1",
-    "cfy": "^1.0.18",
+    "cfy": "^1.0.20",
     "cloner": "^0.4.0",
     "co": "^4.6.0",
     "dexie": "^1.4.1",
@@ -12,18 +12,17 @@
     "gulp-shell": "^0.5.2",
     "jquery": "^3.0.0",
     "js-yaml": "^3.6.1",
-    "jspm": "^0.17.0-beta.22",
+    "jspm": "0.17.0-beta.34",
     "levn": "^0.3.0",
-    "list_requires": "^1.0.0",
     "livereload": "^0.6.0",
-    "mathjs": "^3.5.3",
+    "mathjs": "^3.9.0",
     "moment": "^2.13.0",
     "percipio": "^0.1.2",
     "prelude-ls": "^1.1.2",
     "promise-debounce": "^1.0.1",
     "shuffled": "^1.0.0",
     "sortablejs": "^1.5.0-rc1",
-    "sweetalert2": "^6.2.4",
+    "sweetalert2": "^6.3.2",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1",
     "webpack2-stream-watch": "^3.2.2"
@@ -35,7 +34,7 @@
     "chrome-web-store-item-property": "^1.1.2",
     "deepcopy": "^0.6.3",
     "del": "^2.2.0",
-    "file-loader": "^0.9.0",
+    "file-loader": "^0.10.0",
     "fs-extra": "^2.0.0",
     "glob": "^7.0.5",
     "gulp": "github:gulpjs/gulp#4.0",
@@ -48,12 +47,12 @@
     "gulp-vulcanize": "^6.1.0",
     "gulp-yaml": "^1.0.1",
     "html-loader": "^0.4.3",
-    "karma": "^1.4.0",
+    "karma": "^1.4.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-mocha": "^1.1.1",
     "karma-sinon": "^1.0.5",
-    "karma-webpack": "^2.0.1",
+    "karma-webpack": "^2.0.2",
     "livescript": "^1.5.0",
     "livescript-loader": "^0.1.5",
     "mkdirp": "^0.5.1",
@@ -66,8 +65,7 @@
     "uglify-loader": "^1.3.0",
     "upath": "^0.2.0",
     "vinyl-named": "^1.1.0",
-    "watchify": "^3.7.0",
-    "webpack": "2.2.0",
+    "webpack": "^2.2.1",
     "webpack-stream": "^3.2.0"
   },
   "jspm": {
@@ -85,24 +83,30 @@
       "async": "npm:async@^2.0.1",
       "brace": "npm:brace@^0.9.1",
       "cfy": "npm:cfy@^1.0.18",
+      "cheerio": "npm:cheerio@^0.22.0",
       "co": "npm:co@^4.6.0",
       "dexie": "npm:dexie@^1.4.1",
       "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@^1.0.7",
+      "esprima": "npm:esprima@^3.1.3",
       "jquery": "npm:jquery@^3.1.0",
-      "js-yaml": "npm:js-yaml@^3.7.0",
+      "js-yaml": "github:nodeca/js-yaml@master",
       "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
-      "list_requires": "npm:list_requires@^1.0.0",
+      "list_requires_multi": "npm:list_requires_multi@^1.0.0",
       "livescript15": "npm:livescript15@^1.5.4",
       "mathjs": "npm:mathjs@^3.8.1",
       "moment": "npm:moment@^2.14.1",
+      "nodeca/js-yaml": "github:nodeca/js-yaml@master",
       "percipio": "npm:percipio@^0.1.2",
       "prelude-ls": "npm:prelude-ls@^1.1.2",
+      "prettier-min": "npm:prettier-min@^0.15.3",
       "prettyprintjs": "npm:prettyprintjs@^0.1.10",
       "promise-debounce": "npm:promise-debounce@^1.0.1",
       "shuffled": "npm:shuffled@^1.0.0",
       "sortablejs": "npm:sortablejs@^1.5.0-rc1",
       "sweetalert2": "npm:sweetalert2@^6.2.4",
-      "text": "github:systemjs/plugin-text@^0.0.8"
+      "sweetjs-min": "npm:sweetjs-min@^2.2.3",
+      "text": "github:systemjs/plugin-text@^0.0.8",
+      "underscore": "npm:underscore@^1.8.3"
     },
     "devDependencies": {},
     "peerDependencies": {
@@ -125,24 +129,21 @@
       "vm": "npm:jspm-nodelibs-vm@^0.2.0"
     },
     "overrides": {
-      "npm:esprima@2.7.3": {
-        "jspmNodeConversion": false
-      },
       "npm:inherits@2.0.3": {
         "ignore": [
           "test.js"
         ]
       },
-      "npm:jquery@3.1.0": {
+      "npm:jquery@3.1.1": {
         "format": "amd"
       },
-      "npm:lodash@4.14.1": {
+      "npm:lodash@4.17.4": {
         "map": {
           "buffer": "@empty",
           "process": "@empty"
         }
       },
-      "npm:moment@2.14.1": {
+      "npm:moment@2.17.1": {
         "jspmNodeConversion": false
       }
     }

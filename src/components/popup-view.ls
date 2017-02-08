@@ -258,8 +258,14 @@ polymer_ext {
     return chrome.extension.getURL('icons/power_button.svg')
 
   submit_feedback_clicked: cfy ->*
-    yield SystemJS.import('bugmuncher/bugmuncher')
-    window.open_bugmuncher()
+    screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils')
+    screenshot = yield screenshot_utils.get_screenshot_as_base64()
+    feedback_form = document.createElement('feedback-form')
+    document.body.appendChild(feedback_form)
+    feedback_form.screenshot = screenshot
+    feedback_form.open()
+    #yield SystemJS.import('bugmuncher/bugmuncher')
+    #window.open_bugmuncher()
 
   help_icon_clicked: cfy ->*
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')

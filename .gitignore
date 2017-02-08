@@ -18,3 +18,4 @@ npm-debug.log
 .getsecret.yaml
 /jspm_config_frontend.js
 /jspm_config_backend.js
+*.sublime-workspace

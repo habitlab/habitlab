@@ -30,7 +30,7 @@ function removeComments() {
       $(item).css('display','none')
       $(item).prop('button_inserted', true)
 
-      var show_comments_button = $('<paper-button style="background-color: green; color: white; height: 40px">Show Comments</paper-button>')
+      var show_comments_button = $('<paper-button style="background-color: #415D67; color: white; width: 152 px; height: 30px">Show Comments</paper-button>')
       show_comments_button.click(function() {
           $(item).siblings('.habitlab_button_container').remove()
           $(item).css('display','block')

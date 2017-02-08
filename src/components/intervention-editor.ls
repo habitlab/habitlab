@@ -22,6 +22,11 @@
 } = require 'libs_backend/goal_utils'
 
 {
+  add_requires_to_intervention_info
+  compile_intervention_code
+} = require 'libs_backend/intervention_editor_utils'
+
+{
   memoizeSingleAsync
 } = require 'libs_common/memoize'
 
@@ -29,13 +34,14 @@
   load_css_file
 } = require 'libs_common/content_script_utils'
 
+{
+  once_true
+} = require 'libs_frontend/common_libs'
+
 swal = require 'sweetalert2'
 
 get_livescript = memoizeSingleAsync cfy ->*
   yield SystemJS.import('livescript15')
-
-get_list_requires = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('list_requires')
 
 polymer_ext {
   is: 'intervention-editor'
@@ -60,6 +66,8 @@ polymer_ext {
   }
   ls_editor_changed: cfy ->*
     self = this
+    if self.get_edit_mode() == 'js'
+      return
     ls_text = self.ls_editor.getValue()
     ls_compiler = yield get_livescript()
     try
@@ -82,31 +90,39 @@ polymer_ext {
   save_intervention: cfy ->*
     code = this.js_editor.getSession().getValue().trim()
     lscode = this.ls_editor.getSession().getValue().trim()
-    list_requires = yield get_list_requires()
-    dependencies = list_requires(code)
     intervention_info = {
+      code: code
       name: this.get_intervention_name()
       displayname: this.get_intervention_name()
       description: this.$.intervention_description.value
       domain: this.$.intervention_domain.value
       preview: this.$.intervention_preview_url.value
       matches: [this.$.intervention_domain.value]
+      #css_files: required_css_files
+      #styles: dependencies.require_style
+      /*
       content_scripts: [
         {
           code: code
+          run_at: 'document_start'
           jspm_require: true
-          jspm_deps: dependencies
+          #jspm_deps: required_jspm_deps
         }
       ]
+      */
       edit_mode: this.get_edit_mode()
       goals: [this.$.goal_selector.selectedItem.goal_info]
       custom: true
     }
+    if not (yield compile_intervention_code(intervention_info))
+      return false
+    #if not (yield add_requires_to_intervention_info(intervention_info))
+    #  return false
     if lscode.length > 0 and (intervention_info.edit_mode == 'ls' or intervention_info.edit_mode == 'ls_and_js')
       intervention_info.livescript_code = lscode
     this.intervention_info = intervention_info
     yield add_new_intervention(intervention_info)
-    return
+    return true
   intervention_selector_changed: cfy (change_info) ->*
     intervention_name = change_info.detail.item.intervention_name
     this.intervention_info = intervention_info = yield get_intervention_info(intervention_name)
@@ -115,13 +131,13 @@ polymer_ext {
     goal_idx = goal_names_list.indexOf(goal_name)
     this.$.goal_selector.selected = goal_idx
     edit_mode_idx = switch intervention_info.edit_mode
-    | 'ls_and_js' => 0
+    | 'js' => 0
     | 'ls' => 1
-    | 'js' => 2
+    | 'ls_and_js' => 2
     | _ => 0
     this.$.language_selector.selected = edit_mode_idx
     this.set_edit_mode intervention_info.edit_mode
-    this.js_editor.setValue(intervention_info.content_scripts[0].code)
+    this.js_editor.setValue(intervention_info.code)
     if intervention_info.livescript_code?
       this.ls_editor.setValue(intervention_info.livescript_code)
   goal_selector_changed: cfy (change_info) ->*
@@ -198,7 +214,6 @@ polymer_ext {
       self.ls_editor.setReadOnly(true)
       self.js_editor.setReadOnly(false)
   delete_intervention: cfy ->*
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     intervention_name = this.get_intervention_name()
     if not intervention_name
       return
@@ -219,7 +234,6 @@ polymer_ext {
     this.$.intervention_selector.selected = 0
   prompt_new_intervention: cfy ->*
     self = this
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     new_intervention_name = null
     cancelable = this.intervention_list.length > 0
     all_interventions = yield list_all_interventions()
@@ -249,6 +263,34 @@ polymer_ext {
       if new_intervention_name?
         break
     all_goals = yield get_goals()
+    comment_section = """/*
+    LiveScript code is displayed on the left side,
+    which is compiled to JavaScript on the right.
+    To learn LiveScript, see http://livescript.net/
+
+    If you would prefer to write in JavaScript,
+    select JavaScript from the dropdown menu above.
+    To learn JavaScript, see https://www.javascript.com/try
+
+    This sample intervention will display a popup with SweetAlert.
+    Click the 'Try Now' button to see it run.
+
+    To learn how to write HabitLab interventions, see
+    https://github.com/habitlab/habitlab/wiki/Writing-Interventions-within-HabitLab
+
+    require_package: returns an NPM module, and ensures that the CSS it uses is loaded
+    https://github.com/habitlab/habitlab/wiki/require_package
+    */
+
+    """
+    js_code = comment_section + '''
+
+    var swal = require_package('sweetalert2');
+    swal({
+      title: 'Hello World',
+      text: 'This is a sample intervention'
+    });
+    '''
     intervention_info = {
       name: new_intervention_name
       displayname: new_intervention_name
@@ -256,42 +298,35 @@ polymer_ext {
       domain: 'www.buzzfeed.com'
       preview: 'https://www.buzzfeed.com/'
       matches: ['www.buzzfeed.com']
+      code: js_code
       content_scripts: [
         {
-          code: '''
-          var swal, co, load_css_file;
-          swal = require('sweetalert2');
-          co = require('co');
-          load_css_file = require('libs_common/content_script_utils').load_css_file;
-          co(function*(){
-            (yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css'));
-            return swal({
-              title: 'Hello World',
-              text: 'This is a sample intervention'
-            });
-          });
-          '''
+          code: """
+          var co = require('co');
+          co(function*() {
+            var swal = require("sweetalert2");
+            yield require("libs_common/content_script_utils").load_css_file("sweetalert2");
+            swal({title: "Hello World", text: "This is a sample intervention"});
+          })
+          """
           jspm_require: true
-          jspm_deps: [
-            'sweetalert2'
-            'co'
-            'libs_common/content_script_utils'
-          ]
+          #jspm_deps: [
+          #  'sweetalert2'
+          #  'co'
+          #  'libs_common/content_script_utils'
+          #]
         }
       ]
-      livescript_code: '''
-      swal = require('sweetalert2')
-      co = require('co')
-      {load_css_file} = require('libs_common/content_script_utils')
+      livescript_code: comment_section + '''
 
-      co ->*
-        yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-        swal({
-          title: 'Hello World'
-          text: 'This is a sample intervention'
-        })
+      swal = require_package('sweetalert2')
+
+      swal({
+        title: 'Hello World'
+        text: 'This is a sample intervention'
+      })
       '''
-      edit_mode: 'ls_and_js'
+      edit_mode: 'js'
       goals: [
         all_goals['buzzfeed/spend_less_time']
       ]
@@ -308,7 +343,8 @@ polymer_ext {
     if this.intervention_list.length == 0
       this.prompt_new_intervention()
   preview_intervention: cfy ->*
-    yield this.save_intervention()
+    if not (yield this.save_intervention())
+      return
     intervention_name = this.get_intervention_name()
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
@@ -334,11 +370,16 @@ polymer_ext {
     #self.goal_info_list = [all_goals[x] for x in enabled_goals]
     goals_list = yield list_all_goals()
     self.goal_info_list = [all_goals[x] for x in goals_list]
+    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     yield self.refresh_intervention_list()
     setTimeout ->
-      if self.intervention_info.edit_mode
+      if self.intervention_info?edit_mode?
         self.set_edit_mode(self.intervention_info.edit_mode)
     , 500
+    once_true(-> self?intervention_info?code?
+    , ->
+      compile_intervention_code(self.intervention_info)
+    )
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

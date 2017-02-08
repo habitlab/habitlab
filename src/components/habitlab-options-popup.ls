@@ -41,6 +41,9 @@ polymer_ext {
       type: String
       value: if intervention? then (intervention.goals.map((.description)).join(', ')) else ''
     }
+    screenshot: {
+      type: String
+    }
   }
   isdemo_changed: ->
     if this.isdemo
@@ -78,5 +81,11 @@ polymer_ext {
   open_interventions_page: ->
     open_url_in_new_tab('options.html#interventions')
     this.$$('#intervention_info_dialog').close()
+  open_feedback_form: cfy ->*
+    feedback_form = document.createElement('feedback-form')
+    feedback_form.screenshot = this.screenshot
+    this.$$('#intervention_info_dialog').close()
+    document.body.appendChild(feedback_form)
+    feedback_form.open()
 }
 

@@ -336,6 +336,8 @@ gulp.task 'generate_polymer_dependencies', (done) ->
   gen_deps.set_src_path(path.join(process.cwd(), 'src'))
   gen_deps.set_options()
   gen_deps.generate_dependencies_for_all_files_in_src_path()
+  copy_file_pattern 'bower_components/**/*.deps.js', false
+  copy_file_pattern 'components/**/*.deps.js', true
   done()
 
 copy_file_patterns = (patterns, overwrite) ->
@@ -488,7 +490,7 @@ gulp.task 'generate_skate_components_js', (done) ->
   done()
 
 gulp.task 'build_base', gulp.parallel(
-  gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies', 'generate_polymer_dependencies_jspm')
+  gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies')
   gulp.series('generate_jspm_config', 'copy_root_build')
   #'generate_skate_components_js'
   'generate_libs_frontend'
@@ -617,7 +619,7 @@ gulp.task 'generate_skate_components_js_watch', ->
   gulp.watch ['src/components_skate/**/*.jsx', 'src/components_skate/**/*.ls'], gulp.series('generate_skate_components_js')
 
 gulp.task 'generate_polymer_dependencies_watch', ->
-  gulp.watch ['src/components/**/*.html', '!src/components/components.html'], gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies', 'generate_polymer_dependencies_jspm')
+  gulp.watch ['src/components/**/*.html', '!src/components/components.html'], gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies')
 
 gulp.task 'generate_libs_frontend_watch', ->
   gulp.watch ['src/libs_common/function_signatures.ls'], gulp.parallel('generate_expose_backend_libs', 'generate_libs_frontend')

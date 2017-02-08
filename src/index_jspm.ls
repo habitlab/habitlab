@@ -89,8 +89,8 @@ co ->*
     {index_body_width, index_body_height} = params
     if not tagname?
       tagname = 'debug-view'
-    yield SystemJS.import('components/' + tagname + '.jspm')
-    #yield SystemJS.import('components/components.jspm')
+    yield SystemJS.import('components/' + tagname + '.deps')
+    #yield SystemJS.import('components/components.deps')
     #require 'components/components.deps'
     tag = document.createElement(tagname)
     num_properties = 0

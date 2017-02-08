@@ -8,7 +8,6 @@ interventions:
   - facebook/scroll_blocker
   - facebook/show_user_info_interstitial
   - facebook/make_user_wait
-  - facebook/block_after_interval_daily
   - facebook/block_after_interval_no_prompt
   - facebook/block_after_interval_per_visit
   - facebook/remove_comments

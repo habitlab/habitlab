@@ -80,9 +80,18 @@ if not hash?
 if hash.startsWith('#')
   hash = hash.substr(1)
 
-if query == 'options' or query == 'settings' or query == 'config'
+hash_idx = query.indexOf('#')
+if hash_idx != -1
+  hash = query.substr(hash_idx + 1)
+  query = query.substr(0, hash_idx)
+
+if query == 'settings' or query == 'config'
   query = 'options.html'
   hash = 'settings'
+if query == 'options'
+  query = 'options.html'
+  if hash == ''
+    hash = 'settings'
 if query == 'popup'
   query = 'popup.html'
 if query == 'dashboard' or query == 'results'

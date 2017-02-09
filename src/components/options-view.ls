@@ -46,6 +46,7 @@ polymer_ext {
     | 'options' => 0
     | 'settings' => 0
     | 'introduction' => 0
+    | 'onboarding' => 0
     if selected_tab_idx != -1
       this.selected_tab_idx = selected_tab_idx
   compute_selected_tab_name: (selected_tab_idx) ->

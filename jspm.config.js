@@ -1,4 +1,6 @@
-SystemJS.config({});
+SystemJS.config({
+  transpiler: false
+});
 
 SystemJS.config({
   packageConfigPaths: [

@@ -42,15 +42,20 @@ prelude = require 'prelude-ls'
 {cfy, yfy} = require 'cfy'
 
 cached_get_intervention_info = {}
+cached_get_intervention_info_unmodified = {}
 
 getInterventionInfo = cfy (intervention_name) ->*
   cached_val = cached_get_intervention_info[intervention_name]
+  if cached_val?
+    return JSON.parse JSON.stringify cached_val
+  cached_val = cached_get_intervention_info_unmodified[intervention_name]
   if cached_val?
     return JSON.parse JSON.stringify cached_val
   intervention_info = yield fetch("/interventions/#{intervention_name}/info.json").then((.json!))
   intervention_info.name = intervention_name
   intervention_info.sitename = intervention_name.split('/')[0]
   cached_get_intervention_info[intervention_name] = intervention_info
+  cached_get_intervention_info_unmodified[intervention_name] = intervention_info
   return intervention_info
 
 export set_override_enabled_interventions_once = (intervention_name) ->
@@ -186,8 +191,8 @@ export add_new_interventions = cfy (intervention_info_list) ->*
   for intervention_info in intervention_info_list
     extra_get_interventions[intervention_info.name] = intervention_info
   localStorage.setItem 'extra_get_interventions', JSON.stringify(extra_get_interventions)
-  #clear_cache_all_interventions()
-  clear_interventions_from_cache(new_intervention_names)
+  clear_cache_all_interventions()
+  #clear_interventions_from_cache(new_intervention_names)
   yield list_all_interventions()
   yield get_interventions()
   return
@@ -243,9 +248,9 @@ export clear_cache_all_interventions = ->
   clear_cache_get_interventions()
   return
 
-clear_interventions_from_cache = (intervention_names) ->
-  remove_items_from_localstorage_list('cached_list_all_interventions', intervention_names)
-  remove_keys_from_localstorage_dict('cached_get_interventions', intervention_names)
+#clear_interventions_from_cache = (intervention_names) ->
+#  remove_items_from_localstorage_list('cached_list_all_interventions', intervention_names)
+#  remove_keys_from_localstorage_dict('cached_get_interventions', intervention_names)
 
 export clear_cache_list_all_interventions = ->
   #local_cache_list_all_interventions := null

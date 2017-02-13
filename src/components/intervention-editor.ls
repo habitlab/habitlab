@@ -264,19 +264,14 @@ polymer_ext {
         break
     all_goals = yield get_goals()
     comment_section = """/*
-    LiveScript code is displayed on the left side,
-    which is compiled to JavaScript on the right.
-    To learn LiveScript, see http://livescript.net/
-
-    If you would prefer to write in JavaScript,
-    select JavaScript from the dropdown menu above.
+    This intervention is written in JavaScript.
     To learn JavaScript, see https://www.javascript.com/try
 
     This sample intervention will display a popup with SweetAlert.
     Click the 'Try Now' button to see it run.
 
     To learn how to write HabitLab interventions, see
-    https://github.com/habitlab/habitlab/wiki/Writing-Interventions-within-HabitLab
+    https://github.com/habitlab/habitlab/wiki/Writing-Interventions
 
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
     https://github.com/habitlab/habitlab/wiki/require_package

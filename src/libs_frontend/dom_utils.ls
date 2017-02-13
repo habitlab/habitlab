@@ -10,9 +10,15 @@ if not window.all_imported_custom_styles?
 if not window.all_imported_html_files?
   window.all_imported_html_files = {}
 
-export import_dom_modules = (element_dom, filename) !->
+export import_dom_modules = (element_dom, options) !->
+  filename = null
+  if typeof(options) == 'string'
+    filename = options
+    options = {filename: options}
   if filename? and window.all_imported_html_files[filename]
     return
+  if not options?
+    options = {}
   if filename?
     window.all_imported_html_files[filename] = true
   window.file_local_styles = []
@@ -21,7 +27,7 @@ export import_dom_modules = (element_dom, filename) !->
     if not element_dom_parsed?
       continue
     if element_dom_parsed.nodeName.toLowerCase() == 'dom-module'
-      recreateDomModule(element_dom_parsed)
+      recreateDomModule(element_dom_parsed, options)
     if element_dom_parsed.nodeName.toLowerCase() == 'style'
       recreateStyle(element_dom_parsed)
     if element_dom_parsed.nodeName.toLowerCase() == 'iron-iconset-svg'
@@ -37,7 +43,7 @@ recreateIronIconset = (element_dom_parsed) !->
   elem.createdCallback?!
   #document.getElementsByTagName("body")[0].appendChild(elem)
 
-recreateDomModule = (element_dom_parsed) !->
+recreateDomModule = (element_dom_parsed, options) !->
   DOM_MODULE = document.createElement('dom-module')
   for style_parsed in window.all_imported_custom_styles.concat(window.file_local_styles)
     if element_dom_parsed.firstChild
@@ -45,7 +51,10 @@ recreateDomModule = (element_dom_parsed) !->
     else
       element_dom_parsed.appendChild(style_parsed)
   DOM_MODULE.innerHTML = element_dom_parsed.innerHTML
-  DOM_MODULE.id = element_dom_parsed.id
+  if options.tagname?
+    DOM_MODULE.id = options.tagname
+  else
+    DOM_MODULE.id = element_dom_parsed.id
   #document.getElementsByTagName("head")[0].appendChild(DOM_MODULE)
   DOM_MODULE.createdCallback?!
 

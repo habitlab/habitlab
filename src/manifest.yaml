@@ -24,6 +24,7 @@ web_accessible_resources:
   - icons/*.png
   - icons/*.svg
   - node_modules_custom/**/*
+  - bundles/*
   - components/*
   - components/**/*
   - interventions/**/*.png

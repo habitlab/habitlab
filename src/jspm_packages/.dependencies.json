@@ -70,13 +70,6 @@
     },
     "peerDeps": {}
   },
-  "npm:prettyprintjs@0.1.10": {
-    "deps": {},
-    "peerDeps": {
-      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
-      "process": "npm:jspm-nodelibs-process@^0.2.0"
-    }
-  },
   "npm:percipio@0.1.2": {
     "deps": {
       "fast-csv": "npm:fast-csv@^0.5.5",
@@ -1188,6 +1181,10 @@
     "peerDeps": {}
   },
   "npm:underscore@1.8.3": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:prettyprintjs@0.1.11": {
     "deps": {},
     "peerDeps": {}
   }

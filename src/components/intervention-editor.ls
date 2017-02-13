@@ -374,11 +374,11 @@ polymer_ext {
         self.set_edit_mode(self.intervention_info.edit_mode)
     , 500
     once_true(-> self?intervention_info?code?
-    , ->
-      compile_intervention_code(self.intervention_info)
+    , cfy ->*
+      yield compile_intervention_code(self.intervention_info)
+      clear_cache_all_interventions()
+      get_interventions()
     )
-    clear_cache_all_interventions()
-    get_interventions()
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

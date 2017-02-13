@@ -9,6 +9,8 @@
   remove_custom_intervention
   list_all_interventions
   get_intervention_info
+  get_interventions
+  clear_cache_all_interventions
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -375,6 +377,8 @@ polymer_ext {
     , ->
       compile_intervention_code(self.intervention_info)
     )
+    clear_cache_all_interventions()
+    get_interventions()
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

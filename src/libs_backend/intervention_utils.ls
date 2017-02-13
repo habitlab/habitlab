@@ -31,6 +31,8 @@ prelude = require 'prelude-ls'
   remove_items_matching_patternfunc_from_localstorage_list
   remove_key_from_localstorage_dict
   remove_item_from_localstorage_list
+  remove_keys_from_localstorage_dict
+  remove_items_from_localstorage_list
 } = require 'libs_common/collection_utils'
 
 {
@@ -184,7 +186,8 @@ export add_new_interventions = cfy (intervention_info_list) ->*
   for intervention_info in intervention_info_list
     extra_get_interventions[intervention_info.name] = intervention_info
   localStorage.setItem 'extra_get_interventions', JSON.stringify(extra_get_interventions)
-  clear_cache_all_interventions()
+  #clear_cache_all_interventions()
+  clear_interventions_from_cache(new_intervention_names)
   yield list_all_interventions()
   yield get_interventions()
   return
@@ -239,6 +242,10 @@ export clear_cache_all_interventions = ->
   clear_cache_list_all_interventions()
   clear_cache_get_interventions()
   return
+
+clear_interventions_from_cache = (intervention_names) ->
+  remove_items_from_localstorage_list('cached_list_all_interventions', intervention_names)
+  remove_keys_from_localstorage_dict('cached_get_interventions', intervention_names)
 
 export clear_cache_list_all_interventions = ->
   #local_cache_list_all_interventions := null

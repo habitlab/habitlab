@@ -118,7 +118,7 @@ compile = cfy (code) ->*
   if need_webcomponents_code
     extra_code += enable_webcomponents_code
   if need_define_component_code
-    extra_code 
+    extra_code += enable_define_component_code
   return sweetjs.compile(sweetjs_macros + extra_code + pretty_code).code
 
 module.exports = {

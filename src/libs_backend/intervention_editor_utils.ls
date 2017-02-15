@@ -22,14 +22,14 @@ export compile_intervention_code = cfy (intervention_info) ->*
   sweetjs_utils = yield get_sweetjs_utils()
   code = intervention_info.code
   try
-    compiled_code = yield sweetjs_utils.compile(code)
-    compiled_code = """
+    wrapped_code = """
     var co = require('co');
     var intervention = require('libs_common/intervention_info').get_intervention();
     co(function*() {
-      #{compiled_code}
+      #{code}
     });
     """
+    compiled_code = yield sweetjs_utils.compile(wrapped_code)
     /*
     compiled_code = """
     SystemJS.import('co').then(function(co) {

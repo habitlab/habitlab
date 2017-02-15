@@ -203,7 +203,7 @@ export list_jspm_libraries_as_markdown = cfy ->*
   output.push '### HabitLab Backend APIs'
   for libname in function_signatures.list_libs()
     filename = libname + '.ls'
-    if libs_backend_files.indexOf(filename) != -1
+    if libs_backend_files.indexOf(filename) == -1
       filename = libname + '.js'
     output.push '* [libs_common/' + libname + '](https://github.com/habitlab/habitlab/blob/master/src/libs_backend/' + filename + ')'
   return output.join('\n')

@@ -48,7 +48,7 @@ export compile_intervention_code = cfy (intervention_info) ->*
   intervention_info.content_scripts = [
     {
       code: compiled_code
-      run_at: 'document_start'
+      run_at: 'document_end'
       jspm_require: true
     }
   ]

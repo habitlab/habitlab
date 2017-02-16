@@ -24,7 +24,7 @@ export localget = cfy (url) ->*
   res = yield store.getItem(url)
   if res?
     return res
-  request = yield fetch(url)
+  request = yield window.fetch_orig(url)
   res = yield request.text()
   yield store.setItem(url, res)
   return res
@@ -34,3 +34,19 @@ export localget_json = cfy (url) ->*
   if text?
     return JSON.parse text
   return null
+
+export localget_base64 = cfy (url) ->*
+  text = yield localget url
+  if text?
+    return 'data:text/plain;base64,' + btoa(text)
+  return null
+
+if not window.fetch.overridden
+  fetch_orig = window.fetch
+  window.fetch_orig = fetch_orig
+  window.fetch = (input, init) ->
+    if input.startsWith('chrome-extension://')
+      return localget(input).then (text) ->
+        return new Response(text)
+    return fetch_orig(input, init)
+  window.fetch.overridden = true

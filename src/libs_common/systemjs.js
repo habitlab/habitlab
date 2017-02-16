@@ -1,3 +1,5 @@
+require('libs_common/cacheget_utils');
+
 if (!window.SystemJS) {
   require('script-loader!jspm_packages/system.js')
   require('../systemjs_paths.js')

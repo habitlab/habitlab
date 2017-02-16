@@ -26,16 +26,12 @@ polymer_ext {
   listeners: {
     keydown: 'on_keydown'
   }
-  on_keydown: (evt) ->
-    console.log 'on_keydown called'
-    console.log evt
   slide_changed: (evt) ->
     self = this
     this.SM('.slide').stop()
     prev_slide_idx = this.prev_slide_idx
     this.prev_slide_idx = this.slide_idx
     if prev_slide_idx == this.slide_idx - 1 # scrolling forward
-      console.log 'slide changed going forward'
       prev_slide = this.SM('.slide').eq(prev_slide_idx)
       slide = this.SM('.slide').eq(this.slide_idx)
       prev_slide.animate({
@@ -51,7 +47,6 @@ polymer_ext {
         self.animation_inprogress = false
       , 1000
     else if prev_slide_idx == this.slide_idx + 1 # scrolling backward
-      console.log 'slide changed going backward'
       prev_slide = this.SM('.slide').eq(prev_slide_idx)
       slide = this.SM('.slide').eq(this.slide_idx)
       prev_slide.animate({
@@ -67,17 +62,26 @@ polymer_ext {
         self.animation_inprogress = false
       , 1000
     else
-      console.log 'slide changed jump'
       this.SM('.slide').hide()
       slide = this.SM('.slide').eq(this.slide_idx)
       slide.show()
       slide.css('top', '0px')
       this.animation_inprogress = false
+  onboarding_complete: ->
+    this.fire 'onboarding-complete', {}
+  next_button_clicked: cfy ->*
+    last_slide_idx = this.SM('.slide').length - 1
+    if this.slide_idx == last_slide_idx
+      this.onboarding_complete()
+      return
+    this.next_slide()
   next_slide: cfy ->*
     if this.animation_inprogress
       return
     last_slide_idx = this.SM('.slide').length - 1
     if this.slide_idx == last_slide_idx
+      return
+      /*
       try
         yield swal({
           title: "Let's start by setting your goals"
@@ -87,6 +91,7 @@ polymer_ext {
       catch
         return
       return
+      */
     this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
   prev_slide: ->
     if this.animation_inprogress
@@ -95,7 +100,6 @@ polymer_ext {
   get_icon: (img_path) ->
     return chrome.extension.getURL('icons/' + img_path)
   keydown_listener: (evt) ->
-    console.log evt.which
     if evt.which == 39 or evt.which == 40
       this.next_slide()
     else if evt.which == 37 or evt.which == 38

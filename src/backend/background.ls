@@ -707,7 +707,7 @@ do ->
   # open the options page on first run
   if not localStorage.getItem('notfirstrun')
     localStorage.setItem('notfirstrun', true)
-    chrome.tabs.create {url: 'options.html#introduction'}
+    chrome.tabs.create {url: 'options.html#onboarding'}
 
 #localStorage.tabsOpened = 0
 #chrome.tabs.onCreated.addListener (x) ->

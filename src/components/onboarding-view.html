@@ -62,10 +62,12 @@
       margin-left: 5px;
       margin-right: 5px;
       background-color: #008000;
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     }
 
     .get_started_button {
       background-color: #008000;
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     }
 
     .subtext {
@@ -81,6 +83,11 @@
     .checkbox_div {
       display: inline-block;
       text-align: left;
+    }
+
+    .checkbox_span {
+      color: white;
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     }
 
   </style>
@@ -158,11 +165,11 @@
         <div class="checkbox_div_outer">
           <div class="checkbox_div">
             <paper-checkbox checked="checked">
-              <span style="color: white">Allow HabitLab to store an anonymized version of my data on Stanford's servers<br>(we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: white">see what gets logged</a>)</span>
+              <span class="checkbox_span">Allow HabitLab to store an anonymized version of my data on Stanford's servers<br>(we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: white">see what gets logged</a>)</span>
             </paper-checkbox>
             <br><br>
             <paper-checkbox checked="checked">
-              <span style="color: white">By using HabitLab, I agree to participate in this research</paper-checkbox><br></span>
+              <span class="checkbox_span">By using HabitLab, I agree to participate in this research</paper-checkbox><br></span>
             </paper-checkbox>
           </div>
         </div>

@@ -70,6 +70,8 @@ polymer_ext {
   onboarding_complete: ->
     this.fire 'onboarding-complete', {}
   next_button_clicked: cfy ->*
+    if this.animation_inprogress
+      return
     last_slide_idx = this.SM('.slide').length - 1
     if this.slide_idx == last_slide_idx
       this.onboarding_complete()

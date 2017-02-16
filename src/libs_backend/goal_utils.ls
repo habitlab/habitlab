@@ -23,6 +23,10 @@
   unique_concat
 } = require 'libs_common/array_utils'
 
+{
+  localget_json
+} = require 'libs_common/cacheget_utils'
+
 {cfy, yfy} = require 'cfy'
 
 getAllInterventionsGoalInfo = cfy ->*
@@ -44,7 +48,7 @@ export getGoalInfo = cfy (goal_name) ->*
   cached_goal_info = cached_get_goal_info_unmodified[goal_name]
   if cached_goal_info?
     return cached_goal_info
-  goal_info = yield fetch("/goals/#{goal_name}/info.json").then((.json!))
+  goal_info = yield localget_json("/goals/#{goal_name}/info.json")
   goal_info.name = goal_name
   if not goal_info.sitename?
     goal_info.sitename = goal_name.split('/')[0]
@@ -147,7 +151,7 @@ export list_all_goals = cfy ->*
     return JSON.parse cached_list_all_goals
     #local_cached_list_all_goals := JSON.parse cached_list_all_goals
     #return local_cached_list_all_goals
-  goals_list = yield fetch('/goals/goals.json').then((.json!))
+  goals_list = yield localget_json('/goals/goals.json')
   extra_list_all_goals_text = localStorage.getItem 'extra_list_all_goals'
   if extra_list_all_goals_text?
     extra_list_all_goals = JSON.parse extra_list_all_goals_text

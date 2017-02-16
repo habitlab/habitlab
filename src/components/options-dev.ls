@@ -30,6 +30,14 @@ polymer_ext {
               name: 'refresh_livereload'
               description: 'Automatically refresh pages as files are updated'
             }
+            {
+              name: 'devmode_use_cache'
+              description: 'Use the fetch cache in developer mode (is automatically used in production mode)'
+            }
+            {
+              name: 'devmode_clear_cache_on_reload'
+              description: 'Clear the fetch cache upon reload'
+            }
           ]
         }
         {

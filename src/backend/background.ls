@@ -38,6 +38,7 @@ co ->*
         yield store.clear()
         yield store.setItem('habitlab_version', manifest.version)
 
+  {localget} = require 'libs_common/cacheget_utils'
   require 'libs_common/systemjs'
 
   {
@@ -171,7 +172,7 @@ co ->*
     if options.code?
       background_script_text = options.code
     else
-      background_script_text = yield $.get options.path
+      background_script_text = yield localget(options.path)
     background_script_function = new Function('env', background_script_text)
     env = {
       intervention_info: intervention_info
@@ -198,7 +199,7 @@ co ->*
     if cached_systemjs_code != null
       systemjs_content_script_code = cached_systemjs_code
     else
-      systemjs_content_script_code = yield $.get '/intervention_utils/systemjs.js'
+      systemjs_content_script_code = yield localget('/intervention_utils/systemjs.js')
       cached_systemjs_code := systemjs_content_script_code
 
     debug_content_script_code = """
@@ -289,7 +290,7 @@ co ->*
       if options.code?
         content_script_code = options.code
       else
-        content_script_code = yield $.get options.path
+        content_script_code = yield localget(options.path)
       if options.jspm_require
         content_script_code = """
         window.Polymer = window.Polymer || {}

@@ -123,14 +123,30 @@ polymer_ext {
   detached: ->
     window.removeEventListener 'keydown', this.keydown_listener_bound
     window.removeEventListener 'mousewheel', this.mousewheel_listener_bound
+    window.removeEventListener 'resize', this.window_resized_bound
+  window_resized: ->
+    current_height = 400
+    target_height = window.innerHeight - 80
+    current_width = 600
+    target_width = window.innerWidth - 20
+    scale_height = target_height / current_height
+    scale_width = target_width / current_width
+    scale = Math.min(scale_height, scale_width)
+    this.SM('.inner_slide').css({
+      transform: 'scale(' + scale + ')'
+    })
+  attached: ->
+    this.window_resized()
   ready: cfy ->*
     self = this
     this.last_mousewheel_time = 0
     this.last_mousewheel_deltaY = 0
     this.keydown_listener_bound = this.keydown_listener.bind(this)
     this.mousewheel_listener_bound = this.mousewheel_listener.bind(this)
+    this.window_resized_bound = this.window_resized.bind(this)
     window.addEventListener 'keydown', this.keydown_listener_bound
     window.addEventListener 'mousewheel', this.mousewheel_listener_bound
+    window.addEventListener 'resize', this.window_resized_bound
     yield load_css_file('sweetalert2')
 }, {
   source: require 'libs_frontend/polymer_methods'

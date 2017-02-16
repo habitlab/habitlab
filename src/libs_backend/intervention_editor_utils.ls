@@ -43,6 +43,7 @@ export compile_intervention_code = cfy (intervention_info) ->*
     swal {
       title: 'syntax error in your code'
       text: err
+      type: 'error'
     }
     return false
   intervention_info.content_scripts = [

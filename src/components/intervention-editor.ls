@@ -45,6 +45,19 @@ swal = require 'sweetalert2'
 get_livescript = memoizeSingleAsync cfy ->*
   yield SystemJS.import('livescript15')
 
+check_for_livescript_errors = cfy (ls_text) ->*
+  ls_compiler = yield get_livescript()
+  try
+    js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
+    return false
+  catch e
+    swal {
+      title: 'livescript compile error'
+      text: e.message
+      type: 'error'
+    }
+    return true
+
 polymer_ext {
   is: 'intervention-editor'
   properties: {
@@ -92,6 +105,7 @@ polymer_ext {
   save_intervention: cfy ->*
     code = this.js_editor.getSession().getValue().trim()
     lscode = this.ls_editor.getSession().getValue().trim()
+    edit_mode = this.get_edit_mode()
     intervention_info = {
       code: code
       name: this.get_intervention_name()
@@ -112,10 +126,13 @@ polymer_ext {
         }
       ]
       */
-      edit_mode: this.get_edit_mode()
+      edit_mode: edit_mode
       goals: [this.$.goal_selector.selectedItem.goal_info]
       custom: true
     }
+    if edit_mode == 'ls' or edit_mode == 'ls_and_js'
+      if (yield check_for_livescript_errors(lscode))
+        return false
     if not (yield compile_intervention_code(intervention_info))
       return false
     #if not (yield add_requires_to_intervention_info(intervention_info))
@@ -172,11 +189,13 @@ polymer_ext {
     jslen = this.js_editor.getSession().getLength()
     if lang == 'ls_and_js'
       jse.css {
-        width: 'calc(50vw - 10px)'
+        width: '50vw'
+        left: '50vw'
         display: 'inline-block'
       }
       lse.css {
-        width: 'calc(50vw - 10px)'
+        width: '50vw'
+        left: '0px'
         display: 'inline-block'
       }
       self.js_editor.focus()
@@ -190,10 +209,12 @@ polymer_ext {
     else if lang == 'ls'
       jse.css {
         width: '0px'
+        left: '0px'
         display: 'none'
       }
       lse.css {
-        width: 'calc(100vw - 20px)'
+        width: '100vw'
+        left: '0px'
         display: 'inline-block'
       }
       self.ls_editor.focus()
@@ -203,11 +224,13 @@ polymer_ext {
       self.ls_editor.setReadOnly(false)
     else if lang == 'js'
       jse.css {
-        width: 'calc(100vw - 20px)'
+        width: '100vw'
+        left: '0px'
         display: 'inline-block'
       }
       lse.css {
         width: '0px'
+        left: '50vw'
         display: 'none'
       }
       self.js_editor.focus()
@@ -346,6 +369,10 @@ polymer_ext {
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
     chrome.tabs.create {url: preview_page}
+  hide_sidebar: ->
+    this.S('#sidebar').hide()
+  show_sidebar: ->
+    this.S('#sidebar').show()
   ready: cfy ->*
     self = this
     brace = yield SystemJS.import('brace')

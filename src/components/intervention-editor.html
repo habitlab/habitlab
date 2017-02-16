@@ -41,7 +41,7 @@
   </style>
   <template>
 
-    <feedback-button-right></feedback-button-right>
+    <feedback-button-right id="feedback_button"></feedback-button-right>
 
     <paper-card id="topbar" style="position: fixed; left: 0px; top: 0px; width: 100vw; height: 50px; z-index: 998;">
 
@@ -54,9 +54,8 @@
           </paper-listbox>
         </paper-dropdown-menu>
 
-        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 330px" on-click="save_intervention">Save</paper-button>
-        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 405px" on-click="preview_intervention">Preview</paper-button>
-
+        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 330px" on-click="preview_intervention">Preview</paper-button>
+        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 405px" on-click="save_intervention">Save</paper-button>
         <paper-button style="position: absolute; background-color: green; color: white; top: 8px; right: 10px" on-click="show_sidebar">Show Sidebar</paper-button>
       </div>
 
@@ -96,8 +95,9 @@
     <paper-input id="intervention_domain" value="[[intervention_info.domain]]" label="Domain"></paper-input>
     <paper-input id="intervention_preview_url" label="Preview URL" value="[[intervention_info.preview]]"></paper-input>
 
-    <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
     <paper-button style="background-color: green; color: white" on-click="preview_intervention">Preview</paper-button>
+    <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
+    <paper-button style="background-color: green; color: white" on-click="download_code">Download</paper-button>
 
     </paper-card>
 

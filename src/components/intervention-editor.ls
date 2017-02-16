@@ -102,6 +102,19 @@ polymer_ext {
   get_intervention_name: ->
     # return this.$.intervention_name.value
     return this.$.intervention_selector.selectedItem.intervention_name
+  download_code: ->
+    edit_mode = this.get_edit_mode()
+    if edit_mode == 'ls' or edit_mode == 'ls_and_js'
+      code = this.ls_editor.getSession().getValue().trim()
+    else
+      code = this.js_editor.getSession().getValue().trim()
+    element = document.createElement('a')
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(code))
+    element.setAttribute('download', 'intervention.txt')
+    element.style.display = 'none'
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   save_intervention: cfy ->*
     code = this.js_editor.getSession().getValue().trim()
     lscode = this.ls_editor.getSession().getValue().trim()
@@ -371,8 +384,10 @@ polymer_ext {
     chrome.tabs.create {url: preview_page}
   hide_sidebar: ->
     this.S('#sidebar').hide()
+    this.S('#feedback_button').hide()
   show_sidebar: ->
     this.S('#sidebar').show()
+    this.S('#feedback_button').show()
   ready: cfy ->*
     self = this
     brace = yield SystemJS.import('brace')

@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <dom-module id="options-dev">
   <style>
@@ -12,15 +13,17 @@
   </style>
   <template>
     <div style="margin: 10px">
-      <template is="dom-repeat" items="{{categories_and_option_info}}" as="category_and_option_info">
-        <h3>{{category_and_option_info.category}}</h3>
-        <template is="dom-repeat" items="{{category_and_option_info.options}}" as="option">
-          <paper-toggle-button checked="{{option.value}}" option_name="{{option.name}}" on-change="option_changed"><span>{{option.description}}</span> <span style="font-family: monospace">[<span>{{option.name}}</span>]</span></paper-toggle-button>
-          <br>
+      <paper-card style="padding: 10px">
+        <template is="dom-repeat" items="{{categories_and_option_info}}" as="category_and_option_info">
+          <h3>{{category_and_option_info.category}}</h3>
+          <template is="dom-repeat" items="{{category_and_option_info.options}}" as="option">
+            <paper-toggle-button checked="{{option.value}}" option_name="{{option.name}}" on-change="option_changed"><span>{{option.description}}</span> <span style="font-family: monospace">[<span>{{option.name}}</span>]</span></paper-toggle-button>
+            <br>
+          </template>
         </template>
-      </template>
+        <paper-button style="background-color: green; color: white;" on-click="register_protocol_handler">Register protocol handler for web+habitlab://</paper-button>
+      </paper-card>
     </div>
-    <paper-button style="background-color: green; color: white;" on-click="register_protocol_handler">Register protocol handler for web+habitlab://</paper-button>
   </template>
   <script src="options-dev.js"></script>
 </dom-module>

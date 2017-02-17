@@ -21,6 +21,7 @@ require! {
   'bestzip'
   'chrome-web-store-item-property'
   'livereload'
+  'semver'
 }
 
 fse = require 'fs-extra'
@@ -586,9 +587,17 @@ gulp.task 'mkzip', (done) ->
   <- bestzip output_zip_file, ['dist/*']
   done()
 
+get_latest_published_version = cfy ->*
+  latest_published_version = '0.0.0'
+  for extension_id in ['obghclocpdgcekcognpkblghkedcpdgd', 'bleifeoekkfhicamkpadfoclfhfmmina']
+    chrome_store_item = yield chrome-web-store-item-property(extension_id)
+    published_version = chrome_store_item.version
+    if semver.gt(published_version, latest_published_version)
+      latest_published_version = published_version
+  return latest_published_version
+
 gulp.task 'newver', cfy ->*
-  chrome_store_item = yield chrome-web-store-item-property('obghclocpdgcekcognpkblghkedcpdgd')
-  published_version = chrome_store_item.version
+  published_version = yield get_latest_published_version()
   manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
   version = manifest_info.version
   if published_version == version

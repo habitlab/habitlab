@@ -47,7 +47,7 @@ SystemJS.config({
     "stream": "npm:jspm-nodelibs-stream@0.2.0",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.0",
     "sweetalert2": "npm:sweetalert2@6.3.2",
-    "sweetjs-min": "npm:sweetjs-min@2.2.8",
+    "sweetjs-min": "npm:sweetjs-min@2.2.9",
     "text": "github:systemjs/plugin-text@0.0.8",
     "tty": "npm:jspm-nodelibs-tty@0.2.0",
     "underscore": "npm:underscore@1.8.3",
@@ -571,16 +571,16 @@ SystemJS.config({
         "brorand": "npm:brorand@1.0.7"
       }
     },
-    "npm:sweetjs-min@2.2.8": {
+    "npm:sweetjs-min@2.2.9": {
       "map": {
+        "immutable": "npm:immutable@3.8.1",
         "ramda": "npm:ramda@0.23.0",
-        "sweet-spec": "npm:sweet-spec@1.1.0",
-        "transit-js": "npm:transit-js@0.8.846",
-        "ramda-fantasy": "npm:ramda-fantasy@0.7.0",
-        "shift-codegen": "npm:shift-codegen@5.0.2",
         "shift-parser": "npm:shift-parser@5.0.2",
+        "ramda-fantasy": "npm:ramda-fantasy@0.7.0",
+        "transit-js": "npm:transit-js@0.8.846",
+        "sweet-spec": "npm:sweet-spec@1.1.0",
         "shift-reducer": "npm:shift-reducer@3.0.3",
-        "immutable": "npm:immutable@3.8.1"
+        "shift-codegen": "npm:shift-codegen@5.0.2"
       }
     }
   }

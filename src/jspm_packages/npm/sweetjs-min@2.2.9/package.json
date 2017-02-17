@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git://github.com/gkovacs/sweetjs-min.git"
   },
-  "version": "2.2.8",
+  "version": "2.2.9",
   "devDependencies": {},
   "dependencies": {
     "immutable": "^3.8.1",

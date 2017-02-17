@@ -45,10 +45,6 @@ var _hygieneUtils = require("./hygiene-utils");
 
 var _syntax = require("./syntax");
 
-var _utilsDirname = require("utils-dirname");
-
-var _utilsDirname2 = _interopRequireDefault(_utilsDirname);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -129,7 +125,7 @@ class Modules {
     // the compiler starts at phase 0, with an empty environment and store
     let compiler = new _compiler2.default(0, new _env2.default(), new _store2.default(), _.merge(this.context, {
       currentScope: [outScope, inScope],
-      cwd: path === '<<entrypoint>>' ? this.context.cwd : (0, _utilsDirname2.default)(path)
+      cwd: this.context.cwd
     }));
     let terms = compiler.compile(stxl.map(s => s.addScope(outScope, this.context.bindings, _syntax.ALL_PHASES).addScope(inScope, this.context.bindings, 0)));
 

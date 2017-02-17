@@ -52,6 +52,11 @@ export once_true = yfy (condition, callback) ->
       once_true(condition, callback)
     , 100
 
+export sleep = cfy (time) ->*
+  sleep_base = (msecs, callback) ->
+    setTimeout(callback, msecs)
+  yield yfy(sleep_base)(time)
+
 export run_only_one_at_a_time = (func) ->
   # func is assumed to take 1 argument (finished callback) for the time being
   is_running = false

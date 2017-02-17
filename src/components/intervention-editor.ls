@@ -38,6 +38,7 @@
 
 {
   once_true
+  sleep
 } = require 'libs_frontend/common_libs'
 
 {
@@ -396,10 +397,6 @@ polymer_ext {
     preview_page = this.$.intervention_preview_url.value
     tab = yield add_noerr -> chrome.tabs.create {url: preview_page}, it
     debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&tabid=' + tab.id)
-    sleep = cfy (time) ->*
-      sleep_base = (msecs, callback) ->
-        setTimeout(callback, msecs)
-      yield yfy(sleep_base)(time)
     while true
       current_tab_id = yield get_active_tab_id()
       if current_tab_id == tab.id

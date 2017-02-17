@@ -38,8 +38,7 @@ co ->*
         yield store.clear()
         yield store.setItem('habitlab_version', manifest.version)
 
-  {localget} = require 'libs_common/cacheget_utils'
-  require 'libs_common/systemjs'
+  require 'libs_backend/systemjs'
 
   {
     get_all_message_handlers
@@ -47,6 +46,7 @@ co ->*
 
   require 'libs_backend/expose_backend_libs'
 
+  {localget} = require 'libs_common/cacheget_utils'
 
   {
     addtokey_dictdict

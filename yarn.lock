@@ -5142,6 +5142,10 @@ systemjs@^0.19.43:
   dependencies:
     when "^3.7.5"
 
+"systemjs@github:gkovacs/systemjs":
+  version "0.20.8"
+  resolved "https://codeload.github.com/gkovacs/systemjs/tar.gz/a8f7e9786c72ac2acf2cae7a4aa677013c779009"
+
 table@^3.7.8:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/table/-/table-3.8.3.tgz#2bbc542f0fda9861a755d3947fefd8b3f513855f"

@@ -9,7 +9,7 @@ dlog = window.dlog = (...args) ->
   if localStorage.getItem('display_dlog') == 'true'
     console.log(...args)
 
-require 'libs_common/systemjs'
+require 'libs_backend/systemjs'
 co = require 'co'
 
 co ->*

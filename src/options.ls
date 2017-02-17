@@ -9,7 +9,7 @@ dlog = window.dlog = (...args) ->
   if localStorage.getItem('display_dlog') == 'true'
     console.log(...args)
 
-require 'libs_common/systemjs'
+require 'libs_backend/systemjs'
 
 add_url_input_if_needed = ->
   if localStorage.index_show_url_bar == 'true'

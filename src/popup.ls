@@ -9,7 +9,7 @@ dlog = window.dlog = (...args) ->
   if localStorage.getItem('display_dlog') == 'true'
     console.log(...args)
 
-require 'libs_common/systemjs'
+require 'libs_backend/systemjs'
 
 if window.location.pathname == '/popup.html'
   require 'components/popup-view.deps'

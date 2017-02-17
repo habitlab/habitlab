@@ -7,7 +7,8 @@
 {cfy} = require 'cfy'
 
 {
-  eval_content_script_debug_for_active_tab
+  eval_content_script_debug_for_tabid
+  get_active_tab_id
 } = require 'libs_backend/background_common'
 
 {
@@ -25,7 +26,25 @@ polymer_ext {
       type: Boolean
       value: false
     }
+    tabid: {
+      type: Number
+    }
+    autoload: {
+      type: Boolean
+      value: false
+      observer: 'autoload_changed'
+    }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
+    }
   }
+  isdemo_changed: ->
+    if this.isdemo
+      this.autoload = true
+  autoload_changed: ->
+    if this.autoload
+      this.focus_terminal()
   focus_terminal: cfy ->*
     self = this
     if not self.terminal_loaded
@@ -40,6 +59,11 @@ polymer_ext {
       document.activeElement.blur()
       $(self.$$('#content_script_terminal')).click()
     , 0
+  run_eval: cfy (code) ->*
+    tabid = self.tabid
+    if not tabid?
+      tabid = yield get_active_tab_id()
+    yield eval_content_script_debug_for_tabid(code, tabid)
   attach_terminal: ->
     self = this
     thiswidth = $(this).width()
@@ -156,8 +180,6 @@ polymer_ext {
     custom_commands.javascript = custom_commands.js
     custom_commands.livescript = custom_commands.ls
     terminal_handler = cfy (command, term) ->*
-      # TODO: implement a command "livescript" which switches to lsc, and "javascript" which switches to js
-      #console.log command
       is_livescript = localstorage_getbool('debug_terminal_livescript')
       if command[0] == '#'
         after_hash = command.substr(1)
@@ -176,7 +198,18 @@ polymer_ext {
           prettyprintjs = yield SystemJS.import('prettyprintjs')
           term.echo prettyprintjs(err)
           return
-      result = yield eval_content_script_debug_for_active_tab(command)
+      contains_yield = (code) ->
+        result = code.startsWith('yield ') or code.startsWith('yield(') or code.includes(' yield ') or code.includes('(yield ') or code.includes(' yield(') or code.includes('(yield(')
+        return result
+      if contains_yield command
+        command = """
+        SystemJS.import('co').then(function(co) {
+          co(function*() {
+            #{command}
+          });
+        })
+        """
+      result = yield self.run_eval(command)
       term.echo result
     messages = []
     if not localstorage_getbool('debug_terminal_livescript')
@@ -195,7 +228,7 @@ polymer_ext {
         for message in messages
           term_div.echo message
     , 100
-    eval_content_script_debug_for_active_tab('''
+    self.run_eval('''
       if (window.debugeval && !window.customeval && window.customeval != window.debugeval) {
         window.customeval = window.debugeval;
         hlog([

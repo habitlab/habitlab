@@ -396,7 +396,7 @@ polymer_ext {
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
     tab = yield add_noerr -> chrome.tabs.create {url: preview_page}, it
-    debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&tabid=' + tab.id)
+    debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&ispopup=true&tabid=' + tab.id)
     while true
       current_tab_id = yield get_active_tab_id()
       if current_tab_id == tab.id

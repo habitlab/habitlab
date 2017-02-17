@@ -260,7 +260,7 @@ polymer_ext {
 
   debug_button_clicked: cfy ->*
     tab_id = yield get_active_tab_id()
-    debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&tabid=' + tab_id)
+    debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&ispopup=true&tabid=' + tab_id)
     chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}
 
   submit_feedback_clicked: cfy ->*

@@ -1,4 +1,4 @@
-{yfy} = require 'cfy'
+{yfy, cfy} = require 'cfy'
 
 {
   gexport

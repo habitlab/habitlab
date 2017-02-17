@@ -94,6 +94,13 @@ export list_currently_loaded_interventions = cfy ->*
   loaded_interventions = yield eval_content_script_for_tabid tab.id, 'window.loaded_interventions'
   return as_array(loaded_interventions)
 
+export is_tab_still_open = cfy (tab_id) ->*
+  tabs = yield chrome_tabs_query {}
+  for tab in tabs
+    if tab.id == tab_id
+      return true
+  return false
+
 export send_message_to_tabid = cfy (tabid, type, data) ->*
   return chrome_tabs_sendmessage tabid, {type, data}
 

@@ -10,6 +10,7 @@
   eval_content_script_debug_for_tabid
   eval_content_script_for_tabid
   get_active_tab_id
+  is_tab_still_open
 } = require 'libs_backend/background_common'
 
 {
@@ -29,6 +30,9 @@ polymer_ext {
     }
     tabid: {
       type: Number
+    }
+    ispopup: {
+      type: Boolean
     }
     autoload: {
       type: Boolean
@@ -254,4 +258,12 @@ polymer_ext {
         ].join('\\n'));
       }
     ''')
+    setInterval ->
+      if self.ispopup and self.tabid?
+        is_tab_still_open(self.tabid).then (is_open) ->
+          if not is_open
+            chrome.tabs.getCurrent (tab) ->
+              if tab?id?
+                chrome.tabs.remove(tab.id)
+    , 1000
 }

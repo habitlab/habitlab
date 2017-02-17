@@ -195,4 +195,15 @@ polymer_ext {
         for message in messages
           term_div.echo message
     , 100
+    eval_content_script_debug_for_active_tab('''
+      if (window.debugeval && !window.customeval && window.customeval != window.debugeval) {
+        window.customeval = window.debugeval;
+        hlog([
+          '#debug has set window.customeval to window.debugeval',
+          'In #debug mode, assign variables to \\'window\\' to persist them',
+          'So instead of doing \\'var x = 3;\\' do \\'window.x = 3;\\'',
+          'Return to default global eval mode by typing #global'
+        ].join('\\n'));
+      }
+    ''')
 }

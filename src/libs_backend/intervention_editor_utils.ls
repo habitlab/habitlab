@@ -27,6 +27,7 @@ export compile_intervention_code = cfy (intervention_info) ->*
     var intervention = require('libs_common/intervention_info').get_intervention();
     co(function*() {
       #{code}
+      window.debugeval = (x) => eval(x);
     });
     """
     compiled_code = yield sweetjs_utils.compile(wrapped_code)

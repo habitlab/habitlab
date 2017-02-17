@@ -292,10 +292,10 @@ polymer_ext {
     }
 
   ready: cfy ->*
-
     #chrome.browserAction.setBadgeText {text: ''}
     #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
+    self.S('#debugButton').hide()
     is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
     self.intervention_name_to_info = yield get_interventions()
    
@@ -304,6 +304,8 @@ polymer_ext {
 
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
+    if enabledInterventions.length > 0
+      self.S('#debugButton').show()
 
     if localstorage_getbool('debug_terminal_is_default') and localstorage_getbool('enable_debug_terminal')
       self.selected_tab_idx = 2

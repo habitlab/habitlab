@@ -103,3 +103,8 @@ cfy_varargs_node = (f) ->
     else
       # return a promise
       return wrapped.bind(this)(...args, callback)
+
+for k,v of module.exports
+  cfy[k] = v
+
+module.exports = cfy

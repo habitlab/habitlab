@@ -23,7 +23,7 @@ SystemJS.config({
     "async": "npm:async@2.1.4",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
     "buffer": "npm:jspm-nodelibs-buffer@0.2.1",
-    "cfy": "npm:cfy@1.0.18",
+    "cfy": "npm:cfy@1.0.20",
     "dexie": "npm:dexie@1.5.1",
     "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@1.0.7",
     "events": "npm:jspm-nodelibs-events@0.2.0",
@@ -55,12 +55,6 @@ SystemJS.config({
     "vm": "npm:jspm-nodelibs-vm@0.2.0"
   },
   packages: {
-    "npm:cfy@1.0.18": {
-      "map": {
-        "co": "npm:co@4.6.0",
-        "unthenify": "npm:unthenify@1.0.4"
-      }
-    },
     "npm:enable-webcomponents-in-content-scripts@1.0.7": {
       "map": {
         "webcomponentsjs-custom-element-v0": "npm:webcomponentsjs-custom-element-v0@1.0.1"
@@ -372,7 +366,7 @@ SystemJS.config({
     },
     "npm:unthenify@1.0.4": {
       "map": {
-        "util-arity": "npm:util-arity@1.0.2",
+        "util-arity": "npm:util-arity@1.1.0",
         "any-promise": "npm:any-promise@1.3.0"
       }
     },
@@ -581,6 +575,12 @@ SystemJS.config({
         "jest-validate": "npm:jest-validate@18.2.0",
         "babylon": "npm:babylon@6.15.0",
         "ast-types": "npm:ast-types@0.9.4"
+      }
+    },
+    "npm:cfy@1.0.20": {
+      "map": {
+        "co": "npm:co@4.6.0",
+        "unthenify": "npm:unthenify@1.0.4"
       }
     }
   }

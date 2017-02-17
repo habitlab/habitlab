@@ -1,3 +1,5 @@
+cfy_module = require('../index')
+
 {
   yfy
   cfy
@@ -6,7 +8,7 @@
   yfy_multi
   yfy_multi_node
   add_noerr
-} = require('../index')
+} = cfy_module
 
 require! {
   co
@@ -407,6 +409,13 @@ describe 'all tests', ->
     g = cfy ->*
       return yield add_noerr -> it(3)
     res <- g()
+    3.should.equal(res)
+    done()
+
+  specify 'cfy directly callable', (done) ->
+    f = cfy_module ->*
+      return 3
+    res <- f()
     3.should.equal(res)
     done()
 

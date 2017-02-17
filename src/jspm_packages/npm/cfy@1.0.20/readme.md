@@ -25,12 +25,18 @@ For the purpose of these examples, we assume you have required the library as fo
 var {cfy, cfy_node, yfy, yfy_node} = require('cfy');
 ```
 
+Note that if you only need to use the `cfy` function, you can simply require it as:
+
+```javascript
+var cfy = require('cfy');
+```
+
 ## Examples
 
 ### Turning a generator into a callback/promise-based async function
 
 ```javascript
-var {cfy} = require('cfy');
+var cfy = require('cfy');
 
 var cfy_example = cfy(function*() {
   var result = yield Promise.resolve(5); // 5

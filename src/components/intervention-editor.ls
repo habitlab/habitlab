@@ -1,4 +1,4 @@
-{cfy, add_noerr} = require 'cfy'
+{cfy, yfy, add_noerr} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
@@ -39,6 +39,12 @@
 {
   once_true
 } = require 'libs_frontend/common_libs'
+
+{
+  get_active_tab_id
+  list_currently_loaded_interventions
+} = require 'libs_backend/background_common'
+
 
 swal = require 'sweetalert2'
 
@@ -390,9 +396,21 @@ polymer_ext {
     preview_page = this.$.intervention_preview_url.value
     tab = yield add_noerr -> chrome.tabs.create {url: preview_page}, it
     debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&tabid=' + tab.id)
-    setTimeout ->
-      chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}
-    , 2000
+    sleep = cfy (time) ->*
+      sleep_base = (msecs, callback) ->
+        setTimeout(callback, msecs)
+      yield yfy(sleep_base)(time)
+    while true
+      current_tab_id = yield get_active_tab_id()
+      if current_tab_id == tab.id
+        break
+      yield sleep(100)
+    while true
+      loaded_interventions = yield list_currently_loaded_interventions()
+      if loaded_interventions.includes(intervention_name)
+        break
+      yield sleep(100)
+    chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}
   hide_sidebar: ->
     this.S('#sidebar').hide()
     this.S('#feedback_button').hide()

@@ -8,6 +8,7 @@ swal = require 'sweetalert2'
 
 {
   get_active_tab_url
+  get_active_tab_id
   list_currently_loaded_interventions
   get_active_tab_info
   disable_interventions_in_active_tab
@@ -256,6 +257,11 @@ polymer_ext {
 
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
+
+  debug_button_clicked: cfy ->*
+    tab_id = yield get_active_tab_id()
+    debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&tabid=' + tab_id)
+    chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}
 
   submit_feedback_clicked: cfy ->*
     screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils')

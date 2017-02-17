@@ -1,4 +1,4 @@
-{cfy} = require 'cfy'
+{cfy, add_noerr} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
@@ -382,6 +382,17 @@ polymer_ext {
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
     chrome.tabs.create {url: preview_page}
+  debug_intervention: cfy ->*
+    if not (yield this.save_intervention())
+      return
+    intervention_name = this.get_intervention_name()
+    set_override_enabled_interventions_once intervention_name
+    preview_page = this.$.intervention_preview_url.value
+    tab = yield add_noerr -> chrome.tabs.create {url: preview_page}, it
+    debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&tabid=' + tab.id)
+    setTimeout ->
+      chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}
+    , 2000
   hide_sidebar: ->
     this.S('#sidebar').hide()
     this.S('#feedback_button').hide()

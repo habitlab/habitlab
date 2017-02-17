@@ -55,7 +55,8 @@
         </paper-dropdown-menu>
 
         <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 330px" on-click="preview_intervention">Preview</paper-button>
-        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 405px" on-click="save_intervention">Save</paper-button>
+        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 405px" on-click="debug_intervention">Debug</paper-button>
+        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 475px" on-click="save_intervention">Save</paper-button>
         <paper-button style="position: absolute; background-color: green; color: white; top: 8px; right: 10px" on-click="show_sidebar">Show Sidebar</paper-button>
       </div>
 
@@ -96,6 +97,7 @@
     <paper-input id="intervention_preview_url" label="Preview URL" value="[[intervention_info.preview]]"></paper-input>
 
     <paper-button style="background-color: green; color: white" on-click="preview_intervention">Preview</paper-button>
+    <paper-button style="background-color: green; color: white" on-click="debug_intervention">Debug</paper-button>
     <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
     <paper-button style="background-color: green; color: white" on-click="download_code">Download</paper-button>
 

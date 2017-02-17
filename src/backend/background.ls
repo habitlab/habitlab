@@ -203,8 +203,11 @@ co ->*
     content_script_debug.listen_for_eval(function(command_to_evaluate) {
       if (window.customeval) {
         return window.customeval(command_to_evaluate);
+      } else if (window.debugeval) {
+        return window.debugeval(command_to_evaluate);
       } else {
-        return eval.bind(this)(command_to_evaluate);
+        return window.eval(command_to_evaluate);
+        //return eval.bind(this)(command_to_evaluate);
       }
     });
     """

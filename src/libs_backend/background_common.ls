@@ -83,8 +83,8 @@ export eval_content_script_for_active_tab = cfy (script) ->*
 export eval_content_script_debug_for_active_tab = cfy (script) ->*
   yield send_message_to_active_tab 'eval_content_script_debug', script
 
-export eval_content_script_debug_for_tabid = cfy (script) ->*
-  yield send_message_to_active_tab 'eval_content_script_debug', script
+export eval_content_script_debug_for_tabid = cfy (tabid, script) ->*
+  yield chrome_tabs_sendmessage tabid, {type: 'eval_content_script_debug', data: script}
 
 export eval_content_script_for_tabid = cfy (tabid, script) ->*
   yield chrome_tabs_sendmessage tabid, {type: 'eval_content_script', data: script}

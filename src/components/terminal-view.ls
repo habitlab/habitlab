@@ -8,6 +8,7 @@
 
 {
   eval_content_script_debug_for_tabid
+  eval_content_script_for_tabid
   get_active_tab_id
 } = require 'libs_backend/background_common'
 
@@ -59,11 +60,16 @@ polymer_ext {
       document.activeElement.blur()
       $(self.$$('#content_script_terminal')).click()
     , 0
-  run_eval: cfy (code) ->*
-    tabid = self.tabid
+  run_eval_debug: cfy (code) ->*
+    tabid = this.tabid
     if not tabid?
       tabid = yield get_active_tab_id()
-    yield eval_content_script_debug_for_tabid(code, tabid)
+    yield eval_content_script_debug_for_tabid(tabid, code)
+  run_eval: cfy (code) ->*
+    tabid = this.tabid
+    if not tabid?
+      tabid = yield get_active_tab_id()
+    yield eval_content_script_for_tabid(tabid, code)
   attach_terminal: ->
     self = this
     thiswidth = $(this).width()
@@ -110,7 +116,7 @@ polymer_ext {
           'The following commands are available:'
           '#ls switches to Livescript mode'
           '#js switches to Javascript mode'
-          '#global alias for window.customeval = null'
+          '#global alias for window.customeval = window.eval'
           '#local alias for window.customeval = window.localeval'
           '#debug alias for window.customeval = window.debugeval'
           '#makedefault makes this terminal the default tab in popup-view'
@@ -173,8 +179,8 @@ polymer_ext {
         }
       '''
       global: '''
-        window.customeval = null;
-          hlog('#global has reset window.customeval to global eval');
+        window.customeval = window.eval;
+        hlog('#global has reset window.customeval to global eval');
       '''
     }
     custom_commands.javascript = custom_commands.js
@@ -218,7 +224,7 @@ polymer_ext {
           }).then(window.hlog);
         })
         """
-      result = yield self.run_eval(command)
+      result = yield self.run_eval_debug(command)
       term.echo result
     messages = []
     if not localstorage_getbool('debug_terminal_livescript')

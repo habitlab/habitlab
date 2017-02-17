@@ -110,7 +110,7 @@
       "shuffled": "npm:shuffled@^1.0.0",
       "sortablejs": "npm:sortablejs@^1.5.0-rc1",
       "sweetalert2": "npm:sweetalert2@^6.2.4",
-      "sweetjs-min": "npm:sweetjs-min@^2.2.5",
+      "sweetjs-min": "npm:sweetjs-min@^2.2.8",
       "text": "github:systemjs/plugin-text@^0.0.8",
       "underscore": "npm:underscore@^1.8.3"
     },

@@ -47,7 +47,7 @@ SystemJS.config({
     "stream": "npm:jspm-nodelibs-stream@0.2.0",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.0",
     "sweetalert2": "npm:sweetalert2@6.3.2",
-    "sweetjs-min": "npm:sweetjs-min@2.2.5",
+    "sweetjs-min": "npm:sweetjs-min@2.2.8",
     "text": "github:systemjs/plugin-text@0.0.8",
     "tty": "npm:jspm-nodelibs-tty@0.2.0",
     "underscore": "npm:underscore@1.8.3",
@@ -563,24 +563,24 @@ SystemJS.config({
         "unthenify": "npm:unthenify@1.0.4"
       }
     },
-    "npm:sweetjs-min@2.2.5": {
-      "map": {
-        "immutable": "npm:immutable@3.8.1",
-        "ramda": "npm:ramda@0.23.0",
-        "sweet-spec": "npm:sweet-spec@1.1.0",
-        "shift-reducer": "npm:shift-reducer@3.0.3",
-        "transit-js": "npm:transit-js@0.8.846",
-        "shift-parser": "npm:shift-parser@5.0.2",
-        "ramda-fantasy": "npm:ramda-fantasy@0.7.0",
-        "shift-codegen": "npm:shift-codegen@5.0.2"
-      }
-    },
     "npm:elliptic@6.3.3": {
       "map": {
         "inherits": "npm:inherits@2.0.3",
         "bn.js": "npm:bn.js@4.11.6",
         "hash.js": "npm:hash.js@1.0.3",
         "brorand": "npm:brorand@1.0.7"
+      }
+    },
+    "npm:sweetjs-min@2.2.8": {
+      "map": {
+        "ramda": "npm:ramda@0.23.0",
+        "sweet-spec": "npm:sweet-spec@1.1.0",
+        "transit-js": "npm:transit-js@0.8.846",
+        "ramda-fantasy": "npm:ramda-fantasy@0.7.0",
+        "shift-codegen": "npm:shift-codegen@5.0.2",
+        "shift-parser": "npm:shift-parser@5.0.2",
+        "shift-reducer": "npm:shift-reducer@3.0.3",
+        "immutable": "npm:immutable@3.8.1"
       }
     }
   }

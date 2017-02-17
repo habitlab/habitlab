@@ -1,2 +1,0 @@
-'use strict';Object.defineProperty(exports,'__esModule',{value:!0}),exports.parse=parse,exports.compile=compile;var _babelCore=require('babel-core');function compileModule(a,b,c){return b.compile(a,c)}function parse(a,b,c){let d;return null!=c&&(d=c.refererName),compileModule(a,b,d).parse()}function compile(a,b,c){let d,e=!0;null!=c&&(d=c.refererName,e=c.noBabel);let f=compileModule(a,b,d).codegen();return e?{code:f}:(0,_babelCore.transform)(f,{babelrc:!0})}
-

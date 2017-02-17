@@ -198,6 +198,15 @@ polymer_ext {
           prettyprintjs = yield SystemJS.import('prettyprintjs')
           term.echo prettyprintjs(err)
           return
+      command = command.trim()
+      for statement in ['var ', 'let ', 'const ']
+        command_lines = command.split('\n')
+        if command_lines?0?startsWith(statement)
+          if command_lines?0?indexOf('=') == -1
+            command_lines.shift()
+          else
+            command_lines[0] = command_lines[0].substr(statement.length).trim()
+        command = command_lines.join('\n').trim()
       contains_yield = (code) ->
         result = code.startsWith('yield ') or code.startsWith('yield(') or code.includes(' yield ') or code.includes('(yield ') or code.includes(' yield(') or code.includes('(yield(')
         return result
@@ -205,8 +214,8 @@ polymer_ext {
         command = """
         SystemJS.import('co').then(function(co) {
           co(function*() {
-            #{command}
-          });
+            return #{command}
+          }).then(window.hlog);
         })
         """
       result = yield self.run_eval(command)

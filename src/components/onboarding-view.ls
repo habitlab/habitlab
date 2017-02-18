@@ -154,6 +154,10 @@ polymer_ext {
     window.addEventListener 'mousewheel', this.mousewheel_listener_bound
     window.addEventListener 'resize', this.window_resized_bound
     yield load_css_file('sweetalert2')
+    if not chrome.runtime.getManifest().update_url?
+      # developer mode
+      if not localStorage.getItem('enable_debug_terminal')?
+        localStorage.setItem('enable_debug_terminal', 'true')
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

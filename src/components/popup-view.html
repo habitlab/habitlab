@@ -24,7 +24,6 @@
 <link rel="import" href="graph-donut-top-sites.html">
 <link rel="import" href="site-goal-view.html">
 <link rel="import" href="intervention-view-single.html">
-<link rel="import" href="terminal-view.html">
 <link rel="import" href="feedback-form.html">
 
 <dom-module id="popup-view">
@@ -171,9 +170,6 @@
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Active Intervention</paper-tab>
             <paper-tab>Available Goals and Interventions</paper-tab>
-            <template is="dom-if" if="{{is_debug_terminal_enabled()}}">
-              <paper-tab>Debug</paper-tab>
-            </template>
           </paper-tabs>
 
           <iron-pages selected="{{selected_tab_idx}}">
@@ -228,14 +224,6 @@
                 
               </template>
             </iron-page>
-
-            <template is="dom-if" if="{{is_debug_terminal_enabled()}}">
-              <iron-page id="debugPage">
-                <div style="display: inline-block; width: 566px; height: 400px">
-                  <terminal-view id="debug_terminal_view"></terminal-view>
-                </div>
-              </iron-page>
-            </template>
 
           </iron-pages>
         </paper-card>

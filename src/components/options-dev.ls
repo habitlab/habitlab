@@ -45,7 +45,7 @@ polymer_ext {
           options: [
             {
               name: 'enable_debug_terminal'
-              description: 'Show Debug tab (terminal for debugging interventions) in popup-view'
+              description: 'Show Debug button (terminal for debugging interventions) in popup-view'
               recommended: 'all'
             }
           ]

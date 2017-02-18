@@ -89,7 +89,6 @@ polymer_ext {
     selected_tab_idx: {
       type: Number
       value: 0
-      observer: 'selected_tab_idx_changed'
     },
     selected_graph_tab: {
       type: Number,
@@ -111,19 +110,11 @@ polymer_ext {
     }
   }
 
-  selected_tab_idx_changed: (selected_tab_idx) ->
-    if selected_tab_idx == 2
-      $(this.$$('#debugPage')).blur()
-      this.$$('#debug_terminal_view').focus_terminal()
-
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
     return intervention_name_to_info[intervention_name].description
   
   noValidInterventions: ->
     return this.goals_and_interventions.length === 0
-  
-  is_debug_terminal_enabled: ->
-    return localstorage_getjson('enable_debug_terminal')
 
   temp_disable_button_clicked: cfy (evt) ->*
     self = this
@@ -303,12 +294,11 @@ polymer_ext {
 
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
-    if enabledInterventions.length > 0
+    have_enabled_custom_interventions = enabledInterventions.map(-> self.intervention_name_to_info[it]).filter(-> it?custom).length > 0
+    if enabledInterventions.length > 0 and (localstorage_getbool('enable_debug_terminal') or have_enabled_custom_interventions)
       self.S('#debugButton').show()
 
-    if localstorage_getbool('debug_terminal_is_default') and localstorage_getbool('enable_debug_terminal')
-      self.selected_tab_idx = 2
-    else if self.enabledInterventions.length == 0
+    if self.enabledInterventions.length == 0
       self.selected_tab_idx = 1
 
     self.S('#resultsButton').click(->

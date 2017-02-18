@@ -12,6 +12,7 @@ swal = require 'sweetalert2'
   list_currently_loaded_interventions
   get_active_tab_info
   disable_interventions_in_active_tab
+  open_debug_page_for_tab_id
 } = require 'libs_backend/background_common'
 
 {

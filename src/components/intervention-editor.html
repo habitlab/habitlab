@@ -54,9 +54,11 @@
           </paper-listbox>
         </paper-dropdown-menu>
 
-        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 330px" on-click="preview_intervention">Preview</paper-button>
-        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 405px" on-click="debug_intervention">Debug</paper-button>
-        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; left: 475px" on-click="save_intervention">Save</paper-button>
+        <div style="position: absolute; top: 8px; left: 330px">
+          <paper-button style="background-color: green; color: white;" on-click="preview_intervention">Preview</paper-button>
+          <paper-button style="background-color: green; color: white" on-click="debug_intervention">Debug</paper-button>
+          <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
+        </div>
         <paper-button style="position: absolute; background-color: green; color: white; top: 8px; right: 10px" on-click="show_sidebar">Show Sidebar</paper-button>
       </div>
 

@@ -17,6 +17,7 @@
   localstorage_setbool
   localstorage_getbool
   localstorage_getjson
+  localstorage_setjson
 } = require 'libs_common/localstorage_utils'
 
 $ = require 'jquery'
@@ -242,10 +243,23 @@ polymer_ext {
     }
     setInterval ->
       messages = localstorage_getjson('debug_terminal_messages')
-      if messages?
-        localStorage.removeItem('debug_terminal_messages')
+      if messages? and messages.length > 0
+        messages_to_leave = []
+        messages_to_echo = []
         for message in messages
-          term_div.echo message
+          if not (message.tab? and self.tabid?)
+            if not message.tab?
+              messages_to_echo.push 'missing message.tab'
+            if not self.tabid?
+              messages_to_echo.push 'missing self.tabid'
+            messages_to_echo.push message.text
+          else if self.tabid != message.tab
+            messages_to_leave.push message
+          else
+            messages_to_echo.push message.text
+        localstorage_setjson('debug_terminal_messages', messages_to_leave)
+        for message_text in messages_to_echo
+          term_div.echo message_text
     , 100
     self.run_eval('''
       if (window.debugeval && !window.customeval && window.customeval != window.debugeval) {

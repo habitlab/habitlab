@@ -25,6 +25,7 @@ export compile_intervention_code = cfy (intervention_info) ->*
     wrapped_code = """
     var co = require('co');
     var intervention = require('libs_common/intervention_info').get_intervention();
+    var tab_id = require('libs_common/intervention_info').get_tab_id();
     co(function*() {
       #{code}
       window.debugeval = (x) => eval(x);

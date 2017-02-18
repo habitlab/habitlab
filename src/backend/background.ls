@@ -233,7 +233,7 @@ co ->*
           data_string = 'Error was thrown. Check Javascript console (Command+Option+J or Ctrl+Shift+J)\\n' + err.message;
           err_to_throw = err;
         }
-        chrome.runtime.sendMessage({type: 'send_to_debug_terminal', data: data_string});
+        chrome.runtime.sendMessage({type: 'send_to_debug_terminal', data: {tab: tab_id, text: data_string}});
         if (err_to_throw) {
           throw err_to_throw;
         }
@@ -297,6 +297,7 @@ co ->*
         window.Polymer.dom = 'shadow'
         SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
+          intervention_info_setter_lib.set_tab_id(#{tabId});
           SystemJS.import('data:text/javascript;base64,#{btoa(content_script_code)}');
         })
         """

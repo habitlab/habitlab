@@ -107,14 +107,27 @@ polymer_ext {
     else if evt.which == 37 or evt.which == 38
       this.prev_slide()
   mousewheel_listener: (evt) ->
-    evt.preventDefault()
     if this.animation_inprogress
+      evt.preventDefault()
       return
+    last_slide_idx = this.SM('.slide').length - 1
+    if this.slide_idx == last_slide_idx
+      irb_text = this.SM('#irb_text')
+      irb_text_offset = irb_text.offset()
+      irb_text_left = irb_text_offset.left
+      irb_text_right = irb_text_left + irb_text.width()
+      irb_text_top = irb_text_offset.top
+      irb_text_bottom = irb_text_top + irb_text.height()
+      if (irb_text_left <= evt.pageX <= irb_text_right) and (irb_text_top <= evt.pageY <= irb_text_bottom)
+        if (irb_text[0].scrollTop <= 0) and evt.deltaY < 0
+          # scrolling up and at top
+          evt.preventDefault()
+        if (irb_text[0].scrollTop + irb_text[0].offsetHeight >= irb_text[0].scrollHeight) and evt.deltaY > 0
+          # scrolling down and at bottom
+          evt.preventDefault()
+        return
+    evt.preventDefault()
     now_time = Date.now()
-    #console.log last_mousewheel_deltaY
-    #if last_mousewheel_time + 1000 >= now_time
-    #  last_mousewheel_deltaY := evt.deltaY
-    #  return
     if (this.last_mousewheel_time + 2000 >= now_time) and Math.abs(evt.deltaY) <= Math.abs(this.last_mousewheel_deltaY)
       this.last_mousewheel_deltaY := evt.deltaY
       return

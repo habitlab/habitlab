@@ -17,7 +17,7 @@ export listen_for_eval = (eval_func) ->
   chrome.runtime.onMessage.addListener (message, sender, sendResponse) ->
     {type, data} = message
     if type == 'eval_content_script'
-      result = eval_func data
+      result = window.eval(data)
       sendResponse result
       return true
     if type != 'eval_content_script_debug'

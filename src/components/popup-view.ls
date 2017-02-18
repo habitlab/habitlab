@@ -8,9 +8,11 @@ swal = require 'sweetalert2'
 
 {
   get_active_tab_url
+  get_active_tab_id
   list_currently_loaded_interventions
   get_active_tab_info
   disable_interventions_in_active_tab
+  open_debug_page_for_tab_id
 } = require 'libs_backend/background_common'
 
 {
@@ -88,7 +90,6 @@ polymer_ext {
     selected_tab_idx: {
       type: Number
       value: 0
-      observer: 'selected_tab_idx_changed'
     },
     selected_graph_tab: {
       type: Number,
@@ -110,19 +111,11 @@ polymer_ext {
     }
   }
 
-  selected_tab_idx_changed: (selected_tab_idx) ->
-    if selected_tab_idx == 2
-      $(this.$$('#debugPage')).blur()
-      this.$$('#debug_terminal_view').focus_terminal()
-
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
     return intervention_name_to_info[intervention_name].description
   
   noValidInterventions: ->
     return this.goals_and_interventions.length === 0
-  
-  is_debug_terminal_enabled: ->
-    return localstorage_getjson('enable_debug_terminal')
 
   temp_disable_button_clicked: cfy (evt) ->*
     self = this
@@ -257,6 +250,10 @@ polymer_ext {
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
 
+  debug_button_clicked: cfy ->*
+    tab_id = yield get_active_tab_id()
+    yield open_debug_page_for_tab_id(tab_id)
+
   submit_feedback_clicked: cfy ->*
     screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils')
     screenshot = yield screenshot_utils.get_screenshot_as_base64()
@@ -286,7 +283,6 @@ polymer_ext {
     }
 
   ready: cfy ->*
-
     #chrome.browserAction.setBadgeText {text: ''}
     #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
@@ -298,10 +294,11 @@ polymer_ext {
 
     enabledInterventions = yield list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
+    have_enabled_custom_interventions = enabledInterventions.map(-> self.intervention_name_to_info[it]).filter(-> it?custom).length > 0
+    if enabledInterventions.length > 0 and (localstorage_getbool('enable_debug_terminal') or have_enabled_custom_interventions)
+      self.S('#debugButton').show()
 
-    if localstorage_getbool('debug_terminal_is_default') and localstorage_getbool('enable_debug_terminal')
-      self.selected_tab_idx = 2
-    else if self.enabledInterventions.length == 0
+    if self.enabledInterventions.length == 0
       self.selected_tab_idx = 1
 
     self.S('#resultsButton').click(->

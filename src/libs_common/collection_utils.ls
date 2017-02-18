@@ -19,6 +19,18 @@ export remove_key_from_localstorage_dict = (dictname, key) ->
   localStorage.setItem dictname, JSON.stringify(dict)
   return
 
+export remove_keys_from_localstorage_dict = (dictname, key_list) ->
+  dict_text = localStorage.getItem dictname
+  if dict_text?
+    dict = JSON.parse dict_text
+  else
+    dict = {}
+  for key in key_list
+    if dict[key]?
+      delete dict[key]
+  localStorage.setItem dictname, JSON.stringify(dict)
+  return
+
 export remove_keys_matching_patternfunc_from_localstorage_dict = (dictname, patternfunc) ->
   dict_text = localStorage.getItem dictname
   if dict_text?
@@ -61,6 +73,15 @@ export remove_item_from_localstorage_list = (listname, item) ->
   else
     list = []
   list = list.filter -> it != item
+  localStorage.setItem listname, JSON.stringify(list)
+
+export remove_items_from_localstorage_list = (listname, item_list) ->
+  list_text = localStorage.getItem listname
+  if list_text?
+    list = JSON.parse list_text
+  else
+    list = []
+  list = list.filter -> (item_list.indexOf(it) == -1)
   localStorage.setItem listname, JSON.stringify(list)
 
 export remove_items_matching_patternfunc_from_localstorage_list = (listname, patternfunc) ->

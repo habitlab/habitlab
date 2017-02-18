@@ -10,6 +10,10 @@ require! {
   mathjs
 }
 
+{
+  localget
+} = require 'libs_common/cacheget_utils'
+
 prelude = require 'prelude-ls'
 
 export get_pages_visited_today = cfy ->*
@@ -22,7 +26,7 @@ export get_pages_visited_all_time = cfy ->*
   return pages_list
 
 export get_productivity_classifications = memoizeSingleAsync cfy ->*
-  classifications = yield $.get '/productivity_classifications.json'
+  classifications = yield localget('/productivity_classifications.json')
   return JSON.parse classifications
 
 export get_work_pages_visited_today = cfy ->*

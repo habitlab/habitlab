@@ -41,8 +41,8 @@ export get_requires_for_component_list = cfy (components) ->*
   output = []
   for component in components
     try
-      #component_path = "/bower_components/#{component}/#{component}.jspm.js"
-      component_path = "/bower_components/#{component}/#{component}.deps.js"
+      #component_path = "bower_components/#{component}/#{component}.jspm.js"
+      component_path = "bower_components/#{component}/#{component}.deps.js"
       component_request = yield fetch(component_path)
       component_html = yield component_request.text()
     catch
@@ -61,8 +61,8 @@ export get_components_to_require_statements = cfy (components) ->*
   output = {}
   for component in components
     try
-      #component_path = "/bower_components/#{component}/#{component}.jspm.js"
-      component_path = "/bower_components/#{component}/#{component}.deps.js"
+      #component_path = "bower_components/#{component}/#{component}.jspm.js"
+      component_path = "bower_components/#{component}/#{component}.deps.js"
       component_request = yield fetch(component_path)
       component_html = yield component_request.text()
     catch

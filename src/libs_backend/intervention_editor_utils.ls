@@ -22,14 +22,16 @@ export compile_intervention_code = cfy (intervention_info) ->*
   sweetjs_utils = yield get_sweetjs_utils()
   code = intervention_info.code
   try
-    compiled_code = yield sweetjs_utils.compile(code)
-    compiled_code = """
+    wrapped_code = """
     var co = require('co');
     var intervention = require('libs_common/intervention_info').get_intervention();
+    var tab_id = require('libs_common/intervention_info').get_tab_id();
     co(function*() {
-      #{compiled_code}
+      #{code}
+      window.debugeval = (x) => eval(x);
     });
     """
+    compiled_code = yield sweetjs_utils.compile(wrapped_code)
     /*
     compiled_code = """
     SystemJS.import('co').then(function(co) {
@@ -43,12 +45,13 @@ export compile_intervention_code = cfy (intervention_info) ->*
     swal {
       title: 'syntax error in your code'
       text: err
+      type: 'error'
     }
     return false
   intervention_info.content_scripts = [
     {
       code: compiled_code
-      run_at: 'document_start'
+      run_at: 'document_end'
       jspm_require: true
     }
   ]

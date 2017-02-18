@@ -1,5 +1,8 @@
 {gexport} = require 'libs_common/gexport'
 $ = require 'jquery'
+{import_dom_modules} = require 'libs_frontend/dom_utils'
+
+require 'bower_components/polymer/polymer.deps'
 
 PropertyIntrospectionBehavior = {
   properties: {
@@ -63,7 +66,14 @@ process_extra_methods_sources = (extra_methods_sources) ->
     extra_methods = extra_methods_sources
   return extra_methods
 
-PolymerWithPropertyIntrospection = (tag_info, extra_methods_sources) ->
+PolymerWithPropertyIntrospection = (dom_module_text, tag_info, extra_methods_sources) ->
+  if typeof(dom_module_text) == 'string'
+    if dom_module_text.indexOf("</dom-module>") == -1
+      dom_module_text = "<dom-module>\n" + dom_module_text + "\n</dom-module>"
+    import_dom_modules(dom_module_text, {tagname: tag_info.is})
+  else
+    extra_methods_sources = tag_info
+    tag_info = dom_module_text
   extra_methods = process_extra_methods_sources extra_methods_sources
   tag_info = $.extend(true, {}, tag_info)
   tagname = tag_info.is

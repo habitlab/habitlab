@@ -7,13 +7,17 @@
 {cfy} = require 'cfy'
 
 {
-  eval_content_script_debug_for_active_tab
+  eval_content_script_debug_for_tabid
+  eval_content_script_for_tabid
+  get_active_tab_id
+  is_tab_still_open
 } = require 'libs_backend/background_common'
 
 {
   localstorage_setbool
   localstorage_getbool
   localstorage_getjson
+  localstorage_setjson
 } = require 'libs_common/localstorage_utils'
 
 $ = require 'jquery'
@@ -25,7 +29,28 @@ polymer_ext {
       type: Boolean
       value: false
     }
+    tabid: {
+      type: Number
+    }
+    ispopup: {
+      type: Boolean
+    }
+    autoload: {
+      type: Boolean
+      value: false
+      observer: 'autoload_changed'
+    }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
+    }
   }
+  isdemo_changed: ->
+    if this.isdemo
+      this.autoload = true
+  autoload_changed: ->
+    if this.autoload
+      this.focus_terminal()
   focus_terminal: cfy ->*
     self = this
     if not self.terminal_loaded
@@ -40,6 +65,16 @@ polymer_ext {
       document.activeElement.blur()
       $(self.$$('#content_script_terminal')).click()
     , 0
+  run_eval_debug: cfy (code) ->*
+    tabid = this.tabid
+    if not tabid?
+      tabid = yield get_active_tab_id()
+    yield eval_content_script_debug_for_tabid(tabid, code)
+  run_eval: cfy (code) ->*
+    tabid = this.tabid
+    if not tabid?
+      tabid = yield get_active_tab_id()
+    yield eval_content_script_for_tabid(tabid, code)
   attach_terminal: ->
     self = this
     thiswidth = $(this).width()
@@ -86,7 +121,7 @@ polymer_ext {
           'The following commands are available:'
           '#ls switches to Livescript mode'
           '#js switches to Javascript mode'
-          '#global alias for window.customeval = null'
+          '#global alias for window.customeval = window.eval'
           '#local alias for window.customeval = window.localeval'
           '#debug alias for window.customeval = window.debugeval'
           '#makedefault makes this terminal the default tab in popup-view'
@@ -149,15 +184,13 @@ polymer_ext {
         }
       '''
       global: '''
-        window.customeval = null;
-          hlog('#global has reset window.customeval to global eval');
+        window.customeval = window.eval;
+        hlog('#global has reset window.customeval to global eval');
       '''
     }
     custom_commands.javascript = custom_commands.js
     custom_commands.livescript = custom_commands.ls
     terminal_handler = cfy (command, term) ->*
-      # TODO: implement a command "livescript" which switches to lsc, and "javascript" which switches to js
-      #console.log command
       is_livescript = localstorage_getbool('debug_terminal_livescript')
       if command[0] == '#'
         after_hash = command.substr(1)
@@ -176,7 +209,27 @@ polymer_ext {
           prettyprintjs = yield SystemJS.import('prettyprintjs')
           term.echo prettyprintjs(err)
           return
-      result = yield eval_content_script_debug_for_active_tab(command)
+      command = command.trim()
+      for statement in ['var ', 'let ', 'const ']
+        command_lines = command.split('\n')
+        if command_lines?0?startsWith(statement)
+          if command_lines?0?indexOf('=') == -1
+            command_lines.shift()
+          else
+            command_lines[0] = command_lines[0].substr(statement.length).trim()
+        command = command_lines.join('\n').trim()
+      contains_yield = (code) ->
+        result = code.startsWith('yield ') or code.startsWith('yield(') or code.includes(' yield ') or code.includes('(yield ') or code.includes(' yield(') or code.includes('(yield(')
+        return result
+      if contains_yield command
+        command = """
+        SystemJS.import('co').then(function(co) {
+          co(function*() {
+            return #{command}
+          }).then(window.hlog);
+        })
+        """
+      result = yield self.run_eval_debug(command)
       term.echo result
     messages = []
     if not localstorage_getbool('debug_terminal_livescript')
@@ -190,9 +243,41 @@ polymer_ext {
     }
     setInterval ->
       messages = localstorage_getjson('debug_terminal_messages')
-      if messages?
-        localStorage.removeItem('debug_terminal_messages')
+      if messages? and messages.length > 0
+        messages_to_leave = []
+        messages_to_echo = []
         for message in messages
-          term_div.echo message
+          if not (message.tab? and self.tabid?)
+            if not message.tab?
+              messages_to_echo.push 'missing message.tab'
+            if not self.tabid?
+              messages_to_echo.push 'missing self.tabid'
+            messages_to_echo.push message.text
+          else if self.tabid != message.tab
+            messages_to_leave.push message
+          else
+            messages_to_echo.push message.text
+        localstorage_setjson('debug_terminal_messages', messages_to_leave)
+        for message_text in messages_to_echo
+          term_div.echo message_text
     , 100
+    self.run_eval('''
+      if (window.debugeval && !window.customeval && window.customeval != window.debugeval) {
+        window.customeval = window.debugeval;
+        hlog([
+          '#debug has set window.customeval to window.debugeval',
+          'In #debug mode, assign variables to \\'window\\' to persist them',
+          'So instead of doing \\'var x = 3;\\' do \\'window.x = 3;\\'',
+          'Return to default global eval mode by typing #global'
+        ].join('\\n'));
+      }
+    ''')
+    setInterval ->
+      if self.ispopup and self.tabid?
+        is_tab_still_open(self.tabid).then (is_open) ->
+          if not is_open
+            chrome.tabs.getCurrent (tab) ->
+              if tab?id?
+                chrome.tabs.remove(tab.id)
+    , 1000
 }

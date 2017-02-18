@@ -31,24 +31,35 @@ prelude = require 'prelude-ls'
   remove_items_matching_patternfunc_from_localstorage_list
   remove_key_from_localstorage_dict
   remove_item_from_localstorage_list
+  remove_keys_from_localstorage_dict
+  remove_items_from_localstorage_list
 } = require 'libs_common/collection_utils'
 
 {
   unique_concat
 } = require 'libs_common/array_utils'
 
+{
+  localget_json
+} = require 'libs_common/cacheget_utils'
+
 {cfy, yfy} = require 'cfy'
 
 cached_get_intervention_info = {}
+cached_get_intervention_info_unmodified = {}
 
 getInterventionInfo = cfy (intervention_name) ->*
   cached_val = cached_get_intervention_info[intervention_name]
   if cached_val?
     return JSON.parse JSON.stringify cached_val
-  intervention_info = yield fetch("/interventions/#{intervention_name}/info.json").then((.json!))
+  cached_val = cached_get_intervention_info_unmodified[intervention_name]
+  if cached_val?
+    return JSON.parse JSON.stringify cached_val
+  intervention_info = yield localget_json("/interventions/#{intervention_name}/info.json")
   intervention_info.name = intervention_name
   intervention_info.sitename = intervention_name.split('/')[0]
   cached_get_intervention_info[intervention_name] = intervention_info
+  cached_get_intervention_info_unmodified[intervention_name] = intervention_info
   return intervention_info
 
 export set_override_enabled_interventions_once = (intervention_name) ->
@@ -185,6 +196,7 @@ export add_new_interventions = cfy (intervention_info_list) ->*
     extra_get_interventions[intervention_info.name] = intervention_info
   localStorage.setItem 'extra_get_interventions', JSON.stringify(extra_get_interventions)
   clear_cache_all_interventions()
+  #clear_interventions_from_cache(new_intervention_names)
   yield list_all_interventions()
   yield get_interventions()
   return
@@ -211,7 +223,7 @@ export list_generic_interventions = memoizeSingleAsync cfy ->*
   cached_generic_interventions = localStorage.getItem 'cached_list_generic_interventions'
   if cached_generic_interventions?
     return JSON.parse cached_generic_interventions
-  interventions_list = yield fetch('/interventions/interventions.json').then((.json!))
+  interventions_list = yield localget_json('/interventions/interventions.json')
   generic_interventions_list = interventions_list.filter -> it.startsWith('generic/')
   localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
   return generic_interventions_list
@@ -226,7 +238,7 @@ export list_all_interventions = cfy ->*
     return JSON.parse cached_list_all_interventions
     #local_cache_list_all_interventions := JSON.parse cached_list_all_interventions
     #return local_cache_list_all_interventions
-  interventions_list = yield fetch('/interventions/interventions.json').then((.json!))
+  interventions_list = yield localget_json('/interventions/interventions.json')
   interventions_list_extra_text = localStorage.getItem 'extra_list_all_interventions'
   if interventions_list_extra_text?
     interventions_list_extra = JSON.parse interventions_list_extra_text
@@ -239,6 +251,10 @@ export clear_cache_all_interventions = ->
   clear_cache_list_all_interventions()
   clear_cache_get_interventions()
   return
+
+#clear_interventions_from_cache = (intervention_names) ->
+#  remove_items_from_localstorage_list('cached_list_all_interventions', intervention_names)
+#  remove_keys_from_localstorage_dict('cached_get_interventions', intervention_names)
 
 export clear_cache_list_all_interventions = ->
   #local_cache_list_all_interventions := null

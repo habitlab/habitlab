@@ -3,35 +3,73 @@
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="feedback-button-right.html">
 
 <dom-module id="intervention-editor">
   <style>
     :host {
       display: block;
-      width: calc(100vw - 15px);
+      width: 100vw;
       height: 100vh;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
+      overflow-y: hidden;
     }
     #javascript_editor {
       display: inline-block;
       width: calc(50vw - 10px);
-      height: 100vh;
+      height: calc(100vh - 50px);
+      position: fixed;
+      top: 50px;
+      left: 0px;
       margin: 0;
       padding: 0;
     }
     #livescript_editor {
       display: inline-block;
       width: calc(50vw - 10px);
-      height: 100vh;
+      height: calc(100vh - 50px);
+      position: fixed;
+      top: 50px;
+      left: 50vw;
       margin: 0;
       padding: 0;
     }
   </style>
   <template>
 
+    <feedback-button-right id="feedback_button"></feedback-button-right>
+
+    <paper-card id="topbar" style="position: fixed; left: 0px; top: 0px; width: 100vw; height: 50px; z-index: 998;">
+
+      <div style="position: static; width: 100vw; height: 50px">
+        <paper-dropdown-menu style="width: 300px; padding-top: 0px; padding-left: 10px; margin-top: -10px" label="Language">
+          <paper-listbox id="language_selector" on-iron-select="language_selector_changed" class="dropdown-content" selected="0">
+            <paper-item lang="js">JavaScript</paper-item>
+            <paper-item lang="ls">LiveScript</paper-item>
+            <paper-item lang="ls_and_js">LiveScript and JavaScript</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
+        <div style="position: absolute; top: 8px; left: 330px">
+          <paper-button style="background-color: green; color: white;" on-click="preview_intervention">Preview</paper-button>
+          <paper-button style="background-color: green; color: white" on-click="debug_intervention">Debug</paper-button>
+          <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
+        </div>
+        <paper-button style="position: absolute; background-color: green; color: white; top: 8px; right: 10px" on-click="show_sidebar">Show Sidebar</paper-button>
+      </div>
+
+    </paper-card>
+
+    <paper-card id="sidebar" style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px; position: fixed; right: 0px; top: 0px; z-index: 999; height: 100vh">
+
+    <iron-icon style="position: fixed; top: 5px; right: 10px; width: 40px; height: 40px; cursor: pointer" icon="cancel" on-click="hide_sidebar"></iron-icon>
+
     <div>
-      <paper-dropdown-menu style="width: 300px">
+      <paper-dropdown-menu style="width: 300px; margin-top: -10px" label="Intervention">
         <paper-listbox id="intervention_selector" on-iron-select="intervention_selector_changed" class="dropdown-content" selected="0">
           <template is="dom-repeat" items="{{intervention_list}}" as="intervention_name">
             <paper-item intervention_name="{{intervention_name}}">{{intervention_name}}</paper-item>
@@ -42,15 +80,13 @@
 
     <paper-button style="background-color: green; color: white" on-click="prompt_new_intervention">Add New Intervention</paper-button>
     <paper-button style="background-color: red; color: white" on-click="delete_intervention">Delete This Intervention</paper-button>
-
-
     <!--
     <paper-input id="intervention_name" label="Intervention Name" value="custom/my_intervention"></paper-input>
     -->
     <paper-input id="intervention_description" label="Intervention Description" value="{{intervention_info.description}}"></paper-input>
 
     <div>
-      <paper-dropdown-menu style="width: 300px">
+      <paper-dropdown-menu style="width: 300px" label="Goal">
         <paper-listbox id="goal_selector" on-iron-select="goal_selector_changed" class="dropdown-content" selected="0">
           <template is="dom-repeat" items="{{goal_info_list}}" as="goal_info">
             <paper-item goal_info="{{goal_info}}">{{goal_info.description}}</paper-item>
@@ -61,18 +97,13 @@
 
     <paper-input id="intervention_domain" value="[[intervention_info.domain]]" label="Domain"></paper-input>
     <paper-input id="intervention_preview_url" label="Preview URL" value="[[intervention_info.preview]]"></paper-input>
-    <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
-    <paper-button style="background-color: green; color: white" on-click="preview_intervention">Try Now</paper-button>
 
-    <div>
-      <paper-dropdown-menu style="width: 300px">
-        <paper-listbox id="language_selector" on-iron-select="language_selector_changed" class="dropdown-content" selected="0">
-          <paper-item lang="js">JavaScript</paper-item>
-          <paper-item lang="ls">LiveScript</paper-item>
-          <paper-item lang="ls_and_js">LiveScript and JavaScript</paper-item>
-        </paper-listbox>
-      </paper-dropdown-menu>
-    </div>
+    <paper-button style="background-color: green; color: white" on-click="preview_intervention">Preview</paper-button>
+    <paper-button style="background-color: green; color: white" on-click="debug_intervention">Debug</paper-button>
+    <paper-button style="background-color: green; color: white" on-click="save_intervention">Save</paper-button>
+    <paper-button style="background-color: green; color: white" on-click="download_code">Download</paper-button>
+
+    </paper-card>
 
     <div id="livescript_editor"></div>
     <div id="javascript_editor"></div>

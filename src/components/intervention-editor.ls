@@ -1,4 +1,4 @@
-{cfy} = require 'cfy'
+{cfy, yfy, add_noerr} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
@@ -9,6 +9,8 @@
   remove_custom_intervention
   list_all_interventions
   get_intervention_info
+  get_interventions
+  clear_cache_all_interventions
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -36,12 +38,33 @@
 
 {
   once_true
+  sleep
 } = require 'libs_frontend/common_libs'
+
+{
+  get_active_tab_id
+  list_currently_loaded_interventions
+  open_debug_page_for_tab_id
+} = require 'libs_backend/background_common'
+
 
 swal = require 'sweetalert2'
 
 get_livescript = memoizeSingleAsync cfy ->*
   yield SystemJS.import('livescript15')
+
+check_for_livescript_errors = cfy (ls_text) ->*
+  ls_compiler = yield get_livescript()
+  try
+    js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
+    return false
+  catch e
+    swal {
+      title: 'livescript compile error'
+      text: e.message
+      type: 'error'
+    }
+    return true
 
 polymer_ext {
   is: 'intervention-editor'
@@ -87,9 +110,23 @@ polymer_ext {
   get_intervention_name: ->
     # return this.$.intervention_name.value
     return this.$.intervention_selector.selectedItem.intervention_name
+  download_code: ->
+    edit_mode = this.get_edit_mode()
+    if edit_mode == 'ls' or edit_mode == 'ls_and_js'
+      code = this.ls_editor.getSession().getValue().trim()
+    else
+      code = this.js_editor.getSession().getValue().trim()
+    element = document.createElement('a')
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(code))
+    element.setAttribute('download', 'intervention.txt')
+    element.style.display = 'none'
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   save_intervention: cfy ->*
     code = this.js_editor.getSession().getValue().trim()
     lscode = this.ls_editor.getSession().getValue().trim()
+    edit_mode = this.get_edit_mode()
     intervention_info = {
       code: code
       name: this.get_intervention_name()
@@ -110,10 +147,13 @@ polymer_ext {
         }
       ]
       */
-      edit_mode: this.get_edit_mode()
+      edit_mode: edit_mode
       goals: [this.$.goal_selector.selectedItem.goal_info]
       custom: true
     }
+    if edit_mode == 'ls' or edit_mode == 'ls_and_js'
+      if (yield check_for_livescript_errors(lscode))
+        return false
     if not (yield compile_intervention_code(intervention_info))
       return false
     #if not (yield add_requires_to_intervention_info(intervention_info))
@@ -170,11 +210,13 @@ polymer_ext {
     jslen = this.js_editor.getSession().getLength()
     if lang == 'ls_and_js'
       jse.css {
-        width: 'calc(50vw - 10px)'
+        width: '50vw'
+        left: '50vw'
         display: 'inline-block'
       }
       lse.css {
-        width: 'calc(50vw - 10px)'
+        width: '50vw'
+        left: '0px'
         display: 'inline-block'
       }
       self.js_editor.focus()
@@ -188,10 +230,12 @@ polymer_ext {
     else if lang == 'ls'
       jse.css {
         width: '0px'
+        left: '0px'
         display: 'none'
       }
       lse.css {
-        width: 'calc(100vw - 20px)'
+        width: '100vw'
+        left: '0px'
         display: 'inline-block'
       }
       self.ls_editor.focus()
@@ -201,11 +245,13 @@ polymer_ext {
       self.ls_editor.setReadOnly(false)
     else if lang == 'js'
       jse.css {
-        width: 'calc(100vw - 20px)'
+        width: '100vw'
+        left: '0px'
         display: 'inline-block'
       }
       lse.css {
         width: '0px'
+        left: '50vw'
         display: 'none'
       }
       self.js_editor.focus()
@@ -264,19 +310,14 @@ polymer_ext {
         break
     all_goals = yield get_goals()
     comment_section = """/*
-    LiveScript code is displayed on the left side,
-    which is compiled to JavaScript on the right.
-    To learn LiveScript, see http://livescript.net/
-
-    If you would prefer to write in JavaScript,
-    select JavaScript from the dropdown menu above.
+    This intervention is written in JavaScript.
     To learn JavaScript, see https://www.javascript.com/try
 
     This sample intervention will display a popup with SweetAlert.
     Click the 'Try Now' button to see it run.
 
     To learn how to write HabitLab interventions, see
-    https://github.com/habitlab/habitlab/wiki/Writing-Interventions-within-HabitLab
+    https://github.com/habitlab/habitlab/wiki/Writing-Interventions
 
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
     https://github.com/habitlab/habitlab/wiki/require_package
@@ -349,6 +390,30 @@ polymer_ext {
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
     chrome.tabs.create {url: preview_page}
+  debug_intervention: cfy ->*
+    if not (yield this.save_intervention())
+      return
+    intervention_name = this.get_intervention_name()
+    set_override_enabled_interventions_once intervention_name
+    preview_page = this.$.intervention_preview_url.value
+    tab = yield add_noerr -> chrome.tabs.create {url: preview_page}, it
+    while true
+      current_tab_id = yield get_active_tab_id()
+      if current_tab_id == tab.id
+        break
+      yield sleep(100)
+    while true
+      loaded_interventions = yield list_currently_loaded_interventions()
+      if loaded_interventions.includes(intervention_name)
+        break
+      yield sleep(100)
+    yield open_debug_page_for_tab_id(tab.id)
+  hide_sidebar: ->
+    this.S('#sidebar').hide()
+    this.S('#feedback_button').hide()
+  show_sidebar: ->
+    this.S('#sidebar').show()
+    this.S('#feedback_button').show()
   ready: cfy ->*
     self = this
     brace = yield SystemJS.import('brace')
@@ -377,8 +442,10 @@ polymer_ext {
         self.set_edit_mode(self.intervention_info.edit_mode)
     , 500
     once_true(-> self?intervention_info?code?
-    , ->
-      compile_intervention_code(self.intervention_info)
+    , cfy ->*
+      yield compile_intervention_code(self.intervention_info)
+      clear_cache_all_interventions()
+      get_interventions()
     )
 }, {
   source: require 'libs_frontend/polymer_methods'

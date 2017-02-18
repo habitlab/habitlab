@@ -44,6 +44,7 @@
 {
   get_active_tab_id
   list_currently_loaded_interventions
+  open_debug_page_for_tab_id
 } = require 'libs_backend/background_common'
 
 
@@ -396,7 +397,6 @@ polymer_ext {
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
     tab = yield add_noerr -> chrome.tabs.create {url: preview_page}, it
-    debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&ispopup=true&tabid=' + tab.id)
     while true
       current_tab_id = yield get_active_tab_id()
       if current_tab_id == tab.id
@@ -407,7 +407,7 @@ polymer_ext {
       if loaded_interventions.includes(intervention_name)
         break
       yield sleep(100)
-    chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}
+    yield open_debug_page_for_tab_id(tab.id)
   hide_sidebar: ->
     this.S('#sidebar').hide()
     this.S('#feedback_button').hide()

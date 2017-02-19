@@ -24,7 +24,8 @@ co ->*
       url_input.style.width = '100vw'
       url_input.style.backgroundColor = 'transparent'
       url_input.style.border = 'none'
-      url_input.style.color = 'red'
+      url_input.style.color = 'white'
+      url_input.style.backgroundColor = 'black'
       url_input.addEventListener 'keydown', (evt) ->
         if evt.keyCode == 13
           if url_input.value != window.location.href

@@ -27,7 +27,8 @@ add_url_input_if_needed = ->
     url_input.style.width = '100vw'
     url_input.style.backgroundColor = 'transparent'
     url_input.style.border = 'none'
-    url_input.style.color = 'red'
+    url_input.style.color = 'white'
+    url_input.style.backgroundColor = 'black'
     url_input.addEventListener 'keydown', (evt) ->
       if evt.keyCode == 13
         if url_input.value != window.location.href
@@ -118,6 +119,7 @@ set_nested_property = (tag, property_name, property_value) ->
   set_nested_property tag[property_name_start], property_name_remainder, property_value
 
 start_page_index = cfy ->*
+  document.title = window.location.href.replace(chrome.extension.getURL(''), '').replace('index.html?tag=', '')
   interventions = yield get_interventions()
   window.intervention = interventions['debug/fake_intervention']
   require 'components/components.deps'

@@ -7,6 +7,12 @@
   enable_habitlab
 } = require 'libs_common/disable_habitlab_utils'
 
+{
+  get_goals
+  get_enabled_goals
+  list_all_goals
+} = require 'libs_backend/goal_utils'
+
 swal = require 'sweetalert2'
 
 polymer_ext {

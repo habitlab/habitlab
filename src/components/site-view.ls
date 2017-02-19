@@ -10,6 +10,10 @@
   list_goals_for_site
 } = require 'libs_backend/goal_utils'
 
+{
+  get_interventions
+} = require 'libs_backend/intervention_utils'
+
 polymer_ext {
   is: 'site-view'
   properties: {

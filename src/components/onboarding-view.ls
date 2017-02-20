@@ -22,10 +22,21 @@ polymer_ext {
       type: Number
       value: 0
     }
+    allow_logging: {
+      type: Boolean
+      value: do ->
+        stored_value = localStorage.getItem('allow_logging')
+        if stored_value?
+          return stored_value == 'true'
+        return true
+      observer: 'allow_logging_changed'
+    }
   }
   listeners: {
     keydown: 'on_keydown'
   }
+  allow_logging_changed: ->
+    localStorage.setItem('allow_logging', this.allow_logging)
   slide_changed: (evt) ->
     self = this
     this.SM('.slide').stop()
@@ -68,6 +79,7 @@ polymer_ext {
       slide.css('top', '0px')
       this.animation_inprogress = false
   onboarding_complete: ->
+    localStorage.setItem('allow_logging', this.allow_logging)
     this.fire 'onboarding-complete', {}
   next_button_clicked: cfy ->*
     if this.animation_inprogress

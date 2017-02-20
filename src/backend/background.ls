@@ -46,7 +46,7 @@ co ->*
 
   require 'libs_backend/expose_backend_libs'
 
-  {localget} = require 'libs_common/cacheget_utils'
+  {localget, remoteget} = require 'libs_common/cacheget_utils'
 
   {
     addtokey_dictdict
@@ -556,8 +556,16 @@ co ->*
       tabid = tab.id
       if css_packages[css_file]?
         css_file = css_packages[css_file]
-      chrome.tabs.insertCSS tabid, {file: css_file}, ->
-        callback()
+      #chrome.tabs.insertCSS tabid, {file: css_file}, ->
+      #  callback()
+      if css_file.startsWith('http://') or css_file.startsWith('https://')
+        remoteget(css_file).then (css_code) ->
+          chrome.tabs.insertCSS tabid, {code: css_code}, ->
+            callback()
+      else
+        localget(css_file).then (css_code) ->
+          chrome.tabs.insertCSS tabid, {code: css_code}, ->
+            callback()
     'load_css_code': (data, callback) ->
       {css_code, tab} = data
       tabid = tab.id

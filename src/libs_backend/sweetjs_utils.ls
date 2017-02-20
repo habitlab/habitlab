@@ -32,9 +32,6 @@ syntax require_css = function(ctx) {
   let item_val;
   for (let item of delim2.inner()) {
     item_val = item.val();
-    if (remap[item_val]) {
-      item_val = remap[item_val];
-    }
     arr.push(dummy3.fromString(item_val));
     break;
   }
@@ -56,6 +53,21 @@ syntax require_package = function(ctx) {
       (yield (require('libs_common/content_script_utils').load_css_file(${arr})));
       return require(${arr});
     }))
+  `
+}
+
+syntax require_remote = function(ctx) {
+  let delim2 = ctx.next().value;
+  let arr = [];
+  let dummy3 = #`dummy`.get(0);
+  let item_val;
+  for (let item of delim2.inner()) {
+    item_val = item.val();
+    arr.push(dummy3.fromString(item_val));
+    break;
+  }
+  return #`
+    (yield require('libs_frontend/remote_require_utils').require_remote_async(${arr}))
   `
 }
 '''
@@ -90,7 +102,7 @@ compile = cfy (code) ->*
   {get_components_to_require_statements} = yield SystemJS.import 'libs_backend/require_utils'
   list_requires = yield SystemJS.import 'list_requires_multi'
   pretty_code = prettier.format(code)
-  all_requires = list_requires(pretty_code, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'define_component'])
+  all_requires = list_requires(pretty_code, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
   enable_webcomponents_code = '\n\n' + 'require("enable-webcomponents-in-content-scripts");' + '\n\n'
   enable_define_component_code = '\n\n' + 'var define_component = require("libs_frontend/polymer_utils").polymer_ext;' + '\n\n'
   need_webcomponents_code = false
@@ -102,7 +114,7 @@ compile = cfy (code) ->*
   if all_requires.define_component.length > 0
     need_define_component_code = true
     need_webcomponents_code = true
-  if all_requires.require_component.length == 0 and all_requires.require_css.length == 0 and all_requires.require_style.length == 0 and all_requires.require_package.length == 0
+  if all_requires.require_remote.length == 0 and all_requires.require_component.length == 0 and all_requires.require_css.length == 0 and all_requires.require_style.length == 0 and all_requires.require_package.length == 0
     extra_code = ''
     if need_webcomponents_code
       extra_code += enable_webcomponents_code

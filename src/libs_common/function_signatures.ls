@@ -60,6 +60,10 @@ lib_name_to_func_names_and_signatures =
   cacheget_utils:
     localget: 'url'
     localget_json: 'url'
+    localget_base64: 'url'
+    remoteget: 'url'
+    remoteget_json: 'url'
+    remoteget_base64: 'url'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

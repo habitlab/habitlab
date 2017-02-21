@@ -298,7 +298,7 @@ co ->*
         SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
-          SystemJS.import('data:text/javascript;base64,#{btoa(content_script_code)}');
+          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code)))}');
         })
         """
         /*

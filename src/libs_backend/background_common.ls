@@ -234,7 +234,7 @@ export printcb = (x) -> console.log(x)
 export printcb_json = (x) -> console.log(JSON.stringify(x, 0, 2))
 
 export jspm_eval = (x) ->
-  SystemJS.import('data:text/javascript;base64,' + btoa(x))
+  SystemJS.import('data:text/javascript;base64,' + btoa(unescape(encodeURIComponent(x))))
 
 export printfunc = (func, ...args) ->
   nargs = [x for x in args]

@@ -5,7 +5,7 @@
 export add_remote_library_async = cfy (libname, url) ->*
   library_contents = yield remoteget url
   libname_mapping = {}
-  libname_mapping[libname] = 'data:text/javascript;base64,' + btoa(library_contents)
+  libname_mapping[libname] = 'data:text/javascript;base64,' + btoa(unescape(encodeURIComponent(library_contents)))
   SystemJS.config({map: libname_mapping})
   return
 
@@ -29,6 +29,8 @@ hash_string_to_libname = (s) ->
   return ['abcdefghij'[parseInt(x)] for x in hash.toString()].join('')
 
 export require_remote_async = cfy (url) ->*
+  if not url.includes('://')
+    url = 'https://unpkg.com/' + url
   libname = hash_string_to_libname(url)
   #if not SystemJS.getConfig().map[libname]?
   #  yield add_remote_library_async(libname, url)

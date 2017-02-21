@@ -44,7 +44,7 @@ export localget_json = cfy (url) ->*
 export localget_base64 = cfy (url) ->*
   text = yield localget url
   if text?
-    return 'data:text/plain;base64,' + btoa(text)
+    return 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(text)))
   return null
 
 export remoteget = cfy (url) ->*
@@ -66,5 +66,5 @@ export remoteget_json = cfy (url) ->*
 export remoteget_base64 = cfy (url) ->*
   text = yield remoteget url
   if text?
-    return 'data:text/plain;base64,' + btoa(text)
+    return 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(text)))
   return null

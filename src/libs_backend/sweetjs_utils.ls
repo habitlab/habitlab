@@ -67,7 +67,7 @@ syntax require_remote = function(ctx) {
     break;
   }
   return #`
-    (yield require('libs_frontend/remote_require_utils').require_remote_async(${arr}))
+    (yield require('libs_common/require_remote_utils').require_remote_async(${arr}))
   `
 }
 '''

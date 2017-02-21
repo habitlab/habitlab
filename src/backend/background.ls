@@ -811,6 +811,8 @@ co ->*
 
   ensure_history_utils_data_cached()
 
+  require('libs_backend/require_remote_utils')
+
   require 'libs_common/global_exports_post'
 
   #require('libs_backend/message_after_tab_close')

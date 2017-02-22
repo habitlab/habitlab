@@ -12,6 +12,7 @@
 
 {
   get_interventions
+  get_enabled_interventions
 } = require 'libs_backend/intervention_utils'
 
 {

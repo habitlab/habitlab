@@ -14,6 +14,11 @@
   get_interventions
 } = require 'libs_backend/intervention_utils'
 
+{
+  as_array
+} = require 'libs_common/collection_utils'
+
+
 polymer_ext {
   is: 'site-view'
   properties: {
@@ -41,7 +46,11 @@ polymer_ext {
   site_changed: cfy ->*
     goal_info_list = yield list_goals_for_site(this.site)
     this.goal_info = goal_info_list[0]
-    this.intervention_name_to_info_map = yield get_interventions()
+    intervention_name_to_info_map = yield get_interventions()
+    enabled_interventions = as_array(yield get_enabled_interventions())
+    for intervention_name in enabled_interventions
+      intervention_name_to_info_map[intervention_name].enabled = true
+    this.intervention_name_to_info_map = intervention_name_to_info_map
     this.rerender()
   on_goal_changed: (evt) ->
     this.rerender()
@@ -51,8 +60,8 @@ polymer_ext {
     this.$$('graph-num-times-interventions-deployed').ready()
     this.$$('graph-donut-top-sites').ready()
 
-  #ready: ->
-  #  this.rerender()
+  ready: ->
+    this.rerender()
   rerender: cfy ->*
     #Polymer tabbing
     self = this

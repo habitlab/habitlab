@@ -5,7 +5,8 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 
-<link rel="import" href="site-goal-view.html">
+<link rel="import" href="site-goal-view-v2.html">
+<link rel="import" href="intervention-view-single.html">
 <link rel="import" href="graph-time-spent-on-goal-sites-daily.html">
 <link rel="import" href="graph-time-saved-daily.html">
 <link rel="import" href="graph-num-times-interventions-deployed.html">
@@ -66,14 +67,15 @@
 
       <paper-card heading = "{{goal_info.sitename_printable}} Settings "class="paper-card">
         <div class="card-content">
-          <site-goal-view site="{{goal_info.sitename}}"></site-goal-view>
+          <site-goal-view-v2 site="{{goal_info.sitename}}"></site-goal-view-v2>
         </div>
       </paper-card>
 
       <paper-card heading = "{{goal_info.sitename_printable}} Interventions "class="paper-card">
+        <div class="card-content">When Interventions are turned on, they will only be shown some of the time.</div>
         <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
-          <intervention-view-single  goal="{{goal_info}}" intervention_name="{{intervention_name}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single>
-          <br><br>
+          <intervention-view-single-v2  goal="{{goal_info}}" intervention_name="{{intervention_name}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
+          <br> <br>
         </template>
       </paper-card>
 

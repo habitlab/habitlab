@@ -60,10 +60,12 @@ paper-button.fancy {
                     <dashboard-view-v2></dashboard-view-v2>
                     <dash-settings></dash-settings>
                     <template is="dom-repeat" items="{{enabled_goal_info_list}}" as="goal_info">
-                      <!--<site-view site="{{goal_info.sitename_printable}}"></site-view>-->
+                      <site-view site="{{goal_info.sitename}}"></site-view>
+                      <!--
                       <div>
                         {{goal_info.sitename_printable}}
                       </div>
+                      -->
                     </template>
                 </iron-pages>
             </div>

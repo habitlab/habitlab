@@ -73,8 +73,9 @@ polymer_ext {
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}
   on_goal_changed: (evt) ->
-    this.$$('#options-interventions').on_goal_changed(evt.detail)
-    this.$$('#dashboard-view').on_goal_changed(evt.detail)
+    this.rerender()
+    #this.$$('#options-interventions').on_goal_changed(evt.detail)
+    #this.$$('#dashboard-view').on_goal_changed(evt.detail)
   # icon_clicked: cfy ->*
 
   #   yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
@@ -87,7 +88,7 @@ polymer_ext {
   #         Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again.
   #         \n\nClick OK to begin selecting your goals!
   #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
-  ready: cfy ->*
+  rerender: cfy ->*
     self = this
     self.is_habitlab_disabled = not (yield is_habitlab_enabled())
     #is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
@@ -104,6 +105,8 @@ polymer_ext {
     self.enabled_goal_info_list = enabled_goal_info_list
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)
+  ready: cfy ->*
+    this.rerender()
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

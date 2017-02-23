@@ -1,0 +1,13 @@
+description: Times how long you've been taking to write an email 
+displayname: Desktop Notifier
+matches:
+  - mail.google.com
+content_scripts:
+  - frontend.js
+background_scripts:
+  - backend.js
+parameters:
+  - name: minutes
+    description: The amount of minutes between notifications
+    default: 1
+    type: int

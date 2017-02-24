@@ -1,0 +1,29 @@
+{
+  "main": "readable.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/_stream_readable.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/_stream_writable.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "util": {
+      "browser": "@empty"
+    }
+  }
+}

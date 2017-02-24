@@ -1,0 +1,52 @@
+{
+  "name": "shift-codegen",
+  "version": "4.0.3",
+  "description": "code generator for Shift format ASTs",
+  "author": "Shape Security Labs",
+  "homepage": "https://github.com/shapesecurity/shift-codegen-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shapesecurity/shift-codegen-js.git"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot --timeout 5000 --recursive test",
+    "build": "babel --source-maps-inline --out-dir dist src",
+    "cjsify": "cjsify --export ShiftCodegen dist/index.js > shift-codegen.js",
+    "prepublish": "rm -rf dist/* && npm update && npm run build"
+  },
+  "dependencies": {
+    "esutils": "^2.0.2",
+    "object-assign": "^3.0.0",
+    "shift-reducer": "^3.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "6.3.13",
+    "babel-register": "6.3.13",
+    "babel-preset-es2015": "6.3.13",
+    "commonjs-everywhere": "0.9.7",
+    "everything.js": "^1.0.3",
+    "expect.js": "0.3.1",
+    "mocha": "2.2.5",
+    "shift-parser": "3.0.1"
+  },
+  "keywords": [
+    "Shift",
+    "AST",
+    "node",
+    "codegen",
+    "code",
+    "generator",
+    "unparser",
+    "abstract",
+    "syntax",
+    "tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/shapesecurity/shift-codegen-js/issues"
+  },
+  "license": "Apache-2.0"
+}

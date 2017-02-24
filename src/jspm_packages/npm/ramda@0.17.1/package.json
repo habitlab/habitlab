@@ -1,0 +1,69 @@
+{
+  "author": "Scott Sauyet <scott@sauyet.com> (scott.sauyet.com)",
+  "contributors": [
+    {
+      "name": "Michael Hurley",
+      "email": "mh@buzzdecafe.com",
+      "web": "http://buzzdecafe.com"
+    },
+    {
+      "name": "Scott Sauyet",
+      "email": "scott@sauyet.com",
+      "web": "http://fr.umio.us"
+    },
+    {
+      "name": "David Chambers",
+      "email": "dc@davidchambers.me",
+      "web": "http://davidchambers.me"
+    },
+    {
+      "name": "Graeme Yeates",
+      "email": "yeatesgraeme@gmail.com",
+      "web": "https://github.com/megawac"
+    }
+  ],
+  "name": "ramda",
+  "description": "A practical functional library for JavaScript programmers.",
+  "version": "0.17.1",
+  "homepage": "https://www.github.com/ramda/ramda",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ramda/ramda.git"
+  },
+  "main": "dist/ramda.js",
+  "scripts": {
+    "bench": "scripts/benchRunner",
+    "browserify": "node_modules/browserify/bin/cmd.js test/*.js --outfile lib/test/bundle.js",
+    "bookmarklet": "scripts/bookmarklet",
+    "build": "make && make dist/ramda.min.js",
+    "clean": "rimraf dist/*",
+    "jscs": "jscs scripts/bookmarklet scripts/build **/*.js **/**/*.js",
+    "jshint": "jshint scripts/bookmarklet scripts/build **/*.js **/**/*.js",
+    "pretest": "npm run jshint && npm run jscs && npm run clean && npm run build",
+    "test": "node scripts/testfiles | node_modules/.bin/mocha --reporter spec",
+    "posttest": "git checkout -- dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "acorn": "0.9.x",
+    "benchmark": "~1.0.0",
+    "browserify": "10.x.x",
+    "cli-table": "0.3.x",
+    "commander": "2.5.x",
+    "dox": "latest",
+    "envvar": "1.x.x",
+    "escodegen": "1.4.x",
+    "handlebars": "3.0.x",
+    "js-yaml": "^3.2.5",
+    "jscs": "1.13.x",
+    "jshint": "2.7.x",
+    "mocha": "2.x.x",
+    "q": "^1.1.1",
+    "ramda": "0.13.0",
+    "rimraf": "~2.3.2",
+    "testem": "^0.6.18",
+    "uglify-js": "2.4.x",
+    "xyz": "0.5.x"
+  }
+}

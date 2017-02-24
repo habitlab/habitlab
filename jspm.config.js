@@ -47,7 +47,7 @@ SystemJS.config({
     "stream": "npm:jspm-nodelibs-stream@0.2.0",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.0",
     "sweetalert2": "npm:sweetalert2@6.3.2",
-    "sweetjs-min": "npm:sweetjs-min@2.2.9",
+    "sweetjs-min": "npm:sweetjs-min@2.2.14",
     "text": "github:systemjs/plugin-text@0.0.8",
     "tty": "npm:jspm-nodelibs-tty@0.2.0",
     "underscore": "npm:underscore@1.8.3",
@@ -126,7 +126,7 @@ SystemJS.config({
     },
     "npm:stream-browserify@2.0.1": {
       "map": {
-        "readable-stream": "npm:readable-stream@2.2.2",
+        "readable-stream": "npm:readable-stream@2.2.3",
         "inherits": "npm:inherits@2.0.3"
       }
     },
@@ -177,7 +177,7 @@ SystemJS.config({
         "create-hmac": "npm:create-hmac@1.1.4",
         "inherits": "npm:inherits@2.0.3",
         "browserify-rsa": "npm:browserify-rsa@4.0.1",
-        "elliptic": "npm:elliptic@6.3.3",
+        "elliptic": "npm:elliptic@6.4.0",
         "parse-asn1": "npm:parse-asn1@5.0.0",
         "bn.js": "npm:bn.js@4.11.6"
       }
@@ -247,7 +247,7 @@ SystemJS.config({
     },
     "npm:create-ecdh@4.0.0": {
       "map": {
-        "elliptic": "npm:elliptic@6.3.3",
+        "elliptic": "npm:elliptic@6.4.0",
         "bn.js": "npm:bn.js@4.11.6"
       }
     },
@@ -274,7 +274,7 @@ SystemJS.config({
     "npm:miller-rabin@4.0.0": {
       "map": {
         "bn.js": "npm:bn.js@4.11.6",
-        "brorand": "npm:brorand@1.0.7"
+        "brorand": "npm:brorand@1.1.0"
       }
     },
     "npm:sha.js@2.4.8": {
@@ -423,32 +423,6 @@ SystemJS.config({
         "domelementtype": "npm:domelementtype@1.3.0"
       }
     },
-    "npm:shift-codegen@5.0.2": {
-      "map": {
-        "shift-reducer": "npm:shift-reducer@4.0.0",
-        "object-assign": "npm:object-assign@4.1.1",
-        "esutils": "npm:esutils@2.0.2"
-      }
-    },
-    "npm:shift-parser@5.0.2": {
-      "map": {
-        "shift-reducer": "npm:shift-reducer@4.0.0",
-        "es6-map": "npm:es6-map@0.1.4",
-        "shift-ast": "npm:shift-ast@4.0.0",
-        "multimap": "npm:multimap@0.1.1",
-        "esutils": "npm:esutils@2.0.2"
-      }
-    },
-    "npm:ramda-fantasy@0.7.0": {
-      "map": {
-        "ramda": "npm:ramda@0.23.0"
-      }
-    },
-    "npm:shift-reducer@4.0.0": {
-      "map": {
-        "shift-ast": "npm:shift-ast@4.0.0"
-      }
-    },
     "npm:shift-reducer@3.0.3": {
       "map": {
         "shift-spec": "npm:shift-spec@2015.2.1"
@@ -563,24 +537,65 @@ SystemJS.config({
         "unthenify": "npm:unthenify@1.0.4"
       }
     },
-    "npm:elliptic@6.3.3": {
+    "npm:sweetjs-min@2.2.14": {
+      "map": {
+        "immutable": "npm:immutable@3.8.1",
+        "shift-reducer": "npm:shift-reducer@3.0.3",
+        "ramda": "npm:ramda@0.19.1",
+        "ramda-fantasy": "npm:ramda-fantasy@0.4.1",
+        "shift-codegen": "npm:shift-codegen@4.0.3",
+        "shift-parser": "npm:shift-parser@4.1.3",
+        "transit-js": "npm:transit-js@0.8.846",
+        "sweet-spec": "npm:sweet-spec@1.1.0"
+      }
+    },
+    "npm:ramda-fantasy@0.4.1": {
+      "map": {
+        "ramda": "npm:ramda@0.17.1"
+      }
+    },
+    "npm:shift-codegen@4.0.3": {
+      "map": {
+        "shift-reducer": "npm:shift-reducer@3.0.3",
+        "object-assign": "npm:object-assign@3.0.0",
+        "esutils": "npm:esutils@2.0.2"
+      }
+    },
+    "npm:shift-parser@4.1.3": {
+      "map": {
+        "shift-reducer": "npm:shift-reducer@3.0.3",
+        "esutils": "npm:esutils@2.0.2",
+        "es6-map": "npm:es6-map@0.1.4",
+        "multimap": "npm:multimap@0.1.1"
+      }
+    },
+    "npm:elliptic@6.4.0": {
       "map": {
         "inherits": "npm:inherits@2.0.3",
         "bn.js": "npm:bn.js@4.11.6",
+        "hmac-drbg": "npm:hmac-drbg@1.0.0",
+        "minimalistic-crypto-utils": "npm:minimalistic-crypto-utils@1.0.1",
+        "minimalistic-assert": "npm:minimalistic-assert@1.0.0",
         "hash.js": "npm:hash.js@1.0.3",
-        "brorand": "npm:brorand@1.0.7"
+        "brorand": "npm:brorand@1.1.0"
       }
     },
-    "npm:sweetjs-min@2.2.9": {
+    "npm:hmac-drbg@1.0.0": {
       "map": {
-        "immutable": "npm:immutable@3.8.1",
-        "ramda": "npm:ramda@0.23.0",
-        "shift-parser": "npm:shift-parser@5.0.2",
-        "ramda-fantasy": "npm:ramda-fantasy@0.7.0",
-        "transit-js": "npm:transit-js@0.8.846",
-        "sweet-spec": "npm:sweet-spec@1.1.0",
-        "shift-reducer": "npm:shift-reducer@3.0.3",
-        "shift-codegen": "npm:shift-codegen@5.0.2"
+        "hash.js": "npm:hash.js@1.0.3",
+        "minimalistic-assert": "npm:minimalistic-assert@1.0.0",
+        "minimalistic-crypto-utils": "npm:minimalistic-crypto-utils@1.0.1"
+      }
+    },
+    "npm:readable-stream@2.2.3": {
+      "map": {
+        "isarray": "npm:isarray@1.0.0",
+        "inherits": "npm:inherits@2.0.3",
+        "string_decoder": "npm:string_decoder@0.10.31",
+        "util-deprecate": "npm:util-deprecate@1.0.2",
+        "process-nextick-args": "npm:process-nextick-args@1.0.7",
+        "core-util-is": "npm:core-util-is@1.0.2",
+        "buffer-shims": "npm:buffer-shims@1.0.0"
       }
     }
   }

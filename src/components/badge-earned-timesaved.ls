@@ -33,7 +33,7 @@ polymer_ext {
   }
   isdemo_changed: (isdemo) ->
     if isdemo
-      this.minutes_saved = 10
+      this.minutes_saved = 15
   compute_badge_details: (minutes_saved) ->
     minutes_saved_to_badges = get_minutes_saved_to_badges()
     return minutes_saved_to_badges[minutes_saved]

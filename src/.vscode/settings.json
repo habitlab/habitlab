@@ -15,6 +15,7 @@
     "node_modules_custom": true,
     "generated_libs": true,
     "icons": true,
+    "bundles": true,
     "*.deps.js": true,
     "*.jspm.js": true,
     "**/*.deps.js": true,

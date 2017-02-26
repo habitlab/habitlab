@@ -16,6 +16,7 @@
     "src/node_modules_custom": true,
     "src/generated_libs": true,
     "src/icons": true,
+    "src/bundles": true,
     ".tmp": true,
     "dist": true,
     "releases": true,

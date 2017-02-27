@@ -77,7 +77,20 @@ polymer_ext {
     this.$$('#playgif').times_intervention_used = yield get_num_times_intervention_used this.intervention_name
     if this.autoplay
       this.play()
+  bring_parents_to_top: ->
+    this.style.zIndex = Number.MAX_SAFE_INTEGER
+    parent = this
+    while parent?style?
+      parent.style.zIndex = Number.MAX_SAFE_INTEGER - 1
+      if parent.parentElement?
+        parent = parent.parentElement
+      else if parent?parentNode?host?
+        parent = parent.parentNode.host
+      else
+        break
+    return
   play: cfy ->*
+    this.bring_parents_to_top()
     rewards_to_display = []
     if this.seconds_saved > 0
       rewards_to_display = yield record_seconds_saved_and_get_rewards this.seconds_saved, this.intervention_name, this.domain

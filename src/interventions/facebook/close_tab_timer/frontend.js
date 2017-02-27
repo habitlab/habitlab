@@ -20,13 +20,11 @@ const {
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
 require('components/time-until-tab-autoclose-view.deps')
 
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
-$('body').append($('<close-tab-button id="habitlab_close_tab_button"></close-tab-button>'))
 var display_timespent_div = $('<time-until-tab-autoclose-view>');
 $('body').append(display_timespent_div);
 

@@ -79,7 +79,8 @@ polymer_ext({
     setInterval(function() {
       update_page(self);
       if (self.secondsRemaining <= 0) {
-        self.fire('time_has_run_out', {});
+        //self.fire('time_has_run_out', {});
+        self.$.close_button.button_clicked();
       } else {
         self.secondsRemaining -= 1;
       }

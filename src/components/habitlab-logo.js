@@ -6,11 +6,11 @@ polymer_ext({
   properties: {
     width: {
       type: String,
-      value: '38px',
+      value: '40px',
     },
     height: {
       type: String,
-      value: '38px',
+      value: '40px',
     },
     unclickable: {
       type: Boolean,

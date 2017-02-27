@@ -16,7 +16,6 @@ const {
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
-require('components/feedback-button.deps')
 require('components/close-tab-button.deps')
 //require('components/timespent-view.deps')
 
@@ -30,20 +29,18 @@ function removeComments() {
       $(item).css('display','none')
       $(item).prop('button_inserted', true)
 
-      var show_comments_button = $('<paper-button style="background-color: #415D67; color: white; width: 152 px; height: 40px">Show Comments</paper-button>')
+      var show_comments_button = $('<paper-button style="background-color: #415D67; color: white; width: 152 px; height: 40px; -webkit-font-smoothing: antialiased;">Show Comments</paper-button>')
       show_comments_button.click(function() {
           $(item).siblings('.habitlab_button_container').remove()
           $(item).css('display','block')
       })
       var habitlab_logo = $('<habitlab-logo style="position: relative; top: 13px"></habitlab-logo>')
-      var feedback_button = $('<feedback-button style="position: relative; top: 13px"></feedback-button>')
       var close_tab_button = $('<close-tab-button style="height: 40px"</close-tab-button>')
       var button_container = $('<div class="habitlab_button_container" style="text-align: center"></div>')
       button_container.append([
         show_comments_button,
         close_tab_button,
-        habitlab_logo,
-        feedback_button
+        habitlab_logo
       ])
 
       $(item).parent().append(button_container)

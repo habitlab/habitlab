@@ -25,7 +25,7 @@ document.body.addEventListener('disable_intervention', (intervalID) => {
 });
 
 //Cheat button
-const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: block; width: 100px; margin: 10px auto 0px auto; color: #fff; background-color: red; text-align: center;">')
+const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: block; width: 100px; margin: 10px auto 0px auto; color: #fff; background-color: red; text-align: center; -webkit-font-smoothing: antialiased;">')
 $show_comments.text("Show Comments")
 $show_comments.css({'cursor': 'pointer', 'padding': '5px'});
 $show_comments.click(() => {

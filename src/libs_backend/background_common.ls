@@ -130,7 +130,10 @@ export disable_interventions_in_all_tabs = cfy ->*
   return
 
 export get_active_tab_info = cfy ->*
-  tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
+  last_focused_window_info = yield add_noerr -> chrome.windows.getLastFocused(it)
+  if not last_focused_window_info?id?
+    return
+  tabs = yield chrome_tabs_query {active: true, windowId: last_focused_window_info.id}
   if tabs.length == 0
     return
   return tabs[0]

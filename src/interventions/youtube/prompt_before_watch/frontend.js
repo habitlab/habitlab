@@ -127,8 +127,12 @@ function divOverVideo(status) {
 	$button2.text("Watch Video");
 	$button2.css({
     'cursor': 'pointer',
-    'background-color': 'red',
+    'background-color': '#415D67',
     'color': 'white',
+    '-webkit-font-smoothing': 'antialiased',
+    'box-shadow': '2px 2px 2px #888888',
+    'height': '38px',
+    'margin-left': '10px'
   });
 	$button2.click(() => {
     log_action('youtube/prompt_before_watch', {'negative': 'remainedOnYoutube'})

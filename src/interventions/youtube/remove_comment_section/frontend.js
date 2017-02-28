@@ -25,7 +25,7 @@ document.body.addEventListener('disable_intervention', (intervalID) => {
 });
 
 //Cheat button
-const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: block; width: 100px; margin: 10px auto 0px auto; color: #fff; background-color: red; text-align: center; -webkit-font-smoothing: antialiased;">')
+const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: block; width: 110px; margin: 10px auto 0px auto; color: #fff; background-color: #415D67; text-align: center; -webkit-font-smoothing: antialiased; font-size: 14px;">')
 $show_comments.text("Show Comments")
 $show_comments.css({'cursor': 'pointer', 'padding': '5px'});
 $show_comments.click(() => {
@@ -36,7 +36,7 @@ $show_comments.click(() => {
 })
 
 
-$('#action-panel-details').append($('<habitlab-logo id="hb_logo" style="display: block; width: 100px; margin: 10px auto 0px auto;">'))
+$('#action-panel-details').append($('<habitlab-logo id="hb_logo" style="display: block; width: 100px; margin: 10px auto 0px auto; padding-right: 10px;">'))
 $('#action-panel-details').append($show_comments)
 
 /*

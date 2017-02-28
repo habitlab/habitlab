@@ -57,15 +57,20 @@
     hr {
       margin-top: 2em;
     }
+    .paper-card {
+      width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+    }
   </style>
   <template>
     <div class="container">
       <!-- <div id="encouragement" class="title">Good job so far!</div>
       <div class="title">HabitLab Analytics</div> -->
 
-      <div class="title">HabitLab {{goal_info.sitename_printable}}</div>
+      <div class="title" style="color: white">{{goal_info.sitename_printable}}</div>
 
-      <paper-card heading = "{{goal_info.sitename_printable}} Settings "class="paper-card">
+      <paper-card heading="{{goal_info.sitename_printable}} Progress" class="paper-card">
         <div class="card-content">
           <site-goal-view-v2 site="{{goal_info.sitename}}"></site-goal-view-v2>
         </div>

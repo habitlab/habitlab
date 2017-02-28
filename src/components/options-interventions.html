@@ -12,7 +12,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="pill-button-group.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
-<link rel="import" href="intervention-view-single.html">
+<link rel="import" href="intervention-view-single-v2.html">
 <link rel="import" href="habitlab-logo.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
@@ -39,7 +39,7 @@
         elevation: 5;
         padding: 10px;
         margin-bottom: 10px;
-        width: 800px;
+        width: 100%;
         /*background: #88e188;*/
       };
       --paper-card-content: {
@@ -135,7 +135,14 @@
       top: 0px;
       border-radius: 5px;
     }
-
+    .papercard {
+      width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .intro {
+      width: 100%;
+    }
   </style>
   <template>
     <div class="card-container">
@@ -230,7 +237,7 @@
               </div>
               <br>
               <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">
-                <intervention-view-single  goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single>
+                <intervention-view-single-v2 goal="{{goal_and_interventions.goal}}" intervention="{{intervention}}"></intervention-view-single-v2>
                 <br><br>
               </template>
 
@@ -250,7 +257,7 @@
       </template>
 
       <div id="intro3" class="intro" style="display: none;">
-        <paper-card heading="When should interventions be active?">
+        <paper-card heading="When should interventions be active?" class="papercard">
           <div class="card-content" >You can set your interventions to be always on, or only active during your selected work hours.
             <br>
             <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">

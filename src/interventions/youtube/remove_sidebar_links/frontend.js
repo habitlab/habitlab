@@ -32,7 +32,7 @@ function removeSidebar() {
   let habitlab_inserted_div = $('<div class="habitlab_inserted_div" style="width: 100%; text-align: center">')
   habitlab_inserted_div.append($('<habitlab-logo>'))
   habitlab_inserted_div.append($('<br>'))
-  let show_sidebar_button = $('<paper-button style="background-color: red; color: white">Show Sidebar</paper-button>')
+  let show_sidebar_button = $('<paper-button style="background-color: #415D67; color: white; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888; margin-top: 10px">Show Sidebar</paper-button>')
   show_sidebar_button.click(function() {
     disable_intervention()
   })

@@ -33,7 +33,8 @@ polymer_ext({
     },
     site: {
       type: String,
-      value: url_to_domain(window.location.hostname),
+      //value: url_to_domain(window.location.hostname),
+      value: document.title,
     },
     visits: {
       type: Number,

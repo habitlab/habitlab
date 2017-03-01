@@ -61,17 +61,18 @@ polymer_ext {
     return chrome.extension.getURL('icons/power_button.svg')
   set_selected_tab_by_name: (selected_tab_name) ->
     selected_tab_idx = switch selected_tab_name
-    | 'progress' => 1
-    | 'results' => 1
-    | 'dashboard' => 1
-    | 'goals' => 0
-    | 'interventions' => 0
-    | 'configure' => 0
-    | 'config' => 0
-    | 'manage' => 0
-    | 'options' => 0
-    | 'settings' => 0
-    | 'introduction' => 0
+    | 'progress' => 0
+    | 'results' => 0
+    | 'dashboard' => 0
+    | 'goals' => 1
+    | 'interventions' => 1
+    | 'configure' => 1
+    | 'config' => 1
+    | 'manage' => 1
+    | 'options' => 1
+    | 'settings' => 1
+    | 'introduction' => 1
+    | 'onboarding' => 1
     if selected_tab_idx != -1
       this.selected_tab_idx = selected_tab_idx
   compute_selected_tab_name: (selected_tab_idx) ->

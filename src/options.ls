@@ -36,7 +36,7 @@ window.developer_options = ->
   window.location.href = '/index.html?tag=options-dev'
 
 if window.location.pathname == '/options.html'
-  require 'components/options-view.deps'
+  require 'components/options-view-v2.deps'
 
   hash = window.location.hash
   if not hash? or hash == ''
@@ -46,7 +46,6 @@ if window.location.pathname == '/options.html'
     hash = hash.substr(1)
   options_view = document.querySelector('#options_view')
   if hash == 'onboarding'
-    options_view.selected_tab_idx = -1
     require 'components/onboarding-view.deps'
     onboarding_view = document.createElement('onboarding-view')
     onboarding_view.addEventListener 'onboarding-complete', (evt) ->
@@ -55,9 +54,6 @@ if window.location.pathname == '/options.html'
       options_view.style.display = 'block'
     options_view.style.display = 'none'
     document.getElementById('index_body').appendChild(onboarding_view)
-  if hash == 'introduction' or hash == 'onboarding'
-    options_view.selected_tab_idx = -1
-    #yield options_view.icon_clicked()
   options_view.set_selected_tab_by_name(hash)
   options_view.addEventListener 'options_selected_tab_changed', (evt) ->
     window.location.hash = evt.detail.selected_tab_name

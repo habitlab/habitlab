@@ -19,6 +19,10 @@
   habitlab_icon
 } = require 'libs_common/icon_data'
 
+{
+  once_true
+} = require 'libs_frontend/common_libs'
+
 swal = require 'sweetalert2'
 
 polymer_ext {
@@ -26,11 +30,10 @@ polymer_ext {
   properties: {
     selected_tab_idx: {
       type: Number
-      value: 0
     }
     selected_tab_name: {
       type: String
-      computed: 'compute_selected_tab_name(selected_tab_idx)'
+      computed: 'compute_selected_tab_name(selected_tab_idx, enabled_goal_info_list)'
       observer: 'selected_tab_name_changed'
     }
     is_habitlab_disabled: {
@@ -43,6 +46,9 @@ polymer_ext {
     }
     enabled_goal_info_list: {
       type: Array
+    }
+    have_options_page_hash: {
+      type: Boolean
     }
   }
   listeners: {
@@ -64,6 +70,7 @@ polymer_ext {
     | 'progress' => 0
     | 'results' => 0
     | 'dashboard' => 0
+    | 'overview' => 0
     | 'goals' => 1
     | 'interventions' => 1
     | 'configure' => 1
@@ -73,10 +80,20 @@ polymer_ext {
     | 'settings' => 1
     | 'introduction' => 1
     | 'onboarding' => 1
+    | _ => -1
     if selected_tab_idx != -1
       this.selected_tab_idx = selected_tab_idx
-  compute_selected_tab_name: (selected_tab_idx) ->
-    return ['settings', 'results'][selected_tab_idx]
+    else
+      self = this
+      once_true -> self.enabled_goal_info_list?length?
+      , ->
+        goals_list = self.enabled_goal_info_list.map((.sitename))
+        selected_goal_idx = goals_list.indexOf(selected_tab_name)
+        if selected_goal_idx != -1
+          self.selected_tab_idx = selected_goal_idx + 2
+  compute_selected_tab_name: (selected_tab_idx, enabled_goal_info_list) ->
+    goals_list = enabled_goal_info_list.map((.sitename))
+    return (['overview', 'settings'].concat(goals_list))[selected_tab_idx]
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}
   on_goal_changed: (evt) ->
@@ -113,7 +130,9 @@ polymer_ext {
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)
   ready: cfy ->*
-    this.rerender()
+    yield this.rerender()
+    if not this.have_options_page_hash and not this.selected_tab_idx?
+      this.selected_tab_idx = 0
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

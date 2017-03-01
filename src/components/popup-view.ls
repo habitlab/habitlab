@@ -302,7 +302,7 @@ polymer_ext {
       self.selected_tab_idx = 1
 
     self.S('#resultsButton').click(->
-      chrome.tabs.create {url: 'options.html#results'}
+      chrome.tabs.create {url: 'options.html#overview'}
     )
 
     self.S('#goalsButton').click(->

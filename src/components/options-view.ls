@@ -38,6 +38,7 @@ polymer_ext {
     | 'progress' => 1
     | 'results' => 1
     | 'dashboard' => 1
+    | 'overview' => 1
     | 'goals' => 0
     | 'interventions' => 0
     | 'configure' => 0

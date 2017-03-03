@@ -3,6 +3,11 @@ $ = require 'jquery'
 {import_dom_modules} = require 'libs_frontend/dom_utils'
 
 require 'bower_components/polymer/polymer.deps'
+#require 'bower_components/iron-flex-layout/iron-flex-layout.deps'
+#require 'bower_components/paper-styles/color.deps'
+#require 'bower_components/paper-styles/typography.deps'
+#require 'bower_components/paper-styles/shadow.deps'
+#require 'bower_components/polymer-themes/ice.deps'
 
 PropertyIntrospectionBehavior = {
   properties: {

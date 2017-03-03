@@ -29,14 +29,14 @@ function removeComments() {
       $(item).css('display','none')
       $(item).prop('button_inserted', true)
 
-      var show_comments_button = $('<paper-button style="background-color: #415D67; color: white; width: 152 px; height: 40px; -webkit-font-smoothing: antialiased;">Show Comments</paper-button>')
+      var show_comments_button = $('<paper-button style="background-color: #415D67; color: white; width: 152 px; height: 38px; -webkit-font-smoothing: antialiased; box-shadow: 2px 2px 2px #888888;">Show Comments</paper-button>')
       show_comments_button.click(function() {
           $(item).siblings('.habitlab_button_container').remove()
           $(item).css('display','block')
       })
-      var habitlab_logo = $('<habitlab-logo style="position: relative; top: 13px"></habitlab-logo>')
-      var close_tab_button = $('<close-tab-button style="height: 40px"</close-tab-button>')
-      var button_container = $('<div class="habitlab_button_container" style="text-align: center"></div>')
+      var habitlab_logo = $('<habitlab-logo style="margin-left: 5px;"></habitlab-logo>')
+      var close_tab_button = $('<close-tab-button style="height: 38px"</close-tab-button>')
+      var button_container = $('<div class="habitlab_button_container" style="text-align: center; display: flex; justify-content: center;"></div>')
       button_container.append([
         show_comments_button,
         close_tab_button,

@@ -33,6 +33,21 @@ export is_greater_than_or_equal_to = (cond, val) ->
 export is_less_than_or_equal_to = (cond, val) ->
   return cond <= val
 
+export text_if = (cond, text) ->
+  if cond
+    return text
+  return ''
+
+export text_if_not = (cond, text) ->
+  if not cond
+    return text
+  return ''
+
+export text_if_equal = (val1, val2, text) ->
+  if val1 == val2
+    return text
+  return ''
+
 export first_elem = (list) ->
   if list? and list.length > 0
     return list[0]

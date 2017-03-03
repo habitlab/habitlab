@@ -43,18 +43,10 @@
 <template>
 
   <template is="dom-repeat" items="{{items}}" as="item">
-    <template is="dom-if" if="[[is_equal(index, selected_tab_idx)]]">
-      <div class="tab_elem vertical_align selected" on-click="tab_elem_selected" name="{{item}}" idx="{{index}}">
-        <img src="{{item.icon}}" style="width: 40px; height: 40px; margin-right: 15px; margin-left: 15px; pointer-events: none" />
-        {{item.name}}
-      </div>
-    </template>
-    <template is="dom-if" if="[[is_not_equal(index, selected_tab_idx)]]">
-      <div class="tab_elem vertical_align" on-click="tab_elem_selected" name="{{item}}" idx="{{index}}">
-        <img src="{{item.icon}}" style="width: 40px; height: 40px; margin-right: 15px; margin-left: 15px; pointer-events: none" />
-        {{item.name}}
-      </div>
-    </template>
+    <div class$="tab_elem vertical_align [[text_if_equal(index, selected_tab_idx, 'selected')]]" on-click="tab_elem_selected" name="{{item}}" idx="{{index}}">
+      <img src="{{item.icon}}" style="width: 40px; height: 40px; margin-right: 15px; margin-left: 15px; pointer-events: none" />
+      {{item.name}}
+    </div>
   </template>
 
 </template>

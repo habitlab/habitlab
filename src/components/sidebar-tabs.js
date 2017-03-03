@@ -19,6 +19,7 @@ polymer_ext({
   isdemo_changed: function(isdemo) {
     if (isdemo) {
       this.items = [{name: 'Overview'}, {name: 'Settings'}];
+      this.selected_tab_idx = 0;
     }
   },
   tab_elem_selected: function(evt) {
@@ -28,7 +29,6 @@ polymer_ext({
   source: require('libs_frontend/polymer_methods'),
   methods: [
     'SM',
-    'is_equal',
-    'is_not_equal'
+    'text_if_equal'
   ]
 })

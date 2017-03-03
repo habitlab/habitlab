@@ -18,6 +18,9 @@ export is_not = (cond) ->
 export is_not_equal = (cond, val) ->
   return cond != val
 
+export is_equal = (cond, val) ->
+  return cond == val
+
 export is_greater_than = (cond, val) ->
   return cond > val
 

@@ -58,8 +58,6 @@ polymer_ext {
   compute_sidebar_items: (enabled_goal_info_list) ->
     default_icon = habitlab_icon
     return [{name: 'Overview', icon: habitlab_icon}, {name: 'Settings', icon: gear_icon}].concat [{name: x.sitename_printable, icon: x.icon ? default_icon} for x in enabled_goal_info_list]
-  tab_elem_selected_changed: (evt) ->
-    this.selected_tab_idx = evt.detail.idx
   enable_habitlab_button_clicked: ->
     this.is_habitlab_disabled = false
     enable_habitlab()

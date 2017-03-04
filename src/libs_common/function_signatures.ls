@@ -53,6 +53,7 @@ lib_name_to_func_names_and_signatures =
     is_on_same_domain: 'tab_id'
   screenshot_utils:
     get_screenshot_as_base64: []
+    get_data_for_feedback: []
   fetch_page_utils:
     fetch_page_text: 'url'
   ajax_utils:

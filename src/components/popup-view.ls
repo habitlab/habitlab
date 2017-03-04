@@ -3,6 +3,7 @@
 {cfy} = require 'cfy'
 {load_css_file} = require 'libs_common/content_script_utils'
 {add_log_feedback} = require 'libs_common/log_utils'
+screenshot_utils = require 'libs_common/screenshot_utils'
 
 swal = require 'sweetalert2'
 
@@ -255,11 +256,13 @@ polymer_ext {
     yield open_debug_page_for_tab_id(tab_id)
 
   submit_feedback_clicked: cfy ->*
-    screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils')
+    #screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils')
     screenshot = yield screenshot_utils.get_screenshot_as_base64()
+    data = yield screenshot_utils.get_data_for_feedback()
     feedback_form = document.createElement('feedback-form')
     document.body.appendChild(feedback_form)
     feedback_form.screenshot = screenshot
+    feedback_form.other = data
     feedback_form.open()
     #yield SystemJS.import('bugmuncher/bugmuncher')
     #window.open_bugmuncher()

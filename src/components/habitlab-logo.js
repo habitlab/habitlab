@@ -29,9 +29,11 @@ polymer_ext({
   habitlab_button_clicked: cfy(function*() {
     var screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils');
     var screenshot = yield screenshot_utils.get_screenshot_as_base64();
+    var data = yield screenshot_utils.get_data_for_feedback();
     const habitlab_options_popup = document.createElement('habitlab-options-popup');
-    habitlab_options_popup.screenshot = screenshot;
     document.body.appendChild(habitlab_options_popup);
+    habitlab_options_popup.screenshot = screenshot;
+    habitlab_options_popup.other = data;
     habitlab_options_popup.open();
   }),
   get_url: function() {

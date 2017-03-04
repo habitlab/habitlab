@@ -44,6 +44,10 @@ polymer_ext {
     screenshot: {
       type: String
     }
+    other: {
+      type: Object
+      value: {}
+    }
   }
   isdemo_changed: ->
     if this.isdemo
@@ -84,6 +88,7 @@ polymer_ext {
   open_feedback_form: cfy ->*
     feedback_form = document.createElement('feedback-form')
     feedback_form.screenshot = this.screenshot
+    feedback_form.other = this.other
     this.$$('#intervention_info_dialog').close()
     document.body.appendChild(feedback_form)
     feedback_form.open()

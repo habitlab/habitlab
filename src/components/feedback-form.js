@@ -45,6 +45,10 @@ polymer_ext({
         <h2>Submitting feedback</h2>
         <div>Please wait</div>
       `
+    },
+    other: {
+      type: Object,
+      value: {}
     }
   },
   isdemo_changed: function() {
@@ -65,10 +69,6 @@ polymer_ext({
   save_email: function() {
     localStorage.setItem('feedback_form_email', this.email);
   },
-  feedback_button_clicked: cfy(function*() {
-    var screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils');
-    var screenshot = yield screenshot_utils.get_screenshot_as_base64();
-  }),
   open: function() {
     var saved_feedback = localStorage.getItem('feedback_form_feedback');
     if (saved_feedback && saved_feedback.length > 0) {
@@ -96,7 +96,7 @@ polymer_ext({
     if (this.email && this.email.length > 0) {
       data.email = this.email;
     }
-    data.other = {};
+    data.other = this.other;
     this.$$('#feedback_dialog').close();
     this.$$('#submitting_wait_dialog').open();
     try {

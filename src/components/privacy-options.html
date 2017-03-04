@@ -1,0 +1,18 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+
+<dom-module id="privacy-options">
+  <style>
+    .card-content {
+      font-size: 20px;
+    }
+  </style>
+  <template>
+    <div class="card-content"> HabitLab is a research project from the <a href="http://hci.stanford.edu/" target="_blank" style="color: black">Stanford HCI Group</a>, and we need data to continue improving the product - <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: black">see what gets logged</a>.<br><br>
+      <paper-checkbox checked="{{allow_logging}}">
+        <span class="checkbox_span">Allow HabitLab to store an anonymized version of my data on Stanford's servers</span>
+      </paper-checkbox>
+    </div>
+  </template>
+  <script src="privacy-options.js"></script>
+</dom-module>

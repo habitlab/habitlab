@@ -63,7 +63,8 @@ polymer_ext {
     enable_habitlab()
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
-  set_selected_tab_by_name: (selected_tab_name) ->
+  set_selected_tab_by_name: cfy (selected_tab_name) ->*
+    self = this
     selected_tab_idx = switch selected_tab_name
     | 'progress' => 0
     | 'results' => 0
@@ -80,15 +81,13 @@ polymer_ext {
     | 'onboarding' => 1
     | _ => -1
     if selected_tab_idx != -1
-      this.selected_tab_idx = selected_tab_idx
-    else
-      self = this
-      once_true -> self.enabled_goal_info_list?length?
-      , ->
-        goals_list = self.enabled_goal_info_list.map((.sitename))
-        selected_goal_idx = goals_list.indexOf(selected_tab_name)
-        if selected_goal_idx != -1
-          self.selected_tab_idx = selected_goal_idx + 2
+      self.selected_tab_idx = selected_tab_idx
+      return
+    yield once_true(-> self.enabled_goal_info_list?length?)
+    goals_list = self.enabled_goal_info_list.map((.sitename))
+    selected_goal_idx = goals_list.indexOf(selected_tab_name)
+    if selected_goal_idx != -1
+      self.selected_tab_idx = selected_goal_idx + 2
   compute_selected_tab_name: (selected_tab_idx, enabled_goal_info_list) ->
     goals_list = enabled_goal_info_list.map((.sitename))
     return (['overview', 'settings'].concat(goals_list))[selected_tab_idx]

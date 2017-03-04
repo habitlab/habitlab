@@ -52,11 +52,18 @@ if window.location.pathname == '/options.html'
       onboarding_view.style.display = 'none'
       onboarding_view.parentNode.removeChild(onboarding_view)
       options_view.style.display = 'block'
+      window.location.hash = 'settings'
     options_view.style.display = 'none'
     document.getElementById('index_body').appendChild(onboarding_view)
   options_view.set_selected_tab_by_name(hash)
   options_view.addEventListener 'options_selected_tab_changed', (evt) ->
-    window.location.hash = evt.detail.selected_tab_name
+    selected_tab_name = evt.detail.selected_tab_name
+    hash = window.location.hash
+    if hash.startsWith('#')
+      hash = hash.substr(1)
+    if selected_tab_name == 'settings' and hash == 'onboarding'
+      return
+    window.location.hash = selected_tab_name
   #  options_view
   require 'libs_common/global_exports_post'
   add_url_input_if_needed()

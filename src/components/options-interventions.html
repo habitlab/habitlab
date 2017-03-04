@@ -17,6 +17,7 @@
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="goal-selector.html">
+<link rel="import" href="privacy-options.html">
 
 <dom-module id="options-interventions">
   <style is="custom-style">
@@ -258,7 +259,7 @@
 
       <div id="intro3" class="intro" style="display: none;">
         <paper-card heading="When should interventions be active?" class="papercard">
-          <div class="card-content" >You can set your interventions to be always on, or only active during your selected work hours.
+          <div class="card-content" >You can set interventions to be always on, or only active during work hours.
             <br>
             <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
               <paper-radio-button name="always" >Always On</paper-radio-button>
@@ -301,6 +302,13 @@
           <paper-button class="next-button" id="done-btn" on-click="intro3_read">Next</paper-button>
           -->
         </paper-card>
+      </div>
+
+      <div id="intro5" class="intro" style="display: none;">
+        <paper-card heading="Logging and Privacy" class="papercard">
+          <privacy-options></privacy-options>
+        </paper-card>
+      </div>
       </div>
 
     </div>

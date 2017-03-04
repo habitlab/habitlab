@@ -35,6 +35,8 @@ polymer_ext {
   listeners: {
     keydown: 'on_keydown'
   }
+  get_stanford_icon: ->
+    return chrome.extension.getURL('icons/stanford.svg')
   allow_logging_changed: ->
     localStorage.setItem('allow_logging', this.allow_logging)
   slide_changed: (evt) ->

@@ -140,11 +140,13 @@
 
     <div class="slide">
       <div class="inner_slide">
-        <div class="subtext">HabitLab is a research project run by the<br><a href="http://hci.stanford.edu/" target="_blank" style="color: white">Stanford HCI Group</a>.</div>
-        <br><br>
+        <img style="width: 150px; margin-bottom: 20px" src="{{get_stanford_icon()}}" />
+
+        <div class="subtext">HabitLab is a research project run by the<br><a href="http://hci.stanford.edu/" target="_blank" style="color: white; text-decoration: underline;">Stanford HCI Group</a>.</div>
+        <div style="margin-top: 20px"></div>
         <div>By using it you are agreeing to the following terms:</div><br>
 
-        <div id="irb_text" style="height: 100px; width: 600px; overflow-x: none; overflow-y: scroll">
+        <div id="irb_text" style="height: 70px; font-size: 10px; width: 600px; overflow-x: none; overflow-y: scroll">
 
   <b>Description</b>:  HabitLab is a research study on developing better online habits. You can participate by installing and using the HabitLab Chrome extension. The extension will ask you to specify some goals (such as spending less time on Facebook), and will deploy various interventions that aim help you achieve those goals. It will log data related to progress on your goals (such as time spent on domains), which will be used by our algorithms to determine which interventions work for you. Data will not be shared with anyone outside our research team. You can opt-out of sending this data to our servers on this page, or via an option under the extension settings.
 <br><br>
@@ -165,7 +167,7 @@
         <div class="checkbox_div_outer">
           <div class="checkbox_div">
             <paper-checkbox checked="{{allow_logging}}">
-              <span class="checkbox_span">Allow HabitLab to store an anonymized version of my data on Stanford's servers<br>(we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: white">see what gets logged</a>)</span>
+              <span class="checkbox_span">Allow HabitLab to store an anonymized version of my data on Stanford's servers<br>(we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: white; text-decoration: underline;">see what gets logged</a>)</span>
             </paper-checkbox>
             <br><br>
             <paper-checkbox checked="checked" disabled="disabled">

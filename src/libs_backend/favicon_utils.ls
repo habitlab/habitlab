@@ -1,12 +1,8 @@
 #fetch_favicon = require 'fetch-favicon'
-require 'jimp/browser/lib/jimp'
-jimp = window.Jimp
-icojs = require 'icojs/browser'
 
 require! {
   co
   cfy
-  cheerio
 }
 
 {
@@ -19,9 +15,23 @@ require! {
 } = require 'libs_backend/canonical_url_utils'
 
 {
+  memoizeSingleAsync
+} = require 'libs_common/memoize'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
+
+get_jimp = memoizeSingleAsync cfy ->*
+  yield SystemJS.import('jimp/browser/lib/jimp')
+  return window.Jimp
+
+get_cheerio = memoizeSingleAsync cfy ->*
+  yield SystemJS.import('cheerio')
+
+get_icojs = memoizeSingleAsync cfy ->*
+  yield SystemJS.import('icojs/browser')
 
 favicon_patterns_href = [
   'link[rel=apple-touch-icon-precomposed]',
@@ -44,6 +54,7 @@ export fetchFavicons = cfy (domain) ->*
     return domain_to_favicons_cache[domain]
   response = yield fetch domain
   text = yield response.text()
+  cheerio = yield get_cheerio()
   $ = cheerio.load(text)
   output = []
   for pattern in favicon_patterns_href
@@ -138,10 +149,12 @@ get_favicon_data_for_url = cfy (domain) ->*
     favicon_response = yield fetch(favicon_path)
     #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
     favicon_buffer = new Uint8Array(yield favicon_response.arrayBuffer()).buffer
+    icojs = yield get_icojs()
     favicon_ico_parsed = yield icojs.parse(favicon_buffer)
     favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
     return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
   catch
+    jimp = yield get_jimp()
     favicon_data = yield jimp.read(favicon_path)
     favicon_data.resize(40, 40)
     return yield -> favicon_data.getBase64('image/png', it)
@@ -168,6 +181,7 @@ get_png_data_for_url = cfy (domain) ->*
       if new_all_favicon_paths.length > 0
         all_favicon_paths = new_all_favicon_paths
     favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
+  jimp = yield get_jimp()
   favicon_data = yield jimp.read(favicon_path)
   favicon_data.resize(40, 40)
   return yield -> favicon_data.getBase64('image/png', it)

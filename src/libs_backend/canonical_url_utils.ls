@@ -5,10 +5,17 @@
 
 {cfy} = require 'cfy'
 
+get_canonical_url_cache = {}
+
 export get_canonical_url = cfy (url) ->*
+  if get_canonical_url_cache[url]?
+    return get_canonical_url_cache[url]
   try
     response = yield fetch url
-    return response.url
+    output = response.url
+    if output?
+      get_canonical_url_cache[url] = output
+    return output
   catch
     return null
 

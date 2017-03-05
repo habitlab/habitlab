@@ -27,6 +27,10 @@
   localget_json
 } = require 'libs_common/cacheget_utils'
 
+{
+  get_favicon_data_for_domain_or_null
+} = require 'libs_backend/favicon_utils'
+
 {cfy, yfy} = require 'cfy'
 
 getAllInterventionsGoalInfo = cfy ->*
@@ -292,6 +296,9 @@ export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
       units: 'minutes'
     }
   }
+  goal_info.icon = yield get_favicon_data_for_domain_or_null(domain)
+  if not goal_info.icon?
+    delete goal_info.icon
   yield add_custom_goal_info goal_info
   return
 

@@ -22,15 +22,12 @@ globals:
   #'$': true
   'SystemJS': true
   'require': true
-  'env': true
   'exports': true
   'module': true
-  'global_exports': true
   'Polymer': true
   'intervention': true
   'tab_id': true
-  'jsyaml': true
-  'IS_CONTENT_SCRIPT': true
+  'Buffer': true
 rules:
   'no-console': 'off'
   'no-unused-vars': 'off'

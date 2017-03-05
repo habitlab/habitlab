@@ -9,6 +9,15 @@ require! {
 }
 
 {
+  domain_to_url
+} = require 'libs_common/domain_utils'
+
+{
+  get_canonical_domain
+  get_canonical_url
+} = require 'libs_backend/canonical_url_utils'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
@@ -26,8 +35,12 @@ favicon_patterns_content = [
   'meta[property=og\\:image]'
 ]
 
+domain_to_favicons_cache = {}
+
 export fetchFavicons = cfy (domain) ->*
   domain = domain_to_url domain
+  if domain_to_favicons_cache[domain]?
+    return domain_to_favicons_cache[domain]
   response = yield fetch domain
   text = yield response.text()
   $ = cheerio.load(text)
@@ -51,6 +64,7 @@ export fetchFavicons = cfy (domain) ->*
       domain_without_slash = domain.substr(0, domain.length - 1)
     return domain_without_slash + x
   output = output.map -> {href: it, name: 'favicon.ico'}
+  domain_to_favicons_cache[domain] = output
   return output
 
 fetch_favicon = {fetchFavicons}
@@ -62,47 +76,25 @@ toBuffer = (ab) ->
     buf[i] = view[i]
   return buf
 
-get_canonical_url = cfy (url) ->*
-  try
-    response = yield fetch url
-    return response.url
-  catch
-    return null
-
-get_canonical_domain = cfy (domain) ->*
-  url = domain_to_url domain
-  canonical_url = yield get_canonical_url url
-  if canonical_url?
-    return url_to_domain canonical_url
-  return null
-
-url_to_domain = (url) ->
-  # http://stackoverflow.com/questions/8498592/extract-root-domain-name-from-string
-  # find & remove protocol (http, ftp, etc.) and get domain
-  if url.indexOf("://") > -1
-    domain = url.split('/')[2]
-  else
-    domain = url.split('/')[0]
-  # find & remove port number
-  domain = domain.split(':')[0]
-  return domain
-
-domain_to_url = (domain) ->
-  return "http://" + url_to_domain(domain) + '/'
-
 make_async = (sync_func) ->
   return (x) -> Promise.resolve(sync_func(x))
+
+does_file_exist_cached = {}
 
 does_file_exist = cfy (url) ->*
   if typeof(url) != 'string' and typeof(url.href) == 'string'
     url = url.href
+  if does_file_exist_cached[url]?
+    return does_file_exist_cached[url]
   try
     request = yield fetch url
     if not request.ok
       return false
     yield request.text()
+    does_file_exist_cached[url] = true
     return true
   catch
+    does_file_exist_cached[url] = false
     return false
 
 async_filter = cfy (list, async_function) ->*
@@ -177,5 +169,11 @@ export get_favicon_data_for_domain = cfy (domain) ->*
     return yield get_favicon_data_for_url(domain)
   catch
   return yield get_favicon_data_for_url(canonical_domain)
+
+export get_favicon_data_for_domain_or_null = cfy (domain) ->*
+  try
+    return yield get_favicon_data_for_domain(domain)
+  catch
+  return
 
 gexport_module 'favicon_utils', -> eval(it)

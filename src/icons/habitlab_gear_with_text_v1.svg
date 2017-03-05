@@ -16,13 +16,13 @@
    viewBox="0 0 91.880958 38.006893"
    enable-background="new 0 0 24 24"
    xml:space="preserve"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="habitlab_gear_with_text.svg"
-   width="91.880959"
-   height="38.006893"><metadata
+   inkscape:version="0.92.1 r"
+   sodipodi:docname="habitlab_gear_with_text_v1.svg"
+   width="98.006355"
+   height="40.540688"><metadata
      id="metadata9"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
      id="defs7" /><sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -40,7 +40,7 @@
      inkscape:cx="4.2250489"
      inkscape:cy="29.717092"
      inkscape:window-x="44"
-     inkscape:window-y="2"
+     inkscape:window-y="23"
      inkscape:window-maximized="0"
      inkscape:current-layer="Layer_1"
      fit-margin-top="0"
@@ -59,7 +59,7 @@
      cy="19.041452"
      rx="21.051554"
      ry="18.936005" /><path
-     d="m 34.780213,21.402017 0,-5.090937 -3.186747,-0.526649 c -0.177042,-0.7022 -0.531125,-1.404398 -1.06225,-2.457694 L 32.478673,10.693494 28.760801,7.0069528 26.105178,8.9379979 C 25.219971,8.4113489 24.334763,8.060249 23.626597,7.8846999 l -0.354083,-3.159892 -5.134204,0 -0.531124,3.159892 c -0.885208,0.1755544 -1.593374,0.526649 -2.478582,1.053298 L 12.472981,7.0069528 8.7551094,10.693494 10.525525,13.326737 c -0.5311249,0.877747 -0.7081665,1.579945 -1.0622495,2.457694 l -3.0097059,0.351098 0,5.090939 3.1867474,0.526649 c 0.1770415,0.877747 0.531125,1.579945 1.062249,2.457692 l -1.7704151,2.633245 3.7178721,3.686541 2.655623,-1.755496 c 0.708166,0.3511 1.593374,0.702198 2.478581,1.053296 l 0.531124,3.159894 5.311246,0 0.531125,-3.159894 c 0.885207,-0.175554 1.593373,-0.526647 2.478581,-1.053296 l 2.655623,1.931045 3.717872,-3.686541 -1.947457,-2.633245 c 0.531125,-0.877747 0.885208,-1.755494 1.062249,-2.457692 l 2.655623,-0.526649 z m -14.163322,2.633245 c -3.009705,0 -5.311245,-2.282145 -5.311245,-5.266488 0,-2.984343 2.30154,-5.266488 5.311245,-5.266488 3.009706,0 5.311246,2.282145 5.311246,5.266488 0,2.984343 -2.30154,5.266488 -5.311246,5.266488 z"
+     d="M 34.780213,21.402017 V 16.31108 l -3.186747,-0.526649 c -0.177042,-0.7022 -0.531125,-1.404398 -1.06225,-2.457694 L 32.478673,10.693494 28.760801,7.0069528 26.105178,8.9379979 C 25.219971,8.4113489 24.334763,8.060249 23.626597,7.8846999 L 23.272514,4.7248079 H 18.13831 l -0.531124,3.159892 c -0.885208,0.1755544 -1.593374,0.526649 -2.478582,1.053298 L 12.472981,7.0069528 8.7551094,10.693494 10.525525,13.326737 c -0.5311249,0.877747 -0.7081665,1.579945 -1.0622495,2.457694 l -3.0097059,0.351098 v 5.090939 l 3.1867474,0.526649 c 0.1770415,0.877747 0.531125,1.579945 1.062249,2.457692 l -1.7704151,2.633245 3.7178721,3.686541 2.655623,-1.755496 c 0.708166,0.3511 1.593374,0.702198 2.478581,1.053296 l 0.531124,3.159894 h 5.311246 l 0.531125,-3.159894 c 0.885207,-0.175554 1.593373,-0.526647 2.478581,-1.053296 l 2.655623,1.931045 3.717872,-3.686541 -1.947457,-2.633245 c 0.531125,-0.877747 0.885208,-1.755494 1.062249,-2.457692 z m -14.163322,2.633245 c -3.009705,0 -5.311245,-2.282145 -5.311245,-5.266488 0,-2.984343 2.30154,-5.266488 5.311245,-5.266488 3.009706,0 5.311246,2.282145 5.311246,5.266488 0,2.984343 -2.30154,5.266488 -5.311246,5.266488 z"
      id="path3"
      inkscape:connector-curvature="0"
      style="fill:#ffffff;fill-opacity:1" /><ellipse
@@ -76,15 +76,14 @@
      id="ellipse4183"
      style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.2151238;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /><text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:68.7995224px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      x="38.427303"
      y="23.212965"
      id="text4185"
-     sodipodi:linespacing="125%"
      transform="scale(1.0293185,0.9715166)"><tspan
        sodipodi:role="line"
        id="tspan4187"
        x="38.427303"
        y="23.212965"
-       style="font-size:10.74992466px;fill:#ffffff;fill-opacity:1">Habitlab</tspan></text>
+       style="font-size:10.74992466px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1">Habitlab</tspan></text>
 </svg>

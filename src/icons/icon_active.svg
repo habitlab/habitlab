@@ -7,12 +7,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="24"
-   width="24"
+   height="25.6"
+   width="25.6"
    version="1.1"
    id="svg3025"
    viewBox="0 -256 24 24"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.1 r"
    sodipodi:docname="icon_active.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -31,7 +31,7 @@
      inkscape:cx="12"
      inkscape:cy="12"
      inkscape:window-x="393"
-     inkscape:window-y="85"
+     inkscape:window-y="63"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3025" />
   <metadata
@@ -42,14 +42,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs
      id="defs3033" />
   <path
-     d="m 22.260183,-235.375 q 0.875,1.39063 0.335937,2.38281 Q 22.057058,-232 20.400808,-232 l -18.0000002,0 q -1.65625,0 -2.1953125,-0.99219 -0.5390625,-0.99218 0.3359375,-2.38281 l 7.8593752,-12.39062 0,-6.23438 -1.0000002,0 q -0.40625,0 -0.703125,-0.29687 -0.296875,-0.29688 -0.296875,-0.70313 0,-0.40625 0.296875,-0.70312 Q 6.9945578,-256 7.4008078,-256 l 8.0000002,0 q 0.40625,0 0.703125,0.29688 0.296875,0.29687 0.296875,0.70312 0,0.40625 -0.296875,0.70313 Q 15.807058,-254 15.400808,-254 l -1,0 0,6.23438 z M 10.088308,-246.70312 5.8383078,-240 l 11.1250002,0 -4.25,-6.70312 -0.3125,-0.48438 0,-0.57812 0,-6.23438 -2,0 0,6.23438 0,0.57812 z"
+     d="m 22.260183,-235.375 q 0.875,1.39063 0.335937,2.38281 Q 22.057058,-232 20.400808,-232 H 2.4008078 q -1.65625,0 -2.1953125,-0.99219 -0.5390625,-0.99218 0.3359375,-2.38281 L 8.400808,-247.76562 V -254 H 7.4008078 q -0.40625,0 -0.703125,-0.29687 -0.296875,-0.29688 -0.296875,-0.70313 0,-0.40625 0.296875,-0.70312 Q 6.9945578,-256 7.4008078,-256 h 8.0000002 q 0.40625,0 0.703125,0.29688 0.296875,0.29687 0.296875,0.70312 0,0.40625 -0.296875,0.70313 Q 15.807058,-254 15.400808,-254 h -1 v 6.23438 z M 10.088308,-246.70312 5.8383078,-240 H 16.963308 l -4.25,-6.70312 -0.3125,-0.48438 V -247.76562 -254 h -2 v 6.23438 0.57812 z"
      id="path3029"
-     style="fill:#00d000;fill-opacity:1" />
+     style="fill:#00d000;fill-opacity:1"
+     inkscape:connector-curvature="0" />
 </svg>

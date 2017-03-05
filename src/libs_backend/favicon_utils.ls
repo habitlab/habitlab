@@ -1,13 +1,17 @@
-fetch = require 'node-fetch'
 #fetch_favicon = require 'fetch-favicon'
+jimp = require 'jimp/browser/lib/jimp'
+icojs = require 'icojs/browser'
 
 require! {
   co
   cfy
-  jimp
-  icojs
   cheerio
 }
+
+{
+  gexport
+  gexport_module
+} = require 'libs_common/gexport'
 
 favicon_patterns_href = [
   'link[rel=apple-touch-icon-precomposed]',
@@ -22,7 +26,7 @@ favicon_patterns_content = [
   'meta[property=og\\:image]'
 ]
 
-fetchFavicons = cfy (domain) ->*
+export fetchFavicons = cfy (domain) ->*
   domain = domain_to_url domain
   response = yield fetch domain
   text = yield response.text()
@@ -132,7 +136,8 @@ get_favicon_data_for_url = cfy (domain) ->*
         all_favicon_paths = new_all_favicon_paths
     favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
   favicon_response = yield fetch(favicon_path)
-  favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
+  #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
+  favicon_buffer = new Uint8Array(yield favicon_response.arrayBuffer()).buffer
   favicon_ico_parsed = yield icojs.parse(favicon_buffer)
   favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
   return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
@@ -160,8 +165,7 @@ get_png_data_for_url = cfy (domain) ->*
   favicon_data.resize(40, 40)
   return yield -> favicon_data.getBase64('image/png', it)
 
-
-get_favicon_data_for_domain = cfy (domain) ->*
+export get_favicon_data_for_domain = cfy (domain) ->*
   try
     return yield get_png_data_for_url(domain)
   catch
@@ -174,18 +178,4 @@ get_favicon_data_for_domain = cfy (domain) ->*
   catch
   return yield get_favicon_data_for_url(canonical_domain)
 
-co ->*
-  domain = process.argv[2]
-  if not domain?
-    console.log 'please specify a domain'
-    return
-  if domain.startsWith('/') # is a file path
-    favicon_data = yield jimp.read(domain)
-    favicon_data.resize(40, 40)
-    console.log yield -> favicon_data.getBase64('image/png', it)
-    return
-  #response = yield fetch('https://www.google.com/s2/favicons?domain_url=' + domain)
-  #console.log 'data:image/png;base64,' + (yield response.buffer()).toString('base64')
-  #domain = yield get_canonical_domain(domain)
-  favicon_data = yield get_favicon_data_for_domain(domain)
-  console.log favicon_data
+gexport_module 'favicon_utils', -> eval(it)

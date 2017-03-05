@@ -123,6 +123,16 @@ polymer_ext {
       if not is_enabled
         continue
       enabled_goal_info_list.push(goal_info)
+    enabled_goal_info_list.sort (a, b) ->
+      if a.custom and not b.custom
+        return 1
+      if b.custom and not a.custom
+        return -1
+      if a.sitename_printable > b.sitename_printable
+        return 1
+      else if a.sitename_printable < b.sitename_printable
+        return -1
+      return 0
     self.enabled_goal_info_list = enabled_goal_info_list
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)

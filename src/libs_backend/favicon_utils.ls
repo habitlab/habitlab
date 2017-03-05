@@ -1,5 +1,6 @@
 #fetch_favicon = require 'fetch-favicon'
-jimp = require 'jimp/browser/lib/jimp'
+require 'jimp/browser/lib/jimp'
+jimp = window.Jimp
 icojs = require 'icojs/browser'
 
 require! {
@@ -29,11 +30,11 @@ favicon_patterns_href = [
   'link[rel=icon]',
 ]
 
-favicon_patterns_content = [
-  'meta[name=msapplication-TileImage]',
-  'meta[name=twitter\\:image]',
-  'meta[property=og\\:image]'
-]
+#favicon_patterns_content = [
+#  'meta[name=msapplication-TileImage]',
+#  'meta[name=twitter\\:image]',
+#  'meta[property=og\\:image]'
+#]
 
 domain_to_favicons_cache = {}
 
@@ -50,11 +51,11 @@ export fetchFavicons = cfy (domain) ->*
       url = $(x).attr('href')
       if url?
         output.push url
-  for pattern in favicon_patterns_content
-    for x in $(pattern)
-      url = $(x).attr('content')
-      if url?
-        output.push url
+  #for pattern in favicon_patterns_content
+  #  for x in $(pattern)
+  #    url = $(x).attr('content')
+  #    if url?
+  #      output.push url
   output.push '/favicon.ico'
   output = output.map (x) ->
     if x.startsWith('http://') or x.startsWith('https://')
@@ -127,15 +128,20 @@ get_favicon_data_for_url = cfy (domain) ->*
       if new_all_favicon_paths.length > 0
         all_favicon_paths = new_all_favicon_paths
     favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
-  favicon_response = yield fetch(favicon_path)
-  #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
-  favicon_buffer = new Uint8Array(yield favicon_response.arrayBuffer()).buffer
-  favicon_ico_parsed = yield icojs.parse(favicon_buffer)
-  favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
-  return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
+  try
+    favicon_response = yield fetch(favicon_path)
+    #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
+    favicon_buffer = new Uint8Array(yield favicon_response.arrayBuffer()).buffer
+    favicon_ico_parsed = yield icojs.parse(favicon_buffer)
+    favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
+    return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
+  catch
+    favicon_data = yield jimp.read(favicon_path)
+    favicon_data.resize(40, 40)
+    return yield -> favicon_data.getBase64('image/png', it)
 
 get_png_data_for_url = cfy (domain) ->*
-  if domain.endsWith('.png') or domain.endsWith('.svg')
+  if domain.endsWith('.png') or domain.endsWith('.svg') or domain.endsWith('.ico')
     favicon_path = domain
   else
     if not domain.startsWith('http://') or domain.startsWith('https://')

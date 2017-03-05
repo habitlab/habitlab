@@ -1,10 +1,11 @@
 fetch = require 'node-fetch'
 fetch_favicon = require 'fetch-favicon'
-icojs = require 'icojs'
 
 require! {
   co
   cfy
+  jimp
+  icojs
 }
 
 toBuffer = (ab) ->
@@ -77,7 +78,8 @@ get_favicon_data_for_url = cfy (domain) ->*
     filter_functions = filter_functions.concat ([
       -> (it.name == 'favicon.ico')
       -> it.href.endsWith('favicon.ico')
-      -> it.href.includes()
+      -> it.href.startsWith('favicon.ico')
+      -> it.href.includes('favicon.ico')
       -> it.href.endsWith('.ico')
       -> it.href.includes('favicon')
     ].map(make_async))
@@ -92,7 +94,36 @@ get_favicon_data_for_url = cfy (domain) ->*
   favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
   return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
 
+get_png_data_for_url = cfy (domain) ->*
+  if domain.endsWith('.png') or domain.endsWith('.svg')
+    favicon_path = domain
+  else
+    if not domain.startsWith('http://') or domain.startsWith('https://')
+      domain = 'http://' + domain
+    all_favicon_paths = yield fetch_favicon.fetchFavicons(domain)
+    filter_functions = [
+      does_file_exist
+    ]
+    filter_functions = filter_functions.concat ([
+      -> it.href.endsWith('.png')
+      -> it.href.includes('.png')
+    ].map(make_async))
+    for filter_function in filter_functions
+      new_all_favicon_paths = yield async_filter(all_favicon_paths, filter_function)
+      if new_all_favicon_paths.length > 0
+        all_favicon_paths = new_all_favicon_paths
+    favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
+  favicon_data = yield jimp.read(favicon_path)
+  favicon_data.resize(40, 40)
+  return yield -> favicon_data.getBase64('image/png', it)
+
+
 get_favicon_data_for_domain = cfy (domain) ->*
+  try
+    return yield get_png_data_for_url(domain)
+  catch
+  domain = yield get_canonical_domain(domain)
+  return yield get_png_data_for_url(domain)
   try
     return yield get_favicon_data_for_url(domain)
   catch

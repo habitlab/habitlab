@@ -51,6 +51,7 @@
     "gulp-yaml": "^1.0.1",
     "html-loader": "^0.4.3",
     "icojs": "^0.5.0",
+    "jimp": "^0.2.27",
     "karma": "^1.4.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.0.0",

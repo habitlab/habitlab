@@ -122,18 +122,24 @@ get_favicon_data_for_domain = cfy (domain) ->*
   try
     return yield get_png_data_for_url(domain)
   catch
-  domain = yield get_canonical_domain(domain)
-  return yield get_png_data_for_url(domain)
+  canonical_domain = yield get_canonical_domain(domain)
+  try
+    return yield get_png_data_for_url(canonical_domain)
+  catch
   try
     return yield get_favicon_data_for_url(domain)
   catch
-  domain = yield get_canonical_domain(domain)
-  return yield get_favicon_data_for_url(domain)
+  return yield get_favicon_data_for_url(canonical_domain)
 
 co ->*
   domain = process.argv[2]
   if not domain?
     console.log 'please specify a domain'
+    return
+  if domain.startsWith('/') # is a file path
+    favicon_data = yield jimp.read(domain)
+    favicon_data.resize(40, 40)
+    console.log yield -> favicon_data.getBase64('image/png', it)
     return
   #response = yield fetch('https://www.google.com/s2/favicons?domain_url=' + domain)
   #console.log 'data:image/png;base64,' + (yield response.buffer()).toString('base64')

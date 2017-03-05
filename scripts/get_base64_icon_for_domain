@@ -156,27 +156,38 @@
     });
   });
   get_favicon_data_for_domain = cfy(function*(domain){
-    var e;
+    var e, canonical_domain;
     try {
       return (yield get_png_data_for_url(domain));
     } catch (e$) {
       e = e$;
     }
-    domain = (yield get_canonical_domain(domain));
-    return (yield get_png_data_for_url(domain));
+    canonical_domain = (yield get_canonical_domain(domain));
+    try {
+      return (yield get_png_data_for_url(canonical_domain));
+    } catch (e$) {
+      e = e$;
+    }
     try {
       return (yield get_favicon_data_for_url(domain));
     } catch (e$) {
       e = e$;
     }
-    domain = (yield get_canonical_domain(domain));
-    return (yield get_favicon_data_for_url(domain));
+    return (yield get_favicon_data_for_url(canonical_domain));
   });
   co(function*(){
     var domain, favicon_data;
     domain = process.argv[2];
     if (domain == null) {
       console.log('please specify a domain');
+      return;
+    }
+    if (domain.startsWith('/')) {
+      favicon_data = (yield jimp.read(domain));
+      favicon_data.resize(40, 40);
+      console.log((yield function(it){
+        return favicon_data.getBase64('image/png', it);
+      }));
       return;
     }
     favicon_data = (yield get_favicon_data_for_domain(domain));

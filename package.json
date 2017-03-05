@@ -36,7 +36,6 @@
     "chrome-web-store-item-property": "^1.1.2",
     "deepcopy": "^0.6.3",
     "del": "^2.2.0",
-    "fetch-favicon": "^0.0.2",
     "file-loader": "^0.10.0",
     "fs-extra": "^2.0.0",
     "glob": "^7.0.5",

@@ -1,12 +1,51 @@
 fetch = require 'node-fetch'
-fetch_favicon = require 'fetch-favicon'
+#fetch_favicon = require 'fetch-favicon'
 
 require! {
   co
   cfy
   jimp
   icojs
+  cheerio
 }
+
+favicon_patterns_href = [
+  'link[rel=apple-touch-icon-precomposed]',
+  'link[rel=apple-touch-icon]',
+  'link[rel="shortcut icon"]',
+  'link[rel=icon]',
+]
+
+favicon_patterns_content = [
+  'meta[name=msapplication-TileImage]',
+  'meta[name=twitter\\:image]',
+  'meta[property=og\\:image]'
+]
+
+export fetchFavicons = cfy (domain) ->*
+  response = yield fetch domain
+  text = yield response.text()
+  $ = cheerio.load(text)
+  output = []
+  for pattern in favicon_patterns_href
+    for x in $(pattern)
+      url = $(x).attr('href')
+      if url?
+        output.push url
+  for pattern in favicon_patterns_content
+    for x in $(pattern)
+      url = $(x).attr('content')
+      if url?
+        output.push url
+  output.push '/favicon.ico'
+  output = output.map (x) ->
+    if x.startsWith('http://') or x.startsWith('https://')
+      return x
+    return domain + x
+  output = output.map -> {href: it, name: 'favicon.ico'}
+  return output
+
+fetch_favicon = {fetchFavicons}
 
 toBuffer = (ab) ->
   buf = new Buffer(ab.byteLength);

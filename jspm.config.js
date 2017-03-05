@@ -9,14 +9,24 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
+    "bcrypt-pbkdf": "npm:bcrypt-pbkdf@1.0.1",
     "brace": "npm:brace@0.9.1",
     "cheerio": "npm:cheerio@0.22.0",
     "child_process": "npm:jspm-nodelibs-child_process@0.2.0",
     "co": "npm:co@4.6.0",
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
+    "dgram": "npm:jspm-nodelibs-dgram@0.2.0",
+    "dns": "npm:jspm-nodelibs-dns@0.2.0",
+    "ecc-jsbn": "npm:ecc-jsbn@0.1.1",
     "esprima": "npm:esprima@3.1.3",
+    "http": "npm:jspm-nodelibs-http@0.2.0",
+    "https": "npm:jspm-nodelibs-https@0.2.1",
+    "icojs": "npm:icojs-min@0.5.0",
+    "jimp": "npm:jimp-min@0.2.32",
+    "jodid25519": "npm:jodid25519@1.0.2",
     "js-yaml": "github:nodeca/js-yaml@master",
+    "jsbn": "npm:jsbn@0.1.1",
     "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
     "list_requires_multi": "npm:list_requires_multi@1.0.0",
     "livescript15": "npm:livescript15@1.5.4",
@@ -31,6 +41,7 @@ SystemJS.config({
     "jquery": "npm:jquery@3.1.1",
     "mathjs": "npm:mathjs@3.9.0",
     "moment": "npm:moment@2.17.1",
+    "net": "npm:jspm-nodelibs-net@0.2.0",
     "nodeca/js-yaml": "github:nodeca/js-yaml@master",
     "os": "npm:jspm-nodelibs-os@0.2.0",
     "path": "npm:jspm-nodelibs-path@0.2.1",
@@ -40,6 +51,8 @@ SystemJS.config({
     "prettyprintjs": "npm:prettyprintjs@0.1.11",
     "process": "npm:jspm-nodelibs-process@0.2.0",
     "promise-debounce": "npm:promise-debounce@1.0.1",
+    "querystring": "npm:jspm-nodelibs-querystring@0.2.0",
+    "readable-stream": "npm:readable-stream@2.2.3",
     "readline": "npm:jspm-nodelibs-readline@0.2.0",
     "repl": "npm:jspm-nodelibs-repl@0.2.0",
     "shuffled": "npm:shuffled@1.0.0",
@@ -49,10 +62,15 @@ SystemJS.config({
     "sweetalert2": "npm:sweetalert2@6.3.2",
     "sweetjs-min": "npm:sweetjs-min@2.2.14",
     "text": "github:systemjs/plugin-text@0.0.8",
+    "timers": "npm:jspm-nodelibs-timers@0.2.0",
+    "tls": "npm:jspm-nodelibs-tls@0.2.0",
     "tty": "npm:jspm-nodelibs-tty@0.2.0",
+    "tweetnacl": "npm:tweetnacl@0.14.5",
     "underscore": "npm:underscore@1.8.3",
+    "url": "npm:jspm-nodelibs-url@0.2.0",
     "util": "npm:jspm-nodelibs-util@0.2.1",
-    "vm": "npm:jspm-nodelibs-vm@0.2.0"
+    "vm": "npm:jspm-nodelibs-vm@0.2.0",
+    "zlib": "npm:jspm-nodelibs-zlib@0.2.2"
   },
   packages: {
     "npm:enable-webcomponents-in-content-scripts@1.0.7": {
@@ -596,6 +614,283 @@ SystemJS.config({
         "process-nextick-args": "npm:process-nextick-args@1.0.7",
         "core-util-is": "npm:core-util-is@1.0.2",
         "buffer-shims": "npm:buffer-shims@1.0.0"
+      }
+    },
+    "npm:jimp-min@0.2.32": {
+      "map": {
+        "bignumber.js": "npm:bignumber.js@2.4.0",
+        "file-type": "npm:file-type@3.9.0",
+        "request": "npm:request@2.80.0",
+        "tinycolor2": "npm:tinycolor2@1.4.1",
+        "url-regex": "npm:url-regex@3.2.0",
+        "mime": "npm:mime@1.3.4",
+        "pngjs": "npm:pngjs@3.0.1",
+        "stream-to-buffer": "npm:stream-to-buffer@0.1.0",
+        "read-chunk": "npm:read-chunk@1.0.1",
+        "load-bmfont": "npm:load-bmfont@1.3.0",
+        "jpeg-js": "npm:jpeg-js@0.2.0",
+        "pixelmatch": "npm:pixelmatch@4.0.2",
+        "exif-parser": "npm:exif-parser@0.1.9",
+        "bmp-js": "npm:bmp-js@0.0.2"
+      }
+    },
+    "npm:url-regex@3.2.0": {
+      "map": {
+        "ip-regex": "npm:ip-regex@1.0.3"
+      }
+    },
+    "npm:request@2.80.0": {
+      "map": {
+        "caseless": "npm:caseless@0.12.0",
+        "aws-sign2": "npm:aws-sign2@0.6.0",
+        "aws4": "npm:aws4@1.6.0",
+        "form-data": "npm:form-data@2.1.2",
+        "har-validator": "npm:har-validator@4.2.1",
+        "is-typedarray": "npm:is-typedarray@1.0.0",
+        "extend": "npm:extend@3.0.0",
+        "combined-stream": "npm:combined-stream@1.0.5",
+        "http-signature": "npm:http-signature@1.1.1",
+        "forever-agent": "npm:forever-agent@0.6.1",
+        "isstream": "npm:isstream@0.1.2",
+        "json-stringify-safe": "npm:json-stringify-safe@5.0.1",
+        "mime-types": "npm:mime-types@2.1.14",
+        "stringstream": "npm:stringstream@0.0.5",
+        "performance-now": "npm:performance-now@0.2.0",
+        "oauth-sign": "npm:oauth-sign@0.8.2",
+        "tough-cookie": "npm:tough-cookie@2.3.2",
+        "tunnel-agent": "npm:tunnel-agent@0.4.3",
+        "uuid": "npm:uuid@3.0.1",
+        "qs": "npm:qs@6.3.1",
+        "hawk": "npm:hawk@3.1.3"
+      }
+    },
+    "npm:load-bmfont@1.3.0": {
+      "map": {
+        "mime": "npm:mime@1.3.4",
+        "xtend": "npm:xtend@4.0.1",
+        "buffer-equal": "npm:buffer-equal@0.0.1",
+        "parse-bmfont-binary": "npm:parse-bmfont-binary@1.0.6",
+        "xhr": "npm:xhr@2.4.0",
+        "parse-bmfont-xml": "npm:parse-bmfont-xml@1.1.3",
+        "parse-bmfont-ascii": "npm:parse-bmfont-ascii@1.0.6"
+      }
+    },
+    "npm:pixelmatch@4.0.2": {
+      "map": {
+        "pngjs": "npm:pngjs@3.0.1"
+      }
+    },
+    "npm:form-data@2.1.2": {
+      "map": {
+        "combined-stream": "npm:combined-stream@1.0.5",
+        "mime-types": "npm:mime-types@2.1.14",
+        "asynckit": "npm:asynckit@0.4.0"
+      }
+    },
+    "npm:har-validator@4.2.1": {
+      "map": {
+        "har-schema": "npm:har-schema@1.0.5",
+        "ajv": "npm:ajv@4.11.4"
+      }
+    },
+    "npm:combined-stream@1.0.5": {
+      "map": {
+        "delayed-stream": "npm:delayed-stream@1.0.0"
+      }
+    },
+    "npm:stream-to-buffer@0.1.0": {
+      "map": {
+        "stream-to": "npm:stream-to@0.2.2"
+      }
+    },
+    "npm:http-signature@1.1.1": {
+      "map": {
+        "jsprim": "npm:jsprim@1.3.1",
+        "assert-plus": "npm:assert-plus@0.2.0",
+        "sshpk": "npm:sshpk@1.11.0"
+      }
+    },
+    "npm:mime-types@2.1.14": {
+      "map": {
+        "mime-db": "npm:mime-db@1.26.0"
+      }
+    },
+    "npm:tough-cookie@2.3.2": {
+      "map": {
+        "punycode": "npm:punycode@1.4.1"
+      }
+    },
+    "npm:jspm-nodelibs-url@0.2.0": {
+      "map": {
+        "url-browserify": "npm:url@0.11.0"
+      }
+    },
+    "npm:hawk@3.1.3": {
+      "map": {
+        "boom": "npm:boom@2.10.1",
+        "cryptiles": "npm:cryptiles@2.0.5",
+        "sntp": "npm:sntp@1.0.9",
+        "hoek": "npm:hoek@2.16.3"
+      }
+    },
+    "npm:jspm-nodelibs-http@0.2.0": {
+      "map": {
+        "http-browserify": "npm:stream-http@2.6.3"
+      }
+    },
+    "npm:jspm-nodelibs-zlib@0.2.2": {
+      "map": {
+        "browserify-zlib": "npm:browserify-zlib@0.1.4"
+      }
+    },
+    "npm:sshpk@1.11.0": {
+      "map": {
+        "assert-plus": "npm:assert-plus@1.0.0",
+        "dashdash": "npm:dashdash@1.14.1",
+        "asn1": "npm:asn1@0.2.3",
+        "getpass": "npm:getpass@0.1.6"
+      }
+    },
+    "npm:xhr@2.4.0": {
+      "map": {
+        "xtend": "npm:xtend@4.0.1",
+        "global": "npm:global@4.3.1",
+        "is-function": "npm:is-function@1.0.1",
+        "parse-headers": "npm:parse-headers@2.0.1"
+      }
+    },
+    "npm:url@0.11.0": {
+      "map": {
+        "punycode": "npm:punycode@1.3.2",
+        "querystring": "npm:querystring@0.2.0"
+      }
+    },
+    "npm:cryptiles@2.0.5": {
+      "map": {
+        "boom": "npm:boom@2.10.1"
+      }
+    },
+    "npm:boom@2.10.1": {
+      "map": {
+        "hoek": "npm:hoek@2.16.3"
+      }
+    },
+    "npm:ajv@4.11.4": {
+      "map": {
+        "json-stable-stringify": "npm:json-stable-stringify@1.0.1",
+        "co": "npm:co@4.6.0"
+      }
+    },
+    "npm:jsprim@1.3.1": {
+      "map": {
+        "extsprintf": "npm:extsprintf@1.0.2",
+        "json-schema": "npm:json-schema@0.2.3",
+        "verror": "npm:verror@1.3.6"
+      }
+    },
+    "npm:sntp@1.0.9": {
+      "map": {
+        "hoek": "npm:hoek@2.16.3"
+      }
+    },
+    "npm:parse-bmfont-xml@1.1.3": {
+      "map": {
+        "xml2js": "npm:xml2js@0.4.17",
+        "xml-parse-from-string": "npm:xml-parse-from-string@1.0.0"
+      }
+    },
+    "npm:stream-http@2.6.3": {
+      "map": {
+        "xtend": "npm:xtend@4.0.1",
+        "to-arraybuffer": "npm:to-arraybuffer@1.0.1",
+        "builtin-status-codes": "npm:builtin-status-codes@3.0.0",
+        "inherits": "npm:inherits@2.0.3",
+        "readable-stream": "npm:readable-stream@2.2.3"
+      }
+    },
+    "npm:browserify-zlib@0.1.4": {
+      "map": {
+        "readable-stream": "npm:readable-stream@2.2.3",
+        "pako": "npm:pako@0.2.9"
+      }
+    },
+    "npm:dashdash@1.14.1": {
+      "map": {
+        "assert-plus": "npm:assert-plus@1.0.0"
+      }
+    },
+    "npm:getpass@0.1.6": {
+      "map": {
+        "assert-plus": "npm:assert-plus@1.0.0"
+      }
+    },
+    "npm:jodid25519@1.0.2": {
+      "map": {
+        "jsbn": "npm:jsbn@0.1.1"
+      }
+    },
+    "npm:bcrypt-pbkdf@1.0.1": {
+      "map": {
+        "tweetnacl": "npm:tweetnacl@0.14.5"
+      }
+    },
+    "npm:ecc-jsbn@0.1.1": {
+      "map": {
+        "jsbn": "npm:jsbn@0.1.1"
+      }
+    },
+    "npm:verror@1.3.6": {
+      "map": {
+        "extsprintf": "npm:extsprintf@1.0.2"
+      }
+    },
+    "npm:json-stable-stringify@1.0.1": {
+      "map": {
+        "jsonify": "npm:jsonify@0.0.0"
+      }
+    },
+    "npm:xml2js@0.4.17": {
+      "map": {
+        "xmlbuilder": "npm:xmlbuilder@4.2.1",
+        "sax": "npm:sax@1.2.2"
+      }
+    },
+    "npm:global@4.3.1": {
+      "map": {
+        "process": "npm:process@0.5.2",
+        "min-document": "npm:min-document@2.19.0",
+        "node-min-document": "npm:min-document@2.19.0"
+      }
+    },
+    "npm:parse-headers@2.0.1": {
+      "map": {
+        "trim": "npm:trim@0.0.1",
+        "for-each": "npm:for-each@0.3.2"
+      }
+    },
+    "npm:for-each@0.3.2": {
+      "map": {
+        "is-function": "npm:is-function@1.0.1"
+      }
+    },
+    "npm:jspm-nodelibs-timers@0.2.0": {
+      "map": {
+        "timers-browserify": "npm:timers-browserify@1.4.2"
+      }
+    },
+    "npm:xmlbuilder@4.2.1": {
+      "map": {
+        "lodash": "npm:lodash@4.17.4"
+      }
+    },
+    "npm:min-document@2.19.0": {
+      "map": {
+        "dom-walk": "npm:dom-walk@0.1.1"
+      }
+    },
+    "npm:timers-browserify@1.4.2": {
+      "map": {
+        "process": "npm:process@0.11.9"
       }
     }
   }

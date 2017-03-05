@@ -1,0 +1,27 @@
+{
+  "main": "lib/ajv.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "dist/ajv.bundle.js": {
+      "cjsRequireDetection": false
+    },
+    "dist/nodent.min.js": {
+      "format": "amd"
+    },
+    "dist/regenerator.min.js": {
+      "format": "amd"
+    }
+  },
+  "map": {
+    "./lib/compile": "./lib/compile/index.js",
+    "ajv": "."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "main": "immutable.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

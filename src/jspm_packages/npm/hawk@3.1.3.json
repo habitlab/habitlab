@@ -1,0 +1,21 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js",
+    "./lib/index.js": {
+      "browser": "./lib/browser.js"
+    },
+    "./test": "./test/index.js"
+  }
+}

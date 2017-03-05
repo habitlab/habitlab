@@ -1,0 +1,9 @@
+{
+  "main": "lib/xml2js.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

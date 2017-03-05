@@ -1,0 +1,87 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/request.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/response.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/auth.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/binary-streaming.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/binary.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/cookie.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/delete.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/headers.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/lib/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/post-binary.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/post-text.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/text-streaming.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/text.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/browser/webworker.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./test/server": "./test/server/index.js"
+  }
+}

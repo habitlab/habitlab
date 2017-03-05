@@ -1,0 +1,1 @@
+throw new Error('The NodeJS "tls" module is not available in the browser.');

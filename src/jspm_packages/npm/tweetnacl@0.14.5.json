@@ -1,0 +1,17 @@
+{
+  "main": "nacl-fast.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "buffer": {
+      "browser": "@empty"
+    },
+    "crypto": {
+      "browser": "@empty"
+    }
+  }
+}

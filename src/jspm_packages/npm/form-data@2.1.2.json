@@ -1,0 +1,24 @@
+{
+  "main": "lib/form_data.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/form_data.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib/form_data.js": {
+      "browser": "./lib/browser.js"
+    }
+  }
+}

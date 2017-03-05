@@ -1,0 +1,24 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "example/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "index.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

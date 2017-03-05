@@ -1,0 +1,12 @@
+{
+  "main": "./tls.js",
+  "name": "jspm-nodelibs-tls",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./tls.js": {
+      "node": "@node/tls"
+    }
+  },
+  "jspmNodeConversion": false
+}

@@ -1,0 +1,13 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./src": "./src/index.js",
+    "./src/browser": "./src/browser/index.js"
+  }
+}

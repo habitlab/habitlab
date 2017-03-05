@@ -1,0 +1,19 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "test/test-exif.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

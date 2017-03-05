@@ -1,0 +1,9 @@
+{
+  "main": "./http.js",
+  "map": {
+    "./http.js": {
+      "node": "@node/http",
+      "browser": "http-browserify"
+    }
+  }
+}

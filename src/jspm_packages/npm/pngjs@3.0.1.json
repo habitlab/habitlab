@@ -1,0 +1,84 @@
+{
+  "main": "lib/png.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/bitmapper.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/bitpacker.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/chunkstream.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/filter-pack.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/filter-parse-async.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/filter-parse-sync.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/filter-parse.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/format-normaliser.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/packer-async.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/packer-sync.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/packer.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/parser-sync.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/parser.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/png.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "main": "./dns.js",
+  "name": "jspm-nodelibs-dns",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./dns.js": {
+      "node": "@node/dns"
+    }
+  },
+  "jspmNodeConversion": false
+}

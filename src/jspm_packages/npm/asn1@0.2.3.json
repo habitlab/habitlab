@@ -1,0 +1,28 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "lib/ber/reader.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/ber/writer.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "tst/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js",
+    "./lib/ber": "./lib/ber/index.js"
+  }
+}

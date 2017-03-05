@@ -1,0 +1,19 @@
+{
+  "main": "assert.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "assert.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

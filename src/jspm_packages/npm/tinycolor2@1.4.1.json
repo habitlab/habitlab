@@ -1,0 +1,12 @@
+{
+  "main": "tinycolor.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "demo/jquery-1.9.1.js": {
+      "format": "amd"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/index.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js",
+    "./test": "./test/index.js"
+  }
+}

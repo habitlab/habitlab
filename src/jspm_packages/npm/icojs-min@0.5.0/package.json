@@ -1,0 +1,28 @@
+{
+  "name": "icojs-min",
+  "description": "parse ico file",
+  "version": "0.5.0",
+  "author": "egy186",
+  "bugs": {
+    "url": "https://github.com/egy186/icojs/issues"
+  },
+  "files": [
+    "dist",
+    "src",
+    "browser.js",
+    "index.js"
+  ],
+  "homepage": "https://egy186.github.io/icojs",
+  "keywords": [
+    "ico",
+    "parse"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egy186/icojs.git"
+  },
+  "scripts": {
+  }
+}

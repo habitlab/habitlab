@@ -1,0 +1,14 @@
+{
+  "main": "lib/sax.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "lib/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

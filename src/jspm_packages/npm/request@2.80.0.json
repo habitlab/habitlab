@@ -1,0 +1,34 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/helpers.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/multipart.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/oauth.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "request.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

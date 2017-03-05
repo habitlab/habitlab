@@ -1,0 +1,14 @@
+{
+  "main": "punycode.js",
+  "map": {
+    "./punycode.js": {
+      "node": "@node/punycode"
+    }
+  },
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

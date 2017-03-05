@@ -1,0 +1,12 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "browser-test.js": {
+      "cjsRequireDetection": false
+    }
+  }
+}

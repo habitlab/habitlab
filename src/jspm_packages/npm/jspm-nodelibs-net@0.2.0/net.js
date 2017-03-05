@@ -1,0 +1,1 @@
+throw new Error('The NodeJS "child_process" module is not available in the browser.');

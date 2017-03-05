@@ -1,0 +1,9 @@
+{
+  "main": "./timers.js",
+  "map": {
+    "./timers.js": {
+      "node": "@node/timers",
+      "browser": "timers-browserify"
+    }
+  }
+}

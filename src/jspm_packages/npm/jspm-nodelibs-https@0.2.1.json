@@ -1,0 +1,8 @@
+{
+  "main": "./https.js",
+  "map": {
+    "./https.js": {
+      "node": "@node/https"
+    }
+  }
+}

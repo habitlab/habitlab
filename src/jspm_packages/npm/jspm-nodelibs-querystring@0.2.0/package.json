@@ -1,0 +1,12 @@
+{
+  "main": "./querystring.js",
+  "name": "jspm-nodelibs-querystring",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./querystring.js": {
+      "node": "@node/querystring"
+    }
+  },
+  "jspmNodeConversion": false
+}

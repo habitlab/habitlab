@@ -1,0 +1,16 @@
+{
+  "main": "./timers.js",
+  "name": "jspm-nodelibs-timers",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./timers.js": {
+      "node": "@node/timers",
+      "browser": "timers-browserify"
+    }
+  },
+  "dependencies": {
+    "timers-browserify": "npm:timers-browserify@^1.4.2"
+  },
+  "jspmNodeConversion": false
+}

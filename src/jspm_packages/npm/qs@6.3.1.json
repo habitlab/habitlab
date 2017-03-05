@@ -1,0 +1,26 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "dist/qs.js": {
+      "cjsRequireDetection": false
+    },
+    "test/parse.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/stringify.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js",
+    "./test": "./test/index.js"
+  }
+}

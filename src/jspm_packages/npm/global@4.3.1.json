@@ -1,0 +1,18 @@
+{
+  "main": "window.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "individual": {
+      "browser": "@empty"
+    },
+    "min-document": {
+      "browser": "@empty",
+      "default": "node-min-document"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "main": "./http.js",
+  "name": "jspm-nodelibs-http",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./http.js": {
+      "node": "@node/http",
+      "browser": "http-browserify"
+    }
+  },
+  "dependencies": {
+    "http-browserify": "npm:stream-http@^2.0.2"
+  },
+  "jspmNodeConversion": false
+}

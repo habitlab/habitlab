@@ -1,0 +1,12 @@
+{
+  "main": "./net.js",
+  "name": "jspm-nodelibs-net",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./net.js": {
+      "node": "@node/net"
+    }
+  },
+  "jspmNodeConversion": false
+}

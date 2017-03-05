@@ -1,0 +1,15 @@
+{
+  "main": "lib/node4/promise.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "lib/browser/*": {
+      "format": "esm"
+    },
+    "src/*": {
+      "format": "esm"
+    }
+  }
+}

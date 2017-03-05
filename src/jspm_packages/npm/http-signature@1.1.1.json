@@ -1,0 +1,22 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "lib/signer.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/verify.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "main": "stringstream.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "example.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "stringstream.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "stringstream": "."
+  }
+}

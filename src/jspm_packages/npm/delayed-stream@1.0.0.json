@@ -1,0 +1,9 @@
+{
+  "main": "lib/delayed_stream.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

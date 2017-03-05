@@ -1,0 +1,8 @@
+{
+  "main": "./net.js",
+  "map": {
+    "./net.js": {
+      "node": "@node/net"
+    }
+  }
+}

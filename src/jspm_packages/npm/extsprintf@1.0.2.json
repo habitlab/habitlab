@@ -1,0 +1,12 @@
+{
+  "main": "lib/extsprintf.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "extsprintf": "."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "main": "bignumber.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

@@ -1,0 +1,1 @@
+throw new Error('The NodeJS "dns" module is not available in the browser.');

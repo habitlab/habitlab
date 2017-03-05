@@ -1,0 +1,52 @@
+{
+  "main": "src/index.js",
+  "map": {
+    "_stream_transform": "readable-stream/transform"
+  },
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "src/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/ignored/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/test-zlib-convenience-methods.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/test-zlib-from-string.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/test-zlib-random-byte-pipes.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/test-zlib-zero-byte.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "test/test-zlib.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "main": "lib/validate.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

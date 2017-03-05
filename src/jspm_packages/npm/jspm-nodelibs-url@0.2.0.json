@@ -1,0 +1,9 @@
+{
+  "main": "./url.js",
+  "map": {
+    "./url.js": {
+      "node": "@node/url",
+      "browser": "url-browserify"
+    }
+  }
+}

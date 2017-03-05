@@ -1,0 +1,15 @@
+{
+  "main": "./zlib.js",
+  "name": "jspm-nodelibs-zlib",
+  "version": "0.2.2",
+  "map": {
+    "./zlib.js": {
+      "node": "@node/zlib",
+      "browser": "browserify-zlib"
+    }
+  },
+  "dependencies": {
+    "browserify-zlib": "^0.1.4"
+  },
+  "jspmNodeConversion": false
+}

@@ -1,0 +1,19 @@
+{
+  "main": "main.js",
+  "map": {
+    "./main.js": {
+      "node": "@node/timers"
+    }
+  },
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

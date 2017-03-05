@@ -1,0 +1,19 @@
+{
+  "main": "aws4.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "aws4.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

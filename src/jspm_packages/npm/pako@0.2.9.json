@@ -1,0 +1,18 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "dist/pako.js": {
+      "cjsRequireDetection": false
+    },
+    "dist/pako_deflate.js": {
+      "cjsRequireDetection": false
+    },
+    "dist/pako_inflate.js": {
+      "cjsRequireDetection": false
+    }
+  }
+}

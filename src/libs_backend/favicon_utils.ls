@@ -24,14 +24,13 @@ require! {
 } = require 'libs_common/gexport'
 
 get_jimp = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('jimp/browser/lib/jimp')
-  return window.Jimp
+  yield SystemJS.import('jimp')
 
 get_cheerio = memoizeSingleAsync cfy ->*
   yield SystemJS.import('cheerio')
 
 get_icojs = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('icojs/browser')
+  yield SystemJS.import('icojs')
 
 favicon_patterns_href = [
   'link[rel=apple-touch-icon-precomposed]',

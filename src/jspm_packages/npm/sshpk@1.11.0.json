@@ -1,0 +1,72 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "lib/algs.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/certificate.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/dhe.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/ed-compat.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/fingerprint.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/formats/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/identity.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/key.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/private-key.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/signature.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/ssh-buffer.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/utils.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js"
+  }
+}

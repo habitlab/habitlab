@@ -1,0 +1,16 @@
+{
+  "main": "./url.js",
+  "name": "jspm-nodelibs-url",
+  "version": "0.2.0",
+  "registry": "github",
+  "map": {
+    "./url.js": {
+      "node": "@node/url",
+      "browser": "url-browserify"
+    }
+  },
+  "dependencies": {
+    "url-browserify": "npm:url@^0.11.0"
+  },
+  "jspmNodeConversion": false
+}

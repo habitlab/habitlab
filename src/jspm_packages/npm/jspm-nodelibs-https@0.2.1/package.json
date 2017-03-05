@@ -1,0 +1,14 @@
+{
+  "main": "./https.js",
+  "name": "jspm-nodelibs-https",
+  "version": "0.2.1",
+  "map": {
+    "./https.js": {
+      "node": "@node/https"
+    }
+  },
+  "peerDependencies": {
+    "http": "jspm-nodelibs-http@^0.2.0"
+  },
+  "jspmNodeConversion": false
+}

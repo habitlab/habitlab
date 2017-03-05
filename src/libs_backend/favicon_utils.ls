@@ -60,6 +60,8 @@ export fetchFavicons = cfy (domain) ->*
   output = output.map (x) ->
     if x.startsWith('http://') or x.startsWith('https://')
       return x
+    if x.startsWith('//')
+      return 'http:' + x
     domain_without_slash = domain
     if domain.endsWith('/') and x.startsWith('/')
       domain_without_slash = domain.substr(0, domain.length - 1)
@@ -109,8 +111,10 @@ get_favicon_data_for_url = cfy (domain) ->*
   if domain.endsWith('.ico')
     favicon_path = domain
   else
-    if not domain.startsWith('http://') or domain.startsWith('https://')
+    if not (domain.startsWith('http://') or domain.startsWith('https://') or domain.startsWith('//'))
       domain = 'http://' + domain
+    else if domain.startsWith('//')
+      domain = 'http:' + domain
     all_favicon_paths = yield fetch_favicon.fetchFavicons(domain)
     filter_functions = [
       does_file_exist
@@ -128,6 +132,8 @@ get_favicon_data_for_url = cfy (domain) ->*
       if new_all_favicon_paths.length > 0
         all_favicon_paths = new_all_favicon_paths
     favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
+  if not favicon_path? or favicon_path.length == 0
+    throw new Error('no favicon path found')
   try
     favicon_response = yield fetch(favicon_path)
     #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
@@ -144,13 +150,16 @@ get_png_data_for_url = cfy (domain) ->*
   if domain.endsWith('.png') or domain.endsWith('.svg') or domain.endsWith('.ico')
     favicon_path = domain
   else
-    if not domain.startsWith('http://') or domain.startsWith('https://')
+    if not (domain.startsWith('http://') or domain.startsWith('https://') or domain.startsWith('//'))
       domain = 'http://' + domain
+    else if domain.startsWith('//')
+      domain = 'http:' + domain
     all_favicon_paths = yield fetch_favicon.fetchFavicons(domain)
     filter_functions = [
       does_file_exist
     ]
     filter_functions = filter_functions.concat ([
+      -> it.href.includes('icon')
       -> it.href.endsWith('.png')
       -> it.href.includes('.png')
     ].map(make_async))

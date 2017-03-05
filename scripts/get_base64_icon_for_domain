@@ -56,8 +56,14 @@
   };
   does_file_exist = cfy(function*(url){
     var request, e;
+    if (typeof url !== 'string' && typeof url.href === 'string') {
+      url = url.href;
+    }
     try {
       request = (yield fetch(url));
+      if (!request.ok) {
+        return false;
+      }
       (yield request.text());
       return true;
     } catch (e$) {

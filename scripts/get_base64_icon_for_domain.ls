@@ -46,8 +46,12 @@ make_async = (sync_func) ->
   return (x) -> Promise.resolve(sync_func(x))
 
 does_file_exist = cfy (url) ->*
+  if typeof(url) != 'string' and typeof(url.href) == 'string'
+    url = url.href
   try
     request = yield fetch url
+    if not request.ok
+      return false
     yield request.text()
     return true
   catch
@@ -67,7 +71,6 @@ get_favicon_data_for_url = cfy (domain) ->*
     if not domain.startsWith('http://') or domain.startsWith('https://')
       domain = 'http://' + domain
     all_favicon_paths = yield fetch_favicon.fetchFavicons(domain)
-    #console.log all_favicon_paths
     filter_functions = [
       does_file_exist
     ]

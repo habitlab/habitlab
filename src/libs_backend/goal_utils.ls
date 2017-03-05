@@ -277,17 +277,20 @@ export add_custom_goal_info = cfy (goal_info) ->*
   return
 
 export add_custom_goal_reduce_time_on_domain = cfy (domain) ->*
+  domain_printable = domain
+  if domain_printable.startsWith('www.')
+    domain_printable = domain_printable.substr(4)
   custom_goal_name = "custom/spend_less_time_#{domain}"
   generic_interventions = yield intervention_utils.list_generic_interventions()
   generated_interventions = [x.split('generic/').join("generated_#{domain}/") for x in generic_interventions]
   goal_info = {
     name: custom_goal_name
     custom: true
-    description: "Spend less time on #{domain}"
+    description: "Spend less time on #{domain_printable}"
     homepage: "http://#{domain}/"
-    progress_description: "Time spent on #{domain}"
+    progress_description: "Time spent on #{domain_printable}"
     sitename: domain
-    sitename_printable: domain
+    sitename_printable: domain_printable
     interventions: generated_interventions
     measurement: 'time_spent_on_domain'
     domain: domain

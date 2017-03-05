@@ -84,12 +84,12 @@ polymer_ext {
       self.selected_tab_idx = selected_tab_idx
       return
     yield once_true(-> self.enabled_goal_info_list?length?)
-    goals_list = self.enabled_goal_info_list.map((.sitename))
+    goals_list = self.enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
     selected_goal_idx = goals_list.indexOf(selected_tab_name)
     if selected_goal_idx != -1
       self.selected_tab_idx = selected_goal_idx + 2
   compute_selected_tab_name: (selected_tab_idx, enabled_goal_info_list) ->
-    goals_list = enabled_goal_info_list.map((.sitename))
+    goals_list = enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
     return (['overview', 'settings'].concat(goals_list))[selected_tab_idx]
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}

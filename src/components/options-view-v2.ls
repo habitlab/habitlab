@@ -140,6 +140,9 @@ polymer_ext {
     yield this.rerender()
     if not this.have_options_page_hash and not this.selected_tab_idx?
       this.selected_tab_idx = 0
+    yield SystemJS.import('cheerio')
+    yield SystemJS.import('jimp')
+    yield SystemJS.import('icojs')
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

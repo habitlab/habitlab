@@ -56,6 +56,10 @@ polymer_ext({
       this.open();
     }
   },
+  textarea_keydown: function(evt) {
+    evt.stopPropagation();
+    this.textarea_changed();
+  },
   textarea_changed: _.throttle(function() {
     this.$$('#feedback_dialog').notifyResize();
     this.save_feedback();
@@ -63,12 +67,13 @@ polymer_ext({
   save_feedback: _.throttle(function() {
     localStorage.setItem('feedback_form_feedback', this.feedback);
   }, 1000),
-  email_changed_keydown: _.throttle(function() {
+  email_changed_keydown: function(evt) {
+    evt.stopPropagation();
     this.save_email();
-  }, 1000),
-  save_email: function() {
-    localStorage.setItem('feedback_form_email', this.email);
   },
+  save_email: _.throttle(function() {
+    localStorage.setItem('feedback_form_email', this.email);
+  }, 1000),
   open: function() {
     var saved_feedback = localStorage.getItem('feedback_form_feedback');
     if (saved_feedback && saved_feedback.length > 0) {

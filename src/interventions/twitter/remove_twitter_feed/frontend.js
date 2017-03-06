@@ -32,28 +32,32 @@ function removeFeed() {
   spinner.hide()
 }
 
-function showFeed(intervalID) {
-  $('habitlab-logo').remove()
-  $('paper-button').remove()
+var intervalID;
+
+function showFeed() {
+  clearInterval(intervalID) //stop refreshing the page to hide elements  
+  $('#habitlab_container').remove()
 
   var timelineFeed = $('.content-main.top-timeline-tweetbox').find('.stream-items.js-navigable-stream')
   timelineFeed.show()
   $('.stream-end-inner').show()
-  clearInterval(intervalID) //stop refreshing the page to hide elements  
 }
 
-var intervalID;
-
 log_impression('twitter/remove_twitter_feed')
-var habitlab_logo = $('<habitlab-logo>')
-var cheatButton = $('<center><paper-button style="background-color:white" raised>Show My Feed This One Time</paper-button></center>')
+var container = $('<div style="text-align: center;" id="habitlab_container"></div>')
+var habitlab_logo = $('<habitlab-logo></habitlab-logo>')
+var cheatButton = $('<paper-button style="color: white; background-color: #415D67; box-shadow: 2px 2px 2px #888888;" raised>Show My Feed This One Time</paper-button></center>')
+container.append([cheatButton, '<br><br>', habitlab_logo])
 cheatButton.click(function() {
-  showFeed(intervalID)
+  showFeed()
 })
 
-$('.content-main.top-timeline-tweetbox').append(cheatButton)
-$('.content-main.top-timeline-tweetbox').append(habitlab_logo) 
+$('.content-main.top-timeline-tweetbox').append(container)
 
 intervalID = window.setInterval(removeFeed, 200);
+
+document.body.addEventListener('disable_intervention', function() {
+  showFeed();
+})
 
 window.debugeval = x => eval(x);

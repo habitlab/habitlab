@@ -413,6 +413,12 @@ gulp.task 'generate_goal_intervention_info', (done) ->
       continue
     goal_name = info_yaml_filepath.replace(/^src\/goals\//, '').replace(/\/info\.yaml$/, '')
     goal_info.name = goal_name
+    if not goal_info.sitename?
+      goal_info.sitename = goal_name.split('/')[0]
+    if not goal_info.sitename_printable?
+      goal_info.sitename_printable = goal_info.sitename.substr(0, 1).toUpperCase() + goal_info.sitename.substr(1)
+    if not goal_info.homepage?
+      goal_info.homepage = "https://www.#{goal_info.sitename}.com/"
     goals.push goal_info
   # interventions
   for info_yaml_filepath in prelude.sort(glob.sync('src/interventions/**/info.yaml'))
@@ -420,6 +426,8 @@ gulp.task 'generate_goal_intervention_info', (done) ->
     if intervention_info.disabled
       continue
     intervention_name = info_yaml_filepath.replace(/^src\/interventions\//, '').replace(/\/info\.yaml$/, '')
+    if not intervention_info.sitename?
+      intervention_info.sitename = intervention_name.split('/')[0]
     intervention_info.name = intervention_name
     interventions.push intervention_info
   fs.writeFileSync 'dist/goal_intervention_info.json', JSON.stringify(output)

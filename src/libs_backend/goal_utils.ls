@@ -44,6 +44,11 @@ getAllInterventionsGoalInfo = cfy ->*
   goal_info.interventions = all_interventions
   return goal_info
 
+export getGoalInfo = cfy (goal_name) ->*
+  all_goals = yield get_goals()
+  return all_goals[goal_name]
+
+/*
 cached_get_goal_info_unmodified = {}
 
 export getGoalInfo = cfy (goal_name) ->*
@@ -62,6 +67,7 @@ export getGoalInfo = cfy (goal_name) ->*
     goal_info.homepage = "https://www.#{goal_info.sitename}.com/"
   cached_get_goal_info_unmodified[goal_name] = goal_info
   return goal_info
+*/
 
 export get_num_enabled_goals = cfy ->*
   enabled_goals = yield get_enabled_goals()
@@ -145,6 +151,9 @@ export is_goal_enabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
   return enabled_goals[goal_name]?
 
+export get_goal_intervention_info = memoizeSingleAsync cfy ->*
+  yield localget_json '/goal_intervention_info.json'
+
 #local_cached_list_all_goals = null
 
 export list_all_goals = cfy ->*
@@ -155,7 +164,8 @@ export list_all_goals = cfy ->*
     return JSON.parse cached_list_all_goals
     #local_cached_list_all_goals := JSON.parse cached_list_all_goals
     #return local_cached_list_all_goals
-  goals_list = yield localget_json('/goals/goals.json')
+  #goals_list = yield localget_json('/goals/goals.json')
+  goals_list = (yield get_goal_intervention_info()).goals.map((.name))
   extra_list_all_goals_text = localStorage.getItem 'extra_list_all_goals'
   if extra_list_all_goals_text?
     extra_list_all_goals = JSON.parse extra_list_all_goals_text
@@ -223,6 +233,7 @@ export get_goal_info = cfy (goal_name) ->*
 
 #local_cached_get_goals = null
 
+/*
 export get_goals = cfy ->*
   #if local_cached_get_goals?
   #  return local_cached_get_goals
@@ -242,6 +253,28 @@ export get_goals = cfy ->*
   goal_info_dict = yield goal_name_to_info_promises
   for k,v of goal_info_dict
     output[k] = v
+  localStorage.setItem 'cached_get_goals', JSON.stringify(output)
+  #local_cached_get_goals := output
+  return output
+*/
+
+export get_goals = cfy ->*
+  #if local_cached_get_goals?
+  #  return local_cached_get_goals
+  cached_get_goals = localStorage.getItem 'cached_get_goals'
+  if cached_get_goals?
+    return JSON.parse cached_get_goals
+    #local_cached_get_goals := JSON.parse cached_get_goals
+    #return local_cached_get_goals
+  goal_info_list = (yield get_goal_intervention_info()).goals
+  output = {}
+  for goal_info in goal_info_list
+    output[goal_info.name] = goal_info
+  extra_get_goals_text = localStorage.getItem 'extra_get_goals'
+  if extra_get_goals_text?
+    extra_get_goals = JSON.parse extra_get_goals_text
+    for k,v of extra_get_goals
+      output[k] = v
   localStorage.setItem 'cached_get_goals', JSON.stringify(output)
   #local_cached_get_goals := output
   return output

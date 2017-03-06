@@ -45,6 +45,7 @@ prelude = require 'prelude-ls'
 
 {cfy, yfy} = require 'cfy'
 
+/*
 cached_get_intervention_info = {}
 cached_get_intervention_info_unmodified = {}
 
@@ -61,6 +62,11 @@ getInterventionInfo = cfy (intervention_name) ->*
   cached_get_intervention_info[intervention_name] = intervention_info
   cached_get_intervention_info_unmodified[intervention_name] = intervention_info
   return intervention_info
+*/
+
+export getInterventionInfo = cfy (intervention_name) ->*
+  all_intervention_info = yield get_interventions()
+  return all_intervention_info[intervention_name]
 
 export set_override_enabled_interventions_once = (intervention_name) ->
   localStorage.setItem('override_enabled_interventions_once', JSON.stringify([intervention_name]))
@@ -223,7 +229,8 @@ export list_generic_interventions = memoizeSingleAsync cfy ->*
   cached_generic_interventions = localStorage.getItem 'cached_list_generic_interventions'
   if cached_generic_interventions?
     return JSON.parse cached_generic_interventions
-  interventions_list = yield localget_json('/interventions/interventions.json')
+  #interventions_list = yield localget_json('/interventions/interventions.json')
+  interventions_list = (yield goal_utils.get_goal_intervention_info()).interventions.map((.name))
   generic_interventions_list = interventions_list.filter -> it.startsWith('generic/')
   localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
   return generic_interventions_list
@@ -238,7 +245,8 @@ export list_all_interventions = cfy ->*
     return JSON.parse cached_list_all_interventions
     #local_cache_list_all_interventions := JSON.parse cached_list_all_interventions
     #return local_cache_list_all_interventions
-  interventions_list = yield localget_json('/interventions/interventions.json')
+  #interventions_list = yield localget_json('/interventions/interventions.json')
+  interventions_list = (yield goal_utils.get_goal_intervention_info()).interventions.map((.name))
   interventions_list_extra_text = localStorage.getItem 'extra_list_all_interventions'
   if interventions_list_extra_text?
     interventions_list_extra = JSON.parse interventions_list_extra_text
@@ -372,6 +380,7 @@ fix_intervention_name_to_intervention_info_dict = (intervention_name_to_info, in
 
 #local_cache_get_interventions = null
 
+/*
 export get_interventions = cfy ->*
   #if local_cache_get_interventions?
     #return local_cache_get_interventions
@@ -396,6 +405,34 @@ export get_interventions = cfy ->*
   [intervention_name_to_info, interventions_to_goals] = yield [intervention_name_to_info_promises, interventions_to_goals_promises]
   for intervention_name,intervention_info of intervention_name_to_info
     output[intervention_name] = intervention_info
+  localStorage.setItem 'cached_get_interventions', JSON.stringify(output)
+  fix_intervention_name_to_intervention_info_dict output, interventions_to_goals
+  return output
+*/
+
+export get_interventions = cfy ->*
+  #if local_cache_get_interventions?
+    #return local_cache_get_interventions
+  cached_get_interventions = localStorage.getItem 'cached_get_interventions'
+  if cached_get_interventions?
+    interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+    intervention_name_to_info = JSON.parse cached_get_interventions
+    fix_intervention_name_to_intervention_info_dict intervention_name_to_info, interventions_to_goals
+    return intervention_name_to_info
+    #return JSON.parse cached_get_interventions
+    #local_cache_get_interventions := JSON.parse cached_get_interventions
+    #return local_cache_get_interventions
+  interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+  interventions_list = yield list_all_interventions()
+  output = {}
+  intervention_info_list = (yield goal_utils.get_goal_intervention_info()).interventions
+  for intervention_info in intervention_info_list
+    output[intervention_info.name] = intervention_info
+  extra_get_interventions_text = localStorage.getItem 'extra_get_interventions'
+  if extra_get_interventions_text?
+    extra_get_interventions = JSON.parse extra_get_interventions_text
+    for intervention_name,intervention_info of extra_get_interventions
+      output[intervention_name] = intervention_info
   localStorage.setItem 'cached_get_interventions', JSON.stringify(output)
   fix_intervention_name_to_intervention_info_dict output, interventions_to_goals
   return output

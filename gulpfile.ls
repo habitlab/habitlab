@@ -402,6 +402,29 @@ gulp.task 'generate_goals_list', (done) ->
   fs.writeFileSync 'dist/goals/goals.json', JSON.stringify(prelude.sort(output))
   done()
 
+gulp.task 'generate_goal_intervention_info', (done) ->
+  interventions = []
+  goals = []
+  output = {interventions, goals}
+  # goals
+  for info_yaml_filepath in prelude.sort(glob.sync('src/goals/**/info.yaml'))
+    goal_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
+    if goal_info.disabled
+      continue
+    goal_name = info_yaml_filepath.replace(/^src\/goals\//, '').replace(/\/info\.yaml$/, '')
+    goal_info.name = goal_name
+    goals.push goal_info
+  # interventions
+  for info_yaml_filepath in prelude.sort(glob.sync('src/interventions/**/info.yaml'))
+    intervention_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
+    if intervention_info.disabled
+      continue
+    intervention_name = info_yaml_filepath.replace(/^src\/interventions\//, '').replace(/\/info\.yaml$/, '')
+    intervention_info.name = intervention_name
+    interventions.push intervention_info
+  fs.writeFileSync 'dist/goal_intervention_info.json', JSON.stringify(output)
+  done()
+
 gulp.task 'generate_libs_frontend', (done) ->
   mkdirp.sync 'src/generated_libs/libs_frontend'
   for lib_name in prelude.sort(function_signatures.list_libs())
@@ -501,6 +524,7 @@ gulp.task 'build_base', gulp.parallel(
   'generate_expose_backend_libs'
   'generate_interventions_list'
   'generate_goals_list'
+  'generate_goal_intervention_info'
   'yaml_build'
   'copy_build'
   'livescript_build'
@@ -642,6 +666,9 @@ gulp.task 'generate_interventions_list_watch', ->
 gulp.task 'generate_goals_list_watch', ->
   gulp.watch ['src/goals/**/info.yaml'], gulp.series('generate_goals_list')
 
+gulp.task 'generate_goal_intervention_info_watch', ->
+  gulp.watch ['src/interventions/**/info.yaml', 'src/goals/**/info.yaml'], gulp.series('generate_goal_intervention_info')
+
 # TODO we can speed up the watch speed for browserify by using watchify
 # https://github.com/marcello3d/gulp-watchify/blob/master/examples/simple/gulpfile.js
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
@@ -657,6 +684,7 @@ gulp.task 'watch_base', gulp.parallel(
   'generate_libs_frontend_watch'
   'generate_interventions_list_watch'
   'generate_goals_list_watch'
+  'generate_goal_intervention_info_watch'
 )
 
 /*

@@ -23,7 +23,8 @@ require('components/timespent-view.deps')
 require('components/habitlab-logo.deps')
 
 const {
-  once_document_available
+  once_document_available,
+  create_shadow_div
 } = require('libs_frontend/common_libs')
 
 const {
@@ -42,11 +43,18 @@ const {
 
 const co = require('co')
 
+var shadow_root;
+var shadow_div;
+
 co(function*() {
   const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
   if (on_same_domain_and_same_tab) {
     return
-  }  
+  }
+
+  shadow_div = create_shadow_div();
+  shadow_root = shadow_div.parentNode;
+  shadow_div = $(shadow_div);
 
   var timeLimitThisVisit;
   var timeBegun;
@@ -62,9 +70,9 @@ co(function*() {
                 'height': '100%',
                 'background-color': '#f2fcff',
                 'opacity': '0.97',
-                'z-index': 350
+                'z-index': Number.MAX_SAFE_INTEGER
     });
-    $(document.body).append($whiteDiv)
+    shadow_div.append($whiteDiv)
 
     //Centered container for text in the white box
     const $contentContainer = $('<div class="contentContainer">').css({
@@ -92,9 +100,9 @@ co(function*() {
     $okButton.css({'cursor': 'pointer', 'padding': '5px', 'background-color': '#3367d6', 'color': 'white', 'font-weight': 'normal'});
     //$okButton.click(() => {
     $okButton.on('click', () => {
-      var minutes = document.querySelector("paper-slider").value
+      var minutes = shadow_root.querySelector("paper-slider").value
       if (minutes === "") {
-        if ($('.wrongInputText').length === 0) {
+        if (shadow_div.find('.wrongInputText').length === 0) {
           const $wrongInputText = $('<div class="wrongInputText">').css({
             'color': 'red'
           })
@@ -106,7 +114,7 @@ co(function*() {
         timeBegun = Math.floor(Date.now() / 1000)
         timeLimitThisVisit = minutes * 60
 
-        $('.beginBox').remove()
+        shadow_div.find('.beginBox').remove()
         displayCountdown()
       }
     })
@@ -134,7 +142,7 @@ co(function*() {
                 'background-color': 'white',
                 'z-index': 350
     });
-    $(document.body).append($dialogBox)
+    shadow_div.append($dialogBox)
 
     //Centered container for text in the white box
     const $contentContainer = $('<div class="contentContainer">').css({
@@ -209,14 +217,14 @@ co(function*() {
   //Displays the countdown on the bottom left corner of the Facebook page
   function displayCountdown() {
     var display_timespent_div = $('<timespent-view>')
-    $('body').append(display_timespent_div)
+    shadow_div.append(display_timespent_div)
     var countdownTimer = setInterval(() => {
       const timeRemaining = getRemainingTimeThisVisit();
       var minutes = Math.floor(timeRemaining / 60);
       var seconds = timeRemaining % 60;
       display_timespent_div.attr('display-text', minutes + " minute(s) and " + seconds + " seconds left.");
       if (timeRemaining < 0) {
-        $('.timespent-view').remove();
+        shadow_div.find('.timespent-view').remove();
         addEndDialog("Your time this visit is up!");
         clearInterval(countdownTimer);
       }
@@ -230,10 +238,7 @@ co(function*() {
   once_document_available(main);
   window.onload = () => {
     document.body.addEventListener("disable_intervention", () => {
-      $('.timespent-view').remove();
-      $('.contentContainer').remove();
-      $('.dialogBox').remove();
-      $('.beginBox').remove()
+      shadow_div.remove();
     });
   }
 

@@ -134,6 +134,8 @@ polymer_ext {
     #console.log results
     #console.log results.data.image_url
     #this.img_url = results.data.image_url
+    if results.data.image_mp4_url.startsWith('http:')
+      results.data.image_mp4_url = results.data.image_mp4_url.replace(/^http:/, 'https:')
     this.video_url = results.data.image_mp4_url
 }, {
   source: require 'libs_frontend/polymer_methods'

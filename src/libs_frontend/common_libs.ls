@@ -81,6 +81,16 @@ export on_url_change = (func) ->
         prev_url = data.url
         func()
 
-
+export create_shadow_div = ->
+  shadow_div_host = document.createElement('div')
+  shadow_root = shadow_div_host.attachShadow({mode: 'open'})
+  #shadow_root = shadow_div_host.createShadowRoot()
+  shadow_div = document.createElement('div')
+  shadow_div.style.fontFamily = '"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
+  shadow_div.style.position = 'fixed'
+  shadow_div.style.zIndex = Number.MAX_SAFE_INTEGER
+  shadow_root.appendChild(shadow_div)
+  document.body.appendChild(shadow_div_host)
+  return shadow_div
 
 gexport_module 'common_libs', -> eval(it)

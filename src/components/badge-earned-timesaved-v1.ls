@@ -38,5 +38,5 @@ polymer_ext {
     minutes_saved_to_badges = get_minutes_saved_to_badges()
     return minutes_saved_to_badges[minutes_saved]
   play: ->
-    console.log 'play called on badge-earned-timesaved'
+    return
 }

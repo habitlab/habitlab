@@ -61,7 +61,6 @@ polymer_ext {
     self = this
     this.fire('disable_intervention')
 
-    console.log "disabled #{self.intervention}"
     swal {
       title: 'Disabled!'
       text: 'This intervention will be disabled temporarily.'
@@ -72,7 +71,6 @@ polymer_ext {
     this.fire('disable_intervention')
 
     set_intervention_disabled_permanently(this.intervention, ->
-      console.log "disabled #{self.intervention}"
       swal('Disabled!', 'This intervention will be disabled permanently.')
     )
   disable_habitlab_callback: ->

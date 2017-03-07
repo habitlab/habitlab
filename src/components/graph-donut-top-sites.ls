@@ -27,7 +27,6 @@ polymer_ext {
     if (myButton.value === "neverClicked")
       myButton.innerText = "View Today's Data"
       myButton.value = "clicked"
-      console.log sorted
       this.push('donutdata.datasets', {
         data: [Math.round(10*(sorted[0][1]/60))/10, Math.round(10*(sorted[1][1]/60))/10, Math.round(10*(sorted[2][1]/60))/10, Math.round(10*(sorted[3][1]/60))/10, Math.round(10*(sorted[4][1]/60))/10],        
         backgroundColor: [

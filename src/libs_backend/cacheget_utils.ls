@@ -4,6 +4,11 @@ require! {
 
 {cfy} = require 'cfy'
 
+{
+  gexport
+  gexport_module
+} = require 'libs_common/gexport'
+
 localforage_store = null
 get_store = ->
   if not localforage_store?
@@ -24,6 +29,14 @@ get_store_remote = ->
   if not localforage_store_remote?
     localforage_store_remote := localforage.createInstance({name: 'remoteget'})
   return localforage_store_remote
+
+export clear_cache_localget = cfy ->*
+  store = yield get_store()
+  yield store.clear()
+
+export clear_cache_remoteget = cfy ->*
+  store = yield get_store_remote()
+  yield store.clear()
 
 export localget = cfy (url) ->*
   store = get_store()
@@ -68,3 +81,5 @@ export remoteget_base64 = cfy (url) ->*
   if text?
     return 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(text)))
   return null
+
+gexport_module 'cacheget_utils', -> eval(it)

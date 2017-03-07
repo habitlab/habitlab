@@ -14,7 +14,7 @@
 measurement_functions = require 'goals/progress_measurement'
 measurement_functions_generated = require 'goals/progress_measurement_generated'
 
-export get_progress_measurement_functions = memoizeSingleAsync cfy ->*
+export get_progress_measurement_functions = cfy ->*
   output = {}
   goals = yield goal_utils.get_goals()
   for goal_name,goal_info of goals

@@ -34,8 +34,6 @@ polymer_ext {
     if this.minutes_saved?
       minutes_saved = this.minutes_saved
     this.badges = get_all_badges_earned_for_minutes_saved(minutes_saved)
-    #console.log 'badges list is:'
-    #console.log this.badges
   isdemo_changed: (isdemo) ->
     if isdemo
       this.minutes_saved = 300

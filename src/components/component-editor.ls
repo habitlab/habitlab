@@ -66,7 +66,6 @@ polymer_ext {
     this.html_editor.setValue(component_info.html)
     this.set_js_edit_mode(component_info.js_edit_mode)
     this.set_html_edit_mode(component_info.html_edit_mode)
-    console.log component_name
   set_js_edit_mode: (js_edit_mode) ->
     self = this
     jslen = self.js_editor.getSession().getLength()

@@ -30,9 +30,6 @@ polymer_ext {
     for intv in seenInterventions
       results.push yield get_num_impressions_today(intv)
 
-    console.log 'results are'
-    console.log results
-
     #Retrieves all intervention descriptions
     interv_descriptions = yield get_interventions()
 

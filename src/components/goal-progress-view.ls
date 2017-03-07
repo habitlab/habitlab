@@ -16,7 +16,7 @@
 } = require 'libs_common/time_utils'
 
 {
-  get_goals
+  get_goal_info
   get_goal_target
 } = require 'libs_backend/goal_utils'
 
@@ -41,25 +41,12 @@ polymer_ext {
   properties: {
     goal: {
       type: String
-      #value: 'facebook/spend_less_time'
-      #observer: 'goalChanged'
-    }
-    goal_name_to_info: {
-      type: Object
-    }
-    goal_info: {
-      type: Object
-      computed: 'compute_goal_info(goal, goal_name_to_info)'
       observer: 'goalChanged'
     }
   }
-  ready: cfy ->*
-    this.goal_name_to_info = yield get_goals()
-  compute_goal_info: (goal, goal_name_to_info) ->
-    return goal_name_to_info[goal]
-  goalChanged: cfy ->*
-    goal_info = this.goal_name_to_info[this.goal]
-    goal_progress = yield get_progress_on_goal_this_week(this.goal)
+  goalChanged: cfy (goal) ->*
+    goal_info = yield get_goal_info(goal)
+    goal_progress = yield get_progress_on_goal_this_week(goal)
     progress_values = goal_progress.map (.progress)
     progress_values = progress_values.map (it) ->
       Math.round(it * 10)/10
@@ -73,6 +60,8 @@ polymer_ext {
     goal_data = []
     for i from 0 to progress_values.length
       goal_data.push target
+    if this.goal != goal
+      return
     this.data = {
       labels: reverse progress_labels
       datasets: [

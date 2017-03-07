@@ -73,6 +73,7 @@ co ->*
     get_goals
     get_enabled_goals
     get_goal_target
+    get_goal_intervention_info
   } = require 'libs_backend/goal_utils'
 
   {
@@ -817,3 +818,7 @@ co ->*
 
   #require('libs_backend/message_after_tab_close')
   require('libs_backend/notification_timer') #lewin notification_timer code
+
+  yield get_goal_intervention_info() # ensure cached
+  yield get_goals()
+  yield get_enabled_goals()

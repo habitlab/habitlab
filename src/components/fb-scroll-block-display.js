@@ -55,7 +55,6 @@ polymer_ext({
     this.fire('continue_scrolling', {})
   },
   ready: function() {
-    console.log('fb-scroll-block-display ready');
     const self = this;
     setInterval(() => {
       get_seconds_spent_on_current_domain_today(function(seconds_spent) {

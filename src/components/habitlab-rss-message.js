@@ -27,13 +27,12 @@ polymer_ext({
 			for (var i=0; i<5; i++) {
 				var num = Math.floor(Math.random() * result.results.length)
 				articles.push({title: result.results[num].title, url: result.results[num].url});
-				console.log(result.results[num].url)
 				result.results.splice(num, 1)
 			}
 			this.articles = articles;
 			
 		}).fail(function(err) {
-			console.log(err);
+			//console.log(err);
 			throw err;
 		});
 	},

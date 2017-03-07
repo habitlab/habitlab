@@ -23,9 +23,9 @@
 polymer_ext {
   is: 'site-view'
   properties: {
-    site_info_list: {
-      type: Array
-    }
+    #site_info_list: {
+    #  type: Array
+    #}
     site: {
       type: String
       observer: 'site_changed'
@@ -43,37 +43,17 @@ polymer_ext {
     this.$$('#linechart').chart.update()
   */
   intervention_name_to_info: (intervention_name, intervention_name_to_info_map) ->
-    return this.intervention_name_to_info_map[intervention_name]
-  site_changed: cfy ->*
+    return intervention_name_to_info_map[intervention_name]
+  site_changed: cfy (site) ->*
     goal_info_list = yield list_goals_for_site(this.site)
-    this.goal_info = goal_info_list[0]
     intervention_name_to_info_map = yield get_interventions()
     enabled_interventions = as_array(yield get_enabled_interventions())
     for intervention_name in enabled_interventions
       intervention_name_to_info_map[intervention_name].enabled = true
+    if this.site != site
+      return
     this.intervention_name_to_info_map = intervention_name_to_info_map
-    this.rerender()
-  on_goal_changed: (evt) ->
-    this.rerender()
-    this.$$('graph-time-spent-on-goal-sites-daily').ready()
-    #this.$$('graph-time-saved-daily').ready()
-    this.$$('graph-daily-overview').ready()
-    this.$$('graph-num-times-interventions-deployed').ready()
-    this.$$('graph-donut-top-sites').ready()
-
-  ready: ->
-    this.rerender()
-  rerender: cfy ->*
-    #Polymer tabbing
-    self = this
-    self.once_available '#graphsOfGoalsTab', ->
-      self.S('#graphsOfGoalsTab').prop('selected', 0)
-    self.once_available '#graphsOfInterventionEffectivenessTab', ->
-      self.S('#graphsOfInterventionEffectivenessTab').prop('selected', 0)
-
-    site_info_list = yield list_site_info_for_sites_for_which_goals_are_enabled()
-    self.site_info_list = site_info_list
-
+    this.goal_info = goal_info_list[0]
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

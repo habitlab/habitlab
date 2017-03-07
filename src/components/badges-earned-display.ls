@@ -41,7 +41,7 @@ polymer_ext {
         get_badge_for_minutes_saved(15)
       ]
   play: ->
-    console.log 'play called on badges-earned-display'
+    return
   is_timesaved_badge: (badge) ->
     return badge.type == 'minutes_saved'
   is_intervention_mastered_badge: (badge) ->

@@ -151,7 +151,7 @@ get_favicon_data_for_url = cfy (domain) ->*
   try
     favicon_response = yield fetch(favicon_path)
     #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
-    favicon_buffer = new Uint8Array(yield favicon_response.arrayBuffer()).buffer
+    favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
     favicon_ico_parsed = yield icojs.parse(favicon_buffer)
     favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
     return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
@@ -211,10 +211,19 @@ co ->*
     console.log 'please specify a domain'
     return
   if domain.startsWith('/') # is a file path
-    favicon_data = yield jimp.read(domain)
-    favicon_data.resize(40, 40)
-    console.log yield -> favicon_data.getBase64('image/png', it)
-    return
+    try
+      favicon_data = yield jimp.read(domain)
+      favicon_data.resize(40, 40)
+      console.log yield -> favicon_data.getBase64('image/png', it)
+      return
+    catch
+      favicon_response = yield fetch(favicon_path)
+      #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
+      favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
+      favicon_ico_parsed = yield icojs.parse(favicon_buffer)
+      favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
+      console.log 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
+      return
   #response = yield fetch('https://www.google.com/s2/favicons?domain_url=' + domain)
   #console.log 'data:image/png;base64,' + (yield response.buffer()).toString('base64')
   #domain = yield get_canonical_domain(domain)

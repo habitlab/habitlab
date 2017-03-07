@@ -47,9 +47,9 @@ polymer_ext {
   site_changed: cfy (site) ->*
     goal_info_list = yield list_goals_for_site(this.site)
     intervention_name_to_info_map = yield get_interventions()
-    enabled_interventions = as_array(yield get_enabled_interventions())
-    for intervention_name in enabled_interventions
-      intervention_name_to_info_map[intervention_name].enabled = true
+    enabled_interventions = yield get_enabled_interventions()
+    for intervention_name,intervention_info of intervention_name_to_info_map
+      intervention_info.enabled = (enabled_interventions[intervention_name] == true)
     if this.site != site
       return
     this.intervention_name_to_info_map = intervention_name_to_info_map

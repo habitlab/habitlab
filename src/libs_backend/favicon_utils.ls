@@ -123,7 +123,25 @@ async_filter = cfy (list, async_function) ->*
       output.push x
   return output
 
+arrayBufferToBase64 = (buffer) ->
+  binary = ''
+  bytes = new Uint8Array(buffer)
+  len = bytes.byteLength
+  for i from 0 til len
+    binary += String.fromCharCode(bytes[i])
+  return window.btoa(binary)
+
+favicon_domain_icojs_blacklist = {
+  'news.ycombinator.com'
+}
+
+favicon_domain_jimp_blacklist = {}
+
 export get_favicon_data_for_url = cfy (domain) ->*
+  icojs_convert = false
+  #icojs_convert = true
+  #if favicon_domain_icojs_blacklist[domain]?
+  #  icojs_convert = false
   if domain.endsWith('.ico')
     favicon_path = domain
   else
@@ -152,12 +170,17 @@ export get_favicon_data_for_url = cfy (domain) ->*
     throw new Error('no favicon path found')
   try
     favicon_response = yield fetch(favicon_path)
-    #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
     favicon_buffer = yield favicon_response.arrayBuffer();
-    icojs = yield get_icojs()
-    favicon_ico_parsed = yield icojs.parse(favicon_buffer, 'image/png')
-    favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
-    return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
+    if icojs_convert
+      #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
+      icojs = yield get_icojs()
+      favicon_ico_parsed = yield icojs.parse(favicon_buffer, 'image/png')
+      favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
+      return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
+    else
+      favicon_ico_base64 = arrayBufferToBase64(favicon_buffer)
+      return 'data:image/png;base64,' + favicon_ico_base64
+      #return 'data:image/x-icon;base64,' + favicon_ico_base64
   catch
   try
     jimp = yield get_jimp()
@@ -168,6 +191,10 @@ export get_favicon_data_for_url = cfy (domain) ->*
   return
 
 export get_png_data_for_url = cfy (domain) ->*
+  jimp_convert = false
+  #jimp_convert = true
+  #if favicon_domain_jimp_blacklist[domain]?
+  #  jimp_convert = false
   if domain.endsWith('.png') or domain.endsWith('.svg') or domain.endsWith('.ico')
     favicon_path = domain
   else
@@ -190,10 +217,16 @@ export get_png_data_for_url = cfy (domain) ->*
         all_favicon_paths = new_all_favicon_paths
     favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
   try
-    jimp = yield get_jimp()
-    favicon_data = yield jimp.read(favicon_path)
-    favicon_data.resize(40, 40)
-    return yield -> favicon_data.getBase64('image/png', it)
+    if jimp_convert
+      jimp = yield get_jimp()
+      favicon_data = yield jimp.read(favicon_path)
+      favicon_data.resize(40, 40)
+      return yield -> favicon_data.getBase64('image/png', it)
+    else
+      favicon_response = yield fetch(favicon_path)
+      favicon_buffer = yield favicon_response.arrayBuffer()
+      favicon_ico_base64 = arrayBufferToBase64(favicon_buffer)
+      return 'data:image/png;base64,' + favicon_ico_base64
   catch
   return
 

@@ -126,7 +126,7 @@ start_page_index = cfy ->*
   #set_intervention window.intervention
   params = getUrlParameters()
   tagname = params.tag
-  {index_body_width, index_body_height} = params
+  {index_body_width, index_body_height, index_background_color} = params
   if not tagname?
     tagname = 'debug-view'
   component_info = yield get_custom_component_info(tagname)
@@ -142,7 +142,7 @@ start_page_index = cfy ->*
   tag = document.createElement(tagname)
   num_properties = 0
   for k,v of params
-    if k == 'tag' or k == 'index_body_width' or k == 'index_body_height'
+    if k == 'tag' or k == 'index_body_width' or k == 'index_body_height' or k == 'index_background_color'
       continue
     v = js-yaml.safeLoad(v)
     set_nested_property tag, k, v
@@ -163,6 +163,8 @@ start_page_index = cfy ->*
     index_body.style.width = index_body_width
   if index_body_height
     index_body.style.height = index_body_height
+  if index_background_color?
+    document.body.style.backgroundColor = index_background_color
   add_url_input_if_needed()
   window.basetag = tag
   return

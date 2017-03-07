@@ -66,6 +66,7 @@ polymer_ext {
   isdemo_changed: (isdemo) ->
     if isdemo
       this.set_sites_and_goals()
+      document.body.style.backgroundColor = 'white'
   delete_goal_clicked: cfy (evt) ->*
     goal_name = evt.target.goal_name
     yield remove_custom_goal_and_generated_interventions goal_name

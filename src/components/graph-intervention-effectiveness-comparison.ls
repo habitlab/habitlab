@@ -10,6 +10,7 @@
   get_interventions
   list_enabled_interventions_for_goal
   get_seconds_saved_per_session_for_each_intervention_for_goal
+  list_available_interventions_for_goal
 } = require 'libs_backend/intervention_utils'
 
 {cfy} = require 'cfy'

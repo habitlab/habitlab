@@ -19,6 +19,10 @@ require! {
 } = require 'libs_common/memoize'
 
 {
+  unique
+} = require 'libs_common/array_utils'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
@@ -33,10 +37,11 @@ get_icojs = memoizeSingleAsync cfy ->*
   yield SystemJS.import('icojs')
 
 favicon_patterns_href = [
-  'link[rel=apple-touch-icon-precomposed]',
-  'link[rel=apple-touch-icon]',
-  'link[rel="shortcut icon"]',
-  'link[rel=icon]',
+  'link[rel=apple-touch-icon-precomposed]'
+  'link[rel=apple-touch-icon]'
+  'link[rel="shortcut icon"]'
+  'link[rel="Shortcut Icon"]'
+  'link[rel=icon]'
 ]
 
 #favicon_patterns_content = [
@@ -76,6 +81,7 @@ export fetchFavicons = cfy (domain) ->*
     if domain.endsWith('/') and x.startsWith('/')
       domain_without_slash = domain.substr(0, domain.length - 1)
     return domain_without_slash + x
+  output = unique output
   output = output.map -> {href: it, name: 'favicon.ico'}
   domain_to_favicons_cache[domain] = output
   return output
@@ -117,7 +123,7 @@ async_filter = cfy (list, async_function) ->*
       output.push x
   return output
 
-get_favicon_data_for_url = cfy (domain) ->*
+export get_favicon_data_for_url = cfy (domain) ->*
   if domain.endsWith('.ico')
     favicon_path = domain
   else
@@ -147,18 +153,21 @@ get_favicon_data_for_url = cfy (domain) ->*
   try
     favicon_response = yield fetch(favicon_path)
     #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
-    favicon_buffer = new Uint8Array(yield favicon_response.arrayBuffer()).buffer
+    favicon_buffer = yield favicon_response.arrayBuffer();
     icojs = yield get_icojs()
-    favicon_ico_parsed = yield icojs.parse(favicon_buffer)
+    favicon_ico_parsed = yield icojs.parse(favicon_buffer, 'image/png')
     favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
     return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
   catch
+  try
     jimp = yield get_jimp()
     favicon_data = yield jimp.read(favicon_path)
     favicon_data.resize(40, 40)
     return yield -> favicon_data.getBase64('image/png', it)
+  catch
+  return
 
-get_png_data_for_url = cfy (domain) ->*
+export get_png_data_for_url = cfy (domain) ->*
   if domain.endsWith('.png') or domain.endsWith('.svg') or domain.endsWith('.ico')
     favicon_path = domain
   else
@@ -180,28 +189,38 @@ get_png_data_for_url = cfy (domain) ->*
       if new_all_favicon_paths.length > 0
         all_favicon_paths = new_all_favicon_paths
     favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
-  jimp = yield get_jimp()
-  favicon_data = yield jimp.read(favicon_path)
-  favicon_data.resize(40, 40)
-  return yield -> favicon_data.getBase64('image/png', it)
+  try
+    jimp = yield get_jimp()
+    favicon_data = yield jimp.read(favicon_path)
+    favicon_data.resize(40, 40)
+    return yield -> favicon_data.getBase64('image/png', it)
+  catch
+  return
 
 export get_favicon_data_for_domain = cfy (domain) ->*
   try
-    return yield get_png_data_for_url(domain)
+    output = yield get_png_data_for_url(domain)
   catch
+  if output?
+    return output
   canonical_domain = yield get_canonical_domain(domain)
+  if domain != canonical_domain
+    try
+      output = yield get_png_data_for_url(canonical_domain)
+    catch
+    if output?
+      return output
   try
-    return yield get_png_data_for_url(canonical_domain)
+    output = yield get_favicon_data_for_url(domain)
   catch
-  try
-    return yield get_favicon_data_for_url(domain)
-  catch
-  return yield get_favicon_data_for_url(canonical_domain)
-
-export get_favicon_data_for_domain_or_null = cfy (domain) ->*
-  try
-    return yield get_favicon_data_for_domain(domain)
-  catch
+  if output?
+    return output
+  if domain != canonical_domain
+    try
+      output = yield get_favicon_data_for_url(canonical_domain)
+    catch
+    if output?
+      return output
   return
 
 gexport_module 'favicon_utils', -> eval(it)

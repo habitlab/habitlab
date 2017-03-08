@@ -62,22 +62,8 @@ polymer_ext({
 
 
   attached: function() {
-    var update_page = function(self) {
-      console.log('attached')
-      
-      /*
-      get_seconds_spent_on_current_domain_today(function(seconds_spent) {
-        self.minutes = Math.floor(seconds_spent/60);
-        self.seconds = seconds_spent % 60;
-        self.displayText = self.minutes + " minutes and " + self.seconds
-      });
-      */
-
-    };
-    update_page(this);
     var self = this;
     setInterval(function() {
-      update_page(self);
       if (self.secondsRemaining <= 0) {
         //self.fire('time_has_run_out', {});
         self.$.close_button.button_clicked();

@@ -18,13 +18,18 @@ const {
   url_to_domain
 } = require('libs_common/domain_utils')
 
+const {
+  get_intervention
+} = require('libs_common/intervention_info');
+
 co(function*() {
   var domain = url_to_domain(window.location.href)
   var numMins = yield get_minutes_spent_on_domain_today(domain)
   var numVisits = yield get_visits_to_domain_today(domain)
   var titleString = 'You have visited ' + url_to_domain(window.location.href) +' ' + numVisits + ' times and spent '+ numMins + ' minutes there today.'
-  var buttonText = 'Click to continue to Facebook'
-  var buttonText2 = 'Close Facebook'
+  var sitename_printable = get_intervention().sitename_printable
+  var buttonText = `Click to continue to ${sitename_printable}`
+  var buttonText2 = `Close ${sitename_printable}`
 
   var interst_screen = $('<interstitial-screen-num-visits class="interst_screen">')
   interst_screen.attr('intervention', intervention.name)

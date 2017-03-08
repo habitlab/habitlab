@@ -428,6 +428,8 @@ gulp.task 'generate_goal_intervention_info', (done) ->
     intervention_name = info_yaml_filepath.replace(/^src\/interventions\//, '').replace(/\/info\.yaml$/, '')
     if not intervention_info.sitename?
       intervention_info.sitename = intervention_name.split('/')[0]
+    if not intervention_info.sitename_printable?
+      intervention_info.sitename_printable = intervention_info.sitename.substr(0, 1).toUpperCase() + intervention_info.sitename.substr(1)
     intervention_info.name = intervention_name
     interventions.push intervention_info
   fs.writeFileSync 'dist/goal_intervention_info.json', JSON.stringify(output)

@@ -166,6 +166,9 @@ export generate_interventions_for_domain = cfy (domain) ->*
     if intervention_info.background_scripts?
       intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
     intervention_info.sitename = domain
+    intervention_info.sitename_printable = domain
+    if intervention_info.sitename_printable.startsWith('www.')
+      intervention_info.sitename_printable = intervention_info.sitename_printable.substr(4)
     intervention_info.goals = [goal_for_intervention]
     #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
     new_intervention_info_list.push intervention_info
@@ -339,12 +342,13 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
     intervention_info.categories = []
   if not intervention_info.conflicts?
     intervention_info.conflicts = []
-  intervention_info.parameters.push {
-    name: 'debug'
-    description: 'Insert debug console'
-    type: 'bool'
-    default: false
-  }
+  if intervention_info.parameters.filter(-> it.name == 'debug').length == 0
+    intervention_info.parameters.push {
+      name: 'debug'
+      description: 'Insert debug console'
+      type: 'bool'
+      default: false
+    }
   for parameter in intervention_info.parameters
     fix_intervention_parameter(parameter, intervention_info)
   intervention_info.params = {[x.name, x] for x in intervention_info.parameters}

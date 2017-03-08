@@ -1,7 +1,14 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 {
   log_impression
   log_action
 } = require 'libs_common/log_utils'
+
+{
+  append_to_body_shadow
+} = require 'libs_frontend/common_libs'
 
 $ = require 'jquery'
 
@@ -47,7 +54,7 @@ block_arrows = (e) ->
     return false
 
 scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker" --width="10px" --height="10px" onclick="this.clicked()">')
-$('body').append(scroll_block_display)
+shadow_div = $(append_to_body_shadow(scroll_block_display))
 
 enable_scrolling_and_hide_scroll_block!
 disable_scrolling_and_show_scroll_block!
@@ -55,18 +62,13 @@ disable_scrolling_and_show_scroll_block!
 
 # when the scroll block display fires the continue_scrolling event, hide it and enable scrolling for 5 seconds
 scroll_block_display[0].addEventListener 'continue_scrolling', ->
-  
   log_action 'facebook/scroll_blocker', {'negative':'Remained on Facebook.'}
-  console.log 'got continue_scrolling event'
   nscrolls := 0
   enable_scrolling_and_hide_scroll_block!
 
 document.body.addEventListener 'disable_intervention' ->
-  console.log 'intervention disabled inside the frontend'
-  console.log scroll_block_display
   enable_scrolling_and_hide_scroll_block!
-  $(scroll_block_display).remove()
+  shadow_div.remove()
   disabled := true
-  console.log 'intervention disabled'
 
 window.debugeval = -> eval(it)

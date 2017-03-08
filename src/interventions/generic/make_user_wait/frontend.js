@@ -15,6 +15,10 @@ const {
 } = require('libs_common/log_utils')
 
 const {
+  append_to_body_shadow
+} = require('libs_frontend/common_libs')
+
+const {
   is_on_same_domain_and_same_tab
 } = require('libs_common/session_utils')
 
@@ -54,10 +58,10 @@ co(function*() {
     }
   }, 50)
 
-  $(document.body).append(interst_screen)
+  var shadow_div = $(append_to_body_shadow(interst_screen))
 
   document.body.addEventListener('disable_intervention', () => {
-    $('.interst_screen').remove();
+    shadow_div.remove();
   });
 
 })

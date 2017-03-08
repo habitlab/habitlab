@@ -99,6 +99,7 @@ export create_shadow_div = (options) ->
     position: 'fixed'
     zIndex: Number.MAX_SAFE_INTEGER
     fontSize: '14px'
+    lineHeight: 1
   }
   for k,v of default_options
     options[k] = options[k] ? v

@@ -38,17 +38,11 @@
       text-align: center;
     }
     #close_button {
-      position: absolute;
+      position: static;
       height: 34px;
-      right: 180px;
-      top: 7px;
-      z-index: 999999;
     }
     #continue_scrolling {
-      position: absolute;
-      right: 10px;
-      top: 7px;
-      z-index: 999999;
+      position: static;
       background-color: #415D67;
       color: white;
       height: 34px;
@@ -80,8 +74,10 @@
       </div>
       <div class="text_display" style="color: #415D67; font-size: 20px">on <span>{{site}}</site> </div>
       <habitlab-logo intervention={{intervention}} id="habitlab_logo" ></habitlab-logo>
-      <close-tab-button id="close_button" text="Close Tab"></close-tab-button>
-      <paper-button id="continue_scrolling" on-click="continue_scrolling">Continue Scrolling</paper-button>
+      <div style="position: absolute; right: 10px; top: 7px">
+        <close-tab-button id="close_button" text="Close Tab"></close-tab-button>
+        <paper-button id="continue_scrolling" on-click="continue_scrolling">Continue Scrolling</paper-button>
+      </div>
     </div>
   </template>
   <script src="fb-scroll-block-display.js"></script>

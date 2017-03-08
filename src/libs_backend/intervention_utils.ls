@@ -282,9 +282,7 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
       if not options.path?
         options.path = 'content_script_' + Math.floor(Math.random()*1000000)
     else
-      if options.path[0] == '/'
-        options.path = options.path.substr(1)
-      else
+      if options.path[0] != '/'
         options.path = "/interventions/#{intervention_name}/#{options.path}"
     if not options.run_at?
       options.run_at = 'document_end' # document_start

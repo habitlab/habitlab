@@ -19,9 +19,6 @@ const {
 } = require('libs_common/domain_utils')
 
 co(function*() {
-  if (document.querySelector("._1k67") === null) { //checks if user is logged in 
-    return
-  }
   var domain = url_to_domain(window.location.href)
   var numMins = yield get_minutes_spent_on_domain_today(domain)
   var numVisits = yield get_visits_to_domain_today(domain)

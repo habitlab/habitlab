@@ -1,3 +1,6 @@
+window.Polymer = window.Polymer || {};
+window.Polymer.dom = 'shadow';
+
 const $ = require('jquery')
 
 const {
@@ -18,6 +21,10 @@ const {
   close_selected_tab
 } = require('libs_common/tab_utils')
 
+const {
+  append_to_body_shadow
+} = require('libs_frontend/common_libs')
+
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/time-until-tab-autoclose-view.deps')
@@ -26,7 +33,7 @@ require('components/time-until-tab-autoclose-view.deps')
 require('bower_components/paper-button/paper-button.deps')
 
 var display_timespent_div = $('<time-until-tab-autoclose-view>');
-$('body').append(display_timespent_div);
+var shadow_div = $(append_to_body_shadow(display_timespent_div))
 
 /*
 var timeLeft = 6000;
@@ -53,12 +60,8 @@ var countdownTimer = setInterval(() => {
 }, 1000);
 */
 
-document.body.addEventListener('time_has_run_out', function() {
-  document.querySelector('#habitlab_close_tab_button').button_clicked();
-})
-
 document.body.addEventListener('disable_intervention', function() {
-  display_timespent_div.remove()
+  shadow_div.remove()
 })
 
 window.debugeval = x => eval(x);

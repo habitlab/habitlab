@@ -79,9 +79,11 @@ polymer_ext {
       this.play()
   bring_parents_to_top: ->
     this.style.zIndex = Number.MAX_SAFE_INTEGER
+    this.style.lineHeight = 1
     parent = this
     while parent?style?
       parent.style.zIndex = Number.MAX_SAFE_INTEGER - 1
+      this.style.lineHeight = 1
       if parent.parentElement?
         parent = parent.parentElement
       else if parent?parentNode?host?

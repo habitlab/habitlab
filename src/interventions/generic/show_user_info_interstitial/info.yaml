@@ -2,6 +2,6 @@ description: Show time spent and visit count each visit.
 matches:
   - www.facebook.com
 content_scripts:
-  - /interventions/generic/show_user_info_interstitial/frontend.js
+  - frontend.js
 categories:
   - interstitial

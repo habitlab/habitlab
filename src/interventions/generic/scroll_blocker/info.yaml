@@ -1,8 +1,6 @@
 description: Blocks scrolling after a certain amount of scrolls.
-matches:
-  - www.facebook.com
 content_scripts:
-  - /interventions/generic/scroll_blocker/frontend.js
+  - frontend.js
 parameters:
   - name: scrollevents
     description: The amount of scroll events until the notification appears again

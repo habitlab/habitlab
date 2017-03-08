@@ -1,0 +1,3 @@
+description: Closes tab after 60 seconds
+content_scripts:
+  - frontend.js

@@ -1,6 +1,9 @@
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
+if (typeof(window.wrap) != 'function')
+  window.wrap = null
+
 {
   log_impression
   log_action

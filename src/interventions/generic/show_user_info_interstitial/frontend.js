@@ -1,3 +1,9 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
+if (typeof(window.wrap) != 'function')
+  window.wrap = null
+
 require('enable-webcomponents-in-content-scripts')
 
 const $ = require('jquery')
@@ -6,6 +12,10 @@ const {
   get_minutes_spent_on_domain_today,
   get_visits_to_domain_today
 } = require('libs_common/time_spent_utils')
+
+const {
+  append_to_body_shadow
+} = require('libs_frontend/common_libs')
 
 const co = require('co')
 
@@ -40,11 +50,12 @@ co(function*() {
   interst_screen.attr('visits', numVisits);
   interst_screen.attr('seconds', 0);
   log_impression(intervention.name)
-  $(document.body).append(interst_screen)
+
+  var shadow_div = $(append_to_body_shadow(interst_screen));
 })
 
 document.body.addEventListener('disable_intervention', () => {
-  $('.interst_screen').remove();
+  shadow_div.remove();
 });
 
 window.debugeval = x => eval(x);

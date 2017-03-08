@@ -205,9 +205,11 @@ export add_new_interventions = cfy (intervention_info_list) ->*
     extra_get_interventions[intervention_info.name] = intervention_info
   localStorage.setItem 'extra_get_interventions', JSON.stringify(extra_get_interventions)
   clear_cache_all_interventions()
+  log_utils.clear_intervention_logdb_cache()
   #clear_interventions_from_cache(new_intervention_names)
   yield list_all_interventions()
   yield get_interventions()
+  yield log_utils.getInterventionLogDb()
   return
 
 export remove_all_custom_interventions = ->
@@ -787,5 +789,6 @@ export get_goals_and_interventions = cfy ->*
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'
 goal_progress = require 'libs_backend/goal_progress'
+log_utils = require 'libs_backend/log_utils'
 
 gexport_module 'intervention_utils', -> eval(it)

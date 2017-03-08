@@ -72,7 +72,19 @@ export get_log_names = cfy ->*
   logs_list = ['goals', 'interventions', 'feedback'].map -> 'logs/'+it
   return interventions_list.concat(logs_list)
 
-export getInterventionLogDb = memoizeSingleAsync cfy ->*
+intervention_logdb_cache = null
+
+export clear_intervention_logdb_cache = ->
+  intervention_logdb_cache := null
+
+export getInterventionLogDb = cfy ->*
+  if intervention_logdb_cache?
+    return intervention_logdb_cache
+  output = yield getInterventionLogDb_uncached()
+  intervention_logdb_cache := output
+  return intervention_logdb_cache
+
+getInterventionLogDb_uncached = cfy ->*
   yield delete_db_if_outdated_interventionlogdb()
   log_names = yield get_log_names()
   db = new dexie('interventionlog', {autoOpen: false})

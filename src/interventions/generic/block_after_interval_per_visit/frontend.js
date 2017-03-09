@@ -72,7 +72,7 @@ co(function*() {
                 'width': '100%',
                 'height': '100%',
                 'background-color': '#f2fcff',
-                'opacity': '0.97',
+                'opacity': 1,
                 'z-index': Number.MAX_SAFE_INTEGER
     });
     shadow_div.append($whiteDiv)
@@ -100,7 +100,7 @@ co(function*() {
     //const $okButton = $('<button>');
     const $okButton = $('<paper-button>');
     $okButton.text("Restrict My Minutes!");
-    $okButton.css({'cursor': 'pointer', 'padding': '5px', 'background-color': '#3367d6', 'color': 'white', 'font-weight': 'normal'});
+    $okButton.css({'cursor': 'pointer', 'padding': '10px', 'background-color': '#3367d6', 'color': 'white', 'font-weight': 'normal'});
     //$okButton.click(() => {
     $okButton.on('click', () => {
       var minutes = shadow_root.querySelector("paper-slider").value

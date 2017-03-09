@@ -95,7 +95,7 @@ export create_shadow_div = (options) ->
     options = {}
   options = to_camelcase_dict(options)
   default_options = {
-    fontFamily: '"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
+    fontFamily: '"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
     position: 'fixed'
     zIndex: Number.MAX_SAFE_INTEGER
     fontSize: '14px'

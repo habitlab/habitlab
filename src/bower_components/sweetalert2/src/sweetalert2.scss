@@ -65,7 +65,7 @@ body {
 
 .swal2-modal {
   background-color: $white;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   border-radius: 5px;
   box-sizing: border-box;
   text-align: center;
@@ -405,7 +405,7 @@ body {
   }
 
   &.swal2-warning {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: $warning;
     border-color: lighten($warning, 7);
     font-size: 60px;
@@ -423,7 +423,7 @@ body {
   }
 
   &.swal2-question {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: $question;
     border-color: lighten($question, 20);
     font-size: 60px;

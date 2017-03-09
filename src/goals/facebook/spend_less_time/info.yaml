@@ -1,17 +1,17 @@
 description: Spend less time on Facebook
 progress_description: Time spent on Facebook
 interventions:
+  - generic/scroll_blocker
+  - generic/show_user_info_interstitial
+  - generic/make_user_wait
+  - generic/close_tab_timer
+  - generic/block_after_interval_per_visit
   - facebook/feed_injection_timer
   - facebook/notification_hijacker
   - facebook/remove_news_feed
   - facebook/rich_notifications
-  - facebook/scroll_blocker
-  - facebook/show_user_info_interstitial
-  - facebook/make_user_wait
   - facebook/block_after_interval_no_prompt
-  - facebook/block_after_interval_per_visit
   - facebook/remove_comments
-  - facebook/close_tab_timer
   - facebook/remove_clickbait
 measurement: time_spent_on_domain
 domain: www.facebook.com

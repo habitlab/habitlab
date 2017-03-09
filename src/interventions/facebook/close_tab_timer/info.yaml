@@ -1,5 +1,0 @@
-description: Closes tab after 60 seconds
-matches:
-  - www.facebook.com
-content_scripts:
-  - /interventions/generic/close_tab_timer/frontend.js

@@ -10,7 +10,6 @@ interventions:
   - facebook/notification_hijacker
   - facebook/remove_news_feed
   - facebook/rich_notifications
-  - facebook/block_after_interval_no_prompt
   - facebook/remove_comments
   - facebook/remove_clickbait
 measurement: time_spent_on_domain

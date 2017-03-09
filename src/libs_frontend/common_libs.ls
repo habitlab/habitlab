@@ -100,6 +100,10 @@ export create_shadow_div = (options) ->
     zIndex: Number.MAX_SAFE_INTEGER
     fontSize: '14px'
     lineHeight: 1
+    padding: '0px'
+    margin: '0px'
+    opacity: 1
+    boxSizing: 'content-box'
   }
   for k,v of default_options
     options[k] = options[k] ? v

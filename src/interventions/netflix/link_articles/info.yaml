@@ -8,10 +8,6 @@ parameters:
     description: Seconds that the user must wait before the page loads
     default: 10
     type: int
-  - name: sitename
-    description: Name that this site should be referred to as
-    default: Website
-    type: string
 categories:
   - interstitial
 

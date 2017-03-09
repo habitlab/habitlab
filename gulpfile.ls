@@ -406,12 +406,23 @@ gulp.task 'generate_goal_intervention_info', (done) ->
   interventions = []
   goals = []
   output = {interventions, goals}
-  # goals
-  for info_yaml_filepath in prelude.sort(glob.sync('src/goals/**/info.yaml'))
+  intervention_name_to_info = {}
+  for info_yaml_filepath in glob.sync('src/interventions/**/info.yaml')
+    intervention_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
+    if intervention_info.disabled
+      continue
+    intervention_name = info_yaml_filepath.replace(/^src\/interventions\//, '').replace(/\/info\.yaml$/, '')
+    intervention_name_to_info[intervention_name] = intervention_info
+  goal_name_to_info = {}
+  for info_yaml_filepath in glob.sync('src/goals/**/info.yaml')
     goal_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
     if goal_info.disabled
       continue
     goal_name = info_yaml_filepath.replace(/^src\/goals\//, '').replace(/\/info\.yaml$/, '')
+    goal_name_to_info[goal_name] = goal_info
+  # goals
+  for goal_name in prelude.sort(Object.keys(goal_name_to_info))
+    goal_info = goal_name_to_info[goal_name]
     goal_info.name = goal_name
     if not goal_info.sitename?
       goal_info.sitename = goal_name.split('/')[0]
@@ -419,18 +430,39 @@ gulp.task 'generate_goal_intervention_info', (done) ->
       goal_info.sitename_printable = goal_info.sitename.substr(0, 1).toUpperCase() + goal_info.sitename.substr(1)
     if not goal_info.homepage?
       goal_info.homepage = "https://www.#{goal_info.sitename}.com/"
+    interventions_for_goal_new = []
+    for intervention_name in goal_info.interventions
+      if intervention_name.startsWith('generic/')
+        generic_intervention = intervention_name
+        make_absolute_path = (content_script) ->
+          if content_script.path?
+            if content_script.path[0] == '/'
+              return content_script
+            content_script.path = '/interventions/' + generic_intervention + '/' + content_script.path
+            return content_script
+          if content_script[0] == '/'
+            return content_script
+          return '/interventions/' + generic_intervention + '/' + content_script
+        intervention_info = JSON.parse JSON.stringify intervention_name_to_info[generic_intervention]
+        intervention_name = goal_info.sitename + '/' + generic_intervention.substr('generic/'.length)
+        intervention_info.matches = [goal_info.domain]
+        if intervention_info.content_scripts?
+          intervention_info.content_scripts = intervention_info.content_scripts.map make_absolute_path
+        if intervention_info.background_scripts?
+          intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
+        intervention_info.goals = [goal_info]
+        intervention_name_to_info[intervention_name] = intervention_info
+      interventions_for_goal_new.push intervention_name
+    goal_info.interventions = interventions_for_goal_new
     goals.push goal_info
   # interventions
-  for info_yaml_filepath in prelude.sort(glob.sync('src/interventions/**/info.yaml'))
-    intervention_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
-    if intervention_info.disabled
-      continue
-    intervention_name = info_yaml_filepath.replace(/^src\/interventions\//, '').replace(/\/info\.yaml$/, '')
+  for intervention_name in prelude.sort(Object.keys(intervention_name_to_info))
+    intervention_info = intervention_name_to_info[intervention_name]
+    intervention_info.name = intervention_name
     if not intervention_info.sitename?
       intervention_info.sitename = intervention_name.split('/')[0]
     if not intervention_info.sitename_printable?
       intervention_info.sitename_printable = intervention_info.sitename.substr(0, 1).toUpperCase() + intervention_info.sitename.substr(1)
-    intervention_info.name = intervention_name
     interventions.push intervention_info
   fs.writeFileSync 'dist/goal_intervention_info.json', JSON.stringify(output)
   done()

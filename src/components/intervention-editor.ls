@@ -127,6 +127,7 @@ polymer_ext {
     code = this.js_editor.getSession().getValue().trim()
     lscode = this.ls_editor.getSession().getValue().trim()
     edit_mode = this.get_edit_mode()
+    goal_info = this.$.goal_selector.selectedItem.goal_info
     intervention_info = {
       code: code
       name: this.get_intervention_name()
@@ -135,6 +136,8 @@ polymer_ext {
       domain: this.$.intervention_domain.value
       preview: this.$.intervention_preview_url.value
       matches: [this.$.intervention_domain.value]
+      sitename: goal_info.sitename
+      sitename_printable: goal_info.sitename_printable
       #css_files: required_css_files
       #styles: dependencies.require_style
       /*
@@ -148,7 +151,7 @@ polymer_ext {
       ]
       */
       edit_mode: edit_mode
-      goals: [this.$.goal_selector.selectedItem.goal_info]
+      goals: [goal_info]
       custom: true
     }
     if edit_mode == 'ls' or edit_mode == 'ls_and_js'
@@ -339,6 +342,8 @@ polymer_ext {
       domain: 'www.buzzfeed.com'
       preview: 'https://www.buzzfeed.com/'
       matches: ['www.buzzfeed.com']
+      sitename: 'buzzfeed'
+      sitename_printable: 'Buzzfeed'
       code: js_code
       content_scripts: [
         {

@@ -50,10 +50,10 @@ var shadow_root;
 var shadow_div;
 
 co(function*() {
-  const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
-  if (on_same_domain_and_same_tab) {
-    return
-  }
+  //const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
+  //if (on_same_domain_and_same_tab) {
+  //  return
+  //}
 
   shadow_div = create_shadow_div();
   shadow_root = shadow_div.parentNode;
@@ -221,7 +221,7 @@ co(function*() {
   function displayCountdown() {
     var display_timespent_div = $('<timespent-view>')
     shadow_div.append(display_timespent_div)
-    var countdownTimer = setInterval(() => {
+    var update_countdown = () => {
       const timeRemaining = getRemainingTimeThisVisit();
       var minutes = Math.floor(timeRemaining / 60);
       var seconds = timeRemaining % 60;
@@ -231,11 +231,13 @@ co(function*() {
         addEndDialog("Your time this visit is up!");
         clearInterval(countdownTimer);
       }
-    }, 1000);
+    }
+    update_countdown();
+    var countdownTimer = setInterval(update_countdown, 1000);
   }
 
   function main() {
-    addBeginDialog("How many minutes would you like to spend on " + intervention.params.sitename.value + " this visit?");
+    addBeginDialog("How many minutes would you like to spend on " + intervention.sitename_printable + " this visit?");
   }
 
   once_document_available(main);

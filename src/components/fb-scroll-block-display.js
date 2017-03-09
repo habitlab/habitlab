@@ -61,12 +61,14 @@ polymer_ext({
   },
   ready: function() {
     const self = this;
-    setInterval(() => {
+    var update_time = () => {
       get_seconds_spent_on_current_domain_today(function(seconds_spent) {
         self.minutes = Math.floor(seconds_spent/60);
         self.seconds = seconds_spent % 60;
       });
-    }, 1000);
+    };
+    update_time();
+    setInterval(update_time, 1000);
   },
 });
 

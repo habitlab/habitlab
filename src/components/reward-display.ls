@@ -42,6 +42,9 @@ polymer_ext {
     seconds_saved: {
       type: Number
     }
+    baseline_seconds_spent: {
+      type: Number
+    }
     intervention_name: {
       type: String
       value: get_intervention().displayname
@@ -61,6 +64,7 @@ polymer_ext {
     if isdemo
       this.autoplay = true
       this.no_autoclose = true
+      this.baseline_seconds_spent = 60*5
   #autoplay_changed: ->
   #  if this.autoplay
   #    this.play()
@@ -69,11 +73,10 @@ polymer_ext {
       this.tab_id = tab_id
     else
       this.tab_id = yield get_selected_tab_id()
-  attached: cfy ->*
-    if not this.seconds_saved?
-      seconds_spent = (Date.now() - this.time_inserted) / 1000
-      baseline_seconds_spent = yield baseline_time_per_session_for_domain(this.domain)
-      this.seconds_saved = baseline_seconds_spent - seconds_spent
+    if not this.baseline_seconds_spent?
+      this.baseline_seconds_spent = yield baseline_time_per_session_for_domain(this.domain)
+    seconds_spent = (Date.now() - this.time_inserted) / 1000
+    this.seconds_saved = this.baseline_seconds_spent - seconds_spent
     this.$$('#playgif').times_intervention_used = yield get_num_times_intervention_used this.intervention_name
     if this.autoplay
       this.play()
@@ -92,6 +95,8 @@ polymer_ext {
         break
     return
   play: cfy ->*
+    seconds_spent = (Date.now() - this.time_inserted) / 1000
+    this.seconds_saved = this.baseline_seconds_spent - seconds_spent
     this.bring_parents_to_top()
     rewards_to_display = []
     if this.seconds_saved > 0

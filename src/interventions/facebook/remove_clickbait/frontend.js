@@ -1,3 +1,6 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 const $ = require('jquery')
 
 const {
@@ -14,12 +17,17 @@ const {
   log_action,
 } = require('libs_common/log_utils')
 
+const {
+  wrap_in_shadow
+} = require('libs_frontend/common_libs')
+
 require('enable-webcomponents-in-content-scripts')
 require('components/removed-clickbait-message.deps')
 
 function addNotification() {
   var removed_clickbait_message = $('<removed-clickbait-message></removed-clickbait-message>')
-  $('#pagelet_composer').parent().prepend(removed_clickbait_message)
+  var removed_clickbait_message_wrapper = $(wrap_in_shadow(removed_clickbait_message)).attr('id', 'removed_clickbait_message')
+  $('#pagelet_composer').parent().prepend(removed_clickbait_message_wrapper)
 }
 
 function removeClickBait() {
@@ -43,7 +51,7 @@ window.onload = () => {
 var intervalID = window.setInterval(removeClickBait, 100);
 window.intervalID = intervalID;
 document.body.addEventListener('disable_intervention', (intervalID) => {
-  $('removed-clickbait-message').remove()
+  $('#removed_clickbait_message').remove()
   removeCB = false;
 });
 

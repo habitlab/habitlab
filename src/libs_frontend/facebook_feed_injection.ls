@@ -23,8 +23,6 @@ export inject_into_feed = (component_generator) ->
 
   insertBeforeItem = (jfeeditem) ->
     quizid = randstr()
-    console.log "about to insert... items="
-    console.log window.itemsseen
     jfeeditem.before component_generator(window.numitems)
     return
 

@@ -1,3 +1,6 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 const $ = require('jquery')
 
 const {
@@ -13,6 +16,10 @@ const {
   log_impression,
   log_action,
 } = require('libs_common/log_utils')
+
+const {
+  wrap_in_shadow
+} = require('libs_frontend/common_libs')
 
 const {
   on_url_change,
@@ -59,7 +66,6 @@ var intervalID;
 function attachButtons() {
   log_impression(intervention.name)
   var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed" style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo>')
-  var centerDiv = $('<center id=centerdiv></center>')
   var cheatButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #415D67; color: white; -webkit-font-smoothing: antialiased;" raised>Show my News Feed</paper-button>')
   cheatButton.click(function(evt) {
     log_action(intervention.name, {'negative': 'Remained on Facebook.'})
@@ -67,10 +73,10 @@ function attachButtons() {
   })
   var closeButton = $('<close-tab-button text="Close Facebook">')
 
-  centerDiv.insertAfter($('#pagelet_composer'))
-
   var habitlab_show_feed_div = $('<div>')
-  .attr('id', 'habitlab_show_feed_div')
+  .css({
+    'text-align': 'center'
+  })
   .append([
     closeButton,
     '<br><br>',
@@ -78,13 +84,14 @@ function attachButtons() {
     '<br><br>',
     habitlab_logo
   ])
-  $('#centerdiv').append(habitlab_show_feed_div)
+  var habitlab_show_feed_div_wrapper = $(wrap_in_shadow(habitlab_show_feed_div)).attr('id', 'habitlab_show_feed_div')
+  habitlab_show_feed_div_wrapper.insertAfter($('#pagelet_composer'))
 }
 
 on_url_change(() => {
   var re = new RegExp('https?:\/\/www.facebook.com\/\??.*$');
   //If the user didn't click the button to show the news feed, show the "show" button & habitlab icon
-  if ($('habitlab-logo').length == 0 && !feedShown && re.test(window.location.href)) {
+  if ($('#habitlab_show_feed_div').length == 0 && !feedShown && re.test(window.location.href)) {
     attachButtons();
   }
 })

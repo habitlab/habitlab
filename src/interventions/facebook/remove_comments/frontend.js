@@ -1,3 +1,6 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 const $ = require('jquery')
 
 const {
@@ -8,6 +11,10 @@ const {
 const {
   printable_time_spent,
 } = require('libs_common/time_utils')
+
+const {
+  wrap_in_shadow
+} = require('libs_frontend/common_libs')
 
 const {
   log_impression,
@@ -36,14 +43,14 @@ function removeComments() {
       })
       var habitlab_logo = $('<habitlab-logo style="margin-left: 5px;"></habitlab-logo>')
       var close_tab_button = $('<close-tab-button style="height: 38px"</close-tab-button>')
-      var button_container = $('<div class="habitlab_button_container" style="text-align: center; display: flex; justify-content: center;"></div>')
+      var button_container = $('<div style="text-align: center; display: flex; justify-content: center;"></div>')
       button_container.append([
         show_comments_button,
         close_tab_button,
         habitlab_logo
       ])
-
-      $(item).parent().append(button_container)
+      var button_container_wrapper = $(wrap_in_shadow(button_container)).addClass('habitlab_button_container')
+      $(item).parent().append(button_container_wrapper)
     }
   }
 }

@@ -27,7 +27,7 @@ require('components/habitlab-logo.deps')
 
 const {
   once_document_available,
-  create_shadow_div
+  create_shadow_div_on_body
 } = require('libs_frontend/common_libs')
 
 const {
@@ -55,8 +55,8 @@ co(function*() {
   //  return
   //}
 
-  shadow_div = create_shadow_div();
-  shadow_root = shadow_div.parentNode;
+  shadow_div = create_shadow_div_on_body();
+  shadow_root = shadow_div.shadow_root;
   shadow_div = $(shadow_div);
 
   var timeLimitThisVisit;

@@ -1,7 +1,11 @@
+window.Polymer = window.Polymer || {}
+window.Polymer.dom = 'shadow'
+
 const {
   once_available,
   run_only_one_at_a_time,
   on_url_change,
+  wrap_in_shadow,
 } = require('libs_frontend/common_libs')
 
 const {
@@ -14,9 +18,16 @@ require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('bower_components/paper-button/paper-button.deps')
 
-console.log('youtube remove sidebar links loaded frontend')
+var intervention_disabled = false
+
 //Nukes links on the sidebar
 function removeSidebar() {
+  if (intervention_disabled) {
+    return
+  }
+  if ($('.habitlab_inserted_div').length > 0) {
+    return
+  }
 	//remove the links on the sidebar
 	/*
   const sidebarLink = document.querySelectorAll('.watch-sidebar-section');
@@ -29,7 +40,7 @@ function removeSidebar() {
       $(child).css({display: 'none', opacity: 0})
     }
   }
-  let habitlab_inserted_div = $('<div class="habitlab_inserted_div" style="width: 100%; text-align: center">')
+  let habitlab_inserted_div = $('<div style="width: 100%; text-align: center">')
   habitlab_inserted_div.append($('<habitlab-logo>'))
   habitlab_inserted_div.append($('<br>'))
   let show_sidebar_button = $('<paper-button style="background-color: #415D67; color: white; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888; margin-top: 10px">Show Sidebar</paper-button>')
@@ -37,10 +48,9 @@ function removeSidebar() {
     disable_intervention()
   })
   show_sidebar_button.appendTo(habitlab_inserted_div)
-  $('#watch7-sidebar-contents').prepend(habitlab_inserted_div)
+  let habitlab_inserted_div_wrapper = $(wrap_in_shadow(habitlab_inserted_div)).addClass('habitlab_inserted_div')
+  $('#watch7-sidebar-contents').prepend(habitlab_inserted_div_wrapper)
 }
-
-var intervention_disabled = false
 
 const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
   if (intervention_disabled) {

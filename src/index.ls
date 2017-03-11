@@ -71,18 +71,25 @@ if window.location.pathname == '/options.html'
   set_intervention
 } = require 'libs_common/intervention_info'
 
-use_polyfill = getUrlParameters().polyfill
-if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
-  # force the usage of polyfills
-  document.registerElement = null
-  require 'webcomponentsjs-custom-element-v0'
+params = getUrlParameters()
+use_polyfill = false
+if params.polyfill?
+  use_polyfill = params.polyfill
+  delete params.polyfill
+  if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
+    # force the usage of polyfills
+    document.registerElement = null
+    require 'webcomponentsjs-custom-element-v0'
 
-# this script must run before Polymer is imported
-window.Polymer = {
-  #dom: 'shady',
-  dom: 'shadow',
-  lazyRegister: true,
-}
+window.Polymer = window.Polymer || {}
+window.Polymer.lazyRegister = true
+window.Polymer.dom = 'shady'
+use_shadow_dom = false
+if params.shadow_dom?
+  use_shadow_dom = params.use_shadow_dom
+  if use_shadow_dom and use_shadow_dom != 'false' and parseInt(use_shadow_dom) != 0
+    # force the usage of shadow dom
+    window.Polymer.dom = 'shadow'
 
 require! {
   'js-yaml'
@@ -128,7 +135,6 @@ start_page_index = cfy ->*
   window.intervention = interventions['debug/fake_intervention']
   require 'components/components.deps'
   #set_intervention window.intervention
-  params = getUrlParameters()
   tagname = params.tag
   {index_body_width, index_body_height, index_background_color} = params
   if not tagname?
@@ -161,7 +167,10 @@ start_page_index = cfy ->*
     #tag[k] = v
   if num_properties == 0
     tag.isdemo = true
-  document.getElementById('index_contents').appendChild(wrap_in_shadow(tag))
+  if use_shadow_dom
+    document.getElementById('index_contents').appendChild(wrap_in_shadow(tag))
+  else
+    document.getElementById('index_contents').appendChild(tag)
   index_body = document.getElementById('index_body')
   if index_body_width?
     index_body.style.width = index_body_width

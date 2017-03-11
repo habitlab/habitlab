@@ -204,11 +204,11 @@ polymer_ext {
     yield SystemJS.import('brace/mode/livescript')
     yield SystemJS.import('brace/mode/html')
     yield SystemJS.import('brace/theme/monokai')
-    self.js_editor = js_editor = brace.edit('javascript_editor')
+    self.js_editor = js_editor = brace.edit(this.$.javascript_editor)
     js_editor.getSession().setMode('ace/mode/javascript')
     js_editor.setTheme('ace/theme/monokai')
     js_editor.$blockScrolling = Infinity
-    self.html_editor = html_editor = brace.edit('html_editor')
+    self.html_editor = html_editor = brace.edit(this.$.html_editor)
     html_editor.getSession().setMode('ace/mode/html')
     html_editor.setTheme('ace/theme/monokai')
     html_editor.$blockScrolling = Infinity

@@ -79,8 +79,8 @@ if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
 
 # this script must run before Polymer is imported
 window.Polymer = {
-  dom: 'shady',
-  #dom: 'shadow',
+  #dom: 'shady',
+  dom: 'shadow',
   lazyRegister: true,
 }
 
@@ -94,6 +94,10 @@ require! {
 {
   get_custom_component_info
 } = require 'libs_backend/component_utils'
+
+{
+  wrap_in_shadow
+} = require 'libs_frontend/common_libs'
 
 /*
 export getUrlParameters = ->
@@ -157,7 +161,7 @@ start_page_index = cfy ->*
     #tag[k] = v
   if num_properties == 0
     tag.isdemo = true
-  document.getElementById('index_contents').appendChild(tag)
+  document.getElementById('index_contents').appendChild(wrap_in_shadow(tag))
   index_body = document.getElementById('index_body')
   if index_body_width?
     index_body.style.width = index_body_width

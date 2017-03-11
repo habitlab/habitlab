@@ -30,7 +30,7 @@ function hide_comments() {
   }
   $('#watch-discussion').hide();
   //Cheat button
-  const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: block; width: 107px; margin: 10px auto 0px auto; color: #fff; background-color: #415D67; text-align: center; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888">')
+  const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: block; width: 110px; margin: 10px auto 0px auto; color: #fff; background-color: #415D67; text-align: center; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888">')
   $show_comments.text("Show Comments")
   $show_comments.css({'cursor': 'pointer', 'padding': '5px'});
   $show_comments.click(() => {
@@ -39,7 +39,7 @@ function hide_comments() {
 
   var show_comments_div = $('<div>');
   show_comments_div.append([
-    $('<habitlab-logo id="hb_logo" style="display: block; width: 100px; margin: 10px auto 0px auto; padding-right: 10px">'),
+    $('<habitlab-logo id="hb_logo" style="display: block; width: 110px; margin: 10px auto 0px auto;">'),
     $show_comments,
   ])
   var show_comments_wrapper = $(wrap_in_shadow(show_comments_div)).attr('id', 'habitlab_show_comments')

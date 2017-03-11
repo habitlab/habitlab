@@ -100,7 +100,7 @@ co(function*() {
     //const $okButton = $('<button>');
     const $okButton = $('<paper-button>');
     $okButton.text("Restrict My Minutes!");
-    $okButton.css({'cursor': 'pointer', 'padding': '10px', 'background-color': '#3367d6', 'color': 'white', 'font-weight': 'normal'});
+    $okButton.css({'cursor': 'pointer', 'padding': '10px', 'background-color': '#415D67', 'color': 'white', 'font-weight': 'normal', 'box-shadow': '2px 2px 2px #888888'});
     //$okButton.click(() => {
     $okButton.on('click', () => {
       var minutes = shadow_root.querySelector("paper-slider").value

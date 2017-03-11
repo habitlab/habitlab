@@ -169,6 +169,7 @@ export generate_interventions_for_domain = cfy (domain) ->*
     intervention_info.sitename_printable = domain
     if intervention_info.sitename_printable.startsWith('www.')
       intervention_info.sitename_printable = intervention_info.sitename_printable.substr(4)
+    intervention_info.generated = true
     intervention_info.goals = [goal_for_intervention]
     #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
     new_intervention_info_list.push intervention_info

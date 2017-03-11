@@ -9,6 +9,7 @@ const {
   once_available,
   run_only_one_at_a_time,
   on_url_change,
+  wrap_in_shadow,
 } = require('libs_frontend/common_libs')
 
 const {
@@ -66,13 +67,13 @@ function divOverVideo(status) {
   if (window.location.href.indexOf('watch') == -1) {
     return
   }
-  const $a = $('<div class="whiteOverlay">').css({'position': 'absolute', 'display': 'table'});
+  const $a = $('<div>').css({'position': 'absolute', 'display': 'table'});
 	$a.width(video.width());
 	$a.height(video.height());
 	$a.css({'background-color': 'white'});
 	$a.css('z-index', 30);
 	$a.text();
-	$(document.body).append($a);
+	$(document.body).append($(wrap_in_shadow($a)).attr('id', 'habitlab_video_overlay'));
 	const b = $a[0];
 	b.style.left = video.offset().left + 'px';
 	b.style.top = video.offset().top + 'px';
@@ -81,7 +82,6 @@ function divOverVideo(status) {
 	//Centered container for text in the white box
 	const $contentContainer = $('<div>')
   .addClass('contentContainer')
-  .addClass('habitlab_inserted')
   .css({
     //'position': 'absolute',
     //'top': '50%',
@@ -96,7 +96,7 @@ function divOverVideo(status) {
   $contentContainer.append('<br><br>')
 
 	//Message to user
-	const $text1 = $('<h1>');
+	const $text1 = $('<h2>');
 	if (status === 'begin') {
     const wait = setInterval(() => {
       const getEmails = document.querySelector('video:not(#rewardvideo)');
@@ -142,7 +142,7 @@ function divOverVideo(status) {
 	$contentContainer.append($button2);
 
 	//Adds text into the white box
-	$('.whiteOverlay').append($contentContainer);
+	$a.append($contentContainer);
 
   //Logs impression
   log_impression('youtube/prompt_before_watch');
@@ -151,14 +151,14 @@ function divOverVideo(status) {
 //Remove the white div
 function removeDivAndPlay() {
   play_video_clicked = true;
-	$('.whiteOverlay').remove();
+	$('#habitlab_video_overlay').remove();
 	const play = document.querySelector('video:not(#rewardvideo)');
 	play.play();
 }
 
 //Remove the white div
 function removeDiv() {
-  $('.whiteOverlay').remove();
+  $('#habitlab_video_overlay').remove();
 }
 
 function endWarning() {
@@ -218,7 +218,6 @@ once_available('video:not(#rewardvideo)', () => {
 //afterNavigate();
 
 document.addEventListener('disable_intervention', function() {
-  $('.habitlab_inserted').remove()
   removeDivAndPlay()
 })
 

@@ -11,8 +11,7 @@ const {
 
 const {
   log_impression,
-  log_action,
-} = require('libs_common/log_utils')
+} = require('libs_frontend/intervention_log_utils')
 
 const {
   on_url_change,
@@ -46,7 +45,7 @@ function showFeed(intervalID) {
 
 var intervalID;
 
-log_impression('buzzfeed/remove_buzz_feed')
+log_impression()
 var $center = $('<center>')
 var $habitlab_logo = $('<habitlab-logo>')
 var $cheatButton = $('<paper-button style="background-color:white" raised>Show My Feed This One Time</paper-button>')

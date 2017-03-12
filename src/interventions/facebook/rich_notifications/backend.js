@@ -1,7 +1,6 @@
 const {
-  log_impression,
   log_action,
-} = require('libs_common/log_utils')
+} = require('libs_frontend/intervention_log_utils')
 
 
 var myNotifId = null;

@@ -16,11 +16,6 @@ const {
 } = require('libs_common/time_utils')
 
 const {
-  log_impression,
-  log_action,
-} = require('libs_common/log_utils')
-
-const {
   close_selected_tab
 } = require('libs_common/tab_utils')
 

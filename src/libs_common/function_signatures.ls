@@ -3,8 +3,8 @@ lib_name_to_func_names_and_signatures =
     addtolog: ['name', 'data']
     getlog: 'name'
     clearlog: 'name'
-    log_impression: 'name'
-    log_action: ['name', 'data']
+    log_impression_internal: 'name'
+    log_action_internal: ['name', 'data']
   db_utils:
     addtolist: ['name', 'data']
     getlist: 'name'

@@ -1,7 +1,6 @@
 const {
-  log_impression,
   log_action,
-} = require('libs_common/log_utils')
+} = require('libs_frontend/intervention_log_utils')
 
 var myNotifId = null;
 
@@ -38,12 +37,12 @@ chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
   if (notifId === myNotifId) {
     if (btnIdx === 0) {
       //Log the action: the user closed the facebook tab
-      log_action('gmail/time_writing_email', {'positive': 'User closed Facebook.'})
+      log_action({'positive': 'User closed Facebook.'})
       closeTab();
       closeNotif(notifId);      
     } else if (btnIdx === 1) {
       //Log the action: the user did not close the facebook tab
-      log_action('gmail/time_writing_email', {'negative': 'User remained on Facebook'});
+      log_action({'negative': 'User remained on Facebook'});
       closeNotif(notifId);
     }
   } 

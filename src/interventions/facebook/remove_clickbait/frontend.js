@@ -13,11 +13,6 @@ const {
 } = require('libs_common/time_utils')
 
 const {
-  log_impression,
-  log_action,
-} = require('libs_common/log_utils')
-
-const {
   wrap_in_shadow
 } = require('libs_frontend/common_libs')
 

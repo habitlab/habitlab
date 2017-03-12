@@ -20,7 +20,7 @@ const {
 const {
   log_impression,
   log_action,
-} = require('libs_common/log_utils')
+} = require('libs_frontend/intervention_log_utils')
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
@@ -135,7 +135,7 @@ function divOverVideo(status) {
     'margin-left': '10px'
   });
 	$button2.click(() => {
-    log_action('youtube/prompt_before_watch', {'negative': 'remainedOnYoutube'})
+    log_action({'negative': 'remainedOnYoutube'})
 		removeDivAndPlay();
 		$button2.hide();
 	})
@@ -145,7 +145,7 @@ function divOverVideo(status) {
 	$a.append($contentContainer);
 
   //Logs impression
-  log_impression('youtube/prompt_before_watch');
+  log_impression();
 }
 
 //Remove the white div

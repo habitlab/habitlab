@@ -202,7 +202,7 @@ export get_num_actions = cfy (name) ->*
   num_actions = yield collection.where('[type+day]').equals(['action', day]).count()
   return num_actions
 
-export log_impression = cfy (name) ->*
+export log_impression_internal = cfy (name) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
   console.log "impression logged for #{name}"
@@ -211,7 +211,7 @@ export log_impression = cfy (name) ->*
     intervention: name
   }
 
-export log_action = cfy (name, data) ->*
+export log_action_internal = cfy (name, data) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
   # data: a dictionary containing any details necessary

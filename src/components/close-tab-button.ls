@@ -4,7 +4,7 @@
 
 {
   log_action
-} = require 'libs_common/log_utils'
+} = require 'libs_frontend/intervention_log_utils'
 
 {
   get_intervention
@@ -19,7 +19,7 @@ Polymer {
     }
   }
   button_clicked: ->
-    log_action get_intervention().name, {'positive': 'close-tab-button clicked'}
+    log_action {'positive': 'close-tab-button clicked'}
     this.$$('#reward_display').play()
   #ready: ->
   #  this.$$('#reward_display').addEventListener 'reward_done', close_selected_tab

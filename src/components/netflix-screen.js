@@ -4,11 +4,8 @@ const {polymer_ext} = require('libs_frontend/polymer_utils')
 const {close_selected_tab} = require('libs_frontend/tab_utils')
 
 const {
-  log_impression,
   log_action,
-} = require('libs_common/log_utils')
-
-var intervention = require('libs_common/intervention_info').get_intervention();
+} = require('libs_frontend/intervention_log_utils')
 
 Polymer({
   is: 'netflix-screen',
@@ -118,7 +115,7 @@ Polymer({
   //},
   buttonclicked: function() {
     console.log('ok button clicked in polymer during loading')
-    log_action(intervention.name, {'negative': 'Continuted to site.'})
+    log_action({'negative': 'Continuted to site.'})
     $(this).hide()
   },
   hideButton: function() {

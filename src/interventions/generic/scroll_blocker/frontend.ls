@@ -7,7 +7,7 @@ if (typeof(window.wrap) != 'function')
 {
   log_impression
   log_action
-} = require 'libs_common/log_utils'
+} = require 'libs_frontend/intervention_log_utils'
 
 {
   append_to_body_shadow
@@ -43,7 +43,7 @@ enable_scrolling_and_hide_scroll_block = ->
 
 
 disable_scrolling_and_show_scroll_block = ->
-  log_impression intervention.name
+  log_impression()
   window.scrolling_allowed = false
   $("body").css('overflow', 'hidden')
   scroll_block_display.show()
@@ -65,7 +65,7 @@ disable_scrolling_and_show_scroll_block!
 
 # when the scroll block display fires the continue_scrolling event, hide it and enable scrolling for 5 seconds
 scroll_block_display[0].addEventListener 'continue_scrolling', ->
-  log_action 'facebook/scroll_blocker', {'negative':'Remained on Facebook.'}
+  log_action {'negative':'Remained on Facebook.'}
   nscrolls := 0
   enable_scrolling_and_hide_scroll_block!
 

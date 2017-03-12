@@ -10,8 +10,7 @@ const {
 
 const {
   log_impression,
-  log_action,
-} = require('libs_common/log_utils')
+} = require('libs_frontend/intervention_log_utils')
 
 const $ = require('jquery')
 require('enable-webcomponents-in-content-scripts')
@@ -56,7 +55,7 @@ const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
   if (intervention_disabled) {
     return
   }
-  log_impression('youtube/remove_sidebar_links')
+  log_impression()
   once_available('.watch-sidebar-section', () => {
     removeSidebar()
     callback()

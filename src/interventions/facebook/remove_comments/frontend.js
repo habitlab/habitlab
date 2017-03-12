@@ -16,11 +16,6 @@ const {
   wrap_in_shadow
 } = require('libs_frontend/common_libs')
 
-const {
-  log_impression,
-  log_action,
-} = require('libs_common/log_utils')
-
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')

@@ -10,11 +10,6 @@ require('components/num_episodes.deps')
 const $ = require('jquery')
 
 const {
-  log_impression,
-  log_action,
-} = require('libs_common/log_utils')
-
-const {
   is_on_same_domain_and_same_tab
 } = require('libs_common/session_utils')
 

@@ -3,8 +3,7 @@ window.Polymer.dom = 'shadow'
 
 {
   log_impression,
-  log_action,
-} = require 'libs_common/log_utils'
+} = require 'libs_frontend/intervention_log_utils'
 
 {
   inject_into_feed
@@ -20,7 +19,7 @@ require 'enable-webcomponents-in-content-scripts'
 require 'components/feed-item-timer-polymer.deps'
 
 component_generator = (numitems) ->
-  log_impression intervention.name
+  log_impression()
   feed-item = $('<feed-item-timer-polymer>')
   feed-item.attr('items', window.itemsseen)
   return wrap_in_shadow(feed-item)

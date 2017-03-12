@@ -2,7 +2,7 @@
 
 {cfy} = require 'cfy'
 {load_css_file} = require 'libs_common/content_script_utils'
-{add_log_feedback} = require 'libs_common/log_utils'
+{add_log_feedback} = require 'libs_backend/log_utils'
 screenshot_utils = require 'libs_common/screenshot_utils'
 
 swal = require 'sweetalert2'

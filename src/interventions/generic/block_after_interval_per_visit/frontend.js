@@ -37,8 +37,7 @@ const {
 
 const {
   log_impression,
-  log_action,
-} = require('libs_common/log_utils')
+} = require('libs_frontend/intervention_log_utils')
 
 const {
   is_on_same_domain_and_same_tab
@@ -113,7 +112,7 @@ co(function*() {
           $wrongInputText.insertAfter($slider)
         }
       } else {
-        log_impression(intervention.name)
+        log_impression()
         timeBegun = Math.floor(Date.now() / 1000)
         timeLimitThisVisit = minutes * 60
 

@@ -9,8 +9,7 @@ const {
 
 const {
   log_impression,
-  log_action,
-} = require('libs_common/log_utils')
+} = require('libs_frontend/intervention_log_utils')
 
 const {
   close_selected_tab
@@ -133,7 +132,7 @@ function insertClickNotification() {
           console.log("First Time Selected- Notification Injected");
             
           //Log the impression: The user viewed the message from habitlab
-          log_impression(intervention.name)
+          log_impression()
 
           clearInterval(wait);
         }

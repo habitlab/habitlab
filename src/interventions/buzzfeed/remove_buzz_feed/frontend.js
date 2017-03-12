@@ -24,6 +24,8 @@ require('components/habitlab-logo.deps')
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
+var intervalID = window.setInterval(removeFeed, 200);
+
 function removeFeed() {
   var timelineFeed = $('.grid-posts')
   timelineFeed.hide()
@@ -33,30 +35,26 @@ function removeFeed() {
   splash.hide()
 }
 
-function showFeed(intervalID) {  
+function showFeed() {  
+  clearInterval(intervalID) //stop refreshing the page to hide elements  
   $('habitlab-logo').remove()
   $('paper-button').remove()
   
   $('.grid-posts').show()
   $('.feed__load-button').show()
   $('.splash').show()
-  clearInterval(intervalID) //stop refreshing the page to hide elements  
 }
-
-var intervalID;
 
 log_impression()
 var $center = $('<center>')
 var $habitlab_logo = $('<habitlab-logo>')
 var $cheatButton = $('<paper-button style="background-color:white" raised>Show My Feed This One Time</paper-button>')
 $cheatButton.click(function() {
-  showFeed(intervalID)
+  showFeed()
 })
 
 $center.append($cheatButton)
 $center.append($habitlab_logo)
 $('.col1').append($center)
-
-intervalID = window.setInterval(removeFeed, 200);
 
 window.debugeval = x => eval(x);

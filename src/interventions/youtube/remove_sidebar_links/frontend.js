@@ -17,11 +17,9 @@ require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('bower_components/paper-button/paper-button.deps')
 
-var intervention_disabled = false
-
 //Nukes links on the sidebar
 function removeSidebar() {
-  if (intervention_disabled) {
+  if (window.intervention_disabled) {
     return
   }
   if ($('.habitlab_inserted_div').length > 0) {
@@ -52,7 +50,7 @@ function removeSidebar() {
 }
 
 const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
-  if (intervention_disabled) {
+  if (window.intervention_disabled) {
     return
   }
   log_impression()
@@ -77,10 +75,9 @@ function disable_intervention() {
   }
 }
 
-document.body.addEventListener('disable_intervention', function() {
-  intervention_disabled = true
+window.on_intervention_disabled = () => {
   disable_intervention()
-})
+}
 
 /*
 (document.body || document.documentElement).addEventListener('transitionend',

@@ -55,10 +55,10 @@ co(function*() {
 
   $(document.body).append(interst_screen)
 
-  document.body.addEventListener('disable_intervention', () => {
-    $('.interst_screen').remove();
-  });
-
 })
+
+window.on_intervention_disabled = () => {
+  $('.interst_screen').remove();
+}
 
 window.debugeval = x => eval(x);

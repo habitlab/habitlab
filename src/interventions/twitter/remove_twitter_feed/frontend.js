@@ -24,14 +24,14 @@ require('components/habitlab-logo.deps')
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
+var intervalID = window.setInterval(removeFeed, 200);
+
 function removeFeed() {
   var timelineFeed = $('.content-main.top-timeline-tweetbox').find('.stream-items.js-navigable-stream')
   timelineFeed.hide()
   var spinner = $('.stream-end-inner')
   spinner.hide()
 }
-
-var intervalID;
 
 function showFeed() {
   clearInterval(intervalID) //stop refreshing the page to hide elements  
@@ -53,10 +53,8 @@ cheatButton.click(function() {
 
 $('.content-main.top-timeline-tweetbox').append(container)
 
-intervalID = window.setInterval(removeFeed, 200);
-
-document.body.addEventListener('disable_intervention', function() {
-  showFeed();
-})
+window.on_intervention_disabled = () => {
+  showFeed()
+}
 
 window.debugeval = x => eval(x);

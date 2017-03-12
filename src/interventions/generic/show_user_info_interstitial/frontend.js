@@ -31,8 +31,6 @@ const {
   get_intervention
 } = require('libs_common/intervention_info');
 
-var shadow_div;
-
 co(function*() {
   var domain = url_to_domain(window.location.href)
   var numMins = yield get_minutes_spent_on_domain_today(domain)
@@ -52,11 +50,11 @@ co(function*() {
   interst_screen.attr('seconds', 0);
   log_impression()
 
-  shadow_div = $(append_to_body_shadow(interst_screen));
-})
+  var shadow_div = append_to_body_shadow(interst_screen);
 
-document.body.addEventListener('disable_intervention', () => {
-  shadow_div.remove();
-});
+  window.on_intervention_disabled = () => {
+    $(shadow_div).remove();
+  }
+})
 
 window.debugeval = x => eval(x);

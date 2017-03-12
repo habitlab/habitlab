@@ -217,8 +217,8 @@ once_available('video:not(#rewardvideo)', () => {
 //Executed after page load
 //afterNavigate();
 
-document.addEventListener('disable_intervention', function() {
+window.on_intervention_disabled = () => {
   removeDivAndPlay()
-})
+}
 
 window.debugeval = x => eval(x);

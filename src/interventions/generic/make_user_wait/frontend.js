@@ -56,11 +56,11 @@ co(function*() {
     }
   }, 50)
 
-  var shadow_div = $(append_to_body_shadow(interst_screen))
+  var shadow_div = append_to_body_shadow(interst_screen)
 
-  document.body.addEventListener('disable_intervention', () => {
-    shadow_div.remove();
-  });
+  window.on_intervention_disabled = () => {
+    $(shadow_div).remove();
+  }
 
 })
 

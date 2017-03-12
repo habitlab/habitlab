@@ -24,6 +24,8 @@ require('components/close-tab-button.deps')
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
+var intervalID = window.setInterval(removeComments, 200);
+
 //Removes comments
 function removeComments() {
   for (let item of $('.commentable_item')) {
@@ -52,22 +54,18 @@ function removeComments() {
 
 // showComments
 function showComments() {
+  clearInterval(intervalID);
   for (let item of $('.commentable_item')) {
     if ($(item).prop('button_inserted')) {
       $(item).css('display','block')
       $(this).siblings('.habitlab_button_container').remove()
     }
   }
-  clearInterval(intervalID);
 }
 
-var intervalID = window.setInterval(removeComments, 200);
-window.intervalID = intervalID;
-
-document.body.addEventListener('disable_intervention', (intervalID) => {
+window.on_intervention_disabled = () => {
   $('.habitlab_button_container').remove()
   showComments();
-});
-
+}
 
 window.debugeval = x => eval(x);

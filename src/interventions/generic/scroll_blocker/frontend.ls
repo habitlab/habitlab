@@ -23,10 +23,9 @@ require('components/fb-scroll-block-display.deps')
 window.scrolling_allowed = true
 nscrolls = 0
 NSCROLLS_THRESHOLD = intervention.params.scrollevents.value
-disabled = false
 
 window.onwheel = (evt) ->
-  if !disabled
+  if !window.intervention_disabled
     nscrolls := nscrolls+1
     if nscrolls % NSCROLLS_THRESHOLD == 0
       disable_scrolling_and_show_scroll_block()
@@ -57,7 +56,7 @@ block_arrows = (e) ->
     return false
 
 scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker" --width="10px" --height="10px" onclick="this.clicked()">')
-shadow_div = $(append_to_body_shadow(scroll_block_display))
+shadow_div = append_to_body_shadow(scroll_block_display)
 
 enable_scrolling_and_hide_scroll_block!
 disable_scrolling_and_show_scroll_block!
@@ -69,9 +68,8 @@ scroll_block_display[0].addEventListener 'continue_scrolling', ->
   nscrolls := 0
   enable_scrolling_and_hide_scroll_block!
 
-document.body.addEventListener 'disable_intervention' ->
-  enable_scrolling_and_hide_scroll_block!
-  shadow_div.remove()
-  disabled := true
+window.on_intervention_disabled = ->
+  enable_scrolling_and_hide_scroll_block()
+  $(shadow_div).remove()
 
 window.debugeval = -> eval(it)

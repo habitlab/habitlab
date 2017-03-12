@@ -205,9 +205,16 @@ export get_num_actions = cfy (name) ->*
 export log_impression_internal = cfy (name) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
-  console.log "impression logged for #{name}"
   yield addtolog name, {
     type: 'impression'
+    intervention: name
+  }
+
+export log_disable_internal = cfy (name) ->*
+  # name = intervention name
+  # ex: facebook/notification_hijacker
+  yield addtolog name, {
+    type: 'disable'
     intervention: name
   }
 
@@ -219,7 +226,6 @@ export log_action_internal = cfy (name, data) ->*
   data = {} <<< data
   data.type = 'action'
   data.intervention = name
-  console.log "action logged for #{name} with data #{JSON.stringify(data)}"
   yield addtolog name, data
 
 upload_log_item_to_server = cfy (name, data) ->*

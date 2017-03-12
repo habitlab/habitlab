@@ -31,7 +31,7 @@ require('components/time-until-tab-autoclose-view.deps')
 require('bower_components/paper-button/paper-button.deps')
 
 var display_timespent_div = $('<time-until-tab-autoclose-view>');
-var shadow_div = $(append_to_body_shadow(display_timespent_div));
+var shadow_div = append_to_body_shadow(display_timespent_div);
 
 /*
 var timeLeft = 6000;
@@ -58,8 +58,8 @@ var countdownTimer = setInterval(() => {
 }, 1000);
 */
 
-document.body.addEventListener('disable_intervention', function() {
-  shadow_div.remove()
-})
+window.on_intervention_disabled = () => {
+  $(shadow_div).remove()
+}
 
 window.debugeval = x => eval(x);

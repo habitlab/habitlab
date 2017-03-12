@@ -357,11 +357,31 @@ co ->*
       const intervention = #{JSON.stringify(intervention_info_copy)};
       const tab_id = #{tabId};
       const dlog = function(...args) { console.log(...args); };
+      window.intervention_disabled = false;
 
       if (!window.SystemJS) {
         #{systemjs_content_script_code}
       }
       #{content_script_code}
+      document.body.addEventListener('disable_intervention', function() {
+        window.intervention_disabled = true;
+        SystemJS.import('libs_frontend/log_utils').then(function(log_utils) {
+          log_utils.log_disable_internal(intervention.name);
+        })
+        if (typeof(window.on_intervention_disabled) == 'function') {
+          window.on_intervention_disabled();
+        } else {
+          SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
+            console.log('systemjs imports complete')
+            content_script_utils.load_css_file('sweetalert2').then(function() {
+              sweetalert({
+                title: 'Reload page to disable intervention',
+                text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
+              })
+            })
+          })
+        }
+      })
       #{debug_content_script_code_with_hlog}
     }
   }

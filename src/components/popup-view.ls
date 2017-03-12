@@ -128,10 +128,10 @@ polymer_ext {
     self.enabledInterventions = enabledInterventions
     yield disable_interventions_in_active_tab()
     this.fire 'disable_intervention' 
-    swal({
-      title: 'Disabled!',
-      text: 'This intervention will be disabled temporarily.'
-    })
+    #swal({
+    #  title: 'Disabled!',
+    #  text: 'This intervention will be disabled temporarily.'
+    #})
 
   perm_disable_button_clicked: cfy (evt) ->*
     self = this
@@ -143,10 +143,10 @@ polymer_ext {
     self.enabledInterventions = enabledInterventions
     yield disable_interventions_in_active_tab()
     this.fire 'disable_intervention'
-    swal({
-      title: 'Disabled!',
-      text: 'This intervention will be disabled permanently.'
-    })
+    #swal({
+    #  title: 'Disabled!',
+    #  text: 'This intervention will be disabled permanently.'
+    #})
 
   is_not_in_blacklist: (graph, blacklist, graphNamesToOptions) ->
     graph = graphNamesToOptions[graph]

@@ -5,6 +5,7 @@ const $ = require('jquery')
 
 const {
   once_available,
+  wrap_in_shadow,
 } = require('libs_frontend/common_libs')
 
 const {
@@ -74,7 +75,6 @@ function begin() {
 
 //Makes the message box turn white and increments the message amount by one
 function showAlert() {
-  console.log("Inserting notification...");
   //Retrieves white message box and adds one new notification
   $('.uiToggle._4962._1z4y').addClass('hasNew');
   //Retrieves amt. of messages the user currently has  
@@ -116,7 +116,7 @@ function insertClickNotification() {
           $messageClone.find('a[href]').attr('href', '#').click(function() {
             reward_display[0].play()
           })
-          const habitlab_logo = $('<habitlab-logo>').addClass('habitlab_inserted').css({
+          const habitlab_logo = $(wrap_in_shadow($('<habitlab-logo>'))).addClass('habitlab_inserted').css({
             position: 'absolute',
             top: '10px',
             right: '5px',
@@ -154,8 +154,8 @@ function main() {
 //$(document).ready(main())
 setTimeout(begin, 3000);
 
-document.body.addEventListener('disable_intervention', function() {
+window.on_intervention_disabled = () => {
   $('.habitlab_inserted').remove()
-})
+}
 
 window.debugeval = x => eval(x);

@@ -240,10 +240,9 @@ co(function*() {
   }
 
   once_document_available(main);
-  window.onload = () => {
-    document.body.addEventListener("disable_intervention", () => {
-      shadow_div.remove();
-    });
+  
+  window.on_intervention_disabled = () => {
+    shadow_div.remove()
   }
 
 })

@@ -32,6 +32,9 @@ require('components/close-tab-button.deps')
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
+var feedShown = false;
+var intervalID = window.setInterval(removeFeed, 200);
+
 //Removes new feed (modified from 'kill news feed' src code)
 function removeFeed() {
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
@@ -45,7 +48,8 @@ function removeFeed() {
 }
 
 //Shows the news feed
-function showFeed(intervalID) {
+function showFeed() {
+  clearInterval(intervalID) //stop refreshing the page to hide elements
   $('#habitlab_show_feed_div').remove()
 
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
@@ -58,11 +62,10 @@ function showFeed(intervalID) {
   $('#pagelet_canvas_nav_content').css('opacity', 1);
 
   feedShown = true;
-  clearInterval(intervalID) //stop refreshing the page to hide elements
 }
 
 //Attaches habitlab button and show news feed button
-var intervalID;
+
 function attachButtons() {
   log_impression()
   var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed" style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo>')
@@ -96,12 +99,10 @@ on_url_change(() => {
   }
 })
 
-var feedShown = false;
 attachButtons();
-intervalID = window.setInterval(removeFeed, 200);
-window.intervalID = intervalID;
-document.body.addEventListener('disable_intervention', (intervalID) => {
-  showFeed(window.intervalID);
-});
+
+window.on_intervention_disabled = () => {
+  showFeed();
+}
 
 window.debugeval = x => eval(x);

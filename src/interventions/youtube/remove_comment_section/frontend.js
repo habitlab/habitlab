@@ -14,15 +14,13 @@ require('enable-webcomponents-in-content-scripts')
 require('bower_components/paper-button/paper-button.deps')
 require('components/habitlab-logo.deps')
 
-var intervention_disabled = false;
-
 function show_comments() {
   $('#habitlab_show_comments').remove();
   $('#watch-discussion').show();
 }
 
 function hide_comments() {
-  if (intervention_disabled) {
+  if (window.intervention_disabled) {
     return
   }
   if ($('#habitlab_show_comments').length > 0) {
@@ -47,7 +45,7 @@ function hide_comments() {
 }
 
 var hide_comments_once_available = run_only_one_at_a_time((callback) => {
-  if (intervention_disabled) {
+  if (window.intervention_disabled) {
     return
   }
   once_available('#watch-discussion', () => {
@@ -61,17 +59,14 @@ on_url_change(() => {
   hide_comments_once_available()
 })
 
-document.body.addEventListener('disable_intervention', () => {
-  intervention_disabled = true;
+window.on_intervention_disabled = () => {
   show_comments();
-});
+}
 
 /*
 //event listener in the , undo the intervention (copy code from facebook intervention)
 //ie. in frontend.js something like this:
-//document.body.addEventListener('disable_intervention', (intervalID) => {
-showFeed(window.intervalID);
-});
+
 //switch behavior to outright, so swith
 //otherwise keep going on with github issues
 */

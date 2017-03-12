@@ -19,6 +19,8 @@ const {
 require('enable-webcomponents-in-content-scripts')
 require('components/removed-clickbait-message.deps')
 
+var intervalID = window.setInterval(removeClickBait, 100);
+
 function addNotification() {
   var removed_clickbait_message = $('<removed-clickbait-message></removed-clickbait-message>')
   var removed_clickbait_message_wrapper = $(wrap_in_shadow(removed_clickbait_message)).attr('id', 'removed_clickbait_message')
@@ -26,7 +28,7 @@ function addNotification() {
 }
 
 function removeClickBait() {
-  if (removeCB) {
+  if (!window.intervention_disabled) {
     for (let item of $('._5g-l')) {
       var suggestedPost = $(item).closest('div[class^="_5jmm _5pat _3lb4 w_dqmgvr46j _x72"]')
       suggestedPost.remove()
@@ -38,16 +40,13 @@ function removeClickBait() {
   }
 }
 
-var removeCB = true;
 window.onload = () => {
-  removeCB = true;
   addNotification();
 }
-var intervalID = window.setInterval(removeClickBait, 100);
-window.intervalID = intervalID;
-document.body.addEventListener('disable_intervention', (intervalID) => {
+
+window.on_intervention_disabled = () => {
+  clearInterval(intervalID)
   $('#removed_clickbait_message').remove()
-  removeCB = false;
-});
+}
 
 window.debugeval = x => eval(x);

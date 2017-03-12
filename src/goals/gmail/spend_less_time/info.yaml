@@ -1,7 +1,12 @@
 description: Spend less time on Gmail
 progress_description: Time spent on Gmail
 interventions:
-  - gmail/no_new_emails
+  - generic/scroll_blocker
+  - generic/show_user_info_interstitial
+  - generic/make_user_wait
+  - generic/close_tab_timer
+  - generic/block_after_interval_per_visit
+  #- gmail/no_new_emails
   - gmail/time_writing_email
 measurement: time_spent_on_domain
 domain: mail.google.com

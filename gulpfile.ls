@@ -445,6 +445,7 @@ gulp.task 'generate_goal_intervention_info', (done) ->
           return '/interventions/' + generic_intervention + '/' + content_script
         intervention_info = JSON.parse JSON.stringify intervention_name_to_info[generic_intervention]
         intervention_name = goal_info.sitename + '/' + generic_intervention.substr('generic/'.length)
+        intervention_info.generic_intervention = generic_intervention
         intervention_info.matches = [goal_info.domain]
         if intervention_info.content_scripts?
           intervention_info.content_scripts = intervention_info.content_scripts.map make_absolute_path

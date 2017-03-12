@@ -22,6 +22,8 @@ const {
 
 const co = require('co')
 
+var shadow_div;
+
 co(function*() {
   //const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
   //if (on_same_domain_and_same_tab) {
@@ -56,12 +58,12 @@ co(function*() {
     }
   }, 50)
 
-  var shadow_div = append_to_body_shadow(interst_screen)
-
-  window.on_intervention_disabled = () => {
-    $(shadow_div).remove();
-  }
+  shadow_div = append_to_body_shadow(interst_screen)
 
 })
+
+window.on_intervention_disabled = () => {
+  $(shadow_div).remove();
+}
 
 window.debugeval = x => eval(x);

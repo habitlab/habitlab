@@ -372,7 +372,6 @@ co ->*
           window.on_intervention_disabled();
         } else {
           SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
-            console.log('systemjs imports complete')
             content_script_utils.load_css_file('sweetalert2').then(function() {
               sweetalert({
                 title: 'Reload page to disable intervention',

@@ -1,7 +1,12 @@
 description: Spend less time on Buzzfeed
 progress_description: Time spent on Buzzfeed 
 interventions:
-  - buzzfeed/remove_buzz_feed
+  - generic/scroll_blocker
+  - generic/show_user_info_interstitial
+  - generic/make_user_wait
+  - generic/close_tab_timer
+  - generic/block_after_interval_per_visit
+  #- buzzfeed/remove_buzz_feed
 measurement: time_spent_on_domain
 domain: buzzfeed.com
 target:

@@ -1,3 +1,4 @@
 description: Closes tab after 60 seconds
 content_scripts:
-  - frontend.js
+  - path: frontend.js
+    run_at: document_start

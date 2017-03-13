@@ -1,7 +1,8 @@
 description: Makes you wait a few seconds before visiting.
 displayname: Wait Screen
 content_scripts:
-  - frontend.js
+  - path: frontend.js
+    run_at: document_start
 parameters:
   - name: seconds
     description: Seconds that the user must wait before the page loads

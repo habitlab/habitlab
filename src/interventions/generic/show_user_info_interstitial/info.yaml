@@ -1,5 +1,6 @@
 description: Show time spent and visit count each visit.
 content_scripts:
-  - frontend.js
+  - path: frontend.js
+    run_at: document_start
 categories:
   - interstitial

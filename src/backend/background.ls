@@ -363,6 +363,7 @@ co ->*
         #{systemjs_content_script_code}
       }
       #{content_script_code}
+      #{debug_content_script_code_with_hlog}
       document.body.addEventListener('disable_intervention', function() {
         window.intervention_disabled = true;
         SystemJS.import('libs_frontend/log_utils').then(function(log_utils) {
@@ -381,7 +382,6 @@ co ->*
           })
         }
       })
-      #{debug_content_script_code_with_hlog}
     }
   }
       """

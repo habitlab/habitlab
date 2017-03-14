@@ -377,10 +377,14 @@ fix_intervention_name_to_intervention_info_dict = (intervention_name_to_info, in
         category_to_interventions[category] = []
       category_to_interventions[category].push intervention_name
   for intervention_name,intervention_info of intervention_name_to_info
+    seen_conflicts = {}
     for category in intervention_info.categories
       for conflict in category_to_interventions[category]
         if conflict == intervention_name
           continue
+        if seen_conflicts[conflict]
+          continue
+        seen_conflicts[conflict] = true
         intervention_info.conflicts.push conflict
   return intervention_name_to_info
 

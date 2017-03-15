@@ -50,9 +50,12 @@ co ->*
 
   {
     addtokey_dictdict
-    start_syncing_all_db_collections
     getkey_dictdict
   } = require 'libs_backend/db_utils'
+
+  {
+    start_syncing_all_data
+  } = require 'libs_backend/log_sync_utils'
 
   {
     send_message_to_active_tab
@@ -128,10 +131,6 @@ co ->*
     get_progress_on_enabled_goals_today
     get_progress_on_goal_this_week
   } = require 'libs_backend/goal_progress'
-
-  {
-    start_syncing_all_logs
-  } = require 'libs_backend/log_utils'
 
   {
     is_habitlab_enabled_sync
@@ -782,8 +781,7 @@ co ->*
   ), 1000
   */
 
-  #start_syncing_all_logs()
-  #start_syncing_all_db_collections()
+  start_syncing_all_data()
 
   gexport_module 'background', -> eval(it)
 

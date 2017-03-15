@@ -1,3 +1,8 @@
+{
+  start_syncing_all_data
+  stop_syncing_all_data
+} = require 'libs_backend/log_sync_utils'
+
 Polymer {
   is: 'privacy-options'
   properties: {
@@ -13,4 +18,8 @@ Polymer {
   }
   allow_logging_changed: ->
     localStorage.setItem('allow_logging', this.allow_logging)
+    if this.allow_logging
+      start_syncing_all_data()
+    else
+      stop_syncing_all_data()
 }

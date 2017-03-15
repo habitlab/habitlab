@@ -28,6 +28,7 @@ globals:
   'intervention': true
   'tab_id': true
   'Buffer': true
+  'dlog': true
 rules:
   'no-console': 'off'
   'no-unused-vars': 'off'

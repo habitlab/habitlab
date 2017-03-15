@@ -57,6 +57,10 @@ polymer_ext {
               name: 'devmode_clear_cache_on_reload'
               description: 'Clear the fetch cache upon reload'
             }
+            {
+              name: 'local_logging_server'
+              description: 'Use localhost:5000 as the logging server URL'
+            }
           ]
         }
         {

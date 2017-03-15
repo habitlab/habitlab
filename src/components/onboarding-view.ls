@@ -10,6 +10,11 @@ swal = require 'sweetalert2'
   load_css_file
 } = require 'libs_common/content_script_utils'
 
+{
+  start_syncing_all_data
+  stop_syncing_all_data
+} = require 'libs_backend/log_sync_utils'
+
 polymer_ext {
   is: 'onboarding-view'
   properties: {
@@ -39,6 +44,10 @@ polymer_ext {
     return chrome.extension.getURL('icons/stanford.svg')
   allow_logging_changed: ->
     localStorage.setItem('allow_logging', this.allow_logging)
+    if this.allow_logging
+      start_syncing_all_data()
+    else
+      stop_syncing_all_data()
   slide_changed: (evt) ->
     self = this
     this.SM('.slide').stop()
@@ -81,7 +90,7 @@ polymer_ext {
       slide.css('top', '0px')
       this.animation_inprogress = false
   onboarding_complete: ->
-    localStorage.setItem('allow_logging', this.allow_logging)
+    this.allow_logging_changed()
     this.fire 'onboarding-complete', {}
   next_button_clicked: cfy ->*
     if this.animation_inprogress

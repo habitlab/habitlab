@@ -8,15 +8,9 @@ require! {
 }
 
 {
-  get_user_id
-} = require 'libs_backend/background_common'
-
-{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
-
-$ = require 'jquery'
 
 {yfy, cfy} = require 'cfy'
 
@@ -312,75 +306,5 @@ export clear_dictdict = cfy (name) ->*
   .filter(-> true)
   .delete()
   return
-
-make_item_synced_in_collection = cfy (collection_name, item) ->*
-  collection = yield getCollection(collection_name)
-  schema = get_current_collections()[collection_name]
-  primary_key = schema.split(',')[0]
-  if primary_key == 'key'
-    query = item.key
-  else if primary_key == '[key+key2]'
-    query = [item.key, item.key2]
-  else
-    throw new Error('collection has primary key that we do not handle: ' + collection_name)
-  yield collection.where(primary_key).equals(query).and((x) -> x.timestamp == item.timestamp).modify({synced: 1})
-
-upload_collection_item_to_server = cfy (name, data) ->*
-  logging_server_url = localStorage.getItem('logging_server_url') ? 'https://habitlab.herokuapp.com/'
-  collection = yield getCollection(name)
-  data = {} <<< data
-  data.userid = yield get_user_id()
-  data.collection = name
-  try
-    response = yield $.ajax({
-      type: 'POST'
-      url: logging_server_url + 'sync_collection_item'
-      dataType: 'json'
-      contentType: 'application/json'
-      data: JSON.stringify(data)
-    })
-    if response.success
-      yield make_item_synced_in_collection(name, data)
-  catch
-    console.log 'error thrown in upload_collection_item_to_server'
-    console.log e
-  return
-
-export sync_unsynced_items_in_db_collection = cfy (name) ->*
-  collection = yield getCollection(name)
-  num_unsynced = yield collection.where('synced').equals(0).count()
-  if num_unsynced == 0
-    return
-  #console.log 'num_unsynced: ' + num_unsynced
-  unsynced_items = yield collection.where('synced').equals(0).toArray()
-  #console.log 'unsynced_items are'
-  #console.log unsynced_items
-  for x in unsynced_items
-    upload_collection_item_to_server(name, x)
-
-collection_syncers_active = {}
-
-export start_syncing_db_collection = cfy (name) ->*
-  if collection_syncers_active[name]
-    console.log 'collection_syncing already active for ' + name
-    return
-  console.log 'start syncing collection for ' + name
-  collection_syncers_active[name] = true
-  while collection_syncers_active[name] == true
-    yield sync_unsynced_items_in_db_collection(name)
-    yield -> setTimeout it, 60000 # should change to every 60 seconds (60000)
-
-export start_syncing_all_db_collections = cfy ->*
-  collection_names = Object.keys get_current_collections()
-  for collection_name in collection_names
-    start_syncing_db_collection collection_name
-
-export stop_syncing_db_collection = cfy (name) ->*
-  console.log 'stop syncing collection called for ' + name
-  collection_syncers_active[name] = false
-
-export stop_syncing_all_db_collections = cfy (name) ->*
-  for k in Object.keys(collection_syncers_active)
-    collection_syncers_active[k] = false
 
 gexport_module 'db_utils_backend', -> eval(it)

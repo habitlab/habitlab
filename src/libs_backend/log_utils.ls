@@ -28,6 +28,10 @@ require! {
 
 {cfy} = require 'cfy'
 
+chrome_manifest = chrome.runtime.getManifest()
+habitlab_version = chrome_manifest.version
+developer_mode = not chrome_manifest.update_url?
+
 export get_db_major_version_interventionlogdb = -> '8'
 export get_db_minor_version_interventionlogdb = -> '1'
 
@@ -156,6 +160,9 @@ export addtolog = cfy (name, data) ->*
   data.itemid = generate_random_id()
   data.log_major_ver = get_db_major_version_interventionlogdb()
   data.log_minor_ver = get_db_minor_version_interventionlogdb()
+  data.habitlab_version = habitlab_version
+  if developer_mode
+    data.developer_mode = developer_mode
   collection = yield getInterventionLogCollection(name)
   result = yield collection.add(data)
   return data

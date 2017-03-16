@@ -25,6 +25,10 @@ $ = require 'jquery'
   gexport_module
 } = require 'libs_common/gexport'
 
+chrome_manifest = chrome.runtime.getManifest()
+habitlab_version = chrome_manifest.version
+developer_mode = not chrome_manifest.update_url?
+
 export start_syncing_all_data = ->
   if localStorage.getItem('allow_logging') != 'true'
     dlog 'logging disabled, not syncing data'
@@ -161,6 +165,9 @@ upload_collection_item_to_server = cfy (name, data) ->*
   data = {} <<< data
   data.userid = yield get_user_id()
   data.collection = name
+  data.habitlab_version = habitlab_version
+  if developer_mode
+    data.developer_mode = true
   upload_successful = true
   try
     response = yield $.ajax({

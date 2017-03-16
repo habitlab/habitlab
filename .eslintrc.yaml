@@ -1,7 +1,7 @@
 #parser: 'babel-eslint'
 parserOptions:
   sourceType: 'script'
-  ecmaVersion: 6
+  ecmaVersion: 8
   ecmaFeatures:
     'impliedStrict': true
     # 'jsx': true

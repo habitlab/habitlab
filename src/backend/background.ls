@@ -6,8 +6,12 @@ do ->
   if not localStorage.getItem('notfirstrun')
     localStorage.setItem('notfirstrun', true)
     chrome.tabs.query {active: true, lastFocusedWindow: true}, (tab_info) ->
-      if tab_info? and tab_info.url == chrome.runtime.getURL('options.html#onboarding')
-        return
+      if tab_info?
+        if tab_info.url == chrome.runtime.getURL('options.html#onboarding')
+          return
+        if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing'
+          chrome.tabs.executeScript({code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
+          return
       chrome.tabs.create {url: 'options.html#onboarding'}
 
 require! {

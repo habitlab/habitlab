@@ -4,7 +4,7 @@ short_name: habitlab
 description: >-
   Build better habits online! Tell HabitLab your goals, and it will determine
   the appropriate interventions via experimentation.
-version: 1.0.114
+version: 1.0.115
 permissions:
   - tabs
   - webNavigation
@@ -80,8 +80,3 @@ options_ui:
   page: options.html
   chrome_style: false
   open_in_tab: true
-externally_connectable:
-  matches:
-    - '*://localhost:*/*'
-    - '*://autosurvey.pancakeapps.com/*'
-    - '*://tmi.netlify.com/*'

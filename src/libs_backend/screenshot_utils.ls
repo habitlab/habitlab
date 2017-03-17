@@ -53,6 +53,7 @@ export get_data_for_feedback = cfy ->*
   data.enabled_goals = as_array(yield get_enabled_goals())
   data.extra.manifest = yield chrome.runtime.getManifest()
   data.version = data.extra.manifest.version
+  data.chrome_runtime_id = chrome.runtime.id
   data.extra.client_timestamp = Date.now()
   data.extra.client_localtime = new Date().toString()
   return data

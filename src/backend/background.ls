@@ -1,6 +1,15 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw new Error(evt.reason)
 
+do ->
+  # open the options page on first run
+  if not localStorage.getItem('notfirstrun')
+    localStorage.setItem('notfirstrun', true)
+    chrome.tabs.query {active: true, lastFocusedWindow: true}, (tab_info) ->
+      if tab_info? and tab_info.url == chrome.runtime.getURL('options.html#onboarding')
+        return
+      chrome.tabs.create {url: 'options.html#onboarding'}
+
 require! {
   co
 }
@@ -749,12 +758,6 @@ co ->*
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
     #  dlog "total seconds spent on #{current_domain} today is #{total_seconds}"
   ), 1000
-
-  do ->
-    # open the options page on first run
-    if not localStorage.getItem('notfirstrun')
-      localStorage.setItem('notfirstrun', true)
-      chrome.tabs.create {url: 'options.html#onboarding'}
 
   #localStorage.tabsOpened = 0
   #chrome.tabs.onCreated.addListener (x) ->

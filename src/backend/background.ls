@@ -5,13 +5,15 @@ do ->
   # open the options page on first run
   if not localStorage.getItem('notfirstrun')
     localStorage.setItem('notfirstrun', true)
-    chrome.tabs.query {active: true, lastFocusedWindow: true}, (tab_info) ->
-      if tab_info?
-        if tab_info.url == chrome.runtime.getURL('options.html#onboarding')
-          return
-        if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing'
-          chrome.tabs.executeScript({code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
-          return
+    chrome.tabs.query {active: true, lastFocusedWindow: true}, (tab_info_list) ->
+      if tab_info_list? and tab_info_list.length > 0
+        tab_info = tab_info_list[0]
+        if tab_info?
+          if tab_info.url == chrome.runtime.getURL('options.html#onboarding')
+            return
+          if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing'
+            chrome.tabs.executeScript({code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
+            return
       chrome.tabs.create {url: 'options.html#onboarding'}
 
 require! {

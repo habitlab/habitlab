@@ -31,6 +31,7 @@ require! {
 chrome_manifest = chrome.runtime.getManifest()
 habitlab_version = chrome_manifest.version
 developer_mode = not chrome_manifest.update_url?
+unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
 
 export get_db_major_version_interventionlogdb = -> '8'
 export get_db_minor_version_interventionlogdb = -> '1'
@@ -162,7 +163,9 @@ export addtolog = cfy (name, data) ->*
   data.log_minor_ver = get_db_minor_version_interventionlogdb()
   data.habitlab_version = habitlab_version
   if developer_mode
-    data.developer_mode = developer_mode
+    data.developer_mode = true
+  if unofficial_version
+    data.unofficial_version = chrome.runtime.id
   collection = yield getInterventionLogCollection(name)
   result = yield collection.add(data)
   return data

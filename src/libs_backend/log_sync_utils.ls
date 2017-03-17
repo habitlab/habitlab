@@ -28,6 +28,7 @@ $ = require 'jquery'
 chrome_manifest = chrome.runtime.getManifest()
 habitlab_version = chrome_manifest.version
 developer_mode = not chrome_manifest.update_url?
+unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
 
 export start_syncing_all_data = ->
   if localStorage.getItem('allow_logging') != 'true'
@@ -168,6 +169,8 @@ upload_collection_item_to_server = cfy (name, data) ->*
   data.habitlab_version = habitlab_version
   if developer_mode
     data.developer_mode = true
+  if unofficial_version
+    data.unofficial_version = chrome.runtime.id
   upload_successful = true
   try
     response = yield $.ajax({

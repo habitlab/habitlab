@@ -76,6 +76,7 @@ co ->*
     send_message_to_active_tab
     send_message_to_tabid
     get_active_tab_info
+    get_user_id
   } = require 'libs_backend/background_common'
 
   {
@@ -830,8 +831,6 @@ co ->*
 
   ensure_history_utils_data_cached()
 
-  #chrome.runtime.setUninstallURL('')
-
   require('libs_backend/require_remote_utils')
 
   require 'libs_common/global_exports_post'
@@ -842,3 +841,65 @@ co ->*
   yield get_goal_intervention_info() # ensure cached
   yield get_goals()
   yield get_enabled_goals()
+
+  get_habitlab_uninstall_url = cfy ->*
+    chrome_manifest = chrome.runtime.getManifest()
+    habitlab_version = chrome_manifest.version
+    developer_mode = not chrome_manifest.update_url?
+    base64_js = require('base64-js')
+    msgpack_lite = require('msgpack-lite')
+    compress_and_encode = (data) ->
+      base64_js.fromByteArray(msgpack_lite.encode(data))
+    uninstall_url_base = 'https://habitlab.github.io/bye?d='
+    uninstall_url = uninstall_url_base
+    uninstall_url_data = {}
+    uninstall_url_data.v = habitlab_version
+    set_uninstall_url_if_valid = ->
+      uninstall_url_next = uninstall_url_base + compress_and_encode(uninstall_url_data)
+      if uninstall_url_next.length <= 255
+        uninstall_url := uninstall_url_next
+        return true
+      return false # had an error
+    if not set_uninstall_url_if_valid()
+      return uninstall_url
+    if chrome.runtime.id == 'obghclocpdgcekcognpkblghkedcpdgd'
+      uninstall_url_data.r = 0 # stable
+    else if chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina'
+      uninstall_url_data.r = 1 # beta
+    else if developer_mode
+      uninstall_url_data.r = 2 # developer
+    else
+      uninstall_url_data.r = 3 # unknown release
+      uninstall_url_data.ri = chrome.runtime.id
+    uninstall_url_data.u = yield get_user_id()
+    uninstall_url_data.l = (localStorage.getItem('allow_logging') == 'true')
+    if not set_uninstall_url_if_valid()
+      return uninstall_url
+    list_enabled_goals_short = cfy ->*
+      output = []
+      goals = yield get_enabled_goals()
+      all_goals = yield get_goals()
+      for k,v of goals
+        if not v
+          continue
+        goal_info = all_goals[k]
+        output.push goal_info.sitename_printable
+      return output
+    uninstall_url_data.g = yield list_enabled_goals_short()
+    if not set_uninstall_url_if_valid()
+      return uninstall_url
+    return uninstall_url
+  
+  decode_habitlab_uninstall_url_data = cfy (url) ->*
+    data = url.substr(33) # 'https://habitlab.github.io/bye?d='.length
+    base64_js = require('base64-js')
+    msgpack_lite = require('msgpack-lite')
+    decompress_and_decode = (str) ->
+      msgpack_lite.decode(base64_js.toByteArray(str))
+    return decompress_and_decode(data)
+
+  set_habitlab_uninstall_url = cfy ->*
+    habitlab_uninstall_url = yield get_habitlab_uninstall_url()
+    chrome.runtime.setUninstallURL(habitlab_uninstall_url)
+  
+  set_habitlab_uninstall_url()

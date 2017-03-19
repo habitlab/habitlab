@@ -4,6 +4,7 @@
   "description": "",
   "dependencies": {
     "async-debounce-jt": "^1.0.1",
+    "base64-js": "^1.2.0",
     "cfy": "^1.0.20",
     "cloner": "^0.4.0",
     "co": "^4.6.0",
@@ -19,6 +20,7 @@
     "localforage": "^1.4.3",
     "mathjs": "^3.9.0",
     "moment": "^2.13.0",
+    "msgpack-lite": "^0.1.26",
     "percipio": "^0.1.2",
     "prelude-ls": "^1.1.2",
     "promise-debounce": "^1.0.1",

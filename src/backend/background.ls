@@ -833,8 +833,6 @@ co ->*
 
   require('libs_backend/require_remote_utils')
 
-  require 'libs_common/global_exports_post'
-
   #require('libs_backend/message_after_tab_close')
   require('libs_backend/notification_timer') #lewin notification_timer code
 
@@ -854,23 +852,23 @@ co ->*
     uninstall_url = uninstall_url_base
     uninstall_url_data = {}
     uninstall_url_data.v = habitlab_version
+    if chrome.runtime.id == 'obghclocpdgcekcognpkblghkedcpdgd'
+      uninstall_url_data.r = 0 # stable
+    else if chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina'
+      uninstall_url_data.r = 1 # beta
+      uninstall_url_base = 'https://habitlab.netlify.com/bye?d='
+    else if developer_mode
+      uninstall_url_data.r = 2 # developer
+      uninstall_url_base = 'https://habitlab.netlify.com/bye?d='
+    else
+      uninstall_url_data.r = 3 # unknown release
+      uninstall_url_data.ri = chrome.runtime.id
     set_uninstall_url_if_valid = ->
       uninstall_url_next = uninstall_url_base + compress_and_encode(uninstall_url_data)
       if uninstall_url_next.length <= 255
         uninstall_url := uninstall_url_next
         return true
       return false # had an error
-    if not set_uninstall_url_if_valid()
-      return uninstall_url
-    if chrome.runtime.id == 'obghclocpdgcekcognpkblghkedcpdgd'
-      uninstall_url_data.r = 0 # stable
-    else if chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina'
-      uninstall_url_data.r = 1 # beta
-    else if developer_mode
-      uninstall_url_data.r = 2 # developer
-    else
-      uninstall_url_data.r = 3 # unknown release
-      uninstall_url_data.ri = chrome.runtime.id
     uninstall_url_data.u = yield get_user_id()
     uninstall_url_data.l = (localStorage.getItem('allow_logging') == 'true')
     if not set_uninstall_url_if_valid()
@@ -891,7 +889,7 @@ co ->*
     return uninstall_url
   
   decode_habitlab_uninstall_url_data = cfy (url) ->*
-    data = url.substr(33) # 'https://habitlab.github.io/bye?d='.length
+    data = url.substr(url.indexOf('/bye?d=') + 7) # 'https://habitlab.github.io/bye?d='.length
     base64_js = require('base64-js')
     msgpack_lite = require('msgpack-lite')
     decompress_and_decode = (str) ->
@@ -902,4 +900,12 @@ co ->*
     habitlab_uninstall_url = yield get_habitlab_uninstall_url()
     chrome.runtime.setUninstallURL(habitlab_uninstall_url)
   
-  set_habitlab_uninstall_url()
+  export open_habitlab_uninstall_url = cfy ->*
+    uninstall_url = yield get_habitlab_uninstall_url()
+    chrome.tabs.create {url: uninstall_url}
+
+  if chrome.runtime.getManifest().update_url? # not developer mode
+    yield set_habitlab_uninstall_url()
+
+  require 'libs_common/global_exports_post'
+  

@@ -830,6 +830,8 @@ co ->*
 
   ensure_history_utils_data_cached()
 
+  #chrome.runtime.setUninstallURL('')
+
   require('libs_backend/require_remote_utils')
 
   require 'libs_common/global_exports_post'

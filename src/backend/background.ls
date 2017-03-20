@@ -1,21 +1,6 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw new Error(evt.reason)
 
-do ->
-  # open the options page on first run
-  if not localStorage.getItem('notfirstrun')
-    localStorage.setItem('notfirstrun', true)
-    chrome.tabs.query {active: true, lastFocusedWindow: true}, (tab_info_list) ->
-      if tab_info_list? and tab_info_list.length > 0
-        tab_info = tab_info_list[0]
-        if tab_info?
-          if tab_info.url == chrome.runtime.getURL('options.html#onboarding')
-            return
-          if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing'
-            chrome.tabs.executeScript({code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
-            return
-      chrome.tabs.create {url: 'options.html#onboarding'}
-
 require! {
   co
 }
@@ -56,6 +41,32 @@ co ->*
   require 'libs_backend/systemjs'
 
   {
+    get_goals
+    get_enabled_goals
+    get_goal_target
+    get_goal_intervention_info
+    set_goal_enabled
+  } = require 'libs_backend/goal_utils'
+
+  co ->*
+    # open the options page on first run
+    if not localStorage.getItem('notfirstrun')
+      localStorage.setItem('notfirstrun', true)
+      yield set_goal_enabled('facebook/spend_less_time')
+      yield set_goal_enabled('youtube/spend_less_time')
+      chrome.tabs.query {active: true, lastFocusedWindow: true}, (tab_info_list) ->
+        if tab_info_list? and tab_info_list.length > 0
+          tab_info = tab_info_list[0]
+          if tab_info?
+            if tab_info.url == chrome.runtime.getURL('options.html#onboarding')
+              return
+            if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing'
+              chrome.tabs.executeScript({code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
+              return
+        chrome.tabs.create {url: 'options.html#onboarding'}
+
+
+  {
     get_all_message_handlers
   } = require 'libs_backend/expose_lib'
 
@@ -87,13 +98,6 @@ co ->*
     get_intervention_parameters
     is_it_outside_work_hours
   } = require 'libs_backend/intervention_utils'
-
-  {
-    get_goals
-    get_enabled_goals
-    get_goal_target
-    get_goal_intervention_info
-  } = require 'libs_backend/goal_utils'
 
   {
     make_wait_token

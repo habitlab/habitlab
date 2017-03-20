@@ -52,6 +52,7 @@ if window.location.pathname == '/options.html'
       onboarding_view.style.display = 'none'
       onboarding_view.parentNode.removeChild(onboarding_view)
       options_view.style.display = 'block'
+      options_view.rerender()
       window.location.hash = 'settings'
     options_view.style.display = 'none'
     document.getElementById('index_body').appendChild(onboarding_view)

@@ -17,6 +17,7 @@
   results_icon
   gear_icon
   habitlab_icon
+  help_icon
 } = require 'libs_common/icon_data'
 
 {
@@ -57,7 +58,7 @@ polymer_ext {
   }
   compute_sidebar_items: (enabled_goal_info_list) ->
     default_icon = habitlab_icon
-    return [{name: 'Overview', icon: habitlab_icon}, {name: 'Settings', icon: gear_icon}].concat [{name: x.sitename_printable, icon: x.icon ? default_icon} for x in enabled_goal_info_list]
+    return [{name: 'Overview', icon: habitlab_icon}, {name: 'Settings', icon: gear_icon}].concat([{name: x.sitename_printable, icon: x.icon ? default_icon} for x in enabled_goal_info_list]).concat({name: 'Help / FAQ', icon: help_icon})
   enable_habitlab_button_clicked: ->
     this.is_habitlab_disabled = false
     enable_habitlab()
@@ -65,6 +66,10 @@ polymer_ext {
     return chrome.extension.getURL('icons/power_button.svg')
   set_selected_tab_by_name: cfy (selected_tab_name) ->*
     self = this
+    aliases = {
+      faq: \help
+    }
+    selected_tab_name = aliases[selected_tab_name] ? selected_tab_name
     selected_tab_idx = switch selected_tab_name
     | 'progress' => 0
     | 'results' => 0
@@ -85,12 +90,13 @@ polymer_ext {
       return
     yield once_true(-> self.enabled_goal_info_list?length?)
     goals_list = self.enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
+    goals_list.push 'help'
     selected_goal_idx = goals_list.indexOf(selected_tab_name)
     if selected_goal_idx != -1
       self.selected_tab_idx = selected_goal_idx + 2
   compute_selected_tab_name: (selected_tab_idx, enabled_goal_info_list) ->
     goals_list = enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
-    return (['overview', 'settings'].concat(goals_list))[selected_tab_idx]
+    return (['overview', 'settings'].concat(goals_list)).concat(['help'])[selected_tab_idx]
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}
   on_goal_changed: (evt) ->

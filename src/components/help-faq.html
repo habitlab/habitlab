@@ -1,0 +1,124 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="help-faq">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+      --paper-card: {
+        width: 90%;
+        padding: 10px 20px;
+        margin-top: 10px;
+      };
+    }
+    .container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .title {
+      font-size: 48px;
+      margin-top: 0.3em;
+      /*font-weight: 200;*/
+    }
+    .paper-card {
+      width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .card-content {
+      font-size: 20px;
+    }
+  </style>
+  <template>
+
+    <div class="container">
+
+      <div class="title" style="color: white">Help / FAQ</div>
+
+      <paper-card heading="I am not seeing any interventions on a page" class="paper-card">
+        <div class="card-content">
+          Make sure you have set a goal to reduce time spent on that page. You can set goals on the <a href="https://habitlab.github.io/to?options#settings" target="_blank">settings tab</a>.
+        </div>
+      </paper-card>
+
+      <paper-card heading="How do I disable an intervention?" class="paper-card">
+        <div class="card-content">
+          To disable an intervention for just one visit, click on the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar when the intervention is active, and check "Disabled".
+          <br><br>
+          To disable an intervention for future visits, go to the tab for the site on which the intervention operates, and click "Disable"" next to the intervention.
+        </div>
+      </paper-card>
+
+      <paper-card heading="How do I temporarily disable all interventions?" class="paper-card">
+        <div class="card-content">
+          You can disable all interventions for the rest of the day by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, and click "Disable HabitLab Today".
+          <br><br>
+          You can also set HabitLab to only deploy interventions during work hours on the <a href="https://habitlab.github.io/to?options#settings" target="_blank">settings tab</a>.
+        </div>
+      </paper-card>
+
+      <!--
+      <paper-card heading="How does HabitLab work?" class="paper-card">
+        <div class="card-content">
+          HabitLab will help you achieve your goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
+        </div>
+      </paper-card>
+      -->
+
+      <paper-card heading="Why do I see a different intervention on each visit?" class="paper-card">
+        <div class="card-content">
+          HabitLab will help you achieve your goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
+          <br><br>
+          At first, HabitLab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
+          <!--
+          <br><br>
+          If you are finding a particular intervention very annoying, you can disable it.
+          -->
+        </div>
+      </paper-card>
+
+      <paper-card heading="How does HabitLab choose which interventions to show me?" class="paper-card">
+        <div class="card-content">
+          Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
+        </div>
+      </paper-card>
+
+      <paper-card heading="How can I access the dashboard?" class="paper-card">
+        <div class="card-content">
+          You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
+        </div>
+      </paper-card>
+
+      <paper-card heading="How can I make an intervention always shown when I visit a page?" class="paper-card">
+        <div class="card-content">
+          Disable all the other interventions for that site.
+        </div>
+      </paper-card>
+
+      <paper-card heading="How can I make multiple interventions shown when I visit a page?" class="paper-card">
+        <div class="card-content">
+          Not currently supported. As a workaround, you can use the <a href="https://github.com/habitlab/habitlab/wiki/Writing-Interventions" target="_blank">intervention editor</a> to create a new intervention that shows multiple interventions at once.
+        </div>
+      </paper-card>
+
+      <paper-card heading="I have a suggestion for HabitLab / I found a bug!" class="paper-card">
+        <div class="card-content">
+          <a href="#help" on-click="submit_feedback_clicked">Click here to submit feedback</a> and it will be sent to our <a href="https://github.com/habitlab/habitlab/issues">bug tracker</a>.
+        </div>
+      </paper-card>
+
+      <paper-card heading="My question was not answered / Contact us" class="paper-card">
+        <div class="card-content">
+          <a href="mailto:{{mailing_list}}" target="_blank">Email us</a> or <a href="https://gitter.im/habitlab/habitlab" target="_blank">ask on Gitter</a> and we will get back to you!
+        </div>
+      </paper-card>
+      
+    </div>
+
+  </template>
+  <script src="help-faq.js"></script>
+</dom-module>

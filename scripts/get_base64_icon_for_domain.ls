@@ -7,6 +7,7 @@ require! {
   jimp
   icojs
   cheerio
+  path
 }
 
 get_canonical_url = cfy (url) ->*
@@ -210,9 +211,10 @@ co ->*
   if not domain?
     console.log 'please specify a domain'
     return
-  if domain.startsWith('/') # is a file path
+  if domain.startsWith('/') or domain.startsWith('./') # is a file path
+    favicon_path = path.resolve domain
     try
-      favicon_data = yield jimp.read(domain)
+      favicon_data = yield jimp.read(favicon_path)
       favicon_data.resize(40, 40)
       console.log yield -> favicon_data.getBase64('image/png', it)
       return

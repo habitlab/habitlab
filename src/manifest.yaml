@@ -4,7 +4,7 @@ short_name: habitlab
 description: >-
   Build better habits online! Tell HabitLab your goals, and it will determine
   the appropriate interventions via experimentation.
-version: 1.0.117
+version: 1.0.118
 permissions:
   - tabs
   - webNavigation
@@ -69,6 +69,8 @@ content_scripts:
       - 'https://habitlab.netlify.com/'
       - 'http://habitlab.stanford.edu/'
       - 'https://habitlab.stanford.edu/'
+      - 'http://habitlab.github.io/'
+      - 'https://habitlab.github.io/'
 icons:
   '19': icons/icon_19.png
   '32': icons/icon_32.png

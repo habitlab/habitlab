@@ -104,6 +104,21 @@ export set_goal_enabled_manual = cfy (goal_name) ->*
     enabled_goals: enabled_goals
   }
 
+export set_goals_enabled = cfy (goal_list) ->*
+  enabled_goals = yield get_enabled_goals()
+  prev_enabled_goals = {} <<< enabled_goals
+  for goal_name in goal_list
+    if enabled_goals[goal_name]?
+      continue
+    enabled_goals[goal_name] = true
+  yield set_enabled_goals enabled_goals
+  log_utils.add_log_goals {
+    type: 'goals_enabled'
+    manual: false
+    goal_list: goal_list
+    prev_enabled_goals: prev_enabled_goals
+  }
+
 export set_goal_enabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
   prev_enabled_goals = {} <<< enabled_goals
@@ -132,6 +147,22 @@ export set_goal_disabled_manual = cfy (goal_name) ->*
     prev_enabled_goals: prev_enabled_goals
   }
 
+export set_goals_disabled = cfy (goal_list) ->*
+  enabled_goals = yield get_enabled_goals()
+  prev_enabled_goals = {} <<< enabled_goals
+  for goal_name in goal_list
+    if not enabled_goals[goal_name]?
+      continue
+    delete enabled_goals[goal_name]
+  yield set_enabled_goals enabled_goals
+  log_utils.add_log_goals {
+    type: 'goals_disabled'
+    manual: false
+    goal_list: goal_list
+    prev_enabled_goals: prev_enabled_goals
+  }
+
+
 export set_goal_disabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()
   prev_enabled_goals = {} <<< enabled_goals
@@ -144,7 +175,6 @@ export set_goal_disabled = cfy (goal_name) ->*
     manual: false
     goal_name: goal_name
     prev_enabled_goals: prev_enabled_goals
-    enabled_goals: enabled_goals
   }
 
 export is_goal_enabled = cfy (goal_name) ->*

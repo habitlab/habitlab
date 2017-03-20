@@ -45,23 +45,22 @@ co ->*
     get_enabled_goals
     get_goal_target
     get_goal_intervention_info
-    set_goal_enabled
+    set_goals_enabled
   } = require 'libs_backend/goal_utils'
 
   co ->*
     # open the options page on first run
     if not localStorage.getItem('notfirstrun')
       localStorage.setItem('notfirstrun', true)
-      yield set_goal_enabled('facebook/spend_less_time')
-      yield set_goal_enabled('youtube/spend_less_time')
+      yield set_goals_enabled(['facebook/spend_less_time', 'youtube/spend_less_time'])
       chrome.tabs.query {active: true, lastFocusedWindow: true}, (tab_info_list) ->
         if tab_info_list? and tab_info_list.length > 0
           tab_info = tab_info_list[0]
           if tab_info?
             if tab_info.url == chrome.runtime.getURL('options.html#onboarding')
               return
-            if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing'
-              chrome.tabs.executeScript({code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
+            if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing' or tab_info.url == 'https://habitlab.github.io/#installing' or tab_info.url == 'http://habitlab.netlify.com/#installing' or tab_info.url == 'http://habitlab.stanford.edu/#installing' or tab_info.url == 'http://habitlab.github.io/#installing'
+              chrome.tabs.executeScript(tab_info.id, {code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
               return
         chrome.tabs.create {url: 'options.html#onboarding'}
 

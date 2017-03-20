@@ -10,6 +10,11 @@ polymer_ext {
       value: [['habitlab', 'support'].join('-'), ['cs', 'stanford', 'edu'].join('.')].join('@')
     }
   }
+  change_tab: (evt) ->
+    evt.preventDefault()
+    evt.stopPropagation()
+    newtab = evt.target.getAttribute('newtab')
+    this.fire 'need_tab_change', {newtab: newtab}
   get_icon: ->
     return chrome.extension.getURL('icons/icon_19.png')
   submit_feedback_clicked: cfy ->*

@@ -41,7 +41,7 @@
 
       <paper-card heading="I am not seeing any interventions on a page" class="paper-card">
         <div class="card-content">
-          Make sure you have set a goal to reduce time spent on that page. You can set goals on the <a href="https://habitlab.github.io/to?options#settings" target="_blank">settings tab</a>.
+          Make sure you have set a goal to reduce time spent on that page. You can set goals on the <a on-click="change_tab" newtab="settings" href="https://habitlab.github.io/to?q=options#settings">settings tab</a>.
         </div>
       </paper-card>
 
@@ -49,7 +49,7 @@
         <div class="card-content">
           To disable an intervention for just one visit, click on the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar when the intervention is active, and check "Disabled".
           <br><br>
-          To disable an intervention for future visits, go to the tab for the site on which the intervention operates, and click "Disable"" next to the intervention.
+          To disable an intervention for future visits, go to the tab for the site on which the intervention operates (ie, <a on-click="change_tab" newtab="facebook" href="https://habitlab.github.io/to?q=options#facebook">Facebook</a>), and click "Disable"" next to the intervention.
         </div>
       </paper-card>
 
@@ -57,7 +57,7 @@
         <div class="card-content">
           You can disable all interventions for the rest of the day by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, and click "Disable HabitLab Today".
           <br><br>
-          You can also set HabitLab to only deploy interventions during work hours on the <a href="https://habitlab.github.io/to?options#settings" target="_blank">settings tab</a>.
+          You can also set HabitLab to only deploy interventions during work hours on the <a on-click="change_tab" newtab="settings" href="https://habitlab.github.io/to?q=options#settings">settings tab</a>.
         </div>
       </paper-card>
 

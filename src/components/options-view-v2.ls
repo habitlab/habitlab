@@ -55,6 +55,7 @@ polymer_ext {
   listeners: {
     goal_changed: 'on_goal_changed'
     need_rerender: 'rerender'
+    need_tab_change: 'on_need_tab_change'
   }
   compute_sidebar_items: (enabled_goal_info_list) ->
     default_icon = habitlab_icon
@@ -64,6 +65,9 @@ polymer_ext {
     enable_habitlab()
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
+  on_need_tab_change: (evt) ->
+    if evt?detail?newtab?
+      this.set_selected_tab_by_name(evt.detail.newtab)
   set_selected_tab_by_name: cfy (selected_tab_name) ->*
     self = this
     aliases = {

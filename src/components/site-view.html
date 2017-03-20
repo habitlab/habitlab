@@ -86,7 +86,7 @@
       </paper-card>
 
       <paper-card heading="{{goal_info.sitename_printable}} Interventions"class="paper-card">
-        <div class="card-content">When interventions are enabled, they will only be shown some of the time.</div>
+        <div class="card-content">Enabled interventions will only be shown some of the time.</div>
         <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
           <intervention-view-single-v2  goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
           <br> <br>

@@ -60,6 +60,15 @@ content_scripts:
       - 'https://habitlab.github.io/to*'
       - 'http://habitlab.stanford.edu/to*'
       - 'https://habitlab.stanford.edu/to*'
+  - all_frames: true
+    run_at: document_start
+    js:
+      - habitlab_website_installed.js
+    matches:
+      - 'http://habitlab.netlify.com/'
+      - 'https://habitlab.netlify.com/'
+      - 'http://habitlab.stanford.edu/'
+      - 'https://habitlab.stanford.edu/'
 icons:
   '19': icons/icon_19.png
   '32': icons/icon_32.png

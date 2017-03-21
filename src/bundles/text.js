@@ -1,0 +1,2 @@
+System.registerDynamic("github:systemjs/plugin-text@0.0.8.json",[],!0,function(){return{main:"text"}}),System.registerDynamic("github:systemjs/plugin-text@0.0.8/text.js",[],!0,function(a,b){var d=this||self;b.translate=function(f){return this.builder&&this.transpiler?(f.metadata.format="esm","export default "+JSON.stringify(f.source)+";"):(f.metadata.format="amd","define(function() {\nreturn "+JSON.stringify(f.source)+";\n});")}});
+

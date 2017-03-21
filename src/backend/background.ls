@@ -22,21 +22,24 @@ co ->*
     localforage
   }
 
-  manifest = chrome.runtime.getManifest()
-  if manifest.update_url? or localStorage.getItem('devmode_use_cache') == 'true'
+  chrome_manifest = chrome.runtime.getManifest()
+  habitlab_version = chrome_manifest.version
+  developer_mode = not chrome_manifest.update_url?
+  unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
+  if (not developer_mode) or localStorage.getItem('devmode_use_cache') == 'true'
     need_to_clear_cache = localStorage.getItem('devmode_clear_cache_on_reload') == 'true'
-    if need_to_clear_cache or manifest.update_url?  # installed from chrome web store
+    if need_to_clear_cache or (not developer_mode) # installed from chrome web store
       store = localforage.createInstance({
         name: 'localget'
       })
       if not need_to_clear_cache
-        if manifest.update_url?
+        if (not developer_mode)
           version_cached = yield store.getItem('habitlab_version')
-          if version_cached != manifest.version
+          if version_cached != habitlab_version
             need_to_clear_cache = true
       if need_to_clear_cache
         yield store.clear()
-        yield store.setItem('habitlab_version', manifest.version)
+        yield store.setItem('habitlab_version', habitlab_version)
 
   require 'libs_backend/systemjs'
 
@@ -78,9 +81,11 @@ co ->*
     install_data.client_localtime = new Date().toString()
     install_data.user_id = yield get_user_id()
     install_data.browser = navigator.userAgent
-    install_data.version = manifest.version
-    install_data.devmode = not manifest.update_url?
+    install_data.version = habitlab_version
+    install_data.devmode = developer_mode
     install_data.chrome_runtime_id = chrome.runtime.id
+    if unofficial_version
+      install_data.unofficial_version = chrome.runtime.id
     $.ajax {
       type: 'POST'
       url: 'https://habitlab.herokuapp.com/add_install'
@@ -859,9 +864,6 @@ co ->*
   yield get_enabled_goals()
 
   get_habitlab_uninstall_url = cfy ->*
-    chrome_manifest = chrome.runtime.getManifest()
-    habitlab_version = chrome_manifest.version
-    developer_mode = not chrome_manifest.update_url?
     base64_js = require('base64-js')
     msgpack_lite = require('msgpack-lite')
     compress_and_encode = (data) ->
@@ -922,7 +924,7 @@ co ->*
     uninstall_url = yield get_habitlab_uninstall_url()
     chrome.tabs.create {url: uninstall_url}
 
-  if chrome.runtime.getManifest().update_url? # not developer mode
+  if (not developer_mode) # not developer mode
     yield set_habitlab_uninstall_url()
 
   require 'libs_common/global_exports_post'

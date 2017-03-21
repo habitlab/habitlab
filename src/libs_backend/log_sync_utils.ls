@@ -30,6 +30,47 @@ habitlab_version = chrome_manifest.version
 developer_mode = not chrome_manifest.update_url?
 unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
 
+get_base_data = cfy ->*
+  data = {}
+  data.client_timestamp = Date.now()
+  data.client_localtime = new Date().toString()
+  data.user_id = yield get_user_id()
+  data.browser = navigator.userAgent
+  data.version = habitlab_version
+  data.devmode = developer_mode
+  data.chrome_runtime_id = chrome.runtime.id
+  if unofficial_version
+    data.unofficial_version = chrome.runtime.id
+  return data
+
+export send_logging_enabled = cfy (options) ->*
+  options = options ? {}
+  data = yield get_base_data()
+  data.logging_enabled = true
+  if options.page?
+    data.page = options.page
+  $.ajax {
+    type: 'POST'
+    url: 'https://habitlab.herokuapp.com/add_logging_state'
+    dataType: 'json'
+    contentType: 'application/json'
+    data: JSON.stringify(data)
+  }
+
+export send_logging_disabled = cfy (options) ->*
+  options = options ? {}
+  data = yield get_base_data()
+  data.logging_enabled = false
+  if options.page?
+    data.page = options.page
+  $.ajax {
+    type: 'POST'
+    url: 'https://habitlab.herokuapp.com/add_logging_state'
+    dataType: 'json'
+    contentType: 'application/json'
+    data: JSON.stringify(data)
+  }
+
 export start_syncing_all_data = ->
   if localStorage.getItem('allow_logging') != 'true'
     dlog 'logging disabled, not syncing data'

@@ -1,0 +1,21 @@
+- cfy:
+  - co
+  - cfy
+- livescript15:
+  - livescript15
+- icojs:
+  - jimp
+  - cheerio
+  - icojs
+- intervention-editor-libs:
+  - sweetjs-min
+  - prettier-min
+  - list_requires_multi brace
+  - brace/mode/javascript
+  - brace/mode/livescript
+  - brace/mode/html
+  - brace/theme/monokai
+- jquery:
+  - jquery
+- prettyprintjs:
+  - prettyprintjs

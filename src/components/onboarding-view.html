@@ -90,6 +90,14 @@
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     }
 
+    .image_frame {
+      background-color: white; display: inline-table; border-radius: 20px; padding: 20px
+    }
+
+    .image_inner {
+      max-width: 560px; max-height: 260px; display: table-cell; border-radius: 20px
+    }
+
   </style>
   <template>
 
@@ -116,7 +124,9 @@
 
     <div class="slide">
       <div class="inner_slide">
-        <img src="http://i.imgur.com/lw89EcF.png" style="width: 600px"></img>
+        <div class="image_frame">
+          <img src="https://habitlab.github.io/onboarding_images/dashboard5.png" class="image_inner"></img>
+        </div>
         <br><br>
         <div class="subtext">HabitLab lets you set goals to limit your usage of selected sites</div>
       </div>
@@ -124,7 +134,9 @@
 
     <div class="slide">
       <div class="inner_slide">
-        <img src="http://i.imgur.com/LhldDus.png" style="width: 600px"></img>
+        <div class="image_frame">
+          <img src="https://habitlab.github.io/onboarding_images/interventions-nolabels.png" class="image_inner"></img>
+        </div>
         <br><br>
         <div class="subtext">HabitLab helps you achieve your goals by showing you different interventions each time you visit your goal sites</div>
       </div>
@@ -132,7 +144,9 @@
 
     <div class="slide">
       <div class="inner_slide">
-        <img src="http://i.imgur.com/vwqflyB.png" style="height: 250px"></img>
+        <div class="image_frame">
+          <img src="https://habitlab.github.io/onboarding_images/dashboard1.png" class="image_inner"></img>
+        </div>
         <br><br>
         <div class="subtext">You can track your progress to see which interventions work best for you and how much time you've saved!</div>
       </div>

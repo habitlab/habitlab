@@ -337,9 +337,9 @@ polymer_ext {
     blacklist = localstorage_getjson('blacklist')
     if not blacklist?
       blacklist = {
-        "graph-time-spent-on-goal-sites-daily" : false, 
+        "graph-time-spent-on-goal-sites-daily" : true, 
         "site-goal-view" : true, 
-        "graph-donut-top-sites" : true, 
+        "graph-donut-top-sites" : false, 
         "graph-num-times-interventions-deployed": true,      
         "graph-time-saved-daily": true
       }

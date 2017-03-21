@@ -157,7 +157,7 @@ polymer_ext {
     graph = evt.target.graph
     self.blacklist[self.graphNamesToOptions[graph]] = !evt.target.checked
     self.blacklist = JSON.parse JSON.stringify self.blacklist
-    localstorage_setjson('blacklist', self.blacklist)
+    localstorage_setjson('popup_view_graph_blacklist', self.blacklist)
 
   sortableupdated: (evt) ->
     self = this
@@ -334,7 +334,7 @@ polymer_ext {
     self.graphNamesToOptions = graphNamesToOptions
 
     #retrieves blacklist from localstorage; else, initializes default blacklist
-    blacklist = localstorage_getjson('blacklist')
+    blacklist = localstorage_getjson('popup_view_graph_blacklist')
     if not blacklist?
       blacklist = {
         "graph-time-spent-on-goal-sites-daily" : true, 
@@ -343,7 +343,7 @@ polymer_ext {
         "graph-num-times-interventions-deployed": true,      
         "graph-time-saved-daily": true
       }
-      localstorage_setjson('blacklist', blacklist)
+      localstorage_setjson('popup_view_graph_blacklist', blacklist)
 
     self.blacklist = blacklist
 

@@ -144,6 +144,9 @@ polymer_ext {
         return -1
       return 0
     self.enabled_goal_info_list = enabled_goal_info_list
+    self.$$('#settings_tab').rerender_privacy_options()
+    #self.$$('#overview_tab').rerender()
+    #self.$$('#settings_tab').rerender()
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)
   ready: cfy ->*

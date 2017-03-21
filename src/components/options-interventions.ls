@@ -288,6 +288,9 @@ polymer_ext {
       #confirmButtonText: 'Visit Facebook to see an intervention in action'
       #cancelButtonText: 'Close'
     }
+  rerender_privacy_options: ->
+    this.$.privacy_options.rerender()
   rerender: cfy ->*
+    this.$.privacy_options.rerender()
     yield this.$.goal_selector.set_sites_and_goals()
 }

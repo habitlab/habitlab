@@ -16,6 +16,12 @@ Polymer {
       observer: 'allow_logging_changed'
     }
   }
+  rerender: ->
+    this.allow_logging = do ->
+      stored_value = localStorage.getItem('allow_logging')
+      if stored_value?
+        return stored_value == 'true'
+      return true
   allow_logging_changed: ->
     localStorage.setItem('allow_logging', this.allow_logging)
     if this.allow_logging

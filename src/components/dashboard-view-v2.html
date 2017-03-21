@@ -69,17 +69,25 @@
         </div>
       </paper-card>
 
-      <!-- Uncomment when badges are implemented -->
-
-      <!--
-      <div class="description">Which badges have I earned?</div>
-      <badges-view></badges-view>
-
-      -->
-      <!-- For now display all-badges-earned -->
       <paper-card>
         <div class="card-content">
-          <all-badges-earned-display></all-badges-earned-display>
+          <graph-time-spent-on-goal-sites-daily></graph-time-spent-on-goal-sites-daily>
+        </div>
+      </paper-card>
+
+      <paper-card>
+        <div class="card-content">
+          <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected_goal_view}} scrollable>
+            <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
+              <paper-tab>{{site_info.sitename_printable}}</paper-tab>
+            </template>
+          </paper-tabs>
+
+          <iron-pages selected={{selected_goal_view}}>
+            <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
+              <div><site-goal-view site="{{site_info.sitename}}"></site-goal-view></div>
+            </template>
+          </iron-pages>
         </div>
       </paper-card>
 
@@ -99,6 +107,20 @@
               </div>
             </template>
           </iron-pages>
+        </div>
+      </paper-card>
+
+      <!-- Uncomment when badges are implemented -->
+
+      <!--
+      <div class="description">Which badges have I earned?</div>
+      <badges-view></badges-view>
+
+      -->
+      <!-- For now display all-badges-earned -->
+      <paper-card>
+        <div class="card-content">
+          <all-badges-earned-display></all-badges-earned-display>
         </div>
       </paper-card>
 

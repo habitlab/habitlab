@@ -41,29 +41,36 @@
 
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
       <div class="card-content">
+
+        <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; margin-bottom: 20px; text-align: left'>Spend less time on the following sites:</div>
+
         <template is="dom-repeat" items="{{sort_custom_sites_after(sites_and_goals)}}" as="site_and_goals">
             <!-- <h3>{{site_and_goals.sitename}}</h3> -->
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
               <div style="display: flex; align-items: center; padding-bottom: 15px;" >
                 <paper-toggle-button checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">
-                  <span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.description}}</span>
+                  <span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</span>
                   <template is="dom-if" if="{{show_internal_names_of_goals()}}">
                     <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
                   </template>
                 </paper-toggle-button>
                 <template is="dom-if" if="{{goal.custom}}">
-                  <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: red; font-size: 16px; height: 20px; position: absolute; left: 350px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
+                  <iron-icon icon="cancel" style="width: 25px; height: 25px; margin-left: 10px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>
+                  <!--
+                  <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: #415D67; font-size: 16px; height: 20px; position: absolute; left: 250px; padding: 5px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
+                  -->
                 </template>
                 <template is="dom-if" if="{{goal.enabled}}">
                   <span class="dailyLimitContainer" style="margin-left: auto">
                     <span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; padding-left: 30px;'>Daily goal: Less than</span>
-                    <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 120px; width: 120px;" no-label-float>
-                      <paper-listbox class="dropdown-content" selected="[[goal.number]]" on-iron-select="time_updated"> 
+                    <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 130px; width: 130px;" no-label-float>
+                      <paper-listbox class="dropdown-content" style="width: 130px" selected="[[goal.number]]" on-iron-select="time_updated"> 
                         <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
                           <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
                         </template>
                       </paper-listbox>
                     </paper-dropdown-menu>
+                    <iron-icon icon="help" style="width: 25px; height: 25px; color: #415D67; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon>
                   </span>
                 </template>
               </div>
@@ -72,7 +79,7 @@
 
         <div style="display: flex">
           <paper-input id="add_website_input" label="Add a new website to reduce time spent on (example: www.amazon.com)" style="display: inline-block; width: calc(100% - 100px)" on-keydown="add_website_input_keydown"></paper-input>
-          <paper-button style="display: inline-block; color: white; background-color: green; padding: 5px; font-size: 14px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
+          <paper-button style="display: inline-block; color: white; background-color: #415D67; padding: 5px; font-size: 16px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
         </div>
 
 

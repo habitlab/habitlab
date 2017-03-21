@@ -213,7 +213,7 @@
                 <template is="dom-if" if="{{goal_and_interventions.enabled}}">
                   <div style="margin-left: 10px; margin-right: 10px; font-size: 14px">
                     Each time you visit <span>{{goal_and_interventions.goal.sitename_printable}}</span>, HabitLab will choose one of the enabled interventions to deploy:
-                    <iron-icon icon="help-outline" on-click="help_icon_clicked"></iron-icon>
+                    <iron-icon icon="help" style="color: #415D67; cursor: pointer; width: 20px; height: 20px" on-click="help_icon_clicked"></iron-icon>
                   </div>
                   <br>
                   <template is="dom-repeat" items="{{goal_and_interventions.interventions}}" as="intervention">

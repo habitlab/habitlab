@@ -7,8 +7,9 @@ $ = require 'jquery'
 
 require! {
   moment
-  mathjs
 }
+
+{median} = require 'libs_common/math_utils'
 
 {
   localget
@@ -221,7 +222,7 @@ export get_baseline_session_time_on_domains_real_passing_url_to_visits_and_time 
   for domain,visit_lengths of domain_to_visit_lengths
     if visit_lengths.length == 0
       continue
-    domain_to_average_visit_lengths[domain] = mathjs.median(visit_lengths) / 1000
+    domain_to_average_visit_lengths[domain] = median(visit_lengths) / 1000
   return domain_to_average_visit_lengths
 
 export get_baseline_session_time_on_domains_real = cfy ->*

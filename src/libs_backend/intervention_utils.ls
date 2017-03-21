@@ -1,9 +1,10 @@
 require! {
   moment
-  mathjs
 }
 
 prelude = require 'prelude-ls'
+
+{median} = require 'libs_common/math_utils'
 
 {
   memoizeSingleAsync
@@ -668,7 +669,7 @@ export get_seconds_spent_on_domain_for_each_intervention = cfy (domain) ->*
     intervention_to_session_lengths[intervention].push seconds_spent
   output = {}
   for intervention,session_lengths of intervention_to_session_lengths
-    output[intervention] = mathjs.median session_lengths
+    output[intervention] = median session_lengths
   return output
 
 export get_seconds_saved_per_session_for_each_intervention_for_goal = cfy (goal_name) ->*

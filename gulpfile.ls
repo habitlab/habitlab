@@ -104,12 +104,12 @@ copypattern = [
   'src/goals/**/*.js'
   'src/generated_libs/**/*.js'
   'src/bower_components/**/*'
-  'src/jspm_packages/**/*'
   'src/components/**/*.js'
   'src/node_modules_custom/**/*.js'
   'src/node_modules_custom/**/*.css'
   '!src/**/*.deps.js'
   '!src/**/*.jspm.js'
+  '!src/jspm_packages/**/*'
 ]
 
 #copyjspmpattern = [

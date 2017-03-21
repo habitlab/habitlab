@@ -5,6 +5,14 @@ SystemJS.config({
     "github:": "src/jspm_packages/github/"
   },
   bundles: {
+    "bundles/prettyprintjs.js": [
+      "npm:prettyprintjs@0.1.11/index.js",
+      "npm:prettyprintjs@0.1.11.json"
+    ],
+    "bundles/jquery.js": [
+      "npm:jquery@3.1.1/dist/jquery.js",
+      "npm:jquery@3.1.1.json"
+    ],
     "bundles/cfy.js": [
       "npm:cfy@1.0.18/index.js",
       "npm:cfy@1.0.18.json",

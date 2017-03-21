@@ -51,7 +51,8 @@ export get_data_for_feedback = cfy ->*
       delete goal_info.icon
   data.enabled_interventions = as_array(yield get_enabled_interventions())
   data.enabled_goals = as_array(yield get_enabled_goals())
-  data.extra.manifest = yield chrome.runtime.getManifest()
+  data.extra.manifest = chrome.runtime.getManifest()
+  data.devmode = not data.extra.manifest.update_url?
   data.version = data.extra.manifest.version
   data.chrome_runtime_id = chrome.runtime.id
   data.extra.client_timestamp = Date.now()

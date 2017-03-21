@@ -48,22 +48,46 @@ co ->*
     set_goals_enabled
   } = require 'libs_backend/goal_utils'
 
+  {
+    send_message_to_active_tab
+    send_message_to_tabid
+    get_active_tab_info
+    get_user_id
+  } = require 'libs_backend/background_common'
+
+  $ = require 'jquery'
+
   co ->*
     # open the options page on first run
-    if not localStorage.getItem('notfirstrun')
-      localStorage.setItem('notfirstrun', true)
-      yield set_goals_enabled(['facebook/spend_less_time', 'youtube/spend_less_time'])
-      chrome.tabs.query {active: true, lastFocusedWindow: true}, (tab_info_list) ->
-        if tab_info_list? and tab_info_list.length > 0
-          tab_info = tab_info_list[0]
-          if tab_info?
-            if tab_info.url == chrome.runtime.getURL('options.html#onboarding')
-              return
-            if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing' or tab_info.url == 'https://habitlab.github.io/#installing' or tab_info.url == 'http://habitlab.netlify.com/#installing' or tab_info.url == 'http://habitlab.stanford.edu/#installing' or tab_info.url == 'http://habitlab.github.io/#installing'
-              chrome.tabs.executeScript(tab_info.id, {code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
-              return
-        chrome.tabs.create {url: 'options.html#onboarding'}
-
+    if localStorage.getItem('notfirstrun')
+      return
+    localStorage.setItem('notfirstrun', true)
+    yield set_goals_enabled(['facebook/spend_less_time', 'youtube/spend_less_time'])
+    tab_info = yield get_active_tab_info()
+    need_to_create_new_tab = true
+    install_data = {}
+    if tab_info?
+      if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing' or tab_info.url == 'https://habitlab.github.io/#installing' or tab_info.url == 'http://habitlab.netlify.com/#installing' or tab_info.url == 'http://habitlab.stanford.edu/#installing' or tab_info.url == 'http://habitlab.github.io/#installing'
+        install_data.install_source = tab_info.url
+        need_to_create_new_tab = false
+        chrome.tabs.executeScript(tab_info.id, {code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
+    if need_to_create_new_tab
+      install_data.install_source = 'webstore'
+      chrome.tabs.create {url: 'options.html#onboarding'}
+    install_data.client_timestamp = Date.now()
+    install_data.client_localtime = new Date().toString()
+    install_data.user_id = yield get_user_id()
+    install_data.browser = navigator.userAgent
+    install_data.version = manifest.version
+    install_data.devmode = not manifest.update_url?
+    install_data.chrome_runtime_id = chrome.runtime.id
+    $.ajax {
+      type: 'POST'
+      url: 'https://habitlab.herokuapp.com/add_install'
+      dataType: 'json'
+      contentType: 'application/json'
+      data: JSON.stringify(install_data)
+    }
 
   {
     get_all_message_handlers
@@ -81,13 +105,6 @@ co ->*
   {
     start_syncing_all_data
   } = require 'libs_backend/log_sync_utils'
-
-  {
-    send_message_to_active_tab
-    send_message_to_tabid
-    get_active_tab_info
-    get_user_id
-  } = require 'libs_backend/background_common'
 
   {
     get_interventions
@@ -134,8 +151,6 @@ co ->*
     moment
     'promise-debounce'
   }
-
-  $ = require 'jquery'
 
   {
     gexport
@@ -851,7 +866,7 @@ co ->*
     msgpack_lite = require('msgpack-lite')
     compress_and_encode = (data) ->
       base64_js.fromByteArray(msgpack_lite.encode(data))
-    uninstall_url_base = 'https://habitlab.github.io/bye?d='
+    uninstall_url_base = 'https://habitlab.github.io/bye#'
     uninstall_url = uninstall_url_base
     uninstall_url_data = {}
     uninstall_url_data.v = habitlab_version
@@ -859,10 +874,10 @@ co ->*
       uninstall_url_data.r = 0 # stable
     else if chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina'
       uninstall_url_data.r = 1 # beta
-      uninstall_url_base = 'https://habitlab.netlify.com/bye?d='
+      uninstall_url_base = 'https://habitlab.netlify.com/bye#'
     else if developer_mode
       uninstall_url_data.r = 2 # developer
-      uninstall_url_base = 'https://habitlab.netlify.com/bye?d='
+      uninstall_url_base = 'https://habitlab.netlify.com/bye#'
     else
       uninstall_url_data.r = 3 # unknown release
       uninstall_url_data.ri = chrome.runtime.id
@@ -873,7 +888,7 @@ co ->*
         return true
       return false # had an error
     uninstall_url_data.u = yield get_user_id()
-    uninstall_url_data.l = (localStorage.getItem('allow_logging') == 'true')
+    uninstall_url_data.l = if (localStorage.getItem('allow_logging') == 'true') then 1 else 0
     if not set_uninstall_url_if_valid()
       return uninstall_url
     list_enabled_goals_short = cfy ->*
@@ -892,7 +907,7 @@ co ->*
     return uninstall_url
   
   decode_habitlab_uninstall_url_data = cfy (url) ->*
-    data = url.substr(url.indexOf('/bye?d=') + 7) # 'https://habitlab.github.io/bye?d='.length
+    data = url.substr(url.indexOf('/bye#') + 5) # 'https://habitlab.github.io/bye#'.length
     base64_js = require('base64-js')
     msgpack_lite = require('msgpack-lite')
     decompress_and_decode = (str) ->

@@ -44,6 +44,13 @@ if window.location.pathname == '/options.html'
     window.location.hash = '#settings'
   if hash.startsWith('#')
     hash = hash.substr(1)
+  hash_colon_index = hash.indexOf(':')
+  if hash_colon_index != -1
+    hashdata_unparsed = window.hashdata_unparsed = hash.substr(hash_colon_index + 1)
+    hash = window.location.hash = hash.substr(0, hash_colon_index)
+    #try
+    #  window.hashdata_parsed = JSON.parse(atob(hashdata_unparsed))
+    #catch
   options_view = document.querySelector('#options_view')
   if hash == 'onboarding'
     require 'components/onboarding-view.deps'

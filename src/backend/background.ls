@@ -452,6 +452,9 @@ co ->*
     return
 
   load_intervention_list = cfy (intervention_list, tabId) ->*
+    if intervention_list.length == 0
+      return
+
     all_interventions = yield get_interventions()
     intervention_info_list = [all_interventions[intervention_name] for intervention_name in intervention_list]
 

@@ -5,7 +5,7 @@ export localstorage_setbool = (key, val) ->
   if val
     localStorage.setItem(key, 'true')
   else
-    localStorage.removeItem(key)
+    localStorage.setItem(key, 'false')
   return
 
 export localstorage_getint = (key) ->

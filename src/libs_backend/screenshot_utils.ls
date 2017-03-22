@@ -35,6 +35,7 @@ export get_data_for_feedback = cfy ->*
   data = {}
   data.background_url = window.location.href
   data.browser = navigator.userAgent
+  data.language = navigator.language
   data.extra = {}
   data.extra.user_id = yield get_user_id()
   data.extra.tab_info = yield get_active_tab_info()

@@ -26,6 +26,7 @@ co ->*
   habitlab_version = chrome_manifest.version
   developer_mode = not chrome_manifest.update_url?
   unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
+
   if (not developer_mode) or localStorage.getItem('devmode_use_cache') == 'true'
     need_to_clear_cache = localStorage.getItem('devmode_clear_cache_on_reload') == 'true'
     if need_to_clear_cache or (not developer_mode) # installed from chrome web store
@@ -60,9 +61,17 @@ co ->*
 
   $ = require 'jquery'
 
+  {
+    send_logging_enabled
+  } = require 'libs_backend/logging_enabled_utils'
+
   co ->*
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
+      if not localStorage.getItem('allow_logging')? # user did not complete onboarding
+        localStorage.setItem('allow_logging_on_default_without_onboarding', true)
+        localStorage.setItem('allow_logging', true)
+        send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
       return
     localStorage.setItem('notfirstrun', true)
     yield set_goals_enabled(['facebook/spend_less_time', 'youtube/spend_less_time'])
@@ -75,12 +84,16 @@ co ->*
         need_to_create_new_tab = false
         chrome.tabs.executeScript(tab_info.id, {code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
     if need_to_create_new_tab
-      install_data.install_source = 'webstore'
+      if developer_mode
+        install_data.install_source = 'sideload'
+      else
+        install_data.install_source = 'webstore'
       chrome.tabs.create {url: 'options.html#onboarding'}
     install_data.client_timestamp = Date.now()
     install_data.client_localtime = new Date().toString()
     install_data.user_id = yield get_user_id()
     install_data.browser = navigator.userAgent
+    install_data.language = navigator.language
     install_data.version = habitlab_version
     install_data.devmode = developer_mode
     install_data.chrome_runtime_id = chrome.runtime.id

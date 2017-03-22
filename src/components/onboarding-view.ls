@@ -13,14 +13,12 @@ swal = require 'sweetalert2'
 {
   start_syncing_all_data
   stop_syncing_all_data
-  send_logging_enabled
-  send_logging_disabled
 } = require 'libs_backend/log_sync_utils'
 
 {
-  localstorage_getbool
-  localstorage_setbool
-} = require 'libs_common/localstorage_utils'
+  send_logging_enabled
+  send_logging_disabled
+} = require 'libs_backend/logging_enabled_utils'
 
 polymer_ext {
   is: 'onboarding-view'
@@ -49,21 +47,25 @@ polymer_ext {
   }
   get_stanford_icon: ->
     return chrome.extension.getURL('icons/stanford.svg')
-  allow_logging_changed: (allow_logging) ->
-    no_change = false
+  allow_logging_changed: (allow_logging, prev_value_allow_logging) ->
+    if not prev_value_allow_logging?
+      return # was initializing
+    if not allow_logging?
+      return
+    send_change = true
     prev_allow_logging = localStorage.getItem('allow_logging')
     if prev_allow_logging?
       prev_allow_logging = (prev_allow_logging == 'true')
       if prev_allow_logging == allow_logging # no change
-        no_change = true
-    localstorage_setbool('allow_logging', allow_logging)
+        send_change = false
+    localStorage.setItem('allow_logging', allow_logging)
     if allow_logging
-      if not no_change
-        send_logging_enabled({page: 'onboarding'})
+      if send_change
+        send_logging_enabled({page: 'onboarding', manual: true})
       start_syncing_all_data()
     else
-      if not no_change
-        send_logging_disabled({page: 'onboarding'})
+      if send_change
+        send_logging_disabled({page: 'onboarding', manual: true})
       stop_syncing_all_data()
   slide_changed: (evt) ->
     self = this
@@ -107,7 +109,13 @@ polymer_ext {
       slide.css('top', '0px')
       this.animation_inprogress = false
   onboarding_complete: ->
-    this.allow_logging_changed()
+    if not localStorage.getItem('allow_logging')? # user is accepting the default
+      #this.allow_logging_changed(true, false) # enables logging
+      localStorage.setItem('allow_logging_on_default_with_onboarding', true)
+      localStorage.setItem('allow_logging', true)
+      send_logging_enabled {page: 'onboarding', manual: false, allow_logging_on_default_with_onboarding: true}
+      start_syncing_all_data()
+    localStorage.setItem('onboarding_complete', 'true')
     this.fire 'onboarding-complete', {}
   next_button_clicked: cfy ->*
     if this.animation_inprogress

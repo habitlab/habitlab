@@ -18,7 +18,6 @@ const {
 } = require('libs_common/time_spent_utils')
 
 const {
-  log_impression,
   log_action,
 } = require('libs_frontend/intervention_log_utils')
 
@@ -145,7 +144,6 @@ function divOverVideo(status) {
 	$a.append($contentContainer);
 
   //Logs impression
-  log_impression();
 }
 
 //Remove the white div

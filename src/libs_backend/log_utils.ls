@@ -158,6 +158,7 @@ export addtolog = cfy (name, data) ->*
   data.day = get_days_since_epoch()
   data.synced = 0
   data.timestamp = Date.now()
+  data.localtime = new Date().toString()
   data.itemid = generate_random_id()
   data.log_major_ver = get_db_major_version_interventionlogdb()
   data.log_minor_ver = get_db_minor_version_interventionlogdb()

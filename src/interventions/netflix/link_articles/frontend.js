@@ -10,10 +10,6 @@ require('components/netflix-screen.deps')
 const $ = require('jquery')
 
 const {
-  log_impression,
-} = require('libs_frontend/intervention_log_utils')
-
-const {
   is_on_same_domain_and_same_tab
 } = require('libs_common/session_utils')
 
@@ -40,7 +36,6 @@ co(function*() {
   interst_screen[0].hideButton();
   interst_screen[0].showProgress();
   interst_screen.attr('intervention', intervention.name)
-  log_impression()
   var value_counter = 0;
 
   var countdown = setInterval(function() {

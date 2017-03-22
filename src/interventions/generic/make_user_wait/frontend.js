@@ -9,10 +9,6 @@ require('components/interstitial-screen.deps')
 const $ = require('jquery')
 
 const {
-  log_impression,
-} = require('libs_frontend/intervention_log_utils')
-
-const {
   append_to_body_shadow
 } = require('libs_frontend/common_libs')
 
@@ -45,7 +41,6 @@ co(function*() {
   interst_screen[0].hideButton();
   interst_screen[0].showProgress();
   interst_screen.attr('intervention', intervention.name)
-  log_impression()
   var value_counter = 0;
 
   var countdown = setInterval(function() {

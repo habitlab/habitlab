@@ -20,10 +20,6 @@ const {
 const co = require('co')
 
 const {
-  log_impression,
-} = require('libs_frontend/intervention_log_utils')
-
-const {
   url_to_domain
 } = require('libs_common/domain_utils')
 
@@ -50,7 +46,6 @@ co(function*() {
   interst_screen.attr('minutes', numMins);
   interst_screen.attr('visits', numVisits);
   interst_screen.attr('seconds', 0);
-  log_impression()
 
   shadow_div = append_to_body_shadow(interst_screen);
 })

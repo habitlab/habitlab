@@ -9,11 +9,6 @@ const {
   printable_time_spent,
 } = require('libs_common/time_utils')
 
-const {
-  log_impression,
-} = require('libs_frontend/intervention_log_utils')
-
-
 function shouldInsert(secondsSpent, timeInterval) {
   const newestInterval = Math.floor(Math.floor(secondsSpent/60) / timeInterval)
 
@@ -38,7 +33,6 @@ function insertRichNotification() {
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
     console.log(secondsSpent);
     //if (shouldInsert(secondsSpent, intervention.params.minutes.value)) {
-      log_impression()
       chrome.runtime.sendMessage({type: "chrome-notification", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
     //}
   })

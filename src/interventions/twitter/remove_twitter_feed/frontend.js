@@ -10,10 +10,6 @@ const {
 } = require('libs_common/time_utils')
 
 const {
-  log_impression,
-} = require('libs_frontend/intervention_log_utils')
-
-const {
   on_url_change,
   once_available,
 } = require('libs_frontend/common_libs')
@@ -42,7 +38,6 @@ function showFeed() {
   $('.stream-end-inner').show()
 }
 
-log_impression()
 var container = $('<div style="text-align: center;" id="habitlab_container"></div>')
 var habitlab_logo = $('<habitlab-logo></habitlab-logo>')
 var cheatButton = $('<paper-button style="color: white; background-color: #415D67; box-shadow: 2px 2px 2px #888888;" raised>Show My Feed This One Time</paper-button></center>')

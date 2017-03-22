@@ -194,6 +194,10 @@ co ->*
     ensure_history_utils_data_cached
   } = require 'libs_common/history_utils'
 
+  {
+    log_impression_internal
+  } = require 'libs_backend/log_utils'
+
   {cfy, yfy} = require 'cfy'
 
   # require 'libs_common/measurement_utils'
@@ -239,6 +243,9 @@ co ->*
 
   execute_content_scripts_for_intervention = cfy (intervention_info, tabId, intervention_list) ->*
     {content_script_options, name} = intervention_info
+
+    console.log 'running log_impression_internal for name ' + name
+    log_impression_internal(name)
 
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
     parameter_values = yield get_intervention_parameters(intervention_info.name)

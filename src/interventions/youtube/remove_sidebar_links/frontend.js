@@ -8,10 +8,6 @@ const {
   wrap_in_shadow,
 } = require('libs_frontend/common_libs')
 
-const {
-  log_impression,
-} = require('libs_frontend/intervention_log_utils')
-
 const $ = require('jquery')
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
@@ -53,7 +49,6 @@ const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
   if (window.intervention_disabled) {
     return
   }
-  log_impression()
   once_available('.watch-sidebar-section', () => {
     removeSidebar()
     callback()

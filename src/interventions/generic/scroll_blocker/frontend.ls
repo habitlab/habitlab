@@ -5,7 +5,6 @@ if (typeof(window.wrap) != 'function')
   window.wrap = null
 
 {
-  log_impression
   log_action
 } = require 'libs_frontend/intervention_log_utils'
 
@@ -42,7 +41,6 @@ enable_scrolling_and_hide_scroll_block = ->
 
 
 disable_scrolling_and_show_scroll_block = ->
-  log_impression()
   window.scrolling_allowed = false
   $("body").css('overflow', 'hidden')
   scroll_block_display.show()

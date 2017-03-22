@@ -21,6 +21,10 @@ prelude = require 'prelude-ls'
 } = require 'libs_backend/history_utils'
 
 {
+  url_to_domain
+} = require 'libs_common/domain_utils'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
@@ -359,8 +363,18 @@ fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
   intervention_info.params = {[x.name, x] for x in intervention_info.parameters}
   intervention_info.content_script_options = [fix_content_script_options(x, intervention_name) for x in intervention_info.content_scripts]
   intervention_info.background_script_options = [fix_background_script_options(x, intervention_name) for x in intervention_info.background_scripts]
-  intervention_info.match_regexes = [new RegExp(x) for x in intervention_info.matches]
-  intervention_info.nomatch_regexes = [new RegExp(x) for x in intervention_info.nomatches]
+  intervention_info.match_functions = intervention_info.matches.map (x) ->
+    if x.includes('/') or x.includes('\\') or x.includes('*') or x.includes('?') # looks like a regex
+      regex = new RegExp(x)
+      return (str) -> regex.test(str)
+    else
+      return (str) -> url_to_domain(str).includes(x)
+  intervention_info.nomatch_functions = intervention_info.nomatches.map (x) ->
+    if x.includes('/') or x.includes('\\') or x.includes('*') or x.includes('?') # looks like a regex
+      regex = new RegExp(x)
+      return (str) -> regex.test(str)
+    else
+      return (str) -> url_to_domain(str).includes(x)
   if not intervention_info.goals?
     if goals_satisfied_by_intervention?
       intervention_info.goals = goals_satisfied_by_intervention
@@ -501,15 +515,15 @@ export list_available_interventions_for_location = cfy (location) ->*
   possible_interventions = []
   for intervention_name,intervention_info of all_interventions
     blacklisted = false
-    for regex in intervention_info.nomatch_regexes
-      if regex.test(location)
+    for func in intervention_info.nomatch_functions
+      if func(location)
         blacklisted = true
         break
     if blacklisted
       continue
     matches = false
-    for regex in intervention_info.match_regexes
-      if regex.test(location)
+    for func in intervention_info.match_functions
+      if func(location)
         matches = true
         break
     if matches

@@ -64,6 +64,7 @@ co ->*
 
   {
     send_logging_enabled
+    get_basic_client_data
   } = require 'libs_backend/logging_enabled_utils'
 
   co ->*
@@ -90,23 +91,22 @@ co ->*
       else
         install_data.install_source = 'webstore'
       chrome.tabs.create {url: 'options.html#onboarding'}
-    install_data.client_timestamp = Date.now()
-    install_data.client_localtime = new Date().toString()
-    install_data.user_id = yield get_user_id()
-    install_data.user_secret = yield get_user_secret()
-    install_data.browser = navigator.userAgent
-    install_data.language = navigator.language
-    install_data.version = habitlab_version
-    install_data.devmode = developer_mode
-    install_data.chrome_runtime_id = chrome.runtime.id
-    if unofficial_version
-      install_data.unofficial_version = chrome.runtime.id
+    user_id = yield get_user_id()
+    install_data = yield get_basic_client_data()
     $.ajax {
       type: 'POST'
       url: 'https://habitlab.herokuapp.com/add_install'
       dataType: 'json'
       contentType: 'application/json'
       data: JSON.stringify(install_data)
+    }
+    user_secret = yield get_user_secret()
+    $.ajax {
+      type: 'POST'
+      url: 'https://habitlab.herokuapp.com/add_secret'
+      dataType: 'json'
+      contentType: 'application/json'
+      data: JSON.stringify({user_id, user_secret})
     }
 
   {

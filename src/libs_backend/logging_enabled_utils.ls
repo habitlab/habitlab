@@ -11,13 +11,14 @@ habitlab_version = chrome_manifest.version
 developer_mode = not chrome_manifest.update_url?
 unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
 
-get_base_data = cfy ->*
+export get_basic_client_data = cfy ->*
   data = {}
   data.client_timestamp = Date.now()
   data.client_localtime = new Date().toString()
   data.user_id = yield get_user_id()
   data.browser = navigator.userAgent
   data.language = navigator.language
+  data.languages = navigator.languages
   data.version = habitlab_version
   data.devmode = developer_mode
   data.chrome_runtime_id = chrome.runtime.id
@@ -27,7 +28,7 @@ get_base_data = cfy ->*
 
 export send_logging_enabled = cfy (options) ->*
   options = options ? {}
-  data = yield get_base_data()
+  data = yield get_basic_client_data()
   data.logging_enabled = true
   for k,v of options
     data[k] = v
@@ -41,7 +42,7 @@ export send_logging_enabled = cfy (options) ->*
 
 export send_logging_disabled = cfy (options) ->*
   options = options ? {}
-  data = yield get_base_data()
+  data = yield get_basic_client_data()
   data.logging_enabled = false
   for k,v of options
     data[k] = v

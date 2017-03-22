@@ -161,14 +161,17 @@ export disable_interventions_in_all_tabs = cfy ->*
   return
 
 export get_active_tab_info = cfy ->*
-  #last_focused_window_info = yield add_noerr -> chrome.windows.getLastFocused(it)
-  #if not last_focused_window_info?id?
-  #  return
-  #tabs = yield chrome_tabs_query {active: true, windowId: last_focused_window_info.id}
   tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
-  if tabs.length == 0
+  if tabs.length > 0
+    return tabs[0]
+  # this part seems necessary for opera sometimes
+  last_focused_window_info = yield add_noerr -> chrome.windows.getLastFocused(it)
+  if not last_focused_window_info?id?
     return
-  return tabs[0]
+  tabs = yield chrome_tabs_query {active: true, windowId: last_focused_window_info.id}
+  if tabs.length > 0
+    return tabs[0]
+  return
 
 export get_active_tab_url = cfy ->*
   active_tab_info = yield get_active_tab_info()

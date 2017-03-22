@@ -82,6 +82,8 @@ export get_log_names = cfy ->*
 intervention_logdb_cache = null
 
 export clear_intervention_logdb_cache = ->
+  if intervention_logdb_cache?
+    intervention_logdb_cache.close()
   intervention_logdb_cache := null
 
 export getInterventionLogDb = cfy ->*
@@ -110,6 +112,10 @@ getInterventionLogDb_uncached = cfy ->*
     db.on 'ready', ->
       localStorage.setItem 'current_schema_interventionlogdb', JSON.stringify(new_schema)
       localStorage.setItem 'current_dbver_interventionlogdb', dbver
+    db.on 'versionchange', ->
+      intervention_logdb_cache := null
+      db.close()
+      intervention_logdb_cache := null
   db.version(dbver).stores(new_schema)
   realdb = yield db.open()
   return realdb
@@ -215,28 +221,37 @@ export get_num_actions = cfy (name) ->*
   num_actions = yield collection.where('[type+day]').equals(['action', day]).count()
   return num_actions
 
-export log_impression_internal = cfy (name) ->*
+export log_impression_internal = cfy (name, data) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
-  yield addtolog name, {
-    type: 'impression'
-    intervention: name
-  }
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'impression'
+  data.intervention = name
+  yield addtolog name, data
 
-export log_disable_internal = cfy (name) ->*
+export log_disable_internal = cfy (name, data) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
-  yield addtolog name, {
-    type: 'disable'
-    intervention: name
-  }
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'disable'
+  data.intervention = name
+  yield addtolog name, data
 
 export log_action_internal = cfy (name, data) ->*
   # name = intervention name
   # ex: facebook/notification_hijacker
   # data: a dictionary containing any details necessary
   # ex: {}
-  data = {} <<< data
+  if data?
+    data = {} <<< data
+  else
+    data = {}
   data.type = 'action'
   data.intervention = name
   yield addtolog name, data

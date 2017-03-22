@@ -244,8 +244,8 @@ co ->*
   execute_content_scripts_for_intervention = cfy (intervention_info, tabId, intervention_list) ->*
     {content_script_options, name} = intervention_info
 
-    console.log 'running log_impression_internal for name ' + name
-    log_impression_internal(name)
+    # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
+    # log_impression_internal(name)
 
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
     parameter_values = yield get_intervention_parameters(intervention_info.name)
@@ -424,23 +424,26 @@ co ->*
       }
       #{content_script_code}
       #{debug_content_script_code_with_hlog}
-      document.body.addEventListener('disable_intervention', function() {
-        window.intervention_disabled = true;
-        SystemJS.import('libs_frontend/log_utils').then(function(log_utils) {
-          log_utils.log_disable_internal(intervention.name);
-        })
-        if (typeof(window.on_intervention_disabled) == 'function') {
-          window.on_intervention_disabled();
-        } else {
-          SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
-            content_script_utils.load_css_file('sweetalert2').then(function() {
-              sweetalert({
-                title: 'Reload page to disable intervention',
-                text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
+      SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
+        intervention_info_setter_lib.set_intervention(intervention);
+        intervention_info_setter_lib.set_tab_id(tab_id);
+        log_utils.log_impression();
+        document.body.addEventListener('disable_intervention', function() {
+          window.intervention_disabled = true;
+          log_utils.log_disable();
+          if (typeof(window.on_intervention_disabled) == 'function') {
+            window.on_intervention_disabled();
+          } else {
+            SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
+              content_script_utils.load_css_file('sweetalert2').then(function() {
+                sweetalert({
+                  title: 'Reload page to disable intervention',
+                  text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
+                })
               })
             })
-          })
-        }
+          }
+        })
       })
     }
   }

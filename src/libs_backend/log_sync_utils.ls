@@ -99,8 +99,8 @@ export start_syncing_all_logs = cfy ->*
     dlog 'log_syncing already active'
     return
   log_syncing_active := true
-  log_names = yield get_log_names()
   while log_syncing_active
+    log_names = yield get_log_names()
     for logname in log_names
       if not log_syncing_active
         return

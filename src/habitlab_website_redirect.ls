@@ -90,6 +90,26 @@ if hash_idx != -1
   hash = query.substr(hash_idx + 1)
   query = query.substr(0, hash_idx)
 
+shortcuts = {
+  github: 'https://github.com/habitlab/habitlab'
+  commits: 'https://github.com/habitlab/habitlab/commits/master'
+  designs: 'https://github.com/habitlab/habitlab/wiki/designs'
+  gitter: 'https://gitter.im/habitlab/habitlab'
+  slack: 'https://stanfordhcigfx.slack.com/messages/habitlab/'
+  publish: 'https://chrome.google.com/webstore/developer/dashboard'
+  chrome: 'https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd'
+}
+if shortcuts[query]?
+  window.location.href = shortcuts[query]
+  return
+if query == 'wiki' or query.startsWith('wiki/') or query == 'issues' or query.startsWith('issues/')
+  window.location.href = 'https://github.com/habitlab/habitlab/' + query
+  return
+
+if query == 'editor'
+  query = 'intervention-editor'
+if query == 'logs'
+  query = 'logs.html'
 if query == 'settings' or query == 'config'
   query = 'options.html'
   hash = 'settings'
@@ -102,7 +122,7 @@ if query == 'popup'
 if query == 'dashboard' or query == 'results'
   query = 'options.html'
   hash = 'results'
-if query.startsWith('index.html') or query.startsWith('options.html') or query.startsWith('popup.html') or query.startsWith('index_jspm.html')
+if query.startsWith('index.html') or query.startsWith('options.html') or query.startsWith('popup.html') or query.startsWith('index_jspm.html') or query.startsWith('logs.html')
   delete params.q
   if Object.keys(params).length > 0
     if query.indexOf('?') == -1
@@ -119,7 +139,6 @@ else
   if query.endsWith('=')
     query = query.substr(0, query.length - 1)
   url = chrome.extension.getURL('/index.html?tag=' + query)
-
 
 if hash.length > 0
   window.location.href = url + '#' + hash

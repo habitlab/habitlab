@@ -4,7 +4,7 @@ short_name: habitlab
 description: >-
   Build better habits online! Tell HabitLab your goals, and it will determine
   the appropriate interventions via experimentation.
-version: 1.0.126
+version: 1.0.127
 permissions:
   - tabs
   - webNavigation
@@ -21,6 +21,8 @@ web_accessible_resources:
   - options.html
   - popup.html
   - index.html
+  - index_jspm.html
+  - logs.html
   - icons/*.png
   - icons/*.svg
   - node_modules_custom/**/*

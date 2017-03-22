@@ -107,7 +107,7 @@ polymer_ext({
     try {
       var response = yield ajax_utils.ajax({
         type: 'POST',
-        url: 'http://habitlab-reportbug.herokuapp.com/report_bug',
+        url: 'https://habitlab-reportbug.herokuapp.com/report_bug',
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(data)

@@ -27,7 +27,7 @@
 
 
 export get_screenshot_as_base64 = cfy ->*
-  fetch('http://habitlab-reportbug.herokuapp.com/ping').then(-> it.text())
+  fetch('https://habitlab-reportbug.herokuapp.com/ping').then(-> it.text())
   data_url = yield yfy(chrome.tabs.captureVisibleTab)(chrome.windows.WINDOW_ID_CURRENT, {})
   return data_url
 

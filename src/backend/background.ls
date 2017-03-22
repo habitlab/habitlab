@@ -57,6 +57,7 @@ co ->*
     send_message_to_tabid
     get_active_tab_info
     get_user_id
+    get_user_secret
   } = require 'libs_backend/background_common'
 
   $ = require 'jquery'
@@ -92,6 +93,7 @@ co ->*
     install_data.client_timestamp = Date.now()
     install_data.client_localtime = new Date().toString()
     install_data.user_id = yield get_user_id()
+    install_data.user_secret = yield get_user_secret()
     install_data.browser = navigator.userAgent
     install_data.language = navigator.language
     install_data.version = habitlab_version

@@ -55,6 +55,37 @@ get_user_id_real = cfy ->*
   yield -> chrome_storage_sync.set {userid}, it
   return userid
 
+cached_user_secret = null
+
+export get_user_secret = cfy ->*
+  user_secret = yield get_user_secret_real()
+  if user_secret.length == 24
+    return user_secret
+  else
+    cached_user_secret := null
+    localStorage.removeItem('user_secret')
+    yield add_noerr -> chrome_storage_sync.remove 'user_secret', it
+    return yield get_user_secret_real()
+
+get_user_secret_real = cfy ->*
+  if cached_user_secret?
+    return cached_user_secret
+  user_secret = localStorage.getItem('user_secret')
+  if user_secret?
+    cached_user_secret := user_secret
+    return user_secret
+  items = yield add_noerr -> chrome_storage_sync.get 'user_secret', it
+  user_secret = items.user_secret
+  if user_secret?
+    cached_user_secret := user_secret
+    localStorage.setItem('user_secret', user_secret)
+    return user_secret
+  user_secret = generate_random_id()
+  cached_user_secret := user_secret
+  localStorage.setItem('user_secret', user_secret)
+  yield -> chrome_storage_sync.set {user_secret}, it
+  return user_secret
+
 export send_message_to_active_tab = cfy (type, data) ->*
   tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
   if tabs.length == 0

@@ -71,9 +71,10 @@ co ->*
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       if not localStorage.getItem('allow_logging')? # user did not complete onboarding
-        localStorage.setItem('allow_logging_on_default_without_onboarding', true)
-        localStorage.setItem('allow_logging', true)
-        send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
+        chrome.tabs.create {url: 'options.html#onboarding:last'}
+        #localStorage.setItem('allow_logging_on_default_without_onboarding', true)
+        #localStorage.setItem('allow_logging', true)
+        #send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
       return
     localStorage.setItem('notfirstrun', true)
     yield set_goals_enabled(['facebook/spend_less_time', 'youtube/spend_less_time'])

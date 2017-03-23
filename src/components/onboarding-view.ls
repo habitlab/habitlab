@@ -25,7 +25,7 @@ polymer_ext {
   properties: {
     slide_idx: {
       type: Number
-      value: 0
+      value: if (window.hashdata_unparsed == 'last') then 4 else 0
       observer: 'slide_changed'
     }
     prev_slide_idx: {

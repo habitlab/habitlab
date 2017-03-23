@@ -84,7 +84,7 @@ co ->*
     if candidate_list.length > 0
       all_tab_list = candidate_list
     tab_info = all_tab_list[0]
-    yield make_tab_focused(tab_info.id, windowId)
+    yield make_tab_focused(tab_info.id, tab_info.windowId)
     return true
 
   num_times_notification_already_shown = 0
@@ -126,9 +126,11 @@ co ->*
       return
     localStorage.setItem('notfirstrun', true)
     yield set_goals_enabled(['facebook/spend_less_time', 'youtube/spend_less_time'])
+    user_id = yield get_user_id()
+    user_secret = yield get_user_secret()
+    install_data = yield get_basic_client_data()
     tab_info = yield get_active_tab_info()
     need_to_create_new_tab = true
-    install_data = {}
     if tab_info?
       if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing' or tab_info.url == 'https://habitlab.github.io/#installing' or tab_info.url == 'http://habitlab.netlify.com/#installing' or tab_info.url == 'http://habitlab.stanford.edu/#installing' or tab_info.url == 'http://habitlab.github.io/#installing'
         install_data.install_source = tab_info.url
@@ -140,8 +142,6 @@ co ->*
       else
         install_data.install_source = 'webstore'
       chrome.tabs.create {url: 'options.html#onboarding'}
-    user_id = yield get_user_id()
-    install_data = yield get_basic_client_data()
     $.ajax {
       type: 'POST'
       url: 'https://habitlab.herokuapp.com/add_install'
@@ -149,7 +149,6 @@ co ->*
       contentType: 'application/json'
       data: JSON.stringify(install_data)
     }
-    user_secret = yield get_user_secret()
     $.ajax {
       type: 'POST'
       url: 'https://habitlab.herokuapp.com/add_secret'
@@ -593,9 +592,17 @@ co ->*
       active_interventions = JSON.parse active_interventions
       intervention = active_interventions[0]
       intervention_no_longer_enabled = false
+      need_new_session_id = false
+      if page_was_just_refreshed
+        need_new_session_id = true
       if intervention?
         intervention_no_longer_enabled = all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
-      if intervention_no_longer_enabled or page_was_just_refreshed # or enabled_intervention_set_changed
+        if intervention_no_longer_enabled
+          need_new_session_id = true
+      else
+        if enabled_intervention_set_changed
+          need_new_session_id = true
+      if need_new_session_id
         # the intervention is no longer enabled. need to choose a new session id
         dlog 'intervention is no longer enabled. choosing new session id'
         dlog 'tabid is ' + tabId

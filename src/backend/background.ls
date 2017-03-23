@@ -514,7 +514,7 @@ co ->*
         yield load_background_script options, intervention_info
 
     # load css files
-    yield -> chrome.tabs.insertCSS {code: '''
+    yield -> chrome.tabs.insertCSS tabId, {code: '''
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -526,10 +526,10 @@ co ->*
     for intervention_info in intervention_info_list
       if intervention_info.css_files?
         for css_file in intervention_info.css_files
-          yield -> chrome.tabs.insertCSS {file: css_file}, it
+          yield -> chrome.tabs.insertCSS tabId, {file: css_file}, it
       if intervention_info.styles?
         for css_code in intervention_info.styles
-          yield -> chrome.tabs.insertCSS {code: css_code}, it
+          yield -> chrome.tabs.insertCSS tabId, {code: css_code}, it
 
     # load content scripts
     for intervention_info in intervention_info_list
@@ -554,6 +554,10 @@ co ->*
 
   tab_id_to_loaded_interventions = {}
 
+  domain_to_prev_enabled_interventions = {}
+
+  page_was_just_refreshed = false
+
   load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
     if is_it_outside_work_hours()
       return
@@ -561,6 +565,12 @@ co ->*
       return
 
     domain = url_to_domain(location)
+    if not domain_to_prev_enabled_interventions[domain]?
+      domain_to_prev_enabled_interventions[domain] = []
+    prev_enabled_interventions = domain_to_prev_enabled_interventions[domain]
+    all_enabled_interventions = yield list_all_enabled_interventions_for_location(domain)
+    domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
+    enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
     session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)
     active_interventions = yield getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
     dlog 'active_interventions is'
@@ -572,7 +582,7 @@ co ->*
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
-        possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+        possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(domain)
       intervention = possible_interventions[0]
       if intervention?
         yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
@@ -582,31 +592,33 @@ co ->*
     else
       active_interventions = JSON.parse active_interventions
       intervention = active_interventions[0]
+      intervention_no_longer_enabled = false
       if intervention?
-        all_enabled_interventions = yield list_all_enabled_interventions_for_location(location)
-        if all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
-          # the intervention is no longer enabled. need to choose a new session id
-          dlog 'intervention is no longer enabled. choosing new session id'
-          dlog 'tabid is ' + tabId
-          dlog 'domain is ' + domain
-          dlog 'old session_id is ' + session_id
-          dlog 'active_interventions'
-          dlog active_interventions
-          dlog 'all_enabled_interventions'
-          dlog all_enabled_interventions
-          session_id = yield get_new_session_id_for_domain(domain)
-          tab_id_to_domain_to_session_id[tabId][domain] = session_id
-          if override_enabled_interventions?
-            possible_interventions = as_array(JSON.parse(override_enabled_interventions))
-          else
-            possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
-          intervention = possible_interventions[0]
-          #domain_to_session_id_to_intervention[domain][session_id] = intervention
-          if intervention?
-            yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
-          else
-            yield set_active_interventions_for_domain_and_session domain, session_id, []
-          localStorage.removeItem('override_enabled_interventions_once')
+        intervention_no_longer_enabled = all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
+      if intervention_no_longer_enabled or page_was_just_refreshed # or enabled_intervention_set_changed
+        # the intervention is no longer enabled. need to choose a new session id
+        dlog 'intervention is no longer enabled. choosing new session id'
+        dlog 'tabid is ' + tabId
+        dlog 'domain is ' + domain
+        dlog 'old session_id is ' + session_id
+        dlog 'active_interventions'
+        dlog active_interventions
+        dlog 'all_enabled_interventions'
+        dlog all_enabled_interventions
+        session_id = yield get_new_session_id_for_domain(domain)
+        tab_id_to_domain_to_session_id[tabId][domain] = session_id
+        if override_enabled_interventions?
+          possible_interventions = as_array(JSON.parse(override_enabled_interventions))
+        else
+          possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+        intervention = possible_interventions[0]
+        #domain_to_session_id_to_intervention[domain][session_id] = intervention
+        if intervention?
+          yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+        else
+          yield set_active_interventions_for_domain_and_session domain, session_id, []
+        localStorage.removeItem('override_enabled_interventions_once')
+    page_was_just_refreshed := false
     interventions_to_load = []
     if intervention?
       interventions_to_load.push intervention
@@ -747,6 +759,9 @@ co ->*
     load_intervention_for_location url, tabId
 
   chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
+    if changeInfo.status == 'loading' and not changeInfo.url?
+      # user refreshed the page
+      page_was_just_refreshed := true
     if tab.url
       #dlog 'tabs updated!'
       #dlog tab.url

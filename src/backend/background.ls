@@ -127,21 +127,22 @@ co ->*
     localStorage.setItem('notfirstrun', true)
     yield set_goals_enabled(['facebook/spend_less_time', 'youtube/spend_less_time'])
     user_id = yield get_user_id()
-    user_secret = yield get_user_secret()
-    install_data = yield get_basic_client_data()
     tab_info = yield get_active_tab_info()
     need_to_create_new_tab = true
+    install_source = 'unknown'
     if tab_info?
       if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing' or tab_info.url == 'https://habitlab.github.io/#installing' or tab_info.url == 'http://habitlab.netlify.com/#installing' or tab_info.url == 'http://habitlab.stanford.edu/#installing' or tab_info.url == 'http://habitlab.github.io/#installing'
-        install_data.install_source = tab_info.url
+        install_source = tab_info.url
         need_to_create_new_tab = false
         chrome.tabs.executeScript(tab_info.id, {code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
     if need_to_create_new_tab
       if developer_mode
-        install_data.install_source = 'sideload'
+        install_source = 'sideload'
       else
-        install_data.install_source = 'webstore'
+        install_source = 'webstore'
       chrome.tabs.create {url: 'options.html#onboarding'}
+    install_data = yield get_basic_client_data()
+    install_data.install_source = install_source
     $.ajax {
       type: 'POST'
       url: 'https://habitlab.herokuapp.com/add_install'
@@ -149,6 +150,7 @@ co ->*
       contentType: 'application/json'
       data: JSON.stringify(install_data)
     }
+    user_secret = yield get_user_secret()
     $.ajax {
       type: 'POST'
       url: 'https://habitlab.herokuapp.com/add_secret'

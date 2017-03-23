@@ -67,11 +67,60 @@ co ->*
     get_basic_client_data
   } = require 'libs_backend/logging_enabled_utils'
 
+  {cfy, yfy, add_noerr} = require 'cfy'
+
+  export make_tab_focused = cfy (tab_id, window_id) ->*
+    yield add_noerr -> chrome.windows.update(window_id, {focused: true}, it)
+    yield add_noerr -> chrome.tabs.update(tab_id, {active: true}, it)
+
+  export focus_tab_by_pattern_if_available = cfy (url_pattern) ->*
+    all_tab_list = yield add_noerr -> chrome.tabs.query {url: url_pattern}, it
+    if all_tab_list.length == 0
+      return false
+    candidate_list = all_tab_list.filter (.currentWindow)
+    if candidate_list.length > 0
+      all_tab_list = candidate_list
+    candidate_list = all_tab_list.filter (.active)
+    if candidate_list.length > 0
+      all_tab_list = candidate_list
+    tab_info = all_tab_list[0]
+    yield make_tab_focused(tab_info.id, windowId)
+    return true
+
+  export show_finish_configuring_notification_if_needed = cfy ->*
+    if localStorage.getItem('allow_logging')?
+      return
+    tabs_list = yield add_noerr -> chrome.tabs.query {url: chrome.extension.getURL('/options.html')}, it
+    if tabs_list.length > 0
+      return
+    notifications = yield add_noerr -> chrome.notifications.getAll(it)
+    if notifications.habitlab_finish_configuring
+      return
+    chrome.notifications.create('habitlab_finish_configuring', {
+      iconUrl: chrome.extension.getURL('icons/icon.svg')
+      type: 'basic'
+      title: 'Finish setting up HabitLab'
+      message: 'Click here to finish setting up HabitLab'
+      requireInteraction: true
+      isClickable: true
+    })
+
+  chrome.notifications.onClicked.addListener (notificationId) ->
+    if notificationId == 'habitlab_finish_configuring'
+      chrome.notifications.clear('habitlab_finish_configuring')
+      focus_tab_by_pattern_if_available(chrome.extension.getURL('options.html#onboarding')).then (tab_was_already_open) ->
+        if not tab_was_already_open
+          chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding:last')})
+
   co ->*
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       if not localStorage.getItem('allow_logging')? # user did not complete onboarding
-        chrome.tabs.create {url: 'options.html#onboarding:last'}
+        show_finish_configuring_notification_if_needed()
+        setInterval ->
+          show_finish_configuring_notification_if_needed()
+        , 10000
+        #chrome.tabs.create {url: 'options.html#onboarding:last'}
         #localStorage.setItem('allow_logging_on_default_without_onboarding', true)
         #localStorage.setItem('allow_logging', true)
         #send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
@@ -109,6 +158,9 @@ co ->*
       contentType: 'application/json'
       data: JSON.stringify({user_id, user_secret})
     }
+    setInterval ->
+      show_finish_configuring_notification_if_needed()
+    , 10000
 
   {
     get_all_message_handlers
@@ -198,8 +250,6 @@ co ->*
   {
     log_impression_internal
   } = require 'libs_backend/log_utils'
-
-  {cfy, yfy} = require 'cfy'
 
   # require 'libs_common/measurement_utils'
 

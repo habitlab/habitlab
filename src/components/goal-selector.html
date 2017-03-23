@@ -54,6 +54,9 @@
                     <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
                   </template>
                 </paper-toggle-button>
+                <template is="dom-if" if="{{goal.enabled}}">
+                  <iron-icon icon="settings" style="width: 25px; height: 25px; margin-left: 10px; color: #415D67; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>
+                </template>
                 <template is="dom-if" if="{{goal.custom}}">
                   <iron-icon icon="cancel" style="width: 25px; height: 25px; margin-left: 10px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>
                   <!--

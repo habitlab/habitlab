@@ -6,10 +6,6 @@ const {
 } = require('libs_common/time_spent_utils')
 
 const {
-  printable_time_spent,
-} = require('libs_common/time_utils')
-
-const {
   on_url_change,
   once_available,
 } = require('libs_frontend/common_libs')

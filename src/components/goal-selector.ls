@@ -116,6 +116,11 @@ polymer_ext {
       title: 'How are Daily Goals used?'
       text: 'Your daily goal is used only to display your progress. If you exceed your daily goal, HabitLab will continue to show interventions as usual (it will not block the site).'
     }
+  settings_goal_clicked: (evt) ->
+    evt.preventDefault()
+    evt.stopPropagation()
+    newtab = evt.target.sitename
+    this.fire 'need_tab_change', {newtab: newtab}
   set_sites_and_goals: cfy ->*
     self = this
     goal_name_to_info = yield get_goals()

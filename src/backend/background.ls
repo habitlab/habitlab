@@ -87,39 +87,38 @@ co ->*
     yield make_tab_focused(tab_info.id, windowId)
     return true
 
+  num_times_notification_already_shown = 0
+  num_times_to_pause_before_next_notification = 0
   export show_finish_configuring_notification_if_needed = cfy ->*
     if localStorage.getItem('allow_logging')?
       return
     tabs_list = yield add_noerr -> chrome.tabs.query {url: chrome.extension.getURL('/options.html')}, it
     if tabs_list.length > 0
       return
-    notifications = yield add_noerr -> chrome.notifications.getAll(it)
-    if notifications.habitlab_finish_configuring
-      return
-    chrome.notifications.create('habitlab_finish_configuring', {
-      iconUrl: chrome.extension.getURL('icons/icon.svg')
-      type: 'basic'
-      title: 'Finish setting up HabitLab'
-      message: 'Click here to finish setting up HabitLab'
+    if num_times_to_pause_before_next_notification > 0 # decreases frequency of notification exponentially to decrease annoyingness
+      num_times_to_pause_before_next_notification := num_times_to_pause_before_next_notification - 1
+      if num_times_to_pause_before_next_notification > 0
+        return
+    num_times_notification_already_shown := num_times_notification_already_shown + 1
+    num_times_to_pause_before_next_notification := Math.pow(2, num_times_notification_already_shown + 1)
+    notification = new Notification 'Finish setting up HabitLab', {
+      icon: chrome.extension.getURL('icons/icon_128.png')
+      body: 'Click here to finish setting up HabitLab'
       requireInteraction: true
-      isClickable: true
-    })
-
-  chrome.notifications.onClicked.addListener (notificationId) ->
-    if notificationId == 'habitlab_finish_configuring'
-      chrome.notifications.clear('habitlab_finish_configuring')
-      focus_tab_by_pattern_if_available(chrome.extension.getURL('options.html#onboarding')).then (tab_was_already_open) ->
-        if not tab_was_already_open
-          chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding:last')})
+    }
+    close_notification = notification.close.bind(notification)
+    notification.onclick = ->
+      chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding:last')})
+      close_notification()
 
   co ->*
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       if not localStorage.getItem('allow_logging')? # user did not complete onboarding
         show_finish_configuring_notification_if_needed()
-        setInterval ->
-          show_finish_configuring_notification_if_needed()
-        , 10000
+        #setInterval ->
+        #  show_finish_configuring_notification_if_needed()
+        #, 20000
         #chrome.tabs.create {url: 'options.html#onboarding:last'}
         #localStorage.setItem('allow_logging_on_default_without_onboarding', true)
         #localStorage.setItem('allow_logging', true)
@@ -160,7 +159,7 @@ co ->*
     }
     setInterval ->
       show_finish_configuring_notification_if_needed()
-    , 10000
+    , 5000
 
   {
     get_all_message_handlers

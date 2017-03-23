@@ -9,10 +9,6 @@ const {
 } = require('libs_common/time_spent_utils')
 
 const {
-  printable_time_spent,
-} = require('libs_common/time_utils')
-
-const {
   wrap_in_shadow
 } = require('libs_frontend/common_libs')
 

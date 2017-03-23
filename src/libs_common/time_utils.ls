@@ -7,4 +7,6 @@ export get_days_since_epoch = ->
   return moment().diff(start_of_epoch, 'days')
 
 export printable_time_spent = (seconds) ->
-  moment().startOf('year').seconds(seconds).format('HH:mm:ss')
+  if seconds < 60
+    return seconds + ' seconds'
+  return moment().add(seconds, 'seconds').fromNow(true)

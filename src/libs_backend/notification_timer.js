@@ -17,11 +17,11 @@ function make_notification(num_met, num_goals) {
     Notification.requestPermission();
   else {
     var notification = new Notification('HabitLab Goal Checkup', {
-      icon: chrome.extension.getURL('icons/icon_38.png'),
+      icon: chrome.extension.getURL('icons/icon_128.png'),
       body: "You met " + num_met + " out of " + num_goals + " goal(s)."
     });
     notification.onclick = function () {
-      window.open(chrome.extension.getURL('index.html?tag=goals-met-over-time'));
+      chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=goals-met-over-time&index_background_color=white')});
     };
   }
 }

@@ -36,13 +36,13 @@ function insertRichNotification() {
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
     console.log(secondsSpent);
     //if (shouldInsert(secondsSpent, intervention.params.minutes.value)) {
-      chrome.runtime.sendMessage({type: "chrome-notification", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
+      chrome.runtime.sendMessage({type: "chrome-notification-gmail-composing", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
     //}
   })
 }
 
 function insert_composing_time_notification(secondsSpent) {
-  chrome.runtime.sendMessage({type: "chrome-notification", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
+  chrome.runtime.sendMessage({type: "chrome-notification-gmail-composing", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
 }
 
 /*

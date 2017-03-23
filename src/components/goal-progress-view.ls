@@ -12,10 +12,6 @@
 } = require 'libs_common/time_spent_utils'
 
 {
-  printable_time_spent
-} = require 'libs_common/time_utils'
-
-{
   get_goal_info
   get_goal_target
 } = require 'libs_backend/goal_utils'

@@ -50,6 +50,10 @@ polymer_ext {
               recommended: 'all'
             }
             {
+              name: 'open_debug_console_on_load'
+              description: 'Automatically open the debug console when intervention is loaded'
+            }
+            {
               name: 'devmode_use_cache'
               description: 'Use the fetch cache in developer mode (is automatically used in production mode)'
             }

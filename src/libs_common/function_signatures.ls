@@ -68,6 +68,8 @@ lib_name_to_func_names_and_signatures =
     remoteget_base64: 'url'
   favicon_utils:
     get_favicon_data_for_domain: 'domain'
+  debug_console_utils:
+    open_debug_page_for_tab_id: 'tab_id'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

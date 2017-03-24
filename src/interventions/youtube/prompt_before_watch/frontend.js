@@ -1,6 +1,8 @@
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
+console.log('youtube/prompt_before_watch')
+
 const $ = require('jquery')
 
 const {close_selected_tab} = require('libs_frontend/tab_utils')
@@ -56,6 +58,26 @@ function pauseVideo() {
 	}
 }
 
+var overlay_div = $()
+
+function set_overlay_position_over_video() {
+  if (overlay_div.length == 0) {
+    return
+  }
+  var video = $('video:not(#rewardvideo)')
+  var video_container = video
+  //while (video_container.length > 0) {}
+  const $a = overlay_div
+  $a.width(video.width());
+	$a.height(video.height());
+	$a.css({'background-color': 'white'});
+	$a.css('z-index', 30);
+  const b = overlay_div[0]
+	b.style.left = video.offset().left + 'px';
+	b.style.top = video.offset().top + 'px';
+	b.style.opacity = 0.9;
+}
+
 //Places a white box over the video with a warning message
 function divOverVideo(status) {
 	//Constructs white overlay box
@@ -66,17 +88,14 @@ function divOverVideo(status) {
   if (window.location.href.indexOf('watch') == -1) {
     return
   }
+  if ($('#habitlab_video_overlay').data('location') == window.location.href) {
+    return
+  }
   const $a = $('<div>').css({'position': 'absolute', 'display': 'table'});
-	$a.width(video.width());
-	$a.height(video.height());
-	$a.css({'background-color': 'white'});
-	$a.css('z-index', 30);
+  overlay_div = $a
 	$a.text();
-	$(document.body).append($(wrap_in_shadow($a)).attr('id', 'habitlab_video_overlay'));
-	const b = $a[0];
-	b.style.left = video.offset().left + 'px';
-	b.style.top = video.offset().top + 'px';
-	b.style.opacity = 0.9;
+  set_overlay_position_over_video()
+	$(document.body).append($(wrap_in_shadow($a)).data('location', window.location.href).attr('id', 'habitlab_video_overlay'));
 
 	//Centered container for text in the white box
 	const $contentContainer = $('<div>')
@@ -97,16 +116,23 @@ function divOverVideo(status) {
 	//Message to user
 	const $text1 = $('<h2>');
 	if (status === 'begin') {
-    const wait = setInterval(() => {
-      const getEmails = document.querySelector('video:not(#rewardvideo)');
+    var wait_for_video_duration = null;
+    var set_video_duration = function() {
+      var video = $('video:not(#rewardvideo)');
+      if (video.length == 0) return;
       const duration = Math.round(video[0].duration)
-      if (!isNaN(duration) ) {
+      if (!isNaN(duration)) {
         const minutes = Math.floor(duration / 60)
         const seconds = (duration % 60)
         $text1.html("This video is " + minutes + " minutes and " + seconds + " seconds long. <br>Are you sure you want to play it?");
-        clearInterval(wait);
+        clearInterval(wait_for_video_duration);
+        return true
       }
-    }, 100);
+      return false
+    }
+    if (!set_video_duration()) {
+      wait_for_video_duration = setInterval(set_video_duration, 100)
+    }
 	} else { //status === 'end'
       get_seconds_spent_on_domain_today('www.youtube.com', function(secondsSpent) {
           const mins = Math.floor(secondsSpent/60)
@@ -209,11 +235,15 @@ function afterNavigate() {
 //main()
 
 once_available('video:not(#rewardvideo)', () => {
-  main()
+  afterNavigate()
 })
 
 //Executed after page load
-//afterNavigate();
+afterNavigate();
+
+window.addEventListener('popstate', function(evt) {
+  afterNavigate()
+})
 
 window.on_intervention_disabled = () => {
   removeDivAndPlay()

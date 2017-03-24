@@ -218,6 +218,7 @@ co ->*
   {
     localstorage_getjson
     localstorage_setjson
+    localstorage_getbool
   } = require 'libs_common/localstorage_utils'
 
   require! {
@@ -398,6 +399,13 @@ co ->*
       return;
     })
     """
+    open_debug_page_if_needed = ''
+    if localstorage_getbool('open_debug_console_on_load')
+      open_debug_page_if_needed = """
+      SystemJS.import('libs_frontend/intervention_debug_console').then(function(intervention_debug_console) {
+        intervention_debug_console.open_debug_page_if_needed()
+      })
+      """
     for options in content_script_options
       if options.code?
         content_script_code = options.code
@@ -495,6 +503,7 @@ co ->*
             })
           }
         })
+        #{open_debug_page_if_needed}
       })
     }
   }
@@ -595,15 +604,17 @@ co ->*
       intervention = active_interventions[0]
       intervention_no_longer_enabled = false
       need_new_session_id = false
-      if page_was_just_refreshed
-        need_new_session_id = true
+      #if page_was_just_refreshed
+      #  need_new_session_id = true
       if intervention?
         intervention_no_longer_enabled = all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
         if intervention_no_longer_enabled
           need_new_session_id = true
-      else
-        if enabled_intervention_set_changed
-          need_new_session_id = true
+      #else
+      #  if enabled_intervention_set_changed
+      #    need_new_session_id = true
+      if enabled_intervention_set_changed
+        need_new_session_id = true
       if need_new_session_id
         # the intervention is no longer enabled. need to choose a new session id
         dlog 'intervention is no longer enabled. choosing new session id'

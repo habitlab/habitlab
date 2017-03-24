@@ -44,9 +44,11 @@
 {
   get_active_tab_id
   list_currently_loaded_interventions
-  open_debug_page_for_tab_id
 } = require 'libs_backend/background_common'
 
+{
+  open_debug_page_for_tab_id
+} = require 'libs_backend/debug_console_utils'
 
 swal = require 'sweetalert2'
 

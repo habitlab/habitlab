@@ -17,6 +17,10 @@ swal = require 'sweetalert2'
 } = require 'libs_backend/background_common'
 
 {
+  open_debug_page_for_tab_id
+} = require 'libs_backend/debug_console_utils'
+
+{
   url_to_domain
 } = require 'libs_common/domain_utils'
 

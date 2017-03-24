@@ -1,8 +1,6 @@
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
-console.log('youtube/prompt_before_watch')
-
 const $ = require('jquery')
 
 const {close_selected_tab} = require('libs_frontend/tab_utils')
@@ -58,24 +56,74 @@ function pauseVideo() {
 	}
 }
 
-var overlay_div = $()
+function shadow_find(query) {
+  var overlay_host = $('#habitlab_video_overlay')
+  if (overlay_host.length == 0) {
+    return $()
+  }
+  return $(overlay_host[0].shadow_div).find(query)
+}
 
-function set_overlay_position_over_video() {
-  if (overlay_div.length == 0) {
+function get_overlay() {
+  var overlay_host = $('#habitlab_video_overlay')
+  if (overlay_host.length == 0) {
+    return $()
+  }
+  return $(overlay_host[0].shadow_div)
+}
+
+function set_overlay_position_over_video($a) {
+  if (!$a) {
+    $a = get_overlay()
+  }
+  if ($a.length == 0) {
     return
   }
   var video = $('video:not(#rewardvideo)')
   var video_container = video
   //while (video_container.length > 0) {}
-  const $a = overlay_div
   $a.width(video.width());
 	$a.height(video.height());
 	$a.css({'background-color': 'white'});
 	$a.css('z-index', 30);
-  const b = overlay_div[0]
+  const b = $a[0]
 	b.style.left = video.offset().left + 'px';
 	b.style.top = video.offset().top + 'px';
 	b.style.opacity = 0.9;
+}
+
+var wait_for_video_duration = null
+
+function set_video_duration() {
+  var overlay = get_overlay()
+  if (overlay.length == 0) {
+    return false
+  }
+  if (overlay.data('duration_set') == true) {
+    clearInterval(wait_for_video_duration);
+    wait_for_video_duration = null
+    return true
+  }
+  var video = $('video:not(#rewardvideo)');
+  if (video.length == 0) return;
+  const duration = Math.round(video[0].duration)
+  if (!isNaN(duration)) {
+    const minutes = Math.floor(duration / 60)
+    const seconds = (duration % 60)
+    overlay.find('#message_text').html("This video is " + minutes + " minutes and " + seconds + " seconds long. <br>Are you sure you want to play it?");
+    clearInterval(wait_for_video_duration);
+    wait_for_video_duration = null
+    overlay.data('duration_set', true)
+    return true
+  }
+  return false
+}
+
+function start_video_duration_setter() {
+  if (!wait_for_video_duration) {
+    wait_for_video_duration = setInterval(set_video_duration, 100)
+  }
+  set_video_duration()
 }
 
 //Places a white box over the video with a warning message
@@ -88,14 +136,15 @@ function divOverVideo(status) {
   if (window.location.href.indexOf('watch') == -1) {
     return
   }
-  if ($('#habitlab_video_overlay').data('location') == window.location.href) {
+  if (get_overlay().data('location') == window.location.href) {
     return
   }
+  $('#habitlab_video_overlay').remove()
   const $a = $('<div>').css({'position': 'absolute', 'display': 'table'});
-  overlay_div = $a
-	$a.text();
-  set_overlay_position_over_video()
-	$(document.body).append($(wrap_in_shadow($a)).data('location', window.location.href).attr('id', 'habitlab_video_overlay'));
+	//$a.text();
+  set_overlay_position_over_video($a)
+  $a.data('location', window.location.href).data('duration_set', false)
+  $(document.body).append($(wrap_in_shadow($a)).attr('id', 'habitlab_video_overlay'));
 
 	//Centered container for text in the white box
 	const $contentContainer = $('<div>')
@@ -114,32 +163,7 @@ function divOverVideo(status) {
   $contentContainer.append('<br><br>')
 
 	//Message to user
-	const $text1 = $('<h2>');
-	if (status === 'begin') {
-    var wait_for_video_duration = null;
-    var set_video_duration = function() {
-      var video = $('video:not(#rewardvideo)');
-      if (video.length == 0) return;
-      const duration = Math.round(video[0].duration)
-      if (!isNaN(duration)) {
-        const minutes = Math.floor(duration / 60)
-        const seconds = (duration % 60)
-        $text1.html("This video is " + minutes + " minutes and " + seconds + " seconds long. <br>Are you sure you want to play it?");
-        clearInterval(wait_for_video_duration);
-        return true
-      }
-      return false
-    }
-    if (!set_video_duration()) {
-      wait_for_video_duration = setInterval(set_video_duration, 100)
-    }
-	} else { //status === 'end'
-      get_seconds_spent_on_domain_today('www.youtube.com', function(secondsSpent) {
-          const mins = Math.floor(secondsSpent/60)
-          const secs = secondsSpent % 60
-          $text1.html("You've spent " + mins + " minutes and " + secs + " seconds on Youtube today. <br>Are you sure you want to continue watching videos?");
-      })
-	}
+	const $text1 = $('<h2>').attr('id', 'message_text');
 	$contentContainer.append($text1);
 	$contentContainer.append($('<br>'));
 
@@ -170,6 +194,18 @@ function divOverVideo(status) {
 	$a.append($contentContainer);
 
   //Logs impression
+
+	if (status === 'begin') {
+    start_video_duration_setter()
+	} else { //status === 'end'
+    console.log('got status end and start getting seconds spent')
+    get_seconds_spent_on_domain_today('www.youtube.com').then(function(secondsSpent) {
+      const mins = Math.floor(secondsSpent/60)
+      const secs = secondsSpent % 60
+      console.log('got status end and done getting seconds spent')
+      shadow_find('#message_text').html("You've spent " + mins + " minutes and " + secs + " seconds on Youtube today. <br>Are you sure you want to continue watching videos?");
+    })
+	}
 }
 
 //Remove the white div
@@ -193,6 +229,7 @@ function endWarning() {
 	const overlayBox = document.querySelector('video:not(#rewardvideo)');
 	if ((overlayBox.currentTime > (overlayBox.duration - 0.15)) && !overlayBox.paused) {
     clearInterval(end_pauser)
+    end_pauser = null
     pauseVideo()
 		divOverVideo("end")
 	}
@@ -203,9 +240,11 @@ function main() {
   create_video_pauser()
   removeDiv();
 	divOverVideo("begin");
-  end_pauser = setInterval(() => {
-    endWarning()
-  }, 150); //Loop to test the status of the video until near the end
+  if (end_pauser === null) {
+    end_pauser = setInterval(() => {
+      endWarning()
+    }, 150); //Loop to test the status of the video until near the end
+  }
 }
 
 //Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
@@ -235,11 +274,11 @@ function afterNavigate() {
 //main()
 
 once_available('video:not(#rewardvideo)', () => {
-  afterNavigate()
+  main()
 })
 
 //Executed after page load
-afterNavigate();
+//afterNavigate();
 
 window.addEventListener('popstate', function(evt) {
   afterNavigate()

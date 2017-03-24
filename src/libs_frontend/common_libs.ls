@@ -116,6 +116,8 @@ export create_shadow_div = (options) ->
   shadow_root.appendChild(shadow_div)
   shadow_div.shadow_root = shadow_root
   shadow_div.shadow_host = shadow_host
+  shadow_host.shadow_root = shadow_root
+  shadow_host.shadow_div = shadow_div
   return shadow_div
 
 export wrap_in_shadow = (elem, options) ->

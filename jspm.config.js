@@ -48,7 +48,7 @@ SystemJS.config({
     "percipio": "npm:percipio@0.1.2",
     "prelude-ls": "npm:prelude-ls@1.1.2",
     "prettier-min": "npm:prettier-min@0.15.3",
-    "prettyprintjs": "npm:prettyprintjs@0.1.11",
+    "prettyprintjs": "npm:prettyprintjs@0.1.12",
     "process": "npm:jspm-nodelibs-process@0.2.0",
     "promise-debounce": "npm:promise-debounce@1.0.1",
     "querystring": "npm:jspm-nodelibs-querystring@0.2.0",

@@ -546,10 +546,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:prettyprintjs@0.1.11": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:cfy@1.0.20": {
     "deps": {
       "co": "npm:co@^4.6.0",
@@ -2038,6 +2034,10 @@
     }
   },
   "npm:icojs-min@0.5.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:prettyprintjs@0.1.12": {
     "deps": {},
     "peerDeps": {}
   }

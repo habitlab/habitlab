@@ -174,6 +174,9 @@ module.exports = function (jsObject, indentLength, outputTo, fullFunction, max_c
     if ((typeof jsObject) === 'string') {
         return jsObject;
     }
+    if ((typeof jsObject) === 'boolean' || (typeof jsObject) == 'number') {
+        return jsObject.toString();
+    }
     if (jsObject) {
         if (indentLength === undefined) {
             indentLength = 4;

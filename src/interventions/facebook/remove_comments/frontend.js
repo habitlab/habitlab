@@ -29,13 +29,13 @@ function removeComments() {
       $(item).css('display','none')
       $(item).prop('button_inserted', true)
 
-      var show_comments_button = $('<paper-button style="background-color: #415D67; color: white; width: 152 px; height: 38px; -webkit-font-smoothing: antialiased; box-shadow: 2px 2px 2px #888888;">Show Comments</paper-button>')
+      var show_comments_button = $('<paper-button style="background-color: #415D67; color: white; width: 152 px; height: 38px; -webkit-font-smoothing: antialiased; box-shadow: 2px 2px 2px #888888; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px">Show Comments</paper-button>')
       show_comments_button.click(function() {
           $(item).siblings('.habitlab_button_container').remove()
           $(item).css('display','block')
       })
-      var habitlab_logo = $('<habitlab-logo style="margin-left: 5px;"></habitlab-logo>')
-      var close_tab_button = $('<close-tab-button style="height: 38px"</close-tab-button>')
+      var habitlab_logo = $('<habitlab-logo style="margin-left: 5px; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px"></habitlab-logo>')
+      var close_tab_button = $('<close-tab-button style="height: 38px; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px"</close-tab-button>')
       var button_container = $('<div style="text-align: center; display: flex; justify-content: center;"></div>')
       button_container.append([
         show_comments_button,

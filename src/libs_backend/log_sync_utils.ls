@@ -224,9 +224,9 @@ export start_syncing_all_db_collections = cfy ->*
         return
       all_successful = yield sync_unsynced_items_in_db_collection(collection_name)
       if not all_successful
-        dlog 'error during collection syncing, pausing 120 seconds: ' + collection_name
-        yield sleep(120000)
-    yield sleep(10000)
+        dlog 'error during collection syncing, pausing 1200 seconds: ' + collection_name
+        yield sleep(1200000)
+    yield sleep(120000)
 
 export stop_syncing_all_db_collections = ->
   db_syncing_active := false

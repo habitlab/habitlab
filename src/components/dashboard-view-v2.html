@@ -98,11 +98,13 @@
               <paper-tab>{{site_info.sitename_printable}}</paper-tab>
             </template>
           </paper-tabs>
+          <br>
 
           <iron-pages selected={{selected_intervention_effectiveness_idx}}>
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
               <div>
                 <h4>{{site_info.sitename_printable}} Intervention Effectiveness</h4>
+                <br>
                 <graph-intervention-effectiveness-comparison goal_info="{{first_elem(site_info.goals)}}"></graph-intervention-effectiveness-comparison>
               </div>
             </template>

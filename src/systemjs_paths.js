@@ -64,8 +64,8 @@ SystemJS.config({
       "npm:webcomponentsjs-custom-element-v0@1.0.1.json"
     ],
     "bundles/prettyprintjs.js": [
-      "npm:prettyprintjs@0.1.11/index.js",
-      "npm:prettyprintjs@0.1.11.json"
+      "npm:prettyprintjs@0.1.12/index.js",
+      "npm:prettyprintjs@0.1.12.json"
     ],
     "bundles/sweetalert2.js": [
       "npm:sweetalert2@6.3.2/dist/sweetalert2.js",

@@ -403,7 +403,7 @@ co ->*
     if localstorage_getbool('open_debug_console_on_load')
       open_debug_page_if_needed = """
       SystemJS.import('libs_frontend/intervention_debug_console').then(function(intervention_debug_console) {
-        intervention_debug_console.open_debug_page_if_needed()
+        intervention_debug_console.open_debug_page()
       })
       """
     for options in content_script_options

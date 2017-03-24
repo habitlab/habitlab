@@ -45,7 +45,7 @@ function create_video_pauser() {
       return;
     }
     pauseVideo();
-  }, 250);
+  }, 100);
 }
 
 //Initially pauses the video when the page is loaded
@@ -72,14 +72,22 @@ function get_overlay() {
   return $(overlay_host[0].shadow_div)
 }
 
-function set_overlay_position_over_video($a) {
-  if (!$a) {
-    $a = get_overlay()
+function first_nonempty(...args) {
+  for (var x of args) {
+    var $x = $(x)
+    if ($x.length > 0) {
+      return $x
+    }
   }
+  return $()
+}
+
+function set_overlay_position_over_video() {
+  var $a = get_overlay()
   if ($a.length == 0) {
     return
   }
-  var video = $('video:not(#rewardvideo)')
+  var video = first_nonempty('#player-api', '.html5-video-player', 'video:not(#rewardvideo)')
   var video_container = video
   //while (video_container.length > 0) {}
   $a.width(video.width());
@@ -89,7 +97,25 @@ function set_overlay_position_over_video($a) {
   const b = $a[0]
 	b.style.left = video.offset().left + 'px';
 	b.style.top = video.offset().top + 'px';
-	b.style.opacity = 0.9;
+	//b.style.opacity = 0.9;
+}
+
+function get_youtube_video_id_from_url() {
+  var rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/
+  return window.location.href.match(rx)[1]
+}
+
+function get_youtube_video_id_from_page() {
+  var $page = $('#page')
+  if ($page.length == 0) {
+    return '' // TODO log error intervention broken
+  }
+  var class_list = $page[0].className.split(' ')
+  var classnames_starting_with_video = class_list.filter(x => x.startsWith('video-'))
+  if (classnames_starting_with_video.length == 0) {
+    return '' // TODO log error intervention broken
+  }
+  return classnames_starting_with_video[0].substr('video-'.length)
 }
 
 var wait_for_video_duration = null
@@ -97,6 +123,10 @@ var wait_for_video_duration = null
 function set_video_duration() {
   var overlay = get_overlay()
   if (overlay.length == 0) {
+    return false
+  }
+  if (get_youtube_video_id_from_url() != get_youtube_video_id_from_page()) {
+    // not yet finished loading
     return false
   }
   if (overlay.data('duration_set') == true) {
@@ -110,7 +140,7 @@ function set_video_duration() {
   if (!isNaN(duration)) {
     const minutes = Math.floor(duration / 60)
     const seconds = (duration % 60)
-    overlay.find('#message_text').html("This video is " + minutes + " minutes and " + seconds + " seconds long. <br>Are you sure you want to play it?");
+    overlay.find('#message_text').html("This video is " + minutes + " minutes and " + seconds + " seconds long.<br>Are you sure you want to play it?");
     clearInterval(wait_for_video_duration);
     wait_for_video_duration = null
     overlay.data('duration_set', true)
@@ -120,6 +150,10 @@ function set_video_duration() {
 }
 
 function start_video_duration_setter() {
+  var overlay = get_overlay()
+  if (!overlay.data('duration_set')) {
+    overlay.find('#message_text').html('<span style="visibility: hidden">This video is XX minutes and XX seconds long.<br>Are you sure you want to play it?</span>')
+  }
   if (!wait_for_video_duration) {
     wait_for_video_duration = setInterval(set_video_duration, 100)
   }
@@ -129,6 +163,9 @@ function start_video_duration_setter() {
 //Places a white box over the video with a warning message
 function divOverVideo(status) {
 	//Constructs white overlay box
+  if (window.intervention_disabled) {
+    return
+  }
   var video = $('video:not(#rewardvideo)')
   if (video.length == 0) {
     return
@@ -140,11 +177,12 @@ function divOverVideo(status) {
     return
   }
   $('#habitlab_video_overlay').remove()
-  const $a = $('<div>').css({'position': 'absolute', 'display': 'table'});
+  const $a = $('<div>')
 	//$a.text();
-  set_overlay_position_over_video($a)
-  $a.data('location', window.location.href).data('duration_set', false)
   $(document.body).append($(wrap_in_shadow($a)).attr('id', 'habitlab_video_overlay'));
+  $a.css({'position': 'absolute', 'display': 'table'})
+  set_overlay_position_over_video()
+  $a.data('location', window.location.href).data('duration_set', false)
 
 	//Centered container for text in the white box
 	const $contentContainer = $('<div>')
@@ -198,11 +236,9 @@ function divOverVideo(status) {
 	if (status === 'begin') {
     start_video_duration_setter()
 	} else { //status === 'end'
-    console.log('got status end and start getting seconds spent')
     get_seconds_spent_on_domain_today('www.youtube.com').then(function(secondsSpent) {
       const mins = Math.floor(secondsSpent/60)
       const secs = secondsSpent % 60
-      console.log('got status end and done getting seconds spent')
       shadow_find('#message_text').html("You've spent " + mins + " minutes and " + secs + " seconds on Youtube today. <br>Are you sure you want to continue watching videos?");
     })
 	}
@@ -226,6 +262,9 @@ function endWarning() {
   // 	console.log("executing");
   // 	divOverVideoEnd();
   // });
+  if (window.intervention_disabled) {
+    return
+  }
 	const overlayBox = document.querySelector('video:not(#rewardvideo)');
 	if ((overlayBox.currentTime > (overlayBox.duration - 0.15)) && !overlayBox.paused) {
     clearInterval(end_pauser)
@@ -235,15 +274,24 @@ function endWarning() {
 	}
 }
 
+var prev_location_href = null
+
 //All method calls
 function main() {
+  if (window.intervention_disabled) {
+    return
+  }
+  if (window.location.href == prev_location_href) {
+    return // duplicate call to main
+  }
+  prev_location_href = window.location.href
   create_video_pauser()
   removeDiv();
 	divOverVideo("begin");
   if (end_pauser === null) {
     end_pauser = setInterval(() => {
       endWarning()
-    }, 150); //Loop to test the status of the video until near the end
+    }, 100); //Loop to test the status of the video until near the end
   }
 }
 
@@ -277,11 +325,19 @@ once_available('video:not(#rewardvideo)', () => {
   main()
 })
 
+on_url_change(() => {
+  afterNavigate()
+})
+
 //Executed after page load
 //afterNavigate();
 
 window.addEventListener('popstate', function(evt) {
   afterNavigate()
+})
+
+window.addEventListener('resize', function(evt) {
+  set_overlay_position_over_video()
 })
 
 window.on_intervention_disabled = () => {

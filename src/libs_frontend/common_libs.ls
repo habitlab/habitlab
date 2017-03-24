@@ -93,6 +93,11 @@ to_camelcase_dict = (options) ->
 export create_shadow_div = (options) ->
   if not options?
     options = {}
+  if options.shadow_div?
+    shadow_div = options.shadow_div
+    delete options.shadow_div
+  else
+    shadow_div = document.createElement('div')
   options = to_camelcase_dict(options)
   default_options = {
     fontFamily: '"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
@@ -110,7 +115,6 @@ export create_shadow_div = (options) ->
   shadow_host = document.createElement('div')
   #shadow_root = shadow_host.attachShadow({mode: 'open'})
   shadow_root = shadow_host.createShadowRoot()
-  shadow_div = document.createElement('div')
   for k,v of options
     shadow_div.style[k] = v
   shadow_root.appendChild(shadow_div)
@@ -121,11 +125,12 @@ export create_shadow_div = (options) ->
   return shadow_div
 
 export wrap_in_shadow = (elem, options) ->
-  shadow_div = create_shadow_div(options)
   if elem.length? and elem.length > 0
     elem = elem[0]
-  shadow_div.appendChild(elem)
-  return shadow_div.shadow_host
+  options = {} <<< options
+  options.shadow_div = elem
+  create_shadow_div(options) # return value is equal to elem
+  return elem.shadow_host
 
 export create_shadow_div_on_body = (options) ->
   if not options?

@@ -35,17 +35,24 @@
         <div>You are running an unofficial release.</div>
         <div>To get updates, uninstall HabitLab and <a href="https://habitlab.github.io/chrome">install the stable release</a></div>
       </template>
-        <template is="dom-if" if="{{is_update_available}}">
+        <template is="dom-if" if="{{is_update_available_or_installable}}">
           <div>A new version of HabitLab is available ({{available_update_version}})</div>
-          <br>
-          <paper-button class="button" on-click="install_update_now">Update HabitLab</paper-button>
-        </template>
-        <template is="dom-if" if="{{official}}">
-          <template is="dom-if" if="{{!is_update_available}}">
-            <div>You are running the latest version of HabitLab</div>
-            <br>
-            <paper-button class="button" on-click="check_for_updates_now">Check for updates</paper-button>
+          <template is="dom-if" if="{{is_update_installable}}">
+            <div style="height: 10px"></div>
+            <paper-button class="button" on-click="install_update_now">Install Update Now</paper-button>
           </template>
+          <template is="dom-if" if="{{!is_update_installable}}">
+            <div>Chrome will automatically install the update within a few hours. Or you can force an update by going to <span style="font-family: Courier New, Courier, monospace">chrome://extensions</span> checking <span style="font-family: Courier New, Courier, monospace">Developer Mode</span> and clicking <span style="font-family: Courier New, Courier, monospace">Update Extensions Now</span>.</div>
+          </template>
+        </template>
+        <template is="dom-if" if="{{!is_update_available_or_installable}}">
+          <template is="dom-if" if="{{have_checked_for_updates}}">
+            <template is="dom-if" if="{{!is_update_available}}">
+              <div>You are running the latest version of HabitLab</div>
+            </template>
+          </template>
+          <div style="height: 10px"></div>
+          <paper-button class="button" on-click="check_for_updates_now">{{check_for_updates_button_text}}</paper-button>
         </template>
       </template>
     </div>

@@ -1130,10 +1130,12 @@ co ->*
       localStorage.setItem('extension_update_available_version', update_details.version)
       start_trying_to_restart_habitlab()
 
-  if (not developer_mode) and (localStorage.allow_logging)
+  if (not developer_mode) and (localstorage_getbool('allow_logging'))
     setInterval check_if_update_available_and_run_update, 3600000 # 1000*60*60 every 60 minutes
 
-  if localStorage.getItem('habitlab_open_url_on_next_start')?
-    chrome.tabs.create {url: localStorage.getItem('habitlab_open_url_on_next_start')}
+  url_to_open_on_next_start = localStorage.getItem('habitlab_open_url_on_next_start')
+  if url_to_open_on_next_start?
     localStorage.removeItem('habitlab_open_url_on_next_start')
+    chrome.tabs.create {url: url_to_open_on_next_start}
+
 

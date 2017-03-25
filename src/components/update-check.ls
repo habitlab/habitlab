@@ -2,13 +2,18 @@
   polymer_ext
 } = require 'libs_frontend/polymer_utils'
 
+{
+  check_if_update_available_and_run_update
+} = require 'libs_backend/habitlab_update_utils'
+
+require! {
+  cfy
+  semver
+}
+
 polymer_ext {
   is: 'update-check'
   properties: {
-    update_status: {
-      type: String
-      value: 'checking'
-    }
     current_version: {
       type: String
       value: chrome.runtime.getManifest().version
@@ -20,10 +25,9 @@ polymer_ext {
     unofficial: {
       type: Boolean
       value: do ->
-        chrome_manifest = chrome.runtime.getManifest()
-        if not chrome_manifest.update_url?
+        if not chrome.runtime.getManifest().update_url?
           return false # devmode
-        if chrome_manifest.version == 'obghclocpdgcekcognpkblghkedcpdgd' or chrome_manifest.version == 'bleifeoekkfhicamkpadfoclfhfmmina'
+        if chrome.runtime.id == 'obghclocpdgcekcognpkblghkedcpdgd' or chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina'
           return false # official or preview
         return true
     }
@@ -31,18 +35,20 @@ polymer_ext {
       type: Boolean
       value: do ->
         value: do ->
-        chrome_manifest = chrome.runtime.getManifest()
-        if not chrome_manifest.update_url?
+        if not chrome.runtime.getManifest().update_url?
           return false # devmode
-        return chrome_manifest.version == 'bleifeoekkfhicamkpadfoclfhfmmina'
+        return chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina'
     }
     official: {
       type: Boolean
       value: do ->
-        chrome_manifest = chrome.runtime.getManifest()
-        if not chrome_manifest.update_url?
+        if not chrome.runtime.getManifest().update_url?
           return false # devmode
-        return chrome_manifest.version == 'obghclocpdgcekcognpkblghkedcpdgd' or chrome_manifest.version == 'bleifeoekkfhicamkpadfoclfhfmmina'
+        return chrome.runtime.id == 'obghclocpdgcekcognpkblghkedcpdgd' or chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina'
+    }
+    appid: {
+      type: String
+      value: chrome.runtime.id
     }
     available_update_version: {
       type: String
@@ -59,44 +65,11 @@ polymer_ext {
     localStorage.habitlab_open_url_on_next_start = 'https://habitlab.github.io/to?q=options'
     chrome.runtime.reload()
     chrome.runtime.restart()
-  check_for_update_if_needed: ->
-    if this.devmode
-      return
-    last_time_update_checked = localStorage.getItem('habitlab_last_time_checked_for_updates')
-    if last_time_update_checked?
-      last_time_update_checked = parseInt(last_time_update_checked)
-    else
-      last_time_update_checked = 0
-    current_time = Date.now()
-    if last_time_update_checked + 1000*60*15 > current_time # within the past 15 minutes
-      return
-    localStorage.setItem('habitlab_last_time_checked_for_updates', current_time)
-    chrome.runtime.requestUpdateCheck (status, details) ->
-      return
   ready: ->
     self = this
     display_update_info = ->
       if localStorage.extension_update_available_version?
         self.available_update_version = localStorage.extension_update_available_version
     setInterval display_update_info, 1000
-    self.check_for_update_if_needed()
-    /*
-    chrome.runtime.onUpdateAvailable.addListener (details) ->
-      chrome.runtime.reload()
-      chrome.runtime.restart()
-      setTimeout ->
-        window.location.reload()
-      , 3000
-    
-    chrome.runtime.requestUpdateCheck (status, details) ->
-      self.update_status = status
-      if status == 'throttled'
-        return
-        #self.detailed_info = 'Your check to update was throttled, please check again later'
-      if status == 'no_update'
-        self.detailed_info = 'No update is available, you are running the latest version'
-      if status == 'update_available'
-        self.
-        self.detailed_info = 'An update is available. Latest version is ' + details.version ' - it is being downloaded and installed, please wait'
-    */
+    check_if_update_available_and_run_update()
 }

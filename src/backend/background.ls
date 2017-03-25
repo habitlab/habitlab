@@ -1108,19 +1108,32 @@ co ->*
       yield try_to_restart_habitlab_now()
       yield sleep(1000) # every 1 seconds
 
+  require! {
+    semver
+  }
+
+  {
+    check_if_update_available_and_run_update
+  } = require 'libs_backend/habitlab_update_utils'
+
   require 'libs_common/global_exports_post'
 
   update_available_version = localStorage.getItem('extension_update_available_version')
   if update_available_version?
-    require! {
-      semver
-    }
+    if not semver.valid(update_available_version)
+      localStorage.removeItem('extension_update_available_version')
     if semver.gte(habitlab_version, update_available_version)
       localStorage.removeItem('extension_update_available_version')
+  
   chrome.runtime.onUpdateAvailable.addListener (update_details) ->
-    localStorage.setItem('extension_update_available_version', update_details.version)
-    start_trying_to_restart_habitlab()
+    if semver.valid(update_details.version)
+      localStorage.setItem('extension_update_available_version', update_details.version)
+      start_trying_to_restart_habitlab()
+
+  if not developer_mode
+    setInterval check_if_update_available_and_run_update, 1200000 # 1000*60*20 every 20 minutes
 
   if localStorage.getItem('habitlab_open_url_on_next_start')?
     chrome.tabs.create {url: localStorage.getItem('habitlab_open_url_on_next_start')}
     localStorage.removeItem('habitlab_open_url_on_next_start')
+

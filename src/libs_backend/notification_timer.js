@@ -21,7 +21,7 @@ function make_notification(num_met, num_goals) {
       body: "You met " + num_met + " out of " + num_goals + " goal(s)."
     });
     notification.onclick = function () {
-      chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=goals-met-over-time&index_background_color=white')});
+      chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=goals-met-over-time')});
     };
   }
 }

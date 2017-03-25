@@ -108,6 +108,8 @@ if query == 'wiki' or query.startsWith('wiki/') or query == 'issues' or query.st
 
 if query == 'editor'
   query = 'intervention-editor'
+if query == 'update'
+  query = 'update-check'
 if query == 'logs'
   query = 'logs.html'
 if query == 'settings' or query == 'config'

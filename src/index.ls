@@ -176,6 +176,11 @@ start_page_index = cfy ->*
     index_body.style.width = index_body_width
   if index_body_height
     index_body.style.height = index_body_height
+  if not index_background_color?
+    if ['options-view-v2', 'options-view', 'popup-view-v2', 'popup-view'].indexOf(tagname) == -1
+      index_background_color = 'white'
+    else
+      index_background_color = '#1E8CD2'
   if index_background_color?
     document.body.style.backgroundColor = index_background_color
   add_url_input_if_needed()

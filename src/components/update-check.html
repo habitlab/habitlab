@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="habitlab-logo.html">
+<link rel="import" href="close-tab-button.html">
+
+<dom-module id="update-check">
+  
+  <template>
+
+    <style>
+      :host {
+        
+      }
+
+    </style>
+
+    <div id="displayText">
+      <div>You are running HabitLab version {{current_version}}</div>
+      <template is="dom-if" if="{{devmode}}">
+        You are running a sideloaded or unofficial version of HabitLab. Please run the following commands to update it:
+        <br><br>
+        <pre>
+        git checkout master
+        git pull origin master
+        npm install -g yarn
+        yarn
+        gulp clean
+        gulp build
+        </pre>
+        <br><br>
+        Or uninstall the current version at <a href="chrome://extensions">chrome://extensions</a> and switch to the published version at <a href="https://habitlab.stanford.edu">https://habitlab.stanford.edu</a>
+      </template>
+      <template is="dom-if" if="{{!devmode}}">
+        <div>Update status: {{update_status}}</div>
+        <div>{{detailed_info}}</div>
+        <br><br>
+        <div>
+          You can manually update by going to <a href="chrome://extensions">chrome://extensions</a> checking the Developer Mode option, then clicking Update extensions
+          <br><br>
+          Or you can uninstall at <a href="chrome://extensions">chrome://extensions</a> then reinstall at <a href="https://habitlab.stanford.edu">https://habitlab.stanford.edu</a>
+        </div>
+      </template>
+
+      <br><br>
+      You can manually check the latest version at <a href="https://habitlab.stanford.edu/chrome">https://habitlab.stanford.edu/chrome</a>
+      <br><br>
+    </div>
+  </template>
+  <script src="update-check.js"></script>
+</dom-module>

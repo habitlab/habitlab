@@ -4,8 +4,6 @@ matches:
   - www.facebook.com
 content_scripts:
   - frontend.js
-background_scripts:
-  - backend.js  
 parameters:
   - name: minutes
     description: The amount of minutes between notifications

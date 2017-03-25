@@ -16,11 +16,11 @@ $ = require 'jquery'
 
 {
   close_tab_with_id
-  get_selected_tab_id
 } = require 'libs_common/tab_utils'
 
 {
   get_intervention
+  get_tab_id
 } = require 'libs_common/intervention_info'
 
 polymer_ext {
@@ -52,9 +52,6 @@ polymer_ext {
     no_autoclose: {
       type: Boolean
     }
-    tab_id: {
-      type: Number
-    }
     isdemo: {
       type: Boolean
       observer: 'isdemo_changed'
@@ -69,10 +66,6 @@ polymer_ext {
   #  if this.autoplay
   #    this.play()
   ready: cfy ->*
-    if tab_id?
-      this.tab_id = tab_id
-    else
-      this.tab_id = yield get_selected_tab_id()
     if not this.baseline_seconds_spent?
       this.baseline_seconds_spent = yield baseline_time_per_session_for_domain(this.domain)
     seconds_spent = (Date.now() - this.time_inserted) / 1000
@@ -111,7 +104,7 @@ polymer_ext {
       if this.no_autoclose
         this.fire 'reward_done', {finished_playing: true}
       else
-        close_tab_with_id(this.tab_id)
+        close_tab_with_id(get_tab_id())
   showbadge: ->
     this.$$('#showbadge').style.opacity = 1
     this.$$('#showbadge').style.display = 'block'

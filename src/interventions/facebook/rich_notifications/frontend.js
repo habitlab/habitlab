@@ -1,5 +1,3 @@
-const $ = require('jquery')
-
 const {
   get_seconds_spent_on_current_domain_today,
   get_seconds_spent_on_domain_today,
@@ -8,6 +6,14 @@ const {
 const {
   printable_time_spent,
 } = require('libs_common/time_utils')
+
+const {
+  display_reward_and_close_current_tab
+} = require('libs_frontend/intervention_close_tab')
+
+const {
+  log_action,
+} = require('libs_frontend/intervention_log_utils')
 
 function shouldInsert(secondsSpent, timeInterval) {
   const newestInterval = Math.floor(Math.floor(secondsSpent/60) / timeInterval)
@@ -31,9 +37,20 @@ function shouldInsert(secondsSpent, timeInterval) {
 
 function insertRichNotification() {  
   get_seconds_spent_on_current_domain_today(function(secondsSpent) {
-    console.log(secondsSpent);
+    var timeSpent = printable_time_spent(secondsSpent)
+    var notification = new Notification('HabitLab', {
+      icon: chrome.extension.getURL('icons/icon_128.png'),
+      body: "You've spent " + timeSpent + " on Facebook today."
+    })
+    var close_notification = notification.close.bind(notification);
+    notification.onclick = function() {
+      log_action({'positive': 'User closed Facebook.'})
+      close_notification();
+      display_reward_and_close_current_tab();
+    }
+    //console.log(secondsSpent);
     //if (shouldInsert(secondsSpent, intervention.params.minutes.value)) {
-      chrome.runtime.sendMessage({type: "chrome-notification-facebook-timespent", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
+    //  chrome.runtime.sendMessage({type: "chrome-notification-facebook-timespent", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
     //}
   })
 }
@@ -42,6 +59,6 @@ function main() {
   insertRichNotification();
 }
 
-$(document).ready(main);
+main()
 
 window.debugeval = x => eval(x);

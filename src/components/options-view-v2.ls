@@ -22,7 +22,7 @@
 
 {
   once_true
-} = require 'libs_frontend/common_libs'
+} = require 'libs_common/common_libs'
 
 swal = require 'sweetalert2'
 

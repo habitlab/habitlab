@@ -44,30 +44,6 @@ export once_document_available = yfy (callback) ->
       once_document_available(callback)
     , 100
 
-export once_true = yfy (condition, callback) ->
-  if condition()
-    callback()
-  else
-    setTimeout ->
-      once_true(condition, callback)
-    , 100
-
-export sleep = cfy (time) ->*
-  sleep_base = (msecs, callback) ->
-    setTimeout(callback, msecs)
-  yield yfy(sleep_base)(time)
-
-export run_only_one_at_a_time = (func) ->
-  # func is assumed to take 1 argument (finished callback) for the time being
-  is_running = false
-  return ->
-    if is_running
-      return
-    is_running := true
-    func ->
-      # finished
-      is_running := false
-
 #export add_toolbar_notification = ->
 #  chrome.browserAction.setBadgeText {text: '1'}
 #  chrome.browserAction.setBadgeBackgroundColor {color: '#3498DB'}

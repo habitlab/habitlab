@@ -7,10 +7,13 @@ const {close_selected_tab} = require('libs_frontend/tab_utils')
 
 const {
   once_available,
-  run_only_one_at_a_time,
   on_url_change,
   wrap_in_shadow,
 } = require('libs_frontend/common_libs')
+
+const {
+  run_only_one_at_a_time
+} = require('libs_common/common_libs')
 
 const {
   get_seconds_spent_on_current_domain_today,

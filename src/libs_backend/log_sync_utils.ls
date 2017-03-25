@@ -18,7 +18,7 @@ $ = require 'jquery'
 
 {
   sleep
-} = require 'libs_frontend/common_libs'
+} = require 'libs_common/common_libs'
 
 {
   gexport

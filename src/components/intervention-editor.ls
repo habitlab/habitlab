@@ -39,7 +39,7 @@
 {
   once_true
   sleep
-} = require 'libs_frontend/common_libs'
+} = require 'libs_common/common_libs'
 
 {
   get_active_tab_id

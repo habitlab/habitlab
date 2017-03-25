@@ -252,6 +252,10 @@ co ->*
     log_impression_internal
   } = require 'libs_backend/log_utils'
 
+  {
+    sleep
+  } = require 'libs_common/common_libs'
+
   # require 'libs_common/measurement_utils'
 
   # dlog 'weblab running in background'
@@ -1041,19 +1045,32 @@ co ->*
     yield set_habitlab_uninstall_url()
 
   export try_to_restart_habitlab_now = cfy ->*
-    open_tabs = yield -> chrome.tabs.query({}, it)
+    open_tabs = yield add_noerr -> chrome.tabs.query({}, it)
     open_habitlab_tab_urls = open_tabs.map((.url)).filter(-> it.startsWith(chrome.extension.getURL('')))
-    if open_habitlab_tab_urls.length == 0 # no tabs open, seems safe to restart
-      chrome.runtime.reload()
-      chrome.runtime.restart()
-
-  habitlab_restarter = null
-  export start_trying_to_restart_habitlab = ->
-    if habitlab_restarter?
+    if open_habitlab_tab_urls.length > 0 # have tabs open
+      dlog 'have open habitlab urls'
+      dlog open_habitlab_tab_urls
       return
-    habitlab_restarter = setInterval ->
-      try_to_restart_habitlab_now()
-    , 60000 # every minute
+    for tab_info in open_tabs
+      loaded_interventions = yield list_currently_loaded_interventions_for_tabid(tab_info.id)
+      if loaded_interventions.length > 0
+        dlog 'have loaded interventions:'
+        dlog loaded_interventions
+        dlog 'in tab:'
+        dlog tab_info
+        return
+    dlog 'restart successful'
+    chrome.runtime.reload()
+    chrome.runtime.restart()
+
+  habitlab_restarter_running = false
+  export start_trying_to_restart_habitlab = cfy ->*
+    if habitlab_restarter_running
+      return
+    habitlab_restarter_running := true
+    while true
+      yield try_to_restart_habitlab_now()
+      yield sleep(60000) # every minute
 
   require 'libs_common/global_exports_post'
 
@@ -1066,5 +1083,8 @@ co ->*
       localStorage.removeItem('extension_update_available_version')
   chrome.runtime.onUpdateAvailable.addListener (update_details) ->
     localStorage.setItem('extension_update_available_version', update_details.version)
-    if localstorage_getbool('habitlab_install_updates_without_restart') #developer_mode or unofficial_version or localstorage_getbool('habitlab_keep_extension_updated')
-      start_trying_to_restart_habitlab()
+    start_trying_to_restart_habitlab()
+
+  if localStorage.getItem('habitlab_open_url_on_next_start')?
+    chrome.tabs.create {url: localStorage.getItem('habitlab_open_url_on_next_start')}
+    localStorage.removeItem('habitlab_open_url_on_next_start')

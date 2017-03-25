@@ -72,7 +72,7 @@ x
         default_include_screenshot: true,
         skip_to: 'general',
         on_close: function() {
-            SystemJS.import('libs_frontend/common_libs').then(function(common_libs) {
+            SystemJS.import('libs_common/common_libs').then(function(common_libs) {
                 common_libs.once_true(function() {
                     return document.querySelector('#bugmuncher_button').style.display != 'none';
                 }, function() {

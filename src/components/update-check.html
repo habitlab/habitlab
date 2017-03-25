@@ -1,52 +1,41 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="habitlab-logo.html">
-<link rel="import" href="close-tab-button.html">
 
 <dom-module id="update-check">
   
   <template>
 
     <style>
-      :host {
-        
-      }
+      .card-content {
+      font-size: 20px;
+    }
 
     </style>
 
-    <div id="displayText">
+    <div class="card-content">
       <div>You are running HabitLab version {{current_version}}</div>
       <template is="dom-if" if="{{devmode}}">
-        You are running a sideloaded or unofficial version of HabitLab. Please run the following commands to update it:
-        <br><br>
-        <pre>
-        git checkout master
-        git pull origin master
-        npm install -g yarn
-        yarn
-        gulp clean
-        gulp build
-        </pre>
-        <br><br>
-        Or uninstall the current version at <a href="chrome://extensions">chrome://extensions</a> and switch to the published version at <a href="https://habitlab.stanford.edu">https://habitlab.stanford.edu</a>
+        <div>You are running HabitLab in developer mode.</div>
+        <div>To get updates, uninstall HabitLab and <a href="https://habitlab.github.io/chrome">install the stable release</a></div>
       </template>
-      <template is="dom-if" if="{{!devmode}}">
-        <div>Update status: {{update_status}}</div>
-        <div>{{detailed_info}}</div>
-        <br><br>
-        <div>
-          You can manually update by going to <a href="chrome://extensions">chrome://extensions</a> checking the Developer Mode option, then clicking Update extensions
-          <br><br>
-          Or you can uninstall at <a href="chrome://extensions">chrome://extensions</a> then reinstall at <a href="https://habitlab.stanford.edu">https://habitlab.stanford.edu</a>
-        </div>
+      <template is="dom-if" if="{{preview}}">
+        <div>You are running a preview release of HabitLab.</div>
+        <div>If having issues, uninstall and switch to the <a href="https://habitlab.github.io/chrome">stable release</a></div>
       </template>
-
-      <br><br>
-      You can manually check the latest version at <a href="https://habitlab.stanford.edu/chrome">https://habitlab.stanford.edu/chrome</a>
-      <br><br>
-
-      <template is="dom-if" if="{{can_update_now}}">
-
+      <template is="dom-if" if="{{unofficial}}">
+        <div>You are running an unofficial release.</div>
+        <div>To get updates, uninstall HabitLab and <a href="https://habitlab.github.io/chrome">install the stable release</a></div>
+      </template>
+        <template is="dom-if" if="{{is_update_available}}">
+          <div>A new version of HabitLab is available ({{available_update_version}})</div>
+          <br>
+          <paper-button style="color: white; background-color: #415D67;" on-click="install_update_now">Update HabitLab</paper-button>
+        </template>
+        <template is="dom-if" if="{{official}}">
+          <template is="dom-if" if="{{!is_update_available}}">
+            <div>You are running the latest version of HabitLab</div>
+          </template>
+        </template>
       </template>
     </div>
   </template>

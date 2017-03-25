@@ -7,8 +7,11 @@ const {
   once_available,
   on_url_change,
   wrap_in_shadow,
-  run_only_one_at_a_time,
 } = require('libs_frontend/common_libs')
+
+const {
+  run_only_one_at_a_time
+} = require('libs_common/common_libs')
 
 require('enable-webcomponents-in-content-scripts')
 require('bower_components/paper-button/paper-button.deps')

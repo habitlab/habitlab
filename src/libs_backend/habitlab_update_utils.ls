@@ -14,7 +14,7 @@ chrome_manifest = chrome.runtime.getManifest()
 habitlab_version = chrome_manifest.version
 developer_mode = not chrome_manifest.update_url?
 
-export run_check_for_update_if_needed: ->
+export run_check_for_update_if_needed = ->
   if developer_mode
     return
   last_time_update_checked = localStorage.getItem('habitlab_last_time_checked_for_updates')

@@ -7,6 +7,10 @@
   as_array
 } = require 'libs_common/collection_utils'
 
+{
+  memoizeSingleAsync
+} = require 'libs_common/memoize'
+
 {generate_random_id} = require 'libs_common/generate_random_id'
 
 {cfy, yfy, add_noerr} = require 'cfy'
@@ -26,7 +30,7 @@ chrome_storage_sync = chrome.storage?sync ? chrome.storage?local
 
 cached_user_id = null
 
-export get_user_id = cfy ->*
+export get_user_id = memoizeSingleAsync cfy ->*
   user_id = yield get_user_id_real()
   if user_id.length == 24
     return user_id
@@ -57,7 +61,7 @@ get_user_id_real = cfy ->*
 
 cached_user_secret = null
 
-export get_user_secret = cfy ->*
+export get_user_secret = memoizeSingleAsync cfy ->*
   user_secret = yield get_user_secret_real()
   if user_secret.length == 24
     return user_secret

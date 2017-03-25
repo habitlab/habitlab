@@ -40,12 +40,6 @@ polymer_ext({
     feedback_form.screenshot = screenshot;
     feedback_form.other = data;
     feedback_form.open();
-    
-    /*
-    SystemJS.import('bugmuncher/bugmuncher').then(function() {
-      window.open_bugmuncher()
-    })
-    */
   })
 }, {
   source: require('libs_frontend/polymer_methods'),

@@ -39,8 +39,6 @@ web_accessible_resources:
   - libs_frontend/**/*
   - libs_common/*
   - libs_common/**/*
-  - bugmuncher/*
-  - bugmuncher/**/*
 background:
   persistent: true
   scripts:

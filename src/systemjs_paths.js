@@ -19,9 +19,6 @@ SystemJS.config({
     'components': {
       defaultExtension: 'js',
     },
-    'bugmuncher': {
-      defaultExtension: 'js',
-    },
     'bower_components': {
       defaultExtension: 'js',
     },

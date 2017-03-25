@@ -26,11 +26,6 @@ polymer_ext({
     feedback_form.screenshot = screenshot;
     feedback_form.other = data;
     feedback_form.open();
-    /*
-    SystemJS.import('bugmuncher/bugmuncher').then(function() {
-      window.open_bugmuncher()
-    })
-    */
   }),
   get_url: function() {
     return chrome.extension.getURL('icons/feedback_icon.svg');

@@ -26,6 +26,4 @@ polymer_ext {
     feedback_form.screenshot = screenshot
     feedback_form.other = data
     feedback_form.open()
-    #yield SystemJS.import('bugmuncher/bugmuncher')
-    #window.open_bugmuncher()
 }

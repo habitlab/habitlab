@@ -268,8 +268,6 @@ polymer_ext {
     feedback_form.screenshot = screenshot
     feedback_form.other = data
     feedback_form.open()
-    #yield SystemJS.import('bugmuncher/bugmuncher')
-    #window.open_bugmuncher()
 
   help_icon_clicked: cfy ->*
     yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')

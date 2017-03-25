@@ -272,6 +272,8 @@ polymer_ext {
   sort_custom_goals_and_interventions_after: (goals_and_interventions) ->
     [custom_goals_and_interventions,normal_goals_and_interventions] = prelude.partition (.goal.custom), goals_and_interventions
     return normal_goals_and_interventions.concat custom_goals_and_interventions
+  open_intervention_editor: ->
+    chrome.tabs.create {url: chrome.extension.getURL('index.html?tag=intervention-editor')}
   help_icon_clicked: ->
     swal {
       title: 'How HabitLab Works'

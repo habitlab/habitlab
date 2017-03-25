@@ -322,10 +322,10 @@ polymer_ext {
     Click the 'Try Now' button to see it run.
 
     To learn how to write HabitLab interventions, see
-    https://github.com/habitlab/habitlab/wiki/Writing-Interventions
+    https://habitlab.github.io/devdocs
 
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
-    https://github.com/habitlab/habitlab/wiki/require_package
+    https://habitlab.github.io/devdocs?q=require_package
     */
 
     """
@@ -417,10 +417,12 @@ polymer_ext {
     yield open_debug_page_for_tab_id(tab.id)
   hide_sidebar: ->
     this.S('#sidebar').hide()
-    this.S('#feedback_button').hide()
   show_sidebar: ->
     this.S('#sidebar').show()
-    this.S('#feedback_button').show()
+  help_clicked: ->
+    chrome.tabs.create {url: 'https://habitlab.github.io/devdocs'}
+  share_clicked: ->
+    chrome.tabs.create {url: 'https://habitlab.github.io/share'}
   ready: cfy ->*
     self = this
     brace = yield SystemJS.import('brace')

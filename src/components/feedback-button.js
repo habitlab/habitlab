@@ -13,9 +13,10 @@ polymer_ext({
       type: String,
       value: '38px',
     },
-  },
-  get_img_style: function() {
-    return `width: ${this.width}; height: ${this.height};`
+    text: {
+      type: String,
+      value: 'Feedback',
+    },
   },
   feedback_button_clicked: cfy(function*() {
     //var screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils');
@@ -27,7 +28,4 @@ polymer_ext({
     feedback_form.other = data;
     feedback_form.open();
   }),
-  get_url: function() {
-    return chrome.extension.getURL('icons/feedback_icon.svg');
-  },
 });

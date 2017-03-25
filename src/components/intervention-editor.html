@@ -5,7 +5,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="feedback-button-right.html">
+<link rel="import" href="feedback-button.html">
 
 <dom-module id="intervention-editor">
   <style>
@@ -38,10 +38,18 @@
       margin: 0;
       padding: 0;
     }
+    .button {
+      color: white;
+      background-color: #415D67;
+      margin-left: 0px;
+      margin-right: 10px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      height: 38px;
+      box-shadow: 2px 2px 2px #888888;
+    }
   </style>
   <template>
-
-    <feedback-button-right id="feedback_button"></feedback-button-right>
 
     <paper-card id="topbar" style="position: fixed; left: 0px; top: 0px; width: 100vw; height: 50px; z-index: 998;">
 
@@ -54,19 +62,20 @@
           </paper-listbox>
         </paper-dropdown-menu>
 
-        <div style="position: absolute; top: 8px; left: 330px">
-          <paper-button style="background-color: #415D67; color: white;" on-click="preview_intervention">Preview</paper-button>
-          <paper-button style="background-color: #415D67; color: white" on-click="debug_intervention">Debug</paper-button>
-          <paper-button style="background-color: #415D67; color: white" on-click="save_intervention">Save</paper-button>
+        <div style="position: absolute; top: 4px; left: 330px">
+          <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
+          <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
+          <paper-button class="button" on-click="save_intervention">Save</paper-button>
+          <paper-button class="button" on-click="help_clicked">Help</paper-button>
         </div>
-        <paper-button style="position: absolute; background-color: #415D67; color: white; top: 8px; right: 10px" on-click="show_sidebar">Show Sidebar</paper-button>
+        <paper-button class="button" style="position: absolute; top: 4px; right: 10px" on-click="show_sidebar">Show Sidebar</paper-button>
       </div>
 
     </paper-card>
 
     <paper-card id="sidebar" style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px; position: fixed; right: 0px; top: 0px; z-index: 999; height: 100vh">
 
-    <iron-icon style="position: fixed; top: 5px; right: 10px; width: 40px; height: 40px; cursor: pointer" icon="cancel" on-click="hide_sidebar"></iron-icon>
+    <iron-icon style="position: fixed; top: 5px; right: 10px; width: 40px; height: 40px; cursor: pointer; color: #415D67" icon="cancel" on-click="hide_sidebar"></iron-icon>
 
     <div>
       <paper-dropdown-menu style="width: 300px; margin-top: -10px" label="Intervention">
@@ -78,8 +87,8 @@
       </paper-dropdown-menu>
     </div>
 
-    <paper-button style="background-color: #415D67; color: white" on-click="prompt_new_intervention">Add New Intervention</paper-button>
-    <paper-button style="background-color: #415D67; color: white" on-click="delete_intervention">Delete This Intervention</paper-button>
+    <paper-button class="button" on-click="prompt_new_intervention">Add New Intervention</paper-button>
+    <paper-button style="margin-right: 0px" class="button">Delete This Intervention</paper-button>
     <!--
     <paper-input id="intervention_name" label="Intervention Name" value="custom/my_intervention"></paper-input>
     -->
@@ -98,10 +107,17 @@
     <paper-input id="intervention_domain" value="[[intervention_info.domain]]" label="Domain"></paper-input>
     <paper-input id="intervention_preview_url" label="Preview URL" value="[[intervention_info.preview]]"></paper-input>
 
-    <paper-button style="background-color: #415D67; color: white" on-click="preview_intervention">Preview</paper-button>
-    <paper-button style="background-color: #415D67; color: white" on-click="debug_intervention">Debug</paper-button>
-    <paper-button style="background-color: #415D67; color: white" on-click="save_intervention">Save</paper-button>
-    <paper-button style="background-color: #415D67; color: white" on-click="download_code">Download</paper-button>
+    <div>
+      <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
+      <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
+      <paper-button class="button" on-click="save_intervention">Save</paper-button>
+      <paper-button style="margin-right: 0px" class="button" on-click="help_clicked">Help</paper-button>
+    </div>
+    <div style="margin-top: 10px">
+      <paper-button class="button" on-click="share_clicked">Share</paper-button>
+      <paper-button class="button" on-click="download_code">Download</paper-button>
+      <feedback-button style="margin-right: 0px"></feedback-button>
+    </div>
 
     </paper-card>
 

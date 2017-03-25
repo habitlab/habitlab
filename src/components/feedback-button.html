@@ -6,18 +6,19 @@
     :host {
       display: inline-block;
       height: 38px;
-      cursor: pointer;
     }
-
-    #feedback_button {
-      width: 38px;
-      height: 38px;
+    .feedback_button {
+      color: white;
+      background-color: #415D67;
+      margin: 0 auto;
+      width: 100%;
+      height: 100%;
+      box-shadow: 2px 2px 2px #888888;
     }
-
   </style>
   <template>
 
-    <img id="feedback_button" src="{{get_url()}}" alt="icon" on-click="feedback_button_clicked" />
+    <paper-button class="feedback_button" on-click="feedback_button_clicked">{{text}}</paper-button>
 
   </template>
   <script src="feedback-button.js"></script>

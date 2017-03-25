@@ -82,6 +82,17 @@
       -webkit-font-smoothing: subpixel-antialiased;
     }
 
+    .open-intervention-editor-button {
+      color: white;
+      background-color: #415D67;
+      margin-left: 16px;
+      margin-bottom: 8px;
+      padding: 5px;
+      font-size: 16px;
+      text-transform: none;
+      -webkit-font-smoothing: subpixel-antialiased;
+    }
+
     #timepicker {
       
       margin-bottom: 16px;
@@ -271,18 +282,26 @@
         </paper-card>
       </div>
 
-      <div id="intro5" class="intro" style="display: none;">
-        <paper-card heading="Logging and Privacy" class="papercard">
-          <privacy-options id="privacy_options"></privacy-options>
-        </paper-card>
-      </div>
-      </div>
-
       <div id="intro6" class="intro" style="display: none;">
         <paper-card heading="HabitLab Updates" class="papercard">
           <update-check id="habitlab_updates"></update-check>
         </paper-card>
       </div>
+
+      <div id="intro5" class="intro" style="display: none;">
+        <paper-card heading="Logging and Privacy" class="papercard">
+          <privacy-options id="privacy_options"></privacy-options>
+        </paper-card>
+      </div>
+
+      <div id="intro7" class="intro" style="display: none;">
+        <paper-card heading="Advanced Features" class="papercard">
+          <div class="card-content">
+            <div>If you know how to <a target="_blank" href="https://www.javascript.com/">write code in JavaScript</a>, you can <a target="_blank" href="https://habitlab.github.io/write">write your own interventions</a> in the intervention editor</div>
+            <div style="height: 12px"></div>
+            <paper-button class="open-intervention-editor-button" on-click="open_intervention_editor">Open Intervention Editor</paper-button>
+          </div>
+        </paper-card>
       </div>
 
     </div>

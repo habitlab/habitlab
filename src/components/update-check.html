@@ -6,8 +6,17 @@
   <template>
 
     <style>
-      .card-content {
+    .card-content {
       font-size: 20px;
+    }
+
+    .button {
+      color: white;
+      background-color: #415D67;
+      padding: 5px;
+      font-size: 16px;
+      text-transform: none;
+      -webkit-font-smoothing: subpixel-antialiased;
     }
 
     </style>
@@ -29,11 +38,13 @@
         <template is="dom-if" if="{{is_update_available}}">
           <div>A new version of HabitLab is available ({{available_update_version}})</div>
           <br>
-          <paper-button style="color: white; background-color: #415D67;" on-click="install_update_now">Update HabitLab</paper-button>
+          <paper-button class="button" on-click="install_update_now">Update HabitLab</paper-button>
         </template>
         <template is="dom-if" if="{{official}}">
           <template is="dom-if" if="{{!is_update_available}}">
             <div>You are running the latest version of HabitLab</div>
+            <br>
+            <paper-button class="button" on-click="check_for_updates_now">Check for updates</paper-button>
           </template>
         </template>
       </template>

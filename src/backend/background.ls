@@ -1062,13 +1062,13 @@ co ->*
     restart_habitlab = ->
       chrome.runtime.reload()
       chrome.runtime.restart()
-    if (priority == 0) and (restart_failed_priority_to_counts[0] >= 50000)
+    if (priority == 0) and (restart_failed_priority_to_counts[0] >= 5000)
       restart_habitlab()
-    if (priority == 1) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] >= 10000)
+    if (priority == 1) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] >= 1000)
       restart_habitlab()
-    if (priority == 2) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] + restart_failed_priority_to_counts[2] >= 2500)
+    if (priority == 2) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] + restart_failed_priority_to_counts[2] >= 250)
       restart_habitlab()
-    if (priority == 3) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] + restart_failed_priority_to_counts[2] + restart_failed_priority_to_counts[3]) >= 500
+    if (priority == 3) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] + restart_failed_priority_to_counts[2] + restart_failed_priority_to_counts[3]) >= 50
       restart_habitlab()
   export try_to_restart_habitlab_now = cfy !->*
     open_tabs = yield add_noerr -> chrome.tabs.query({}, it)
@@ -1106,7 +1106,7 @@ co ->*
     habitlab_restarter_running := true
     while true
       yield try_to_restart_habitlab_now()
-      yield sleep(1000) # every 1 seconds
+      yield sleep(60000) # every 60 seconds
 
   require! {
     semver
@@ -1130,8 +1130,8 @@ co ->*
       localStorage.setItem('extension_update_available_version', update_details.version)
       start_trying_to_restart_habitlab()
 
-  if not developer_mode
-    setInterval check_if_update_available_and_run_update, 1200000 # 1000*60*20 every 20 minutes
+  if (not developer_mode) and (localStorage.allow_logging)
+    setInterval check_if_update_available_and_run_update, 3600000 # 1000*60*60 every 60 minutes
 
   if localStorage.getItem('habitlab_open_url_on_next_start')?
     chrome.tabs.create {url: localStorage.getItem('habitlab_open_url_on_next_start')}

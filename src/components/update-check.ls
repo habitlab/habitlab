@@ -65,11 +65,14 @@ polymer_ext {
     localStorage.habitlab_open_url_on_next_start = 'https://habitlab.github.io/to?q=options'
     chrome.runtime.reload()
     chrome.runtime.restart()
+  check_for_updates_now: ->
+    check_if_update_available_and_run_update()
   ready: ->
     self = this
     display_update_info = ->
       if localStorage.extension_update_available_version?
         self.available_update_version = localStorage.extension_update_available_version
     setInterval display_update_info, 1000
-    check_if_update_available_and_run_update()
+    if localStorage.allow_logging
+      check_if_update_available_and_run_update()
 }

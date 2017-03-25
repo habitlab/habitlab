@@ -44,6 +44,10 @@
       <br><br>
       You can manually check the latest version at <a href="https://habitlab.stanford.edu/chrome">https://habitlab.stanford.edu/chrome</a>
       <br><br>
+
+      <template is="dom-if" if="{{can_update_now}}">
+
+      </template>
     </div>
   </template>
   <script src="update-check.js"></script>

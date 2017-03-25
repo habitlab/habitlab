@@ -50,6 +50,11 @@ polymer_ext {
               recommended: 'all'
             }
             {
+              name: 'habitlab_install_updates_without_restart'
+              description: 'Ensures that updates to HabitLab are installed even if you have not restarted your browser'
+              recommended: 'all'
+            }
+            {
               name: 'open_debug_console_on_load'
               description: 'Automatically open the debug console when intervention is loaded'
             }

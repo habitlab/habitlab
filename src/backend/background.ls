@@ -1040,5 +1040,31 @@ co ->*
   if (not developer_mode) # not developer mode
     yield set_habitlab_uninstall_url()
 
+  export try_to_restart_habitlab_now = cfy ->*
+    open_tabs = yield -> chrome.tabs.query({}, it)
+    open_habitlab_tab_urls = open_tabs.map((.url)).filter(-> it.startsWith(chrome.extension.getURL('')))
+    if open_habitlab_tab_urls.length == 0 # no tabs open, seems safe to restart
+      chrome.runtime.reload()
+      chrome.runtime.restart()
+
+  habitlab_restarter = null
+  export start_trying_to_restart_habitlab = ->
+    if habitlab_restarter?
+      return
+    habitlab_restarter = setInterval ->
+      try_to_restart_habitlab_now()
+    , 60000 # every minute
+
   require 'libs_common/global_exports_post'
-  
+
+  update_available_version = localStorage.getItem('extension_update_available_version')
+  if update_available_version?
+    require! {
+      semver
+    }
+    if semver.gte(habitlab_version, update_available_version)
+      localStorage.removeItem('extension_update_available_version')
+  chrome.runtime.onUpdateAvailable.addListener (update_details) ->
+    localStorage.setItem('extension_update_available_version', update_details.version)
+    if localstorage_getbool('habitlab_install_updates_without_restart') #developer_mode or unofficial_version or localstorage_getbool('habitlab_keep_extension_updated')
+      start_trying_to_restart_habitlab()

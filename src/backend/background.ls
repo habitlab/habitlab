@@ -58,6 +58,7 @@ co ->*
     get_active_tab_info
     get_user_id
     get_user_secret
+    list_currently_loaded_interventions_for_tabid
   } = require 'libs_backend/background_common'
 
   $ = require 'jquery'
@@ -1044,33 +1045,68 @@ co ->*
   if (not developer_mode) # not developer mode
     yield set_habitlab_uninstall_url()
 
-  export try_to_restart_habitlab_now = cfy ->*
+  num_times_restart_failed_due_to_loaded_interventions = 0
+  num_times_restart_failed_due_to_loaded_interventions_active = 0
+  num_times_restart_failed_due_to_habitlab_tab_open = 0
+  num_times_restart_failed_due_to_habitlab_tab_open_active = 0
+  restart_failed_priority_to_counts = [
+    0 # have habitlab tab open and active
+    0 # have habitlab intervention running and active
+    0 # have habitlab intervention open
+    0 # have habitlab tab open
+  ]
+
+  record_restart_failed = (priority) !->
+    restart_failed_priority_to_counts[priority] += 1
+    dlog restart_failed_priority_to_counts
+    restart_habitlab = ->
+      chrome.runtime.reload()
+      chrome.runtime.restart()
+    if (priority == 0) and (restart_failed_priority_to_counts[0] >= 50000)
+      restart_habitlab()
+    if (priority == 1) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] >= 10000)
+      restart_habitlab()
+    if (priority == 2) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] + restart_failed_priority_to_counts[2] >= 2500)
+      restart_habitlab()
+    if (priority == 3) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] + restart_failed_priority_to_counts[2] + restart_failed_priority_to_counts[3]) >= 500
+      restart_habitlab()
+  export try_to_restart_habitlab_now = cfy !->*
     open_tabs = yield add_noerr -> chrome.tabs.query({}, it)
-    open_habitlab_tab_urls = open_tabs.map((.url)).filter(-> it.startsWith(chrome.extension.getURL('')))
-    if open_habitlab_tab_urls.length > 0 # have tabs open
-      dlog 'have open habitlab urls'
-      dlog open_habitlab_tab_urls
-      return
-    for tab_info in open_tabs
+    active_tabs = open_tabs.filter (.active)
+    for tab_info in active_tabs
+      if tab_info.url? and tab_info.url.startsWith(chrome.extension.getURL(''))
+        # have a habitlab tab open currently, active
+        return record_restart_failed(0)
+    tab_ids_with_no_interventions = {}
+    for tab_info in active_tabs
       loaded_interventions = yield list_currently_loaded_interventions_for_tabid(tab_info.id)
       if loaded_interventions.length > 0
-        dlog 'have loaded interventions:'
-        dlog loaded_interventions
-        dlog 'in tab:'
-        dlog tab_info
-        return
-    dlog 'restart successful'
+        # have loaded interventions, active
+        return record_restart_failed(1)
+      else
+        tab_ids_with_no_interventions[tab_info.id] = true
+    for tab_info in open_tabs
+      if tab_ids_with_no_interventions[tab_info.id]?
+        continue
+      loaded_interventions = yield list_currently_loaded_interventions_for_tabid(tab_info.id)
+      if loaded_interventions.length > 0
+        # have loaded interventions, not active
+        return record_restart_failed(2)
+    for tab_info in open_tabs
+      if tab_info.url? and tab_info.url.startsWith(chrome.extension.getURL(''))
+        # have a habitlab tab open currently, not active
+        return record_restart_failed(3)
     chrome.runtime.reload()
     chrome.runtime.restart()
 
   habitlab_restarter_running = false
-  export start_trying_to_restart_habitlab = cfy ->*
+  export start_trying_to_restart_habitlab = cfy !->*
     if habitlab_restarter_running
       return
     habitlab_restarter_running := true
     while true
       yield try_to_restart_habitlab_now()
-      yield sleep(60000) # every minute
+      yield sleep(1000) # every 1 seconds
 
   require 'libs_common/global_exports_post'
 

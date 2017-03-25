@@ -14,11 +14,11 @@ polymer_ext {
       value: chrome.runtime.getManifest().version
     }
     devmode: {
-      type: String
+      type: Boolean
       value: not chrome.runtime.getManifest().update_url?
     }
     unofficial: {
-      type: String
+      type: Boolean
       value: do ->
         chrome_manifest = chrome.runtime.getManifest()
         if not chrome_manifest.update_url?
@@ -28,7 +28,7 @@ polymer_ext {
         return true
     }
     preview: {
-      type: String
+      type: Boolean
       value: do ->
         value: do ->
         chrome_manifest = chrome.runtime.getManifest()
@@ -37,7 +37,7 @@ polymer_ext {
         return chrome_manifest.version == 'bleifeoekkfhicamkpadfoclfhfmmina'
     }
     official: {
-      type: String
+      type: Boolean
       value: do ->
         chrome_manifest = chrome.runtime.getManifest()
         if not chrome_manifest.update_url?

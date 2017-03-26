@@ -1,10 +1,10 @@
 # HabitLab
 
-[HabitLab](https://habitlab.stanford.edu/chrome) is a Chrome extension to help you build better habits online. HabitLab aims to help people achieve their goals online (ie, waste less time on Facebook) by trying out different interventions in their browsers and seeing what works best.
+[HabitLab](https://habitlab.stanford.edu/) is a Chrome extension to help you build better habits online. HabitLab aims to help people achieve their goals online (ie, waste less time on Facebook) by trying out different interventions in their browsers and seeing what works best.
 
 ## Users
 
-[Install HabitLab on the Chrome Web Store](https://habitlab.stanford.edu/chrome)
+[Install HabitLab on the Chrome Web Store](https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd)
 
 ## Translators
 

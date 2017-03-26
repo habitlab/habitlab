@@ -50,6 +50,7 @@ co ->*
     get_goal_target
     get_goal_intervention_info
     set_goals_enabled
+    set_default_goals_enabled
   } = require 'libs_backend/goal_utils'
 
   {
@@ -126,7 +127,7 @@ co ->*
         #send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
       return
     localStorage.setItem('notfirstrun', true)
-    yield set_goals_enabled(['facebook/spend_less_time', 'youtube/spend_less_time'])
+    yield set_default_goals_enabled()
     user_id = yield get_user_id()
     tab_info = yield get_active_tab_info()
     need_to_create_new_tab = true
@@ -134,13 +135,14 @@ co ->*
     if tab_info?
       if tab_info.url == 'https://habitlab.netlify.com/#installing' or tab_info.url == 'https://habitlab.stanford.edu/#installing' or tab_info.url == 'https://habitlab.github.io/#installing' or tab_info.url == 'http://habitlab.netlify.com/#installing' or tab_info.url == 'http://habitlab.stanford.edu/#installing' or tab_info.url == 'http://habitlab.github.io/#installing'
         install_source = tab_info.url
-        need_to_create_new_tab = false
-        chrome.tabs.executeScript(tab_info.id, {code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
+        #need_to_create_new_tab = false
+        #chrome.tabs.executeScript(tab_info.id, {code: 'window.location.href = "' + chrome.extension.getURL('options.html#onboarding') + '"'})
     if need_to_create_new_tab
-      if developer_mode
-        install_source = 'sideload'
-      else
-        install_source = 'webstore'
+      if install_source == 'unknown'
+        if developer_mode
+          install_source = 'sideload'
+        else
+          install_source = 'webstore'
       chrome.tabs.create {url: 'options.html#onboarding'}
     install_data = yield get_basic_client_data()
     install_data.install_source = install_source

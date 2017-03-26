@@ -73,10 +73,14 @@ export get_num_enabled_goals = cfy ->*
   enabled_goals = yield get_enabled_goals()
   return as_array(enabled_goals).length
 
+default_goals_list = ['facebook/spend_less_time', 'youtube/spend_less_time']
+
 export get_enabled_goals = cfy ->*
   enabled_goals_str = localStorage.getItem('enabled_goals')
   if not enabled_goals_str?
     enabled_goals = {}
+    for default_goal_name in default_goals_list
+      enabled_goals[default_goal_name] = true
   else
     enabled_goals = JSON.parse enabled_goals_str
     if enabled_goals['debug/all_interventions']
@@ -118,6 +122,9 @@ export set_goals_enabled = cfy (goal_list) ->*
     goal_list: goal_list
     prev_enabled_goals: prev_enabled_goals
   }
+
+export set_default_goals_enabled = cfy ->*
+  yield set_goals_enabled default_goals_list
 
 export set_goal_enabled = cfy (goal_name) ->*
   enabled_goals = yield get_enabled_goals()

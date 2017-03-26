@@ -12,8 +12,10 @@
 
 ## Developers
 
-[Write an Intervention for HabitLab](https://habitlab.github.io/devdocs)
+You can write new interventions within HabitLab without any setup or sideloading: [Write New Interventions for HabitLab](https://habitlab.github.io/devdocs)
 
-[See the Wiki](https://github.com/habitlab/habitlab/wiki)
+Otherwise, if you want to build and sideload the HabitLab chrome extension yourself: [Developer Guide](https://github.com/habitlab/habitlab/wiki/Developer-Guide)
+
+[See the Wiki for more documentation](https://github.com/habitlab/habitlab/wiki)
 
 [![Join the chat at https://gitter.im/habitlab/habitlab](https://badges.gitter.im/habitlab/habitlab.svg)](https://gitter.im/habitlab/habitlab?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

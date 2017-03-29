@@ -18,6 +18,12 @@ export is_not = (cond) ->
 export is_not_equal = (cond, val) ->
   return cond != val
 
+export is_not_equal_to_any = (cond, ...val_list) ->
+  for val in val_list
+    if cond == val
+      return false
+  return true
+
 export is_equal = (cond, val) ->
   return cond == val
 

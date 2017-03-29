@@ -30,10 +30,8 @@
       bottom: 0px;
       left: 0px;
       width: 100%;
-      height: 30px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      background-color: white;
+      height: 50px;
+      background-color: #1E8CD2;
       z-index: 100;
     }
 
@@ -58,11 +56,20 @@
       top: 0; left: 0; bottom: 0; right: 0;
     }
 
-    .prevnext_button {
-      margin-left: 5px;
-      margin-right: 5px;
-      background-color: #008000;
+    .prevnext_button_container {
+      display: table-cell;
+      text-align: center;
+      width: 50%;
+      height: 100%;
+      vertical-align: middle;
+      border: 5px solid transparent;
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    }
+
+    .prevnext_button {
+      text-align: center;
+      background-color: #008000;
+      width: calc(100% - 10px);
     }
 
     .get_started_button {
@@ -103,22 +110,38 @@
 
     <feedback-button-right></feedback-button-right>
 
-    <div class="bottom-bar">
-      <div style="position: relative">
-        <div style="position: absolute; right: 0px; color: white; margin-right: 5px">
-          <paper-button class="prevnext_button" on-click="prev_slide">Prev</paper-button>
-          <paper-button class="prevnext_button" on-click="next_button_clicked">Next</paper-button>
+    <template is="dom-if" if="{{is_not_equal_to_any(slide_idx, 0, 4)}}">
+      <div class="bottom-bar">
+        <div style="display: table; text-align: right; color: white; width: 100%; height: 100%">
+          <div class="prevnext_button_container">
+            <paper-button class="prevnext_button" on-click="prev_slide"><iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> Previous</paper-button>
+          </div>
+          <div class="prevnext_button_container">
+            <paper-button class="prevnext_button" on-click="next_button_clicked"><iron-icon icon="arrow-downward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> Next</paper-button>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
 
     <div class="slide" on-click="next_slide">
       <div class="inner_slide">
-        <br><br><br><br><br><br>
+        <br><br><br><br>
         <div style="font-size: 40px">Welcome to HabitLab</div>
         <br><br>
         <div class="subtext">We're here to help you build better habits online</div>
-        <div class="subtext">Let's start with a quick tutorial</div>
+        <div class="subtext">Let's do a quick tutorial and get you set up</div>
+        <br>
+
+        <paper-button style="background-color: green">
+          <iron-icon icon="arrow-downward" style="color: white; height: 25px; width: 25px; padding-right: 5px"></iron-icon>
+          <span> Scroll Down</span>
+        </paper-button>
+        <!--
+        <paper-button style="background-color: green">
+          <div> Scroll Down<br>or<br>Click Anywhere</div>
+          <iron-icon icon="arrow-downward" style="color: white; height: 100px; width: 100px"></iron-icon>
+        </paper-button>
+        -->
       </div>
     </div>
 
@@ -154,9 +177,11 @@
 
     <div class="slide">
       <div class="inner_slide">
-        <img style="width: 150px; margin-bottom: 10px" src="{{get_stanford_icon()}}" />
+        <a href="http://hci.stanford.edu" target="_blank">
+          <img style="width: 150px; margin-bottom: 10px" src="{{get_stanford_icon()}}" />
+        </a>
 
-        <div class="subtext">HabitLab is a research project run by the<br><a href="http://hci.stanford.edu/" target="_blank" style="color: white; text-decoration: underline;">Stanford HCI Group</a>.</div>
+        <div class="subtext">HabitLab is a research project run by the<br><a href="http://hci.stanford.edu/" target="_blank" style="color: white;">Stanford HCI Group</a>.</div>
         <div style="margin-top: 15px"></div>
         <div>By using it you are agreeing to the following terms:</div>
 
@@ -170,7 +195,7 @@
 <br><br>
   <b>Subject's Rights</b>:  If you have read this form and have decided to participate in this project, please understand your participation is voluntary and you have the right to withdraw your consent or discontinue participation at any time without penalty or loss of benefits to which you are otherwise entitled.  The alternative is not to participate. You have the right to uninstall our extension at any time. Your individual privacy will be maintained in all published and written data resulting from the study.
 <br><br>
-  <b>Contact Information</b>: If you have any questions, concerns or complaints about this research, its procedures, risks and benefits, contact the Protocol Director, Geza Kovacs <span>{{geza_meoaddr}}</span>
+  <b>Contact Information</b>: If you have any questions, concerns or complaints about this research, its procedures, risks and benefits, contact the Protocol Director, Geza Kovacs <a style="color: white" href="mailto:{{geza_meoaddr}}">{{geza_meoaddr}}</a>
 <br><br>
   <b>Independent Contact</b>:  If you are not satisfied with how this study is being conducted, or if you have any concerns, complaints, or general questions about the research or your rights as a participant, please contact the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at (650)-723-2480 or toll free at 1-866-680-2906.  You can also write to the Stanford IRB, Stanford University, 3000 El Camino Real, Five Palo Alto Square, 4th Floor, Palo Alto, CA 94306.
 <br><br>
@@ -181,7 +206,7 @@
         <div class="checkbox_div_outer">
           <div class="checkbox_div">
             <paper-checkbox checked="{{allow_logging}}">
-              <span class="checkbox_span">Let HabitLab send anonymized data to Stanford's servers<br>(we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: white; text-decoration: underline;">see what gets logged</a>)</span>
+              <span class="checkbox_span">Let HabitLab send anonymized data to Stanford's servers<br>(we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: white; text-decoration: underline;" on-click="see_what_gets_loggged_clicked">see what gets logged</a>)</span>
             </paper-checkbox>
             <br><br>
             <paper-checkbox checked="checked" disabled="disabled">

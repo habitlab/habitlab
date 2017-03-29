@@ -43,12 +43,15 @@ polymer_ext {
     }
     geza_meoaddr: {
       type: String
-      value: [['gko', 'vacs'].join(''), ['stan', 'ford', 'edu'].join('')].join('@')
+      value: [['gko', 'vacs'].join(''), ['stan', 'ford', '.', 'edu'].join('')].join('@')
     }
   }
   listeners: {
     keydown: 'on_keydown'
   }
+  see_what_gets_loggged_clicked: (evt) ->
+    #evt.preventDefault()
+    evt.stopPropagation()
   get_stanford_icon: ->
     return chrome.extension.getURL('icons/stanford.svg')
   allow_logging_changed: (allow_logging, prev_value_allow_logging) ->
@@ -228,5 +231,6 @@ polymer_ext {
   methods: [
     'S'
     'SM'
+    'is_not_equal_to_any'
   ]
 }

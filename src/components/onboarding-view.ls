@@ -41,6 +41,10 @@ polymer_ext {
         return true
       observer: 'allow_logging_changed'
     }
+    geza_meoaddr: {
+      type: String
+      value: [['gko', 'vacs'].join(''), ['stan', 'ford', 'edu'].join('')].join('@')
+    }
   }
   listeners: {
     keydown: 'on_keydown'

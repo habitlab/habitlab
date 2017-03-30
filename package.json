@@ -89,7 +89,6 @@
       "jspm": "jspm.config.js"
     },
     "dependencies": {
-      "async": "npm:async@^2.0.1",
       "brace": "npm:brace@^0.9.1",
       "cfy": "npm:cfy@^1.0.20",
       "cheerio": "npm:cheerio@^0.22.0",

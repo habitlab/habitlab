@@ -27,14 +27,6 @@
       "util": "npm:jspm-nodelibs-util@^0.2.0"
     }
   },
-  "npm:async@2.1.4": {
-    "deps": {
-      "lodash": "npm:lodash@^4.14.0"
-    },
-    "peerDeps": {
-      "process": "npm:jspm-nodelibs-process@^0.2.0"
-    }
-  },
   "npm:dexie@1.5.1": {
     "deps": {},
     "peerDeps": {

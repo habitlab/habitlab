@@ -30,7 +30,6 @@ SystemJS.config({
     "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
     "list_requires_multi": "npm:list_requires_multi@1.0.0",
     "livescript15": "npm:livescript15@1.5.4",
-    "async": "npm:async@2.1.4",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
     "buffer": "npm:jspm-nodelibs-buffer@0.2.1",
     "cfy": "npm:cfy@1.0.20",
@@ -367,11 +366,6 @@ SystemJS.config({
     "npm:jspm-nodelibs-buffer@0.2.1": {
       "map": {
         "buffer": "npm:buffer@4.9.1"
-      }
-    },
-    "npm:async@2.1.4": {
-      "map": {
-        "lodash": "npm:lodash@4.17.4"
       }
     },
     "npm:unthenify@1.0.4": {

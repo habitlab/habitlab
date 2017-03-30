@@ -124,7 +124,7 @@ polymer_ext {
       start_syncing_all_data()
     localStorage.setItem('onboarding_complete', 'true')
     this.fire 'onboarding-complete', {}
-  next_button_clicked: cfy ->*
+  next_button_clicked: ->>
     if this.animation_inprogress
       return
     last_slide_idx = this.SM('.slide').length - 1
@@ -132,7 +132,7 @@ polymer_ext {
       this.onboarding_complete()
       return
     this.next_slide()
-  next_slide: cfy ->*
+  next_slide: ->>
     if this.animation_inprogress
       return
     last_slide_idx = this.SM('.slide').length - 1
@@ -140,7 +140,7 @@ polymer_ext {
       return
       /*
       try
-        yield swal({
+        await swal({
           title: "Let's start by setting your goals"
         })
         console.log 'ok pressed'
@@ -211,7 +211,7 @@ polymer_ext {
     })
   attached: ->
     this.window_resized()
-  ready: cfy ->*
+  ready: ->>
     self = this
     this.last_mousewheel_time = 0
     this.last_mousewheel_deltaY = 0
@@ -221,7 +221,7 @@ polymer_ext {
     window.addEventListener 'keydown', this.keydown_listener_bound
     window.addEventListener 'mousewheel', this.mousewheel_listener_bound
     window.addEventListener 'resize', this.window_resized_bound
-    yield load_css_file('sweetalert2')
+    await load_css_file('sweetalert2')
     if not chrome.runtime.getManifest().update_url?
       # developer mode
       if not localStorage.getItem('enable_debug_terminal')?

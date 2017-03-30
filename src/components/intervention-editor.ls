@@ -1,4 +1,4 @@
-{cfy, yfy, add_noerr} = require 'cfy'
+{yfy, add_noerr} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
@@ -52,11 +52,11 @@
 
 swal = require 'sweetalert2'
 
-get_livescript = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('livescript15')
+get_livescript = memoizeSingleAsync ->>
+  await SystemJS.import('livescript15')
 
-check_for_livescript_errors = cfy (ls_text) ->*
-  ls_compiler = yield get_livescript()
+check_for_livescript_errors = (ls_text) ->>
+  ls_compiler = await get_livescript()
   try
     js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
     return false
@@ -89,12 +89,12 @@ polymer_ext {
       type: Object
     }
   }
-  ls_editor_changed: cfy ->*
+  ls_editor_changed: ->>
     self = this
     if self.get_edit_mode() == 'js'
       return
     ls_text = self.ls_editor.getValue()
-    ls_compiler = yield get_livescript()
+    ls_compiler = await get_livescript()
     try
       js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
       self.js_editor.getSession().setValue(js_text)
@@ -125,7 +125,7 @@ polymer_ext {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-  save_intervention: cfy ->*
+  save_intervention: ->>
     code = this.js_editor.getSession().getValue().trim()
     lscode = this.ls_editor.getSession().getValue().trim()
     edit_mode = this.get_edit_mode()
@@ -157,35 +157,36 @@ polymer_ext {
       custom: true
     }
     if edit_mode == 'ls' or edit_mode == 'ls_and_js'
-      if (yield check_for_livescript_errors(lscode))
+      if (await check_for_livescript_errors(lscode))
         return false
-    if not (yield compile_intervention_code(intervention_info))
+    if not (await compile_intervention_code(intervention_info))
       return false
-    #if not (yield add_requires_to_intervention_info(intervention_info))
+    #if not (await add_requires_to_intervention_info(intervention_info))
     #  return false
     if lscode.length > 0 and (intervention_info.edit_mode == 'ls' or intervention_info.edit_mode == 'ls_and_js')
       intervention_info.livescript_code = lscode
     this.intervention_info = intervention_info
-    yield add_new_intervention(intervention_info)
+    await add_new_intervention(intervention_info)
     return true
-  intervention_selector_changed: cfy (change_info) ->*
+  intervention_selector_changed: (change_info) ->>
     intervention_name = change_info.detail.item.intervention_name
-    this.intervention_info = intervention_info = yield get_intervention_info(intervention_name)
+    this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
     goal_name = intervention_info.goals[0].name
     goal_names_list = this.goal_info_list.map (.name)
     goal_idx = goal_names_list.indexOf(goal_name)
     this.$.goal_selector.selected = goal_idx
-    edit_mode_idx = switch intervention_info.edit_mode
-    | 'js' => 0
-    | 'ls' => 1
-    | 'ls_and_js' => 2
-    | _ => 0
+    edit_mode_name_to_idx = {
+      js: 0
+      ls: 1
+      ls_and_js: 2
+    }
+    edit_mode_idx = edit_mode_name_to_idx[intervention_info.edit_mode] ? 0
     this.$.language_selector.selected = edit_mode_idx
     this.set_edit_mode intervention_info.edit_mode
     this.js_editor.setValue(intervention_info.code)
     if intervention_info.livescript_code?
       this.ls_editor.setValue(intervention_info.livescript_code)
-  goal_selector_changed: cfy (change_info) ->*
+  goal_selector_changed: (change_info) ->>
     if not this.intervention_info?
       return
     goal_info = change_info.detail.item.goal_info
@@ -197,7 +198,7 @@ polymer_ext {
     this.$.intervention_domain.value = goal_info.domain
     preview_page = goal_info.preview ? goal_info.homepage
     this.$.intervention_preview_url.value = preview_page
-  language_selector_changed: cfy (change_info) ->*
+  language_selector_changed: (change_info) ->>
     lang = change_info.detail.item.lang
     this.set_edit_mode(lang)
   get_edit_mode: ->
@@ -264,12 +265,12 @@ polymer_ext {
       self.js_editor.gotoLine(jslen)
       self.ls_editor.setReadOnly(true)
       self.js_editor.setReadOnly(false)
-  delete_intervention: cfy ->*
+  delete_intervention: ->>
     intervention_name = this.get_intervention_name()
     if not intervention_name
       return
     try
-      yield swal {
+      await swal {
         title: 'Are you sure you want to delete ' + intervention_name
         text: 'You will not be able to revert this'
         type: 'warning'
@@ -281,16 +282,16 @@ polymer_ext {
     catch
       return
     remove_custom_intervention(intervention_name)
-    yield this.refresh_intervention_list()
+    await this.refresh_intervention_list()
     this.$.intervention_selector.selected = 0
-  prompt_new_intervention: cfy ->*
+  prompt_new_intervention: ->>
     self = this
     new_intervention_name = null
     cancelable = this.intervention_list.length > 0
-    all_interventions = yield list_all_interventions()
+    all_interventions = await list_all_interventions()
     while true
       try
-        new_intervention_name := yield swal {
+        new_intervention_name := await swal {
           title: 'Enter a new intervention name'
           input: 'text'
           inputValue: 'my_custom_intervention'
@@ -313,7 +314,7 @@ polymer_ext {
           return
       if new_intervention_name?
         break
-    all_goals = yield get_goals()
+    all_goals = await get_goals()
     comment_section = """/*
     This intervention is written in JavaScript.
     To learn JavaScript, see https://www.javascript.com/try
@@ -350,17 +351,15 @@ polymer_ext {
       content_scripts: [
         {
           code: """
-          var co = require('co');
-          co(function*() {
+          (async function() {
             var swal = require("sweetalert2");
-            yield require("libs_common/content_script_utils").load_css_file("sweetalert2");
+            await require("libs_common/content_script_utils").load_css_file("sweetalert2");
             swal({title: "Hello World", text: "This is a sample intervention"});
-          })
+          })()
           """
           jspm_require: true
           #jspm_deps: [
           #  'sweetalert2'
-          #  'co'
           #  'libs_common/content_script_utils'
           #]
         }
@@ -380,41 +379,41 @@ polymer_ext {
       ]
       custom: true
     }
-    yield add_new_intervention(intervention_info)
-    yield this.refresh_intervention_list()
+    await add_new_intervention(intervention_info)
+    await this.refresh_intervention_list()
     this.select_intervention_by_name(new_intervention_name)
   select_intervention_by_name: (intervention_name) ->
     intervention_idx = this.intervention_list.indexOf(intervention_name)
     this.$.intervention_selector.selected = intervention_idx
-  refresh_intervention_list: cfy ->*
-    this.intervention_list = yield list_custom_interventions()
+  refresh_intervention_list: ->>
+    this.intervention_list = await list_custom_interventions()
     if this.intervention_list.length == 0
       this.prompt_new_intervention()
-  preview_intervention: cfy ->*
-    if not (yield this.save_intervention())
+  preview_intervention: ->>
+    if not (await this.save_intervention())
       return
     intervention_name = this.get_intervention_name()
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
     chrome.tabs.create {url: preview_page}
-  debug_intervention: cfy ->*
-    if not (yield this.save_intervention())
+  debug_intervention: ->>
+    if not (await this.save_intervention())
       return
     intervention_name = this.get_intervention_name()
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
-    tab = yield add_noerr -> chrome.tabs.create {url: preview_page}, it
+    tab = await add_noerr -> chrome.tabs.create {url: preview_page}, it
     while true
-      current_tab_id = yield get_active_tab_id()
+      current_tab_id = await get_active_tab_id()
       if current_tab_id == tab.id
         break
-      yield sleep(100)
+      await sleep(100)
     while true
-      loaded_interventions = yield list_currently_loaded_interventions()
+      loaded_interventions = await list_currently_loaded_interventions()
       if loaded_interventions.includes(intervention_name)
         break
-      yield sleep(100)
-    yield open_debug_page_for_tab_id(tab.id)
+      await sleep(100)
+    await open_debug_page_for_tab_id(tab.id)
   hide_sidebar: ->
     this.S('#sidebar').hide()
   show_sidebar: ->
@@ -423,12 +422,12 @@ polymer_ext {
     chrome.tabs.create {url: 'https://habitlab.github.io/devdocs'}
   share_clicked: ->
     chrome.tabs.create {url: 'https://habitlab.github.io/share'}
-  ready: cfy ->*
+  ready: ->>
     self = this
-    brace = yield SystemJS.import('brace')
-    yield SystemJS.import('brace/mode/javascript')
-    yield SystemJS.import('brace/mode/livescript')
-    yield SystemJS.import('brace/theme/monokai')
+    brace = await SystemJS.import('brace')
+    await SystemJS.import('brace/mode/javascript')
+    await SystemJS.import('brace/mode/livescript')
+    await SystemJS.import('brace/theme/monokai')
     self.js_editor = js_editor = brace.edit(this.$.javascript_editor)
     js_editor.getSession().setMode('ace/mode/javascript')
     js_editor.setTheme('ace/theme/monokai')
@@ -439,20 +438,20 @@ polymer_ext {
     ls_editor.$blockScrolling = Infinity
     ls_editor.on 'change', ->
       self.ls_editor_changed()
-    all_goals = yield get_goals()
-    #enabled_goals = as_array(yield get_enabled_goals())
+    all_goals = await get_goals()
+    #enabled_goals = as_array(await get_enabled_goals())
     #self.goal_info_list = [all_goals[x] for x in enabled_goals]
-    goals_list = yield list_all_goals()
+    goals_list = await list_all_goals()
     self.goal_info_list = [all_goals[x] for x in goals_list]
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    yield self.refresh_intervention_list()
+    await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    await self.refresh_intervention_list()
     setTimeout ->
       if self.intervention_info?edit_mode?
         self.set_edit_mode(self.intervention_info.edit_mode)
     , 500
     once_true(-> self?intervention_info?code?
-    , cfy ->*
-      yield compile_intervention_code(self.intervention_info)
+    , ->>
+      await compile_intervention_code(self.intervention_info)
       clear_cache_all_interventions()
       get_interventions()
     )

@@ -51,10 +51,10 @@ polymer_ext {
   autoload_changed: ->
     if this.autoload
       this.focus_terminal()
-  focus_terminal: cfy ->*
+  focus_terminal: ->>
     self = this
     if not self.terminal_loaded
-      [jquery_terminal,_] = yield [
+      [jquery_terminal,_] = await [
         SystemJS.import('jquery.terminal')
         load_css_file('node_modules_custom/jquery.terminal/css/jquery.terminal.min.css')
       ]
@@ -65,16 +65,16 @@ polymer_ext {
       document.activeElement.blur()
       $(self.$$('#content_script_terminal')).click()
     , 0
-  run_eval_debug: cfy (code) ->*
+  run_eval_debug: (code) ->>
     tabid = this.tabid
     if not tabid?
-      tabid = yield get_active_tab_id()
-    yield eval_content_script_debug_for_tabid(tabid, code)
-  run_eval: cfy (code) ->*
+      tabid = await get_active_tab_id()
+    await eval_content_script_debug_for_tabid(tabid, code)
+  run_eval: (code) ->>
     tabid = this.tabid
     if not tabid?
-      tabid = yield get_active_tab_id()
-    yield eval_content_script_for_tabid(tabid, code)
+      tabid = await get_active_tab_id()
+    await eval_content_script_for_tabid(tabid, code)
   attach_terminal: ->
     self = this
     thiswidth = $(this).width()
@@ -190,7 +190,7 @@ polymer_ext {
     }
     custom_commands.javascript = custom_commands.js
     custom_commands.livescript = custom_commands.ls
-    terminal_handler = cfy (command, term) ->*
+    terminal_handler = (command, term) ->>
       is_livescript = localstorage_getbool('debug_terminal_livescript')
       if command[0] == '#'
         after_hash = command.substr(1)
@@ -201,12 +201,12 @@ polymer_ext {
           command = aliases[after_hash]
           is_livescript = false
       if is_livescript
-        livescript = yield SystemJS.import('livescript15')
+        livescript = await SystemJS.import('livescript15')
         try
           command = livescript.compile(command, {bare: true, header: false})
         catch err
           term.echo 'Livescript compilation error'
-          prettyprintjs = yield SystemJS.import('prettyprintjs')
+          prettyprintjs = await SystemJS.import('prettyprintjs')
           term.echo prettyprintjs(err)
           return
       command = command.trim()
@@ -218,18 +218,16 @@ polymer_ext {
           else
             command_lines[0] = command_lines[0].substr(statement.length).trim()
         command = command_lines.join('\n').trim()
-      contains_yield = (code) ->
-        result = code.startsWith('yield ') or code.startsWith('yield(') or code.includes(' yield ') or code.includes('(yield ') or code.includes(' yield(') or code.includes('(yield(')
+      contains_await = (code) ->
+        result = code.startsWith('await ') or code.startsWith('await(') or code.includes(' await ') or code.includes('(await ') or code.includes(' await(') or code.includes('(await(')
         return result
-      if contains_yield command
+      if contains_await command
         command = """
-        SystemJS.import('co').then(function(co) {
-          co(function*() {
-            return #{command}
-          }).then(window.hlog);
-        })
+        (async function() {
+          return #{command}
+        })().then(window.hlog)
         """
-      result = yield self.run_eval_debug(command)
+      result = await self.run_eval_debug(command)
       term.echo result
     messages = []
     if not localstorage_getbool('debug_terminal_livescript')

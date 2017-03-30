@@ -6,10 +6,8 @@
   get_tab_id
 } = require 'libs_common/intervention_info'
 
-{cfy} = require 'cfy'
-
-open_debug_page = cfy ->*
+open_debug_page = ->>
   tab_id = get_tab_id()
-  yield open_debug_page_for_tab_id tab_id
+  await open_debug_page_for_tab_id tab_id
 
 module.exports.open_debug_page = open_debug_page

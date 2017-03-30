@@ -3,8 +3,6 @@
   list_polymer_ext_tags_with_info
 } = require 'libs_frontend/polymer_utils'
 
-{cfy} = require 'cfy'
-
 {  
   list_site_info_for_sites_for_which_goals_are_enabled
 } = require 'libs_backend/goal_utils'
@@ -32,7 +30,7 @@ polymer_ext {
 
   ready: ->
     this.rerender()
-  rerender: cfy ->*
+  rerender: ->>
     #Polymer tabbing
     self = this
     self.once_available '#graphsOfGoalsTab', ->
@@ -40,7 +38,7 @@ polymer_ext {
     self.once_available '#graphsOfInterventionEffectivenessTab', ->
       self.S('#graphsOfInterventionEffectivenessTab').prop('selected', 0)
 
-    site_info_list = yield list_site_info_for_sites_for_which_goals_are_enabled()
+    site_info_list = await list_site_info_for_sites_for_which_goals_are_enabled()
     self.site_info_list = site_info_list
 
 }, {

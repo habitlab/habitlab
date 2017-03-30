@@ -1,5 +1,4 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
-const {cfy} = require('cfy');
 const _ = require('underscore');
 const ajax_utils = require('libs_common/ajax_utils');
 const $ = require('jquery');
@@ -85,7 +84,7 @@ polymer_ext({
     }
     this.$$('#feedback_dialog').open();
   },
-  submit_feedback: cfy(function*() {
+  submit_feedback: async function() {
     var data = {
       message: this.feedback
     };
@@ -105,7 +104,7 @@ polymer_ext({
     this.$$('#feedback_dialog').close();
     this.$$('#submitting_wait_dialog').open();
     try {
-      var response = yield ajax_utils.ajax({
+      var response = await ajax_utils.ajax({
         type: 'POST',
         url: 'https://habitlab-reportbug.herokuapp.com/report_bug',
         dataType: 'json',
@@ -130,5 +129,5 @@ polymer_ext({
       `;
       this.$$('#submitting_wait_dialog').notifyResize();
     }
-  })
+  }
 });

@@ -122,30 +122,30 @@ polymer_ext {
   noValidInterventions: ->
     return this.goals_and_interventions.length === 0
 
-  temp_disable_button_clicked: cfy (evt) ->*
+  temp_disable_button_clicked: (evt) ->>
     self = this
     intervention = evt.target.intervention
     # <- set_intervention_disabled intervention
-    url = yield get_active_tab_url()
-    enabledInterventions = yield list_currently_loaded_interventions()
+    url = await get_active_tab_url()
+    enabledInterventions = await list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
-    yield disable_interventions_in_active_tab()
+    await disable_interventions_in_active_tab()
     this.fire 'disable_intervention' 
     #swal({
     #  title: 'Disabled!',
     #  text: 'This intervention will be disabled temporarily.'
     #})
 
-  perm_disable_button_clicked: cfy (evt) ->*
+  perm_disable_button_clicked: (evt) ->>
     self = this
     intervention = evt.target.intervention
-    yield set_intervention_disabled_permanently intervention
-    url = yield get_active_tab_url()
-    enabledInterventions = yield list_currently_loaded_interventions()
+    await set_intervention_disabled_permanently intervention
+    url = await get_active_tab_url()
+    enabledInterventions = await list_currently_loaded_interventions()
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
-    yield disable_interventions_in_active_tab()
+    await disable_interventions_in_active_tab()
     this.fire 'disable_intervention'
     #swal({
     #  title: 'Disabled!',
@@ -187,19 +187,19 @@ polymer_ext {
   isEmpty: (enabledInterventions) ->
     return enabledInterventions? and enabledInterventions.length == 0
 
-  submitFeedback: cfy ->*
+  submitFeedback: ->>
     if this.feedbackText.length > 0
       feedbackDict = {'feedback': this.feedbackText}
       add_log_feedback feedbackDict
       this.$$('.feedbackform').style.display = "none"
       this.feedbackText = ""
-      yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+      await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
       swal "Thanks for the feedback!", "", "success"
 
   outside_work_hours: ->
     return is_it_outside_work_hours!
 
-  disable_habitlab_changed: cfy (evt) ->*
+  disable_habitlab_changed: (evt) ->>
     if evt.target.checked
       this.is_habitlab_disabled = true
       disable_habitlab()
@@ -211,29 +211,29 @@ polymer_ext {
     enable_habitlab()
     this.is_habitlab_disabled = false
 
-  goal_enable_button_changed: cfy (evt) ->*
+  goal_enable_button_changed: (evt) ->>
     goal = evt.target.goal
     if evt.target.checked
       # is enabling this goal
       if goal.name?
-        yield set_goal_enabled goal.name
+        await set_goal_enabled goal.name
       else
-        yield add_enable_custom_goal_reduce_time_on_domain goal.domain
-      yield this.set_goals_and_interventions!
+        await add_enable_custom_goal_reduce_time_on_domain goal.domain
+      await this.set_goals_and_interventions!
     else
       # is disabling this goal
-      yield set_goal_disabled goal.name
-      yield this.set_goals_and_interventions!
+      await set_goal_disabled goal.name
+      await this.set_goals_and_interventions!
 
-  set_goals_and_interventions: cfy ->*
+  set_goals_and_interventions: ->>
     if this.url_override?
       url = this.url_override
     else
-      url = yield get_active_tab_url()
+      url = await get_active_tab_url()
     
     domain = url_to_domain url
 
-    all_goals_and_interventions = yield get_goals_and_interventions!
+    all_goals_and_interventions = await get_goals_and_interventions!
     
     filtered_goals_and_interventions = all_goals_and_interventions.filter (obj) ->
     
@@ -250,27 +250,27 @@ polymer_ext {
         }
       ]
     this.goals_and_interventions = filtered_goals_and_interventions
-    this.sites = yield list_sites_for_which_goals_are_enabled!
+    this.sites = await list_sites_for_which_goals_are_enabled!
 
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
 
-  debug_button_clicked: cfy ->*
-    tab_id = yield get_active_tab_id()
-    yield open_debug_page_for_tab_id(tab_id)
+  debug_button_clicked: ->>
+    tab_id = await get_active_tab_id()
+    await open_debug_page_for_tab_id(tab_id)
 
-  submit_feedback_clicked: cfy ->*
-    #screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils')
-    screenshot = yield screenshot_utils.get_screenshot_as_base64()
-    data = yield screenshot_utils.get_data_for_feedback()
+  submit_feedback_clicked: ->>
+    #screenshot_utils = await SystemJS.import('libs_common/screenshot_utils')
+    screenshot = await screenshot_utils.get_screenshot_as_base64()
+    data = await screenshot_utils.get_data_for_feedback()
     feedback_form = document.createElement('feedback-form')
     document.body.appendChild(feedback_form)
     feedback_form.screenshot = screenshot
     feedback_form.other = data
     feedback_form.open()
 
-  help_icon_clicked: cfy ->*
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+  help_icon_clicked: ->>
+    await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     swal {
       title: 'How HabitLab Works'
       html: '''
@@ -287,17 +287,17 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
 
-  ready: cfy ->*
+  ready: ->>
     #chrome.browserAction.setBadgeText {text: ''}
     #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
     is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
-    self.intervention_name_to_info = yield get_interventions()
+    self.intervention_name_to_info = await get_interventions()
    
     #FILTER THIS FOR ONLY THE CURRENT GOAL SITE#
-    yield this.set_goals_and_interventions!
+    await this.set_goals_and_interventions!
 
-    enabledInterventions = yield list_currently_loaded_interventions()
+    enabledInterventions = await list_currently_loaded_interventions()
     self.enabledInterventions = enabledInterventions
     have_enabled_custom_interventions = enabledInterventions.map(-> self.intervention_name_to_info[it]).filter(-> it?custom).length > 0
     if enabledInterventions.length > 0 and (localstorage_getbool('enable_debug_terminal') or have_enabled_custom_interventions)

@@ -43,17 +43,17 @@ export stop_syncing_all_data = ->
 
 # logs syncing
 
-upload_log_item_to_server = cfy (name, data) ->*
+upload_log_item_to_server = (name, data) ->>
   if localStorage.getItem('local_logging_server') == 'true'
     logging_server_url = 'http://localhost:5000/'
   else
     logging_server_url = 'https://habitlab.herokuapp.com/'
-  collection = yield getInterventionLogCollection(name)
+  collection = await getInterventionLogCollection(name)
   data = {} <<< data
   data.logname = name
   upload_successful = true
   try
-    response = yield $.ajax({
+    response = await $.ajax({
       type: 'POST'
       url: logging_server_url + 'addtolog'
       dataType: 'json'
@@ -61,7 +61,7 @@ upload_log_item_to_server = cfy (name, data) ->*
       data: JSON.stringify(data)
     })
     if response.success
-      yield collection.where('id').equals(data.id).modify({synced: 1})
+      await collection.where('id').equals(data.id).modify({synced: 1})
     else
       upload_successful = false
       dlog 'response from server was not successful in upload_log_item_to_server'
@@ -75,18 +75,18 @@ upload_log_item_to_server = cfy (name, data) ->*
     dlog name
   return upload_successful
 
-export sync_unsynced_logs = cfy (name) ->*
-  collection = yield getInterventionLogCollection(name)
-  num_unsynced = yield collection.where('synced').equals(0).count()
+export sync_unsynced_logs = (name) ->>
+  collection = await getInterventionLogCollection(name)
+  num_unsynced = await collection.where('synced').equals(0).count()
   if num_unsynced == 0
     return true
   #console.log 'num unsynced ' + num_unsynced
-  unsynced_items = yield collection.where('synced').equals(0).toArray()
+  unsynced_items = await collection.where('synced').equals(0).toArray()
   #console.log 'unsynced_items are'
   #console.log unsynced_items
   all_successful = true
   for x in unsynced_items
-    item_upload_success = yield upload_log_item_to_server(name, x)
+    item_upload_success = await upload_log_item_to_server(name, x)
     if not item_upload_success
       all_successful = false
       return false
@@ -94,59 +94,27 @@ export sync_unsynced_logs = cfy (name) ->*
 
 log_syncing_active = false
 
-export start_syncing_all_logs = cfy ->*
+export start_syncing_all_logs = ->>
   if log_syncing_active
     dlog 'log_syncing already active'
     return
   log_syncing_active := true
   while log_syncing_active
-    log_names = yield get_log_names()
+    log_names = await get_log_names()
     for logname in log_names
       if not log_syncing_active
         return
-      all_successful = yield sync_unsynced_logs(logname)
+      all_successful = await sync_unsynced_logs(logname)
       if not all_successful
         dlog 'error during logs syncing, pausing 120 seconds: ' + logname
-        yield sleep(120000)
-    yield sleep(1000)
+        await sleep(120000)
+    await sleep(1000)
 
 export stop_syncing_all_logs = ->
   log_syncing_active := false
 
-/*
-log_syncers_active = {}
-
-export start_syncing_all_logs = cfy ->*
-  log_names = yield get_log_names()
-  for logname in log_names
-    start_syncing_logs logname
-
-export start_syncing_logs = cfy (name) ->*
-  if log_syncers_active[name]
-    console.log 'log_syncing already active for ' + name
-    return
-  console.log 'start syncing logs for ' + name
-  log_syncers_active[name] = true
-  while log_syncers_active[name] == true
-    all_successful = yield sync_unsynced_logs(name)
-    timeout_duration = 1000
-    if not all_successful
-      console.log 'setting long timeout duration for start_syncing_logs ' + name
-      timeout_duration = 100000
-    yield -> setTimeout it, timeout_duration
-
-export stop_syncing_logs = cfy (name) ->*
-  console.log 'stop syncing logs called for ' + name
-  log_syncers_active[name] = false
-
-export stop_syncing_all_logs = cfy ->*
-  for k in Object.keys(log_syncers_active)
-    log_syncers_active[k] = false
-*/
-
-
-make_item_synced_in_collection = cfy (collection_name, item) ->*
-  collection = yield getCollection(collection_name)
+make_item_synced_in_collection = (collection_name, item) ->>
+  collection = await getCollection(collection_name)
   schema = get_current_collections()[collection_name]
   primary_key = schema.split(',')[0]
   if primary_key == 'key'
@@ -155,16 +123,16 @@ make_item_synced_in_collection = cfy (collection_name, item) ->*
     query = [item.key, item.key2]
   else
     throw new Error('collection has primary key that we do not handle: ' + collection_name)
-  yield collection.where(primary_key).equals(query).and((x) -> x.timestamp == item.timestamp).modify({synced: 1})
+  await collection.where(primary_key).equals(query).and((x) -> x.timestamp == item.timestamp).modify({synced: 1})
 
-upload_collection_item_to_server = cfy (name, data) ->*
+upload_collection_item_to_server = (name, data) ->>
   if localStorage.getItem('local_logging_server') == 'true'
     logging_server_url = 'http://localhost:5000/'
   else
     logging_server_url = 'https://habitlab.herokuapp.com/'
-  collection = yield getCollection(name)
+  collection = await getCollection(name)
   data = {} <<< data
-  data.userid = yield get_user_id()
+  data.userid = await get_user_id()
   data.collection = name
   data.habitlab_version = habitlab_version
   if developer_mode
@@ -173,7 +141,7 @@ upload_collection_item_to_server = cfy (name, data) ->*
     data.unofficial_version = chrome.runtime.id
   upload_successful = true
   try
-    response = yield $.ajax({
+    response = await $.ajax({
       type: 'POST'
       url: logging_server_url + 'sync_collection_item'
       dataType: 'json'
@@ -181,7 +149,7 @@ upload_collection_item_to_server = cfy (name, data) ->*
       data: JSON.stringify(data)
     })
     if response.success
-      yield make_item_synced_in_collection(name, data)
+      await make_item_synced_in_collection(name, data)
     else
       upload_successful = false
       dlog 'response from server was not successful in upload_collection_item_to_server'
@@ -193,18 +161,18 @@ upload_collection_item_to_server = cfy (name, data) ->*
     upload_successful = false
   return upload_successful
 
-export sync_unsynced_items_in_db_collection = cfy (name) ->*
-  collection = yield getCollection(name)
-  num_unsynced = yield collection.where('synced').equals(0).count()
+export sync_unsynced_items_in_db_collection = (name) ->>
+  collection = await getCollection(name)
+  num_unsynced = await collection.where('synced').equals(0).count()
   if num_unsynced == 0
     return true
   #console.log 'num_unsynced: ' + num_unsynced
-  unsynced_items = yield collection.where('synced').equals(0).toArray()
+  unsynced_items = await collection.where('synced').equals(0).toArray()
   #console.log 'unsynced_items are'
   #console.log unsynced_items
   all_successful = true
   for x in unsynced_items
-    item_upload_success = yield upload_collection_item_to_server(name, x)
+    item_upload_success = await upload_collection_item_to_server(name, x)
     if not item_upload_success
       all_successful = false
       return false
@@ -212,7 +180,7 @@ export sync_unsynced_items_in_db_collection = cfy (name) ->*
 
 db_syncing_active = false
 
-export start_syncing_all_db_collections = cfy ->*
+export start_syncing_all_db_collections = ->>
   if db_syncing_active
     dlog 'db_syncing already active'
     return
@@ -222,40 +190,13 @@ export start_syncing_all_db_collections = cfy ->*
     for collection_name in collection_names
       if not db_syncing_active
         return
-      all_successful = yield sync_unsynced_items_in_db_collection(collection_name)
+      all_successful = await sync_unsynced_items_in_db_collection(collection_name)
       if not all_successful
         dlog 'error during collection syncing, pausing 1200 seconds: ' + collection_name
-        yield sleep(1200000)
-    yield sleep(120000)
+        await sleep(1200000)
+    await sleep(120000)
 
 export stop_syncing_all_db_collections = ->
   db_syncing_active := false
-
-/*
-collection_syncers_active = {}
-
-export start_syncing_db_collection = cfy (name) ->*
-  if collection_syncers_active[name]
-    console.log 'collection_syncing already active for ' + name
-    return
-  console.log 'start syncing collection for ' + name
-  collection_syncers_active[name] = true
-  while collection_syncers_active[name] == true
-    yield sync_unsynced_items_in_db_collection(name)
-    yield -> setTimeout it, 60000 # should change to every 60 seconds (60000)
-
-export start_syncing_all_db_collections = cfy ->*
-  collection_names = Object.keys get_current_collections()
-  for collection_name in collection_names
-    start_syncing_db_collection collection_name
-
-export stop_syncing_db_collection = cfy (name) ->*
-  console.log 'stop syncing collection called for ' + name
-  collection_syncers_active[name] = false
-
-export stop_syncing_all_db_collections = cfy (name) ->*
-  for k in Object.keys(collection_syncers_active)
-    collection_syncers_active[k] = false
-*/
 
 gexport_module 'log_sync_utils', -> eval(it)

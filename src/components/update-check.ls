@@ -96,10 +96,10 @@ polymer_ext {
     localStorage.habitlab_open_url_on_next_start = 'https://habitlab.github.io/to?q=options'
     chrome.runtime.reload()
     chrome.runtime.restart()
-  check_for_updates_now: cfy ->*
+  check_for_updates_now: ->>
     self = this
     self.check_for_updates_button_text = 'Checking for updates'
-    self.available_update_version = yield get_latest_habitlab_version()
+    self.available_update_version = await get_latest_habitlab_version()
     self.have_checked_for_updates = true
     self.check_for_updates_button_text = 'Check for updates now'
     if self.available_update_version? and semver.valid(self.available_update_version) and semver.gt(self.available_update_version, self.current_version)

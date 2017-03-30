@@ -1,7 +1,7 @@
 {cfy} = require 'cfy'
 
 module.exports = (goal_info) ->
-  return cfy (days_since_today) ->*
+  return (days_since_today) ->>
     progress = 0 # TODO actually measure this
     if days_since_today == 0
       progress = 2

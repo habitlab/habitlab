@@ -39,13 +39,11 @@ const {
   is_on_same_domain_and_same_tab
 } = require('libs_common/session_utils')
 
-const co = require('co')
-
 var shadow_root;
 var shadow_div;
 
-co(function*() {
-  //const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
+(async function() {
+  //const on_same_domain_and_same_tab = await is_on_same_domain_and_same_tab(tab_id)
   //if (on_same_domain_and_same_tab) {
   //  return
   //}
@@ -236,7 +234,7 @@ co(function*() {
 
   once_document_available(main);
 
-})
+})()
 
 window.on_intervention_disabled = () => {
   shadow_div.remove()

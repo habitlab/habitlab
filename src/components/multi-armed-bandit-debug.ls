@@ -91,24 +91,24 @@ polymer_ext {
     return moment.utc(1000*seconds).format('HH:mm:ss')
   compute_average_regret: (total_regret, total_rounds_played) ->
     return total_regret / total_rounds_played
-  retrain_multi_armed_bandit: cfy ->*
+  retrain_multi_armed_bandit: ->>
     goal_name = this.goal
-    intervention_names = yield intervention_utils.list_available_interventions_for_goal(goal_name)
+    intervention_names = await intervention_utils.list_available_interventions_for_goal(goal_name)
     intervention_names = [x for x in intervention_names when this.simulations_disabled[x] != true]
-    this.multi_armed_bandit = yield this.mab_algorithm.train_multi_armed_bandit_for_goal(goal_name, intervention_names)
+    this.multi_armed_bandit = await this.mab_algorithm.train_multi_armed_bandit_for_goal(goal_name, intervention_names)
     this.update_rewards_info()
-  goal_changed: cfy ->*
+  goal_changed: ->>
     goal_name = this.goal
     console.log "new goal is #{goal_name}"
     #this.multi_armed_bandit = null
-    yield this.retrain_multi_armed_bandit()
-  disable_intervention_in_simulation: cfy (evt) ->*
+    await this.retrain_multi_armed_bandit()
+  disable_intervention_in_simulation: (evt) ->>
     intervention = evt.target.intervention
     this.simulations_disabled[evt.target.intervention] = !evt.target.checked
     this.multi_armed_bandit = null
     this.total_rounds_played = 0
     this.total_regret = 0
-    yield this.retrain_multi_armed_bandit()
+    await this.retrain_multi_armed_bandit()
   is_simulation_enabled: (intervention, simulations_disabled) ->
      return simulations_disabled[intervention] != true
   update_rewards_info: ->
@@ -151,13 +151,13 @@ polymer_ext {
     output = intervention_name.split('').filter(-> alphabet.indexOf(it) != -1).join('')
     console.log output
     return output
-  choose_intervention: cfy ->*
+  choose_intervention: ->>
     console.log 'choose intervention button clicked'
     goal_name = this.goal
     if not this.multi_armed_bandit?
       this.total_rounds_played = 0
       this.total_regret = 0
-      yield this.retrain_multi_armed_bandit()
+      await this.retrain_multi_armed_bandit()
     arm = this.multi_armed_bandit.predict()
     intervention = arm.reward
     score_range = this.intervention_score_ranges[intervention]

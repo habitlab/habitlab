@@ -67,15 +67,15 @@ polymer_ext {
     if isdemo
       this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
-  delete_goal_clicked: cfy (evt) ->*
+  delete_goal_clicked: (evt) ->>
     goal_name = evt.target.goal_name
-    yield remove_custom_goal_and_generated_interventions goal_name
-    yield this.set_sites_and_goals()
+    await remove_custom_goal_and_generated_interventions goal_name
+    await this.set_sites_and_goals()
     this.fire 'need_rerender', {}
-  disable_interventions_which_do_not_satisfy_any_goals: cfy (goal_name) ->*
-    enabled_goals = yield get_enabled_goals()
-    enabled_interventions = yield get_enabled_interventions()
-    all_interventions = yield get_interventions()
+  disable_interventions_which_do_not_satisfy_any_goals: (goal_name) ->>
+    enabled_goals = await get_enabled_goals()
+    enabled_interventions = await get_enabled_interventions()
+    all_interventions = await get_interventions()
     interventions_to_disable = []
     for intervention_name,intervention_enabled of enabled_interventions
       if not intervention_enabled
@@ -89,7 +89,7 @@ polymer_ext {
         interventions_to_disable.push intervention_name
     prev_enabled_interventions = {} <<< enabled_interventions
     for intervention_name in interventions_to_disable
-      yield set_intervention_disabled intervention_name
+      await set_intervention_disabled intervention_name
     if interventions_to_disable.length > 0
       add_log_interventions {
         type: 'interventions_disabled_due_to_user_disabling_goal'
@@ -98,15 +98,15 @@ polymer_ext {
         interventions_list: interventions_to_disable
         prev_enabled_interventions: prev_enabled_interventions
       }
-  time_updated: cfy (evt, obj) ->*
+  time_updated: (evt, obj) ->>
     mins = Number (obj.item.innerText.trim ' ' .split ' ' .0)
     set_goal_target obj.item.class, mins
-  get_daily_targets: cfy ->*
-    goals = yield get_goals!
+  get_daily_targets: ->>
+    goals = await get_goals!
     for goal in Object.keys goals
       if goal == "debug/all_interventions" 
         continue
-      mins = yield get_goal_target goal
+      mins = await get_goal_target goal
       mins = mins/5 - 1
       this.index_of_daily_goal_mins[goal] = mins
   show_internal_names_of_goals: ->
@@ -121,9 +121,9 @@ polymer_ext {
     evt.stopPropagation()
     newtab = evt.target.sitename
     this.fire 'need_tab_change', {newtab: newtab}
-  set_sites_and_goals: cfy ->*
+  set_sites_and_goals: ->>
     self = this
-    goal_name_to_info = yield get_goals()
+    goal_name_to_info = await get_goals()
     sitename_to_goals = {}
     for goal_name,goal_info of goal_name_to_info
       if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
@@ -134,8 +134,8 @@ polymer_ext {
       sitename_to_goals[sitename].push goal_info
     list_of_sites_and_goals = []
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
-    enabled_goals = yield get_enabled_goals()
-    yield this.get_daily_targets!
+    enabled_goals = await get_enabled_goals()
+    await this.get_daily_targets!
     
     for sitename in list_of_sites
       current_item = {sitename: sitename}
@@ -147,7 +147,7 @@ polymer_ext {
 
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-  goal_changed: cfy (evt) ->*
+  goal_changed: (evt) ->>
     
     checked = evt.target.checked
     
@@ -156,16 +156,16 @@ polymer_ext {
 
     self = this
     if checked
-      yield set_goal_enabled_manual goal_name
+      await set_goal_enabled_manual goal_name
       
-      check_if_first_goal = cfy ->*       
+      check_if_first_goal = ->>       
         if !localStorage.first_goal?
           localStorage.first_goal = 'has enabled a goal before'
           #add_toolbar_notification!
 
-          # yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+          # await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
           # try
-          #   yield swal {
+          #   await swal {
           #     title: 'You set a goal!'
           #     text: 'HabitLab will use its algorithms to try different interventions on your webpages, and intelligently figure out what works best for you. You can manually tinker with settings if you\'d like.'
           #     type: 'success'
@@ -173,7 +173,7 @@ polymer_ext {
           #   }
             
           #   set_override_enabled_interventions_once('facebook/show_user_info_interstitial')
-          #   all_goals = yield get_goals()
+          #   all_goals = await get_goals()
           #   goal_info = all_goals[goal_name]
           #   chrome.tabs.create {url: goal_info.homepage }
           # catch
@@ -181,12 +181,12 @@ polymer_ext {
       check_if_first_goal!
     else
       
-      yield set_goal_disabled_manual goal_name
-    yield this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
+      await set_goal_disabled_manual goal_name
+    await this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
     if checked
-      yield enable_interventions_because_goal_was_enabled(goal_name)
+      await enable_interventions_because_goal_was_enabled(goal_name)
     
-    yield self.set_sites_and_goals()
+    await self.set_sites_and_goals()
     self.fire 'goal_changed', {goal_name: goal_name}
   sort_custom_sites_after: (sites_and_goals) ->
     [custom_sites_and_goals,normal_sites_and_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_goals
@@ -199,12 +199,12 @@ polymer_ext {
       # enter pressed
       this.add_custom_website_from_input()
       return
-  add_custom_website_from_input: cfy ->*
+  add_custom_website_from_input: ->>
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
     if domain.length == 0
       return
     this.$$('#add_website_input').value = ''
-    canonical_domain = yield get_canonical_domain(domain)
+    canonical_domain = await get_canonical_domain(domain)
     if not canonical_domain?
       swal {
         title: 'Invalid Domain'
@@ -215,10 +215,10 @@ polymer_ext {
         type: 'error'
       }
       return
-    yield add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
-    yield this.set_sites_and_goals()
+    await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
+    await this.set_sites_and_goals()
     this.fire 'need_rerender', {}
     return
-  ready: cfy ->*
+  ready: ->>
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 }

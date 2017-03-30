@@ -29,11 +29,11 @@ export get_current_dbver_db = ->
     return 0
   return parseInt result
 
-export delete_db_if_outdated_db = cfy ->*
+export delete_db_if_outdated_db = ->>
   if localStorage.getItem('db_minor_version_db') != get_db_minor_version_db()
     localStorage.setItem('db_minor_version_db', get_db_minor_version_db())
   if localStorage.getItem('db_major_version_db') != get_db_major_version_db()
-    yield deleteDb()
+    await deleteDb()
     localStorage.removeItem('current_schema_db')
     localStorage.setItem('db_major_version_db', get_db_major_version_db())
   return
@@ -69,10 +69,10 @@ export get_current_collections = ->
 
 local_cache_db = null
 
-export getDb = cfy ->*
+export getDb = ->>
   if local_cache_db?
     return local_cache_db
-  yield delete_db_if_outdated_db()
+  await delete_db_if_outdated_db()
   db = new dexie('habitlab', {autoOpen: false})
   dbver = get_current_dbver_db()
   prev_schema = get_current_schema_db()
@@ -101,25 +101,25 @@ export getDb = cfy ->*
       local_cache_db := new_db
     return false
   */
-  local_cache_db := yield db.open()
+  local_cache_db := await db.open()
   return local_cache_db
 
-export deleteDb = cfy ->*
+export deleteDb = ->>
   console.log 'deleteDb called'
   localStorage.removeItem('current_schema_db')
   localStorage.removeItem('current_dbver_db')
   db = new dexie('habitlab')
-  yield db.delete()
+  await db.delete()
   return
 
-export getCollection = cfy (collection_name) ->*
-  db = yield getDb()
+export getCollection = (collection_name) ->>
+  db = await getDb()
   return db[collection_name]
 
-export addtovar = cfy (key, val) ->*
-  data = yield getCollection('vars')
+export addtovar = (key, val) ->>
+  data = await getCollection('vars')
   new_val = val
-  num_modified = yield data.where('key').equals(key).modify((x) ->
+  num_modified = await data.where('key').equals(key).modify((x) ->
     x.synced = 0
     x.val += val
     new_val := x.val
@@ -129,55 +129,55 @@ export addtovar = cfy (key, val) ->*
   if num_modified > 1
     console.log "addtovar #{key} matched more than 1"
     return new_val
-  yield setvar key, val
+  await setvar key, val
 
-export setvar = cfy (key, val) ->*
-  data = yield getCollection('vars')
-  yield data.put({key: key, val: val, synced: 0, timestamp: Date.now()})
+export setvar = (key, val) ->>
+  data = await getCollection('vars')
+  await data.put({key: key, val: val, synced: 0, timestamp: Date.now()})
   return val
 
-export getvar = cfy (key) ->*
-  data = yield getCollection('vars')
-  result = yield data.get(key)
+export getvar = (key) ->>
+  data = await getCollection('vars')
+  result = await data.get(key)
   if result?
     return result.val
   else
     return null
 
-export clearvar = cfy (key) ->*
-  data = yield getCollection('vars')
-  num_deleted = yield data.where('key').equals(key).delete()
+export clearvar = (key) ->>
+  data = await getCollection('vars')
+  num_deleted = await data.where('key').equals(key).delete()
   return
 
-export printvar = cfy (key) ->*
-  result = yield getvar key
+export printvar = (key) ->>
+  result = await getvar key
   console.log result
   return result
 
-export addtolist = cfy (name, val) ->*
-  data = yield getCollection(name)
-  result = yield data.add(val)
+export addtolist = (name, val) ->>
+  data = await getCollection(name)
+  result = await data.add(val)
   return val
 
-export getlist = cfy (name) ->*
-  data = yield getCollection(name)
-  result = yield data.toArray()
+export getlist = (name) ->>
+  data = await getCollection(name)
+  result = await data.toArray()
   return result
 
-export clearlist = cfy (name) ->*
-  data = yield getCollection(name)
-  num_deleted = yield data.delete()
+export clearlist = (name) ->>
+  data = await getCollection(name)
+  num_deleted = await data.delete()
   return
 
-export setkey_dict = cfy (name, key, val) ->*
-  data = yield getCollection(name)
-  result = yield data.put({key, val, synced: 0, timestamp: Date.now()})
+export setkey_dict = (name, key, val) ->>
+  data = await getCollection(name)
+  result = await data.put({key, val, synced: 0, timestamp: Date.now()})
   return val
 
-export addtokey_dict = cfy (name, key, val) ->*
-  data = yield getCollection(name)
+export addtokey_dict = (name, key, val) ->>
+  data = await getCollection(name)
   new_val = val
-  num_modified = yield data
+  num_modified = await data
   .where('key')
   .equals(key)
   .modify((x) ->
@@ -190,11 +190,11 @@ export addtokey_dict = cfy (name, key, val) ->*
   if num_modified > 1
     console.log "addtokey_dict #{name} #{key} matched more than 1"
     return new_val
-  yield setkey_dict name, key, val
+  await setkey_dict name, key, val
 
-export getkey_dict = cfy (name, key) ->*
-  data = yield getCollection(name)
-  result = yield data
+export getkey_dict = (name, key) ->>
+  data = await getCollection(name)
+  result = await data
   .where('key')
   .equals(key)
   .toArray()
@@ -202,36 +202,36 @@ export getkey_dict = cfy (name, key) ->*
     return result[0].val
   return
 
-export delkey_dict = cfy (name, key) ->*
-  data = yield getCollection(name)
-  num_deleted = yield data
+export delkey_dict = (name, key) ->>
+  data = await getCollection(name)
+  num_deleted = await data
   .where('key')
   .equals(key)
   .delete()
   return
 
-export getdict = cfy (name) ->*
-  data = yield getCollection(name)
-  result = yield data
+export getdict = (name) ->>
+  data = await getCollection(name)
+  result = await data
   .toArray()
   return {[key, val] for {key, val} in result}
 
-export setdict = cfy (name, dict) ->*
-  data = yield getCollection(name)
+export setdict = (name, dict) ->>
+  data = await getCollection(name)
   items_to_add = [{key, val, synced: 0, timestamp: Date.now()} for key,val of dict]
-  result = yield data.bulkPut(items_to_add)
+  result = await data.bulkPut(items_to_add)
   return dict
 
-export cleardict = cfy (name) ->*
-  data = yield getCollection(name)
-  num_deleted = yield data
+export cleardict = (name) ->>
+  data = await getCollection(name)
+  num_deleted = await data
   .filter(-> true)
   .delete()
   return
 
-export getdict_for_key_dictdict = cfy (name, key) ->*
-  data = yield getCollection(name)
-  result = yield data
+export getdict_for_key_dictdict = (name, key) ->>
+  data = await getCollection(name)
+  result = await data
   .where('key')
   .equals(key)
   .toArray()
@@ -242,9 +242,9 @@ export getdict_for_key_dictdict = cfy (name, key) ->*
     return output
   return {}
 
-export getdict_for_key2_dictdict = cfy (name, key2) ->*
-  data = yield getCollection(name)
-  result = yield data
+export getdict_for_key2_dictdict = (name, key2) ->>
+  data = await getCollection(name)
+  result = await data
   .where('key2')
   .equals(key2)
   .toArray()
@@ -255,9 +255,9 @@ export getdict_for_key2_dictdict = cfy (name, key2) ->*
     return output
   return {}
 
-export getkey_dictdict = cfy (name, key, key2) ->*
-  data = yield getCollection(name)
-  result = yield data
+export getkey_dictdict = (name, key, key2) ->>
+  data = await getCollection(name)
+  result = await data
   .where('[key+key2]')
   .equals([key, key2])
   .toArray()
@@ -265,27 +265,27 @@ export getkey_dictdict = cfy (name, key, key2) ->*
     return result[0].val
   return
 
-export setdict_for_key2_dictdict = cfy (name, key2, dict) ->*
-  data = yield getCollection(name)
+export setdict_for_key2_dictdict = (name, key2, dict) ->>
+  data = await getCollection(name)
   items_to_add = [{key, key2, val, synced: 0, timestamp: Date.now()} for key,val of dict]
-  result = yield data.bulkPut(items_to_add)
+  result = await data.bulkPut(items_to_add)
   return dict
 
-export setdict_for_key_dictdict = cfy (name, key, dict) ->*
-  data = yield getCollection(name)
+export setdict_for_key_dictdict = (name, key, dict) ->>
+  data = await getCollection(name)
   items_to_add = [{key, key2, val, synced: 0, timestamp: Date.now()} for key2,val of dict]
-  result = yield data.bulkPut(items_to_add)
+  result = await data.bulkPut(items_to_add)
   return dict
 
-export setkey_dictdict = cfy (name, key, key2, val) ->*
-  data = yield getCollection(name)
-  result = yield data.put({key, key2, val, synced: 0, timestamp: Date.now()})
+export setkey_dictdict = (name, key, key2, val) ->>
+  data = await getCollection(name)
+  result = await data.put({key, key2, val, synced: 0, timestamp: Date.now()})
   return val
 
-export addtokey_dictdict = cfy (name, key, key2, val) ->*
-  data = yield getCollection(name)
+export addtokey_dictdict = (name, key, key2, val) ->>
+  data = await getCollection(name)
   new_val = val
-  num_modified = yield data
+  num_modified = await data
   .where('[key+key2]')
   .equals([key, key2])
   .modify((x) ->
@@ -298,11 +298,11 @@ export addtokey_dictdict = cfy (name, key, key2, val) ->*
   if num_modified > 1
     console.log "addtokey_dictdict #{name} #{key} #{key2} matched more than 1"
     return new_val
-  yield setkey_dictdict name, key, key2, val
+  await setkey_dictdict name, key, key2, val
 
-export clear_dictdict = cfy (name) ->*
-  data = yield getCollection(name)
-  num_deleted = yield data
+export clear_dictdict = (name) ->>
+  data = await getCollection(name)
+  num_deleted = await data
   .filter(-> true)
   .delete()
   return

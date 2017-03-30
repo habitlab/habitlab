@@ -17,10 +17,10 @@ get_store = ->
       localforage_store := localforage.createInstance({name: 'localget'})
     else
       localforage_store := {
-        setItem: ->
-          (callback) -> callback(null, null)
-        getItem: ->
-          (callback) -> callback(null, null)
+        setItem: ->>
+          return
+        getItem: ->>
+          return
       }
   return localforage_store
 
@@ -30,54 +30,54 @@ get_store_remote = ->
     localforage_store_remote := localforage.createInstance({name: 'remoteget'})
   return localforage_store_remote
 
-export clear_cache_localget = cfy ->*
-  store = yield get_store()
-  yield store.clear()
-
-export clear_cache_remoteget = cfy ->*
-  store = yield get_store_remote()
-  yield store.clear()
-
-export localget = cfy (url) ->*
+export clear_cache_localget = ->>
   store = get_store()
-  res = yield store.getItem(url)
+  await store.clear()
+
+export clear_cache_remoteget = ->>
+  store = get_store_remote()
+  await store.clear()
+
+export localget = (url) ->>
+  store = get_store()
+  res = await store.getItem(url)
   if res?
     return res
-  request = yield fetch(url)
-  res = yield request.text()
-  yield store.setItem(url, res)
+  request = await fetch(url)
+  res = await request.text()
+  await store.setItem(url, res)
   return res
 
-export localget_json = cfy (url) ->*
-  text = yield localget url
+export localget_json = (url) ->>
+  text = await localget url
   if text?
     return JSON.parse text
   return null
 
-export localget_base64 = cfy (url) ->*
-  text = yield localget url
+export localget_base64 = (url) ->>
+  text = await localget url
   if text?
     return 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(text)))
   return null
 
-export remoteget = cfy (url) ->*
+export remoteget = (url) ->>
   store = get_store_remote()
-  res = yield store.getItem(url)
+  res = await store.getItem(url)
   if res?
     return res
-  request = yield fetch(url)
-  res = yield request.text()
-  yield store.setItem(url, res)
+  request = await fetch(url)
+  res = await request.text()
+  await store.setItem(url, res)
   return res
 
-export remoteget_json = cfy (url) ->*
-  text = yield remoteget url
+export remoteget_json = (url) ->>
+  text = await remoteget url
   if text?
     return JSON.parse text
   return null
 
-export remoteget_base64 = cfy (url) ->*
-  text = yield remoteget url
+export remoteget_base64 = (url) ->>
+  text = await remoteget url
   if text?
     return 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(text)))
   return null

@@ -29,11 +29,11 @@ prelude = require 'prelude-ls'
 
 {cfy} = require 'cfy'
 
-export one_random_intervention_per_enabled_goal = cfy (enabled_goals) ->*
+export one_random_intervention_per_enabled_goal = (enabled_goals) ->>
   if not enabled_goals?
-    enabled_goals = yield get_enabled_goals()
-  enabled_interventions = yield get_enabled_interventions()
-  goals = yield get_goals()
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
+  goals = await get_goals()
   output = []
   output_set = {}
   for goal_name,goal_enabled of enabled_goals
@@ -49,14 +49,14 @@ export one_random_intervention_per_enabled_goal = cfy (enabled_goals) ->*
   return prelude.sort(output)
 
 /*
-export one_random_intervention_per_enabled_goal = cfy (enabled_goals) ->*
+export one_random_intervention_per_enabled_goal = (enabled_goals) ->>
   if not enabled_goals?
-    enabled_goals = yield get_enabled_goals()
-  manually_enabled_interventions = yield get_most_recent_manually_enabled_interventions()
+    enabled_goals = await get_enabled_goals()
+  manually_enabled_interventions = await get_most_recent_manually_enabled_interventions()
   manually_enabled_interventions_list = as_array manually_enabled_interventions
-  manually_disabled_interventions = yield get_most_recent_manually_disabled_interventions()
+  manually_disabled_interventions = await get_most_recent_manually_disabled_interventions()
   manually_disabled_interventions_list = as_array manually_disabled_interventions
-  goals = yield get_goals()
+  goals = await get_goals()
   output = []
   output_set = {}
   for goal_name,goal_enabled of enabled_goals
@@ -81,18 +81,18 @@ export one_random_intervention_per_enabled_goal = cfy (enabled_goals) ->*
 */
 
 /*
-export each_intervention_enabled_with_probability_half = cfy (enabled_goals) ->*
-  interventions = yield list_available_interventions_for_enabled_goals()
+export each_intervention_enabled_with_probability_half = (enabled_goals) ->>
+  interventions = await list_available_interventions_for_enabled_goals()
   return prelude.sort [x for x in interventions when Math.random() < 0.5]
 
-export one_intervention_per_goal_multi_armed_bandit = cfy (enabled_goals) ->*
+export one_intervention_per_goal_multi_armed_bandit = (enabled_goals) ->>
   if not enabled_goals?
-    enabled_goals = yield get_enabled_goals()
-  manually_enabled_interventions = yield get_most_recent_manually_enabled_interventions()
+    enabled_goals = await get_enabled_goals()
+  manually_enabled_interventions = await get_most_recent_manually_enabled_interventions()
   manually_enabled_interventions_list = as_array manually_enabled_interventions
-  manually_disabled_interventions = yield get_most_recent_manually_disabled_interventions()
+  manually_disabled_interventions = await get_most_recent_manually_disabled_interventions()
   manually_disabled_interventions_list = as_array manually_disabled_interventions
-  goals = yield get_goals()
+  goals = await get_goals()
   output = []
   output_set = {}
   for goal_name,goal_enabled of enabled_goals
@@ -110,7 +110,7 @@ export one_intervention_per_goal_multi_armed_bandit = cfy (enabled_goals) ->*
     available_interventions = [intervention for intervention in interventions when not manually_disabled_interventions[intervention]]
     if available_interventions.length == 0
       continue
-    selected_intervention = yield multi_armed_bandit.get_next_intervention_to_test_for_goal(goal_name, available_interventions)
+    selected_intervention = await multi_armed_bandit.get_next_intervention_to_test_for_goal(goal_name, available_interventions)
     output.push selected_intervention
     output_set[selected_intervention] = true
   return prelude.sort(output)
@@ -122,7 +122,7 @@ selection_algorithms = {
   'default': one_intervention_per_goal_multi_armed_bandit
 }
 
-export get_intervention_selection_algorithm = cfy ->*
+export get_intervention_selection_algorithm = ->>
   algorithm_name = localStorage.getItem('selection_algorithm')
   if not (algorithm_name? and selection_algorithms[algorithm_name]?)
     algorithm_name = 'default'
@@ -134,7 +134,7 @@ selection_algorithms_for_visit = {
   'default': one_random_intervention_per_enabled_goal
 }
 
-export get_intervention_selection_algorithm_for_visit = cfy ->*
+export get_intervention_selection_algorithm_for_visit = ->>
   algorithm_name = localStorage.getItem('selection_algorithm_for_visit')
   if not (algorithm_name? and selection_algorithms_for_visit[algorithm_name]?)
     algorithm_name = 'default'

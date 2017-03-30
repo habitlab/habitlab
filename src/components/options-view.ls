@@ -34,21 +34,23 @@ polymer_ext {
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
   set_selected_tab_by_name: (selected_tab_name) ->
-    selected_tab_idx = switch selected_tab_name
-    | 'progress' => 1
-    | 'results' => 1
-    | 'dashboard' => 1
-    | 'overview' => 1
-    | 'goals' => 0
-    | 'interventions' => 0
-    | 'configure' => 0
-    | 'config' => 0
-    | 'manage' => 0
-    | 'options' => 0
-    | 'settings' => 0
-    | 'introduction' => 0
-    | 'onboarding' => 0
-    if selected_tab_idx != -1
+    name_to_idx_map = {
+      'progress': 1
+      'results': 1
+      'dashboard': 1
+      'overview': 1
+      'goals': 0
+      'interventions': 0
+      'configure': 0
+      'config': 0
+      'manage': 0
+      'options': 0
+      'settings': 0
+      'introduction': 0
+      'onboarding': 0
+    }
+    selected_tab_idx = name_to_idx_map[selected_tab_name]
+    if selected_tab_idx?
       this.selected_tab_idx = selected_tab_idx
   compute_selected_tab_name: (selected_tab_idx) ->
     return ['settings', 'results'][selected_tab_idx]
@@ -57,10 +59,10 @@ polymer_ext {
   on_goal_changed: (evt) ->
     this.$$('#options-interventions').on_goal_changed(evt.detail)
     this.$$('#dashboard-view').on_goal_changed(evt.detail)
-  # icon_clicked: cfy ->*
+  # icon_clicked: ->>
     
-  #   yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-  #   yield swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.
+  #   await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+  #   await swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.
   #          It will <u>automatically show you interventions</u> to help you keep on track to your goals, and fine-tune its algorithms over time.\n\n\n
           
           

@@ -18,12 +18,12 @@ polymer_ext {
   is: 'graph-chrome-history'
   properties: {
   }
-  ready: cfy ->*
+  ready: ->>
     self = this
     
     #MARK: Chrome History Graph
-    goalsHistory = yield get_goals()
-    enabledGoalsHistory = yield get_enabled_goals()
+    goalsHistory = await get_goals()
+    enabledGoalsHistory = await get_enabled_goals()
 
     #Retrieves urls associated with each enabled intervention
     intervention_urls = []
@@ -33,7 +33,7 @@ polymer_ext {
 
     intervention_time_spent = []
     for item in intervention_urls
-      temp = yield get_baseline_time_on_domain(item)
+      temp = await get_baseline_time_on_domain(item)
       intervention_time_spent.push(Math.round(10*temp / (60*1000))/10)
 
     self.chromeHistoryData = {

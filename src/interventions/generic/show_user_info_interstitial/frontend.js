@@ -17,8 +17,6 @@ const {
   append_to_body_shadow
 } = require('libs_frontend/common_libs')
 
-const co = require('co')
-
 const {
   url_to_domain
 } = require('libs_common/domain_utils')
@@ -29,10 +27,10 @@ const {
 
 var shadow_div;
 
-co(function*() {
+(async function() {
   var domain = url_to_domain(window.location.href)
-  var numMins = yield get_minutes_spent_on_domain_today(domain)
-  var numVisits = yield get_visits_to_domain_today(domain)
+  var numMins = await get_minutes_spent_on_domain_today(domain)
+  var numVisits = await get_visits_to_domain_today(domain)
   var titleString = 'You have visited ' + url_to_domain(window.location.href) +' ' + numVisits + ' times and spent '+ numMins + ' minutes there today.'
   var sitename_printable = get_intervention().sitename_printable
   var buttonText = `Click to continue to ${sitename_printable}`
@@ -48,7 +46,7 @@ co(function*() {
   interst_screen.attr('seconds', 0);
 
   shadow_div = append_to_body_shadow(interst_screen);
-})
+})()
 
 window.on_intervention_disabled = () => {
   $(shadow_div).remove();

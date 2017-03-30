@@ -2426,9 +2426,9 @@ gulp-eslint@^3.0.1:
     eslint "^3.0.0"
     gulp-util "^3.0.6"
 
-gulp-livescript-async@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/gulp-livescript-async/-/gulp-livescript-async-3.0.1.tgz#c681996dc971e11eb9f7831ebe68f7d657dc20b9"
+gulp-livescript-async@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/gulp-livescript-async/-/gulp-livescript-async-3.0.2.tgz#ebd8ce66a77354be294524fbfd8952662fb83bf5"
   dependencies:
     gulp-util "^3.0.1"
     through2 "^2.0.0"
@@ -3330,16 +3330,16 @@ livereload@^0.6.0:
     opts ">= 1.2.0"
     ws "^1.1.1"
 
-livescript-async-loader@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/livescript-async-loader/-/livescript-async-loader-0.1.6.tgz#730b9984f184271da4d3198d0e3380ab2def990c"
+livescript-async-loader@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/livescript-async-loader/-/livescript-async-loader-0.1.7.tgz#a620d06f4eb5af75068079dff05e0dba2794f68a"
   dependencies:
-    livescript-async "^1.5.1"
+    livescript-async "^1.5.2"
     loader-utils "0.2.x"
 
-livescript-async@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/livescript-async/-/livescript-async-1.5.1.tgz#bb9ad7a796e5700bc0deeadff9a7d9f5bcf94be5"
+livescript-async@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/livescript-async/-/livescript-async-1.5.2.tgz#36631ab4ba19f95731adbe665905e2884d90e205"
   dependencies:
     optionator "~0.8.1"
     prelude-ls "~1.1.2"

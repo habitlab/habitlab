@@ -65,12 +65,12 @@ polymer_ext {
   #autoplay_changed: ->
   #  if this.autoplay
   #    this.play()
-  ready: cfy ->*
+  ready: ->>
     if not this.baseline_seconds_spent?
-      this.baseline_seconds_spent = yield baseline_time_per_session_for_domain(this.domain)
+      this.baseline_seconds_spent = await baseline_time_per_session_for_domain(this.domain)
     seconds_spent = (Date.now() - this.time_inserted) / 1000
     this.seconds_saved = this.baseline_seconds_spent - seconds_spent
-    this.$$('#playgif').times_intervention_used = yield get_num_times_intervention_used this.intervention_name
+    this.$$('#playgif').times_intervention_used = await get_num_times_intervention_used this.intervention_name
     if this.autoplay
       this.play()
   bring_parents_to_top: ->
@@ -87,13 +87,13 @@ polymer_ext {
       else
         break
     return
-  play: cfy ->*
+  play: ->>
     seconds_spent = (Date.now() - this.time_inserted) / 1000
     this.seconds_saved = this.baseline_seconds_spent - seconds_spent
     this.bring_parents_to_top()
     rewards_to_display = []
     if this.seconds_saved > 0
-      rewards_to_display = yield record_seconds_saved_and_get_rewards this.seconds_saved, this.intervention_name, this.domain
+      rewards_to_display = await record_seconds_saved_and_get_rewards this.seconds_saved, this.intervention_name, this.domain
       if rewards_to_display.length > 0
         this.$$('#showbadge').badges = rewards_to_display
         this.showbadge()

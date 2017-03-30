@@ -26,8 +26,8 @@ polymer_ext {
   isdemo_changed: (isdemo) ->
     if isdemo
       this.site = 'facebook'
-  siteChanged: cfy (site) ->*
-    goals = yield list_goals_for_site site
+  siteChanged: (site) ->>
+    goals = await list_goals_for_site site
     if this.site != site
       return
     this.goals = goals

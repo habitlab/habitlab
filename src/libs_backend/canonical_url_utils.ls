@@ -7,11 +7,11 @@
 
 get_canonical_url_cache = {}
 
-export get_canonical_url = cfy (url) ->*
+export get_canonical_url = (url) ->>
   if get_canonical_url_cache[url]?
     return get_canonical_url_cache[url]
   try
-    response = yield fetch url
+    response = await fetch url
     output = response.url
     if output?
       get_canonical_url_cache[url] = output
@@ -19,9 +19,9 @@ export get_canonical_url = cfy (url) ->*
   catch
     return null
 
-export get_canonical_domain = cfy (domain) ->*
+export get_canonical_domain = (domain) ->>
   url = domain_to_url domain
-  canonical_url = yield get_canonical_url url
+  canonical_url = await get_canonical_url url
   if canonical_url?
     return url_to_domain canonical_url
   return null

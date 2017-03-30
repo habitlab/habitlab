@@ -53,7 +53,7 @@ if window.location.pathname == '/options.html'
   options_view = document.querySelector('#options_view')
   if hash == 'introduction'
     options_view.selected_tab_idx = -1
-    #yield options_view.icon_clicked()
+    #await options_view.icon_clicked()
   options_view.set_selected_tab_by_name(hash)
   options_view.addEventListener 'options_selected_tab_changed', (evt) ->
     window.location.hash = evt.detail.selected_tab_name
@@ -129,9 +129,9 @@ set_nested_property = (tag, property_name, property_value) ->
   property_name_remainder = property_name.substr(dot_index + 1)
   set_nested_property tag[property_name_start], property_name_remainder, property_value
 
-start_page_index = cfy ->*
+start_page_index = ->>
   document.title = window.location.href.replace(chrome.extension.getURL(''), '').replace('index.html?tag=', '')
-  interventions = yield get_interventions()
+  interventions = await get_interventions()
   window.intervention = interventions['debug/fake_intervention']
   require 'components/components.deps'
   #set_intervention window.intervention
@@ -139,16 +139,16 @@ start_page_index = cfy ->*
   {index_body_width, index_body_height, index_background_color} = params
   if not tagname?
     tagname = 'debug-view'
-  component_info = yield get_custom_component_info(tagname)
+  component_info = await get_custom_component_info(tagname)
   if component_info?
     systemjs_config_extra_map = localStorage.getItem('systemjs_config_extra_map')
     if systemjs_config_extra_map?
       systemjs_config_extra_map = JSON.parse systemjs_config_extra_map
       SystemJS.config({map: systemjs_config_extra_map})
     # custom component, need to load it
-    #yield SystemJS.import('data:text/javascript;base64,' + btoa(component_info.code))
-    #yield SystemJS.import('components/' + component_info.name + '.jspm.js')
-    yield SystemJS.import('components/' + component_info.name + '.deps')
+    #await SystemJS.import('data:text/javascript;base64,' + btoa(component_info.code))
+    #await SystemJS.import('components/' + component_info.name + '.jspm.js')
+    await SystemJS.import('components/' + component_info.name + '.deps')
   tag = document.createElement(tagname)
   num_properties = 0
   for k,v of params
@@ -223,11 +223,10 @@ window.uselib = (libname, callback) ->
     ].join('\n'))
 
 if localStorage.refresh_livereload == 'true'
-  {co} = require 'co'
-  co ->*
+  do ->>
     try
-      script_fetch_result = yield fetch('http://localhost:35729/livereload.js?snipver=1')
-      script_text = yield script_fetch_result.text()
+      script_fetch_result = await fetch('http://localhost:35729/livereload.js?snipver=1')
+      script_text = await script_fetch_result.text()
       script_tag = document.createElement('script')
       #script_tag.src = chrome.extension.getURL('/livereload.js?snipver=1')
       script_tag.src = 'http://localhost:35729/livereload.js?snipver=1'

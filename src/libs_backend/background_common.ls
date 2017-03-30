@@ -30,24 +30,24 @@ chrome_storage_sync = chrome.storage?sync ? chrome.storage?local
 
 cached_user_id = null
 
-export get_user_id = memoizeSingleAsync cfy ->*
-  user_id = yield get_user_id_real()
+export get_user_id = memoizeSingleAsync ->>
+  user_id = await get_user_id_real()
   if user_id.length == 24
     return user_id
   else
     cached_user_id := null
     localStorage.removeItem('userid')
-    yield add_noerr -> chrome_storage_sync.remove 'userid', it
-    return yield get_user_id_real()
+    await add_noerr -> chrome_storage_sync.remove 'userid', it
+    return await get_user_id_real()
 
-get_user_id_real = cfy ->*
+get_user_id_real = ->>
   if cached_user_id?
     return cached_user_id
   userid = localStorage.getItem('userid')
   if userid?
     cached_user_id := userid
     return userid
-  items = yield add_noerr -> chrome_storage_sync.get 'userid', it
+  items = await add_noerr -> chrome_storage_sync.get 'userid', it
   userid = items.userid
   if userid?
     cached_user_id := userid
@@ -56,29 +56,29 @@ get_user_id_real = cfy ->*
   userid = generate_random_id()
   cached_user_id := userid
   localStorage.setItem('userid', userid)
-  yield -> chrome_storage_sync.set {userid}, it
+  await new Promise -> chrome_storage_sync.set {userid}, it
   return userid
 
 cached_user_secret = null
 
-export get_user_secret = memoizeSingleAsync cfy ->*
-  user_secret = yield get_user_secret_real()
+export get_user_secret = memoizeSingleAsync ->>
+  user_secret = await get_user_secret_real()
   if user_secret.length == 24
     return user_secret
   else
     cached_user_secret := null
     localStorage.removeItem('user_secret')
-    yield add_noerr -> chrome_storage_sync.remove 'user_secret', it
-    return yield get_user_secret_real()
+    await add_noerr -> chrome_storage_sync.remove 'user_secret', it
+    return await get_user_secret_real()
 
-get_user_secret_real = cfy ->*
+get_user_secret_real = ->>
   if cached_user_secret?
     return cached_user_secret
   user_secret = localStorage.getItem('user_secret')
   if user_secret?
     cached_user_secret := user_secret
     return user_secret
-  items = yield add_noerr -> chrome_storage_sync.get 'user_secret', it
+  items = await add_noerr -> chrome_storage_sync.get 'user_secret', it
   user_secret = items.user_secret
   if user_secret?
     cached_user_secret := user_secret
@@ -87,150 +87,150 @@ get_user_secret_real = cfy ->*
   user_secret = generate_random_id()
   cached_user_secret := user_secret
   localStorage.setItem('user_secret', user_secret)
-  yield -> chrome_storage_sync.set {user_secret}, it
+  await new Promise -> chrome_storage_sync.set {user_secret}, it
   return user_secret
 
-export send_message_to_active_tab = cfy (type, data) ->*
-  tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
+export send_message_to_active_tab = (type, data) ->>
+  tabs = await chrome_tabs_query {active: true, lastFocusedWindow: true}
   if tabs.length == 0
     return
-  yield chrome_tabs_sendmessage tabs[0].id, {type, data}
+  await chrome_tabs_sendmessage tabs[0].id, {type, data}
 
-send_message_to_all_active_tabs = cfy (type, data) ->*
-  tabs = yield chrome_tabs_query {active: true}
+send_message_to_all_active_tabs = (type, data) ->>
+  tabs = await chrome_tabs_query {active: true}
   if tabs.length == 0
     return
   outputs = []
   for tab in tabs
-    result = yield chrome_tabs_sendmessage tab.id, {type, data}
+    result = await chrome_tabs_sendmessage tab.id, {type, data}
     outputs.push(result)
   return outputs
 
-export eval_content_script = cfy (script) ->*
-  results = yield send_message_to_all_active_tabs 'eval_content_script', script
+export eval_content_script = (script) ->>
+  results = await send_message_to_all_active_tabs 'eval_content_script', script
   for result in results
     console.log result
   return result
 
-export eval_content_script_for_active_tab = cfy (script) ->*
-  yield send_message_to_active_tab 'eval_content_script', script
+export eval_content_script_for_active_tab = (script) ->>
+  await send_message_to_active_tab 'eval_content_script', script
 
-export eval_content_script_debug_for_active_tab = cfy (script) ->*
-  yield send_message_to_active_tab 'eval_content_script_debug', script
+export eval_content_script_debug_for_active_tab = (script) ->>
+  await send_message_to_active_tab 'eval_content_script_debug', script
 
-export eval_content_script_debug_for_tabid = cfy (tabid, script) ->*
-  yield chrome_tabs_sendmessage tabid, {type: 'eval_content_script_debug', data: script}
+export eval_content_script_debug_for_tabid = (tabid, script) ->>
+  await chrome_tabs_sendmessage tabid, {type: 'eval_content_script_debug', data: script}
 
-export eval_content_script_for_tabid = cfy (tabid, script) ->*
-  yield chrome_tabs_sendmessage tabid, {type: 'eval_content_script', data: script}
+export eval_content_script_for_tabid = (tabid, script) ->>
+  await chrome_tabs_sendmessage tabid, {type: 'eval_content_script', data: script}
 
-export list_currently_loaded_interventions = cfy ->*
-  tab = yield get_active_tab_info()
-  loaded_interventions = yield eval_content_script_for_tabid tab.id, 'window.loaded_interventions'
+export list_currently_loaded_interventions = ->>
+  tab = await get_active_tab_info()
+  loaded_interventions = await eval_content_script_for_tabid tab.id, 'window.loaded_interventions'
   return as_array(loaded_interventions)
 
-export list_currently_loaded_interventions_for_tabid = cfy (tab_id) ->*
-  loaded_interventions = yield eval_content_script_for_tabid tab_id, 'window.loaded_interventions'
+export list_currently_loaded_interventions_for_tabid = (tab_id) ->>
+  loaded_interventions = await eval_content_script_for_tabid tab_id, 'window.loaded_interventions'
   return as_array(loaded_interventions)
 
-export is_tab_still_open = cfy (tab_id) ->*
-  tabs = yield chrome_tabs_query {}
+export is_tab_still_open = (tab_id) ->>
+  tabs = await chrome_tabs_query {}
   for tab in tabs
     if tab.id == tab_id
       return true
   return false
 
-export open_debug_page_for_tab_id = cfy (tab_id) ->*
+export open_debug_page_for_tab_id = (tab_id) ->>
   debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&ispopup=true&tabid=' + tab_id)
-  popup_windows = yield add_noerr -> chrome.windows.getAll {windowTypes: ['popup']}, it
+  popup_windows = await add_noerr -> chrome.windows.getAll {windowTypes: ['popup']}, it
   for popup_window in popup_windows
-    window_info = yield add_noerr -> chrome.windows.get popup_window.id, {populate: true}, it
+    window_info = await add_noerr -> chrome.windows.get popup_window.id, {populate: true}, it
     for tab in window_info.tabs
       if tab.url == debug_page_url
-        yield add_noerr -> chrome.tabs.update tab.id, {active: true}, it
-        return yield add_noerr -> chrome.windows.update popup_window.id, {focused: true}, it
-  yield add_noerr -> chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}, it
+        await add_noerr -> chrome.tabs.update tab.id, {active: true}, it
+        return await add_noerr -> chrome.windows.update popup_window.id, {focused: true}, it
+  await add_noerr -> chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}, it
 
-export send_message_to_tabid = cfy (tabid, type, data) ->*
+export send_message_to_tabid = (tabid, type, data) ->>
   return chrome_tabs_sendmessage tabid, {type, data}
 
-export disable_interventions_for_tabid = cfy (tabid) ->*
-  yield eval_content_script_for_tabid tabid, """
+export disable_interventions_for_tabid = (tabid) ->>
+  await eval_content_script_for_tabid tabid, """
   document.body.dispatchEvent(new CustomEvent('disable_intervention'))
   """
 
-export disable_interventions_in_active_tab = cfy ->*
-  tab = yield get_active_tab_info()
-  yield disable_interventions_for_tabid tab.id
+export disable_interventions_in_active_tab = ->>
+  tab = await get_active_tab_info()
+  await disable_interventions_for_tabid tab.id
 
-export disable_interventions_in_all_tabs = cfy ->*
-  tabs = yield chrome_tabs_query {}
-  yield [disable_interventions_for_tabid(tab.id) for tab in tabs]
+export disable_interventions_in_all_tabs = ->>
+  tabs = await chrome_tabs_query {}
+  await [disable_interventions_for_tabid(tab.id) for tab in tabs]
   return
 
-export get_active_tab_info = cfy ->*
-  tabs = yield chrome_tabs_query {active: true, lastFocusedWindow: true}
+export get_active_tab_info = ->>
+  tabs = await chrome_tabs_query {active: true, lastFocusedWindow: true}
   if tabs.length > 0
     return tabs[0]
   # this part seems necessary for opera sometimes
-  last_focused_window_info = yield add_noerr -> chrome.windows.getLastFocused(it)
+  last_focused_window_info = await add_noerr -> chrome.windows.getLastFocused(it)
   if not last_focused_window_info?id?
     return
-  tabs = yield chrome_tabs_query {active: true, windowId: last_focused_window_info.id}
+  tabs = await chrome_tabs_query {active: true, windowId: last_focused_window_info.id}
   if tabs.length > 0
     return tabs[0]
   return
 
-export get_active_tab_url = cfy ->*
-  active_tab_info = yield get_active_tab_info()
+export get_active_tab_url = ->>
+  active_tab_info = await get_active_tab_info()
   return active_tab_info.url
 
-export get_active_tab_id = cfy ->*
-  active_tab_info = yield get_active_tab_info()
+export get_active_tab_id = ->>
+  active_tab_info = await get_active_tab_info()
   return active_tab_info.id
 
-remote_file_exists = cfy (remote_file_path) ->*
+remote_file_exists = (remote_file_path) ->>
   try
-    request = yield fetch(remote_file_path)
-    contents = yield request.text()
+    request = await fetch(remote_file_path)
+    contents = await request.text()
     return true
   catch
     return false
 
-extension_url_exists = cfy (extension_file_path) ->*
-  yield remote_file_exists(chrome.extension.getURL(extension_file_path))
+extension_url_exists = (extension_file_path) ->>
+  await remote_file_exists(chrome.extension.getURL(extension_file_path))
 
 fetch_remote_json_cache = {}
 
-fetch_remote_json = cfy (path) ->*
+fetch_remote_json = (path) ->>
   if fetch_remote_json_cache[path]?
     return fetch_remote_json_cache[path]
-  request = yield fetch(path)
-  tree_text = yield request.text()
+  request = await fetch(path)
+  tree_text = await request.text()
   tree_contents = JSON.parse(tree_text)
   fetch_remote_json_cache[path] = tree_contents
   return tree_contents
 
-list_files_in_path_for_github_repo = cfy (path) ->*
+list_files_in_path_for_github_repo = (path) ->>
   path_parts = [x for x in path.split('/') when x? and x.length > 0]
   current_path = 'https://api.github.com/repos/habitlab/habitlab/git/trees/master'
   for path_part in path_parts
-    tree_contents = yield fetch_remote_json(current_path)
+    tree_contents = await fetch_remote_json(current_path)
     matching_parts = [x for x in tree_contents.tree when x.path == path_part]
     if matching_parts.length == 0
       return []
     current_path = matching_parts[0].url
-  tree_contents = yield fetch_remote_json(current_path)
+  tree_contents = await fetch_remote_json(current_path)
   return [x.path for x in tree_contents.tree]
 
-list_files_in_libs_common = cfy ->*
-  yield list_files_in_path_for_github_repo 'src/libs_common'
+list_files_in_libs_common = ->>
+  await list_files_in_path_for_github_repo 'src/libs_common'
 
-list_files_in_libs_backend = cfy ->*
-  yield list_files_in_path_for_github_repo 'src/libs_backend'
+list_files_in_libs_backend = ->>
+  await list_files_in_path_for_github_repo 'src/libs_backend'
 
-list_files_in_libs_frontend = cfy ->*
-  yield list_files_in_path_for_github_repo 'src/libs_frontend'
+list_files_in_libs_frontend = ->>
+  await list_files_in_path_for_github_repo 'src/libs_frontend'
 
 list_jspm_packages = ->
   libraries = SystemJS.getConfig().map
@@ -242,16 +242,16 @@ list_jspm_packages = ->
       output.push libname
   return output
 
-export list_jspm_libraries_as_markdown = cfy ->*
+export list_jspm_libraries_as_markdown = ->>
   output = []
-  libs_common_files = yield list_files_in_libs_common()
-  libs_backend_files = yield list_files_in_libs_backend()
-  libs_frontend_files = yield list_files_in_libs_frontend()
+  libs_common_files = await list_files_in_libs_common()
+  libs_backend_files = await list_files_in_libs_backend()
+  libs_frontend_files = await list_files_in_libs_frontend()
   jspm_packages = list_jspm_packages()
   output.push '### NPM Packages'
   for libname in jspm_packages
     output.push '* [' + libname + '](https://www.npmjs.com/package/' + libname + ')'
-  function_signatures = yield SystemJS.import('libs_common/function_signatures')
+  function_signatures = await SystemJS.import('libs_common/function_signatures')
   output.push ''
   output.push '### HabitLab Frontend APIs'
   for filename in libs_common_files

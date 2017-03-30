@@ -16,7 +16,7 @@ past_navigation_events_list = []
 
 tab_id_to_current_session_id = {}
 
-export get_session_id_from_tab_id = cfy (tab_id) ->*
+export get_session_id_from_tab_id = (tab_id) ->>
   return tab_id_to_current_session_id[tab_id]?
 
 session_id_counter = 0
@@ -50,7 +50,7 @@ set_session_data_sync = (session_id, key, val) ->
   session_id_to_data[key] = val
   return
 
-export set_session_data = cfy (session_id, key, val) ->*
+export set_session_data = (session_id, key, val) ->>
   set_session_data_sync session_id, key, val
   return
 
@@ -60,11 +60,11 @@ get_session_data_sync = (session_id, key) ->
     return session_data[key]
   return null
 
-export get_session_data = cfy (session_id, key) ->*
+export get_session_data = (session_id, key) ->>
   return get_session_data_sync session_id, key
 
 /*
-export is_on_same_domain_and_same_tab = cfy (tab_id) ->*
+export is_on_same_domain_and_same_tab = (tab_id) ->>
   current_url = tab_id_to_prev1_url_visited[tab_id]
   prev_url = tab_id_to_prev2_url_visited[tab_id]
   if not prev_url? or not current_url?
@@ -89,7 +89,7 @@ is_on_same_domain_and_same_tab_sync = (tab_id) ->
   prev_domain = url_to_domain prev_url
   return current_domain == prev_domain and current_tab_id == prev_tab_id
 
-export is_on_same_domain_and_same_tab = cfy (tab_id) ->*
+export is_on_same_domain_and_same_tab = (tab_id) ->>
   return is_on_same_domain_and_same_tab_sync(tab_id)
 
 is_on_same_domain_sync = (tab_id) ->
@@ -105,7 +105,7 @@ is_on_same_domain_sync = (tab_id) ->
   prev_domain = url_to_domain prev_url
   return current_domain == prev_domain
 
-export is_on_same_domain = cfy (tab_id) ->*
+export is_on_same_domain = (tab_id) ->>
   return is_on_same_domain_sync(tab_id)
 
 gexport_module 'session_utils', -> eval(it)

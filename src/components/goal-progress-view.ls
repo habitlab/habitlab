@@ -40,9 +40,9 @@ polymer_ext {
       observer: 'goalChanged'
     }
   }
-  goalChanged: cfy (goal) ->*
-    goal_info = yield get_goal_info(goal)
-    goal_progress = yield get_progress_on_goal_this_week(goal)
+  goalChanged: (goal) ->>
+    goal_info = await get_goal_info(goal)
+    goal_progress = await get_progress_on_goal_this_week(goal)
     progress_values = goal_progress.map (.progress)
     progress_values = progress_values.map (it) ->
       Math.round(it * 10)/10
@@ -52,7 +52,7 @@ polymer_ext {
       array[index] = (moment!.subtract array[index], 'day').format 'ddd MM/D'
       return )
 
-    target = yield get_goal_target this.goal
+    target = await get_goal_target this.goal
     goal_data = []
     for i from 0 to progress_values.length
       goal_data.push target

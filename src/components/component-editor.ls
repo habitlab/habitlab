@@ -1,5 +1,3 @@
-{cfy} = require 'cfy'
-
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {
@@ -42,8 +40,8 @@
 
 swal = require 'sweetalert2'
 
-get_livescript = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('livescript15')
+get_livescript = memoizeSingleAsync ->>
+  await SystemJS.import('livescript15')
 
 polymer_ext {
   is: 'component-editor'
@@ -58,10 +56,10 @@ polymer_ext {
       type: Object
     }
   }
-  component_selector_changed: cfy (change_info) ->*
+  component_selector_changed: (change_info) ->>
     component_name = change_info.detail.item.component_name
     this.component_name = component_name
-    this.component_info = component_info = yield get_custom_component_info(component_name)
+    this.component_info = component_info = await get_custom_component_info(component_name)
     this.js_editor.setValue(component_info.js)
     this.html_editor.setValue(component_info.html)
     this.set_js_edit_mode(component_info.js_edit_mode)
@@ -78,7 +76,7 @@ polymer_ext {
     self.html_editor.focus()
     self.html_editor.setValue(self.html_editor.getValue())
     self.html_editor.gotoLine(htmllen)
-  save_component: cfy ->*
+  save_component: ->>
     js_code = this.js_editor.getSession().getValue().trim()
     html_code = this.html_editor.getSession().getValue().trim()
     component_info = {
@@ -88,22 +86,22 @@ polymer_ext {
       js_edit_mode: 'js'
       html_edit_mode: 'html'
     }
-    yield add_custom_component(component_info)
+    await add_custom_component(component_info)
     return true
-  preview_component: cfy ->*
-    if not (yield this.save_component())
+  preview_component: ->>
+    if not (await this.save_component())
       return
     component_name = this.get_component_name()
     preview_page = chrome.extension.getURL('/index.html?tag=' + component_name)
     chrome.tabs.create {url: preview_page}
   get_component_name: ->
     return this.$.component_selector.selectedItem.component_name
-  delete_component: cfy ->*
+  delete_component: ->>
     component_name = this.get_component_name()
     if not component_name?
       return
     try
-      yield swal {
+      await swal {
         title: 'Are you sure you want to delete ' + component_name
         text: 'You will not be able to revert this'
         type: 'warning'
@@ -115,16 +113,16 @@ polymer_ext {
     catch
       return
     remove_custom_component(component_name)
-    yield this.refresh_component_list()
+    await this.refresh_component_list()
     this.$.component_selector.selected = 0
-  prompt_new_component: cfy ->*
+  prompt_new_component: ->>
     self = this
     component_name = null
     cancelable = this.component_list.length > 0
-    all_components = yield list_custom_components()
+    all_components = await list_custom_components()
     while true
       try
-        component_name := yield swal {
+        component_name := await swal {
           title: 'Enter a new component name'
           input: 'text'
           inputValue: 'custom-component'
@@ -187,23 +185,23 @@ polymer_ext {
       js_edit_mode: 'js'
       html_edit_mode: 'html'
     }
-    yield add_custom_component(component_info)
-    yield this.refresh_component_list()
+    await add_custom_component(component_info)
+    await this.refresh_component_list()
     this.select_component_by_name(component_name)
   select_component_by_name: (component_name) ->
     component_idx = this.component_list.indexOf(component_name)
     this.$.component_selector.selected = component_idx
-  refresh_component_list: cfy ->*
-    this.component_list = yield list_custom_components()
+  refresh_component_list: ->>
+    this.component_list = await list_custom_components()
     if this.component_list.length == 0
       this.prompt_new_component()
-  ready: cfy ->*
+  ready: ->>
     self = this
-    brace = yield SystemJS.import('brace')
-    yield SystemJS.import('brace/mode/javascript')
-    yield SystemJS.import('brace/mode/livescript')
-    yield SystemJS.import('brace/mode/html')
-    yield SystemJS.import('brace/theme/monokai')
+    brace = await SystemJS.import('brace')
+    await SystemJS.import('brace/mode/javascript')
+    await SystemJS.import('brace/mode/livescript')
+    await SystemJS.import('brace/mode/html')
+    await SystemJS.import('brace/theme/monokai')
     self.js_editor = js_editor = brace.edit(this.$.javascript_editor)
     js_editor.getSession().setMode('ace/mode/javascript')
     js_editor.setTheme('ace/theme/monokai')
@@ -214,13 +212,13 @@ polymer_ext {
     html_editor.$blockScrolling = Infinity
     #ls_editor.on 'change', ->
     #  self.ls_editor_changed()
-    #all_goals = yield get_goals()
-    #enabled_goals = as_array(yield get_enabled_goals())
+    #all_goals = await get_goals()
+    #enabled_goals = as_array(await get_enabled_goals())
     #self.goal_info_list = [all_goals[x] for x in enabled_goals]
-    #goals_list = yield list_all_goals()
+    #goals_list = await list_all_goals()
     #self.goal_info_list = [all_goals[x] for x in goals_list]
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    yield self.refresh_component_list()
+    await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    await self.refresh_component_list()
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

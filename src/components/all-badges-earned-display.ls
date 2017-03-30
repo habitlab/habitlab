@@ -3,10 +3,6 @@
 } = require 'libs_frontend/polymer_utils'
 
 {
-  cfy
-} = require 'cfy'
-
-{
   get_all_badges_earned_for_minutes_saved
 } = require 'libs_common/badges_utils'
 
@@ -28,8 +24,8 @@ polymer_ext {
       type: Number
     }
   }
-  ready: cfy ->*
-    time_saved = yield get_time_saved_total()
+  ready: ->>
+    time_saved = await get_time_saved_total()
     minutes_saved = time_saved / 60
     if this.minutes_saved?
       minutes_saved = this.minutes_saved

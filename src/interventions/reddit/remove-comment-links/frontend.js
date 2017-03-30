@@ -10,10 +10,8 @@ const {
   load_css_file
 } = require('libs_common/content_script_utils')
 
-const co = require('co')
-
-co(function*() {
-  yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
+(async function() {
+  await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
   once_available('body', () => {
     if(document.URL == "https://www.reddit.com/" ||
       (document.URL.includes('https://www.reddit.com/r/') && !document.URL.includes('comments'))){
@@ -31,6 +29,6 @@ co(function*() {
       );
     }
   });
-})
+})()
 
 window.debugeval = x => eval(x);

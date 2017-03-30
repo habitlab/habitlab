@@ -97,13 +97,13 @@ polymer_ext {
   display_internal_names_for_interventions: ->
     return localstorage_getbool('intervention_view_show_internal_names')
   /*
-  pill_button_selected: cfy (evt) ->*
+  pill_button_selected: (evt) ->>
     buttonidx = evt.detail.buttonidx
     if buttonidx == 1 # smartly managed
       this.automatic = true
-      prev_enabled_interventions = yield get_enabled_interventions()
-      yield set_intervention_enabled this.intervention.name
-      yield set_intervention_automatically_managed this.intervention.name
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_enabled this.intervention.name
+      await set_intervention_automatically_managed this.intervention.name
       add_log_interventions {
         type: 'intervention_set_smartly_managed'
         manual: true
@@ -113,9 +113,9 @@ polymer_ext {
     else if buttonidx == 0 # never shown
       this.enabled = false
       this.automatic = false
-      prev_enabled_interventions = yield get_enabled_interventions()
-      yield set_intervention_disabled this.intervention.name
-      yield set_intervention_manually_managed this.intervention.name
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_disabled this.intervention.name
+      await set_intervention_manually_managed this.intervention.name
       add_log_interventions {
         type: 'intervention_set_always_disabled'
         manual: true
@@ -123,12 +123,12 @@ polymer_ext {
         prev_enabled_interventions: prev_enabled_interventions
       }
   */
-  pill_button_selected: cfy (evt) ->*
+  pill_button_selected: (evt) ->>
     buttonidx = evt.detail.buttonidx
     if buttonidx == 1 # enabled
       this.enabled = true
-      prev_enabled_interventions = yield get_enabled_interventions()
-      yield set_intervention_enabled this.intervention.name
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_enabled this.intervention.name
       add_log_interventions {
         type: 'intervention_set_smartly_managed'
         manual: true
@@ -137,8 +137,8 @@ polymer_ext {
       }
     else if buttonidx == 0 # never shown
       this.enabled = false
-      prev_enabled_interventions = yield get_enabled_interventions()
-      yield set_intervention_disabled this.intervention.name
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_disabled this.intervention.name
       add_log_interventions {
         type: 'intervention_set_always_disabled'
         manual: true
@@ -166,7 +166,7 @@ polymer_ext {
   parameters_shown: ->
     return localstorage_getbool('intervention_view_show_parameters')
   /*
-  dropdown_menu_changed: cfy (evt) ->*
+  dropdown_menu_changed: (evt) ->>
     selected = this.$$('#enabled_selector').selected
     if selected == 0 and this.automatic
       return
@@ -176,8 +176,8 @@ polymer_ext {
       return
     if selected == 0
       this.automatic = true
-      prev_enabled_interventions = yield get_enabled_interventions()
-      yield set_intervention_automatically_managed this.intervention.name
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_automatically_managed this.intervention.name
       add_log_interventions {
         type: 'intervention_set_smartly_managed'
         manual: true
@@ -187,9 +187,9 @@ polymer_ext {
     if selected == 1
       this.enabled = true
       this.automatic = false
-      prev_enabled_interventions = yield get_enabled_interventions()
-      yield set_intervention_enabled this.intervention.name
-      yield set_intervention_manually_managed this.intervention.name
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_enabled this.intervention.name
+      await set_intervention_manually_managed this.intervention.name
       add_log_interventions {
         type: 'intervention_set_always_enabled'
         manual: true
@@ -199,31 +199,31 @@ polymer_ext {
     if selected == 2
       this.enabled = false
       this.automatic = false
-      prev_enabled_interventions = yield get_enabled_interventions()
-      yield set_intervention_disabled this.intervention.name
-      yield set_intervention_manually_managed this.intervention.name
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_disabled this.intervention.name
+      await set_intervention_manually_managed this.intervention.name
       add_log_interventions {
         type: 'intervention_set_always_disabled'
         manual: true
         intervention_name: this.intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
-  temporarily_enable: cfy (evt) ->*
+  temporarily_enable: (evt) ->>
     this.enabled = true
-    prev_enabled_interventions = yield get_enabled_interventions()
+    prev_enabled_interventions = await get_enabled_interventions()
     intervention_name = this.intervention.name
-    yield set_intervention_enabled intervention_name
+    await set_intervention_enabled intervention_name
     add_log_interventions {
       type: 'intervention_temporarily_enabled'
       manual: true
       intervention_name: intervention_name
       prev_enabled_interventions: prev_enabled_interventions
     }
-  temporarily_disable: cfy (evt) ->*
+  temporarily_disable: (evt) ->>
     this.enabled = false
-    prev_enabled_interventions = yield get_enabled_interventions()
+    prev_enabled_interventions = await get_enabled_interventions()
     intervention_name = this.intervention.name
-    yield set_intervention_disabled intervention_name
+    await set_intervention_disabled intervention_name
     add_log_interventions {
       type: 'intervention_temporarily_disabled'
       manual: true
@@ -232,13 +232,13 @@ polymer_ext {
     }
   */
   /*
-  intervention_changed: cfy (evt) ->*
+  intervention_changed: (evt) ->>
     checked = evt.target.checked
     #this.enabled = !checked
-    prev_enabled_interventions = yield get_enabled_interventions()
+    prev_enabled_interventions = await get_enabled_interventions()
     intervention_name = this.intervention.name
     if checked
-      yield set_intervention_enabled intervention_name
+      await set_intervention_enabled intervention_name
       add_log_interventions {
         type: 'intervention_checked'
         manual: true
@@ -246,7 +246,7 @@ polymer_ext {
         prev_enabled_interventions: prev_enabled_interventions
       }
     else
-      yield set_intervention_disabled intervention_name
+      await set_intervention_disabled intervention_name
       add_log_interventions {
         type: 'intervention_unchecked'
         manual: true

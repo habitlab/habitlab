@@ -66,10 +66,10 @@ polymer_ext {
       #confirmButtonText: 'Visit Facebook to see an intervention in action'
       #cancelButtonText: 'Close'
     }
-  site_changed: cfy (site) ->*
-    goal_info_list = yield list_goals_for_site(this.site)
-    intervention_name_to_info_map = yield get_interventions()
-    enabled_interventions = yield get_enabled_interventions()
+  site_changed: (site) ->>
+    goal_info_list = await list_goals_for_site(this.site)
+    intervention_name_to_info_map = await get_interventions()
+    enabled_interventions = await get_enabled_interventions()
     for intervention_name,intervention_info of intervention_name_to_info_map
       intervention_info.enabled = (enabled_interventions[intervention_name] == true)
     if this.site != site

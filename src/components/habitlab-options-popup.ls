@@ -52,8 +52,8 @@ polymer_ext {
   isdemo_changed: ->
     if this.isdemo
       this.open()
-  ready: cfy ->*
-    yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+  ready: ->>
+    await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
   open: ->
     this.$$('#intervention_info_dialog').open()
   disable_temp_callback: ->
@@ -83,7 +83,7 @@ polymer_ext {
   open_interventions_page: ->
     open_url_in_new_tab('options.html#interventions')
     this.$$('#intervention_info_dialog').close()
-  open_feedback_form: cfy ->*
+  open_feedback_form: ->>
     feedback_form = document.createElement('feedback-form')
     feedback_form.screenshot = this.screenshot
     feedback_form.other = this.other

@@ -1,8 +1,8 @@
 {cfy} = require 'cfy'
 $ = require 'jquery'
 
-ajax = cfy (options) ->*
-  yield $.ajax options
+ajax = (options) ->>
+  await $.ajax options
 
 module.exports = {
   ajax: ajax

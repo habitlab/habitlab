@@ -36,26 +36,26 @@ polymer_ext {
   isdemo_changed: (isdemo) ->
     if isdemo
       this.goal_name = 'facebook/spend_less_time'
-  goal_name_changed: cfy (goal_name) ->*
-    goal_info = yield get_goal_info(goal_name)
+  goal_name_changed: (goal_name) ->>
+    goal_info = await get_goal_info(goal_name)
     if goal_name != this.goal_name
       return
     if this.goal_info? and this.goal_info.name == goal_name
       return
     this.goal_info = goal_name
-    yield this.set_new_goal_info(goal_info)
-  goal_info_changed: cfy (goal_info) ->*
+    await this.set_new_goal_info(goal_info)
+  goal_info_changed: (goal_info) ->>
     if this.goal_name == goal_info.name
       return
     this.goal_name = goal_info.name
-    yield this.set_new_goal_info(goal_info)
-  set_new_goal_info: cfy (goal_info) ->*
+    await this.set_new_goal_info(goal_info)
+  set_new_goal_info: (goal_info) ->>
     self = this
     goal_name = goal_info.name
-    all_interventions = yield get_interventions()
-    #enabled_interventions = yield list_enabled_interventions_for_goal(goal_name)
-    available_interventions = yield list_available_interventions_for_goal(goal_name)
-    intervention_to_seconds_saved = yield get_seconds_saved_per_session_for_each_intervention_for_goal(goal_name)
+    all_interventions = await get_interventions()
+    #enabled_interventions = await list_enabled_interventions_for_goal(goal_name)
+    available_interventions = await list_available_interventions_for_goal(goal_name)
+    intervention_to_seconds_saved = await get_seconds_saved_per_session_for_each_intervention_for_goal(goal_name)
 
     intervention_minutes_saved_and_description = []
     for intervention_name in available_interventions

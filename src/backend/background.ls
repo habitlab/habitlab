@@ -1,11 +1,7 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw new Error(evt.reason)
 
-require! {
-  co
-}
-
-co ->*
+do ->>
   localStorage.removeItem 'cached_list_all_goals'
   localStorage.removeItem 'cached_list_all_interventions'
   localStorage.removeItem 'cached_list_generic_interventions'
@@ -35,12 +31,12 @@ co ->*
       })
       if not need_to_clear_cache
         if (not developer_mode)
-          version_cached = yield store.getItem('habitlab_version')
+          version_cached = await store.getItem('habitlab_version')
           if version_cached != habitlab_version
             need_to_clear_cache = true
       if need_to_clear_cache
-        yield store.clear()
-        yield store.setItem('habitlab_version', habitlab_version)
+        await store.clear()
+        await store.setItem('habitlab_version', habitlab_version)
 
   require 'libs_backend/systemjs'
 
@@ -69,14 +65,14 @@ co ->*
     get_basic_client_data
   } = require 'libs_backend/logging_enabled_utils'
 
-  {cfy, yfy, add_noerr} = require 'cfy'
+  {yfy, add_noerr} = require 'cfy'
 
-  export make_tab_focused = cfy (tab_id, window_id) ->*
-    yield add_noerr -> chrome.windows.update(window_id, {focused: true}, it)
-    yield add_noerr -> chrome.tabs.update(tab_id, {active: true}, it)
+  export make_tab_focused = (tab_id, window_id) ->>
+    await add_noerr -> chrome.windows.update(window_id, {focused: true}, it)
+    await add_noerr -> chrome.tabs.update(tab_id, {active: true}, it)
 
-  export focus_tab_by_pattern_if_available = cfy (url_pattern) ->*
-    all_tab_list = yield add_noerr -> chrome.tabs.query {url: url_pattern}, it
+  export focus_tab_by_pattern_if_available = (url_pattern) ->>
+    all_tab_list = await add_noerr -> chrome.tabs.query {url: url_pattern}, it
     if all_tab_list.length == 0
       return false
     candidate_list = all_tab_list.filter (.currentWindow)
@@ -86,15 +82,15 @@ co ->*
     if candidate_list.length > 0
       all_tab_list = candidate_list
     tab_info = all_tab_list[0]
-    yield make_tab_focused(tab_info.id, tab_info.windowId)
+    await make_tab_focused(tab_info.id, tab_info.windowId)
     return true
 
   num_times_notification_already_shown = 0
   num_times_to_pause_before_next_notification = 0
-  export show_finish_configuring_notification_if_needed = cfy ->*
+  export show_finish_configuring_notification_if_needed = ->>
     if localStorage.getItem('allow_logging')?
       return
-    tabs_list = yield add_noerr -> chrome.tabs.query {url: chrome.extension.getURL('/options.html')}, it
+    tabs_list = await add_noerr -> chrome.tabs.query {url: chrome.extension.getURL('/options.html')}, it
     if tabs_list.length > 0
       return
     if num_times_to_pause_before_next_notification > 0 # decreases frequency of notification exponentially to decrease annoyingness
@@ -113,7 +109,7 @@ co ->*
       chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding:last')})
       close_notification()
 
-  co ->*
+  do ->>
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       if not localStorage.getItem('allow_logging')? # user did not complete onboarding
@@ -127,9 +123,9 @@ co ->*
         #send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
       return
     localStorage.setItem('notfirstrun', true)
-    yield set_default_goals_enabled()
-    user_id = yield get_user_id()
-    tab_info = yield get_active_tab_info()
+    await set_default_goals_enabled()
+    user_id = await get_user_id()
+    tab_info = await get_active_tab_info()
     need_to_create_new_tab = true
     install_source = 'unknown'
     if tab_info?
@@ -144,7 +140,7 @@ co ->*
         else
           install_source = 'webstore'
       chrome.tabs.create {url: 'options.html#onboarding'}
-    install_data = yield get_basic_client_data()
+    install_data = await get_basic_client_data()
     install_data.install_source = install_source
     $.ajax {
       type: 'POST'
@@ -153,7 +149,7 @@ co ->*
       contentType: 'application/json'
       data: JSON.stringify(install_data)
     }
-    user_secret = yield get_user_secret()
+    user_secret = await get_user_secret()
     $.ajax {
       type: 'POST'
       url: 'https://habitlab.herokuapp.com/add_secret'
@@ -276,20 +272,20 @@ co ->*
         callback()
   */
 
-  insert_css = cfy (css_path) ->*
+  insert_css = (css_path) ->>
     # todo does not do anything currently
     return
 
   running_background_scripts = {}
 
-  load_background_script = cfy (options, intervention_info) ->*
+  load_background_script = (options, intervention_info) ->>
     if running_background_scripts[options.path]?
       # already running
       return
     if options.code?
       background_script_text = options.code
     else
-      background_script_text = yield localget(options.path)
+      background_script_text = await localget(options.path)
     background_script_function = new Function('env', background_script_text)
     env = {
       intervention_info: intervention_info
@@ -300,24 +296,36 @@ co ->*
 
   cached_systemjs_code = null
 
-  execute_content_scripts_for_intervention = cfy (intervention_info, tabId, intervention_list) ->*
+  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list) ->>
+
+    console.log 'execute_content_scripts_for_intervention 1'
+    console.log intervention_list
+    console.log intervention_info
     {content_script_options, name} = intervention_info
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
 
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
-    parameter_values = yield get_intervention_parameters(intervention_info.name)
+    parameter_values = await get_intervention_parameters(intervention_info.name)
+    console.log 'execute_content_scripts_for_intervention 1.5'
+    console.log parameter_values
     for i in [0 til intervention_info_copy.parameters.length]
       parameter = intervention_info_copy.parameters[i]
       parameter.value = parameter_values[parameter.name]
       intervention_info_copy.params[parameter.name].value = parameter_values[parameter.name]
+      null
+    console.log 'execute_content_scripts_for_intervention 2'
+    console.log intervention_list
 
     if cached_systemjs_code != null
       systemjs_content_script_code = cached_systemjs_code
     else
-      systemjs_content_script_code = yield localget('/intervention_utils/systemjs.js')
+      systemjs_content_script_code = await localget('/intervention_utils/systemjs.js')
       cached_systemjs_code := systemjs_content_script_code
+
+    console.log 'execute_content_scripts_for_intervention 3'
+    console.log intervention_list
 
     debug_content_script_code = """
     content_script_debug.listen_for_eval(function(command_to_evaluate) {
@@ -417,7 +425,7 @@ co ->*
       if options.code?
         content_script_code = options.code
       else
-        content_script_code = yield localget(options.path)
+        content_script_code = await localget(options.path)
       if options.jspm_require
         content_script_code = """
         window.Polymer = window.Polymer || {}
@@ -449,19 +457,6 @@ co ->*
             })
           })
         })
-        */
-        /*
-        content_script_code = """
-        SystemJS.import('co').then(function(co) {
-          co(function*() {
-            var intervention_info_setter_lib = yield SystemJS.import('libs_common/intervention_info')
-            intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)})
-            var systemjs_require = yield SystemJS.import('libs_common/systemjs_require')
-            const require = yield systemjs_require.make_require(#{JSON.stringify(options.jspm_deps)})
-            #{content_script_code}
-          })
-        })
-        """
         */
       content_script_code = """
   if (!window.allowed_interventions) {
@@ -515,23 +510,26 @@ co ->*
     }
   }
       """
-      yield yfy(chrome.tabs.executeScript) tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}
+      await yfy(chrome.tabs.executeScript) tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}
     return
 
-  load_intervention_list = cfy (intervention_list, tabId) ->*
+  load_intervention_list = (intervention_list, tabId) ->>
     if intervention_list.length == 0
       return
+    
+    console.log 'load_intervention_list 1'
+    console.log intervention_list
 
-    all_interventions = yield get_interventions()
+    all_interventions = await get_interventions()
     intervention_info_list = [all_interventions[intervention_name] for intervention_name in intervention_list]
 
     # load background scripts
     for intervention_info in intervention_info_list
       for options in intervention_info.background_script_options
-        yield load_background_script options, intervention_info
+        await load_background_script options, intervention_info
 
     # load css files
-    yield -> chrome.tabs.insertCSS tabId, {code: '''
+    await new Promise -> chrome.tabs.insertCSS tabId, {code: '''
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -540,32 +538,42 @@ co ->*
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
     '''}, it
+
+    console.log 'load_intervention_list 2'
+    console.log intervention_list
+
     for intervention_info in intervention_info_list
       if intervention_info.css_files?
         for css_file in intervention_info.css_files
-          yield -> chrome.tabs.insertCSS tabId, {file: css_file}, it
+          await new Promise -> chrome.tabs.insertCSS tabId, {file: css_file}, it
       if intervention_info.styles?
         for css_code in intervention_info.styles
-          yield -> chrome.tabs.insertCSS tabId, {code: css_code}, it
+          await new Promise -> chrome.tabs.insertCSS tabId, {code: css_code}, it
+
+    console.log 'load_intervention_list 3'
+    console.log intervention_list
 
     # load content scripts
     for intervention_info in intervention_info_list
-      yield execute_content_scripts_for_intervention intervention_info, tabId, intervention_list
+      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list
+
+    console.log 'load_intervention_list 4'
+    console.log intervention_list
     return
 
-  load_intervention = cfy (intervention_name, tabId) ->*
-    yield load_intervention_list [intervention_name], tabId
+  load_intervention = (intervention_name, tabId) ->>
+    await load_intervention_list [intervention_name], tabId
 
-  list_loaded_interventions = cfy ->*
-    yield send_message_to_active_tab 'list_loaded_interventions', {}
+  list_loaded_interventions = ->>
+    await send_message_to_active_tab 'list_loaded_interventions', {}
 
-  get_session_id_for_tab_id_and_domain = cfy (tabId, domain) ->*
+  get_session_id_for_tab_id_and_domain = (tabId, domain) ->>
     if not tab_id_to_domain_to_session_id[tabId]?
       tab_id_to_domain_to_session_id[tabId] = {}
     session_id = tab_id_to_domain_to_session_id[tabId][domain]
     if session_id?
       return session_id
-    session_id = yield get_new_session_id_for_domain(domain)
+    session_id = await get_new_session_id_for_domain(domain)
     tab_id_to_domain_to_session_id[tabId][domain] = session_id
     return session_id
 
@@ -575,7 +583,7 @@ co ->*
 
   page_was_just_refreshed = false
 
-  load_intervention_for_location = promise-debounce cfy (location, tabId) ->*
+  load_intervention_for_location = promise-debounce (location, tabId) ->>
     if is_it_outside_work_hours()
       return
     if !is_habitlab_enabled_sync()
@@ -585,11 +593,11 @@ co ->*
     if not domain_to_prev_enabled_interventions[domain]?
       domain_to_prev_enabled_interventions[domain] = []
     prev_enabled_interventions = domain_to_prev_enabled_interventions[domain]
-    all_enabled_interventions = yield list_all_enabled_interventions_for_location(domain)
+    all_enabled_interventions = await list_all_enabled_interventions_for_location(domain)
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
-    session_id = yield get_session_id_for_tab_id_and_domain(tabId, domain)
-    active_interventions = yield getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
+    session_id = await get_session_id_for_tab_id_and_domain(tabId, domain)
+    active_interventions = await getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
     dlog 'active_interventions is'
     dlog active_interventions
     override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
@@ -599,12 +607,12 @@ co ->*
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
-        possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(domain)
+        possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
       intervention = possible_interventions[0]
       if intervention?
-        yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+        await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
       else
-        yield set_active_interventions_for_domain_and_session domain, session_id, []
+        await set_active_interventions_for_domain_and_session domain, session_id, []
       localStorage.removeItem('override_enabled_interventions_once')
     else
       active_interventions = JSON.parse active_interventions
@@ -632,18 +640,18 @@ co ->*
         dlog active_interventions
         dlog 'all_enabled_interventions'
         dlog all_enabled_interventions
-        session_id = yield get_new_session_id_for_domain(domain)
+        session_id = await get_new_session_id_for_domain(domain)
         tab_id_to_domain_to_session_id[tabId][domain] = session_id
         if override_enabled_interventions?
           possible_interventions = as_array(JSON.parse(override_enabled_interventions))
         else
-          possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+          possible_interventions = await list_enabled_nonconflicting_interventions_for_location(location)
         intervention = possible_interventions[0]
         #domain_to_session_id_to_intervention[domain][session_id] = intervention
         if intervention?
-          yield set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+          await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
         else
-          yield set_active_interventions_for_domain_and_session domain, session_id, []
+          await set_active_interventions_for_domain_and_session domain, session_id, []
         localStorage.removeItem('override_enabled_interventions_once')
     page_was_just_refreshed := false
     interventions_to_load = []
@@ -651,24 +659,24 @@ co ->*
       interventions_to_load.push intervention
     #if not intervention?
     #  return
-    #yield load_intervention intervention, tabId
+    #await load_intervention intervention, tabId
     if not override_enabled_interventions?
       permanently_enabled_interventions = localStorage.getItem('permanently_enabled_interventions')
       if permanently_enabled_interventions?
         permanently_enabled_interventions = as_array(JSON.parse(permanently_enabled_interventions))
-        all_available_interventions = yield list_available_interventions_for_location(location)
+        all_available_interventions = await list_available_interventions_for_location(location)
         all_available_interventions = as_dictset(all_available_interventions)
         permanently_enabled_interventions = permanently_enabled_interventions.filter (x) -> all_available_interventions[x]
         for permanently_enabled_intervention in permanently_enabled_interventions
           if permanently_enabled_intervention != intervention
             interventions_to_load.push permanently_enabled_intervention
-            #yield load_intervention permanently_enabled_intervention, tabId
+            #await load_intervention permanently_enabled_intervention, tabId
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
-    yield load_intervention_list interventions_to_load, tabId
+    await load_intervention_list interventions_to_load, tabId
     return
 
   /*
-  load_intervention_for_location = cfy (location, tabId) ->*
+  load_intervention_for_location = (location, tabId) ->>
     {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
     work_hours_only = work_hours_only == 'true'
     start_mins_since_midnight = parseInt start_mins_since_midnight
@@ -676,16 +684,16 @@ co ->*
     mins_since_midnight = moment().hours()*60 + moment().minutes()
     if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
       return
-    possible_interventions = yield list_enabled_nonconflicting_interventions_for_location(location)
+    possible_interventions = await list_enabled_nonconflicting_interventions_for_location(location)
     for intervention in possible_interventions
-      yield load_intervention intervention, tabId
+      await load_intervention intervention, tabId
     localStorage.removeItem('override_enabled_interventions_once')
     return
   */
 
-  getLocation = cfy ->*
+  getLocation = ->>
     #send_message_to_active_tab 'getLocation', {}, callback
-    tabinfo = yield get_active_tab_info()
+    tabinfo = await get_active_tab_info()
     return tabinfo.url
 
   split_list_by_length = (list, len) ->
@@ -714,9 +722,9 @@ co ->*
       {intervention_name, tabId} = data
       load_intervention intervention_name, tabId, ->
         callback()
-    'load_intervention_for_location': cfy (data) ->*
+    'load_intervention_for_location': (data) ->>
       {location, tabId} = data
-      yield load_intervention_for_location location, tabId
+      await load_intervention_for_location location, tabId
       return
     'load_css_file': (data, callback) ->
       {css_file, tab} = data
@@ -888,12 +896,12 @@ co ->*
       dlog output
   */
 
-  setInterval (cfy ->*
+  setInterval (->>
     if !prev_browser_focused
       return
     if current_idlestate != 'active'
       return
-    active_tab = yield get_active_tab_info()
+    active_tab = await get_active_tab_info()
     if not active_tab?
       return
     if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
@@ -901,10 +909,10 @@ co ->*
     current_domain = url_to_domain(active_tab.url)
     current_day = get_days_since_epoch()
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
-    session_id = yield get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
+    session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
     #dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
-    yield addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
-    yield addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
+    await addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
+    await addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
     #  dlog "total seconds spent on #{current_domain} today is #{total_seconds}"
   ), 1000
@@ -914,12 +922,12 @@ co ->*
   #  localStorage.tabsOpened = Number(localStorage.tabsOpened) + 1
 
   /*
-  setInterval (cfy ->*
+  setInterval (->>
     if !prev_browser_focused
       return
     if current_idlestate != 'active'
       return
-    active_tab = yield get_active_tab_info()
+    active_tab = await get_active_tab_info()
     if not active_tab?
       return
     if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
@@ -927,9 +935,9 @@ co ->*
     current_domain = url_to_domain(active_tab.url)
     dlog "current domain is #{current_domain}"
     dlog "current tab id is #{active_tab.id}"
-    session_id = yield get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
+    session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
     dlog "session_id: #{session_id}"
-    seconds_spent = yield get_seconds_spent_on_domain_in_session(current_domain, session_id)
+    seconds_spent = await get_seconds_spent_on_domain_in_session(current_domain, session_id)
     dlog "seconds spent: #{seconds_spent}"
   ), 1000
   */
@@ -979,11 +987,11 @@ co ->*
   #require('libs_backend/message_after_tab_close')
   require('libs_backend/notification_timer') #lewin notification_timer code
 
-  yield get_goal_intervention_info() # ensure cached
-  yield get_goals()
-  yield get_enabled_goals()
+  await get_goal_intervention_info() # ensure cached
+  await get_goals()
+  await get_enabled_goals()
 
-  get_habitlab_uninstall_url = cfy ->*
+  get_habitlab_uninstall_url = ->>
     base64_js = require('base64-js')
     msgpack_lite = require('msgpack-lite')
     compress_and_encode = (data) ->
@@ -1009,26 +1017,26 @@ co ->*
         uninstall_url := uninstall_url_next
         return true
       return false # had an error
-    uninstall_url_data.u = yield get_user_id()
+    uninstall_url_data.u = await get_user_id()
     uninstall_url_data.l = if (localStorage.getItem('allow_logging') == 'true') then 1 else 0
     if not set_uninstall_url_if_valid()
       return uninstall_url
-    list_enabled_goals_short = cfy ->*
+    list_enabled_goals_short = ->>
       output = []
-      goals = yield get_enabled_goals()
-      all_goals = yield get_goals()
+      goals = await get_enabled_goals()
+      all_goals = await get_goals()
       for k,v of goals
         if not v
           continue
         goal_info = all_goals[k]
         output.push goal_info.sitename_printable
       return output
-    uninstall_url_data.g = yield list_enabled_goals_short()
+    uninstall_url_data.g = await list_enabled_goals_short()
     if not set_uninstall_url_if_valid()
       return uninstall_url
     return uninstall_url
   
-  decode_habitlab_uninstall_url_data = cfy (url) ->*
+  decode_habitlab_uninstall_url_data = (url) ->>
     data = url.substr(url.indexOf('/bye#') + 5) # 'https://habitlab.github.io/bye#'.length
     base64_js = require('base64-js')
     msgpack_lite = require('msgpack-lite')
@@ -1036,16 +1044,16 @@ co ->*
       msgpack_lite.decode(base64_js.toByteArray(str))
     return decompress_and_decode(data)
 
-  set_habitlab_uninstall_url = cfy ->*
-    habitlab_uninstall_url = yield get_habitlab_uninstall_url()
+  set_habitlab_uninstall_url = ->>
+    habitlab_uninstall_url = await get_habitlab_uninstall_url()
     chrome.runtime.setUninstallURL(habitlab_uninstall_url)
   
-  export open_habitlab_uninstall_url = cfy ->*
-    uninstall_url = yield get_habitlab_uninstall_url()
+  export open_habitlab_uninstall_url = ->>
+    uninstall_url = await get_habitlab_uninstall_url()
     chrome.tabs.create {url: uninstall_url}
 
   if (not developer_mode) # not developer mode
-    yield set_habitlab_uninstall_url()
+    await set_habitlab_uninstall_url()
 
   num_times_restart_failed_due_to_loaded_interventions = 0
   num_times_restart_failed_due_to_loaded_interventions_active = 0
@@ -1072,8 +1080,8 @@ co ->*
       restart_habitlab()
     if (priority == 3) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] + restart_failed_priority_to_counts[2] + restart_failed_priority_to_counts[3]) >= 50
       restart_habitlab()
-  export try_to_restart_habitlab_now = cfy !->*
-    open_tabs = yield add_noerr -> chrome.tabs.query({}, it)
+  export try_to_restart_habitlab_now = !->>
+    open_tabs = await add_noerr -> chrome.tabs.query({}, it)
     active_tabs = open_tabs.filter (.active)
     for tab_info in active_tabs
       if tab_info.url? and tab_info.url.startsWith(chrome.extension.getURL(''))
@@ -1081,7 +1089,7 @@ co ->*
         return record_restart_failed(0)
     tab_ids_with_no_interventions = {}
     for tab_info in active_tabs
-      loaded_interventions = yield list_currently_loaded_interventions_for_tabid(tab_info.id)
+      loaded_interventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
       if loaded_interventions.length > 0
         # have loaded interventions, active
         return record_restart_failed(1)
@@ -1090,7 +1098,7 @@ co ->*
     for tab_info in open_tabs
       if tab_ids_with_no_interventions[tab_info.id]?
         continue
-      loaded_interventions = yield list_currently_loaded_interventions_for_tabid(tab_info.id)
+      loaded_interventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
       if loaded_interventions.length > 0
         # have loaded interventions, not active
         return record_restart_failed(2)
@@ -1102,13 +1110,13 @@ co ->*
     chrome.runtime.restart()
 
   habitlab_restarter_running = false
-  export start_trying_to_restart_habitlab = cfy !->*
+  export start_trying_to_restart_habitlab = !->>
     if habitlab_restarter_running
       return
     habitlab_restarter_running := true
     while true
-      yield try_to_restart_habitlab_now()
-      yield sleep(60000) # every 60 seconds
+      await try_to_restart_habitlab_now()
+      await sleep(60000) # every 60 seconds
 
   require! {
     semver

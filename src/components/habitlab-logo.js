@@ -26,16 +26,16 @@ polymer_ext({
     }
     SystemJS.import('libs_common/screenshot_utils');
   },
-  habitlab_button_clicked: cfy(function*() {
-    var screenshot_utils = yield SystemJS.import('libs_common/screenshot_utils');
-    var screenshot = yield screenshot_utils.get_screenshot_as_base64();
-    var data = yield screenshot_utils.get_data_for_feedback();
+  habitlab_button_clicked: async function() {
+    var screenshot_utils = await SystemJS.import('libs_common/screenshot_utils');
+    var screenshot = await screenshot_utils.get_screenshot_as_base64();
+    var data = await screenshot_utils.get_data_for_feedback();
     const habitlab_options_popup = document.createElement('habitlab-options-popup');
     document.body.appendChild(habitlab_options_popup);
     habitlab_options_popup.screenshot = screenshot;
     habitlab_options_popup.other = data;
     habitlab_options_popup.open();
-  }),
+  },
   get_url: function() {
     //return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');
     return chrome.extension.getURL('icons/gear_white.svg');

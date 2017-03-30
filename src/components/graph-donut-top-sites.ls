@@ -49,11 +49,11 @@ polymer_ext {
       myButton.value = "neverClicked"
       this.pop('donutdata.datasets')
 
-  ready: cfy ->*
+  ready: ->>
     self = this
     
     #MARK: Donut Graph
-    a = yield get_seconds_spent_on_all_domains_today()
+    a = await get_seconds_spent_on_all_domains_today()
     sorted = bySortedValue(a)
     #accounts for visiting less than 5 websites
     if sorted.length < 5 

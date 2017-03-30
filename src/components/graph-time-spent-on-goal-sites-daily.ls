@@ -22,13 +22,13 @@ polymer_ext {
   is: 'graph-time-spent-on-goal-sites-daily'
   properties: {
   }
-  ready: cfy ->*
+  ready: ->>
     self = this
     
-    goals = yield get_goals()
-    enabled_goals = yield get_enabled_goals()
+    goals = await get_goals()
+    enabled_goals = await get_enabled_goals()
 
-    goal_to_progress = yield get_progress_on_enabled_goals_today()
+    goal_to_progress = await get_progress_on_enabled_goals_today()
     labels = []
     time_spent = []
     for goal_name in as_array(enabled_goals)

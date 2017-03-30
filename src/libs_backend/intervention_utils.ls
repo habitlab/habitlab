@@ -54,14 +54,14 @@ prelude = require 'prelude-ls'
 cached_get_intervention_info = {}
 cached_get_intervention_info_unmodified = {}
 
-getInterventionInfo = cfy (intervention_name) ->*
+getInterventionInfo = (intervention_name) ->>
   cached_val = cached_get_intervention_info[intervention_name]
   if cached_val?
     return JSON.parse JSON.stringify cached_val
   cached_val = cached_get_intervention_info_unmodified[intervention_name]
   if cached_val?
     return JSON.parse JSON.stringify cached_val
-  intervention_info = yield localget_json("/interventions/#{intervention_name}/info.json")
+  intervention_info = await localget_json("/interventions/#{intervention_name}/info.json")
   intervention_info.name = intervention_name
   intervention_info.sitename = intervention_name.split('/')[0]
   cached_get_intervention_info[intervention_name] = intervention_info
@@ -69,37 +69,37 @@ getInterventionInfo = cfy (intervention_name) ->*
   return intervention_info
 */
 
-export getInterventionInfo = cfy (intervention_name) ->*
-  all_intervention_info = yield get_interventions()
+export getInterventionInfo = (intervention_name) ->>
+  all_intervention_info = await get_interventions()
   return all_intervention_info[intervention_name]
 
 export set_override_enabled_interventions_once = (intervention_name) ->
   localStorage.setItem('override_enabled_interventions_once', JSON.stringify([intervention_name]))
   return
 
-export get_enabled_interventions_with_override = cfy ->*
+export get_enabled_interventions_with_override = ->>
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
   if override_enabled_interventions?
     #localStorage.removeItem('override_enabled_interventions_once')
     return as_dictset(JSON.parse(override_enabled_interventions))
-  enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
+  enabled_interventions = await intervention_manager.get_enabled_interventions_for_today()
   return enabled_interventions
 
-export get_enabled_interventions_with_override_for_visit = cfy ->*
+export get_enabled_interventions_with_override_for_visit = ->>
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
   if override_enabled_interventions?
     #localStorage.removeItem('override_enabled_interventions_once')
     return as_dictset(JSON.parse(override_enabled_interventions))
-  enabled_interventions = yield intervention_manager.get_enabled_interventions_for_visit()
+  enabled_interventions = await intervention_manager.get_enabled_interventions_for_visit()
   return enabled_interventions
 
 /*
-export get_enabled_interventions = cfy ->*
-  enabled_interventions = yield intervention_manager.get_enabled_interventions_for_today()
+export get_enabled_interventions = ->>
+  enabled_interventions = await intervention_manager.get_enabled_interventions_for_today()
   return enabled_interventions
 
-export set_enabled_interventions = cfy (enabled_interventions) ->*
-  yield intervention_manager.set_enabled_interventions_for_today_manual enabled_interventions
+export set_enabled_interventions = (enabled_interventions) ->>
+  await intervention_manager.set_enabled_interventions_for_today_manual enabled_interventions
   return
 */
 
@@ -113,46 +113,46 @@ export is_it_outside_work_hours = ->
     return true
   return false
 
-export get_enabled_interventions = cfy ->*
-  enabled_interventions = yield intervention_manager.get_currently_enabled_interventions()
+export get_enabled_interventions = ->>
+  enabled_interventions = await intervention_manager.get_currently_enabled_interventions()
   return enabled_interventions
 
-export set_enabled_interventions = cfy (enabled_interventions) ->*
-  yield intervention_manager.set_currently_enabled_interventions_manual enabled_interventions
+export set_enabled_interventions = (enabled_interventions) ->>
+  await intervention_manager.set_currently_enabled_interventions_manual enabled_interventions
 
-export set_intervention_enabled = cfy (intervention_name) ->*
-  enabled_interventions = yield get_enabled_interventions()
+export set_intervention_enabled = (intervention_name) ->>
+  enabled_interventions = await get_enabled_interventions()
   if enabled_interventions[intervention_name]
     return
   enabled_interventions[intervention_name] = true
-  yield set_enabled_interventions enabled_interventions
+  await set_enabled_interventions enabled_interventions
 
-export set_intervention_disabled_permanently = cfy (intervention_name) ->*
-  yield set_intervention_manually_managed intervention_name
-  enabled_interventions = yield get_enabled_interventions()
+export set_intervention_disabled_permanently = (intervention_name) ->>
+  await set_intervention_manually_managed intervention_name
+  enabled_interventions = await get_enabled_interventions()
   if not enabled_interventions[intervention_name]
     return
   enabled_interventions[intervention_name] = false
-  yield set_enabled_interventions enabled_interventions
+  await set_enabled_interventions enabled_interventions
 
-export set_intervention_disabled = cfy (intervention_name) ->*
-  enabled_interventions = yield get_enabled_interventions()
+export set_intervention_disabled = (intervention_name) ->>
+  enabled_interventions = await get_enabled_interventions()
   if not enabled_interventions[intervention_name]
     return
   enabled_interventions[intervention_name] = false
-  yield set_enabled_interventions enabled_interventions
+  await set_enabled_interventions enabled_interventions
 
-export is_intervention_enabled = cfy (intervention_name) ->*
-  enabled_interventions = yield get_enabled_interventions()
+export is_intervention_enabled = (intervention_name) ->>
+  enabled_interventions = await get_enabled_interventions()
   return enabled_interventions[intervention_name]
 
-export generate_interventions_for_domain = cfy (domain) ->*
-  generic_interventions = yield list_generic_interventions()
+export generate_interventions_for_domain = (domain) ->>
+  generic_interventions = await list_generic_interventions()
   new_intervention_info_list = []
-  goals = yield goal_utils.get_goals()
+  goals = await goal_utils.get_goals()
   goal_for_intervention = goals["custom/spend_less_time_#{domain}"]
   for generic_intervention in generic_interventions
-    intervention_info = yield getInterventionInfo generic_intervention
+    intervention_info = await getInterventionInfo generic_intervention
     # TODO replace the above step with something that is non-asynchronous
     intervention_info = JSON.parse JSON.stringify intervention_info
     intervention_info.name = generic_intervention.split('generic/').join("generated_#{domain}/")
@@ -179,22 +179,22 @@ export generate_interventions_for_domain = cfy (domain) ->*
     intervention_info.goals = [goal_for_intervention]
     #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
     new_intervention_info_list.push intervention_info
-  yield add_new_interventions new_intervention_info_list
+  await add_new_interventions new_intervention_info_list
   return
 
-export add_new_intervention = cfy (intervention_info) ->*
-  yield add_new_interventions [intervention_info]
+export add_new_intervention = (intervention_info) ->>
+  await add_new_interventions [intervention_info]
   /*
   add_new_intervention({
 
   })
   */
 
-export list_custom_interventions = cfy ->*
-  all_interventions = yield get_interventions()
+export list_custom_interventions = ->>
+  all_interventions = await get_interventions()
   return prelude.sort [name for name,info of all_interventions when info.custom]
 
-export add_new_interventions = cfy (intervention_info_list) ->*
+export add_new_interventions = (intervention_info_list) ->>
   extra_get_interventions = localStorage.getItem 'extra_get_interventions'
   if extra_get_interventions?
     extra_get_interventions = JSON.parse extra_get_interventions
@@ -214,9 +214,9 @@ export add_new_interventions = cfy (intervention_info_list) ->*
   clear_cache_all_interventions()
   log_utils.clear_intervention_logdb_cache()
   #clear_interventions_from_cache(new_intervention_names)
-  yield list_all_interventions()
-  yield get_interventions()
-  yield log_utils.getInterventionLogDb()
+  await list_all_interventions()
+  await get_interventions()
+  await log_utils.getInterventionLogDb()
   return
 
 export remove_all_custom_interventions = ->
@@ -237,19 +237,19 @@ export remove_custom_intervention = (intervention_name) ->
   remove_item_from_localstorage_list 'extra_list_all_interventions', intervention_name
   return
 
-export list_generic_interventions = memoizeSingleAsync cfy ->*
+export list_generic_interventions = memoizeSingleAsync ->>
   cached_generic_interventions = localStorage.getItem 'cached_list_generic_interventions'
   if cached_generic_interventions?
     return JSON.parse cached_generic_interventions
-  #interventions_list = yield localget_json('/interventions/interventions.json')
-  interventions_list = (yield goal_utils.get_goal_intervention_info()).interventions.map((.name))
+  #interventions_list = await localget_json('/interventions/interventions.json')
+  interventions_list = (await goal_utils.get_goal_intervention_info()).interventions.map((.name))
   generic_interventions_list = interventions_list.filter -> it.startsWith('generic/')
   localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
   return generic_interventions_list
 
 #local_cache_list_all_interventions = null
 
-export list_all_interventions = cfy ->*
+export list_all_interventions = ->>
   #if local_cache_list_all_interventions?
   #  return local_cache_list_all_interventions
   cached_list_all_interventions = localStorage.getItem 'cached_list_all_interventions'
@@ -257,8 +257,8 @@ export list_all_interventions = cfy ->*
     return JSON.parse cached_list_all_interventions
     #local_cache_list_all_interventions := JSON.parse cached_list_all_interventions
     #return local_cache_list_all_interventions
-  #interventions_list = yield localget_json('/interventions/interventions.json')
-  interventions_list = (yield goal_utils.get_goal_intervention_info()).interventions.map((.name))
+  #interventions_list = await localget_json('/interventions/interventions.json')
+  interventions_list = (await goal_utils.get_goal_intervention_info()).interventions.map((.name))
   interventions_list_extra_text = localStorage.getItem 'extra_list_all_interventions'
   if interventions_list_extra_text?
     interventions_list_extra = JSON.parse interventions_list_extra_text
@@ -281,8 +281,8 @@ export clear_cache_list_all_interventions = ->
   localStorage.removeItem 'cached_list_all_interventions'
   return
 
-export get_intervention_info = cfy (intervention_name) ->*
-  all_interventions = yield get_interventions()
+export get_intervention_info = (intervention_name) ->>
+  all_interventions = await get_interventions()
   return all_interventions[intervention_name]
 
 fix_intervention_info = (intervention_info, goals_satisfied_by_intervention) ->
@@ -406,12 +406,12 @@ fix_intervention_name_to_intervention_info_dict = (intervention_name_to_info, in
 #local_cache_get_interventions = null
 
 /*
-export get_interventions = cfy ->*
+export get_interventions = ->>
   #if local_cache_get_interventions?
     #return local_cache_get_interventions
   cached_get_interventions = localStorage.getItem 'cached_get_interventions'
   if cached_get_interventions?
-    interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+    interventions_to_goals = await goal_utils.get_interventions_to_goals()
     intervention_name_to_info = JSON.parse cached_get_interventions
     fix_intervention_name_to_intervention_info_dict intervention_name_to_info, interventions_to_goals
     return intervention_name_to_info
@@ -419,7 +419,7 @@ export get_interventions = cfy ->*
     #local_cache_get_interventions := JSON.parse cached_get_interventions
     #return local_cache_get_interventions
   interventions_to_goals_promises = goal_utils.get_interventions_to_goals()
-  interventions_list = yield list_all_interventions()
+  interventions_list = await list_all_interventions()
   output = {}
   extra_get_interventions_text = localStorage.getItem 'extra_get_interventions'
   if extra_get_interventions_text?
@@ -427,7 +427,7 @@ export get_interventions = cfy ->*
     for intervention_name,intervention_info of extra_get_interventions
       output[intervention_name] = intervention_info
   intervention_name_to_info_promises = {[intervention_name, getInterventionInfo(intervention_name)] for intervention_name in interventions_list when not output[intervention_name]?}
-  [intervention_name_to_info, interventions_to_goals] = yield [intervention_name_to_info_promises, interventions_to_goals_promises]
+  [intervention_name_to_info, interventions_to_goals] = await [intervention_name_to_info_promises, interventions_to_goals_promises]
   for intervention_name,intervention_info of intervention_name_to_info
     output[intervention_name] = intervention_info
   localStorage.setItem 'cached_get_interventions', JSON.stringify(output)
@@ -435,22 +435,22 @@ export get_interventions = cfy ->*
   return output
 */
 
-export get_interventions = cfy ->*
+export get_interventions = ->>
   #if local_cache_get_interventions?
     #return local_cache_get_interventions
   cached_get_interventions = localStorage.getItem 'cached_get_interventions'
   if cached_get_interventions?
-    interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+    interventions_to_goals = await goal_utils.get_interventions_to_goals()
     intervention_name_to_info = JSON.parse cached_get_interventions
     fix_intervention_name_to_intervention_info_dict intervention_name_to_info, interventions_to_goals
     return intervention_name_to_info
     #return JSON.parse cached_get_interventions
     #local_cache_get_interventions := JSON.parse cached_get_interventions
     #return local_cache_get_interventions
-  interventions_to_goals = yield goal_utils.get_interventions_to_goals()
-  interventions_list = yield list_all_interventions()
+  interventions_to_goals = await goal_utils.get_interventions_to_goals()
+  interventions_list = await list_all_interventions()
   output = {}
-  intervention_info_list = (yield goal_utils.get_goal_intervention_info()).interventions
+  intervention_info_list = (await goal_utils.get_goal_intervention_info()).interventions
   for intervention_info in intervention_info_list
     output[intervention_info.name] = intervention_info
   extra_get_interventions_text = localStorage.getItem 'extra_get_interventions'
@@ -467,35 +467,35 @@ export clear_cache_get_interventions = ->
   localStorage.removeItem 'cached_get_interventions'
   return
 
-export list_enabled_interventions_for_location = cfy (location) ->*
-  available_interventions = yield list_available_interventions_for_location(location)
-  enabled_interventions = yield get_enabled_interventions()
+export list_enabled_interventions_for_location = (location) ->>
+  available_interventions = await list_available_interventions_for_location(location)
+  enabled_interventions = await get_enabled_interventions()
   return available_interventions.filter((x) -> enabled_interventions[x])
 
 /*
-export list_all_enabled_interventions_for_location_with_override = cfy (location) ->*
+export list_all_enabled_interventions_for_location_with_override = (location) ->>
   # TODO this no longer works on new days. need to persist enabled interventions across days
   override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
   if override_enabled_interventions?
     #localStorage.removeItem('override_enabled_interventions_once')
     return as_array(JSON.parse(override_enabled_interventions))
-  available_interventions = yield list_available_interventions_for_location(location)
-  enabled_interventions = yield intervention_manager.get_most_recent_enabled_interventions()
+  available_interventions = await list_available_interventions_for_location(location)
+  enabled_interventions = await intervention_manager.get_most_recent_enabled_interventions()
   return available_interventions.filter((x) -> enabled_interventions[x])
 */
 
-export list_all_enabled_interventions_for_location = cfy (location) ->*
+export list_all_enabled_interventions_for_location = (location) ->>
   #override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
   #if override_enabled_interventions?
   #  return as_array(JSON.parse(override_enabled_interventions))
-  available_interventions = yield list_available_interventions_for_location(location)
-  enabled_interventions = yield intervention_manager.get_currently_enabled_interventions()
+  available_interventions = await list_available_interventions_for_location(location)
+  enabled_interventions = await intervention_manager.get_currently_enabled_interventions()
   return available_interventions.filter((x) -> enabled_interventions[x])
 
-export list_enabled_nonconflicting_interventions_for_location = cfy (location) ->*
-  available_interventions = yield list_available_interventions_for_location(location)
-  enabled_interventions = yield get_enabled_interventions_with_override_for_visit()
-  all_interventions = yield get_interventions()
+export list_enabled_nonconflicting_interventions_for_location = (location) ->>
+  available_interventions = await list_available_interventions_for_location(location)
+  enabled_interventions = await get_enabled_interventions_with_override_for_visit()
+  all_interventions = await get_interventions()
   enabled_interventions_for_location = available_interventions.filter((x) -> enabled_interventions[x])
   output = []
   output_set = {}
@@ -510,8 +510,8 @@ export list_enabled_nonconflicting_interventions_for_location = cfy (location) -
       output_set[intervention_name] = true
   return output
 
-export list_available_interventions_for_location = cfy (location) ->*
-  all_interventions = yield get_interventions()
+export list_available_interventions_for_location = (location) ->>
+  all_interventions = await get_interventions()
   possible_interventions = []
   for intervention_name,intervention_info of all_interventions
     blacklisted = false
@@ -530,7 +530,7 @@ export list_available_interventions_for_location = cfy (location) ->*
       possible_interventions.push intervention_name
   return possible_interventions
 
-export get_manually_managed_interventions_localstorage = cfy ->*
+export get_manually_managed_interventions_localstorage = ->>
   manually_managed_interventions_str = localStorage.getItem('manually_managed_interventions')
   if not manually_managed_interventions_str?
     manually_managed_interventions = {}
@@ -541,45 +541,45 @@ export get_manually_managed_interventions_localstorage = cfy ->*
 export get_manually_managed_interventions = get_manually_managed_interventions_localstorage
 
 /*
-export get_most_recent_manually_enabled_interventions = cfy ->*
-  enabled_interventions = yield intervention_manager.get_most_recent_enabled_interventions()
-  manually_managed_interventions = yield get_manually_managed_interventions()
+export get_most_recent_manually_enabled_interventions = ->>
+  enabled_interventions = await intervention_manager.get_most_recent_enabled_interventions()
+  manually_managed_interventions = await get_manually_managed_interventions()
   output = {}
   for intervention_name,is_enabled of enabled_interventions
     output[intervention_name] = is_enabled and manually_managed_interventions[intervention_name]
   return output
 
-export get_most_recent_manually_disabled_interventions = cfy ->*
-  enabled_interventions = yield intervention_manager.get_most_recent_enabled_interventions()
-  manually_managed_interventions = yield get_manually_managed_interventions()
+export get_most_recent_manually_disabled_interventions = ->>
+  enabled_interventions = await intervention_manager.get_most_recent_enabled_interventions()
+  manually_managed_interventions = await get_manually_managed_interventions()
   output = {}
   for intervention_name,is_enabled of enabled_interventions
     output[intervention_name] = (!is_enabled) and manually_managed_interventions[intervention_name]
   return output
 */
 
-export set_manually_managed_interventions = cfy (manually_managed_interventions) ->*
+export set_manually_managed_interventions = (manually_managed_interventions) ->>
   localStorage.setItem 'manually_managed_interventions', JSON.stringify(manually_managed_interventions)
   return
 
-export set_intervention_manually_managed = cfy (intervention_name) ->*
-  manually_managed_interventions = yield get_manually_managed_interventions()
+export set_intervention_manually_managed = (intervention_name) ->>
+  manually_managed_interventions = await get_manually_managed_interventions()
   if manually_managed_interventions[intervention_name]
     return
   manually_managed_interventions[intervention_name] = true
-  yield set_manually_managed_interventions manually_managed_interventions
+  await set_manually_managed_interventions manually_managed_interventions
 
-export set_intervention_automatically_managed = cfy (intervention_name) ->*
-  manually_managed_interventions = yield get_manually_managed_interventions()
+export set_intervention_automatically_managed = (intervention_name) ->>
+  manually_managed_interventions = await get_manually_managed_interventions()
   if not manually_managed_interventions[intervention_name]
     return
   manually_managed_interventions[intervention_name] = false
-  yield set_manually_managed_interventions manually_managed_interventions
+  await set_manually_managed_interventions manually_managed_interventions
 
-export list_available_interventions_for_enabled_goals = cfy ->*
+export list_available_interventions_for_enabled_goals = ->>
   # outputs a list of intervention names
-  interventions_to_goals = yield goal_utils.get_interventions_to_goals()
-  enabled_goals = yield goal_utils.get_enabled_goals()
+  interventions_to_goals = await goal_utils.get_interventions_to_goals()
+  enabled_goals = await goal_utils.get_enabled_goals()
   output = []
   output_set = {}
   for intervention_name,goals of interventions_to_goals
@@ -589,9 +589,9 @@ export list_available_interventions_for_enabled_goals = cfy ->*
         output_set[intervention_name] = true
   return output
 
-export list_available_interventions_for_goal = cfy (goal_name) ->*
+export list_available_interventions_for_goal = (goal_name) ->>
   # outputs a list of intervention names
-  interventions_to_goals = yield goal_utils.get_interventions_to_goals()
+  interventions_to_goals = await goal_utils.get_interventions_to_goals()
   output = []
   output_set = {}
   for intervention_name,goals of interventions_to_goals
@@ -601,10 +601,10 @@ export list_available_interventions_for_goal = cfy (goal_name) ->*
         output_set[intervention_name] = true
   return output
 
-export list_enabled_interventions_for_goal = cfy (goal_name) ->*
+export list_enabled_interventions_for_goal = (goal_name) ->>
   # outputs a list of intervention names
-  enabled_interventions = yield get_enabled_interventions()
-  available_interventions_for_goal = yield list_available_interventions_for_goal(goal_name)
+  enabled_interventions = await get_enabled_interventions()
+  available_interventions_for_goal = await list_available_interventions_for_goal(goal_name)
   return available_interventions_for_goal.filter(-> enabled_interventions[it])
 
 cast_to_bool = (parameter_value) ->
@@ -625,38 +625,38 @@ cast_to_type = (parameter_value, type_name) ->
     return cast_to_bool(parameter_value)
   return parameter_value
 
-export set_intervention_parameter = cfy (intervention_name, parameter_name, parameter_value) ->*
-  yield setkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, parameter_value
+export set_intervention_parameter = (intervention_name, parameter_name, parameter_value) ->>
+  await setkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name, parameter_value
 
-get_intervention_parameter_type = cfy (intervention_name, parameter_name) ->*
-  interventions = yield get_interventions()
+get_intervention_parameter_type = (intervention_name, parameter_name) ->>
+  interventions = await get_interventions()
   intervention_info = interventions[intervention_name]
   parameter_type = intervention_info.params[parameter_name].type
   return parameter_type
 
-export get_intervention_parameter_default = cfy (intervention_name, parameter_name) ->*
-  interventions = yield get_interventions()
+export get_intervention_parameter_default = (intervention_name, parameter_name) ->>
+  interventions = await get_interventions()
   intervention_info = interventions[intervention_name]
   parameter_type = intervention_info.params[parameter_name].type
   parameter_value = intervention_info.params[parameter_name].default
   return cast_to_type(parameter_value, parameter_type)
 
-export get_intervention_parameters_default = cfy (intervention_name) ->*
-  interventions = yield get_interventions()
+export get_intervention_parameters_default = (intervention_name) ->>
+  interventions = await get_interventions()
   intervention_info = interventions[intervention_name]
   return {[x.name, cast_to_type(x.default, x.type)] for x in intervention_info.parameters}
 
-export get_intervention_parameter = cfy (intervention_name, parameter_name) ->*
-  result = yield getkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name
-  parameter_type = yield get_intervention_parameter_type(intervention_name, parameter_name)
+export get_intervention_parameter = (intervention_name, parameter_name) ->>
+  result = await getkey_dictdict 'intervention_to_parameters', intervention_name, parameter_name
+  parameter_type = await get_intervention_parameter_type(intervention_name, parameter_name)
   if result?
     return cast_to_type(result, parameter_type)
-  yield get_intervention_parameter_default(intervention_name, parameter_name)
+  await get_intervention_parameter_default(intervention_name, parameter_name)
 
-export get_intervention_parameters = cfy (intervention_name) ->*
-  results = yield getdict_for_key_dictdict 'intervention_to_parameters', intervention_name
-  default_parameters = yield get_intervention_parameters_default(intervention_name)
-  interventions = yield get_interventions()
+export get_intervention_parameters = (intervention_name) ->>
+  results = await getdict_for_key_dictdict 'intervention_to_parameters', intervention_name
+  default_parameters = await get_intervention_parameters_default(intervention_name)
+  interventions = await get_interventions()
   intervention_info = interventions[intervention_name]
   output = {}
   for k,v of default_parameters
@@ -665,9 +665,9 @@ export get_intervention_parameters = cfy (intervention_name) ->*
     output[k] = cast_to_type(parameter_value, parameter_type)
   return output
 
-export get_seconds_spent_on_domain_for_each_intervention = cfy (domain) ->*
-  session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
-  session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+export get_seconds_spent_on_domain_for_each_intervention = (domain) ->>
+  session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
   intervention_to_session_lengths = {}
   for session_id,interventions of session_id_to_interventions
     interventions = JSON.parse interventions
@@ -686,14 +686,14 @@ export get_seconds_spent_on_domain_for_each_intervention = cfy (domain) ->*
     output[intervention] = median session_lengths
   return output
 
-export get_seconds_saved_per_session_for_each_intervention_for_goal = cfy (goal_name) ->*
-  goal_info = yield goal_utils.get_goal_info(goal_name)
+export get_seconds_saved_per_session_for_each_intervention_for_goal = (goal_name) ->>
+  goal_info = await goal_utils.get_goal_info(goal_name)
   domain = goal_info.domain
   intervention_names = goal_info.interventions
-  session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
-  session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
-  intervention_to_seconds_per_session = yield get_seconds_spent_on_domain_for_each_intervention(domain)
-  baseline_session_time = yield get_baseline_session_time_on_domain(domain)
+  session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+  intervention_to_seconds_per_session = await get_seconds_spent_on_domain_for_each_intervention(domain)
+  baseline_session_time = await get_baseline_session_time_on_domain(domain)
   output = {}
   for intervention in intervention_names
     seconds_per_session = intervention_to_seconds_per_session[intervention]
@@ -704,14 +704,14 @@ export get_seconds_saved_per_session_for_each_intervention_for_goal = cfy (goal_
     output[intervention] = time_saved
   return output
 
-export get_seconds_spent_per_session_for_each_intervention_for_goal = cfy (goal_name) ->*
-  goal_info = yield goal_utils.get_goal_info(goal_name)
+export get_seconds_spent_per_session_for_each_intervention_for_goal = (goal_name) ->>
+  goal_info = await goal_utils.get_goal_info(goal_name)
   domain = goal_info.domain
   intervention_names = goal_info.interventions
-  session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
-  session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
-  intervention_to_seconds_per_session = yield get_seconds_spent_on_domain_for_each_intervention(domain)
-  baseline_session_time = yield get_baseline_session_time_on_domain(domain)
+  session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+  intervention_to_seconds_per_session = await get_seconds_spent_on_domain_for_each_intervention(domain)
+  baseline_session_time = await get_baseline_session_time_on_domain(domain)
   output = {}
   for intervention in intervention_names
     seconds_per_session = intervention_to_seconds_per_session[intervention]
@@ -724,13 +724,13 @@ export get_seconds_spent_per_session_for_each_intervention_for_goal = cfy (goal_
 /*
 # only kept for legacy compatibility purposes, will be removed, do not use
 # replacement: get_seconds_saved_per_session_for_each_intervention_for_goal
-export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
-  goal_info = yield goal_utils.get_goal_info(goal_name)
+export get_effectiveness_of_all_interventions_for_goal = (goal_name) ->>
+  goal_info = await goal_utils.get_goal_info(goal_name)
   domain = goal_info.domain
   intervention_names = goal_info.interventions
-  session_id_to_interventions = yield getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
-  session_id_to_seconds = yield getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
-  intervention_to_seconds_per_session = yield get_seconds_spent_on_domain_for_each_intervention(domain)
+  session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+  intervention_to_seconds_per_session = await get_seconds_spent_on_domain_for_each_intervention(domain)
   output = {}
   for intervention,seconds_per_session of intervention_to_seconds_per_session
     minutes_per_session = seconds_per_session / 60
@@ -749,13 +749,13 @@ export get_effectiveness_of_all_interventions_for_goal = cfy (goal_name) ->*
   return output
 */
 
-export get_goals_and_interventions = cfy ->*
-  intervention_name_to_info = yield get_interventions()
-  enabled_interventions = yield get_enabled_interventions()
-  enabled_goals = yield goal_utils.get_enabled_goals()
-  all_goals = yield goal_utils.get_goals()
-  all_goals_list = yield goal_utils.list_all_goals()
-  manually_managed_interventions = yield get_manually_managed_interventions()
+export get_goals_and_interventions = ->>
+  intervention_name_to_info = await get_interventions()
+  enabled_interventions = await get_enabled_interventions()
+  enabled_goals = await goal_utils.get_enabled_goals()
+  all_goals = await goal_utils.get_goals()
+  all_goals_list = await goal_utils.list_all_goals()
+  manually_managed_interventions = await get_manually_managed_interventions()
   goal_to_interventions = {}
   for intervention_name,intervention_info of intervention_name_to_info
     for goal in intervention_info.goals
@@ -779,12 +779,12 @@ export get_goals_and_interventions = cfy ->*
   return list_of_goals_and_interventions
 
 /*
-export get_goals_and_interventions = cfy ->*
-  intervention_name_to_info = yield get_interventions()
-  enabled_interventions = yield get_enabled_interventions()
-  enabled_goals = yield goal_utils.get_enabled_goals()
-  all_goals = yield goal_utils.get_goals()
-  manually_managed_interventions = yield get_manually_managed_interventions()
+export get_goals_and_interventions = ->>
+  intervention_name_to_info = await get_interventions()
+  enabled_interventions = await get_enabled_interventions()
+  enabled_goals = await goal_utils.get_enabled_goals()
+  all_goals = await goal_utils.get_goals()
+  manually_managed_interventions = await get_manually_managed_interventions()
   goal_to_interventions = {}
   for intervention_name,intervention_info of intervention_name_to_info
     for goal in intervention_info.goals

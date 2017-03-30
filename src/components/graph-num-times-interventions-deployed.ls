@@ -19,19 +19,19 @@ polymer_ext {
   is: 'graph-num-times-interventions-deployed'
   properties: {
   }
-  ready: cfy ->*
+  ready: ->>
     self = this
     
     #MARK: Num Times Interventions Deployed Graph
     #Retrieves all interventions    
-    seenInterventions = yield get_interventions_seen_today()
+    seenInterventions = await get_interventions_seen_today()
 
     results = []
     for intv in seenInterventions
-      results.push yield get_num_impressions_today(intv)
+      results.push await get_num_impressions_today(intv)
 
     #Retrieves all intervention descriptions
-    interv_descriptions = yield get_interventions()
+    interv_descriptions = await get_interventions()
 
     #Retrieves necessary intervention descriptions
     seenInterventionsLabels = []

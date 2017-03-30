@@ -27,13 +27,13 @@ export import_func = (func_name) ->
   if not (typeof(signature) == 'string' or Array.isArray(signature))
     throw new Error("invalid signature #{JSON.stringify(signature)} for function #{func_name} in libs_common/function_signatures.ls")
   if Array.isArray(signature)
-    return cfy (...args) ->*
+    return cfy (...args) ->>
       arg_dict = {}
       for arg_name,idx in signature
         arg_dict[arg_name] = args[idx]
-      yield send_message_to_background(func_name, arg_dict)
+      await send_message_to_background(func_name, arg_dict)
     , {num_args: signature.length}
   if typeof(signature) == 'string'
-    return cfy (arg) ->*
-      yield send_message_to_background(func_name, arg)
+    return (arg) ->>
+      await send_message_to_background(func_name, arg)
   throw new Error("import_func failed for function #{func_name} with signature #{JSON.stringify(signature)}")

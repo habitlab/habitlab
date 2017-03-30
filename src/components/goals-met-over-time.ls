@@ -36,12 +36,12 @@ polymer_ext {
   is_first_day: (day_num) ->
     return day_num == 0
 
-  ready: cfy ->*
+  ready: ->>
     self = this
     day = moment().startOf('date')
     day_num_to_day_name = {}
-    day_num_to_num_goals_met = yield get_num_goals_met_this_week()
-    num_enabled_goals = yield get_num_enabled_goals()
+    day_num_to_num_goals_met = await get_num_goals_met_this_week()
+    num_enabled_goals = await get_num_enabled_goals()
 
     for day_num from 0 to 6
       day_num_to_day_name[day_num] = day.format("dddd")

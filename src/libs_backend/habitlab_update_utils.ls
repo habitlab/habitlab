@@ -31,27 +31,27 @@ export run_check_for_update_if_needed = ->
   chrome.runtime.requestUpdateCheck (status, details) ->
     return
 
-export get_latest_habitlab_version = cfy ->*
+export get_latest_habitlab_version = ->>
   chrome_runtime_id = 'obghclocpdgcekcognpkblghkedcpdgd'
   if chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina'
     chrome_runtime_id = 'bleifeoekkfhicamkpadfoclfhfmmina'
-  latest_version_info = yield fetch('https://habitlab.herokuapp.com/app_version?appid=' + chrome_runtime_id).then((.json!))
+  latest_version_info = await fetch('https://habitlab.herokuapp.com/app_version?appid=' + chrome_runtime_id).then((.json!))
   if (not latest_version_info?version?) or (not semver.valid(latest_version_info.version))
     return null
   return latest_version_info.version
 
-export is_habitlab_update_available = cfy ->*
-  latest_version = yield get_latest_habitlab_version()
+export is_habitlab_update_available = ->>
+  latest_version = await get_latest_habitlab_version()
   if not latest_version?
     return false
   return semver.gt(latest_version, habitlab_version)
 
-export check_if_update_available_and_run_update = cfy ->*
+export check_if_update_available_and_run_update = ->>
   if developer_mode
     return false
   if not (chrome.runtime.id == 'obghclocpdgcekcognpkblghkedcpdgd' or chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina')
     return false
-  update_available = yield is_habitlab_update_available()
+  update_available = await is_habitlab_update_available()
   if update_available
     run_check_for_update_if_needed()
   return update_available

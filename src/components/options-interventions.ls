@@ -251,10 +251,10 @@ polymer_ext {
       this.$$('#start-picker').time = @start_time_string
       this.$$('#end-picker').time = @end_time_string
 
-  # get_selected: cfy (name) ->*
+  # get_selected: (name) ->>
   #   console.log "boo"
   #   console.log name
-  #   ##time = yield get_goal_target name
+  #   ##time = await get_goal_target name
   #   #console.log time
   #   return 4
   #   return (time/5 - 1)
@@ -292,7 +292,7 @@ polymer_ext {
     }
   rerender_privacy_options: ->
     this.$.privacy_options.rerender()
-  rerender: cfy ->*
+  rerender: ->>
     this.$.privacy_options.rerender()
-    yield this.$.goal_selector.set_sites_and_goals()
+    await this.$.goal_selector.set_sites_and_goals()
 }

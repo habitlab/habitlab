@@ -11,13 +11,13 @@ $ = require 'jquery'
 
 css_packages = require('libs_common/css_packages')
 
-export load_css_file = cfy (filename) ->*
+export load_css_file = (filename) ->>
   if css_packages[filename]?
     filename = css_packages[filename]
-  css_code = yield localget(filename)
-  yield load_css_code(css_code)
+  css_code = await localget(filename)
+  await load_css_code(css_code)
 
-export load_css_code = cfy (css_code) ->*
+export load_css_code = (css_code) ->>
   STYLES = document.createElement('style')
   #STYLES.textContent = style_parsed.textContent
   if STYLES.styleSheet

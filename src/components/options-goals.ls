@@ -20,14 +20,14 @@ polymer_ext {
       value: []
     }
   }
-  goal_changed: cfy (evt) ->*
+  goal_changed: (evt) ->>
     checked = evt.target.checked
     goal_name = evt.target.goal.name
     self = this
     if checked
-      yield set_goal_enabled_manual goal_name
+      await set_goal_enabled_manual goal_name
     else
-      yield set_goal_disabled_manual goal_name
+      await set_goal_disabled_manual goal_name
     console.log 'goal changed'
     self.fire 'goal_changed', {goal_name: goal_name}
   ready: ->

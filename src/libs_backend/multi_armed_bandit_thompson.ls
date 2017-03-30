@@ -54,14 +54,14 @@ export get_next_intervention_to_test_for_data = (data_list, intervention_names) 
   arm = predictor.predict()
   return arm.reward
 
-export train_multi_armed_bandit_for_goal = cfy (goal_name, intervention_names) ->*
+export train_multi_armed_bandit_for_goal = (goal_name, intervention_names) ->>
   if not intervention_names?
-    intervention_names = yield intervention_utils.list_available_interventions_for_goal(goal_name)
+    intervention_names = await intervention_utils.list_available_interventions_for_goal(goal_name)
   days_since_today_to_intervention = {}
   days_since_today_to_reward = {}
   days_to_exclude = {}
   for intervention_name in intervention_names
-    days_deployed = yield intervention_manager.get_days_since_today_on_which_intervention_was_deployed intervention_name
+    days_deployed = await intervention_manager.get_days_since_today_on_which_intervention_was_deployed intervention_name
     progress_list = []
     for day in days_deployed
       if days_to_exclude[day]
@@ -70,7 +70,7 @@ export train_multi_armed_bandit_for_goal = cfy (goal_name, intervention_names) -
         days_to_exclude[day] = true
         continue
       days_since_today_to_intervention[day] = intervention_name
-      progress_info = yield goal_progress.get_progress_on_goal_days_since_today goal_name, day
+      progress_info = await goal_progress.get_progress_on_goal_days_since_today goal_name, day
       days_since_today_to_reward[day] = progress_info.reward
   allowed_days = [parseInt(day) for day in Object.keys(days_since_today_to_intervention) when not days_to_exclude[day]]
   allowed_days.sort()
@@ -82,8 +82,8 @@ export train_multi_armed_bandit_for_goal = cfy (goal_name, intervention_names) -
     data_list.push {intervention, reward}
   return train_multi_armed_bandit_for_data(data_list, intervention_names)
 
-export get_next_intervention_to_test_for_goal = cfy (goal_name, intervention_names) ->*
-  predictor = yield train_multi_armed_bandit_for_goal goal_name, intervention_names
+export get_next_intervention_to_test_for_goal = (goal_name, intervention_names) ->>
+  predictor = await train_multi_armed_bandit_for_goal goal_name, intervention_names
   arm = predictor.predict()
   return arm.reward
 

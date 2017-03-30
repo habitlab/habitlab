@@ -18,12 +18,12 @@ polymer_ext {
   is: 'graph-daily-overview'
   properties: {
   }
-  ready: cfy ->*
+  ready: ->>
     self = this
     
     #MARK: Daily Overview Graph
-    goalsDataToday = yield get_progress_on_enabled_goals_today()
-    goal_name_to_info = yield get_goals()
+    goalsDataToday = await get_progress_on_enabled_goals_today()
+    goal_name_to_info = await get_goals()
     goal_descriptions = []
     minutes_spent_on_sites = []
     for goal_name,progress_info of goalsDataToday

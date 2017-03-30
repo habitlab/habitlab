@@ -5,10 +5,6 @@
 $ = require 'jquery'
 
 {
-  cfy
-} = require 'cfy'
-
-{
   get_minutes_saved_to_badges
 } = require 'libs_common/badges_utils'
 

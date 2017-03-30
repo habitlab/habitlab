@@ -95,12 +95,12 @@ polymer_ext {
     if minutes_saved == 1
       return "1 minute"
     return "#{minutes_saved} minutes"
-  ready: cfy ->*
+  ready: ->>
     if tab_id?
       this.tab_id = tab_id
     else
-      this.tab_id = yield get_selected_tab_id()
-  play: cfy ->*
+      this.tab_id = await get_selected_tab_id()
+  play: ->>
     console.log 'reward-display play called'
     self = this
     video = this.$$('#rewardvideo')
@@ -128,9 +128,9 @@ polymer_ext {
       this.fire 'reward_done', {finished_playing: true}
     else
       close_tab_with_id(this.tab_id)
-  query_changed: cfy ->*
-    results = yield $.get 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query
-    #results = yield $.get 'http://api.giphy.com/v1/gifs/translate?s=' + this.query + '&api_key=dc6zaTOxFJmzC'
+  query_changed: ->>
+    results = await $.get 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query
+    #results = await $.get 'http://api.giphy.com/v1/gifs/translate?s=' + this.query + '&api_key=dc6zaTOxFJmzC'
     #console.log results
     #console.log results.data.image_url
     #this.img_url = results.data.image_url

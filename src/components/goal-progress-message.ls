@@ -58,8 +58,8 @@ polymer_ext {
     for goal_name,progress_this_week of goal_name_to_progress_this_week
       output[goal_name] = progress_this_week[0].units
     return output
-  ready: cfy ->*
-    this.goal_info_list = yield list_goal_info_for_enabled_goals()
-    this.goal_name_to_target = yield get_all_goal_targets()
-    this.goal_name_to_progress_this_week = yield get_progress_on_enabled_goals_this_week()
+  ready: ->>
+    this.goal_info_list = await list_goal_info_for_enabled_goals()
+    this.goal_name_to_target = await get_all_goal_targets()
+    this.goal_name_to_progress_this_week = await get_progress_on_enabled_goals_this_week()
 }

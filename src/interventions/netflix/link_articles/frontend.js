@@ -13,10 +13,8 @@ const {
   is_on_same_domain_and_same_tab
 } = require('libs_common/session_utils')
 
-const co = require('co')
-
-co(function*() {
-  //const on_same_domain_and_same_tab = yield is_on_same_domain_and_same_tab(tab_id)
+(async function() {
+  //const on_same_domain_and_same_tab = await is_on_same_domain_and_same_tab(tab_id)
   //if (on_same_domain_and_same_tab) {
   //  return
   //}
@@ -50,7 +48,7 @@ co(function*() {
 
   $(document.body).append(interst_screen)
 
-})
+})()
 
 window.on_intervention_disabled = () => {
   $('.interst_screen').remove();

@@ -68,35 +68,36 @@ polymer_ext {
   on_need_tab_change: (evt) ->
     if evt?detail?newtab?
       this.set_selected_tab_by_name(evt.detail.newtab)
-  set_selected_tab_by_name: cfy (selected_tab_name) ->*
+  set_selected_tab_by_name: (selected_tab_name) ->>
     self = this
     aliases = {
       faq: \help
     }
     selected_tab_name = aliases[selected_tab_name] ? selected_tab_name
-    selected_tab_idx = switch selected_tab_name
-    | 'progress' => 0
-    | 'results' => 0
-    | 'dashboard' => 0
-    | 'overview' => 0
-    | 'goals' => 1
-    | 'interventions' => 1
-    | 'configure' => 1
-    | 'config' => 1
-    | 'manage' => 1
-    | 'options' => 1
-    | 'settings' => 1
-    | 'introduction' => 1
-    | 'onboarding' => 1
-    | _ => -1
-    if selected_tab_idx != -1
+    name_to_idx_map = {
+      'progress': 0
+      'results': 0
+      'dashboard': 0
+      'overview': 0
+      'goals': 1
+      'interventions': 1
+      'configure': 1
+      'config': 1
+      'manage': 1
+      'options': 1
+      'settings': 1
+      'introduction': 1
+      'onboarding': 1
+    }
+    selected_tab_idx = name_to_idx_map[selected_tab_name]
+    if selected_tab_idx?
       self.selected_tab_idx = selected_tab_idx
       return
-    yield once_true(-> self.enabled_goal_info_list?length?)
+    await once_true(-> self.enabled_goal_info_list?length?)
     goals_list = self.enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
     goals_list.push 'help'
     selected_goal_idx = goals_list.indexOf(selected_tab_name)
-    if selected_goal_idx != -1
+    if selected_goal_idx?
       self.selected_tab_idx = selected_goal_idx + 2
   compute_selected_tab_name: (selected_tab_idx, enabled_goal_info_list) ->
     goals_list = enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
@@ -107,10 +108,10 @@ polymer_ext {
     this.rerender()
     #this.$$('#options-interventions').on_goal_changed(evt.detail)
     #this.$$('#dashboard-view').on_goal_changed(evt.detail)
-  # icon_clicked: cfy ->*
+  # icon_clicked: ->>
 
-  #   yield load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-  #   yield swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.
+  #   await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+  #   await swal {'title':"Welcome to HabitLab!", 'text': "HabitLab is a Chrome Extension that will help prevent you from getting distracted on the web.
   #          It will <u>automatically show you interventions</u> to help you keep on track to your goals, and fine-tune its algorithms over time.\n\n\n
 
 
@@ -119,13 +120,13 @@ polymer_ext {
   #         Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again.
   #         \n\nClick OK to begin selecting your goals!
   #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
-  rerender: cfy ->*
+  rerender: ->>
     self = this
-    self.is_habitlab_disabled = not (yield is_habitlab_enabled())
+    self.is_habitlab_disabled = not (await is_habitlab_enabled())
     #is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
-    goals = yield get_goals()
-    enabled_goals = yield get_enabled_goals()
-    goals_list = yield list_all_goals()
+    goals = await get_goals()
+    enabled_goals = await get_enabled_goals()
+    goals_list = await list_all_goals()
     enabled_goal_info_list = []
     for goal_name in goals_list
       goal_info = goals[goal_name]
@@ -149,13 +150,13 @@ polymer_ext {
     #self.$$('#settings_tab').rerender()
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)
-  ready: cfy ->*
-    yield this.rerender()
+  ready: ->>
+    await this.rerender()
     if not this.have_options_page_hash and not this.selected_tab_idx?
       this.selected_tab_idx = 0
-    yield SystemJS.import('cheerio')
-    #yield SystemJS.import('jimp')
-    #yield SystemJS.import('icojs')
+    await SystemJS.import('cheerio')
+    #await SystemJS.import('jimp')
+    #await SystemJS.import('icojs')
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

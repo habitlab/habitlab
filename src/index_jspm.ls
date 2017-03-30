@@ -10,9 +10,8 @@ dlog = window.dlog = (...args) ->
     console.log(...args)
 
 require 'libs_backend/systemjs'
-co = require 'co'
 
-co ->*
+do ->>
 
   add_url_input_if_needed = ->
     if localStorage.index_show_url_bar == 'true'
@@ -40,13 +39,13 @@ co ->*
 
   {
     getUrlParameters
-  } = yield SystemJS.import 'libs_frontend/common_libs'
+  } = await SystemJS.import 'libs_frontend/common_libs'
 
   use_polyfill = getUrlParameters().polyfill
   if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0
     # force the usage of polyfills
     document.registerElement = null
-    yield SystemJS.import 'webcomponentsjs-custom-element-v0'
+    await SystemJS.import 'webcomponentsjs-custom-element-v0'
 
   # this script must run before Polymer is imported
   window.Polymer = {
@@ -55,9 +54,9 @@ co ->*
     lazyRegister: true,
   }
 
-  js-yaml = yield SystemJS.import 'js-yaml'
-  {cfy} = yield SystemJS.import 'cfy'
-  {get_interventions} = yield SystemJS.import 'libs_backend/intervention_utils'
+  js-yaml = await SystemJS.import 'js-yaml'
+  {cfy} = await SystemJS.import 'cfy'
+  {get_interventions} = await SystemJS.import 'libs_backend/intervention_utils'
 
   /*
   export getUrlParameters = ->
@@ -82,16 +81,16 @@ co ->*
     property_name_remainder = property_name.substr(dot_index + 1)
     set_nested_property tag[property_name_start], property_name_remainder, property_value
 
-  start_page_index = cfy ->*
-    interventions = yield get_interventions()
+  start_page_index = ->>
+    interventions = await get_interventions()
     window.intervention = interventions['debug/fake_intervention']
     params = getUrlParameters()
     tagname = params.tag
     {index_body_width, index_body_height} = params
     if not tagname?
       tagname = 'debug-view'
-    yield SystemJS.import('components/' + tagname + '.deps')
-    #yield SystemJS.import('components/components.deps')
+    await SystemJS.import('components/' + tagname + '.deps')
+    #await SystemJS.import('components/components.deps')
     #require 'components/components.deps'
     tag = document.createElement(tagname)
     num_properties = 0
@@ -155,4 +154,4 @@ co ->*
         '    swal(\'hello world\')'
       ].join('\n'))
 
-  yield SystemJS.import 'libs_common/global_exports_post'
+  await SystemJS.import 'libs_common/global_exports_post'

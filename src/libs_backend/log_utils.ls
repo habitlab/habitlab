@@ -36,11 +36,11 @@ unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
 export get_db_major_version_interventionlogdb = -> '8'
 export get_db_minor_version_interventionlogdb = -> '1'
 
-export delete_db_if_outdated_interventionlogdb = cfy ->*
+export delete_db_if_outdated_interventionlogdb = ->>
   if localStorage.getItem('db_minor_version_interventionlogdb') != get_db_minor_version_interventionlogdb()
     localStorage.setItem('db_minor_version_interventionlogdb', get_db_minor_version_interventionlogdb())
   if localStorage.getItem('db_major_version_interventionlogdb') != get_db_major_version_interventionlogdb()
-    yield deleteInterventionLogDb()
+    await deleteInterventionLogDb()
     localStorage.removeItem('current_schema_interventionlogdb')
     localStorage.setItem('db_major_version_interventionlogdb', get_db_major_version_interventionlogdb())
   return
@@ -57,12 +57,12 @@ export get_current_dbver_interventionlogdb = ->
     return 0
   return parseInt result
 
-export get_interventions_seen_today = cfy ->*
-  interventions = yield intervention_utils.list_all_interventions()
-  enabled = yield intervention_utils.get_enabled_interventions()
+export get_interventions_seen_today = ->>
+  interventions = await intervention_utils.list_all_interventions()
+  enabled = await intervention_utils.get_enabled_interventions()
   invns = []
   for intervention in interventions #get interventions seen today
-    result = yield get_num_impressions_today(intervention)
+    result = await get_num_impressions_today(intervention)
     if result > 0
       invns.push intervention
   for key in Object.keys(enabled) #filter for enabled interventions
@@ -74,8 +74,8 @@ export get_interventions_seen_today = cfy ->*
 
   
 
-export get_log_names = cfy ->*
-  interventions_list = yield intervention_utils.list_all_interventions()
+export get_log_names = ->>
+  interventions_list = await intervention_utils.list_all_interventions()
   logs_list = ['goals', 'interventions', 'feedback'].map -> 'logs/'+it
   return interventions_list.concat(logs_list)
 
@@ -86,16 +86,16 @@ export clear_intervention_logdb_cache = ->
     intervention_logdb_cache.close()
   intervention_logdb_cache := null
 
-export getInterventionLogDb = cfy ->*
+export getInterventionLogDb = ->>
   if intervention_logdb_cache?
     return intervention_logdb_cache
-  output = yield getInterventionLogDb_uncached()
+  output = await getInterventionLogDb_uncached()
   intervention_logdb_cache := output
   return intervention_logdb_cache
 
-getInterventionLogDb_uncached = cfy ->*
-  yield delete_db_if_outdated_interventionlogdb()
-  log_names = yield get_log_names()
+getInterventionLogDb_uncached = ->>
+  await delete_db_if_outdated_interventionlogdb()
+  log_names = await get_log_names()
   db = new dexie('interventionlog', {autoOpen: false})
   dbver = get_current_dbver_interventionlogdb()
   prev_schema = get_current_schema_interventionlogdb()
@@ -117,50 +117,50 @@ getInterventionLogDb_uncached = cfy ->*
       db.close()
       intervention_logdb_cache := null
   db.version(dbver).stores(new_schema)
-  realdb = yield db.open()
+  realdb = await db.open()
   return realdb
 
-export deleteInterventionLogDb = cfy ->*
+export deleteInterventionLogDb = ->>
   console.log 'deleteInterventionLogDb called'
   localStorage.removeItem('current_schema_interventionlogdb')
   localStorage.removeItem('current_dbver_interventionlogdb')
   db = new dexie('interventionlog')
-  yield db.delete()
+  await db.delete()
   return
 
-export getInterventionLogCollection = cfy (name) ->*
-  db = yield getInterventionLogDb()
+export getInterventionLogCollection = (name) ->>
+  db = await getInterventionLogDb()
   return db[name]
 
-export add_log_goals = cfy (data) ->*
+export add_log_goals = (data) ->>
   data = {} <<< data
   if not data.enabled_interventions?
-    data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
+    data.enabled_interventions = await intervention_utils.get_enabled_interventions()
   if not data.enabled_goals?
-    data.enabled_goals = yield goal_utils.get_enabled_goals()
-  yield addtolog 'logs/goals', data
+    data.enabled_goals = await goal_utils.get_enabled_goals()
+  await addtolog 'logs/goals', data
 
-export add_log_interventions = cfy (data) ->*
+export add_log_interventions = (data) ->>
   data = {} <<< data
   if not data.enabled_interventions?
-    data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
+    data.enabled_interventions = await intervention_utils.get_enabled_interventions()
   if not data.enabled_goals?
-    data.enabled_goals = yield goal_utils.get_enabled_goals()
-  yield addtolog 'logs/interventions', data
+    data.enabled_goals = await goal_utils.get_enabled_goals()
+  await addtolog 'logs/interventions', data
 
-export add_log_feedback = cfy (data) ->*
+export add_log_feedback = (data) ->>
   data = {} <<< data
   if not data.enabled_interventions?
-    data.enabled_interventions = yield intervention_utils.get_enabled_interventions()
+    data.enabled_interventions = await intervention_utils.get_enabled_interventions()
   if not data.enabled_goals?
-    data.enabled_goals = yield goal_utils.get_enabled_goals()
-  yield addtolog 'logs/feedback', data
+    data.enabled_goals = await goal_utils.get_enabled_goals()
+  await addtolog 'logs/feedback', data
 
-export addtolog = cfy (name, data) ->*
+export addtolog = (name, data) ->>
   data = {} <<< data
   if not data.type?
     data.type = 'general'
-  data.userid = yield get_user_id()
+  data.userid = await get_user_id()
   data.day = get_days_since_epoch()
   data.synced = 0
   data.timestamp = Date.now()
@@ -173,55 +173,55 @@ export addtolog = cfy (name, data) ->*
     data.developer_mode = true
   if unofficial_version
     data.unofficial_version = chrome.runtime.id
-  collection = yield getInterventionLogCollection(name)
-  result = yield collection.add(data)
+  collection = await getInterventionLogCollection(name)
+  result = await collection.add(data)
   return data
 
-export getlog = cfy (name) ->*
-  collection = yield getInterventionLogCollection(name)
-  result = yield collection.toArray()
+export getlog = (name) ->>
+  collection = await getInterventionLogCollection(name)
+  result = await collection.toArray()
   return result
 
-export clearlog = cfy (name) ->*
-  collection = yield getInterventionLogCollection(name)
-  num_deleted = yield collection.delete()
+export clearlog = (name) ->>
+  collection = await getInterventionLogCollection(name)
+  num_deleted = await collection.delete()
   return
 
-export get_num_impressions = cfy (name) ->*
-  collection = yield getInterventionLogCollection(name)
-  num_impressions = yield collection.where('type').equals('impression').count()
+export get_num_impressions = (name) ->>
+  collection = await getInterventionLogCollection(name)
+  num_impressions = await collection.where('type').equals('impression').count()
   return num_impressions
 
-export get_num_impressions_for_days_since_today = cfy (name, days_since_today) ->*
-  collection = yield getInterventionLogCollection(name)
+export get_num_impressions_for_days_since_today = (name, days_since_today) ->>
+  collection = await getInterventionLogCollection(name)
   day = get_days_since_epoch() - days_since_today
-  num_impressions = yield collection.where('[type+day]').equals(['impression', day]).count()
+  num_impressions = await collection.where('[type+day]').equals(['impression', day]).count()
   return num_impressions
 
-export get_num_impressions_today = cfy (name) ->*
-  yield get_num_impressions_for_days_since_today name, 0
+export get_num_impressions_today = (name) ->>
+  await get_num_impressions_for_days_since_today name, 0
 
-export get_num_actions = cfy (name) ->*
-  collection = yield getInterventionLogCollection(name)
-  num_actions = yield collection.where('type').equals('action').count()
+export get_num_actions = (name) ->>
+  collection = await getInterventionLogCollection(name)
+  num_actions = await collection.where('type').equals('action').count()
   return num_actions
 
-export get_num_actions_for_days_since_today = cfy (name, days_since_today) ->*
-  collection = yield getInterventionLogCollection(name)
+export get_num_actions_for_days_since_today = (name, days_since_today) ->>
+  collection = await getInterventionLogCollection(name)
   day = get_days_since_epoch() - days_since_today
-  num_actions = yield collection.where('[type+day]').equals(['action', day]).count()
+  num_actions = await collection.where('[type+day]').equals(['action', day]).count()
   return num_actions
 
-export get_num_actions_today = cfy (name) ->*
-  yield get_num_actions_for_days_since_today name, 0
+export get_num_actions_today = (name) ->>
+  await get_num_actions_for_days_since_today name, 0
 
-export get_num_actions = cfy (name) ->*
-  collection = yield getInterventionLogCollection(name)
+export get_num_actions = (name) ->>
+  collection = await getInterventionLogCollection(name)
   day = get_days_since_epoch()
-  num_actions = yield collection.where('[type+day]').equals(['action', day]).count()
+  num_actions = await collection.where('[type+day]').equals(['action', day]).count()
   return num_actions
 
-export log_impression_internal = cfy (name, data) ->*
+export log_impression_internal = (name, data) ->>
   # name = intervention name
   # ex: facebook/notification_hijacker
   if data?
@@ -230,9 +230,9 @@ export log_impression_internal = cfy (name, data) ->*
     data = {}
   data.type = 'impression'
   data.intervention = name
-  yield addtolog name, data
+  await addtolog name, data
 
-export log_disable_internal = cfy (name, data) ->*
+export log_disable_internal = (name, data) ->>
   # name = intervention name
   # ex: facebook/notification_hijacker
   if data?
@@ -241,9 +241,9 @@ export log_disable_internal = cfy (name, data) ->*
     data = {}
   data.type = 'disable'
   data.intervention = name
-  yield addtolog name, data
+  await addtolog name, data
 
-export log_action_internal = cfy (name, data) ->*
+export log_action_internal = (name, data) ->>
   # name = intervention name
   # ex: facebook/notification_hijacker
   # data: a dictionary containing any details necessary
@@ -254,7 +254,7 @@ export log_action_internal = cfy (name, data) ->*
     data = {}
   data.type = 'action'
   data.intervention = name
-  yield addtolog name, data
+  await addtolog name, data
 
 intervention_utils = require 'libs_backend/intervention_utils'
 goal_utils = require 'libs_backend/goal_utils'

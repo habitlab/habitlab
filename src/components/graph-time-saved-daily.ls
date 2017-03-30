@@ -22,17 +22,17 @@ polymer_ext {
   is: 'graph-time-saved-daily'
   properties: {
   }
-  ready: cfy ->*
+  ready: ->>
     self = this
     
     #MARK: Time saved daily due to interventions Graph  
-    enabledGoals = yield get_enabled_goals()
+    enabledGoals = await get_enabled_goals()
     enabledGoalsKeys = Object.keys(enabledGoals)
 
     #Retrieves the number of impressions for each enabled intervention        
     time_saved_on_enabled_goals = []
     for item in enabledGoalsKeys
-      enabledGoalsResults = yield get_seconds_saved_per_session_for_each_intervention_for_goal(item)
+      enabledGoalsResults = await get_seconds_saved_per_session_for_each_intervention_for_goal(item)
       time_saved_on_enabled_goals.push(enabledGoalsResults)
 
     #Retrieves intervention names and values
@@ -50,7 +50,7 @@ polymer_ext {
           interventions_list.push key
 
     #Retrieves all intervention descriptions
-    intervention_descriptions = yield get_interventions()
+    intervention_descriptions = await get_interventions()
 
     #Retrieves necessary intervention descriptions
     intervention_descriptions_final = []

@@ -1,5 +1,3 @@
-{cfy} = require 'cfy'
-
 sweetjs_macros = '''
 /*
 syntax require = function(ctx) {
@@ -96,11 +94,11 @@ syntax require_component = function(ctx) {
 }
   ''' + '\n\n'
 
-compile = cfy (code) ->*
-  sweetjs = yield SystemJS.import 'sweetjs-min'
-  prettier = yield SystemJS.import 'prettier-min'
-  {get_components_to_require_statements} = yield SystemJS.import 'libs_backend/require_utils'
-  list_requires = yield SystemJS.import 'list_requires_multi'
+compile = (code) ->>
+  sweetjs = await SystemJS.import 'sweetjs-min'
+  prettier = await SystemJS.import 'prettier-min'
+  {get_components_to_require_statements} = await SystemJS.import 'libs_backend/require_utils'
+  list_requires = await SystemJS.import 'list_requires_multi'
   pretty_code = prettier.format(code)
   all_requires = list_requires(pretty_code, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
   enable_webcomponents_code = '\n\n' + 'require("enable-webcomponents-in-content-scripts");' + '\n\n'
@@ -124,7 +122,7 @@ compile = cfy (code) ->*
   component_list = all_requires.require_component
   extra_code = ''
   if component_list.length > 0
-    requires_for_components = yield get_components_to_require_statements(component_list)
+    requires_for_components = await get_components_to_require_statements(component_list)
     require_component_macro = make_require_component_macro(requires_for_components)
     extra_code += require_component_macro
   if need_webcomponents_code

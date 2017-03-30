@@ -26,33 +26,33 @@
 } = require 'libs_common/collection_utils'
 
 
-export get_screenshot_as_base64 = cfy ->*
+export get_screenshot_as_base64 = ->>
   fetch('https://habitlab-reportbug.herokuapp.com/ping').then(-> it.text())
-  data_url = yield yfy(chrome.tabs.captureVisibleTab)(chrome.windows.WINDOW_ID_CURRENT, {})
+  data_url = await yfy(chrome.tabs.captureVisibleTab)(chrome.windows.WINDOW_ID_CURRENT, {})
   return data_url
 
-export get_data_for_feedback = cfy ->*
+export get_data_for_feedback = ->>
   data = {}
   data.background_url = window.location.href
   data.browser = navigator.userAgent
   data.language = navigator.language
   data.languages = navigator.languages
   data.extra = {}
-  data.extra.user_id = yield get_user_id()
-  data.extra.tab_info = yield get_active_tab_info()
+  data.extra.user_id = await get_user_id()
+  data.extra.tab_info = await get_active_tab_info()
   data.url = data.extra.tab_info.url
-  data.loaded_interventions = yield list_currently_loaded_interventions()
-  data.extra.interventions = JSON.parse(JSON.stringify(yield get_interventions()))
+  data.loaded_interventions = await list_currently_loaded_interventions()
+  data.extra.interventions = JSON.parse(JSON.stringify(await get_interventions()))
   for intervention_name,intervention_info of data.extra.interventions
     if intervention_info.goals?
       intervention_info.goal_names = intervention_info.goals.map (.name)
       delete intervention_info.goals
-  data.extra.goals = JSON.parse(JSON.stringify(yield get_goals()))
+  data.extra.goals = JSON.parse(JSON.stringify(await get_goals()))
   for goal_name,goal_info of data.extra.goals
     if goal_info.icon?
       delete goal_info.icon
-  data.enabled_interventions = as_array(yield get_enabled_interventions())
-  data.enabled_goals = as_array(yield get_enabled_goals())
+  data.enabled_interventions = as_array(await get_enabled_interventions())
+  data.enabled_goals = as_array(await get_enabled_goals())
   data.extra.manifest = chrome.runtime.getManifest()
   data.devmode = not data.extra.manifest.update_url?
   data.version = data.extra.manifest.version

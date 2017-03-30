@@ -27,14 +27,14 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-get_jimp = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('jimp')
+get_jimp = memoizeSingleAsync ->>
+  await SystemJS.import('jimp')
 
-get_cheerio = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('cheerio')
+get_cheerio = memoizeSingleAsync ->>
+  await SystemJS.import('cheerio')
 
-get_icojs = memoizeSingleAsync cfy ->*
-  yield SystemJS.import('icojs')
+get_icojs = memoizeSingleAsync ->>
+  await SystemJS.import('icojs')
 
 favicon_patterns_href = [
   'link[rel=apple-touch-icon-precomposed]'
@@ -52,13 +52,13 @@ favicon_patterns_href = [
 
 domain_to_favicons_cache = {}
 
-export fetchFavicons = cfy (domain) ->*
+export fetchFavicons = (domain) ->>
   domain = domain_to_url domain
   if domain_to_favicons_cache[domain]?
     return domain_to_favicons_cache[domain]
-  response = yield fetch domain
-  text = yield response.text()
-  cheerio = yield get_cheerio()
+  response = await fetch domain
+  text = await response.text()
+  cheerio = await get_cheerio()
   $ = cheerio.load(text)
   output = []
   for pattern in favicon_patterns_href
@@ -100,26 +100,26 @@ make_async = (sync_func) ->
 
 does_file_exist_cached = {}
 
-does_file_exist = cfy (url) ->*
+does_file_exist = (url) ->>
   if typeof(url) != 'string' and typeof(url.href) == 'string'
     url = url.href
   if does_file_exist_cached[url]?
     return does_file_exist_cached[url]
   try
-    request = yield fetch url
+    request = await fetch url
     if not request.ok
       return false
-    yield request.text()
+    await request.text()
     does_file_exist_cached[url] = true
     return true
   catch
     does_file_exist_cached[url] = false
     return false
 
-async_filter = cfy (list, async_function) ->*
+async_filter = (list, async_function) ->>
   output = []
   for x in list
-    if (yield async_function(x))
+    if (await async_function(x))
       output.push x
   return output
 
@@ -137,7 +137,7 @@ favicon_domain_icojs_blacklist = {
 
 favicon_domain_jimp_blacklist = {}
 
-export get_favicon_data_for_url = cfy (domain) ->*
+export get_favicon_data_for_url = (domain) ->>
   icojs_convert = false
   #icojs_convert = true
   #if favicon_domain_icojs_blacklist[domain]?
@@ -149,7 +149,7 @@ export get_favicon_data_for_url = cfy (domain) ->*
       domain = 'http://' + domain
     else if domain.startsWith('//')
       domain = 'http:' + domain
-    all_favicon_paths = yield fetch_favicon.fetchFavicons(domain)
+    all_favicon_paths = await fetch_favicon.fetchFavicons(domain)
     filter_functions = [
       does_file_exist
     ]
@@ -162,19 +162,19 @@ export get_favicon_data_for_url = cfy (domain) ->*
       -> it.href.includes('favicon')
     ].map(make_async))
     for filter_function in filter_functions
-      new_all_favicon_paths = yield async_filter(all_favicon_paths, filter_function)
+      new_all_favicon_paths = await async_filter(all_favicon_paths, filter_function)
       if new_all_favicon_paths.length > 0
         all_favicon_paths = new_all_favicon_paths
-    favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
+    favicon_path = await get_canonical_url(all_favicon_paths[0].href)
   if not favicon_path? or favicon_path.length == 0
     throw new Error('no favicon path found')
   try
-    favicon_response = yield fetch(favicon_path)
-    favicon_buffer = yield favicon_response.arrayBuffer();
+    favicon_response = await fetch(favicon_path)
+    favicon_buffer = await favicon_response.arrayBuffer();
     if icojs_convert
-      #favicon_buffer = new Uint8Array(yield favicon_response.buffer()).buffer
-      icojs = yield get_icojs()
-      favicon_ico_parsed = yield icojs.parse(favicon_buffer, 'image/png')
+      #favicon_buffer = new Uint8Array(await favicon_response.buffer()).buffer
+      icojs = await get_icojs()
+      favicon_ico_parsed = await icojs.parse(favicon_buffer, 'image/png')
       favicon_png_buffer = toBuffer(favicon_ico_parsed[0].buffer)
       return 'data:image/png;base64,' + favicon_png_buffer.toString('base64')
     else
@@ -183,14 +183,14 @@ export get_favicon_data_for_url = cfy (domain) ->*
       #return 'data:image/x-icon;base64,' + favicon_ico_base64
   catch
   try
-    jimp = yield get_jimp()
-    favicon_data = yield jimp.read(favicon_path)
+    jimp = await get_jimp()
+    favicon_data = await jimp.read(favicon_path)
     favicon_data.resize(40, 40)
-    return yield -> favicon_data.getBase64('image/png', it)
+    return await new Promise -> favicon_data.getBase64('image/png', it)
   catch
   return
 
-export get_png_data_for_url = cfy (domain) ->*
+export get_png_data_for_url = (domain) ->>
   jimp_convert = false
   #jimp_convert = true
   #if favicon_domain_jimp_blacklist[domain]?
@@ -202,7 +202,7 @@ export get_png_data_for_url = cfy (domain) ->*
       domain = 'http://' + domain
     else if domain.startsWith('//')
       domain = 'http:' + domain
-    all_favicon_paths = yield fetch_favicon.fetchFavicons(domain)
+    all_favicon_paths = await fetch_favicon.fetchFavicons(domain)
     filter_functions = [
       does_file_exist
     ]
@@ -212,45 +212,45 @@ export get_png_data_for_url = cfy (domain) ->*
       -> it.href.includes('.png')
     ].map(make_async))
     for filter_function in filter_functions
-      new_all_favicon_paths = yield async_filter(all_favicon_paths, filter_function)
+      new_all_favicon_paths = await async_filter(all_favicon_paths, filter_function)
       if new_all_favicon_paths.length > 0
         all_favicon_paths = new_all_favicon_paths
-    favicon_path = yield get_canonical_url(all_favicon_paths[0].href)
+    favicon_path = await get_canonical_url(all_favicon_paths[0].href)
   try
     if jimp_convert
-      jimp = yield get_jimp()
-      favicon_data = yield jimp.read(favicon_path)
+      jimp = await get_jimp()
+      favicon_data = await jimp.read(favicon_path)
       favicon_data.resize(40, 40)
-      return yield -> favicon_data.getBase64('image/png', it)
+      return await new Promise -> favicon_data.getBase64('image/png', it)
     else
-      favicon_response = yield fetch(favicon_path)
-      favicon_buffer = yield favicon_response.arrayBuffer()
+      favicon_response = await fetch(favicon_path)
+      favicon_buffer = await favicon_response.arrayBuffer()
       favicon_ico_base64 = arrayBufferToBase64(favicon_buffer)
       return 'data:image/png;base64,' + favicon_ico_base64
   catch
   return
 
-export get_favicon_data_for_domain = cfy (domain) ->*
+export get_favicon_data_for_domain = (domain) ->>
   try
-    output = yield get_png_data_for_url(domain)
+    output = await get_png_data_for_url(domain)
   catch
   if output?
     return output
-  canonical_domain = yield get_canonical_domain(domain)
+  canonical_domain = await get_canonical_domain(domain)
   if domain != canonical_domain
     try
-      output = yield get_png_data_for_url(canonical_domain)
+      output = await get_png_data_for_url(canonical_domain)
     catch
     if output?
       return output
   try
-    output = yield get_favicon_data_for_url(domain)
+    output = await get_favicon_data_for_url(domain)
   catch
   if output?
     return output
   if domain != canonical_domain
     try
-      output = yield get_favicon_data_for_url(canonical_domain)
+      output = await get_favicon_data_for_url(canonical_domain)
     catch
     if output?
       return output

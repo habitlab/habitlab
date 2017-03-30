@@ -88,7 +88,7 @@ webpack_config = {
         # }
         {
           test: /\.ls$/
-          loader: 'livescript-loader'
+          loader: 'livescript-async-loader'
           include: [fromcwd('src')]
           exclude: [
             fromcwd('node_modules')

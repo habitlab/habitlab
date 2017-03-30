@@ -4,7 +4,7 @@ require! {
   'gulp-changed'
   'gulp-util'
   'gulp-print'
-  'gulp-livescript'
+  'gulp-livescript-async': 'gulp-livescript'
   'gulp-yaml'
   'gulp-eslint'
   'path'

@@ -2426,9 +2426,9 @@ gulp-eslint@^3.0.1:
     eslint "^3.0.0"
     gulp-util "^3.0.6"
 
-gulp-livescript@^3.0.1:
+gulp-livescript-async@^3.0.1:
   version "3.0.1"
-  resolved "https://registry.yarnpkg.com/gulp-livescript/-/gulp-livescript-3.0.1.tgz#d2d7e068c22921c1a573d6683946018a65f9cdb0"
+  resolved "https://registry.yarnpkg.com/gulp-livescript-async/-/gulp-livescript-async-3.0.1.tgz#c681996dc971e11eb9f7831ebe68f7d657dc20b9"
   dependencies:
     gulp-util "^3.0.1"
     through2 "^2.0.0"
@@ -3330,14 +3330,23 @@ livereload@^0.6.0:
     opts ">= 1.2.0"
     ws "^1.1.1"
 
-livescript-loader@^0.1.5:
+livescript-async-loader@^0.1.6:
   version "0.1.6"
-  resolved "https://registry.yarnpkg.com/livescript-loader/-/livescript-loader-0.1.6.tgz#ea80e6ab9a41f330d11000001999eec675cdf755"
+  resolved "https://registry.yarnpkg.com/livescript-async-loader/-/livescript-async-loader-0.1.6.tgz#730b9984f184271da4d3198d0e3380ab2def990c"
   dependencies:
-    livescript "^1.4.0"
+    livescript-async "^1.5.1"
     loader-utils "0.2.x"
 
-livescript@^1.4.0, livescript@^1.5.0:
+livescript-async@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/livescript-async/-/livescript-async-1.5.1.tgz#bb9ad7a796e5700bc0deeadff9a7d9f5bcf94be5"
+  dependencies:
+    optionator "~0.8.1"
+    prelude-ls "~1.1.2"
+    source-map "^0.5.6"
+    source-map-support "^0.4.11"
+
+livescript@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/livescript/-/livescript-1.5.0.tgz#4fe7121c41217e4608e334eb9cbe1762e63e5566"
   dependencies:
@@ -4871,6 +4880,12 @@ source-map-support@^0.4.0, source-map-support@^0.4.2:
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.7.tgz#7a7988e0e66241c778c78dd179199bb6bcd35bd6"
   dependencies:
     source-map "^0.5.3"
+
+source-map-support@^0.4.11:
+  version "0.4.14"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.14.tgz#9d4463772598b86271b4f523f6c1f4e02a7d6aef"
+  dependencies:
+    source-map "^0.5.6"
 
 source-map-support@~0.2.8:
   version "0.2.10"

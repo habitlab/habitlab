@@ -38,10 +38,10 @@ export get_message_handler = (func_name) ->
   if Array.isArray(signature)
     return (data, callback) ->
       args = [data[arg_name] for arg_name in signature]
-      func(...args, callback)
+      func(...args).then(callback)
   if typeof(signature) == 'string'
     return (arg, callback) ->
-      func(arg, callback)
+      func(arg).then(callback)
   throw new Error("get_message_handler failed for function named #{func_name} with signature #{JSON.stringify(signature)}")
 
 export get_all_message_handlers = ->

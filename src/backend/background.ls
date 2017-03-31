@@ -345,7 +345,9 @@ do ->>
       content_script_debug.insert_console((x) => { return eval(x); }, {lang: 'livescript'});
       """
     debug_content_script_code_with_hlog = """
+    console.log('start debug_content_script_code_with_hlog');
     SystemJS.import_multi(['prettyprintjs', 'libs_frontend/content_script_debug'], function(prettyprintjs, content_script_debug) {
+      console.log('done systemjs.import_multi 1')
       var console_log_orig = window.console.log;
       var hlog = function(...args) {
         console_log_orig(...args);
@@ -366,6 +368,7 @@ do ->>
           throw err_to_throw;
         }
       }
+      console.log('done systemjs.import_multi 2')
       var uselib = function(libname, callback) {
         if (typeof(callback) == 'function') {
           SystemJS.import(libname).then(callback);
@@ -405,12 +408,15 @@ do ->>
           ].join('\\n'))
         }
       }
+      console.log('done systemjs.import_multi 3')
       window.hlog = hlog;
       window.uselib = uselib;
       window.localeval = function(command_to_evaluate) {
         return eval(command_to_evaluate);
       }
+      console.log('done systemjs.import_multi 4')
       #{debug_content_script_code}
+      console.log('done systemjs.import_multi 5')
       return;
     })
     """
@@ -483,8 +489,11 @@ do ->>
       if (!window.SystemJS) {
         #{systemjs_content_script_code}
       }
+      console.log('running contnet_script_code');
       #{content_script_code}
+      console.log('running debug conent script code');
       #{debug_content_script_code_with_hlog}
+      console.log('done running debug contnt script code')
       SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
         intervention_info_setter_lib.set_intervention(intervention);
         intervention_info_setter_lib.set_tab_id(tab_id);

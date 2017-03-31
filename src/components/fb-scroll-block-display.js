@@ -62,7 +62,7 @@ polymer_ext({
   ready: function() {
     const self = this;
     var update_time = () => {
-      get_seconds_spent_on_current_domain_today(function(seconds_spent) {
+      get_seconds_spent_on_current_domain_today().then(function(seconds_spent) {
         self.minutes = Math.floor(seconds_spent/60);
         self.seconds = seconds_spent % 60;
       });

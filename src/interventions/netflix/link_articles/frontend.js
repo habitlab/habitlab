@@ -13,7 +13,7 @@ const {
   is_on_same_domain_and_same_tab
 } = require('libs_common/session_utils')
 
-(async function() {
+const main = async function() {
   //const on_same_domain_and_same_tab = await is_on_same_domain_and_same_tab(tab_id)
   //if (on_same_domain_and_same_tab) {
   //  return
@@ -48,7 +48,9 @@ const {
 
   $(document.body).append(interst_screen)
 
-})()
+}
+
+main();
 
 window.on_intervention_disabled = () => {
   $('.interst_screen').remove();

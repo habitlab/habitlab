@@ -10,12 +10,16 @@ require! {
 } = require 'libs_common/content_script_utils'
 
 export listen_for_eval = (eval_func) ->
+  console.log 'listen_for_eval running'
   if window.eval_content_script_listener_loaded
     return
   window.eval_content_script_listener_loaded = true
 
   chrome.runtime.onMessage.addListener (message, sender, sendResponse) ->
     {type, data} = message
+    console.log 'got message in chrome.runtime.onMessage'
+    console.log type
+    console.log data
     if type == 'eval_content_script'
       result = window.eval(data)
       sendResponse result

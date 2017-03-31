@@ -54,7 +54,7 @@ polymer_ext {
   focus_terminal: ->>
     self = this
     if not self.terminal_loaded
-      [jquery_terminal,_] = await [
+      [jquery_terminal,_] = await Promise.all [
         SystemJS.import('jquery.terminal')
         load_css_file('node_modules_custom/jquery.terminal/css/jquery.terminal.min.css')
       ]
@@ -190,7 +190,7 @@ polymer_ext {
     }
     custom_commands.javascript = custom_commands.js
     custom_commands.livescript = custom_commands.ls
-    terminal_handler = (command, term) ->>
+    terminal_handler = cfy (command, term) ->>
       is_livescript = localstorage_getbool('debug_terminal_livescript')
       if command[0] == '#'
         after_hash = command.substr(1)

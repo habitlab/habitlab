@@ -36,12 +36,13 @@ export get_message_handler = (func_name) ->
   signature = get_function_signature(func_name)
   func = func_name_to_func[func_name]
   if Array.isArray(signature)
-    return (data, callback) ->
+    return (data) ->>
       args = [data[arg_name] for arg_name in signature]
-      func(...args).then(callback)
+      return await func(...args)
   if typeof(signature) == 'string'
-    return (arg, callback) ->
-      func(arg).then(callback)
+    return func
+    #return (arg) ->>
+    #  return await func(arg)
   throw new Error("get_message_handler failed for function named #{func_name} with signature #{JSON.stringify(signature)}")
 
 export get_all_message_handlers = ->

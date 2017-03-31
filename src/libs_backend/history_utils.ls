@@ -19,11 +19,11 @@ prelude = require 'prelude-ls'
 
 export get_pages_visited_today = ->>
   yesterday = Date.now() - 24*3600*1000
-  pages_list = await add_noerr -> chrome.history.search {text: '', startTime: yesterday, maxResults: 2**31 - 1}, it
+  pages_list = await new Promise -> chrome.history.search {text: '', startTime: yesterday, maxResults: 2**31 - 1}, it
   return pages_list
 
 export get_pages_visited_all_time = ->>
-  pages_list = await add_noerr -> chrome.history.search {text: '', startTime: 0, maxResults: 2**31 - 1}, it
+  pages_list = await new Promise -> chrome.history.search {text: '', startTime: 0, maxResults: 2**31 - 1}, it
   return pages_list
 
 export get_productivity_classifications = memoizeSingleAsync ->>
@@ -32,7 +32,7 @@ export get_productivity_classifications = memoizeSingleAsync ->>
 
 export get_work_pages_visited_today = ->>
   yesterday = Date.now() - 24*3600*1000
-  pages_list = await add_noerr -> chrome.history.search {text: '', startTime: yesterday, maxResults: 2**31 - 1}, it
+  pages_list = await new Promise -> chrome.history.search {text: '', startTime: yesterday, maxResults: 2**31 - 1}, it
   productivity_classifications = await get_productivity_classifications()
   productive_pages_list = pages_list.filter (page_info) ->
     {url} = page_info
@@ -43,7 +43,7 @@ export get_work_pages_visited_today = ->>
   return productive_pages_list
 
 export get_url_to_visits = (start_time, end_time) ->>
-  pages_list = await add_noerr -> chrome.history.search {text: '', startTime: start_time, endTime: end_time, maxResults: 2**31-1}, it
+  pages_list = await new Promise -> chrome.history.search {text: '', startTime: start_time, endTime: end_time, maxResults: 2**31-1}, it
   url_list = []
   seen_urls = {}
   for page in pages_list
@@ -54,7 +54,7 @@ export get_url_to_visits = (start_time, end_time) ->>
     url_list.push url
   url_to_visits = {}
   for url in url_list
-    visits = await add_noerr -> chrome.history.getVisits {url: url}, it
+    visits = await new Promise -> chrome.history.getVisits {url: url}, it
     url_to_visits[url] = visits
   return url_to_visits
 

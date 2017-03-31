@@ -402,7 +402,7 @@ polymer_ext {
     intervention_name = this.get_intervention_name()
     set_override_enabled_interventions_once intervention_name
     preview_page = this.$.intervention_preview_url.value
-    tab = await add_noerr -> chrome.tabs.create {url: preview_page}, it
+    tab = await new Promise -> chrome.tabs.create {url: preview_page}, it
     while true
       current_tab_id = await get_active_tab_id()
       if current_tab_id == tab.id

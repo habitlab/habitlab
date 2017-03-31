@@ -427,7 +427,7 @@ export get_interventions = ->>
     for intervention_name,intervention_info of extra_get_interventions
       output[intervention_name] = intervention_info
   intervention_name_to_info_promises = {[intervention_name, getInterventionInfo(intervention_name)] for intervention_name in interventions_list when not output[intervention_name]?}
-  [intervention_name_to_info, interventions_to_goals] = await [intervention_name_to_info_promises, interventions_to_goals_promises]
+  [intervention_name_to_info, interventions_to_goals] = await Promise.all [intervention_name_to_info_promises, interventions_to_goals_promises]
   for intervention_name,intervention_info of intervention_name_to_info
     output[intervention_name] = intervention_info
   localStorage.setItem 'cached_get_interventions', JSON.stringify(output)

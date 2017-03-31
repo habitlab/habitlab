@@ -43,7 +43,7 @@ export get_user_id = memoizeSingleAsync ->>
   else
     cached_user_id := null
     localStorage.removeItem('userid')
-    await add_noerr -> chrome_storage_sync.remove 'userid', it
+    await new Promise -> chrome_storage_sync.remove 'userid', it
     return await get_user_id_real()
 
 get_user_id_real = ->>
@@ -53,7 +53,7 @@ get_user_id_real = ->>
   if userid?
     cached_user_id := userid
     return userid
-  items = await add_noerr -> chrome_storage_sync.get 'userid', it
+  items = await new Promise -> chrome_storage_sync.get 'userid', it
   userid = items.userid
   if userid?
     cached_user_id := userid
@@ -74,7 +74,7 @@ export get_user_secret = memoizeSingleAsync ->>
   else
     cached_user_secret := null
     localStorage.removeItem('user_secret')
-    await add_noerr -> chrome_storage_sync.remove 'user_secret', it
+    await new Promise -> chrome_storage_sync.remove 'user_secret', it
     return await get_user_secret_real()
 
 get_user_secret_real = ->>
@@ -84,7 +84,7 @@ get_user_secret_real = ->>
   if user_secret?
     cached_user_secret := user_secret
     return user_secret
-  items = await add_noerr -> chrome_storage_sync.get 'user_secret', it
+  items = await new Promise -> chrome_storage_sync.get 'user_secret', it
   user_secret = items.user_secret
   if user_secret?
     cached_user_secret := user_secret
@@ -154,14 +154,14 @@ export is_tab_still_open = (tab_id) ->>
 
 export open_debug_page_for_tab_id = (tab_id) ->>
   debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&ispopup=true&tabid=' + tab_id)
-  popup_windows = await add_noerr -> chrome.windows.getAll {windowTypes: ['popup']}, it
+  popup_windows = await new Promise -> chrome.windows.getAll {windowTypes: ['popup']}, it
   for popup_window in popup_windows
-    window_info = await add_noerr -> chrome.windows.get popup_window.id, {populate: true}, it
+    window_info = await new Promise -> chrome.windows.get popup_window.id, {populate: true}, it
     for tab in window_info.tabs
       if tab.url == debug_page_url
-        await add_noerr -> chrome.tabs.update tab.id, {active: true}, it
-        return await add_noerr -> chrome.windows.update popup_window.id, {focused: true}, it
-  await add_noerr -> chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}, it
+        await new Promise -> chrome.tabs.update tab.id, {active: true}, it
+        return await new Promise -> chrome.windows.update popup_window.id, {focused: true}, it
+  await new Promise -> chrome.windows.create {url: debug_page_url, type: 'popup', width: 566, height: 422}, it
 
 export send_message_to_tabid = (tabid, type, data) ->>
   return chrome_tabs_sendmessage tabid, {type, data}
@@ -177,7 +177,7 @@ export disable_interventions_in_active_tab = ->>
 
 export disable_interventions_in_all_tabs = ->>
   tabs = await chrome_tabs_query {}
-  await [disable_interventions_for_tabid(tab.id) for tab in tabs]
+  await Promise.all [disable_interventions_for_tabid(tab.id) for tab in tabs]
   return
 
 export get_active_tab_info = ->>

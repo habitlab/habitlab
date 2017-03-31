@@ -65,14 +65,14 @@ do ->>
     get_basic_client_data
   } = require 'libs_backend/logging_enabled_utils'
 
-  {yfy, add_noerr} = require 'cfy'
+  {yfy} = require 'cfy'
 
   export make_tab_focused = (tab_id, window_id) ->>
-    await add_noerr -> chrome.windows.update(window_id, {focused: true}, it)
-    await add_noerr -> chrome.tabs.update(tab_id, {active: true}, it)
+    await new Promise -> chrome.windows.update(window_id, {focused: true}, it)
+    await new Promise -> chrome.tabs.update(tab_id, {active: true}, it)
 
   export focus_tab_by_pattern_if_available = (url_pattern) ->>
-    all_tab_list = await add_noerr -> chrome.tabs.query {url: url_pattern}, it
+    all_tab_list = await new Promise -> chrome.tabs.query {url: url_pattern}, it
     if all_tab_list.length == 0
       return false
     candidate_list = all_tab_list.filter (.currentWindow)
@@ -90,7 +90,7 @@ do ->>
   export show_finish_configuring_notification_if_needed = ->>
     if localStorage.getItem('allow_logging')?
       return
-    tabs_list = await add_noerr -> chrome.tabs.query {url: chrome.extension.getURL('/options.html')}, it
+    tabs_list = await new Promise -> chrome.tabs.query {url: chrome.extension.getURL('/options.html')}, it
     if tabs_list.length > 0
       return
     if num_times_to_pause_before_next_notification > 0 # decreases frequency of notification exponentially to decrease annoyingness
@@ -297,10 +297,6 @@ do ->>
   cached_systemjs_code = null
 
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list) ->>
-
-    console.log 'execute_content_scripts_for_intervention 1'
-    console.log intervention_list
-    console.log intervention_info
     {content_script_options, name} = intervention_info
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
@@ -308,24 +304,16 @@ do ->>
 
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
     parameter_values = await get_intervention_parameters(intervention_info.name)
-    console.log 'execute_content_scripts_for_intervention 1.5'
-    console.log parameter_values
     for i in [0 til intervention_info_copy.parameters.length]
       parameter = intervention_info_copy.parameters[i]
       parameter.value = parameter_values[parameter.name]
       intervention_info_copy.params[parameter.name].value = parameter_values[parameter.name]
-      null
-    console.log 'execute_content_scripts_for_intervention 2'
-    console.log intervention_list
 
     if cached_systemjs_code != null
       systemjs_content_script_code = cached_systemjs_code
     else
       systemjs_content_script_code = await localget('/intervention_utils/systemjs.js')
       cached_systemjs_code := systemjs_content_script_code
-
-    console.log 'execute_content_scripts_for_intervention 3'
-    console.log intervention_list
 
     debug_content_script_code = """
     content_script_debug.listen_for_eval(function(command_to_evaluate) {
@@ -345,9 +333,7 @@ do ->>
       content_script_debug.insert_console((x) => { return eval(x); }, {lang: 'livescript'});
       """
     debug_content_script_code_with_hlog = """
-    console.log('start debug_content_script_code_with_hlog');
     SystemJS.import_multi(['prettyprintjs', 'libs_frontend/content_script_debug'], function(prettyprintjs, content_script_debug) {
-      console.log('done systemjs.import_multi 1')
       var console_log_orig = window.console.log;
       var hlog = function(...args) {
         console_log_orig(...args);
@@ -368,7 +354,6 @@ do ->>
           throw err_to_throw;
         }
       }
-      console.log('done systemjs.import_multi 2')
       var uselib = function(libname, callback) {
         if (typeof(callback) == 'function') {
           SystemJS.import(libname).then(callback);
@@ -408,15 +393,12 @@ do ->>
           ].join('\\n'))
         }
       }
-      console.log('done systemjs.import_multi 3')
       window.hlog = hlog;
       window.uselib = uselib;
       window.localeval = function(command_to_evaluate) {
         return eval(command_to_evaluate);
       }
-      console.log('done systemjs.import_multi 4')
       #{debug_content_script_code}
-      console.log('done systemjs.import_multi 5')
       return;
     })
     """
@@ -489,11 +471,8 @@ do ->>
       if (!window.SystemJS) {
         #{systemjs_content_script_code}
       }
-      console.log('running contnet_script_code');
       #{content_script_code}
-      console.log('running debug conent script code');
       #{debug_content_script_code_with_hlog}
-      console.log('done running debug contnt script code')
       SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
         intervention_info_setter_lib.set_intervention(intervention);
         intervention_info_setter_lib.set_tab_id(tab_id);
@@ -525,9 +504,6 @@ do ->>
   load_intervention_list = (intervention_list, tabId) ->>
     if intervention_list.length == 0
       return
-    
-    console.log 'load_intervention_list 1'
-    console.log intervention_list
 
     all_interventions = await get_interventions()
     intervention_info_list = [all_interventions[intervention_name] for intervention_name in intervention_list]
@@ -548,9 +524,6 @@ do ->>
 }
     '''}, it
 
-    console.log 'load_intervention_list 2'
-    console.log intervention_list
-
     for intervention_info in intervention_info_list
       if intervention_info.css_files?
         for css_file in intervention_info.css_files
@@ -559,15 +532,9 @@ do ->>
         for css_code in intervention_info.styles
           await new Promise -> chrome.tabs.insertCSS tabId, {code: css_code}, it
 
-    console.log 'load_intervention_list 3'
-    console.log intervention_list
-
     # load content scripts
     for intervention_info in intervention_info_list
       await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list
-
-    console.log 'load_intervention_list 4'
-    console.log intervention_list
     return
 
   load_intervention = (intervention_name, tabId) ->>
@@ -722,20 +689,20 @@ do ->>
   message_handlers = get_all_message_handlers()
 
   message_handlers <<< {
-    'getLocation': (data, callback) ->
-      getLocation (location) ->
-        dlog 'getLocation background page:'
-        dlog location
-        callback location
-    'load_intervention': (data, callback) ->
+    'getLocation': (data) ->>
+      location = await getLocation()
+      dlog 'getLocation background page:'
+      dlog location
+      return location
+    'load_intervention': (data) ->>
       {intervention_name, tabId} = data
-      load_intervention intervention_name, tabId, ->
-        callback()
+      await load_intervention intervention_name, tabId
+      return
     'load_intervention_for_location': (data) ->>
       {location, tabId} = data
       await load_intervention_for_location location, tabId
       return
-    'load_css_file': (data, callback) ->
+    'load_css_file': (data) ->>
       {css_file, tab} = data
       tabid = tab.id
       if css_packages[css_file]?
@@ -743,25 +710,25 @@ do ->>
       #chrome.tabs.insertCSS tabid, {file: css_file}, ->
       #  callback()
       if css_file.startsWith('http://') or css_file.startsWith('https://')
-        remoteget(css_file).then (css_code) ->
-          chrome.tabs.insertCSS tabid, {code: css_code}, ->
-            callback()
+        css_code = await remoteget(css_file)
+        await new Promise -> chrome.tabs.insertCSS tabid, {code: css_code}, it
+        return
       else
-        localget(css_file).then (css_code) ->
-          chrome.tabs.insertCSS tabid, {code: css_code}, ->
-            callback()
-    'load_css_code': (data, callback) ->
+        css_code = await localget(css_file)
+        await new Promise -> chrome.tabs.insertCSS tabid, {code: css_code}, it
+        return
+    'load_css_code': (data) ->>
       {css_code, tab} = data
       tabid = tab.id
-      chrome.tabs.insertCSS tabid, {code: css_code}, ->
-        callback()
-    'send_to_debug_terminal': (data, callback) ->
+      await new Promise -> chrome.tabs.insertCSS tabid, {code: css_code}, it
+      return
+    'send_to_debug_terminal': (data) ->>
       existing_messages = localstorage_getjson('debug_terminal_messages')
       if not existing_messages?
         existing_messages = []
       existing_messages.push data
       localstorage_setjson('debug_terminal_messages', existing_messages)
-      callback()
+      return
   }
 
   #tabid_to_current_location = {}
@@ -860,7 +827,7 @@ do ->>
       if typeof(data) == 'object' and data != null and sender.tab? and not data.tab?
         data = {} <<< data
         data.tab = sender.tab
-    message_handler data, (response) ->
+    message_handler(data).then (response) ->
       #dlog 'message handler response:'
       #dlog response
       #response_data = {response}
@@ -1090,7 +1057,7 @@ do ->>
     if (priority == 3) and (restart_failed_priority_to_counts[0] + restart_failed_priority_to_counts[1] + restart_failed_priority_to_counts[2] + restart_failed_priority_to_counts[3]) >= 50
       restart_habitlab()
   export try_to_restart_habitlab_now = !->>
-    open_tabs = await add_noerr -> chrome.tabs.query({}, it)
+    open_tabs = await new Promise -> chrome.tabs.query({}, it)
     active_tabs = open_tabs.filter (.active)
     for tab_info in active_tabs
       if tab_info.url? and tab_info.url.startsWith(chrome.extension.getURL(''))

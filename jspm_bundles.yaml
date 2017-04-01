@@ -1,12 +1,34 @@
 - cfy:
   - co
   - cfy
+- jquery:
+  - jquery
+- prettyprintjs:
+  - prettyprintjs
+- js-yaml:
+  - js-yaml
+- moment:
+  - moment
+- promise-debounce:
+  - promise-debounce
+- shuffled:
+  - shuffled
+- sweetalert2:
+  - sweetalert2
+- text:
+  - text
+- enable-webcomponents-in-content-scripts:
+  - enable-webcomponents-in-content-scripts
+- cheerio:
+  - cheerio
 - livescript15:
   - livescript15
 - icojs:
   - jimp
   - cheerio
   - icojs
+- dexie:
+  - dexie
 - intervention-editor-libs:
   - sweetjs-min
   - prettier-min
@@ -15,7 +37,3 @@
   - brace/mode/livescript
   - brace/mode/html
   - brace/theme/monokai
-- jquery:
-  - jquery
-- prettyprintjs:
-  - prettyprintjs

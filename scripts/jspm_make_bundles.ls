@@ -52,3 +52,4 @@ for jspm_bundle_info in jspm_bundle_info_list
   fs.renameSync 'build.js', "src/bundles/#{bundle_name}.js"
   fs.unlinkSync 'build.js.map'
 write_jspm_browser_config_with_bundles(bundle_output)
+write_systemjs_paths_config_with_bundles(bundle_output)

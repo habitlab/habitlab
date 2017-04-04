@@ -23,16 +23,17 @@
   - cheerio
 - livescript15:
   - livescript15
-- icojs:
-  - jimp
-  - cheerio
-  - icojs
+#- icojs:
+#  - jimp
+#  - cheerio
+#  - icojs
 - dexie:
   - dexie
 - intervention-editor-libs:
   - sweetjs-min
   - prettier-min
-  - list_requires_multi brace
+  - list_requires_multi
+  - brace
   - brace/mode/javascript
   - brace/mode/livescript
   - brace/mode/html

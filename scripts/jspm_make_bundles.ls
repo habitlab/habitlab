@@ -44,6 +44,10 @@ for jspm_bundle_info in jspm_bundle_info_list
   write_jspm_browser_config_with_bundles()
   bundle_name = Object.keys(jspm_bundle_info)[0]
   bundle_contents = jspm_bundle_info[bundle_name]
-  exec "jspm bundle #{bundle_contents.join(' ')} --inject"
+  bundle_contents_string = bundle_contents.map(-> '"' + it + '"').join(' ')
+  exec "jspm bundle #{bundle_contents_string} --inject"
   bundle_output["bundles/#{bundle_name}.js"] = read_bundle_contents()
+  exec "babili-inplace build.js"
+  fs.renameSync 'build.js', "bundles/#{bundle_name}.js"
+  fs.unlinkSync 'build.js.map'
 write_jspm_browser_config_with_bundles(bundle_output)

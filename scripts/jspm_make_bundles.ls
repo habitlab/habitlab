@@ -12,7 +12,7 @@ for command in ['jspm', 'babili-inplace']
     process.exit()
 
 read_bundle_contents = ->
-  jspm_browser_data_text = fs.readFileSync('jspm.browser.js', 'utf-8').replace('SystemJS.config(', '').replace('});', '}')
+  jspm_browser_data_text = fs.readFileSync('jspm.browser.js', 'utf-8')
   bundles_idx = jspm_browser_data_text.indexOf('bundles:')
   jspm_browser_data_text = jspm_browser_data_text.substr(bundles_idx + 'bundles:'.length).trim()
   jspm_browser_data_text = jspm_browser_data_text.replace('});', '').trim()

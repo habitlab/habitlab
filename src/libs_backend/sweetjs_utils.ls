@@ -94,6 +94,37 @@ syntax require_component = function(ctx) {
 }
   ''' + '\n\n'
 
+extra_functions = '''
+async function require_css_async(css_file) {
+  let content_script_utils = await SystemJS.import('libs_common/content_script_utils');
+  return await content_script_utils.load_css_file(css_file);
+}
+
+var require_css = require_css_async;
+
+async function require_style_async(css_code) {
+  let content_script_utils = await SystemJS.import('libs_common/content_script_utils');
+  return await content_script_utils.load_css_code(css_file);
+}
+
+var require_style = require_style_async;
+
+async function require_package_async(package_name) {
+  let content_script_utils = await SystemJS.import('libs_common/content_script_utils');
+  await content_script_utils.load_css_file(css_file);
+  return await SystemJS.import(package_name);
+}
+
+var require_package = require_package_async;
+
+async function require_remote_async(package_name) {
+  let require_remote_utils = await SystemJS.import('libs_common/require_remote_utils');
+  return await require_remote_utils.require_remote_async(package_name);
+}
+
+var require_remote = require_remote_async;
+'''
+
 compile = (code) ->>
   sweetjs = await SystemJS.import 'sweetjs-min'
   prettier = await SystemJS.import 'prettier-min'
@@ -129,7 +160,9 @@ compile = (code) ->>
     extra_code += enable_webcomponents_code
   if need_define_component_code
     extra_code += enable_define_component_code
-  return sweetjs.compile(sweetjs_macros + extra_code + pretty_code).code
+  output = sweetjs.compile(sweetjs_macros + extra_code + pretty_code).code
+  console.log output
+  return output
 
 module.exports = {
   compile: compile

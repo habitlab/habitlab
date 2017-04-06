@@ -19,6 +19,8 @@
   - text
 - enable-webcomponents-in-content-scripts:
   - enable-webcomponents-in-content-scripts
+- underscore:
+  - underscore
 - cheerio:
   - cheerio
 - livescript15:

@@ -93,6 +93,10 @@ SystemJS.config({
     "npm:webcomponentsjs-custom-element-v0@1.0.1/CustomElements.js",
     "npm:webcomponentsjs-custom-element-v0@1.0.1.json"
   ],
+  "bundles/underscore.js": [
+    "npm:underscore@1.8.3/underscore.js",
+    "npm:underscore@1.8.3.json"
+  ],
   "bundles/cheerio.js": [
     "npm:cheerio@0.22.0/index.js",
     "npm:cheerio@0.22.0.json",

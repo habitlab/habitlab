@@ -17,9 +17,6 @@ export listen_for_eval = (eval_func) ->
 
   chrome.runtime.onMessage.addListener (message, sender, sendResponse) ->
     {type, data} = message
-    console.log 'got message in chrome.runtime.onMessage'
-    console.log type
-    console.log data
     if type == 'eval_content_script'
       result = window.eval(data)
       sendResponse result

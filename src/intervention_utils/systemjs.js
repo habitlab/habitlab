@@ -11,8 +11,6 @@
       return false;
     }
     window.systemjs_fetch = function(input, init) {
-      console.log('systemjs_fetch with input')
-      console.log(input)
       if (input.startsWith(chrome_base_url)) {
         if (is_local_package(input)) {
           return localget(input).then(function(text) {
@@ -37,15 +35,8 @@ if (!window.SystemJS) {
   require('../../jspm.config.js');
   require('../../jspm_config_frontend.js');
   SystemJS.import_multi = function(libs_list, callback) {
-    console.log('systemjs.import_multi being called')
-    console.log('libs_list=')
-    console.log(libs_list)
-    console.log('callback=')
-    console.log(callback)
     if (callback) {
-      console.log('calling promise.all 1')
       Promise.all(libs_list.map(lib_name => SystemJS.import(lib_name))).then(function(args) {
-        console.log('done running imports')
         callback(...args);
       });
     } else {

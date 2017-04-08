@@ -14,6 +14,14 @@ do ->>
     if localStorage.getItem('display_dlog') == 'true'
       console.log(...args)
 
+  {
+    addtokey_dictdict
+    getkey_dictdict
+    getDb
+  } = require 'libs_backend/db_utils'
+
+  await getDb()
+
   require! {
     localforage
   }
@@ -168,11 +176,6 @@ do ->>
   require 'libs_backend/expose_backend_libs'
 
   {localget, remoteget} = require 'libs_common/cacheget_utils'
-
-  {
-    addtokey_dictdict
-    getkey_dictdict
-  } = require 'libs_backend/db_utils'
 
   {
     start_syncing_all_data

@@ -2,8 +2,6 @@ require! {
   localforage
 }
 
-{cfy} = require 'cfy'
-
 {
   gexport
   gexport_module

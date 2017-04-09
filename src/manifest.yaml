@@ -17,7 +17,7 @@ permissions:
   - <all_urls>
   - 'http://*/'
   - 'https://*/'
-content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'
+content_security_policy: script-src 'self' 'unsafe-eval' 'sha256-Lnjp6S+Lhd5zhPB1WhXY2otcDuecbUd93KaBjOx9gGE='; object-src 'self'
 web_accessible_resources:
   - options.html
   - popup.html

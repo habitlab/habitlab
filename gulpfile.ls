@@ -130,6 +130,7 @@ webpack_pattern = [
   'src/index_jspm.ls'
   'src/options.ls'
   'src/popup.ls'
+  'src/popup_loader.js'
 ]
 
 webpack_pattern_content_scripts = [

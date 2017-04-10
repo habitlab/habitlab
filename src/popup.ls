@@ -12,6 +12,7 @@ dlog = window.dlog = (...args) ->
 require 'libs_backend/systemjs'
 
 if window.location.pathname == '/popup.html'
+  document.getElementById('loading_message').remove()
   require 'components/popup-view.deps'
   require 'libs_common/global_exports_post'
   return

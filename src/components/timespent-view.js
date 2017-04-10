@@ -5,10 +5,6 @@ const {
 } = require('libs_frontend/polymer_utils');
 
 const {
-  get_seconds_spent_on_current_domain_today
-} = require('libs_common/time_spent_utils');
-
-const {
   url_to_domain,
 } = require('libs_common/domain_utils');
 

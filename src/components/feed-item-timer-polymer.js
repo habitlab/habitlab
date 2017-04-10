@@ -45,7 +45,7 @@ Polymer({
   
   attached: function() {
     var update_page = function(self) {
-      get_seconds_spent_on_current_domain_today(function(seconds_spent) {
+      get_seconds_spent_on_current_domain_today().then(function(seconds_spent) {
         self.minutes = Math.floor(seconds_spent/60);
         self.seconds = seconds_spent % 60;
       });

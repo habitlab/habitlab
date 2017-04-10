@@ -70,6 +70,9 @@ lib_name_to_func_names_and_signatures =
     get_favicon_data_for_domain: 'domain'
   debug_console_utils:
     open_debug_page_for_tab_id: 'tab_id'
+  notification_utils_backend:
+    make_notification_backend: ['info', 'tab_id']
+    close_notification_backend: 'notification_id'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

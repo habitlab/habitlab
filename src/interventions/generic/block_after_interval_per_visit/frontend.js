@@ -198,7 +198,7 @@ var shadow_div;
   }
 
   function getTimeSpent(callback) {
-    get_seconds_spent_on_current_domain_today((secondsSpent) => {
+    get_seconds_spent_on_current_domain_today().then((secondsSpent) => {
       callback(secondsSpent)
     })
   }

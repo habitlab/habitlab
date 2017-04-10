@@ -4,7 +4,6 @@
 } = require 'libs_frontend/polymer_utils'
 
 {
-  get_seconds_spent_on_current_domain_today     # current domain
   get_seconds_spent_on_all_domains_today        # map for all domains
   get_seconds_spent_on_domain_today             # specific domain
   get_seconds_spent_on_all_domains_days_since_today

@@ -7,8 +7,7 @@ if (typeof(window.wrap) != 'function')
 const $ = require('jquery')
 
 const {
-  get_seconds_spent_on_current_domain_today,
-  get_seconds_spent_on_domain_today,
+  get_seconds_spent_on_domain_today
 } = require('libs_common/time_spent_utils')
 
 const {

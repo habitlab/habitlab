@@ -33,8 +33,7 @@ function shouldInsert(secondsSpent, timeInterval) {
 }
 
 function insertRichNotification() {  
-  get_seconds_spent_on_current_domain_today(function(secondsSpent) {
-    console.log(secondsSpent);
+  get_seconds_spent_on_current_domain_today().then(function(secondsSpent) {
     //if (shouldInsert(secondsSpent, intervention.params.minutes.value)) {
       chrome.runtime.sendMessage({type: "chrome-notification-gmail-composing", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
     //}

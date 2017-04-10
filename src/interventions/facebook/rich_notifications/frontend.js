@@ -1,10 +1,9 @@
 const {
-  get_seconds_spent_on_current_domain_today,
-  get_seconds_spent_on_domain_today,
+  get_seconds_spent_on_current_domain_today
 } = require('libs_common/time_spent_utils')
 
 const {
-  printable_time_spent,
+  printable_time_spent
 } = require('libs_common/time_utils')
 
 const {
@@ -12,7 +11,7 @@ const {
 } = require('libs_frontend/intervention_close_tab')
 
 const {
-  log_action,
+  log_action
 } = require('libs_frontend/intervention_log_utils')
 
 const {

@@ -1,10 +1,6 @@
 const $ = require('jquery')
 
 const {
-  get_seconds_spent_on_domain_today
-} = require('libs_common/time_spent_utils')
-
-const {
   on_url_change,
   once_available,
 } = require('libs_frontend/common_libs')

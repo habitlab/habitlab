@@ -1,13 +1,26 @@
 const $ = require('jquery')
 
 const {
-  get_seconds_spent_on_current_domain_today,
-  get_seconds_spent_on_domain_today,
+  get_seconds_spent_on_current_domain_today
 } = require('libs_common/time_spent_utils')
 
 const {
   printable_time_spent,
 } = require('libs_common/time_utils')
+
+const {
+  display_reward_and_close_current_tab
+} = require('libs_frontend/intervention_close_tab')
+
+const {
+  log_action,
+} = require('libs_frontend/intervention_log_utils')
+
+const {
+  make_notification,
+  notification_onclick,
+  close_notification
+} = require('libs_frontend/notification_utils')
 
 function shouldInsert(secondsSpent, timeInterval) {
   if (secondsSpent < timeInterval * 60) {
@@ -32,16 +45,24 @@ function shouldInsert(secondsSpent, timeInterval) {
   }
 }
 
-function insertRichNotification() {  
-  get_seconds_spent_on_current_domain_today().then(function(secondsSpent) {
-    //if (shouldInsert(secondsSpent, intervention.params.minutes.value)) {
-      chrome.runtime.sendMessage({type: "chrome-notification-gmail-composing", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
-    //}
-  })
+async function insertRichNotification() {  
+  let secondsSpent = await get_seconds_spent_on_current_domain_today();
+  await insert_composing_time_notification(secondsSpent);
 }
 
-function insert_composing_time_notification(secondsSpent) {
-  chrome.runtime.sendMessage({type: "chrome-notification-gmail-composing", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
+async function insert_composing_time_notification(secondsSpent) {
+  var timeSpent = printable_time_spent(secondsSpent)
+  var notification_id = await make_notification({
+    title: 'HabitLab',
+    icon: chrome.extension.getURL('icons/icon_128.png'),
+    body: "You've spent " + timeSpent + " composing this email."
+  });
+  notification_onclick(notification_id, function() {
+    log_action({'positive': 'User closed Gmail.'})
+    close_notification(notification_id);
+    display_reward_and_close_current_tab();
+  })
+  //chrome.runtime.sendMessage({type: "chrome-notification-gmail-composing", timeSpent: printable_time_spent(secondsSpent)}, (response) => {});
 }
 
 /*

@@ -4,10 +4,6 @@ window.Polymer.dom = 'shadow'
 const $ = require('jquery')
 
 const {
-  get_seconds_spent_on_domain_today
-} = require('libs_common/time_spent_utils')
-
-const {
   wrap_in_shadow
 } = require('libs_frontend/common_libs')
 

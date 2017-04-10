@@ -31,8 +31,7 @@ const {
 } = require('libs_frontend/common_libs')
 
 const {
-  get_seconds_spent_on_current_domain_today,
-  get_seconds_spent_on_domain_today,
+  get_seconds_spent_on_current_domain_today
 } = require('libs_common/time_spent_utils')
 
 const {

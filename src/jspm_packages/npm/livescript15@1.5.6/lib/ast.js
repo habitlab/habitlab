@@ -2,7 +2,7 @@
 var fold, ref$, nameFromPath, stripString, SourceNode, SourceMapGenerator, sn, snEmpty, snSafe, snRemoveLeft, snAutofill, Node, Negatable, Block, Atom, Literal, Var, Key, Index, Slice, Chain, Call, List, Obj, Prop, Arr, Yield, Unary, Binary, Assign, Import, In, Existence, Fun, Class, Super, Parens, Splat, Jump, Throw, Return, While, For, StepSlice, Try, Switch, Case, If, Label, Cascade, JS, Require, Util, Vars, CopyL, DECLS, UTILS, LEVEL_TOP, LEVEL_PAREN, LEVEL_LIST, LEVEL_COND, LEVEL_OP, LEVEL_CALL, PREC, TAB, ID, SIMPLENUM, slice$ = [].slice, toString$ = {}.toString;
 fold = require('prelude-ls').fold;
 ref$ = require('./util'), nameFromPath = ref$.nameFromPath, stripString = ref$.stripString;
-ref$ = require('source-map'), SourceNode = ref$.SourceNode, SourceMapGenerator = ref$.SourceMapGenerator;
+ref$ = require('./source-map'), SourceNode = ref$.SourceNode, SourceMapGenerator = ref$.SourceMapGenerator;
 sn = function(node){
   var parts, res$, i$, to$, result, e;
   node == null && (node = {});

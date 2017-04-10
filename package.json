@@ -104,7 +104,7 @@
       "js-yaml": "github:nodeca/js-yaml@master",
       "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
       "list_requires_multi": "npm:list_requires_multi@^1.0.0",
-      "livescript15": "npm:livescript15@^1.5.5",
+      "livescript15": "npm:livescript15@^1.5.6",
       "mathjs": "npm:mathjs@^3.8.1",
       "moment": "npm:moment@^2.14.1",
       "nodeca/js-yaml": "github:nodeca/js-yaml@master",

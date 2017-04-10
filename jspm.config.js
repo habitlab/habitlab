@@ -29,7 +29,7 @@ SystemJS.config({
     "jsbn": "npm:jsbn@0.1.1",
     "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
     "list_requires_multi": "npm:list_requires_multi@1.0.0",
-    "livescript15": "npm:livescript15@1.5.5",
+    "livescript15": "npm:livescript15@1.5.6",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
     "buffer": "npm:jspm-nodelibs-buffer@0.2.1",
     "cfy": "npm:cfy@1.0.20",
@@ -844,11 +844,6 @@ SystemJS.config({
         "process": "npm:process@0.11.9"
       }
     },
-    "npm:livescript15@1.5.5": {
-      "map": {
-        "prelude-ls": "npm:prelude-ls@1.1.2"
-      }
-    },
     "npm:browserify-sign@4.0.4": {
       "map": {
         "create-hmac": "npm:create-hmac@1.1.4",
@@ -890,6 +885,11 @@ SystemJS.config({
     "npm:string_decoder@1.0.0": {
       "map": {
         "buffer-shims": "npm:buffer-shims@1.0.0"
+      }
+    },
+    "npm:livescript15@1.5.6": {
+      "map": {
+        "prelude-ls": "npm:prelude-ls@1.1.2"
       }
     }
   }

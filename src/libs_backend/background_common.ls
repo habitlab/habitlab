@@ -16,16 +16,10 @@
 {cfy, yfy, add_noerr} = require 'cfy'
 
 chrome_tabs_sendmessage = yfy (tab_id, data, options, callback) ->
-  console.log 'chrome_tabs_sendmessage'
-  console.log tab_id
-  console.log data
-  console.log options
   if not callback? and typeof(options) == 'function'
     callback = options
     options = {}
   chrome.tabs.sendMessage tab_id, data, options, (result) ->
-    console.log 'got back result in chrome_tabs_sendmessage'
-    console.log result
     callback(result)
     return true
 

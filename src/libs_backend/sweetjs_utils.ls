@@ -95,35 +95,67 @@ syntax require_component = function(ctx) {
   ''' + '\n\n'
 
 extra_functions = '''
+let require_css_cache = {};
+
 async function require_css_async(css_file) {
   let content_script_utils = await SystemJS.import('libs_common/content_script_utils');
-  return await content_script_utils.load_css_file(css_file);
+  let output = await content_script_utils.load_css_file(css_file);
+  require_css_cache[css_file] = output;
+  return output;
 }
 
-var require_css = require_css_async;
+function require_css(css_file) {
+  return require_css_cache[css_file];
+}
+
+let require_style_cache = {};
 
 async function require_style_async(css_code) {
   let content_script_utils = await SystemJS.import('libs_common/content_script_utils');
-  return await content_script_utils.load_css_code(css_file);
+  let output = await content_script_utils.load_css_code(css_file);
+  require_style_cache[css_file] = output;
+  return output;
 }
 
-var require_style = require_style_async;
+function require_style(css_code) {
+  return require_style_cache[css_code];
+}
+
+let require_package_cache = {};
 
 async function require_package_async(package_name) {
   let content_script_utils = await SystemJS.import('libs_common/content_script_utils');
   await content_script_utils.load_css_file(css_file);
-  return await SystemJS.import(package_name);
+  let output = await SystemJS.import(package_name);
+  require_package_cache[package_name] = output;
+  return output;
 }
 
-var require_package = require_package_async;
+function require_package(package_name) {
+  return require_package_cache[package_name];
+}
+
+let require_remote_cache = {};
 
 async function require_remote_async(package_name) {
   let require_remote_utils = await SystemJS.import('libs_common/require_remote_utils');
-  return await require_remote_utils.require_remote_async(package_name);
+  let output = await require_remote_utils.require_remote_async(package_name);
+  require_remote_cache[package_name] = output;
+  return output;
 }
 
-var require_remote = require_remote_async;
+function require_remote(package_name) {
+  return require_remote_cache[package_name];
+}
 '''
+
+/*
+info = {require_package: [a,b,c], require_css: [a,b,c], require_module: [a,b,c]}
+
+for k,v of info
+  
+await Promise.all([promise1, promise2, promise3])
+*/
 
 compile = (code) ->>
   sweetjs = await SystemJS.import 'sweetjs-min'

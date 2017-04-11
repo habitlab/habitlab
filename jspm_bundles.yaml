@@ -32,8 +32,6 @@
 - dexie:
   - dexie
 - intervention-editor-libs:
-  - sweetjs-min
-  - prettier-min
   - list_requires_multi
   - brace
   - brace/mode/javascript

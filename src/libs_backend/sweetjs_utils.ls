@@ -89,6 +89,8 @@ compile = (code) ->>
   extra_code_segment2 = extra_code_segment2.join('\n')
   output = """
   (async function() {
+    var intervention = require('libs_common/intervention_info').get_intervention();
+    var tab_id = require('libs_common/intervention_info').get_tab_id();
 
     #{extra_functions}
     
@@ -118,6 +120,7 @@ compile = (code) ->>
 
     #{code}
 
+    window.debugeval = (x) => eval(x);
   })();
   """
   return output

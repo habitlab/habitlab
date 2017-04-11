@@ -73,6 +73,9 @@ lib_name_to_func_names_and_signatures =
   notification_utils_backend:
     make_notification_backend: ['info', 'tab_id']
     close_notification_backend: 'notification_id'
+  persistent_storage_utils:
+    set_var: ['key', 'val']
+    get_var: 'key'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

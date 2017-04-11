@@ -1,0 +1,6 @@
+#!/bin/bash
+
+git pull origin "$(git branch | grep -E '^\* ' | sed 's/^\* //g')"
+yarn
+gulp clean
+gulp build

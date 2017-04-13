@@ -1,5 +1,5 @@
 require! {
-  esprima
+  espree
 }
 
 walk = require 'esprima-walk'
@@ -7,8 +7,9 @@ walk = require 'esprima-walk'
 list_requires_multi = (code, list_of_function_names) ->
   if not list_of_function_names?
     list_of_function_names = ['require']
-  parsed = esprima.parse code, {
+  parsed = espree.parse code, {
     tolerant: true
+    ecmaVersion: 8
   }
   function_name_to_output = {}
   for function_name in list_of_function_names

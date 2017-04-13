@@ -1,0 +1,24 @@
+{
+  "main": "dist/acorn.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "dist/acorn.es.js": {
+      "format": "esm"
+    },
+    "dist/acorn_loose.es.js": {
+      "format": "esm"
+    },
+    "dist/walk.es.js": {
+      "format": "esm"
+    },
+    "rollup/*": {
+      "format": "esm"
+    },
+    "src/*": {
+      "format": "esm"
+    }
+  }
+}

@@ -42,3 +42,12 @@ describe 'all tests', ->
     result.require.length.should.equal(5)
     result.require.should.include.members(['moo', 'bar', 'non', 'lala', 'nana'])
     done()
+
+  specify 'list_requires_async', (done) ->
+    result = list_requires """
+    async function qux() {
+      return require("moo")
+    }
+    """
+    result.should.eql({require: ['moo']})
+    done()

@@ -74,13 +74,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:list_requires_multi@1.0.0": {
-    "deps": {
-      "esprima": "npm:esprima@^3.1.3",
-      "esprima-walk": "npm:esprima-walk@^0.1.0"
-    },
-    "peerDeps": {}
-  },
   "npm:enable-webcomponents-in-content-scripts@1.0.7": {
     "deps": {
       "webcomponentsjs-custom-element-v0": "npm:webcomponentsjs-custom-element-v0@^1.0.1"
@@ -120,10 +113,6 @@
     "peerDeps": {
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
-  },
-  "npm:esprima-walk@0.1.0": {
-    "deps": {},
-    "peerDeps": {}
   },
   "npm:fast-csv@0.5.7": {
     "deps": {
@@ -2034,5 +2023,37 @@
     "peerDeps": {
       "buffer": "npm:jspm-nodelibs-buffer@^0.2.0"
     }
+  },
+  "npm:list_requires_multi@1.0.1": {
+    "deps": {
+      "espree": "npm:espree@^3.4.0",
+      "esprima-walk": "npm:esprima-walk@^0.1.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:espree@3.4.1": {
+    "deps": {
+      "acorn": "npm:acorn@^5.0.1",
+      "acorn-jsx": "npm:acorn-jsx@^3.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:esprima-walk@0.1.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:acorn-jsx@3.0.1": {
+    "deps": {
+      "acorn": "npm:acorn@^3.0.4"
+    },
+    "peerDeps": {}
+  },
+  "npm:acorn@5.0.3": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:acorn@3.3.0": {
+    "deps": {},
+    "peerDeps": {}
   }
 }

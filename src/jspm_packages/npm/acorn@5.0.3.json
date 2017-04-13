@@ -1,0 +1,78 @@
+{
+  "main": "dist/acorn.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "dist/acorn.es.js": {
+      "format": "esm"
+    },
+    "dist/acorn_loose.es.js": {
+      "format": "esm"
+    },
+    "dist/walk.es.js": {
+      "format": "esm"
+    },
+    "src/bin/acorn.js": {
+      "format": "esm"
+    },
+    "src/expression.js": {
+      "format": "esm"
+    },
+    "src/identifier.js": {
+      "format": "esm"
+    },
+    "src/index.js": {
+      "format": "esm"
+    },
+    "src/location.js": {
+      "format": "esm"
+    },
+    "src/locutil.js": {
+      "format": "esm"
+    },
+    "src/loose/*": {
+      "format": "esm"
+    },
+    "src/lval.js": {
+      "format": "esm"
+    },
+    "src/node.js": {
+      "format": "esm"
+    },
+    "src/options.js": {
+      "format": "esm"
+    },
+    "src/parseutil.js": {
+      "format": "esm"
+    },
+    "src/scope.js": {
+      "format": "esm"
+    },
+    "src/state.js": {
+      "format": "esm"
+    },
+    "src/statement.js": {
+      "format": "esm"
+    },
+    "src/tokencontext.js": {
+      "format": "esm"
+    },
+    "src/tokenize.js": {
+      "format": "esm"
+    },
+    "src/tokentype.js": {
+      "format": "esm"
+    },
+    "src/util.js": {
+      "format": "esm"
+    },
+    "src/walk/*": {
+      "format": "esm"
+    },
+    "src/whitespace.js": {
+      "format": "esm"
+    }
+  }
+}

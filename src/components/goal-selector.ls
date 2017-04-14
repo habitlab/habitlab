@@ -121,6 +121,12 @@ polymer_ext {
     evt.stopPropagation()
     newtab = evt.target.sitename
     this.fire 'need_tab_change', {newtab: newtab}
+  is_goal_shown: (goal) ->
+    if goal.hidden?
+      return false
+    if goal.beta? and localStorage.getItem('show_beta_goals') != 'true'
+      return false
+    return true
   set_sites_and_goals: ->>
     self = this
     goal_name_to_info = await get_goals()

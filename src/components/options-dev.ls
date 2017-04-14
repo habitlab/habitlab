@@ -50,6 +50,14 @@ polymer_ext {
               recommended: 'all'
             }
             {
+              name: 'show_beta_goals'
+              description: 'Show goals marked as beta'
+            }
+            {
+              name: 'show_beta_interventions'
+              description: 'Show interventions marked as beta'
+            }
+            {
               name: 'open_debug_console_on_load'
               description: 'Automatically open the debug console when intervention is loaded'
             }

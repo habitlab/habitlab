@@ -19,6 +19,7 @@
 <link rel="import" href="goal-selector.html">
 <link rel="import" href="privacy-options.html">
 <link rel="import" href="update-check.html">
+<link rel="import" href="advanced-features.html">
 
 <dom-module id="options-interventions">
   <style is="custom-style">
@@ -82,19 +83,7 @@
       -webkit-font-smoothing: subpixel-antialiased;
     }
 
-    .open-intervention-editor-button {
-      color: white;
-      background-color: #415D67;
-      margin-left: 16px;
-      margin-bottom: 8px;
-      padding: 5px;
-      font-size: 16px;
-      text-transform: none;
-      -webkit-font-smoothing: subpixel-antialiased;
-    }
-
     #timepicker {
-      
       margin-bottom: 16px;
     }
 
@@ -296,11 +285,7 @@
 
       <div id="intro7" class="intro" style="display: none;">
         <paper-card heading="Advanced Features" class="papercard">
-          <div class="card-content">
-            <div>If you know how to <a target="_blank" href="https://www.javascript.com/">write code in JavaScript</a>, you can <a target="_blank" href="https://habitlab.github.io/write">write your own interventions</a> in the intervention editor</div>
-            <div style="height: 12px"></div>
-            <paper-button class="open-intervention-editor-button" on-click="open_intervention_editor">Open Intervention Editor</paper-button>
-          </div>
+          <advanced-features id="advanced_features"></advanced-features>
         </paper-card>
       </div>
 

@@ -1,0 +1,31 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+
+<dom-module id="advanced-features">
+  <style>
+    .card-content {
+      font-size: 20px;
+    }
+
+    .open-intervention-editor-button {
+      color: white;
+      background-color: #415D67;
+      margin-left: 16px;
+      margin-bottom: 8px;
+      padding: 5px;
+      font-size: 16px;
+      text-transform: none;
+      -webkit-font-smoothing: subpixel-antialiased;
+    }
+  </style>
+  <template>
+    <div class="card-content">
+      <paper-checkbox checked="{{show_beta_goals_and_interventions}}">Show goals and interventions that are in beta (reloads page).</paper-checkbox>
+      <div style="height: 12px"></div>
+      <div>If you know how to <a target="_blank" href="https://www.javascript.com/">write code in JavaScript</a>, you can <a target="_blank" href="https://habitlab.github.io/write">write your own interventions</a> in the intervention editor</div>
+      <div style="height: 12px"></div>
+      <paper-button class="open-intervention-editor-button" on-click="open_intervention_editor">Open Intervention Editor</paper-button>
+    </div>
+  </template>
+  <script src="advanced-features.js"></script>
+</dom-module>

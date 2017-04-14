@@ -50,12 +50,8 @@ polymer_ext {
               recommended: 'all'
             }
             {
-              name: 'show_beta_goals'
-              description: 'Show goals marked as beta'
-            }
-            {
-              name: 'show_beta_interventions'
-              description: 'Show interventions marked as beta'
+              name: 'show_beta_goals_and_interventions'
+              description: 'Show goals and interventions marked as beta'
             }
             {
               name: 'open_debug_console_on_load'

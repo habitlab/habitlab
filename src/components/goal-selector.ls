@@ -124,7 +124,7 @@ polymer_ext {
   is_goal_shown: (goal) ->
     if goal.hidden?
       return false
-    if goal.beta? and localStorage.getItem('show_beta_goals') != 'true'
+    if goal.beta? and localStorage.getItem('show_beta_goals_and_interventions') != 'true'
       return false
     return true
   set_sites_and_goals: ->>

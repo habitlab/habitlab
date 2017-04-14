@@ -89,10 +89,21 @@ polymer_ext {
       type: Object
     }
   }
+  have_unsaved_changes: ->
+    window.onbeforeunload = ->
+      return 'are you sure you want to exit?'
+  no_unsaved_changes: ->
+    window.onbeforeunload = null
+  js_editor_changed: ->>
+    self = this
+    if self.get_edit_mode() != 'js'
+      return
+    self.have_unsaved_changes()
   ls_editor_changed: ->>
     self = this
     if self.get_edit_mode() == 'js'
       return
+    self.have_unsaved_changes()
     ls_text = self.ls_editor.getValue()
     ls_compiler = await get_livescript()
     try
@@ -167,6 +178,7 @@ polymer_ext {
       intervention_info.livescript_code = lscode
     this.intervention_info = intervention_info
     await add_new_intervention(intervention_info)
+    this.no_unsaved_changes()
     return true
   intervention_selector_changed: (change_info) ->>
     intervention_name = change_info.detail.item.intervention_name
@@ -438,6 +450,8 @@ polymer_ext {
     ls_editor.$blockScrolling = Infinity
     ls_editor.on 'change', ->
       self.ls_editor_changed()
+    js_editor.on 'change', ->
+      self.js_editor_changed()
     all_goals = await get_goals()
     #enabled_goals = as_array(await get_enabled_goals())
     #self.goal_info_list = [all_goals[x] for x in enabled_goals]
@@ -448,6 +462,7 @@ polymer_ext {
     setTimeout ->
       if self.intervention_info?edit_mode?
         self.set_edit_mode(self.intervention_info.edit_mode)
+      self.no_unsaved_changes()
     , 500
     once_true(-> self?intervention_info?code?
     , ->>
@@ -455,8 +470,6 @@ polymer_ext {
       clear_cache_all_interventions()
       get_interventions()
     )
-    window.onbeforeunload = ->
-      return 'are you sure you want to exit?'
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

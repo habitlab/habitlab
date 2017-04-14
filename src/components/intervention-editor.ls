@@ -455,6 +455,8 @@ polymer_ext {
       clear_cache_all_interventions()
       get_interventions()
     )
+    window.onbeforeunload = ->
+      return 'are you sure you want to exit?'
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

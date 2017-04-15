@@ -75,14 +75,14 @@ compile = (code) ->>
   all_requires = list_requires(code, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
   extra_code = []
   extra_code_segment2 = []
-  if all_requires.require_component? and all_requires.require_component.length > 0
-    extra_code_segment2.push 'name_to_func_async.require_component = require_component_async;'
   if (all_requires.define_component? and all_requires.define_component.length > 0) or (all_requires.require_component? and all_requires.require_component.length > 0)
     extra_code.push "require('enable-webcomponents-in-content-scripts');"
   if all_requires.require_component? and all_requires.require_component.length > 0
     component_list = all_requires.require_component
     requires_for_components = await get_components_to_require_statements(component_list)
     extra_code.push make_require_component_functions(requires_for_components)
+    if Object.keys(requires_for_components).length > 0
+      extra_code_segment2.push 'name_to_func_async.require_component = require_component_async;'
   if all_requires.define_component? and all_requires.define_component.length > 0
     extra_code.push "var define_component = require('libs_frontend/polymer_utils').polymer_ext;"
   extra_code = extra_code.join('\n')
@@ -101,8 +101,7 @@ compile = (code) ->>
         require_css: require_css_async,
         require_style: require_style_async,
         require_package: require_package_async,
-        require_remote: require_remote_async,
-        require_component: require_component_async,
+        require_remote: require_remote_async
       }
       #{extra_code_segment2}
       var all_requires = #{JSON.stringify(all_requires)}

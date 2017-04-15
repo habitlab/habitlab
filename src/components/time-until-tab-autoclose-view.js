@@ -55,11 +55,12 @@ polymer_ext({
   compute_seconds: function(secondsRemaining) {
     return secondsRemaining % 60;
   },
-
-
+  detached: function() {
+    clearInterval(this.close_tab_timer);
+  },
   attached: function() {
     var self = this;
-    setInterval(function() {
+    this.close_tab_timer = setInterval(function() {
       if (self.secondsRemaining <= 0) {
         //self.fire('time_has_run_out', {});
         self.$.close_button.button_clicked();

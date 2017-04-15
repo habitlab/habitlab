@@ -54,6 +54,10 @@ polymer_ext {
               description: 'Show goals and interventions marked as beta'
             }
             {
+              name: 'show_hidden_goals_and_interventions'
+              description: 'Show goals and interventions marked as hidden'
+            }
+            {
               name: 'open_debug_console_on_load'
               description: 'Automatically open the debug console when intervention is loaded'
             }

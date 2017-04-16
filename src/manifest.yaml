@@ -4,7 +4,7 @@ short_name: habitlab
 description: >-
   Build better habits online! Tell HabitLab your goals, and it will determine
   the appropriate interventions via experimentation.
-version: 1.0.139
+version: 1.0.140
 minimum_chrome_version: 55.0.0.0
 permissions:
   - tabs
@@ -17,7 +17,9 @@ permissions:
   - <all_urls>
   - 'http://*/'
   - 'https://*/'
-content_security_policy: script-src 'self' 'unsafe-eval' 'sha256-Lnjp6S+Lhd5zhPB1WhXY2otcDuecbUd93KaBjOx9gGE='; object-src 'self'
+content_security_policy: >-
+  script-src 'self' 'unsafe-eval'
+  'sha256-Lnjp6S+Lhd5zhPB1WhXY2otcDuecbUd93KaBjOx9gGE='; object-src 'self'
 web_accessible_resources:
   - options.html
   - popup.html

@@ -19,6 +19,10 @@
         "message": "HabitLab设置",
         "description": ""
     },
+    "Overview": {
+        "message": "概要",
+        "description": ""
+    },
     "HabitLab_lets_you_set_goals_to_limit_your_usage_of_selected_sites": {
         "message": "HabitLab lets you set goals to limit your usage of selected sites",
         "description": ""
@@ -37,6 +41,10 @@
     },
     "Scroll_Down": {
         "message": "Scroll Down",
+        "description": ""
+    },
+    "Help__FAQ": {
+        "message": "帮助／常见问题",
         "description": ""
     },
     "Start_Using_HabitLab": {

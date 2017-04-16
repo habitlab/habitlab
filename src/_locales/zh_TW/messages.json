@@ -1,0 +1,70 @@
+{
+    "Settings": {
+        "message": "設置",
+        "description": ""
+    },
+    "Were_here_to_help_you_build_better_habits_online": {
+        "message": "We're here to help you build better habits online",
+        "description": ""
+    },
+    "Previous": {
+        "message": "往上",
+        "description": ""
+    },
+    "Close_Tab": {
+        "message": "關閉標籤",
+        "description": ""
+    },
+    "HabitLab_Settings": {
+        "message": "HabitLab設置",
+        "description": ""
+    },
+    "HabitLab_lets_you_set_goals_to_limit_your_usage_of_selected_sites": {
+        "message": "HabitLab lets you set goals to limit your usage of selected sites",
+        "description": ""
+    },
+    "What_goals_should_HabitLab_help_me_achieve": {
+        "message": "What goals should HabitLab help me achieve?",
+        "description": ""
+    },
+    "Close_Facebook": {
+        "message": "關閉Facebook",
+        "description": ""
+    },
+    "HabitLab_helps_you_achieve_your_goals_by_showing_you_different_interventions_each_time_you_visit_your_goal_sites": {
+        "message": "HabitLab helps you achieve your goals by showing you different interventions each time you visit your goal sites",
+        "description": ""
+    },
+    "Scroll_Down": {
+        "message": "Scroll Down",
+        "description": ""
+    },
+    "Start_Using_HabitLab": {
+        "message": "開始使用HabitLab",
+        "description": ""
+    },
+    "Welcome_to_HabitLab": {
+        "message": "歡迎來到HabitLab",
+        "description": ""
+    },
+    "Lets_do_a_quick_tutorial_and_get_you_set_up": {
+        "message": "Let's do a quick tutorial and get you set up",
+        "description": ""
+    },
+    "Spend_less_time_on_the_following_sites": {
+        "message": "Spend less time on the following sites:",
+        "description": ""
+    },
+    "You_can_track_your_progress_to_see_which_interventions_work_best_for_you_and_how_much_time_youve_saved": {
+        "message": "You can track your progress to see which interventions work best for you and how much time you've saved!",
+        "description": ""
+    },
+    "Next": {
+        "message": "往下",
+        "description": ""
+    },
+    "Feedback": {
+        "message": "反饋",
+        "description": ""
+    }
+}

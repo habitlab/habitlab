@@ -15,8 +15,21 @@ function make_substitutions (text, substitutions) {
   return text;
 }
 
+function to_ascii_localization_keyname(text) {
+  var output = [];
+  for (let c of text) {
+    if (c == ' ') {
+      output.push('_');
+    } else if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.indexOf(c) != -1) {
+      output.push(c);
+    }
+  }
+  return output.join('');
+}
+
 function msg(text, substitutions) {
-  const translation = chrome.i18n.getMessage(text, substitutions)
+  const keyname = to_ascii_localization_keyname(text);
+  const translation = chrome.i18n.getMessage(keyname, substitutions)
   if (translation == null || translation == '') {
     if (developer_mode) {
       SystemJS.import('libs_common/localization_utils_backend').then(localization_utils => {
@@ -37,5 +50,6 @@ function msg(text, substitutions) {
 }
 
 module.exports = {
-  msg
+  msg,
+  to_ascii_localization_keyname
 }

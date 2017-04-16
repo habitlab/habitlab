@@ -1,3 +1,7 @@
+const {
+  to_ascii_localization_keyname
+} = require('libs_common/localization_utils');
+
 Polymer({
   is: 'localization-view',
   propertites: {
@@ -15,7 +19,8 @@ Polymer({
     let unlocalized_strings = Object.keys(unlocalized_strings_num_encounters);
     let messages_json_output = {};
     for (let x of unlocalized_strings) {
-      messages_json_output[x] = {
+      const key = to_ascii_localization_keyname(x);
+      messages_json_output[key] = {
         message: x
       }
     }

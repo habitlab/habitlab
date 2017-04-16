@@ -1,0 +1,65 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="badge-display-mini-v2">
+  <style>
+    :host {
+      opacity: 1;
+      background-color: white;
+      color: black;
+    }
+    .badge_mini_wrapper {
+      background-color: white;
+      color: black;
+      text-align: center;
+      font-size: 20px;
+      display: inline-block;
+    }
+    .badge_unlocked_header_text {
+      background-color: #5E9CD3;
+      display: inline-block;
+      padding: 10px;
+      border-radius: 10px;
+      color: white;
+      border-color: #43729A;
+      border-width: 1px;
+      border-style: solid;
+      text-shadow: 1px 1px black;
+    }
+    .badge_unlocked_bottom_text {
+      background-color: #5E9CD3;
+      display: inline-block;
+      padding: 10px;
+      border-radius: 10px;
+      color: white;
+      border-color: #43729A;
+      border-width: 1px;
+      border-style: solid;
+      text-shadow: 1px 1px black;
+      width: 116px;
+    }
+    .center_badge_display {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+      border-color: green;
+      border-width: 2px;
+      border-style: solid;
+      background-color: #70AD47;
+      display: inline-block;
+    }
+  </style>
+  <template>
+    <div class="badge_mini_wrapper">
+      <div class="center_badge_display">
+        <img src="{{badge_details.img_url}}" style="margin-top: 15px; height: 70px"></img>
+      </div>
+      <div style="width: 100%; text-align: center">
+        <div class="badge_unlocked_bottom_text">
+          <div><span>{{badge_details.name}}</span></div>
+          <div><span>{{badge_details.time_message}}</span></div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <script src="badge-display-mini-v2.js"></script>
+</dom-module>

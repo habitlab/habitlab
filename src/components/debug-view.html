@@ -18,7 +18,7 @@
     <br><br>
     <template is="dom-repeat" items="{{tags_with_info()}}" as="tag_with_info">
       <h1><a href="{{tag_link_url(tag_with_info.is)}}" target="_blank">{{tag_with_info.is}}</a></h1>
-      <pre>{{yaml_stringify(tag_with_info)}}</pre>
+      <pre>{{json_stringify(tag_with_info)}}</pre>
     </template>
 
   </template>

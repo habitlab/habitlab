@@ -15,8 +15,8 @@ polymer_ext {
     return
     #this.$.options_interventions.rerender()
 }, {
-  source: require 'libs_frontend/polymer_methods'
+  source: require 'libs_common/localization_utils'
   methods: [
-    'yaml_stringify'
+    'msg'
   ]
 }

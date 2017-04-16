@@ -40,4 +40,9 @@ polymer_ext({
     //return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');
     return chrome.extension.getURL('icons/gear_white.svg');
   },
+}, {
+  source: require('libs_common/localization_utils'),
+  methods: [
+    'msg'
+  ]
 });

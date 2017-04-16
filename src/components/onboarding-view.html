@@ -114,10 +114,10 @@
       <div class="bottom-bar">
         <div style="display: table; text-align: right; color: white; width: 100%; height: 100%">
           <div class="prevnext_button_container">
-            <paper-button class="prevnext_button" on-click="prev_slide"><iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> Previous</paper-button>
+            <paper-button class="prevnext_button" on-click="prev_slide"><iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
           </div>
           <div class="prevnext_button_container">
-            <paper-button class="prevnext_button" on-click="next_button_clicked"><iron-icon icon="arrow-downward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> Next</paper-button>
+            <paper-button class="prevnext_button" on-click="next_button_clicked"><iron-icon icon="arrow-downward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Next")}}</paper-button>
           </div>
         </div>
       </div>
@@ -126,15 +126,15 @@
     <div class="slide" on-click="next_slide">
       <div class="inner_slide">
         <br><br><br><br>
-        <div style="font-size: 40px">Welcome to HabitLab</div>
+        <div style="font-size: 40px">{{msg("Welcome to HabitLab")}}</div>
         <br><br>
-        <div class="subtext">We're here to help you build better habits online</div>
-        <div class="subtext">Let's do a quick tutorial and get you set up</div>
+        <div class="subtext">{{msg("We're here to help you build better habits online")}}</div>
+        <div class="subtext">{{msg("Let's do a quick tutorial and get you set up")}}</div>
         <br>
 
         <paper-button style="background-color: green">
           <iron-icon icon="arrow-downward" style="color: white; height: 25px; width: 25px; padding-right: 5px"></iron-icon>
-          <span> Scroll Down</span>
+          <span> {{msg("Scroll Down")}}</span>
         </paper-button>
         <!--
         <paper-button style="background-color: green">
@@ -151,7 +151,7 @@
           <img src="https://habitlab.github.io/onboarding_images/dashboard5.png" class="image_inner"></img>
         </div>
         <br><br>
-        <div class="subtext">HabitLab lets you set goals to limit your usage of selected sites</div>
+        <div class="subtext">{{msg("HabitLab lets you set goals to limit your usage of selected sites")}}</div>
       </div>
     </div>
 
@@ -161,7 +161,7 @@
           <img src="https://habitlab.github.io/onboarding_images/interventions-nolabels.png" class="image_inner"></img>
         </div>
         <br><br>
-        <div class="subtext">HabitLab helps you achieve your goals by showing you different interventions each time you visit your goal sites</div>
+        <div class="subtext">{{msg("HabitLab helps you achieve your goals by showing you different interventions each time you visit your goal sites")}}</div>
       </div>
     </div>
 
@@ -171,7 +171,7 @@
           <img src="https://habitlab.github.io/onboarding_images/dashboard1.png" class="image_inner"></img>
         </div>
         <br><br>
-        <div class="subtext">You can track your progress to see which interventions work best for you and how much time you've saved!</div>
+        <div class="subtext">{{msg("You can track your progress to see which interventions work best for you and how much time you've saved!")}}</div>
       </div>
     </div>
 
@@ -183,7 +183,7 @@
 
         <div class="subtext">HabitLab is a research project run by the<br><a href="http://hci.stanford.edu/" target="_blank" style="color: white;">Stanford HCI Group</a>.</div>
         <div style="margin-top: 15px"></div>
-        <div>By using it you are agreeing to the following terms:</div>
+        <div>By using HabitLab you are agreeing to the following terms:</div>
 
         <div id="irb_text" style="height: 70px; margin-top: 15px; font-size: 9px; width: 600px; overflow-x: none; overflow-y: scroll">
 
@@ -215,7 +215,7 @@
           </div>
         </div>
         <br>
-        <paper-button class="get_started_button" on-click="onboarding_complete">Start Using HabitLab</paper-button>
+        <paper-button class="get_started_button" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>
       </div>
     </div>
 

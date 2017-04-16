@@ -13,4 +13,9 @@ polymer_ext({
     feedback_form.other = data;
     feedback_form.open();
   }
+}, {
+  source: require('libs_common/localization_utils'),
+  methods: [
+    'msg'
+  ]
 });

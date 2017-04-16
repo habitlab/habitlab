@@ -10,12 +10,16 @@
   get_intervention
 } = require 'libs_common/intervention_info'
 
+{
+  msg
+} = require 'libs_common/localization_utils'
+
 Polymer {
   is: 'close-tab-button'
   properties: {
     text: {
       type: String
-      value: 'Close Tab'
+      value: msg('Close Tab')
     }
   }
   button_clicked: ->

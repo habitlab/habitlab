@@ -76,6 +76,9 @@ lib_name_to_func_names_and_signatures =
   persistent_storage_utils:
     set_var: ['key', 'val']
     get_var: 'key'
+  localization_utils_backend:
+    record_unlocalized_string: 'text'
+    record_localized_string: 'text'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

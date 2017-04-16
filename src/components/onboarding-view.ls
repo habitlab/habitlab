@@ -226,11 +226,16 @@ polymer_ext {
       # developer mode
       if not localStorage.getItem('enable_debug_terminal')?
         localStorage.setItem('enable_debug_terminal', 'true')
-}, {
+}, [{
   source: require 'libs_frontend/polymer_methods'
   methods: [
     'S'
     'SM'
     'is_not_equal_to_any'
   ]
-}
+}, {
+  source: require 'libs_common/localization_utils'
+  methods: [
+    'msg'
+  ]
+}]

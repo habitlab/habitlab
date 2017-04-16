@@ -12,6 +12,6 @@ polymer_ext {
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [
-    'yaml_stringify'
+    'json_stringify'
   ]
 }

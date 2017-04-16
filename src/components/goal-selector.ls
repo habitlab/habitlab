@@ -227,4 +227,9 @@ polymer_ext {
     return
   ready: ->>
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+}, {
+  source: require 'libs_common/localization_utils'
+  methods: [
+    'msg'
+  ]
 }

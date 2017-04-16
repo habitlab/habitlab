@@ -15,6 +15,10 @@ const {
   on_url_change,
 } = require('libs_frontend/common_libs')
 
+const {
+  msg
+} = require('libs_common/localization_utils')
+
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')
@@ -63,7 +67,7 @@ function attachButtons() {
     log_action({'negative': 'Remained on Facebook.'})
     showFeed(intervalID)
   })
-  var closeButton = $('<close-tab-button text="Close Facebook">')
+  var closeButton = $(`<close-tab-button text="${msg('Close Facebook')}">`)
 
   var habitlab_show_feed_div = $('<div>')
   .css({

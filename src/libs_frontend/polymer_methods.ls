@@ -1,7 +1,8 @@
 $ = require 'jquery'
-require! 'js-yaml'
 
 {yfy} = require 'cfy'
+
+export {msg} = require 'libs_common/localization_utils'
 
 export S = (pattern) ->
   $(this.$$(pattern))
@@ -89,9 +90,6 @@ export iterate_object_values: (obj) ->
 
 export json_stringify = (obj) ->
   JSON.stringify(obj, null, 2)
-
-export yaml_stringify = (obj) ->
-  js-yaml.dump JSON.parse JSON.stringify obj
 
 export once_available = yfy (selector, callback) ->
   self = this

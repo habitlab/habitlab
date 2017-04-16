@@ -24,6 +24,10 @@
   once_true
 } = require 'libs_common/common_libs'
 
+{
+  msg
+} = require 'libs_common/localization_utils'
+
 swal = require 'sweetalert2'
 
 polymer_ext {
@@ -59,7 +63,7 @@ polymer_ext {
   }
   compute_sidebar_items: (enabled_goal_info_list) ->
     default_icon = habitlab_icon
-    return [{name: 'Overview', icon: habitlab_icon}, {name: 'Settings', icon: gear_icon}].concat([{name: x.sitename_printable, icon: x.icon ? default_icon} for x in enabled_goal_info_list]).concat({name: 'Help / FAQ', icon: help_icon})
+    return [{name: msg('Overview'), icon: habitlab_icon}, {name: msg('Settings'), icon: gear_icon}].concat([{name: x.sitename_printable, icon: x.icon ? default_icon} for x in enabled_goal_info_list]).concat({name: msg('Help / FAQ'), icon: help_icon})
   enable_habitlab_button_clicked: ->
     this.is_habitlab_disabled = false
     enable_habitlab()

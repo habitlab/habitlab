@@ -17,11 +17,17 @@
   "HabitLab_lets_you_set_goals_to_limit_your_usage_of_selected_sites": {
     "message": "HabitLab lets you set goals to limit your usage of selected sites"
   },
+  "Help__FAQ": {
+    "message": "Help / FAQ"
+  },
   "Lets_do_a_quick_tutorial_and_get_you_set_up": {
     "message": "Let's do a quick tutorial and get you set up"
   },
   "Next": {
     "message": "Next"
+  },
+  "Overview": {
+    "message": "Overview"
   },
   "Previous": {
     "message": "Previous"

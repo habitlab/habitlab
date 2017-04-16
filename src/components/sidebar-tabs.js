@@ -1,9 +1,9 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 const {cfy} = require('cfy');
 const screenshot_utils = require('libs_common/screenshot_utils');
+const {msg} = require('libs_common/localization_utils');
 
 polymer_ext({
-
   is: 'sidebar-tabs',
   properties: {
     items: {
@@ -24,7 +24,7 @@ polymer_ext({
   },
   isdemo_changed: function(isdemo) {
     if (isdemo) {
-      this.items = [{name: 'Overview'}, {name: 'Settings'}];
+      this.items = [{name: msg('Overview')}, {name: msg('Settings')}];
       this.selected_tab_idx = 0;
     }
   },
@@ -41,10 +41,15 @@ polymer_ext({
     feedback_form.other = data;
     feedback_form.open();
   }
-}, {
+}, [{
   source: require('libs_frontend/polymer_methods'),
   methods: [
     'SM',
     'text_if_equal'
   ]
-})
+}, {
+  source: require('libs_common/localization_utils'),
+  methods: [
+    'msg'
+  ]
+}])

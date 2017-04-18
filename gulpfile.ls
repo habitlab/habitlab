@@ -175,7 +175,7 @@ gulp.task 'livescript_srcgen', ->
   gulp.src(lspattern_srcgen, {base: 'src'})
   .pipe(gulp-changed('src_gen', {extension: '.js'}))
   #.pipe(gulp-print( -> "livescript_srcgen: #{it}" ))
-  .pipe(gulp-livescript({bare: false}))
+  .pipe(gulp-livescript({bare: true}))
   .on('error', gulp-util.log)
   .pipe(gulp.dest('src_gen'))
 

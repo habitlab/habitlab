@@ -1,5 +1,8 @@
 {cfy, yfy} = require 'cfy'
 
+/**
+ * Closes the selected tab
+ */
 export close_selected_tab = ->>
   chrome_tabs_query = yfy(chrome.tabs.query)
   tabs = await chrome_tabs_query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT})
@@ -7,6 +10,10 @@ export close_selected_tab = ->>
     chrome.tabs.remove(tabs[0].id)
   return
 
+/**
+ * Closes the tab with the specified tab id
+ * @param {number} tab_id - The id of the tab
+ */
 export close_tab_with_id = (tab_id) ->>
   chrome.tabs.remove(tab_id)
   return

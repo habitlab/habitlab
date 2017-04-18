@@ -1,0 +1,5 @@
+{
+  "source": "./src_gen",
+  "includes": ["libs_frontend/.*\\.js$"],
+  "destination": "./doc"
+}

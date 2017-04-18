@@ -19,3 +19,4 @@ npm-debug.log
 /jspm_config_frontend.js
 /jspm_config_backend.js
 *.sublime-workspace
+/doc

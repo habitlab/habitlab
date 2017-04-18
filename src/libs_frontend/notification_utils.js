@@ -1,11 +1,11 @@
-const {
+import {
   make_notification_backend,
   close_notification_backend
-} = require('libs_common/notification_utils_backend');
+} from 'libs_common/notification_utils_backend'
 
-const {
+import {
   get_tab_id
-} = require('libs_common/intervention_info');
+} from 'libs_common/intervention_info'
 
 /**
  * Creates a notification and returns the notification id
@@ -15,7 +15,7 @@ const {
  * @param {string} info.body - body of the notification message
  * @return {number} notification id of the created notification
  */
-async function make_notification(info) {
+export async function make_notification(info) {
   let tab_id = get_tab_id();
   return await make_notification_backend(info, tab_id);
 }
@@ -23,7 +23,7 @@ async function make_notification(info) {
 let notification_id_to_callback = {};
 let notification_listener_active = false;
 
-function notification_onclick(notification_id, callback) {
+export function notification_onclick(notification_id, callback) {
   notification_id_to_callback[notification_id] = callback;
   if (!notification_listener_active) {
     notification_listener_active = true;
@@ -38,10 +38,4 @@ function notification_onclick(notification_id, callback) {
   }
 }
 
-let close_notification = close_notification_backend;
-
-module.exports = {
-  make_notification: make_notification,
-  close_notification: close_notification,
-  notification_onclick: notification_onclick,
-}
+export let close_notification = close_notification_backend;

@@ -7,6 +7,14 @@ const {
   get_tab_id
 } = require('libs_common/intervention_info');
 
+/**
+ * Creates a notification and returns the notification id
+ * @param {Object} info - info for creating the notification
+ * @param {string} info.title - title for the notification
+ * @param {string} info.icon - path to the icon for the notification
+ * @param {string} info.body - body of the notification message
+ * @return {number} notification id of the created notification
+ */
 async function make_notification(info) {
   let tab_id = get_tab_id();
   return await make_notification_backend(info, tab_id);

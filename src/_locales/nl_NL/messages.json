@@ -1,0 +1,78 @@
+{
+    "Settings": {
+        "message": "Instellingen",
+        "description": ""
+    },
+    "Were_here_to_help_you_build_better_habits_online": {
+        "message": "We zijn er om u te helpen betere online gewoonten te ontwikkelen",
+        "description": ""
+    },
+    "Previous": {
+        "message": "Vorige",
+        "description": ""
+    },
+    "Close_Tab": {
+        "message": "Tabblad sluiten",
+        "description": ""
+    },
+    "HabitLab_Settings": {
+        "message": "HabitLab-instellingen",
+        "description": ""
+    },
+    "Overview": {
+        "message": "Overzicht",
+        "description": ""
+    },
+    "HabitLab_lets_you_set_goals_to_limit_your_usage_of_selected_sites": {
+        "message": "HabitLab stelt u in staat doelen te stellen om uw doorgebrachte tijd op bepaalde sites te verminderen",
+        "description": ""
+    },
+    "What_goals_should_HabitLab_help_me_achieve": {
+        "message": "Bij welke doelen moet HabitLab me ondersteunen zodat ik ze kan behalen?",
+        "description": ""
+    },
+    "Close_Facebook": {
+        "message": "Facebook sluiten",
+        "description": ""
+    },
+    "HabitLab_helps_you_achieve_your_goals_by_showing_you_different_interventions_each_time_you_visit_your_goal_sites": {
+        "message": "HabitLab helpt u uw doelen te behalen door verschillende interventies uit te voeren, elke keer als u één van de sites op uw lijst bezoekt",
+        "description": ""
+    },
+    "Scroll_Down": {
+        "message": "Naar beneden scrollen",
+        "description": ""
+    },
+    "Help__FAQ": {
+        "message": "Hulp / FAQ",
+        "description": ""
+    },
+    "Start_Using_HabitLab": {
+        "message": "Begin met gebruiken",
+        "description": ""
+    },
+    "Welcome_to_HabitLab": {
+        "message": "Welkom bij HabitLab",
+        "description": ""
+    },
+    "Lets_do_a_quick_tutorial_and_get_you_set_up": {
+        "message": "Tijd voor een snelle rondleiding om u klaar te stomen",
+        "description": ""
+    },
+    "Spend_less_time_on_the_following_sites": {
+        "message": "Minder tijd doorbrengen op de volgende sites:",
+        "description": ""
+    },
+    "You_can_track_your_progress_to_see_which_interventions_work_best_for_you_and_how_much_time_youve_saved": {
+        "message": "U kunt uw voortgang bijhouden om te zien welke interventies voor ú het beste werken en hoeveel tijd u hebt bespaard!",
+        "description": ""
+    },
+    "Next": {
+        "message": "Volgende",
+        "description": ""
+    },
+    "Feedback": {
+        "message": "Feedback",
+        "description": ""
+    }
+}

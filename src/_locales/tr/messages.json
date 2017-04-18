@@ -1,0 +1,78 @@
+{
+    "Settings": {
+        "message": "Ayarlar",
+        "description": ""
+    },
+    "Were_here_to_help_you_build_better_habits_online": {
+        "message": "Çevrimiçi alışkanlıklar geliştirmenize yardımcı olmak için buradayız",
+        "description": ""
+    },
+    "Previous": {
+        "message": "Geri",
+        "description": ""
+    },
+    "Close_Tab": {
+        "message": "Sekmeyi kapat",
+        "description": ""
+    },
+    "HabitLab_Settings": {
+        "message": "HabitLab Ayarları",
+        "description": ""
+    },
+    "Overview": {
+        "message": "Genel bakış",
+        "description": ""
+    },
+    "HabitLab_lets_you_set_goals_to_limit_your_usage_of_selected_sites": {
+        "message": "HabitLab, seçilen sitelerin kullanımını sınırlandırmak için hedefler belirlemenize izin verir",
+        "description": ""
+    },
+    "What_goals_should_HabitLab_help_me_achieve": {
+        "message": "HabitLab benim hangi amaca ulaşmamı sağlar?",
+        "description": ""
+    },
+    "Close_Facebook": {
+        "message": "Facebook'u Kapat",
+        "description": ""
+    },
+    "HabitLab_helps_you_achieve_your_goals_by_showing_you_different_interventions_each_time_you_visit_your_goal_sites": {
+        "message": "HabitLab, hedef sitelerinizi her ziyaretinizde farklı müdahaleler kullanarak hedeflerinize ulaşmanıza yardımcı olur",
+        "description": ""
+    },
+    "Scroll_Down": {
+        "message": "Aşağı kaydır",
+        "description": ""
+    },
+    "Help__FAQ": {
+        "message": "Yardım / SSS",
+        "description": ""
+    },
+    "Start_Using_HabitLab": {
+        "message": "HabitLab'ı Kullanmaya Başla",
+        "description": ""
+    },
+    "Welcome_to_HabitLab": {
+        "message": "HabitLab'a Hoş Geldiniz",
+        "description": ""
+    },
+    "Lets_do_a_quick_tutorial_and_get_you_set_up": {
+        "message": "Haydi hızlı bir eğitim yapalım ve kurulumu tamamlayalım",
+        "description": ""
+    },
+    "Spend_less_time_on_the_following_sites": {
+        "message": "Aşağıdaki sitelerde daha az zaman harcayın:",
+        "description": ""
+    },
+    "You_can_track_your_progress_to_see_which_interventions_work_best_for_you_and_how_much_time_youve_saved": {
+        "message": "Hangi müdahalelerin sizin için en çok işe yaradığını ve ne kadar zaman kazandığınızı görmek için ilerlemenizi takip edebilirsiniz!",
+        "description": ""
+    },
+    "Next": {
+        "message": "İleri",
+        "description": ""
+    },
+    "Feedback": {
+        "message": "Geri bildirim",
+        "description": ""
+    }
+}

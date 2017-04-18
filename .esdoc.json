@@ -1,5 +1,9 @@
 {
   "source": "./src_gen",
-  "includes": ["libs_frontend/.*\\.js$"],
+  "includes": [
+    "libs_frontend/.*\\.js$",
+    "libs_common/.*\\.js$",
+    "libs_backend/.*\\.js$"
+  ],
   "destination": "./doc"
 }

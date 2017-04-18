@@ -15,7 +15,7 @@ function make_substitutions (text, substitutions) {
   return text;
 }
 
-function to_ascii_localization_keyname(text) {
+export function to_ascii_localization_keyname(text) {
   var output = [];
   for (let c of text) {
     if (c == ' ') {
@@ -27,7 +27,7 @@ function to_ascii_localization_keyname(text) {
   return output.join('');
 }
 
-function msg(text, substitutions) {
+export function msg(text, substitutions) {
   const keyname = to_ascii_localization_keyname(text);
   const translation = chrome.i18n.getMessage(keyname, substitutions)
   if (translation == null || translation == '') {
@@ -47,9 +47,4 @@ function msg(text, substitutions) {
     });
   }
   return translation;
-}
-
-module.exports = {
-  msg,
-  to_ascii_localization_keyname
 }

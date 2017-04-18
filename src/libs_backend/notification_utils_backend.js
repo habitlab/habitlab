@@ -1,6 +1,6 @@
 let notification_id_to_notification = {};
 
-async function make_notification_backend(info, tab_id) {
+export async function make_notification_backend(info, tab_id) {
   let title = info.title;
   if (title) {
     delete info.title;
@@ -19,20 +19,14 @@ async function make_notification_backend(info, tab_id) {
   return notification_id;
 }
 
-function notification_onclick_backend(notification_id, callback) {
+export function notification_onclick_backend(notification_id, callback) {
   let notification = notification_id_to_notification[notification_id];
   notification.onclick = callback;
 }
 
-function close_notification_backend(notification_id) {
+export function close_notification_backend(notification_id) {
   let notification = notification_id_to_notification[notification_id];
   let close_notification_func = notification.close.bind(notification);
   close_notification_func();
   delete notification_id_to_notification[notification_id];
-}
-
-module.exports = {
-  make_notification_backend: make_notification_backend,
-  close_notification_backend: close_notification_backend,
-  notification_onclick_backend: notification_onclick_backend
 }

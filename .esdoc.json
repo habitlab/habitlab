@@ -5,5 +5,28 @@
     "libs_common/.*\\.js$",
     "libs_backend/.*\\.js$"
   ],
-  "destination": "./doc"
+  "destination": "./doc",
+  "plugins": [
+    {
+      "name": "esdoc-livescript"
+    },
+    {
+      "name": "esdoc-importpath-plugin",
+      "option": {
+        "replaces": [
+          {"from": "./src_gen/", "to": ""}
+        ]
+      }
+    }
+  ],
+  "experimentalProposal": {
+    "classProperties": true,
+    "objectRestSpread": true,
+    "decorators": true,
+    "doExpressions": true,
+    "functionBind": true,
+    "asyncGenerators": true,
+    "exportExtensions": true,
+    "dynamicImport": true
+  }
 }

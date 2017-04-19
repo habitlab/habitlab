@@ -1,0 +1,3 @@
+#!/bin/bash
+
+surge -d habitlab.surge.sh -p doc

@@ -15,7 +15,7 @@ import {
  * @param {string} info.body - body of the notification message
  * @return {number} notification id of the created notification
  */
-export async function make_notification(info) {
+async function make_notification(info) {
   let tab_id = get_tab_id();
   return await make_notification_backend(info, tab_id);
 }
@@ -23,7 +23,7 @@ export async function make_notification(info) {
 let notification_id_to_callback = {};
 let notification_listener_active = false;
 
-export function notification_onclick(notification_id, callback) {
+function notification_onclick(notification_id, callback) {
   notification_id_to_callback[notification_id] = callback;
   if (!notification_listener_active) {
     notification_listener_active = true;
@@ -38,4 +38,8 @@ export function notification_onclick(notification_id, callback) {
   }
 }
 
-export let close_notification = close_notification_backend;
+module.exports = {
+  make_notification,
+  notification_onclick,
+  close_notification: close_notification_backend
+}

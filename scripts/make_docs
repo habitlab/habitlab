@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./node_modules/documentation-habitlab/bin/documentation.js build src_gen/libs_frontend/*.js src_gen/libs_backend/*.js -f html -o doc --github
+./node_modules/documentation-habitlab/bin/documentation.js build src_gen/libs_frontend/*.js src_gen/libs_backend/*.js src_gen/libs_common/*.js -f html -o doc --github

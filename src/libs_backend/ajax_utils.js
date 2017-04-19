@@ -1,5 +1,9 @@
-import $ from 'jquery'
+const $ = require('jquery');
 
-export async function ajax(options) {
+async function ajax(options) {
   return await $.ajax(options);
+}
+
+module.exports = {
+  ajax
 }

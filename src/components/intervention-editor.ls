@@ -442,10 +442,14 @@ polymer_ext {
     await SystemJS.import('brace/theme/monokai')
     self.js_editor = js_editor = brace.edit(this.$.javascript_editor)
     js_editor.getSession().setMode('ace/mode/javascript')
+    js_editor.getSession().setTabSize(2)
+    js_editor.getSession().setUseSoftTabs(true)
     js_editor.setTheme('ace/theme/monokai')
     js_editor.$blockScrolling = Infinity
     self.ls_editor = ls_editor = brace.edit(this.$.livescript_editor)
     ls_editor.getSession().setMode('ace/mode/livescript')
+    ls_editor.getSession().setTabSize(2)
+    ls_editor.getSession().setUseSoftTabs(true)
     ls_editor.setTheme('ace/theme/monokai')
     ls_editor.$blockScrolling = Infinity
     ls_editor.on 'change', ->

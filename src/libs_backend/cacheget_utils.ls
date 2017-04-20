@@ -29,21 +29,21 @@ get_store_remote = ->
   return localforage_store_remote
 
 /**
- * Clears the cache used by localget and localget_json
+ * Clears the cache used by {@link #localget|localget} and {@link #localget_json|localget_json}
  */
 export clear_cache_localget = ->>
   store = get_store()
   await store.clear()
 
 /**
- * Clears the cache used by remoteget and remoteget_json
+ * Clears the cache used by {@link #remoteget|remoteget} and {@link #remoteget_json|remoteget_json}
  */
 export clear_cache_remoteget = ->>
   store = get_store_remote()
   await store.clear()
 
 /**
- * Fetches a local URL and returns the content as text. This is for data that is local to the extension, ie chrome-extension URLs - for remote HTTP/HTTPS URLs, use remoteget. Result is cached - if you need to clear the cache, use clear_cache_remoteget.
+ * Fetches a local URL and returns the content as text. This is for data that is local to the extension, ie chrome-extension URLs - for remote HTTP/HTTPS URLs, use {@link #remoteget|remoteget} instead. Result is cached - if you need to clear the cache, use {@link #clear_cache_localget|clear_cache_localget}.
  * @param {string} url - The URL that we should fetch
  * @return {Promise<string>} Content of the remote URL, as text
  */
@@ -58,7 +58,7 @@ export localget = (url) ->>
   return res
 
 /**
- * Fetches a local URL and returns the content as JSON. This is for data that is local to the extension, ie chrome-extension URLs - for remote HTTP/HTTPS URLs, use remoteget. Result is cached - if you need to clear the cache, use clear_cache_remoteget.
+ * Fetches a local URL and returns the content as JSON. This is for data that is local to the extension, ie chrome-extension URLs - for remote HTTP/HTTPS URLs, use {@link #remoteget_json|remoteget_json} instead. Result is cached - if you need to clear the cache, use {@link #clear_cache_localget|clear_cache_localget}.
  * @param {string} url - The URL that we should fetch
  * @return {Promise<Object|Array>} Content of the remote URL, as parsed JSON (either an Object or Array)
  */
@@ -75,7 +75,7 @@ export localget_base64 = (url) ->>
   return null
 
 /**
- * Fetches a remote URL and returns the content as text. Result is cached - if you need to clear the cache, use clear_cache_remoteget.
+ * Fetches a remote URL and returns the content as text. This is for external HTTP/HTTPS URLs - for data that is local to the extension, use {@link #localget|localget} instead. Result is cached - if you need to clear the cache, use {@link #clear_cache_remoteget|clear_cache_remoteget}.
  * @param {string} url - The URL that we should fetch
  * @return {Promise<string>} Content of the remote URL, as text
  */
@@ -90,7 +90,7 @@ export remoteget = (url) ->>
   return res
 
 /**
- * Fetches a remote URL and returns the content as parsed JSON. Result is cached - if you need to clear the cache, use clear_cache_remoteget.
+ * Fetches a remote URL and returns the content as parsed JSON. This is for external HTTP/HTTPS URLs - for data that is local to the extension, use {@link #localget_json|localget_json} instead. Result is cached - if you need to clear the cache, use {@link #clear_cache_remoteget|clear_cache_remoteget}.
  * @param {string} url - The URL that we should fetch
  * @return {Promise<Object|Array>} Content of the remote URL, as parsed JSON (either an Object or Array)
  */

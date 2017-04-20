@@ -23,6 +23,11 @@ async function make_notification(info) {
 let notification_id_to_callback = {};
 let notification_listener_active = false;
 
+/**
+ * Adds a callback that should be called when the notification is clicked
+ * @param {number} notification_id - The notification id that the callback should be attached to
+ * @param {function} callback - Callback that will be called when the notification is clicked
+ */
 function notification_onclick(notification_id, callback) {
   notification_id_to_callback[notification_id] = callback;
   if (!notification_listener_active) {
@@ -37,6 +42,13 @@ function notification_onclick(notification_id, callback) {
     });
   }
 }
+
+/**
+ * Closes the notification with the specified id
+ * @name close_notification
+ * @function
+ * @param {number} notification_id - Notification id of the notification to close
+*/
 
 module.exports = {
   make_notification,

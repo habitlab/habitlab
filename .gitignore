@@ -20,3 +20,4 @@ npm-debug.log
 /jspm_config_backend.js
 *.sublime-workspace
 /doc
+/.netlify

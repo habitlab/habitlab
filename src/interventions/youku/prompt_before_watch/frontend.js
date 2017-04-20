@@ -9,7 +9,6 @@ require('components/close-tab-button.deps')
 require('components/video-overlay.deps')
 require('bower_components/paper-button/paper-button.deps')
 
-
 var video_pauser = null;
 var play_video_clicked = false;
 
@@ -30,18 +29,26 @@ function create_video_pauser() {
 
 
 function pauseVideo() {
+  var video_index = 0;
   for (let x of $('object[type="application/x-shockwave-flash"]')) {
     var offset = $(x).offset();
     var width = $(x).width();
     var height = $(x).height();
     x.style.display = 'none';
+    if (video_index == 0) {
+      ++video_index;
+      continue;
+    } else {
+      ++video_index;
+    }
     if ($('.habitlab_overlay').length > 0) {
       continue;
     }
     /*
     var overlay = $('<div class="habitlab_overlay">').css({
       'background-color': 'red',
-      'position': 'absolute'
+      'position': 'absolute',
+      'z-index': Number.MAX_SAFE_INTEGER
     }).offset(offset).width(width).height(height)
     */
     var overlay = $('<video-overlay class="habitlab_overlay">').css({

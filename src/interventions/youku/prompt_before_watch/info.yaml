@@ -1,0 +1,5 @@
+description: Prompt the user before watching a Youku video
+matches:
+  - www.youku.com
+content_scripts:
+  - frontend.js

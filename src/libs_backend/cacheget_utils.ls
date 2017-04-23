@@ -45,7 +45,7 @@ export clear_cache_remoteget = ->>
 /**
  * Fetches a local URL and returns the content as text. This is for data that is local to the extension, ie chrome-extension URLs - for remote HTTP/HTTPS URLs, use {@link #remoteget|remoteget} instead. Result is cached - if you need to clear the cache, use {@link #clear_cache_localget|clear_cache_localget}.
  * @param {string} url - The URL that we should fetch
- * @return {Promise<string>} Content of the remote URL, as text
+ * @return {Promise.<string>} Content of the remote URL, as text
  */
 export localget = (url) ->>
   store = get_store()
@@ -60,7 +60,7 @@ export localget = (url) ->>
 /**
  * Fetches a local URL and returns the content as JSON. This is for data that is local to the extension, ie chrome-extension URLs - for remote HTTP/HTTPS URLs, use {@link #remoteget_json|remoteget_json} instead. Result is cached - if you need to clear the cache, use {@link #clear_cache_localget|clear_cache_localget}.
  * @param {string} url - The URL that we should fetch
- * @return {Promise<Object|Array>} Content of the remote URL, as parsed JSON (either an Object or Array)
+ * @return {Promise.<Object|Array>} Content of the remote URL, as parsed JSON (either an Object or Array)
  */
 export localget_json = (url) ->>
   text = await localget url
@@ -77,7 +77,7 @@ export localget_base64 = (url) ->>
 /**
  * Fetches a remote URL and returns the content as text. This is for external HTTP/HTTPS URLs - for data that is local to the extension, use {@link #localget|localget} instead. Result is cached - if you need to clear the cache, use {@link #clear_cache_remoteget|clear_cache_remoteget}.
  * @param {string} url - The URL that we should fetch
- * @return {Promise<string>} Content of the remote URL, as text
+ * @return {Promise.<string>} Content of the remote URL, as text
  */
 export remoteget = (url) ->>
   store = get_store_remote()
@@ -92,7 +92,7 @@ export remoteget = (url) ->>
 /**
  * Fetches a remote URL and returns the content as parsed JSON. This is for external HTTP/HTTPS URLs - for data that is local to the extension, use {@link #localget_json|localget_json} instead. Result is cached - if you need to clear the cache, use {@link #clear_cache_remoteget|clear_cache_remoteget}.
  * @param {string} url - The URL that we should fetch
- * @return {Promise<Object|Array>} Content of the remote URL, as parsed JSON (either an Object or Array)
+ * @return {Promise.<Object|Array>} Content of the remote URL, as parsed JSON (either an Object or Array)
  */
 export remoteget_json = (url) ->>
   text = await remoteget url

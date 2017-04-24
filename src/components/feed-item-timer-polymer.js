@@ -22,7 +22,7 @@ const {polymer_ext} = require('libs_frontend/polymer_utils')
 
 const {close_selected_tab} = require('libs_frontend/tab_utils')
 
-Polymer({
+polymer_ext({
   is: 'feed-item-timer-polymer',
   properties: {
     site: {
@@ -57,4 +57,9 @@ Polymer({
       
     }, 1000);
   },
+}, {
+  source: require('libs_common/localization_utils'),
+  methods: [
+    'msg'
+  ]
 });

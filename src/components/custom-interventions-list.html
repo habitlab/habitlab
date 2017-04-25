@@ -1,0 +1,79 @@
+<link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
+<link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+<link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
+<link rel="import" href="../bower_components/chart-elements/chart-line.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+
+<dom-module id="custom-interventions-list">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+      --paper-card: {
+        width: 90%;
+        padding: 10px 20px;
+        margin-top: 10px;
+      };
+    }
+    .container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .title {
+      font-size: 48px;
+      margin-top: 0.3em;
+      /*font-weight: 200;*/
+    }
+    .description {
+      font-size: 2.2em;
+      margin-top: 0.8em;
+    }
+    .buttons {
+      text-align: center;
+      padding-top: 3em;
+      padding-bottom: 3em;
+    }
+    button {
+      position: absolute;
+      left: 50%;
+      cursor: pointer;
+      transform: translateX(-50%) translateY(-50%);
+      font-size: 1em;
+    }
+    hr {
+      margin-top: 2em;
+    }
+    .paper-card {
+      width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .card-content {
+      font-size: 20px;
+    }
+  </style>
+  <template>
+    <div class="container">
+
+
+      <!-- <div class="title" style="color: white">{{goal_info.sitename_printable}} Custom Interventions</div> -->
+
+      <div>
+          this is where the interventions will be
+
+          create a list of blocks of each custom intervention
+      </div>
+
+      <div style="margin-bottom: 20px"></div>
+
+  </template>
+  <script src="custom-interventions-list.js"></script>
+</dom-module>

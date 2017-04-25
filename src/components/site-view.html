@@ -15,6 +15,7 @@
 <link rel="import" href="goals-met-over-time.html">
 <link rel="import" href="all-badges-earned-display.html">
 <link rel="import" href="graph-intervention-effectiveness-comparison.html">
+<link rel="import" href="custom-interventions-list.html">
 
 <dom-module id="site-view">
   <style>
@@ -95,15 +96,20 @@
         </div>
       </paper-card>
 
-<!--
+
       <paper-card heading="{{goal_info.sitename_printable}} Custom Interventions" class="paper-card">
         <div class="card-content">
-          <paper-button id="view_more_button" onclick="view_more_interventions({{goal_info.sitename_printable}})" style="background-color: #ccc; border: 2px solid #000;">View More</paper-button>
+          <!-- <paper-button id="view_more_button" onclick="view_more_interventions({{goal_info.sitename_printable}})" style="background-color: #ccc; border: 2px solid #000;">View More</paper-button> -->
+           <paper-button id="view_more_button" style="background-color: #ccc; border: 2px solid #000;">View More</paper-button>
         </div>
       </paper-card>
 
+    <paper-card>
+        <custom-interventions-list goal_info="{{goal_info}}"></custom-interventions-list>
+    </paper-card>
+
       <div style="margin-bottom: 20px"></div>
--->
+
   </template>
   <script src="site-view.js"></script>
 </dom-module>

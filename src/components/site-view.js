@@ -25,20 +25,24 @@ const {
   as_array
 } = require('libs_common/collection_utils');
 
-console.log('foobar')
-var view_more_interventions = function(site) {
+const {remoteget_json} = require('libs_common/cacheget_utils');
+
+async function view_more_interventions(site) {
   alert("view more: " + site);
-  $.ajax({
-    url: "https://habitlab.github.io/contributed_interventions.json",
-    data: { site: site},
-    type: "GET",
-    success: function(response) {
-      console.log(JSON.parse(response));
-    }
-  });
+  const result = await remoteget_json("https://habitlab.github.io/contributed_interventions.json");
+  console.log(result);
 }
 
-var make_intervention_table = function(interventions) {
+function test() {
+    console.log("hello 2");
+}
+
+// document.getElementById("view_more_button").addEventListener("click", test);
+
+console.log("hello");
+
+
+function make_intervention_table(interventions) {
   var rows = Object.keys(interventions).length;
   var cols = 2;
   var i=0;
@@ -101,11 +105,11 @@ polymer_ext({
     })
   },
   site_changed: async function(site) {
-    goal_info_list = await list_goals_for_site(this.site);
-    intervention_name_to_info_map = await get_interventions();
-    enabled_interventions = await get_enabled_interventions();
-    for (intervention_name of Object.keys(intervention_name_to_info_map)) {
-      var intervention_info = intervention_name_to_info_map[intervention_name];
+    const goal_info_list = await list_goals_for_site(this.site);
+    const intervention_name_to_info_map = await get_interventions();
+    const enabled_interventions = await get_enabled_interventions();
+    for (let intervention_name of Object.keys(intervention_name_to_info_map)) {
+      const intervention_info = intervention_name_to_info_map[intervention_name];
       intervention_info.enabled = (enabled_interventions[intervention_name] == true);
     }
     if (this.site != site) {

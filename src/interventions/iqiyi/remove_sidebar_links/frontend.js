@@ -3,6 +3,8 @@ window.Polymer.dom = 'shadow'
 
 var $ = require('jquery');
 
+const {wrap_in_shadow} = require('libs_frontend/common_libs');
+
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')

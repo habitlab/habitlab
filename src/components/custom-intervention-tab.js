@@ -62,9 +62,11 @@ function make_intervention_table(interventions) {
 polymer_ext({
   is: 'custom-intervention-tab',
   properties: {
-
+    intervention_info: {
+      type: Object
+    }
   },
-  ready: function() {
+  ready: async function() {
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
   },
 }, {

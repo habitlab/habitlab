@@ -31,6 +31,7 @@ async function view_more_interventions(site) {
   alert("view more: " + site);
   const result = await remoteget_json("https://habitlab.github.io/contributed_interventions.json");
   console.log(result);
+  return result;
 }
 
 function test() {
@@ -62,9 +63,19 @@ function make_intervention_table(interventions) {
 polymer_ext({
   is: 'custom-interventions-list',
   properties: {
-
+    custom_interventions: {
+      type: Array,
+      value: []
+    },
+    site: {
+      type: String,
+      observer: 'site_changed'
+    }
   },
-  ready: function() {
+  site_changed: async function() {
+    this.custom_interventions = await view_more_interventions(this.site);
+  },
+  ready: async function() {
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
   },
 }, {

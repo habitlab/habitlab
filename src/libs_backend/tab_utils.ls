@@ -28,7 +28,7 @@ export open_url_in_new_tab = (url) ->>
 
 /**
  * Gets the tab id for the selected tab
- * @return {Promise<number>} The id of the selected tab
+ * @return {Promise<.number>} The id of the selected tab
  */
 export get_selected_tab_id = ->>
   chrome_tabs_query = yfy(chrome.tabs.query)

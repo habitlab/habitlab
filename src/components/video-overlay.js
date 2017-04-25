@@ -1,0 +1,3 @@
+Polymer({
+  is: 'video-overlay'
+})

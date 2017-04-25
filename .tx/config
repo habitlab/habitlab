@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[habitlab.messagesjson]
+source_file = src/_locales/en/messages.json
+source_lang = en
+file_filter = src/_locales/<lang>/messages.json
+type = CHROME
+lang_map = nl_NL:nl, fr_FR:fr, de_DE:de, hi_IN:hi, hu_HU:hu, ja_JP:ja, ko_KR:ko, ru_RU:ru, th_TH:th, vi_VN:vi

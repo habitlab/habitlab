@@ -203,7 +203,7 @@ function divOverVideo(status) {
   $contentContainer.append('<br><br>')
 
 	//Message to user
-	const $text1 = $('<h2>').attr('id', 'message_text');
+	const $text1 = $('<h2>').attr('id', 'message_text').css('font-weight', 'normal');
 	$contentContainer.append($text1);
 	$contentContainer.append($('<br>'));
 

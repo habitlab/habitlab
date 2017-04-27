@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <link rel="import" href="site-goal-view.html">
+<link rel="import" href="site-goal-view-v2.html">
 <link rel="import" href="graph-time-spent-on-goal-sites-daily.html">
 <link rel="import" href="graph-time-saved-daily.html">
 <link rel="import" href="graph-num-times-interventions-deployed.html">
@@ -85,7 +86,7 @@
 
           <iron-pages selected={{selected_goal_view}}>
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
-              <div><site-goal-view site="{{site_info.sitename}}"></site-goal-view></div>
+              <div><site-goal-view-v2 site="{{site_info.sitename}}"></site-goal-view-v2></div>
             </template>
           </iron-pages>
         </div>

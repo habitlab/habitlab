@@ -5,6 +5,10 @@
   gexport_module
 } = require 'libs_common/gexport'
 
+/**
+ * Gets an object containing the URL parameters. Ie, for a URL http://www.example.com/path?foo=bar&baz=qux will output {'foo': 'bar', 'baz': 'qux'}
+ * @return {Object} An object with parameter names as keys, and parameter values as values
+ */
 export getUrlParameters = ->
   url = window.location.href
   hash = url.lastIndexOf('#')
@@ -102,6 +106,9 @@ export create_shadow_div = (options) ->
 
 /**
  * Wraps the provided element in a div under the Shadow DOM
+ * @param {HTMLElement} elem - The element to add to the Shadow DOM
+ * @param {Object} [options] - Options for the creation of the Shadow DOM wrapper element
+ * @return {HTMLElement} The created div in the shadow dom
  */
 export wrap_in_shadow = (elem, options) ->
   if elem.length? and elem.length > 0
@@ -119,6 +126,12 @@ export create_shadow_div_on_body = (options) ->
   document.body.appendChild(shadow_div.shadow_host)
   return shadow_div
 
+/**
+ * Wraps the provided element in a div under the Shadow DOM and appends it to the body of the document
+ * @param {HTMLElement} elem - The element to add to the Shadow DOM
+ * @param {Object} [options] - Options for the creation of the Shadow DOM wrapper element
+ * @return {HTMLElement} The created div in the shadow dom
+ */
 export append_to_body_shadow = (elem, options) ->
   if not options?
     options = {}

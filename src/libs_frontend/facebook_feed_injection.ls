@@ -27,10 +27,16 @@ export inject_into_feed = (component_generator) ->
     return
 
   insertIfMissing = ->
-    
-    
-
-    for $feeditem in $('.mbm,.userContentWrapper._5pcr')
+    for $feeditem in $('.mbm')
+      is_valid = false
+      if $($feeditem).parent().attr('data-testid') == 'fbfeed_story'
+        is_valid = true
+      if $($feeditem).parent().parent().attr('data-pnref') == 'story'
+        is_valid = true
+      if $($feeditem).hasClass('uiSideNav') or $($feeditem).hasClass('pbm')
+        is_valid = false
+      if not is_valid
+        continue
       # if $($feeditem).isInView()  
       #   if $feeditem.seen
       #     console.log 'you already saw me'
@@ -41,8 +47,6 @@ export inject_into_feed = (component_generator) ->
       #     if window.itemsseen % 10 == 5
       #       console.log \injected
       #       insertBeforeItem $($feeditem)
-      
-  
       if not $feeditem.feedlearninserted
         $feeditem.feedlearninserted = true
         window.numitems += 1

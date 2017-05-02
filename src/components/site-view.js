@@ -28,7 +28,8 @@ const {
 const {remoteget_json} = require('libs_common/cacheget_utils');
 
 async function view_more_interventions(site) {
-  alert("view more: " + site);
+  // alert("view more: " + site);
+  console.log("view more: " + site);
   const result = await remoteget_json("https://habitlab.github.io/contributed_interventions.json");
   console.log(result);
 }

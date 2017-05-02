@@ -26,11 +26,12 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      width: 100%;
     }
     .title {
-      font-size: 48px;
-      margin-top: 0.3em;
-      /*font-weight: 200;*/
+      font-size: 24px;
+      padding-top: 20px;
+      padding-bottom: 20px;
     }
     .description {
       font-size: 2.2em;
@@ -63,19 +64,10 @@
   <template>
     <div class="container">
 
+      <template is="dom-repeat" items="{{custom_interventions}}" as="intervention_info">
+        <custom-intervention-tab intervention_info="{{intervention_info}}"></custom-intervention-tab>
+      </template>
 
-      <!-- <div class="title" style="color: white">{{goal_info.sitename_printable}} Custom Interventions</div> -->
-
-      <div>
-          this is where the interventions will be
-
-          create a list of blocks of each custom intervention
-
-            <template is="dom-repeat" items="{{custom_interventions}}" as="intervention_info">
-              <custom-intervention-tab intervention_info="{{intervention_info}}"></custom-intervention-tab>
-            </template>
-
-      </div>
 
       <div style="margin-bottom: 20px"></div>
 

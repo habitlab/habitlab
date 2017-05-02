@@ -9,6 +9,8 @@ const swal = require('sweetalert2');
 
 const $ = require('jquery');
 
+const $ = require('font-awesome');
+
 const {load_css_file} = require('libs_common/content_script_utils');
 
 const {

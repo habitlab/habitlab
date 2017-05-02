@@ -18,96 +18,89 @@
 <link rel="import" href="custom-interventions-list.html">
 
 <dom-module id="site-view">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      --paper-card: {
-        width: 90%;
-        padding: 10px 20px;
-        margin-top: 10px;
-      };
-    }
-    .container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .title {
-      font-size: 48px;
-      margin-top: 0.3em;
-      /*font-weight: 200;*/
-    }
-    .description {
-      font-size: 2.2em;
-      margin-top: 0.8em;
-    }
-    .buttons {
-      text-align: center;
-      padding-top: 3em;
-      padding-bottom: 3em;
-    }
-    button {
-      position: absolute;
-      left: 50%;
-      cursor: pointer;
-      transform: translateX(-50%) translateY(-50%);
-      font-size: 1em;
-    }
-    hr {
-      margin-top: 2em;
-    }
-    .paper-card {
-      width: calc(100% - 40px);
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-    .card-content {
-      font-size: 20px;
-    }
-  </style>
-  <template>
-    <div class="container">
-      <!-- <div id="encouragement" class="title">Good job so far!</div>
-      <div class="title">HabitLab Analytics</div> -->
+<style>
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  --paper-card: {
+    width: 90%;
+    padding: 10px 20px;
+    margin-top: 10px;
+  };
+}
+.container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  font-size: 48px;
+  margin-top: 0.3em;
+  /*font-weight: 200;*/
+}
+.description {
+  font-size: 2.2em;
+  margin-top: 0.8em;
+}
+.buttons {
+  text-align: center;
+  padding-top: 3em;
+  padding-bottom: 3em;
+}
+button {
+  position: absolute;
+  left: 50%;
+  cursor: pointer;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 1em;
+}
+hr {
+  margin-top: 2em;
+}
+.paper-card {
+  width: calc(100% - 40px);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.card-content {
+  font-size: 20px;
+}
+</style>
+<template>
+  <div class="container">
+    <!-- <div id="encouragement" class="title">Good job so far!</div>
+    <div class="title">HabitLab Analytics</div> -->
 
-      <div class="title" style="color: white">{{goal_info.sitename_printable}}</div>
+    <div class="title" style="color: white">{{goal_info.sitename_printable}}</div>
 
-      <paper-card heading="{{goal_info.sitename_printable}} Interventions"class="paper-card">
-        <div class="card-content">Enabled interventions will only be shown some of the time <iron-icon icon="help" on-click="help_icon_clicked" style="width: 25px; height: 25px; color: #415D67; cursor: pointer; margin-bottom: 5px"></iron-icon></div>
-        <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
-          <intervention-view-single-v2  goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
-          <br> <br>
-        </template>
-      </paper-card>
-
-      <paper-card heading="{{goal_info.sitename_printable}} Progress" class="paper-card">
-        <div class="card-content">
-          <site-goal-view-v2 site="{{goal_info.sitename}}"></site-goal-view-v2>
-        </div>
-      </paper-card>
-
-      <paper-card heading="{{goal_info.sitename_printable}} Intervention Effectiveness" class="paper-card">
-        <div class="card-content">
-          <graph-intervention-effectiveness-comparison goal_info="{{goal_info}}"></graph-intervention-effectiveness-comparison>
-        </div>
-      </paper-card>
-
-      <paper-card heading="{{goal_info.sitename_printable}} Custom Interventions" class="paper-card">
-        <div class="card-content">
-          <!-- <paper-button id="view_more_button" onclick="view_more_interventions({{goal_info.sitename_printable}})" style="background-color: #ccc; border: 2px solid #000;">View More</paper-button> -->
-           <paper-button id="view_more_button" style="background-color: #ccc; border: 2px solid #000;">View More</paper-button>
-        </div>
-      </paper-card>
-
-    <paper-card>
-        <custom-interventions-list site="{{goal_info.sitename}}"></custom-interventions-list>
+    <paper-card heading="{{goal_info.sitename_printable}} Interventions"class="paper-card">
+      <div class="card-content">Enabled interventions will only be shown some of the time <iron-icon icon="help" on-click="help_icon_clicked" style="width: 25px; height: 25px; color: #415D67; cursor: pointer; margin-bottom: 5px"></iron-icon></div>
+      <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
+        <intervention-view-single-v2  goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
+        <br> <br>
+      </template>
     </paper-card>
 
-      <div style="margin-bottom: 20px"></div>
+    <paper-card heading="{{goal_info.sitename_printable}} Progress" class="paper-card">
+      <div class="card-content">
+        <site-goal-view-v2 site="{{goal_info.sitename}}"></site-goal-view-v2>
+      </div>
+    </paper-card>
+
+    <paper-card heading="{{goal_info.sitename_printable}} Intervention Effectiveness" class="paper-card">
+      <div class="card-content">
+        <graph-intervention-effectiveness-comparison goal_info="{{goal_info}}"></graph-intervention-effectiveness-comparison>
+      </div>
+    </paper-card>
+    
+    <paper-card heading="{{goal_info.sitename_printable}} Custom Interventions" class="paper-card">
+      <custom-interventions-list site="{{goal_info.sitename}}"></custom-interventions-list>
+    </paper-card>
+
+    <div style="margin-bottom: 20px"></div>
 
   </template>
   <script src="site-view.js"></script>

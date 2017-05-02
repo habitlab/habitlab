@@ -9,72 +9,143 @@
 
 
 <dom-module id="custom-intervention-tab">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      --paper-card: {
-        width: 90%;
-        padding: 10px 20px;
-        margin-top: 10px;
-      };
-    }
-    .container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .title {
-      font-size: 48px;
-      margin-top: 0.3em;
-      /*font-weight: 200;*/
-    }
-    .description {
-      font-size: 2.2em;
-      margin-top: 0.8em;
-    }
-    .buttons {
-      text-align: center;
-      padding-top: 3em;
-      padding-bottom: 3em;
-    }
-    button {
-      position: absolute;
-      left: 50%;
-      cursor: pointer;
-      transform: translateX(-50%) translateY(-50%);
-      font-size: 1em;
-    }
-    hr {
-      margin-top: 2em;
-    }
-    .paper-card {
-      width: calc(100% - 40px);
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-    .card-content {
-      font-size: 20px;
-    }
-  </style>
-  <template>
-    <div class="container">
+<style>
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  --paper-card: {
+    width: 90%;
+    padding: 10px 20px;
+    margin-top: 10px;
+  };
+}
+.container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  font-size: 48px;
+  margin-top: 0.3em;
+  /*font-weight: 200;*/
+}
+.description {
+  font-size: 2.2em;
+  margin-top: 0.8em;
+}
+.buttons {
+  text-align: center;
+  padding-top: 3em;
+  padding-bottom: 3em;
+}
+button {
+  position: absolute;
+  left: 50%;
+  cursor: pointer;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 1em;
+}
+hr {
+  margin-top: 2em;
+}
+.paper-card {
+  width: calc(100% - 40px);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.card-content {
+  font-size: 20px;
+}
 
+#tab_table {
+  width: 100%;
+}
 
-      <!-- <div class="title" style="color: white">{{goal_info.sitename_printable}} Custom Interventions</div> -->
+.stat {
+  border: 1px solid #565555;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 20px;
+}
 
-      <div>
-          Change Reddit to Green
-          Blocks links to gifs
-          {{intervention_info.description}}
+#tab {
+  width: 100%;
+}
 
-      </div>
+paper-button {
+  background-color: #1E8CD2;
+  border: 4px solid #7AB8D4;
+  /*font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;*/
+  color: #fff;
+}
 
-      <div style="margin-bottom: 20px"></div>
+paper-button:hover {
+  border: 4px solid #286090;
+}
 
-  </template>
-  <script src="custom-intervention-tab.js"></script>
+.tab_block {
+  border: 4px solid #7AB8D4;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+#description {
+  font-size: 24px;
+}
+
+#stats {
+  font-size: 16px;
+  color: #565555;
+}
+
+</style>
+<template>
+
+  <div class="tab_block">
+    <table style="width: 100%;">
+      <tbody>
+        <tr>
+          <td style="width: 50%;">
+            <div id="description">{{intervention_info.description}}</div>
+          </td>
+          <td style="width: 50%;">
+            <div>
+              <paper-button style="display: block;">Preview</paper-button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="stats">
+              <div>
+                <span>
+                  <i class="fa fa-users" aria-hidden="true"></i>
+                  Users
+                  <span class="stat" id="users">{{intervention_info.numusers}}</span>
+                </span>
+                <span>
+                  <i class="fa fa-star-o" aria-hidden="true"></i>
+                  Ratings
+                  <span class="stat" id="rating">{{intervention_info.stars}}</span>
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div>
+              <paper-button style="display: block;">Add</paper-button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-bottom: 20px"></div>
+
+</template>
+<script src="custom-intervention-tab.js"></script>
 </dom-module>

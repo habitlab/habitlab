@@ -28,7 +28,8 @@ const {
 const {remoteget_json} = require('libs_common/cacheget_utils');
 
 async function view_more_interventions(site) {
-  alert("view more: " + site);
+  // alert("view more: " + site);
+  console.log("hello from custom-interventions-list");
   const result = await remoteget_json("https://habitlab.github.io/contributed_interventions.json");
   console.log(result);
   return result;
@@ -40,7 +41,7 @@ function test() {
 
 // document.getElementById("view_more_button").addEventListener("click", test);
 
-console.log("hello from custom");
+// console.log("hello from custom");
 
 
 function make_intervention_table(interventions) {

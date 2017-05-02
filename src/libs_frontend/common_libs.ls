@@ -100,6 +100,9 @@ export create_shadow_div = (options) ->
   shadow_host.shadow_div = shadow_div
   return shadow_div
 
+/**
+ * Wraps the provided element in a div under the Shadow DOM
+ */
 export wrap_in_shadow = (elem, options) ->
   if elem.length? and elem.length > 0
     elem = elem[0]

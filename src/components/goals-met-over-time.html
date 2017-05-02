@@ -20,7 +20,7 @@
     }
   </style>
   <template>
-    <h4> How you've been doing </h4>
+    <h4> Weekly update </h4>
     <ul id="goals">
     </ul>
 
@@ -31,6 +31,12 @@
       <div>On <b><span>{{get_day_name(day_idx)}}</span></b>,
         you met <span>{{success_object.num_met}}</span>
         of your <span>{{success_object.num_goals}}</span> goals.</div>
+
+      <template is="dom-repeat" items="{{list_of_goals}}" as="goal_info">
+        <img src="{{goal_info.icon}}"></img>
+        <div>{{goal_info.description}}}</div>
+        <div>{{get_progress_message(progress_on_enabled_goals, day_idx, goal_info.name)}}</div>
+      </template>
     </template>
 
   </template>

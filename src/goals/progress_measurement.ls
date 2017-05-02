@@ -2,6 +2,10 @@
   get_seconds_spent_on_domain_days_since_today
 } = require 'libs_common/time_spent_utils'
 
+{
+  printable_time_spent
+} = require 'libs_common/time_utils'
+
 {cfy} = require 'cfy'
 
 export time_spent_on_domain = (goal_info) ->
@@ -10,7 +14,7 @@ export time_spent_on_domain = (goal_info) ->
     seconds_spent = await get_seconds_spent_on_domain_days_since_today domain, days_since_today
     progress = seconds_spent / 60
     units = "minutes"
-    message = "#{progress} #{units}"
+    message = printable_time_spent(seconds_spent)
     reward = 1.0 - Math.tanh(seconds_spent / 3600) # between 0 and 1
     return {
       progress
@@ -24,7 +28,7 @@ export always_zero_progress = (goal_info) ->
   return (days_since_today) ->>
     progress = 0
     units = "minutes"
-    message = "#{progress} #{units}"
+    message = printable_time_spent(seconds_spent)
     reward = 0
     return {
       progress

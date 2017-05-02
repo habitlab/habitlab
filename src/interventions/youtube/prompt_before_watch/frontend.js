@@ -162,6 +162,12 @@ function start_video_duration_setter() {
   set_video_duration()
 }
 
+function divOverVideoOnceAvailable(status) {
+  once_available('video:not(#rewardvideo)').then(function() {
+    divOverVideo(status);
+  })
+}
+
 //Places a white box over the video with a warning message
 function divOverVideo(status) {
 	//Constructs white overlay box
@@ -289,7 +295,7 @@ function main() {
   prev_location_href = window.location.href
   create_video_pauser()
   removeDiv();
-	divOverVideo("begin");
+	divOverVideoOnceAvailable("begin");
   if (end_pauser === null) {
     end_pauser = setInterval(() => {
       endWarning()

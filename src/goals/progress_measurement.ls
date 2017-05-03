@@ -28,7 +28,7 @@ export always_zero_progress = (goal_info) ->
   return (days_since_today) ->>
     progress = 0
     units = "minutes"
-    message = printable_time_spent(seconds_spent)
+    message = "0 seconds"
     reward = 0
     return {
       progress

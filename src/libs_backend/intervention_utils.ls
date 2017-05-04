@@ -69,6 +69,11 @@ getInterventionInfo = (intervention_name) ->>
   return intervention_info
 */
 
+/**
+ * Gets the intervention info for the specified intervention name
+ * @param {string} intervention_name - The name of the intervention
+ * @return {Object} The intervention info
+ */
 export getInterventionInfo = (intervention_name) ->>
   all_intervention_info = await get_interventions()
   return all_intervention_info[intervention_name]

@@ -113,6 +113,10 @@ export is_it_outside_work_hours = ->
     return true
   return false
 
+/**
+ * Returns a list of names of enabled interventions
+ * @return {Array} List of names of enabled interventions
+ */
 export get_enabled_interventions = ->>
   enabled_interventions = await intervention_manager.get_currently_enabled_interventions()
   return enabled_interventions
@@ -190,6 +194,10 @@ export add_new_intervention = (intervention_info) ->>
   })
   */
 
+/**
+ * Returns a list of names of custom interventions
+ * @return {Array} List of names of custom interventions
+ */
 export list_custom_interventions = ->>
   all_interventions = await get_interventions()
   return prelude.sort [name for name,info of all_interventions when info.custom]

@@ -72,7 +72,7 @@ getInterventionInfo = (intervention_name) ->>
 /**
  * Gets the intervention info for the specified intervention name
  * @param {string} intervention_name - The name of the intervention
- * @return {Object} The intervention info
+ * @return {Promise.<Object>} The intervention info
  */
 export getInterventionInfo = (intervention_name) ->>
   all_intervention_info = await get_interventions()
@@ -120,7 +120,7 @@ export is_it_outside_work_hours = ->
 
 /**
  * Returns a list of names of enabled interventions
- * @return {Array} List of names of enabled interventions
+ * @return {Promise.<Array.<string>>} List of names of enabled interventions
  */
 export get_enabled_interventions = ->>
   enabled_interventions = await intervention_manager.get_currently_enabled_interventions()
@@ -201,7 +201,7 @@ export add_new_intervention = (intervention_info) ->>
 
 /**
  * Returns a list of names of custom interventions
- * @return {Array} List of names of custom interventions
+ * @return {Promise.<Array.<string>>} List of names of custom interventions
  */
 export list_custom_interventions = ->>
   all_interventions = await get_interventions()
@@ -448,6 +448,10 @@ export get_interventions = ->>
   return output
 */
 
+/**
+ * Gets the intervention info for all interventions, in the form of an object mapping intervention names to intervention info
+ * @return {Object.<string, Object>} 
+ */
 export get_interventions = ->>
   #if local_cache_get_interventions?
     #return local_cache_get_interventions

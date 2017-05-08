@@ -50,6 +50,14 @@ prelude = require 'prelude-ls'
 
 {cfy, yfy} = require 'cfy'
 
+/**
+ * @typedef {Object} InterventionInfo
+ * @property {string} name - Name of the intervention, ie facebook/remove_comments
+ * @property {string} sitename - Name of site on which the intervention operates
+ * @property {string} sitename_printable - Human-readable name of site on which the intervention operates
+ * @property {string} description - Human-readable description of the intervention
+ */
+
 /*
 cached_get_intervention_info = {}
 cached_get_intervention_info_unmodified = {}
@@ -72,7 +80,7 @@ getInterventionInfo = (intervention_name) ->>
 /**
  * Gets the intervention info for the specified intervention name
  * @param {string} intervention_name - The name of the intervention
- * @return {Promise.<Object>} The intervention info
+ * @return {Promise.<InterventionInfo>} The intervention info
  */
 export getInterventionInfo = (intervention_name) ->>
   all_intervention_info = await get_interventions()
@@ -450,7 +458,7 @@ export get_interventions = ->>
 
 /**
  * Gets the intervention info for all interventions, in the form of an object mapping intervention names to intervention info
- * @return {Object.<string, Object>} 
+ * @return {Object.<string, InterventionInfo>} 
  */
 export get_interventions = ->>
   #if local_cache_get_interventions?

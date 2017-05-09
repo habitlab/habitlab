@@ -202,8 +202,8 @@ export get_goal_intervention_info = memoizeSingleAsync ->>
 #local_cached_list_all_goals = null
 
 /**
- * Lists all available goals
- * @return {Array.<GoalName>} List of goals
+ * Lists names of all available goals
+ * @return {Promise.<Array.<GoalName>>} List of goal names.
  */
 export list_all_goals = ->>
   #if local_cached_list_all_goals?

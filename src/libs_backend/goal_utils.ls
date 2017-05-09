@@ -203,7 +203,7 @@ export get_goal_intervention_info = memoizeSingleAsync ->>
 
 /**
  * Lists all available goals
- * @return Array.<GoalName> List of goals
+ * @return {Array.<GoalName>} List of goals
  */
 export list_all_goals = ->>
   #if local_cached_list_all_goals?

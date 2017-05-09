@@ -67,6 +67,7 @@ eslintpattern = [
   'src_gen/**/*.js'
   #'src/components_skate/**/*.jsx'
   #'src_gen/components_skate/**/*.js'
+  '!src/flowtypes/*.js'
   '!src/bundles/*.js'
   '!src_gen/bundles/*.js'
   '!src/bugmuncher/*.js'
@@ -83,6 +84,7 @@ eslintpattern = [
 
 jspattern_srcgen = [
   'src/**/*.js'
+  '!src/flowtypes/*.js'
   '!src/**/*.deps.js'
 ]
 

@@ -44,10 +44,6 @@ getAllInterventionsGoalInfo = ->>
   goal_info.interventions = all_interventions
   return goal_info
 
-export getGoalInfo = (goal_name) ->>
-  all_goals = await get_goals()
-  return all_goals[goal_name]
-
 /*
 cached_get_goal_info_unmodified = {}
 
@@ -73,8 +69,20 @@ export get_num_enabled_goals = ->>
   enabled_goals = await get_enabled_goals()
   return as_array(enabled_goals).length
 
+/**
+ * Returns a list of names of enabled goals
+ * @return {Promise.<Array.<GoalName>>} List of enabled goal names
+ */
+export list_enabled_goals = ->>
+  enabled_goals = await get_enabled_goals()
+  return as_array(enabled_goals)
+
 default_goals_list = ['facebook/spend_less_time', 'youtube/spend_less_time']
 
+/**
+ * Returns a object with with names of enabled goals as keys, and whether they are enabled as values
+ * @return {Promise.<Object.<GoalName, boolean>>} Object with enabled goals as keys
+ */
 export get_enabled_goals = ->>
   enabled_goals_str = localStorage.getItem('enabled_goals')
   if not enabled_goals_str?
@@ -193,6 +201,10 @@ export get_goal_intervention_info = memoizeSingleAsync ->>
 
 #local_cached_list_all_goals = null
 
+/**
+ * Lists all available goals
+ * @return Array.<GoalName> List of goals
+ */
 export list_all_goals = ->>
   #if local_cached_list_all_goals?
   #  return local_cached_list_all_goals
@@ -264,6 +276,11 @@ export list_site_info_for_sites_for_which_goals_are_enabled = ->>
       output_set[sitename] = true
   return output
 
+/**
+ * Gets the goal info for the specified goal name
+ * @param {GoalName} goal_name - The name of the goal
+ * @return {Promise.<GoalInfo>} The goal info
+ */
 export get_goal_info = (goal_name) ->>
   goals = await get_goals()
   return goals[goal_name]
@@ -295,6 +312,10 @@ export get_goals = ->>
   return output
 */
 
+/**
+ * Gets the goal info for all goals, in the form of an object mapping goal names to goal info
+ * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info
+ */
 export get_goals = ->>
   #if local_cached_get_goals?
   #  return local_cached_get_goals

@@ -1,7 +1,6 @@
 prelude = require 'prelude-ls'
 
 {
-  getGoalInfo
   get_goals
   get_enabled_goals
   set_goal_enabled_manual

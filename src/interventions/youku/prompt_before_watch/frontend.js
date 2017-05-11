@@ -27,7 +27,12 @@ function create_video_pauser() {
   }, 100);
 }
 
+function pauseVideo() {
+  $('.bottom-public_play').click()
+  $('.btn-video').click()
+}
 
+/*
 function pauseVideo() {
   var video_index = 0;
   for (let x of $('object[type="application/x-shockwave-flash"]')) {
@@ -44,13 +49,6 @@ function pauseVideo() {
     if ($('.habitlab_overlay').length > 0) {
       continue;
     }
-    /*
-    var overlay = $('<div class="habitlab_overlay">').css({
-      'background-color': 'red',
-      'position': 'absolute',
-      'z-index': Number.MAX_SAFE_INTEGER
-    }).offset(offset).width(width).height(height)
-    */
     var overlay = $('<video-overlay class="habitlab_overlay">').css({
       'background-color': 'red',
       'position': 'absolute',
@@ -59,6 +57,7 @@ function pauseVideo() {
     $('body').append(overlay);
   }
 }
+*/
 
 function resumeVideo() {
   for (let x of $('object[type="application/x-shockwave-flash"]')) {

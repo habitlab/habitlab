@@ -67,6 +67,7 @@ eslintpattern = [
   'src_gen/**/*.js'
   #'src/components_skate/**/*.jsx'
   #'src_gen/components_skate/**/*.js'
+  '!src/flowtypes/*.js'
   '!src/bundles/*.js'
   '!src_gen/bundles/*.js'
   '!src/bugmuncher/*.js'
@@ -83,6 +84,7 @@ eslintpattern = [
 
 jspattern_srcgen = [
   'src/**/*.js'
+  '!src/flowtypes/*.js'
   '!src/**/*.deps.js'
 ]
 
@@ -385,7 +387,7 @@ gulp.task 'generate_interventions_list', (done) ->
   for info_yaml_filepath in glob.sync('src/interventions/**/info.yaml')
     intervention_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
     if not intervention_info?
-      console.log "intervention does not exist: #{info_yaml_filepath}"
+      console.log "no intervention_info for intervention #{info_yaml_filepath}"
       continue
     if intervention_info.disabled
       continue
@@ -401,6 +403,9 @@ gulp.task 'generate_goals_list', (done) ->
   output = []
   for info_yaml_filepath in glob.sync('src/goals/**/info.yaml')
     goal_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
+    if not goal_info?
+      console.log "no goal_info for goal #{info_yaml_filepath}"
+      continue
     if goal_info.disabled
       continue
     goal_name = info_yaml_filepath.replace(/^src\/goals\//, '').replace(/\/info\.yaml$/, '')
@@ -417,7 +422,7 @@ gulp.task 'generate_goal_intervention_info', (done) ->
   for info_yaml_filepath in glob.sync('src/interventions/**/info.yaml')
     intervention_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
     if not intervention_info?
-      console.log "intervention does not exist #{info_yaml_filepath}"
+      console.log "no intervention_info for intervention #{info_yaml_filepath}"
       continue
     if intervention_info.disabled
       continue
@@ -426,6 +431,9 @@ gulp.task 'generate_goal_intervention_info', (done) ->
   goal_name_to_info = {}
   for info_yaml_filepath in glob.sync('src/goals/**/info.yaml')
     goal_info = js-yaml.safeLoad fs.readFileSync(info_yaml_filepath, 'utf-8')
+    if not goal_info?
+      console.log "no goal_info for goal #{info_yaml_filepath}"
+      continue
     if goal_info.disabled
       continue
     goal_name = info_yaml_filepath.replace(/^src\/goals\//, '').replace(/\/info\.yaml$/, '')
@@ -433,6 +441,8 @@ gulp.task 'generate_goal_intervention_info', (done) ->
   # goals
   for goal_name in prelude.sort(Object.keys(goal_name_to_info))
     goal_info = goal_name_to_info[goal_name]
+    if not goal_info?
+      continue
     goal_info.name = goal_name
     if not goal_info.sitename?
       goal_info.sitename = goal_name.split('/')[0]

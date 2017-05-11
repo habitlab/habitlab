@@ -97,7 +97,7 @@ export get_progress_on_enabled_goals_days_since_today = (days_since_today) ->>
 
 /**
  * Gets the goal progress info on each enabled goal this week.
- * @return {Object.<string, Object>} Object mapping goal names to goal progress info objects
+ * @return {Promise.<Object.<string, Array.<GoalProgressInfo>>>} Object mapping goal names to an array of goal progress info objects, one for each of the past 7 days (index 0=today, 1=yesterday, etc)
  */
 export get_progress_on_enabled_goals_this_week = ->>
   enabled_goals = await goal_utils.get_enabled_goals()

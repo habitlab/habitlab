@@ -61,7 +61,7 @@
 
       <template is="dom-repeat" items={{articles}}>
         <div class="linktext">
-          <a href="{{item.url}}">
+          <a href="{{item.url}}"  on-click="link_clicked">
             <paper-item>{{item.title}}</paper-item>
           </a>
         <div>

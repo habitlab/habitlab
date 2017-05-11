@@ -13,7 +13,7 @@ import {
  * @param {string} info.title - title for the notification
  * @param {string} info.icon - path to the icon for the notification
  * @param {string} info.body - body of the notification message
- * @return {number} notification id of the created notification
+ * @return {Promise.<number>} notification id of the created notification
  */
 async function make_notification(info) {
   let tab_id = get_tab_id();

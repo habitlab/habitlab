@@ -69,10 +69,6 @@ getInterventionInfo = (intervention_name) ->>
   return intervention_info
 */
 
-export getInterventionInfo = (intervention_name) ->>
-  all_intervention_info = await get_interventions()
-  return all_intervention_info[intervention_name]
-
 export set_override_enabled_interventions_once = (intervention_name) ->
   localStorage.setItem('override_enabled_interventions_once', JSON.stringify([intervention_name]))
   return
@@ -115,7 +111,15 @@ export is_it_outside_work_hours = ->
 
 /**
  * Returns a list of names of enabled interventions
- * @return {Array} List of names of enabled interventions
+ * @return {Promise.<Array.<InterventionName>>} List of enabled intervention names
+ */
+export list_enabled_interventions = ->>
+  enabled_interventions = await intervention_manager.get_currently_enabled_interventions()
+  return as_array(enabled_interventions)
+
+/**
+ * Returns a object with with names of enabled interventions as keys, and whether they are enabled as values
+ * @return {Promise.<Object.<InterventionName, boolean>>} Object with enabled interventions as keys
  */
 export get_enabled_interventions = ->>
   enabled_interventions = await intervention_manager.get_currently_enabled_interventions()
@@ -156,7 +160,7 @@ export generate_interventions_for_domain = (domain) ->>
   goals = await goal_utils.get_goals()
   goal_for_intervention = goals["custom/spend_less_time_#{domain}"]
   for generic_intervention in generic_interventions
-    intervention_info = await getInterventionInfo generic_intervention
+    intervention_info = await get_intervention_info generic_intervention
     # TODO replace the above step with something that is non-asynchronous
     intervention_info = JSON.parse JSON.stringify intervention_info
     intervention_info.name = generic_intervention.split('generic/').join("generated_#{domain}/")
@@ -196,7 +200,7 @@ export add_new_intervention = (intervention_info) ->>
 
 /**
  * Returns a list of names of custom interventions
- * @return {Array} List of names of custom interventions
+ * @return {Promise.<Array.<InterventionName>>} List of names of custom interventions
  */
 export list_custom_interventions = ->>
   all_interventions = await get_interventions()
@@ -257,6 +261,10 @@ export list_generic_interventions = memoizeSingleAsync ->>
 
 #local_cache_list_all_interventions = null
 
+/**
+ * Lists all available interventions
+ * @return {Promise.<Array.<InterventionName>>} The list of available interventions
+ */
 export list_all_interventions = ->>
   #if local_cache_list_all_interventions?
   #  return local_cache_list_all_interventions
@@ -289,6 +297,11 @@ export clear_cache_list_all_interventions = ->
   localStorage.removeItem 'cached_list_all_interventions'
   return
 
+/**
+ * Gets the intervention info for the specified intervention name
+ * @param {InterventionName} intervention_name - The name of the intervention
+ * @return {Promise.<InterventionInfo>} The intervention info
+ */
 export get_intervention_info = (intervention_name) ->>
   all_interventions = await get_interventions()
   return all_interventions[intervention_name]
@@ -443,6 +456,10 @@ export get_interventions = ->>
   return output
 */
 
+/**
+ * Gets the intervention info for all interventions, in the form of an object mapping intervention names to intervention info
+ * @return {Promise.<Object.<InterventionName, InterventionInfo>>} Object mapping intervention names to intervention info
+ */
 export get_interventions = ->>
   #if local_cache_get_interventions?
     #return local_cache_get_interventions

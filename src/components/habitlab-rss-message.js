@@ -1,5 +1,8 @@
 const $ = require('jquery');
 const {polymer_ext} = require('libs_frontend/polymer_utils');
+const {
+  log_action
+} = require('libs_frontend/intervention_log_utils');
 
 polymer_ext({
 	is: 'habitlab-rss-message',
@@ -12,6 +15,16 @@ polymer_ext({
 			value: "text"
 		}
 	},
+	link_clicked: function(evt) {
+    var link_url = evt.target.parentNode.href;
+    var link_title = evt.target.innerText;
+    evt.preventDefault();
+    evt.stopPropagation();
+    log_action({positive: 'suggestion_clicked', link_title: link_title, link_type: 'nytimes', link_url: link_url}).then(function() {
+      window.location.href = link_url;
+    });
+    return false;
+  },
 	attached: function() {
 		var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
 		url += "?" + $.param({

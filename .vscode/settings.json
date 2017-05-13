@@ -17,6 +17,7 @@
     "src/generated_libs": true,
     "src/icons": true,
     "src/bundles": true,
+    "src/_locales": true,
     ".tmp": true,
     "dist": true,
     "releases": true,

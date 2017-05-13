@@ -7,8 +7,6 @@
   get_func_by_name
 } = require 'libs_backend/expose_lib'
 
-{cfy} = require 'cfy'
-
 export import_lib = (lib_name) ->
   output = {}
   for func_name in list_functions_in_lib(lib_name)

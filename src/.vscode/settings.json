@@ -7,6 +7,7 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     ".*": true,
+    "_locales": true,
     "node_modules": true,
     "mongodata": true,
     ".vscode": true,

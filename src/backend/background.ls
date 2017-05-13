@@ -837,6 +837,9 @@ do ->>
       #dlog response_data
       # chrome bug - doesn't seem to actually send the response back....
       #sendResponse response_data
+      if type == 'get_var'
+        console.log 'response is'
+        console.log response
       if sendResponse?
         sendResponse response
       # {requestId} = request

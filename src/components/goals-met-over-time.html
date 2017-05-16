@@ -4,25 +4,60 @@
     :host {
       display: block;
       height: 100%;
-    }
+      background: white;
+    };
     ul {
       list-style-type: none;
       text-align: left;
     }
-    /*.update {
+    .update {
       font-size: 25px;
-    }*/
+      font-family:"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", 
+      "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    }
     .date_inactive {
       color: grey;
     }
     .date_active {
       color: red;
     }
+    .outer_wrapper {
+      text-align: center;
+    }
+    .calendar_entry {
+      display: inline-block;
+      padding: 10px;
+      border: 1px solid black;
+    }
+    .selected {
+      border: 5px solid black;
+    }
   </style>
   <template>
     <h4> Weekly update </h4>
     <ul id="goals">
     </ul>
+
+
+    <div class="outer_wrapper">
+      <template is="dom-repeat" items="{{day_num_to_success_object}}" as="success_object" index-as="day_idx">
+        <!--<template is="dom-if" if="{{is_first_day(day_idx)}}">
+          This is the first day
+        </template>-->
+        <div class$="calendar_entry [[text_if_equal(day_idx, selected_day_idx, 'selected')]]" on-click="day_clicked" day_idx="{{day_idx}}">
+          <span style="pointer-events: none">{{get_day_name(day_idx)}}</span>
+          <br>
+          <span style="pointer-events: none">{{get_day_in_month(day_idx)}}</span>
+          <!--
+          On <b><span>{{get_day_name(day_idx)}}</span></b>,
+          you met <span>{{success_object.num_met}}</span>
+          of your <span>{{success_object.num_goals}}</span> goals.
+          -->
+        </div>
+      </template>
+    </div>
+
+    <div>old stuff follows</div>
 
     <template is="dom-repeat" items="{{day_num_to_success_object}}" as="success_object" index-as="day_idx">
       <!--<template is="dom-if" if="{{is_first_day(day_idx)}}">
@@ -41,4 +76,5 @@
 
   </template>
   <script src='goals-met-over-time.js'></script>
+  <script frontend = 'frontend.js'></script>
 </dom-module>

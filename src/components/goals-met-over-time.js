@@ -35,9 +35,16 @@ polymer_ext({
     list_of_goals: {
       type: Array
     },
+    selected_day_idx: {
+      type: Number,
+      value: 0
+    },
   },
   get_day_name: function(day_num) {
     return this.day_num_to_day_name[day_num];
+  },
+  get_day_in_month: function(day_num) {
+    return moment().subtract(day_num, 'days').date();
   },
   is_first_day: function(day_num) {
     return day_num == 0;
@@ -53,6 +60,15 @@ polymer_ext({
       return ''
     }
     return progress_on_enabled_goals[goal_name][day_idx].message
+  },
+  day_clicked: function(evt) {
+    console.log('day_clicked called');
+    console.log(evt);
+    console.log(evt.target);
+    console.log(evt.target.day_idx);
+    console.log(evt.target.getAttribute('day_idx'));
+    var day_idx = evt.target.day_idx;
+    this.selected_day_idx = day_idx;
   },
   ready: async function() {
     let self = this
@@ -87,4 +103,9 @@ polymer_ext({
 
 
   }
-})
+}, {
+  source: require('libs_frontend/polymer_methods'),
+  methods: [
+    'text_if_equal'
+  ]
+});

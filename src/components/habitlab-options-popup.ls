@@ -20,6 +20,10 @@ swal = require 'sweetalert2'
   open_url_in_new_tab
 } = require 'libs_common/tab_utils'
 
+{
+  get_goals
+} = require 'libs_common/goal_utils'
+
 intervention = require('libs_common/intervention_info').get_intervention()
 
 polymer_ext {
@@ -32,6 +36,7 @@ polymer_ext {
     intervention: {
       type: String
       value: if intervention? then intervention.name else ''
+      observer: 'intervention_changed'
     }
     intervention_description: {
       type: String
@@ -39,7 +44,10 @@ polymer_ext {
     }
     goal_descriptions: {
       type: String
-      value: if intervention? then (intervention.goals.map((.description)).join(', ')) else ''
+      #value: if intervention? then (intervention.goals.map((.description)).join(', ')) else ''
+    }
+    goal_name_to_info: {
+      type: Object
     }
     screenshot: {
       type: String
@@ -52,6 +60,12 @@ polymer_ext {
   isdemo_changed: ->
     if this.isdemo
       this.open()
+  intervention_changed: ->>
+    if not this.goal_name_to_info?
+      this.goal_name_to_info = await get_goals()
+    goal_name_to_info = this.goal_name_to_info
+    goal_names = intervention.goals
+    this.goal_descriptions = goal_names.map(-> goal_name_to_info[it]).map((.description)).join(', ')
   ready: ->>
     await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
   open: ->

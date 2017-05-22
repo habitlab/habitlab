@@ -43,10 +43,6 @@ export get_data_for_feedback = ->>
   data.url = data.extra.tab_info.url
   data.loaded_interventions = await list_currently_loaded_interventions()
   data.extra.interventions = JSON.parse(JSON.stringify(await get_interventions()))
-  for intervention_name,intervention_info of data.extra.interventions
-    if intervention_info.goals?
-      intervention_info.goal_names = intervention_info.goals.map (.name)
-      delete intervention_info.goals
   data.extra.goals = JSON.parse(JSON.stringify(await get_goals()))
   for goal_name,goal_info of data.extra.goals
     if goal_info.icon?

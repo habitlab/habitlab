@@ -13,7 +13,6 @@ prelude = require 'prelude-ls'
 } = require 'libs_backend/intervention_utils'
 
 {
-  get_interventions_to_goals
   get_enabled_goals
   get_goals
 } = require 'libs_backend/goal_utils'

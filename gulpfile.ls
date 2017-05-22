@@ -471,7 +471,7 @@ gulp.task 'generate_goal_intervention_info', (done) ->
           intervention_info.content_scripts = intervention_info.content_scripts.map make_absolute_path
         if intervention_info.background_scripts?
           intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
-        intervention_info.goals = [goal_info]
+        intervention_info.goals = [goal_info.name]
         intervention_name_to_info[intervention_name] = intervention_info
       interventions_for_goal_new.push intervention_name
     goal_info.interventions = interventions_for_goal_new

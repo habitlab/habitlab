@@ -183,7 +183,7 @@ polymer_ext {
   intervention_selector_changed: (change_info) ->>
     intervention_name = change_info.detail.item.intervention_name
     this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
-    goal_name = intervention_info.goals[0].name
+    goal_name = intervention_info.goals[0]
     goal_names_list = this.goal_info_list.map (.name)
     goal_idx = goal_names_list.indexOf(goal_name)
     this.$.goal_selector.selected = goal_idx
@@ -202,7 +202,7 @@ polymer_ext {
     if not this.intervention_info?
       return
     goal_info = change_info.detail.item.goal_info
-    goal_name = this.intervention_info.goals[0].name
+    goal_name = this.intervention_info.goals[0]
     if goal_info.name == goal_name
       this.$.intervention_domain.value = this.intervention_info.domain
       this.$.intervention_preview_url.value = this.intervention_info.preview
@@ -387,7 +387,7 @@ polymer_ext {
       '''
       edit_mode: 'js'
       goals: [
-        all_goals['buzzfeed/spend_less_time']
+        'buzzfeed/spend_less_time'
       ]
       custom: true
     }

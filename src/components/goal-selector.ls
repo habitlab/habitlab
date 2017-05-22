@@ -82,8 +82,8 @@ polymer_ext {
         continue
       intervention_info = all_interventions[intervention_name]
       intervention_satisfies_an_enabled_goal = false
-      for goal_info in intervention_info.goals
-        if enabled_goals[goal_info.name]
+      for goal_name in intervention_info.goals
+        if enabled_goals[goal_name]
           intervention_satisfies_an_enabled_goal = true
       if not intervention_satisfies_an_enabled_goal
         interventions_to_disable.push intervention_name

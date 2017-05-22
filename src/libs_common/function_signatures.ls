@@ -32,6 +32,7 @@ lib_name_to_func_names_and_signatures =
     get_work_pages_visited_today: []
     get_productivity_classifications: []
   goal_utils:
+    get_goals: []
     get_goal_target: ['goal_name']
     set_goal_target: ['goal_name', 'target_value']
     get_all_goal_targets: []

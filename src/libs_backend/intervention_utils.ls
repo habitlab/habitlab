@@ -157,8 +157,6 @@ export is_intervention_enabled = (intervention_name) ->>
 export generate_interventions_for_domain = (domain) ->>
   generic_interventions = await list_generic_interventions()
   new_intervention_info_list = []
-  goals = await goal_utils.get_goals()
-  goal_for_intervention = goals["custom/spend_less_time_#{domain}"]
   for generic_intervention in generic_interventions
     intervention_info = await get_intervention_info generic_intervention
     # TODO replace the above step with something that is non-asynchronous
@@ -184,7 +182,7 @@ export generate_interventions_for_domain = (domain) ->>
       intervention_info.sitename_printable = intervention_info.sitename_printable.substr(4)
     intervention_info.generated = true
     intervention_info.generic_intervention = generic_intervention
-    intervention_info.goals = [goal_for_intervention]
+    intervention_info.goals = ["custom/spend_less_time_#{domain}"]
     #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
     new_intervention_info_list.push intervention_info
   await add_new_interventions new_intervention_info_list
@@ -464,15 +462,14 @@ export get_interventions = ->>
   #if local_cache_get_interventions?
     #return local_cache_get_interventions
   cached_get_interventions = localStorage.getItem 'cached_get_interventions'
+  interventions_to_goals = await goal_utils.get_interventions_to_goals()
   if cached_get_interventions?
-    interventions_to_goals = await goal_utils.get_interventions_to_goals()
     intervention_name_to_info = JSON.parse cached_get_interventions
     fix_intervention_name_to_intervention_info_dict intervention_name_to_info, interventions_to_goals
     return intervention_name_to_info
     #return JSON.parse cached_get_interventions
     #local_cache_get_interventions := JSON.parse cached_get_interventions
     #return local_cache_get_interventions
-  interventions_to_goals = await goal_utils.get_interventions_to_goals()
   interventions_list = await list_all_interventions()
   output = {}
   intervention_info_list = (await goal_utils.get_goal_intervention_info()).interventions
@@ -607,9 +604,9 @@ export list_available_interventions_for_enabled_goals = ->>
   enabled_goals = await goal_utils.get_enabled_goals()
   output = []
   output_set = {}
-  for intervention_name,goals of interventions_to_goals
-    for goal in goals
-      if enabled_goals[goal.name]? and not output_set[intervention_name]?
+  for intervention_name,goal_names of interventions_to_goals
+    for goal_name in goal_names
+      if enabled_goals[goal_name]? and not output_set[intervention_name]?
         output.push intervention_name
         output_set[intervention_name] = true
   return output
@@ -619,9 +616,9 @@ export list_available_interventions_for_goal = (goal_name) ->>
   interventions_to_goals = await goal_utils.get_interventions_to_goals()
   output = []
   output_set = {}
-  for intervention_name,goals of interventions_to_goals
-    for goal in goals
-      if goal_name == goal.name and not output_set[intervention_name]?
+  for intervention_name,goal_names of interventions_to_goals
+    for cur_goal_name in goal_names
+      if goal_name == cur_goal_name and not output_set[intervention_name]?
         output.push intervention_name
         output_set[intervention_name] = true
   return output
@@ -783,8 +780,7 @@ export get_goals_and_interventions = ->>
   manually_managed_interventions = await get_manually_managed_interventions()
   goal_to_interventions = {}
   for intervention_name,intervention_info of intervention_name_to_info
-    for goal in intervention_info.goals
-      goalname = goal.name
+    for goalname in intervention_info.goals
       if not goal_to_interventions[goalname]?
         goal_to_interventions[goalname] = []
       goal_to_interventions[goalname].push intervention_info

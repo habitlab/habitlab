@@ -156,6 +156,26 @@ export printvar = (key) ->>
   console.log result
   return result
 
+export remove_key_from_var_dict = (dictname, key) ->>
+  dict_text = await getvar dictname
+  if dict_text?
+    dict = JSON.parse dict_text
+  else
+    dict = {}
+  if dict[key]?
+    delete dict[key]
+  await setvar dictname, JSON.stringify(dict)
+  return
+
+export remove_item_from_var_list = (listname, item) ->>
+  list_text = await getvar listname
+  if list_text?
+    list = JSON.parse list_text
+  else
+    list = []
+  list = list.filter -> it != item
+  await setvar listname, JSON.stringify(list)
+
 export addtolist = (name, val) ->>
   data = await getCollection(name)
   result = await data.add(val)

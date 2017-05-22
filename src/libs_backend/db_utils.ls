@@ -64,6 +64,8 @@ export get_current_collections = ->
     seconds_saved_for_intervention: 'key,synced'
     seconds_saved_for_domain: 'key,synced'
     seconds_saved_for_intervention_on_domain: '[key+key2],key,key2,synced'
+    baseline_session_time_on_domains: 'key,synced'
+    baseline_time_on_domains: 'key,synced'
     times_intervention_used: 'key,synced'
   }
 

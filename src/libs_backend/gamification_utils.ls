@@ -46,10 +46,8 @@ export get_time_saved_total_with_intervention = (intervention_name) ->>
   return result ? 0
 
 export baseline_time_per_session_for_domain = (domain) ->>
-  baseline_time_on_domains = localstorage_getjson('baseline_session_time_on_domains')
-  if baseline_time_on_domains?
-    return baseline_time_on_domains[domain] ? 5*60
-  return 5*60
+  result = await getkey_dict 'baseline_session_time_on_domains', domain
+  return result ? 300 # 5 minutes default
 
 export record_seconds_saved_and_get_rewards = (seconds, intervention_name, domain) ->>
   rewards = []

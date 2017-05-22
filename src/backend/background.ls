@@ -7,6 +7,8 @@ do ->>
   localStorage.removeItem 'cached_list_generic_interventions'
   localStorage.removeItem 'cached_get_goals'
   localStorage.removeItem 'cached_get_interventions'
+  localStorage.removeItem 'baseline_session_time_on_domains'
+  localStorage.removeItem 'baseline_time_on_domains'
 
   window.global_exports = {}
 

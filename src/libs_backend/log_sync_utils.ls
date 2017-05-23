@@ -5,6 +5,7 @@
 
 {
   get_current_collections
+  list_collections_to_sync
   getCollection
 } = require 'libs_backend/db_utils'
 
@@ -185,7 +186,7 @@ export start_syncing_all_db_collections = ->>
     dlog 'db_syncing already active'
     return
   db_syncing_active := true
-  collection_names = Object.keys get_current_collections()
+  collection_names = list_collections_to_sync()
   while db_syncing_active
     for collection_name in collection_names
       if not db_syncing_active

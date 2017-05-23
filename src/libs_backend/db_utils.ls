@@ -38,36 +38,52 @@ export delete_db_if_outdated_db = ->>
     localStorage.setItem('db_major_version_db', get_db_major_version_db())
   return
 
+current_schema_for_collections = {
+  vars: 'key,synced'
+  #lists: '++,key,val'
+  # composite index:
+  # https://groups.google.com/forum/#!topic/dexiejs/G3_W5PssCGA
+  #dicts: '[name+key],name,key,val'
+  #dictdicts: '[name+key+key2],[name+key],[name+key2],name,key,key2,val'
+  # lists
+  # '++,val'
+  # dictdicts
+  interventions_enabled_each_day: '[key+key2],key,key2,synced'
+  interventions_manually_managed_each_day: '[key+key2],key,key2,synced'
+  seconds_on_domain_per_day: '[key+key2],key,key2,synced'
+  #intervention_to_options: 'key'
+  visits_to_domain_per_day: '[key+key2],key,key2,synced'
+  intervention_to_parameters: '[key+key2],key,key2,synced'
+  custom_measurements_each_day: '[key+key2],key,key2,synced'
+  seconds_on_domain_per_session: '[key+key2],key,key2,synced'
+  interventions_active_for_domain_and_session: '[key+key2],key,key2,synced'
+  domain_to_last_session_id: 'key,synced'
+  interventions_currently_disabled: 'key,synced'
+  goal_targets: 'key,synced'
+  seconds_saved_for_intervention: 'key,synced'
+  seconds_saved_for_domain: 'key,synced'
+  seconds_saved_for_intervention_on_domain: '[key+key2],key,key2,synced'
+  baseline_session_time_on_domains: 'key,synced'
+  baseline_time_on_domains: 'key,synced'
+  times_intervention_used: 'key,synced'
+  goal_icons: 'key'
+  new_collection_with_some_name_sdlkjgslkajgasgs_askgj_asasasdgdsadgdsagsadg_asgsadglakgdj: 'key'
+}
+
 export get_current_collections = ->
-  return {
-    vars: 'key,synced'
-    #lists: '++,key,val'
-    # composite index:
-    # https://groups.google.com/forum/#!topic/dexiejs/G3_W5PssCGA
-    #dicts: '[name+key],name,key,val'
-    #dictdicts: '[name+key+key2],[name+key],[name+key2],name,key,key2,val'
-    # lists
-    # '++,val'
-    # dictdicts
-    interventions_enabled_each_day: '[key+key2],key,key2,synced'
-    interventions_manually_managed_each_day: '[key+key2],key,key2,synced'
-    seconds_on_domain_per_day: '[key+key2],key,key2,synced'
-    #intervention_to_options: 'key'
-    visits_to_domain_per_day: '[key+key2],key,key2,synced'
-    intervention_to_parameters: '[key+key2],key,key2,synced'
-    custom_measurements_each_day: '[key+key2],key,key2,synced'
-    seconds_on_domain_per_session: '[key+key2],key,key2,synced'
-    interventions_active_for_domain_and_session: '[key+key2],key,key2,synced'
-    domain_to_last_session_id: 'key,synced'
-    interventions_currently_disabled: 'key,synced'
-    goal_targets: 'key,synced'
-    seconds_saved_for_intervention: 'key,synced'
-    seconds_saved_for_domain: 'key,synced'
-    seconds_saved_for_intervention_on_domain: '[key+key2],key,key2,synced'
-    baseline_session_time_on_domains: 'key,synced'
-    baseline_time_on_domains: 'key,synced'
-    times_intervention_used: 'key,synced'
-  }
+  return current_schema_for_collections
+
+export list_collections_to_sync = ->
+  output = []
+  for k,v of current_schema_for_collections
+    if v.endsWith(',synced')
+      output.push k
+  return output
+
+export is_collection_synced = (collection_name) ->
+  if current_schema_for_collections[collection_name]? and current_schema_for_collections[collection_name].endsWith(',synced')
+    return true
+  return false
 
 local_cache_db = null
 
@@ -89,20 +105,18 @@ export getDb = ->>
     dbver += 1
     for k,v of stores_to_create
       new_schema[k] = v
-    db.on 'ready', ->
-      localStorage.setItem 'current_schema_db', JSON.stringify(new_schema)
-      localStorage.setItem 'current_dbver_db', dbver
+    localStorage.setItem 'current_schema_db', JSON.stringify(new_schema)
+    localStorage.setItem 'current_dbver_db', dbver
+    #db.on 'ready', ->
   db.version(dbver).stores(new_schema)
-  /*
   db.on 'versionchange', ->
-    console.log '====================!!!!!!!!!------------#################'
-    console.log 'versionchange'
-    console.log '=====================~~~~~~~~~~~~~%%%%%%%%%###############'
     db.close()
+    prev_schema = get_current_schema_db()
+    dbver := parseInt localStorage.getItem('current_dbver_db')
+    db.version(dbver).stores(prev_schema)
     db.open().then (new_db) ->
       local_cache_db := new_db
     return false
-  */
   local_cache_db := await db.open()
   return local_cache_db
 

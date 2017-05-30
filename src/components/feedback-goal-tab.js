@@ -35,36 +35,10 @@ async function view_more_interventions(site) {
   console.log(result);
 }
 
-function test() {
-    console.log("hello 2");
-}
-
-// document.getElementById("view_more_button").addEventListener("click", test);
-
-console.log("hello from custom");
-
-
-function make_intervention_table(interventions) {
-  var rows = Object.keys(interventions).length;
-  var cols = 2;
-  var i=0;
-  var grid = document.createElement('table');
-  grid.className = 'grid';
-  for (var r = 1 ; r < rows; ++r){
-    var tr = grid.appendChild(document.createElement('tr'));
-    for (var c = 0; c < cols; ++c){
-      var cell = tr.appendChild(document.createElement('td'));
-      cell.innerHTML = "here be the intervention";
-      cell.setAttribute( 'class', 'custom_intervention' );
-    }
-  }
-  return grid;
-}
-
 polymer_ext({
-  is: 'custom-intervention-tab',
+  is: 'feedback-goal-tab',
   properties: {
-    intervention_info: {
+    custom_feature: {
       type: Object
     }
   },

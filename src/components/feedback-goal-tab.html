@@ -8,7 +8,7 @@
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/l2t-star-rating/l2t-star-rating.html">
 
-<dom-module id="custom-intervention-tab">
+<dom-module id="feedback-goal-tab">
 <style>
 :host {
   display: block;
@@ -105,39 +105,16 @@ paper-button:hover {
 <template>
 
   <div class="tab_block">
-    <table style="width: 100%;">
+    <table>
       <tbody>
         <tr>
           <td style="width: 50%;">
-            <div id="description">{{intervention_info.description}}</div>
+            <div id="description">{{custom_feature.name}}</div>
           </td>
           <td style="width: 50%;">
             <div>
-              <paper-button style="display: block;">Preview</paper-button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div id="stats">
-              <div>
-                <span>
-                  <i class="fa fa-users" aria-hidden="true"></i>
-                  Users
-                  <span class="stat" id="users">{{intervention_info.numusers}}</span>
-                </span>
-                <span>
-                  <i class="fa fa-star-o" aria-hidden="true"></i>
-                  Ratings
-                  <l2t-star-rating stars="5" rate="{{round(intervention_info.stars)}}" readonly="true" style="pointer-events: none"></l2t-star-rating>
-                  <span class="stat" id="rating">{{intervention_info.stars}}</span>
-                </span>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div>
-              <paper-button style="display: block;">Add</paper-button>
+              <paper-button style="display: block;">Up {{custom_feature.upvotes}}</paper-button>
+              <paper-button style="display: block;">Down {{custom_feature.downvotes}}</paper-button>
             </div>
           </td>
         </tr>
@@ -145,8 +122,8 @@ paper-button:hover {
     </table>
   </div>
 
-  <div style="margin-bottom: 20px"></div>
+  <div style="margin-bottom: 2px"></div>
 
 </template>
-<script src="custom-intervention-tab.js"></script>
+<script src="feedback-goal-tab.js"></script>
 </dom-module>

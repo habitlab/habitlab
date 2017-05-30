@@ -16,6 +16,8 @@
 <link rel="import" href="all-badges-earned-display.html">
 <link rel="import" href="graph-intervention-effectiveness-comparison.html">
 <link rel="import" href="custom-interventions-list.html">
+<link rel="import" href="feedback-goals-list.html">
+
 
 <dom-module id="site-view">
 <style>
@@ -95,9 +97,18 @@ hr {
         <graph-intervention-effectiveness-comparison goal_info="{{goal_info}}"></graph-intervention-effectiveness-comparison>
       </div>
     </paper-card>
-    
+
     <paper-card heading="{{goal_info.sitename_printable}} Custom Interventions" class="paper-card">
       <custom-interventions-list site="{{goal_info.sitename}}"></custom-interventions-list>
+    </paper-card>
+
+    <paper-card heading="Habitlab Goals Feedback" class="paper-card">
+      <feedback-goals-list></feedback-goals-list>
+      //hellloooo
+      //make the polymer component for feedback on goals, (the upvote downvote of goals that we can use to work on and determine which features to build)
+      //goal description, number of upvotes, number of downvotes
+      //need a place down the bottom to enter more
+
     </paper-card>
 
     <div style="margin-bottom: 20px"></div>

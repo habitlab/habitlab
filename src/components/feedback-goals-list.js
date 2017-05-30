@@ -9,8 +9,6 @@ const swal = require('sweetalert2');
 
 const $ = require('jquery');
 
-// const fa = require('font-awesome-webpack');
-
 const {load_css_file} = require('libs_common/content_script_utils');
 
 const {
@@ -30,49 +28,37 @@ const {
 const {remoteget_json} = require('libs_common/cacheget_utils');
 
 async function view_more_interventions(site) {
-  alert("view more: " + site);
+  // alert("view more: " + site);
+  console.log("hello from feedback-goals-list");
   const result = await remoteget_json("https://habitlab.github.io/contributed_interventions.json");
   console.log(result);
+  return result;
 }
 
-function test() {
-    console.log("hello 2");
-}
-
-// document.getElementById("view_more_button").addEventListener("click", test);
-
-console.log("hello from custom");
-
-
-function make_intervention_table(interventions) {
-  var rows = Object.keys(interventions).length;
-  var cols = 2;
-  var i=0;
-  var grid = document.createElement('table');
-  grid.className = 'grid';
-  for (var r = 1 ; r < rows; ++r){
-    var tr = grid.appendChild(document.createElement('tr'));
-    for (var c = 0; c < cols; ++c){
-      var cell = tr.appendChild(document.createElement('td'));
-      cell.innerHTML = "here be the intervention";
-      cell.setAttribute( 'class', 'custom_intervention' );
-    }
-  }
-  return grid;
+function dummy_features() {
+  var x = [{ name: 'Fishing', upvotes: 10, downvotes: 1 }, { name: 'Gardening', upvotes: 4, downvotes: 0 }, { name: 'Nothing', upvotes: 0, downvotes: 0 }, { name: 'Going for More Walks', upvotes: 3, downvotes: 0 }];
+  return x;
 }
 
 polymer_ext({
-  is: 'custom-intervention-tab',
+  is: 'feedback-goals-list',
   properties: {
-    intervention_info: {
-      type: Object
+    custom_features: {
+      type: Array,
+      value: []
+    },
+    site: {
+      type: String,
+      observer: 'site_changed'
     }
+  },
+  site_changed: async function() {
+    // this.custom_features = await view_more_interventions(this.site);
+    // this.custom_features = dummy_features();
   },
   ready: async function() {
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css');
-  },
-  round: function(x) {
-    return Math.round(x);
+    this.custom_features = dummy_features();
   },
 }, {
   source: require('libs_frontend/polymer_methods'),

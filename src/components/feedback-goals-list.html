@@ -1,0 +1,75 @@
+<link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
+<link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+<link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
+<link rel="import" href="../bower_components/chart-elements/chart-line.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="feedback-goal-tab.html">
+
+<dom-module id="feedback-goals-list">
+<style>
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  --paper-card: {
+    width: 90%;
+    padding: 10px 20px;
+    margin-top: 10px;
+  };
+}
+.container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.title {
+  font-size: 24px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.description {
+  font-size: 2.2em;
+  margin-top: 0.8em;
+}
+.buttons {
+  text-align: center;
+  padding-top: 3em;
+  padding-bottom: 3em;
+}
+button {
+  position: absolute;
+  left: 50%;
+  cursor: pointer;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 1em;
+}
+hr {
+  margin-top: 2em;
+}
+.paper-card {
+  width: calc(100% - 40px);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.card-content {
+  font-size: 20px;
+}
+</style>
+
+<template>
+  <div class="container">
+    <template is="dom-repeat" items="{{custom_features}}" as="custom_feature">
+      <feedback-goal-tab custom_feature="{{custom_feature}}"></feedback-goal-tab>
+    </template>
+    <div style="margin-bottom: 20px"></div>
+  </div>
+</template>
+
+<script src="feedback-goals-list.js"></script>
+</dom-module>

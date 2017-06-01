@@ -11,17 +11,28 @@ require('enable-webcomponents-in-content-scripts');
 require('bower_components/paper-button/paper-button.deps');
 require('components/habitlab-logo.deps')
 
+var video = null;
+var is_video_resumed = false;
+
 setInterval(() => {
-  let video = $('video')[0]
-  if ((video != null)&& (video.duration-video.currentTime<=5)) {
-    video.pause()
-    attachButtons();
+  var tmp_video = $('video')[0]
+  if (tmp_video != null) {
+    video = tmp_video;
   }
-}, 1000)
+  if ((video != null) && (video.duration - video.currentTime<=5)) {
+    if (!is_video_resumed) {
+      video.pause();
+      attachButtons();
+    }
+  } else {
+    is_video_resumed = false;
+  }
+}, 1000);
 
 function resume_play() {
+  is_video_resumed = true;
   video.play()
-}  
+}
 
 function attachButtons() {
   var habitlab_resume_play_div = $('<div>').css({

@@ -221,6 +221,8 @@ polymer_ext {
         type: 'error'
       }
       return
+    if domain != canonical_domain
+      await add_enable_custom_goal_reduce_time_on_domain(domain)
     await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
     await this.set_sites_and_goals()
     this.fire 'need_rerender', {}

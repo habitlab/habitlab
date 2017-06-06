@@ -64,8 +64,8 @@ export fetchFavicons = (domain) ->>
   for pattern in favicon_patterns_href
     for x in $(pattern)
       url = $(x).attr('href')
-      if url?
-        output.push url
+      if url? and url.trim?
+        output.push url.trim()
   #for pattern in favicon_patterns_content
   #  for x in $(pattern)
   #    url = $(x).attr('content')

@@ -164,7 +164,7 @@ polymer_ext {
       ]
       */
       edit_mode: edit_mode
-      goals: [goal_info]
+      goals: [goal_info.name]
       custom: true
     }
     if edit_mode == 'ls' or edit_mode == 'ls_and_js'
@@ -184,6 +184,8 @@ polymer_ext {
     intervention_name = change_info.detail.item.intervention_name
     this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
     goal_name = intervention_info.goals[0]
+    if (typeof(goal_name) != 'string') and goal_name.name?
+      goal_name = goal_name.name
     goal_names_list = this.goal_info_list.map (.name)
     goal_idx = goal_names_list.indexOf(goal_name)
     this.$.goal_selector.selected = goal_idx

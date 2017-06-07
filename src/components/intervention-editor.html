@@ -68,17 +68,22 @@
           <paper-button class="button" on-click="save_intervention">Save</paper-button>
           <paper-button class="button" on-click="help_clicked">Help</paper-button>
         </div>
-        <paper-button class="button" style="position: absolute; top: 4px; right: 10px" on-click="show_sidebar">Show Sidebar</paper-button>
+        <paper-button class="button" style="position: absolute; top: 4px; right: 0px" on-click="show_sidebar">Show Sidebar</paper-button>
       </div>
 
     </paper-card>
 
     <paper-card id="sidebar" style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px; position: fixed; right: 0px; top: 0px; z-index: 999; height: 100vh">
-
+    
+    <div style="width: 100%; margin-top: 4px">
+      <paper-button class="button" on-click="hide_sidebar" style="text-align: right; width: 100%">Hide Sidebar</paper-button>
+    </div>
+    <!--
     <iron-icon style="position: fixed; top: 5px; right: 10px; width: 40px; height: 40px; cursor: pointer; color: #415D67" icon="cancel" on-click="hide_sidebar"></iron-icon>
+    -->
 
     <div>
-      <paper-dropdown-menu style="width: 300px; margin-top: -10px" label="Intervention">
+      <paper-dropdown-menu style="width: 100%; margin-top: 0px" label="Intervention">
         <paper-listbox id="intervention_selector" on-iron-select="intervention_selector_changed" class="dropdown-content" selected="0">
           <template is="dom-repeat" items="{{intervention_list}}" as="intervention_name">
             <paper-item intervention_name="{{intervention_name}}">{{intervention_name}}</paper-item>

@@ -46,6 +46,7 @@ function create_video_pauser() {
       video_pauser = null
       return;
     }
+    set_overlay_position_over_video()
     pauseVideo();
   }, 100);
 }
@@ -87,19 +88,25 @@ function first_nonempty(...args) {
 function set_overlay_position_over_video() {
   var $a = get_overlay()
   if ($a.length == 0) {
-    return
+    return false
   }
   var video = first_nonempty('#player-api', '.html5-video-player', 'video:not(#rewardvideo)')
   var video_container = video
   //while (video_container.length > 0) {}
-  $a.width(video.width());
-	$a.height(video.height());
+  var video_height = video.height()
+  var video_width = video.width()
+  if (video_height == 0 || video_width == 0) {
+    return false
+  }
+  $a.width(video_width);
+	$a.height(video_height);
 	$a.css({'background-color': 'white'});
 	$a.css('z-index', 30);
   const b = $a[0]
 	b.style.left = video.offset().left + 'px';
 	b.style.top = video.offset().top + 'px';
 	//b.style.opacity = 0.9;
+  return true
 }
 
 function get_youtube_video_id_from_url() {
@@ -178,10 +185,17 @@ function divOverVideo(status) {
   if (video.length == 0) {
     return
   }
+  if (video.width() == 0 || video.height() == 0) {
+    return
+  }
   if (window.location.href.indexOf('watch') == -1) {
     return
   }
   if (get_overlay().data('location') == window.location.href) {
+    return
+  }
+  var video_container = first_nonempty('#player-api', '.html5-video-player', 'video:not(#rewardvideo)')
+  if (video_container.width() == 0 || video_container.height() == 0) {
     return
   }
   $('#habitlab_video_overlay').remove()
@@ -189,7 +203,17 @@ function divOverVideo(status) {
 	//$a.text();
   $(document.body).append($(wrap_in_shadow($a)).attr('id', 'habitlab_video_overlay'));
   $a.css({'position': 'absolute', 'display': 'table'})
-  set_overlay_position_over_video()
+  //if (!set_overlay_position_over_video()) {
+  //  console.log('failed set_overlay_position_over_video')
+  //  $('#habitlab_video_overlay').remove()
+  //  return
+  //}
+  //if ($('#habitlab_video_overlay').width() == 0 || $('#habitlab_video_overlay').height() == 0) {
+  //  console.log('failed habitlab_video_overlay size check')
+  //  $('#habitlab_video_overlay').remove()
+  //  return
+  //}
+  //console.log('everything succeeded running as usual')
   $a.data('location', window.location.href).data('duration_set', false)
 
 	//Centered container for text in the white box
@@ -330,7 +354,7 @@ function afterNavigate() {
 //main()
 
 once_available('video:not(#rewardvideo)', () => {
-  main()
+  afterNavigate()
 })
 
 on_url_change(() => {

@@ -23,6 +23,8 @@
   - underscore
 - cheerio:
   - cheerio
+- percipio:
+  - percipio
 - livescript15:
   - livescript15
 #- icojs:

@@ -203,6 +203,16 @@ SystemJS.config({
     "npm:lodash.assignin@4.2.0/index.js",
     "npm:lodash.assignin@4.2.0.json"
   ],
+  "bundles/percipio.js": [
+    "npm:percipio@0.1.2/src/index.js",
+    "npm:percipio@0.1.2.json",
+    "npm:percipio@0.1.2/src/metrics.js",
+    "npm:underscore@1.8.3/underscore.js",
+    "npm:underscore@1.8.3.json",
+    "npm:percipio@0.1.2/src/stats.js",
+    "npm:percipio@0.1.2/src/naive_bayes.js",
+    "npm:percipio@0.1.2/src/bandits.js"
+  ],
   "bundles/livescript15.js": [
     "npm:livescript15@1.5.6/lib/browser.js",
     "npm:livescript15@1.5.6.json",

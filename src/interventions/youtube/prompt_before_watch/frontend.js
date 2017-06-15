@@ -302,7 +302,9 @@ function endWarning() {
     clearInterval(end_pauser)
     end_pauser = null
     pauseVideo()
+    removeDiv();
 		divOverVideo("end")
+    set_overlay_position_over_video()
 	}
 }
 

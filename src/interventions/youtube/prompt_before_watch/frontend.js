@@ -53,10 +53,10 @@ function create_video_pauser() {
 
 //Initially pauses the video when the page is loaded
 function pauseVideo() {
-	const overlayBox = document.querySelector('video:not(#rewardvideo)');
-	if (!overlayBox.paused) {
-		overlayBox.pause();
-	}
+  const overlayBox = document.querySelector('video:not(#rewardvideo)');
+  if (!overlayBox.paused) {
+    overlayBox.pause();
+  }
 }
 
 function shadow_find(query) {
@@ -99,13 +99,13 @@ function set_overlay_position_over_video() {
     return false
   }
   $a.width(video_width);
-	$a.height(video_height);
-	$a.css({'background-color': 'white'});
-	$a.css('z-index', 30);
+  $a.height(video_height);
+  $a.css({'background-color': 'white'});
+  $a.css('z-index', 30);
   const b = $a[0]
-	b.style.left = video.offset().left + 'px';
-	b.style.top = video.offset().top + 'px';
-	//b.style.opacity = 0.9;
+  b.style.left = video.offset().left + 'px';
+  b.style.top = video.offset().top + 'px';
+  //b.style.opacity = 0.9;
   return true
 }
 
@@ -177,7 +177,7 @@ function divOverVideoOnceAvailable(status) {
 
 //Places a white box over the video with a warning message
 function divOverVideo(status) {
-	//Constructs white overlay box
+  //Constructs white overlay box
   if (window.intervention_disabled) {
     return
   }
@@ -200,7 +200,7 @@ function divOverVideo(status) {
   }
   $('#habitlab_video_overlay').remove()
   const $a = $('<div>')
-	//$a.text();
+  //$a.text();
   $(document.body).append($(wrap_in_shadow($a)).attr('id', 'habitlab_video_overlay'));
   $a.css({'position': 'absolute', 'display': 'table'})
   //if (!set_overlay_position_over_video()) {
@@ -216,8 +216,8 @@ function divOverVideo(status) {
   //console.log('everything succeeded running as usual')
   $a.data('location', window.location.href).data('duration_set', false)
 
-	//Centered container for text in the white box
-	const $contentContainer = $('<div>')
+  //Centered container for text in the white box
+  const $contentContainer = $('<div>')
   .addClass('contentContainer')
   .css({
     //'position': 'absolute',
@@ -232,19 +232,19 @@ function divOverVideo(status) {
   $contentContainer.append('<habitlab-logo>')
   $contentContainer.append('<br><br>')
 
-	//Message to user
-	const $text1 = $('<h2>').attr('id', 'message_text').css('font-weight', 'normal');
-	$contentContainer.append($text1);
-	$contentContainer.append($('<br>'));
+  //Message to user
+  const $text1 = $('<h2>').attr('id', 'message_text').css('font-weight', 'normal');
+  $contentContainer.append($text1);
+  $contentContainer.append($('<br>'));
 
-	//Close tab button
-	const $button1 = $('<close-tab-button text="Close Youtube">');
-	$contentContainer.append($button1);
+  //Close tab button
+  const $button1 = $('<close-tab-button text="Close Youtube">');
+  $contentContainer.append($button1);
 
-	//Continue watching video button
-	const $button2 = $('<paper-button>');
-	$button2.text("Watch Video");
-	$button2.css({
+  //Continue watching video button
+  const $button2 = $('<paper-button>');
+  $button2.text("Watch Video");
+  $button2.css({
     'cursor': 'pointer',
     'background-color': '#415D67',
     'color': 'white',
@@ -253,35 +253,35 @@ function divOverVideo(status) {
     'height': '38px',
     'margin-left': '10px'
   });
-	$button2.click(() => {
+  $button2.click(() => {
     log_action({'negative': 'remainedOnYoutube'})
-		removeDivAndPlay();
-		$button2.hide();
-	})
-	$contentContainer.append($button2);
+    removeDivAndPlay();
+    $button2.hide();
+  })
+  $contentContainer.append($button2);
 
-	//Adds text into the white box
-	$a.append($contentContainer);
+  //Adds text into the white box
+  $a.append($contentContainer);
 
   //Logs impression
 
-	if (status === 'begin') {
+  if (status === 'begin') {
     start_video_duration_setter()
-	} else { //status === 'end'
+  } else { //status === 'end'
     get_seconds_spent_on_domain_today('www.youtube.com').then(function(secondsSpent) {
       const mins = Math.floor(secondsSpent/60)
       const secs = secondsSpent % 60
       shadow_find('#message_text').html("You've spent " + mins + " minutes and " + secs + " seconds on Youtube today. <br>Are you sure you want to continue watching videos?");
     })
-	}
+  }
 }
 
 //Remove the white div
 function removeDivAndPlay() {
   play_video_clicked = true;
-	$('#habitlab_video_overlay').remove();
-	const play = document.querySelector('video:not(#rewardvideo)');
-	play.play();
+  $('#habitlab_video_overlay').remove();
+  const play = document.querySelector('video:not(#rewardvideo)');
+  play.play();
 }
 
 //Remove the white div
@@ -291,19 +291,21 @@ function removeDiv() {
 
 function endWarning() {
   // $('video').on('ended', function() {
-  // 	console.log("executing");
-  // 	divOverVideoEnd();
+  //   console.log("executing");
+  //   divOverVideoEnd();
   // });
   if (window.intervention_disabled) {
     return
   }
-	const overlayBox = document.querySelector('video:not(#rewardvideo)');
-	if ((overlayBox.currentTime > (overlayBox.duration - 0.15)) && !overlayBox.paused) {
+  const overlayBox = document.querySelector('video:not(#rewardvideo)');
+  if ((overlayBox.currentTime > (overlayBox.duration - 0.15)) && !overlayBox.paused) {
     clearInterval(end_pauser)
     end_pauser = null
     pauseVideo()
-		divOverVideo("end")
-	}
+    removeDiv();
+    divOverVideo("end")
+    set_overlay_position_over_video()
+  }
 }
 
 var prev_location_href = null
@@ -319,7 +321,7 @@ function main() {
   prev_location_href = window.location.href
   create_video_pauser()
   removeDiv();
-	divOverVideoOnceAvailable("begin");
+  divOverVideoOnceAvailable("begin");
   if (end_pauser === null) {
     end_pauser = setInterval(() => {
       endWarning()

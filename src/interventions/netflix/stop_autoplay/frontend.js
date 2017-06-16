@@ -6,8 +6,6 @@ if (typeof(window.wrap) != 'function')
 
 require('enable-webcomponents-in-content-scripts')
 require('components/netflix-stop-autoplay.deps')
-require('components/netflix-stop-autoplay.deps')
-require('enable-webcomponents-in-content-scripts')
 const $ = require('jquery')
 
 /*

@@ -1,0 +1,27 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="habitlab-logo.html">
+<link rel="import" href="goal-progress-message.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="close-tab-button.html">
+
+<dom-module id="time-selector-dialog">
+  <style>
+  </style>
+  <template>
+
+    <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
+      <paper-time-picker id="start-picker" time="9:00 AM"></paper-time-picker>
+      <div class="buttons">
+        <paper-button dialog-dismiss>CANCEL</paper-button>
+        <paper-button dialog-confirm>OK</paper-button>
+      </div>
+    </paper-dialog>
+  
+  </template>
+  <script src="time-selector-dialog.js"></script>
+
+</dom-module>

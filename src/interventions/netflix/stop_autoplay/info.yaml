@@ -1,0 +1,6 @@
+description: Stop autoplay
+matches:
+  - www.netflix.com
+content_scripts:
+  - frontend.js
+

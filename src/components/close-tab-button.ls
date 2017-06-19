@@ -17,7 +17,7 @@
 Polymer {
   is: 'close-tab-button'
   properties: {
-    text: {
+    buttontext: {
       type: String
       value: msg('Close Tab')
     }

@@ -1,0 +1,41 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="habitlab-logo.html">
+
+
+<dom-module id="sidebar-suggestions-removed">
+  <style>
+    :host {
+      /*display: flex;*/
+    }
+    #outerdiv {
+      background-color: black;
+      width: 100%;
+      height: 100%;
+      display: table;
+      text-align: center;
+      vertical-align: middle;
+    }
+    #button_container {
+    }
+    #show_sidebar_button{
+      background-color: #415D67;
+      color: white;
+      -webkit-font-smoothing: antialiased;
+      font-size: 14px;
+      box-shadow: 2px 2px 2px #888888;
+      margin-top: 10px;
+    }
+
+  </style>
+  <template>
+    <div id="outerdiv">
+      <div id="button_container">
+    <habitlab-logo id="logo"></habitlab-logo>
+    <br></br>
+    <paper-button on-click="show_sidebar_button_clicked" id="show_sidebar_button">Show Sidebar</paper-button>
+  </div>
+</div>
+  </template>
+  <script src="sidebar-suggestions-removed.js"></script>
+</dom-module>

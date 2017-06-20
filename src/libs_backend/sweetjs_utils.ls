@@ -72,7 +72,12 @@ function require_component(component_name) {
 compile = (code) ->>
   {get_components_to_require_statements} = await SystemJS.import 'libs_backend/require_utils'
   list_requires = await SystemJS.import 'list_requires_multi'
-  all_requires = list_requires(code, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
+  code_with_async_wrapper = """
+  (async function() {
+    #{code}
+  })()
+  """
+  all_requires = list_requires(code_with_async_wrapper, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
   extra_code = []
   extra_code_segment2 = []
   if (all_requires.define_component? and all_requires.define_component.length > 0) or (all_requires.require_component? and all_requires.require_component.length > 0)

@@ -5,8 +5,22 @@ const {polymer_ext} = require('libs_frontend/polymer_utils')
 const {close_selected_tab} = require('libs_frontend/tab_utils')
 
 const {
+  url_to_domain
+} = require('libs_common/domain_utils')
+
+const {
+  get_minutes_spent_on_domain_today,
+  get_visits_to_domain_today
+} = require('libs_common/time_spent_utils')
+
+const {
   log_action,
 } = require('libs_frontend/intervention_log_utils')
+
+const {
+  start_episode_tracker,
+  get_num_episodes_watched
+} = require('libs_frontend/netflix_utils')
 
 Polymer({
   is: 'netflix-stop-autoplay',
@@ -24,7 +38,7 @@ Polymer({
     titleText: {
       type: String, 
     },
-    visits: {
+    playings: {
       type: Number
     },
     intervention: {
@@ -41,10 +55,6 @@ Polymer({
       type: String,
       value: chrome.runtime.getURL('interventions/netflix/stop_autoplay/exit.png')
     },
-    /*line_url:{
-      type: String,
-      value: chrome.extension.getURL('interventions/netflix/stop_autoplay/line.png')
-    },*/
     logo_url:{
       type: String,
       value: chrome.runtime.getURL('interventions/netflix/stop_autoplay/logo.png')
@@ -57,11 +67,19 @@ Polymer({
       type: Boolean,
       computed: 'compute_show_workpages_message(show_progress_message, randomizer)',
     },
+    show_rss_message: {
+      type: Boolean,
+      computed: 'compute_show_rss_message(show_progress_message, randomizer)',
+    },
     show_progress_message: {
       type: Boolean,
       value: false,
       //computed: 'compute_progress_message()',
     },
+    show_workpages_message: {
+      type: Boolean,
+      computed: 'compute_show_workpages_message(show_progress_message, randomizer)',
+    }
   },
 
   listeners: {
@@ -86,6 +104,10 @@ Polymer({
     console.log('ok button clicked in polymer during loading')
     log_action({'negative': 'Continuted to site.'})
     $(this).hide()
+    console.log('video should continue')
+    document.querySelector('video').play()
+    // console.log('video should now continue to play')    
+    // document.querySelector('video').play()
   },
   hideButton: function() {
     console.log('button hidden')
@@ -107,32 +129,28 @@ Polymer({
     this.$.okbutton.style.display = 'inline-flex';
     this.$.closetabbutton.style.display = 'inline-flex';
   },
-  ready: function() {
+  ready: async function() {
     console.log('interstitial-polymer ready')
     this.$.closetabbutton.text = this.btnTxt2
     //this.$.time_selector.value = moment().format('HH:mm')
     this.$.time_display.innerText = moment().format('hh:mm A')
+    let domain = url_to_domain(window.location.href)
+    /*
+    var self = this
+    get_minutes_spent_on_domain_today(domain).then(function(minutes) {
+      self.minutes = minutes
+      something_else(minutes).then(function(y) {
+
+      })
+    })
+    */
+    this.minutes = await get_minutes_spent_on_domain_today(domain)
+    start_episode_tracker()
+    this.playings = get_num_episodes_watched()
   },
   disableIntervention: function() {
     console.log('interstitial got callback')
     $(this).hide()
-  },
-  set_alarm_clicked: function() {
-    let ring_time = this.$.time_selector.value
-    let [hours, minutes] = ring_time.split(':')
-    hours = parseInt(hours)
-    minutes = parseInt(minutes)
-    let current_hours = moment().hours()
-    let ring_next_day = false
-    if (current_hours > hours) {
-      ring_next_day = true
-    }
-    let ring_time_moment = moment().hours(hours).minutes(minutes).seconds(0).milliseconds(0)
-    let ring_time_unix_time_milliseconds = ring_time_moment.valueOf()
-    if (ring_next_day) {
-      ring_time_unix_time_milliseconds = ring_time_moment.add(1, 'days').valueOf()
-    }
-    this.fire('alarm_set', {ring_time: ring_time_unix_time_milliseconds})
   },
   
   attributeChanged: function() {

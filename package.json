@@ -97,6 +97,7 @@
       "cfy": "npm:cfy@^1.0.20",
       "cheerio": "npm:cheerio@^0.22.0",
       "co": "npm:co@^4.6.0",
+      "css-element-queries": "npm:css-element-queries@^0.4.0",
       "dexie": "npm:dexie@^1.4.1",
       "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@^1.0.7",
       "esprima": "npm:esprima@^3.1.3",

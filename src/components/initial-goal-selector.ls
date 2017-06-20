@@ -4,8 +4,6 @@ $ = require 'jquery'
 
 swal = require 'sweetalert2'
 
-{ResizeSensor} = require 'css-element-queries'
-
 {load_css_file} = require 'libs_common/content_script_utils'
 
 {
@@ -261,15 +259,21 @@ polymer_ext {
     this.fire 'need_rerender', {}
     return
   ready: ->>
-    window.ResizeSensor = ResizeSensor
-    console.log 'before resizesensor'
-    ResizeSensor this, ->
-      console.log 'resized'
-    console.log 'after resizesensor'
+    self = this
+    self.on_resize '#outer_wrapper', ->
+      console.log 'resized!!'
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-}, {
-  source: require 'libs_common/localization_utils'
-  methods: [
-    'msg'
-  ]
-}
+}, [
+  {
+    source: require 'libs_common/localization_utils'
+    methods: [
+      'msg'
+    ]
+  }
+  {
+    source: require 'libs_frontend/polymer_methods'
+    methods: [
+      'on_resize'
+    ]
+  }
+]

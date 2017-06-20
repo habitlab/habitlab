@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tests css-element-queries</title>
+    <style type="text/css">
+        .box1[min-width~="800px"] h2::before {
+            content: 'min-width~="800px"';
+        }
+        .box1[max-width~="1000px"] h2::after {
+            content: 'max-width~="1000px"';
+        }
+
+        .box2[max-height~="100px"] h2::before {
+            content: 'max-height~="100px"';
+        }
+        .box2[min-height~="150px"] h2::after {
+            content: 'min-height~="150px"';
+        }
+    </style>
+    <script src="./src/ResizeSensor.js"></script>
+    <script src="./src/ElementQueries.js"></script>
+</head>
+<body>
+    <div class="box1">
+        <h2>Box 1 test</h2>
+    </div>
+
+    <div class="box2" style="height: 150px;">
+        <h2>Box 2 test</h2>
+    </div>
+</body>
+</html>

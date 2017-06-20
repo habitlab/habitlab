@@ -52,6 +52,10 @@ swal = require 'sweetalert2'
 
 $ = require 'jquery'
 
+{
+msg
+} = require 'libs_common/localization_utils'
+
 polymer_ext {
   is: 'options-interventions'
   properties: {

@@ -69,6 +69,12 @@ SystemJS.config({
     "npm:moment@2.17.1/moment.js",
     "npm:moment@2.17.1.json"
   ],
+  "bundles/css-element-queries.js": [
+    "npm:css-element-queries@0.4.0/index.js",
+    "npm:css-element-queries@0.4.0.json",
+    "npm:css-element-queries@0.4.0/src/ElementQueries.js",
+    "npm:css-element-queries@0.4.0/src/ResizeSensor.js"
+  ],
   "bundles/promise-debounce.js": [
     "npm:promise-debounce@1.0.1/index.js",
     "npm:promise-debounce@1.0.1.json"

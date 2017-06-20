@@ -9,40 +9,6 @@
 
 <dom-module id="initial-goal-selector">
   <style is="custom-style">
-    :host {
-      --paper-icon-button: {
-        width:150px;
-        height:150px;
-        display: inline-block;
-        sfont-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      };
-    }
-      --paper-item: {
-        min-height: 36px;
-      };
-
-      --paper-input-container:{
-        padding-top: 0px;
-        padding-bottom: 0px;
-        color: white;
-        background-color:rgb(81, 167,249);
-        width:10
-
-      };
-
-      --paper-icon-button.unchecked:hover{
-        border-radius:3px;
-        padding: 2px;
-
-      };
-
-      --paper-icon-button.checked{
-        border-radius:3px;
-        padding: 2px;
-        width:150px; 
-        height:150px;
-      };
-    }
 
     .dailyLimitContainer {
       margin-top: 2px;
@@ -77,8 +43,8 @@
   </style>
 
   <template>
-      <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
-
+    <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
+    <div id="outer_wrapper">
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
       <div class="card-content">
         <div id= "title">{{title}}</div>  
@@ -127,7 +93,7 @@
 
 
       </div>  
-
+    </div>
   </template>
   <script src="initial-goal-selector.js"></script>
 </dom-module>

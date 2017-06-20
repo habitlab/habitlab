@@ -4,18 +4,47 @@
 <link rel="import" href="close-tab-button.html">
 
 <dom-module id="video-overlay">
-  
+  <style>
+    :host {
+      display: flex;
+    }
+    #outerdiv {
+      background-color: cyan;
+      width: 100%;
+      height: 100%;
+      display: table;
+    }
+    #button_container {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+    #watch_video_button {
+      cursor: pointer;
+      background-color: #415D67;
+      color: white;
+      -webkit-font-smoothing: antialiased;
+      box-shadow: 2px 2px 2px #888888;
+      height: 38px;
+      margin-left: 10px;
+    }
+    #close_button {
+
+    }
+
+  </style>
   <template>
-
-    <style>
-      :host {
-        background-color: red;
-      }
-    </style>
-
-    <div style="background-color: red">
-      <habitlab-logo id="logo"></habitlab-logo><br/>
-      <close-tab-button id="close_button"></close-tab-button>
+    <div id="outerdiv">
+      <div id="button_container">
+        <habitlab-logo id="logo"></habitlab-logo>
+        <br>
+          <b id ="msg">
+          This video is blah blah blah. Would you like to play it
+          </b>
+        </br>
+        <close-tab-button id="close_button"></close-tab-button>
+        <paper-button on-click="watch_button_clicked" id="watch_video_button">Continue Wasting Time</paper-button>
+      </div>
     </div>
 
   </template>

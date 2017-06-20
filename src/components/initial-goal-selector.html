@@ -1,0 +1,120 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+
+<dom-module id="initial-goal-selector">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      
+      --paper-item: {
+        min-height: 36px;
+      };
+
+      --paper-input-container:{
+        padding-top: 0px;
+        padding-bottom: 0px;
+        color: white;
+
+      };
+
+      --paper-icon-button.unchecked:hover{
+        border-radius:3px;
+        padding: 2px;
+
+      };
+
+      --paper-icon-button.checked{
+        border-radius:3px;
+        padding: 2px;
+        width:100px; 
+        height:100px;
+      };
+    }
+
+    .dailyLimitContainer {
+      margin-top: 2px;
+    }
+
+    .card-content {
+      background-color:rgb(81, 167,249);
+      color:white;
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+      font-size: 30px;
+      padding-bottom: 20px; 
+      text-align:center;
+      padding-right: 30px;
+      padding-left: 30px;
+      font-size: 20px;
+    }
+
+
+    #title{
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+      font-size: 30px;
+      padding-top: 30px;
+      padding-bottom: 20px; 
+      text-align:center;
+      font-weight:800
+    }
+
+  </style>
+  <template>
+      <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
+
+      <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
+      <div class="card-content">
+        <div id= "title">{{title}}</div>  
+        <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; margin-bottom: 20px; text-align: center; padding-left:65px; padding-right:65px'><span>{{title_text}}</span> <span style="font-weight: 800">{{title_text_bolded_portion}}</span></div>
+        <template is="dom-repeat" items="{{sort_custom_sites_after(sites_and_goals)}}" as="site_and_goals">
+            <!-- <h3>{{site_and_goals.sitename}}</h3> -->
+            <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
+              <template is="dom-if" if="{{is_goal_shown(goal)}}">
+                <div style="display: flex; align-items: center; padding-bottom: 15px;" >
+                  <paper-icon-button src={{goal.icon}}>
+                  <!--<paper-icon-button src={{sites_and_goals.goals.icon}} checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">-->
+                    <span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</span>
+                    <template is="dom-if" if="{{show_internal_names_of_goals()}}">
+                      <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
+                      <div>
+                  </paper-icon-button src={{goal.icon}}>
+                  <template is="dom-if" if="{{goal.enabled}}">
+                    <iron-icon icon="settings" style="width: 25px; height: 25px; margin-left: 10px; color: #415D67; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>
+                  </template>
+                  <template is="dom-if" if="{{goal.custom}}">
+                    <iron-icon icon="cancel" style="width: 25px; height: 25px; margin-left: 10px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>
+                    <!--
+                    <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: #415D67; font-size: 16px; height: 20px; position: absolute; left: 250px; padding: 5px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
+                    -->
+                  </template>
+                  <template is="dom-if" if="{{goal.enabled}}">
+                    <span class="dailyLimitContainer" style="margin-left: auto">
+                      <!--<span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; padding-left: 30px;'>Daily goal: Less than</span>
+                      <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 130px; width: 130px;" no-label-float>-->
+                        <paper-listbox class="dropdown-content" style="width: 130px" selected="[[goal.number]]" on-iron-select="time_updated"> 
+                          <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
+                            <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
+                          </template>
+                        </paper-listbox>
+                      </paper-dropdown-menu>
+                      <iron-icon icon="help" style="width: 25px; height: 25px; color: #415D67; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon>
+                    </span>
+                  </template>
+                </div>
+              </template>
+            </template>
+          </template>
+
+
+      </div>  
+
+  </template>
+  <script src="initial-goal-selector.js"></script>
+</dom-module>

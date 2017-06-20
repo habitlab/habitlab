@@ -70,7 +70,7 @@ polymer_ext {
     }
     title_text_bolded_portion: {
       type: String
-      value: msg("Select the sites you'd like to add.")
+      value: msg("Select the sites you'd like to spend less time on.")
     }
     isdemo: {
       type: Boolean
@@ -227,6 +227,9 @@ polymer_ext {
   sort_custom_sites_after: (sites_and_goals) ->
     [custom_sites_and_goals,normal_sites_and_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_goals
     return normal_sites_and_goals.concat custom_sites_and_goals
+  image_clicked: (evt) ->
+    console.log 'clicked image:'
+    console.log evt
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
     return

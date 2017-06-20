@@ -15,8 +15,13 @@
         height:150px;
         display: inline-block;
         sfont-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      
+      --paper-icon-button: {
+        opacity:0.75;
+      }
+
       };
-    }
+    
       --paper-item: {
         min-height: 36px;
       };
@@ -74,6 +79,20 @@
       font-weight:800
     }
 
+    .siteicon {
+      cursor: pointer;
+      width:150px;
+      height:150px;
+      display: inline-block;
+      margin:auto;
+      margin-left:5px; 
+      margin-right:5px;
+    }
+
+    .siteicon:hover {
+      opacity: 0.5;
+    }
+
   </style>
 
   <template>
@@ -91,13 +110,20 @@
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
                 <div style="display: inline-block; align-items: center; padding-bottom: 15px;" >
-                  <paper-icon-button class = "icons" src={{goal.icon}} >
+                  <img on-click="image_clicked" class="siteicon" src="{{goal.icon}}" />
+                  <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</div>
+                    <template is="dom-if" if="{{show_internal_names_of_goals()}}">
+                      <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
+                    </template>
                   <!--<paper-icon-button src={{goal.icon}} checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">-->
+                  <!--
+                  <paper-icon-button class = "icons" src={{goal.icon}} >
                     <span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</span>
                     <template is="dom-if" if="{{show_internal_names_of_goals()}}">
                       <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
                       <div>
-                  </paper-icon-button src={{goal.icon}}>
+                  </paper-icon-button>
+                  -->
                   <template is="dom-if" if="{{goal.enabled}}">
                     <iron-icon icon="settings" style="width: 25px; height: 25px; margin-left: 10px; color: #415D67; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>
                   </template>
@@ -107,10 +133,10 @@
                     <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: #415D67; font-size: 16px; height: 20px; position: absolute; left: 250px; padding: 5px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
                     -->
                   </template>
-                  <template is="dom-if" if="{{goal.enabled}}">
+                  <!--<template is="dom-if" if="{{goal.enabled}}">
                     <span class="dailyLimitContainer" style="margin-left: auto">
                       <!--<span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; padding-left: 30px;'>Daily goal: Less than</span>
-                      <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 130px; width: 130px;" no-label-float>-->
+                      <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 130px; width: 130px;" no-label-float>
                         <paper-listbox class="dropdown-content" style="width: 130px" selected="[[goal.number]]" on-iron-select="time_updated"> 
                           <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
                             <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
@@ -118,7 +144,7 @@
                         </paper-listbox>
                       <iron-icon icon="help" style="width: 25px; height: 25px; color: #415D67; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon>
                     </span>
-                  </template>
+                  </template>-->
                 </div>
               </template>
             </template>

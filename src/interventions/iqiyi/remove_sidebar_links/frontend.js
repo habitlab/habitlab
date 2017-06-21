@@ -1,15 +1,12 @@
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
-var $ = require('jquery');
+const $ = require('jquery');
 
 const {wrap_in_shadow} = require('libs_frontend/common_libs');
 
 require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
 require('components/sidebar-suggestions-removed.deps')
-require('bower_components/paper-button/paper-button.deps')
 
 function removeSidebar() {
   if (window.intervention_disabled) {
@@ -18,13 +15,27 @@ function removeSidebar() {
   if ($('.habitlab_inserted_div').length > 0) {
     return
   }
+clear_div($('#jujiPlayListRight'))
+clear_div($('#wrapper-right'))
+// for (let child of $('#wrapper-right').children()) {
+//   $(child).css({
+//     opacity: 0,
+//     display: 'none'
+//   })
+// }
+// for (let child of $('#widget-qiyu-zebra').children()) {
+//   $(child).css({
+//     opacity: 0,
+//     display: 'none'
+//   })
+// }
+// for (let child of $('#wrapper-left').children()) {
+//   $(child).css({
+//     opacity: 0,
+//     display: 'none'
+//   })
+// }
 
-for (let child of $('#jujiPlayListRight').children()) {
-  $(child).css({
-    opacity: 0,
-    display: 'none'
-  })
-}
 //$('#jujiPlayListRight').css('opacity', 0)
 console.log("sidebar removed")
 let inserted_div = $('<sidebar-suggestions-removed>')
@@ -44,6 +55,14 @@ let habitlab_inserted_div = $('<div style="width: 100%; text-align: center">')
 inserted_div.on('show_sidebar_clicked',disable_intervention)
 }
 
+function clear_div(div){
+  for (let child of div.children()) {
+    $(child).css({
+      opacity: 0,
+      display: 'none',
+    })
+  }
+}
 
 function disable_intervention() {
   console.log("intervention disabled")

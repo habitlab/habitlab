@@ -4,12 +4,12 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../iron-icons/icons-icons.html">
 
 
 <dom-module id="initial-goal-selector">
-  <style>
+  <style is="custom-style">
     :host {
-<<<<<<< HEAD
       --paper-icon-button: {
         width:150px;
         height:150px;
@@ -22,13 +22,6 @@
 
       };
     
-=======
-      display: block;
-      width: 100%;
-      height: 100%;
-      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      
->>>>>>> master
       --paper-item: {
         min-height: 36px;
       };
@@ -37,6 +30,8 @@
         padding-top: 0px;
         padding-bottom: 0px;
         color: white;
+        background-color:rgb(81, 167,249);
+        width:10
 
       };
 
@@ -49,23 +44,22 @@
       --paper-icon-button.checked{
         border-radius:3px;
         padding: 2px;
-        width:100px; 
-        height:100px;
+        width:150px; 
+        height:150px;
       };
     }
 
     .dailyLimitContainer {
       margin-top: 2px;
     }
+    
+    .index_body{
+      background-color: rgb(81, 167,249);
+    }
 
     .card-content {
-<<<<<<< HEAD
       color:whitesmoke;
       background-color:rgb(81, 167,249);  
-=======
-      background-color:rgb(81, 167,249);
-      color:white;
->>>>>>> master
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
       font-size: 30px;
       padding-bottom: 20px; 
@@ -114,13 +108,13 @@
     }
 
   </style>
+
   <template>
     <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
     <div id="outer_wrapper">
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
       <div class="card-content">
         <div id= "title">{{title}}</div>  
-<<<<<<< HEAD
         <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;margin: auto; font-size: 16px; margin-bottom: 30px; text-align: center; padding-left:65px; padding-right:65px;'><span>{{title_text}}</span> <span style="font-weight: 800">{{title_text_bolded_portion}}</span></div>
         <div class="flexcontainer wrap row">
         <template is="dom-repeat" items="{{sort_custom_sites_after_and_limit_to_eight(sites_and_goals)}}" as="site_and_goals">
@@ -142,16 +136,6 @@
                   <!--<paper-icon-button src={{goal.icon}} checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">-->
                   <!--
                   <paper-icon-button class = "icons" src={{goal.icon}} >
-=======
-        <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; margin-bottom: 20px; text-align: center; padding-left:65px; padding-right:65px'><span>{{title_text}}</span> <span style="font-weight: 800">{{title_text_bolded_portion}}</span></div>
-        <template is="dom-repeat" items="{{sort_custom_sites_after(sites_and_goals)}}" as="site_and_goals">
-            <!-- <h3>{{site_and_goals.sitename}}</h3> -->
-            <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
-              <template is="dom-if" if="{{is_goal_shown(goal)}}">
-                <div style="display: flex; align-items: center; padding-bottom: 15px;" >
-                  <paper-icon-button src={{goal.icon}}>
-                  <!--<paper-icon-button src={{sites_and_goals.goals.icon}} checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">-->
->>>>>>> master
                     <span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</span>
                     <template is="dom-if" if="{{show_internal_names_of_goals()}}">
                       <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
@@ -177,7 +161,6 @@
                             <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
                           </template>
                         </paper-listbox>
-                      </paper-dropdown-menu>
                       <iron-icon icon="help" style="width: 25px; height: 25px; color: #415D67; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon>
                     </span>
                   </template>-->
@@ -186,6 +169,7 @@
             </template>
           </template>
           </div>
+
 
 
       </div>  

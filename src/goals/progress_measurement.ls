@@ -1,5 +1,6 @@
 {
   get_seconds_spent_on_domain_days_before_today
+  get_visits_to_domain_days_before_today
 } = require 'libs_common/time_spent_utils'
 
 {

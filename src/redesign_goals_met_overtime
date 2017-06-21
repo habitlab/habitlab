@@ -5,7 +5,7 @@
 
 {
   get_seconds_spent_on_all_domains_today        # map for all domains
-  get_seconds_spent_on_all_domains_days_since_today
+  get_seconds_spent_on_all_domains_days_before_today
   get_seconds_spent_on_domain_all_days
 } = require 'libs_common/time_spent_utils'
 

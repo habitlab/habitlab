@@ -48,13 +48,13 @@ export set_enabled_interventions_for_today_automatic = (enabled_interventions) -
   return
 
 export get_cached_enabled_interventions_for_today = ->>
-  await get_cached_enabled_interventions_for_days_since_today 0
+  await get_cached_enabled_interventions_for_days_before_today 0
 
-export get_cached_enabled_interventions_for_days_since_today = (days_since_today) ->>
-  await getdict_for_key2_dictdict 'interventions_enabled_each_day', (get_days_since_epoch() - days_since_today)
+export get_cached_enabled_interventions_for_days_before_today = (days_before_today) ->>
+  await getdict_for_key2_dictdict 'interventions_enabled_each_day', (get_days_since_epoch() - days_before_today)
 
 export get_enabled_interventions_for_today = ->>
-  await get_enabled_interventions_for_days_since_today 0
+  await get_enabled_interventions_for_days_before_today 0
 */
 
 export get_active_interventions_for_domain_and_session = (domain, session_id) ->>
@@ -102,7 +102,7 @@ get_last_day_with_intervention_enabled_data = ->>
     return
   return last_intervention_set_item.key2 # this is the day, in epoch time, that the most recent intervention set occurred
 
-export get_days_since_today_on_which_intervention_was_deployed = (intervention_name) ->>
+export get_days_before_today_on_which_intervention_was_deployed = (intervention_name) ->>
   # output is days since today (0 = today, 1 = yesterday)
   days_deployed = await get_days_on_which_intervention_was_deployed intervention_name
   today = get_days_since_epoch()
@@ -155,8 +155,8 @@ export get_most_recent_enabled_interventions = ->>
   day_with_enabled_interventions = await get_last_day_with_intervention_enabled_data()
   if not day_with_enabled_interventions?
     return {}
-  days_since_today = get_days_since_epoch() - day_with_enabled_interventions
-  await get_cached_enabled_interventions_for_days_since_today days_since_today
+  days_before_today = get_days_since_epoch() - day_with_enabled_interventions
+  await get_cached_enabled_interventions_for_days_before_today days_before_today
 */
 
 /*
@@ -197,11 +197,11 @@ export get_and_set_new_enabled_interventions_for_today = ->>
 */
 
 /*
-export get_enabled_interventions_for_days_since_today = (days_since_today) ->>
-  cached_enabled_interventions = await get_cached_enabled_interventions_for_days_since_today days_since_today
+export get_enabled_interventions_for_days_before_today = (days_before_today) ->>
+  cached_enabled_interventions = await get_cached_enabled_interventions_for_days_before_today days_before_today
   if Object.keys(cached_enabled_interventions).length != 0
     return cached_enabled_interventions
-  if days_since_today > 0 # no interventions were enabled in the past
+  if days_before_today > 0 # no interventions were enabled in the past
     return {}
   enabled_interventions = await get_and_set_new_enabled_interventions_for_today()
   return enabled_interventions

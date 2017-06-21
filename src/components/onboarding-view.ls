@@ -20,6 +20,10 @@ swal = require 'sweetalert2'
   send_logging_disabled
 } = require 'libs_backend/logging_enabled_utils'
 
+{
+  msg
+} = require 'libs_common/localization_utils'
+
 polymer_ext {
   is: 'onboarding-view'
   properties: {
@@ -40,6 +44,14 @@ polymer_ext {
           return stored_value == 'true'
         return true
       observer: 'allow_logging_changed'
+    }
+    welcome_slide_line1: {
+      type: String
+      value: msg("We're here to help you build better habits online.")
+    }
+    welcome_slide_line2: {
+      type: String
+      value: msg("Let's do a quick tutorial and get you set up.")
     }
     geza_meoaddr: {
       type: String

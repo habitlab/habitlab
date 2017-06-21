@@ -374,6 +374,9 @@ export add_custom_goal_reduce_time_on_domain = (domain) ->>
   custom_goal_name = "custom/spend_less_time_#{domain}"
   generic_interventions = await intervention_utils.list_generic_interventions()
   generated_interventions = [x.split('generic/').join("generated_#{domain}/") for x in generic_interventions]
+  if intervention_utils.is_video_domain(domain)
+    video_interventions = await intervention_utils.list_video_interventions()
+    generated_interventions = generated_interventions.concat [x.split('video/').join("generated_#{domain}/") for x in video_interventions]
   goal_info = {
     name: custom_goal_name
     custom: true

@@ -31,8 +31,8 @@ prelude = require 'prelude-ls'
 export get_seconds_spent_on_all_domains_today = ->>
   await getdict_for_key2_dictdict 'seconds_on_domain_per_day', get_days_since_epoch()
 
-export get_seconds_spent_on_all_domains_days_since_today = (days_since) ->>
-  await getdict_for_key2_dictdict 'seconds_on_domain_per_day', (get_days_since_epoch() - days_since)
+export get_seconds_spent_on_all_domains_days_before_today = (days_ago) ->>
+  await getdict_for_key2_dictdict 'seconds_on_domain_per_day', (get_days_since_epoch() - days_ago)
 
 export get_seconds_spent_on_domain_all_days = (domain) ->>
   results = await getdict_for_key_dictdict 'seconds_on_domain_per_day', domain
@@ -42,9 +42,9 @@ export get_seconds_spent_on_domain_all_days = (domain) ->>
     output[today_day_num - k] = v
   return output
 
-export get_seconds_spent_on_domain_days_since_today = (domain, days_since) ->>
+export get_seconds_spent_on_domain_days_before_today = (domain, days_ago) ->>
   current_day = get_days_since_epoch()
-  result = await getkey_dictdict 'seconds_on_domain_per_day', domain, (current_day - days_since)
+  result = await getkey_dictdict 'seconds_on_domain_per_day', domain, (current_day - days_ago)
   return result ? 0
 
 export get_seconds_spent_on_domain_today = (domain) ->>
@@ -67,6 +67,11 @@ export get_seconds_spent_on_current_domain_today = ->>
 export get_visits_to_domain_today = (domain) ->>
   current_day = get_days_since_epoch()
   result = await getkey_dictdict 'visits_to_domain_per_day', domain, current_day
+  return result ? 0
+
+export get_visits_to_domain_days_before_today = (domain, days_ago) ->>
+  current_day = get_days_since_epoch()
+  result = await getkey_dictdict 'visits_to_domain_per_day', domain, (current_day - days_ago)
   return result ? 0
 
 export get_visits_to_current_domain_today = ->>

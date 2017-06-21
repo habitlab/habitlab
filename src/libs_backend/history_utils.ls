@@ -126,21 +126,21 @@ export get_domain_to_time_spent = (start_time, end_time) ->>
   url_to_time_spent = await get_url_to_time_spent(start_time, end_time)
   return get_domain_to_time_spent_for_url_to_time_spent(url_to_time_spent)
 
-export get_url_to_time_spent_days_since_today = (days_since_today) ->>
-  start_time = moment().subtract(days_since_today, 'days').hour(0).minute(0).second(0).valueOf() # milliseconds since unix epoch
-  end_time = moment().subtract(days_since_today, 'days').hour(23).minute(59).second(59).valueOf() # milliseconds since unix epoch
+export get_url_to_time_spent_days_before_today = (days_before_today) ->>
+  start_time = moment().subtract(days_before_today, 'days').hour(0).minute(0).second(0).valueOf() # milliseconds since unix epoch
+  end_time = moment().subtract(days_before_today, 'days').hour(23).minute(59).second(59).valueOf() # milliseconds since unix epoch
   await get_url_to_time_spent(start_time, end_time)
 
 export get_url_to_time_spent_today = ->>
-  await get_url_to_time_spent_days_since_today(0)
+  await get_url_to_time_spent_days_before_today(0)
 
-export get_domain_to_time_spent_days_since_today = (days_since_today) ->>
-  start_time = moment().subtract(days_since_today, 'days').hour(0).minute(0).second(0).valueOf() # milliseconds since unix epoch
-  end_time = moment().subtract(days_since_today, 'days').hour(23).minute(59).second(59).valueOf() # milliseconds since unix epoch
+export get_domain_to_time_spent_days_before_today = (days_before_today) ->>
+  start_time = moment().subtract(days_before_today, 'days').hour(0).minute(0).second(0).valueOf() # milliseconds since unix epoch
+  end_time = moment().subtract(days_before_today, 'days').hour(23).minute(59).second(59).valueOf() # milliseconds since unix epoch
   await get_domain_to_time_spent(start_time, end_time)
 
 export get_domain_to_time_spent_today = ->>
-  await get_domain_to_time_spent_days_since_today(0)
+  await get_domain_to_time_spent_days_before_today(0)
 
 export get_domain_to_earliest_visit_for_url_to_visits = (url_to_visits) ->
   domain_to_earliest_visit = {}

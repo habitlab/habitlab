@@ -192,28 +192,28 @@ export get_num_impressions = (name) ->>
   num_impressions = await collection.where('type').equals('impression').count()
   return num_impressions
 
-export get_num_impressions_for_days_since_today = (name, days_since_today) ->>
+export get_num_impressions_for_days_before_today = (name, days_before_today) ->>
   collection = await getInterventionLogCollection(name)
-  day = get_days_since_epoch() - days_since_today
+  day = get_days_since_epoch() - days_before_today
   num_impressions = await collection.where('[type+day]').equals(['impression', day]).count()
   return num_impressions
 
 export get_num_impressions_today = (name) ->>
-  await get_num_impressions_for_days_since_today name, 0
+  await get_num_impressions_for_days_before_today name, 0
 
 export get_num_actions = (name) ->>
   collection = await getInterventionLogCollection(name)
   num_actions = await collection.where('type').equals('action').count()
   return num_actions
 
-export get_num_actions_for_days_since_today = (name, days_since_today) ->>
+export get_num_actions_for_days_before_today = (name, days_before_today) ->>
   collection = await getInterventionLogCollection(name)
-  day = get_days_since_epoch() - days_since_today
+  day = get_days_since_epoch() - days_before_today
   num_actions = await collection.where('[type+day]').equals(['action', day]).count()
   return num_actions
 
 export get_num_actions_today = (name) ->>
-  await get_num_actions_for_days_since_today name, 0
+  await get_num_actions_for_days_before_today name, 0
 
 export get_num_actions = (name) ->>
   collection = await getInterventionLogCollection(name)

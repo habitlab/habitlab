@@ -35,38 +35,38 @@ export get_progress_measurement_function_for_goal_name = (goal_name) ->>
   return progress_measurement_functions[goal_name]
 
 export get_progress_on_goal_today = (goal_name) ->>
-  await get_progress_on_goal_days_since_today goal_name, 0
+  await get_progress_on_goal_days_before_today goal_name, 0
 
 export get_progress_on_goal_this_week = (goal_name) ->>
   results = []
-  for days_since_today from 0 to 6
-    progress_info = await get_progress_on_goal_days_since_today goal_name, days_since_today
+  for days_before_today from 0 to 6
+    progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
     results.push progress_info
   return results
 
 export get_progress_on_enabled_goals_today = ->>
-  await get_progress_on_enabled_goals_days_since_today 0
+  await get_progress_on_enabled_goals_days_before_today 0
 
-export get_progress_on_goal_days_since_today = (goal_name, days_since_today) ->>
+export get_progress_on_goal_days_before_today = (goal_name, days_before_today) ->>
   goal_measurement_function = await get_progress_measurement_function_for_goal_name goal_name
   if not goal_measurement_function?
     console.log 'no goal_measurement_function found for goal'
     console.log goal_name
     return
-  await goal_measurement_function days_since_today
+  await goal_measurement_function days_before_today
 
 export get_num_goals_met_today = ->>
-  await get_num_goals_met_days_since_today 0
+  await get_num_goals_met_days_before_today 0
 
 export get_num_goals_met_yesterday = ->>
-  await get_num_goals_met_days_since_today 1
+  await get_num_goals_met_days_before_today 1
 
-export get_num_goals_met_days_since_today = (days_since_today) ->>
+export get_num_goals_met_days_before_today = (days_before_today) ->>
   enabled_goals = await goal_utils.get_enabled_goals()
   goal_targets = await goal_utils.get_all_goal_targets()
   num_goals_met = 0
   for goal_name in as_array(enabled_goals)
-    progress_info = await get_progress_on_goal_days_since_today goal_name, days_since_today
+    progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
     goal_target = goal_targets[goal_name]
     if progress_info.progress < goal_target
       num_goals_met += 1
@@ -75,23 +75,23 @@ export get_num_goals_met_days_since_today = (days_since_today) ->>
 export get_num_goals_met_this_week = ->>
   enabled_goals = await goal_utils.get_enabled_goals()
   goal_targets = await goal_utils.get_all_goal_targets()
-  days_since_today_to_num_goals_met = [0]*7
-  for days_since_today from 0 to 6
+  days_before_today_to_num_goals_met = [0]*7
+  for days_before_today from 0 to 6
     num_goals_met = 0
     for goal_name in as_array(enabled_goals)
-      progress_info = await get_progress_on_goal_days_since_today goal_name, days_since_today
+      progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
       goal_target = goal_targets[goal_name]
       if progress_info.progress < goal_target
         num_goals_met += 1
-    days_since_today_to_num_goals_met[days_since_today] = num_goals_met
-  return days_since_today_to_num_goals_met
+    days_before_today_to_num_goals_met[days_before_today] = num_goals_met
+  return days_before_today_to_num_goals_met
 
-export get_progress_on_enabled_goals_days_since_today = (days_since_today) ->>
+export get_progress_on_enabled_goals_days_before_today = (days_before_today) ->>
   enabled_goals = await goal_utils.get_enabled_goals()
   enabled_goals_list = as_array enabled_goals
   output = {}
   for goal_name in enabled_goals_list
-    progress_info = await get_progress_on_goal_days_since_today goal_name, days_since_today
+    progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
     output[goal_name] = progress_info
   return output
 

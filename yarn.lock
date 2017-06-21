@@ -1886,6 +1886,10 @@ crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
 
+css-element-queries@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-0.4.0.tgz#cb5bcde9d980ac3699e7471f798e70600088d3de"
+
 css-select@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/css-select/-/css-select-1.2.0.tgz#2b3a110539c5355f1cd8d314623e870b121ec858"

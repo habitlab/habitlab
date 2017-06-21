@@ -5,7 +5,7 @@
 
 {
   get_seconds_spent_on_all_domains_today        # map for all domains
-  get_seconds_spent_on_all_domains_days_since_today
+  get_seconds_spent_on_all_domains_days_before_today
 } = require 'libs_common/time_spent_utils'
 
 {cfy} = require 'cfy'
@@ -16,7 +16,7 @@ polymer_ext {
   }
 
   timeSpentButtonAction: ->
-    a <~ get_seconds_spent_on_all_domains_days_since_today(1)
+    a <~ get_seconds_spent_on_all_domains_days_before_today(1)
     sorted = bySortedValue(a)  
     #accounts for visiting less than 5 websites
     if sorted.length < 5 

@@ -29,16 +29,26 @@ require('bower_components/paper-button/paper-button.deps')
 var feedShown = false;
 var intervalID = window.setInterval(removeFeed, 200);
 
+function hide(query) {
+  query.css('opacity', 0);
+  query.css('pointer-events', 'none');
+}
+
+function show(query) {
+  query.css('opacity', 1);
+  query.css('pointer-events', '');
+}
+
+const selectorsToHide = '.ticker_stream, .ego_column, #pagelet_games_rhc, #pagelet_trending_tags_and_topics, #pagelet_canvas_nav_content';
+
 //Removes new feed (modified from 'kill news feed' src code)
 function removeFeed() {
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
 
-  feed.children().css('opacity', 0);
-  $('.ticker_stream').css('opacity', 0);
-  $('.ego_column').css('opacity', 0);
-  $('#pagelet_games_rhc').css('opacity', 0);
-  $('#pagelet_trending_tags_and_topics').css('opacity', 0);
-  $('#pagelet_canvas_nav_content').css('opacity', 0);
+  hide(feed.children());
+  hide($(selectorsToHide));
+
+  feedShown = false;
 }
 
 //Shows the news feed
@@ -48,12 +58,8 @@ function showFeed() {
 
   var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
 
-  feed.children().css('opacity', 1);
-  $('.ticker_stream').css('opacity', 1);
-  $('.ego_column').css('opacity', 1);
-  $('#pagelet_games_rhc').css('opacity', 1);
-  $('#pagelet_trending_tags_and_topics').css('opacity', 1);
-  $('#pagelet_canvas_nav_content').css('opacity', 1);
+  show(feed.children());
+  show($(selectorsToHide));
 
   feedShown = true;
 }
@@ -65,7 +71,7 @@ function attachButtons() {
   var cheatButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #415D67; color: white; -webkit-font-smoothing: antialiased; height: 38px" raised>Show my News Feed</paper-button>')
   cheatButton.click(function(evt) {
     log_action({'negative': 'Remained on Facebook.'})
-    showFeed(intervalID)
+    showFeed()
   })
   var closeButton = $(`<close-tab-button text="${msg('Close Facebook')}">`)
 

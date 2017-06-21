@@ -154,14 +154,30 @@ export is_intervention_enabled = (intervention_name) ->>
   enabled_interventions = await get_enabled_interventions()
   return enabled_interventions[intervention_name]
 
+export is_video_domain = (domain) ->
+  video_domains = {
+    'www.iqiyi.com': true
+    'v.youku.com': true
+    'vimeo.com': true
+  }
+  if video_domains[domain]
+    return true
+  return false
+
 export generate_interventions_for_domain = (domain) ->>
   generic_interventions = await list_generic_interventions()
+  if is_video_domain(domain)
+    video_interventions = await list_video_interventions()
+    generic_interventions = generic_interventions.concat video_interventions
   new_intervention_info_list = []
   for generic_intervention in generic_interventions
     intervention_info = await get_intervention_info generic_intervention
     # TODO replace the above step with something that is non-asynchronous
     intervention_info = JSON.parse JSON.stringify intervention_info
-    intervention_info.name = generic_intervention.split('generic/').join("generated_#{domain}/")
+    fixed_intervention_name = generic_intervention
+    fixed_intervention_name = fixed_intervention_name.split('generic/').join("generated_#{domain}/")
+    fixed_intervention_name = fixed_intervention_name.split('video/').join("generated_#{domain}/")
+    intervention_info.name = fixed_intervention_name
     intervention_info.matches = [domain]
     make_absolute_path = (content_script) ->
       if content_script.path?
@@ -256,6 +272,17 @@ export list_generic_interventions = memoizeSingleAsync ->>
   generic_interventions_list = interventions_list.filter -> it.startsWith('generic/')
   localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
   return generic_interventions_list
+
+export list_video_interventions = memoizeSingleAsync ->>
+  cached_video_interventions = localStorage.getItem 'cached_list_video_interventions'
+  if cached_video_interventions?
+    return JSON.parse cached_video_interventions
+  #interventions_list = await localget_json('/interventions/interventions.json')
+  interventions_list = (await goal_utils.get_goal_intervention_info()).interventions.map((.name))
+  video_interventions_list = interventions_list.filter -> it.startsWith('video/')
+  localStorage.setItem 'cached_list_video_interventions', JSON.stringify(video_interventions_list)
+  return video_interventions_list
+
 
 #local_cache_list_all_interventions = null
 

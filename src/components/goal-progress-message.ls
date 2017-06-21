@@ -49,8 +49,8 @@ polymer_ext {
   }
   get_goal_target: (goal_name, goal_name_to_target) ->
     return goal_name_to_target[goal_name]
-  get_goal_progress_on_day: (goal_name, days_since_today, goal_name_to_progress_this_week) ->
-    return goal_name_to_progress_this_week[goal_name][days_since_today].progress
+  get_goal_progress_on_day: (goal_name, days_ago, goal_name_to_progress_this_week) ->
+    return goal_name_to_progress_this_week[goal_name][days_ago].progress
   get_goal_units: (goal_name, goal_name_to_units) ->
     return goal_name_to_units[goal_name]
   compute_goal_name_to_units: (goal_name_to_progress_this_week) ->

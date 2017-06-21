@@ -25,9 +25,9 @@ export add_to_measurement = (measurement_name, amount_to_add) ->>
   await addtokey_dictdict 'custom_measurements_each_day', measurement_name, current_day, amount_to_add
 
 export get_measurement = (measurement_name) ->>
-  await get_measurement_for_days_since_today measurement_name, 0
+  await get_measurement_for_days_before_today measurement_name, 0
 
-export get_measurement_for_days_since_today = (measurement_name, days_since) ->>
+export get_measurement_for_days_before_today = (measurement_name, days_since) ->>
   current_day = get_days_since_epoch()
   result = await getkey_dictdict 'custom_measurements_each_day', measurement_name, current_day
   return result ? 0

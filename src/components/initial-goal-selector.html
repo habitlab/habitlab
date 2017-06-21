@@ -58,7 +58,7 @@
     }
 
     .card-content {
-      color:white;
+      color:whitesmoke;
       background-color:rgb(81, 167,249);  
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
       font-size: 30px;
@@ -68,6 +68,7 @@
       padding-right: 30px;
       padding-left: 30px;
       font-size: 20px;
+      text-shadow: 2px 2px 2px #346da3; 
     }
 
 
@@ -77,7 +78,8 @@
       padding-top: 30px;
       padding-bottom: 20px; 
       text-align:center;
-      font-weight:800
+      font-weight:800;
+      text-shadow: 2px 2px 2px #346da3; 
     }
     .flexcontainer { 
       display: flex;
@@ -90,11 +92,15 @@
     }
     .siteicon {
       cursor: pointer;
-      width:150px;
-      height:150px;
+      width:130px;
+      height:130px;
       margin:auto;
       margin-left:10px; 
       margin-right:10px;
+      border-radius:30px;
+      padding: 8px;
+      box-shadow: 0px 0px 15px #346da3;
+      background-color:white ;
     }
 
     .siteicon:hover {
@@ -109,7 +115,7 @@
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
       <div class="card-content">
         <div id= "title">{{title}}</div>  
-        <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;margin: auto; font-size: 16px; margin-bottom: 20px; text-align: center; padding-left:65px; padding-right:65px;'><span>{{title_text}}</span> <span style="font-weight: 800">{{title_text_bolded_portion}}</span></div>
+        <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;margin: auto; font-size: 16px; margin-bottom: 30px; text-align: center; padding-left:65px; padding-right:65px;'><span>{{title_text}}</span> <span style="font-weight: 800">{{title_text_bolded_portion}}</span></div>
         <div class="flexcontainer wrap row">
         <template is="dom-repeat" items="{{sort_custom_sites_after_and_limit_to_eight(sites_and_goals)}}" as="site_and_goals">
             <template is="dom-if" if="{{should_have_newline(index, num_per_line)}}">
@@ -119,7 +125,10 @@
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
                 <div style="display: inline-block; align-items: center; padding-bottom: 15px;" >
-                  <img on-click="image_clicked" class="siteicon" src="{{goal.icon}}" />
+                  <div style="position: relative; top: 50px; left: 50px">
+                    <div style="position: absolute">text!</div>
+                  </div>
+                  <img goalname="{{goal.name}}" on-click="image_clicked" class="siteicon" src="{{goal.icon}}" />
                   <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</div>
                     <template is="dom-if" if="{{show_internal_names_of_goals()}}">
                       <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>

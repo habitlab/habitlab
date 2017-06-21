@@ -227,7 +227,7 @@ polymer_ext {
     return normal_sites_and_goals.concat custom_sites_and_goals
   image_clicked: (evt) ->
     console.log 'clicked image:'
-    console.log evt
+    console.log evt.target.goalname
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
     return
@@ -273,7 +273,7 @@ polymer_ext {
         if (rightmost == null) or right > rightmost
           rightmost = right
       total_width = $(self).width()
-      margin_needed = (total_width - (rightmost - leftmost)) / 2
+      margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
       #$('.flexcontainer').css('margin-left', margin_needed)
       current_offset = $('.flexcontainer').offset()
       $('.flexcontainer').offset({left: margin_needed, top: current_offset.top})

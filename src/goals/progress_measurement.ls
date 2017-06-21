@@ -8,6 +8,7 @@
 
 {cfy} = require 'cfy'
 
+# rewards spending less time
 export time_spent_on_domain = (goal_info) ->
   {domain} = goal_info
   return (days_before_today) ->>
@@ -16,6 +17,22 @@ export time_spent_on_domain = (goal_info) ->
     units = "minutes"
     message = printable_time_spent(seconds_spent)
     reward = 1.0 - Math.tanh(seconds_spent / 3600) # between 0 and 1
+    return {
+      progress
+      units
+      message
+      reward
+    }
+
+# rewards visiting more
+export visit_count_good = (goal_info) ->
+  {domain} = goal_info
+  return (days_before_today) ->>
+    visits = await get_visits_to_domain_days_before_today domain, days_before_today
+    progress = visits
+    units = "visits"
+    message = visits + " visits"
+    reward = Math.tanh(visits)
     return {
       progress
       units

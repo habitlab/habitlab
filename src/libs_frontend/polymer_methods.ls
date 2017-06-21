@@ -110,3 +110,21 @@ export once_available_multiselect = yfy (selector, callback) ->
     setTimeout ->
       self.once_available_multiselect selector, callback
     , 100
+
+css_element_queries_cached = null
+get_css_element_queries = ->>
+  if css_element_queries_cached?
+    return css_element_queries_cached
+  css_element_queries_cached := await SystemJS.import('css-element-queries')
+  return css_element_queries_cached
+
+export on_resize = (selector, callback) ->
+  self = this
+  get_css_element_queries().then (css_element_queries) ->
+    once_available.call(self, selector).then (elem) ->
+      css_element_queries.ResizeSensor(elem, callback)
+
+export on_resize_elem = (elem, callback) ->
+  self = this
+  get_css_element_queries().then (css_element_queries) ->
+    css_element_queries.ResizeSensor(elem, callback)

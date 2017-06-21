@@ -1,0 +1,4 @@
+description: Prompt the user before watching a Iqiyi video
+content_scripts:
+  - path: frontend.js
+    run_at: document_start

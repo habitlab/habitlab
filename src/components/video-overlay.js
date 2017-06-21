@@ -2,6 +2,10 @@ const {
   get_seconds_spent_on_domain_today
 } = require('libs_common/time_spent_utils')
 
+const {
+  get_intervention
+} = require('libs_common/intervention_info')
+
 Polymer({
   is: 'video-overlay',
   properties: {
@@ -20,7 +24,7 @@ Polymer({
     },
     sitename_printable: {
       type: String,
-      value: 'Iqiyi'
+      value: get_intervention().sitename_printable //'Iqiyi'
     }
   },
   watch_button_clicked: function(evt) {

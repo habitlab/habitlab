@@ -4,8 +4,6 @@ $ = require 'jquery'
 
 swal = require 'sweetalert2'
 
-{ResizeSensor} = require 'css-element-queries'
-
 {load_css_file} = require 'libs_common/content_script_utils'
 
 {
@@ -80,18 +78,12 @@ polymer_ext {
       type: String
       value: msg("Let's set some goals.")
     }
-    num_per_line: {
-      type: Number
-      value: 4
-    }
 
   }
   isdemo_changed: (isdemo) ->
     if isdemo
       this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
-  limit_to_eight: (list) ->
-    return list[0 til 8]
   delete_goal_clicked: (evt) ->>
     goal_name = evt.target.goal_name
     await remove_custom_goal_and_generated_interventions goal_name
@@ -220,10 +212,13 @@ polymer_ext {
     
     await self.set_sites_and_goals()
     self.fire 'goal_changed', {goal_name: goal_name}
+<<<<<<< HEAD
   should_have_newline: (index, num_per_line) ->
     return (index % num_per_line) == 0 
   sort_custom_sites_after_and_limit_to_eight: (sites_and_goals) ->
     return this.sort_custom_sites_after(sites_and_goals)[0 til 8]
+=======
+>>>>>>> iqiyi
   sort_custom_sites_after: (sites_and_goals) ->
     [custom_sites_and_goals,normal_sites_and_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_goals
     return normal_sites_and_goals.concat custom_sites_and_goals
@@ -258,11 +253,6 @@ polymer_ext {
     this.fire 'need_rerender', {}
     return
   ready: ->>
-    window.ResizeSensor = ResizeSensor
-    console.log 'before resizesensor'
-    ResizeSensor this, ->
-      console.log 'resized'
-    console.log 'after resizesensor'
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 }, {
   source: require 'libs_common/localization_utils'

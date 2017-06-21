@@ -9,7 +9,7 @@
       display: flex;
     }
     #outerdiv {
-      background-color: cyan;
+      background-color: lightseagreen;
       width: 100%;
       height: 100%;
       display: table;
@@ -18,9 +18,9 @@
       display: table-cell;
       vertical-align: middle;
       text-align: center;
+      font-size: 14px;
     }
     #watch_video_button {
-      cursor: pointer;
       background-color: #415D67;
       color: white;
       -webkit-font-smoothing: antialiased;
@@ -28,8 +28,10 @@
       height: 38px;
       margin-left: 10px;
     }
-    #close_button {
 
+    #msg {
+      font-size: 24px;
+      font-family: times;
     }
 
   </style>
@@ -37,13 +39,15 @@
     <div id="outerdiv">
       <div id="button_container">
         <habitlab-logo id="logo"></habitlab-logo>
+        <br></br>
         <br>
           <b id ="msg">
           This video is blah blah blah. Would you like to play it
           </b>
         </br>
+        <br></br>
         <close-tab-button id="close_button"></close-tab-button>
-        <paper-button on-click="watch_button_clicked" id="watch_video_button">Continue Wasting Time</paper-button>
+        <paper-button on-click="watch_button_clicked" id="watch_video_button">Watch Video</paper-button>
       </div>
     </div>
 

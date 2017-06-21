@@ -262,6 +262,21 @@ polymer_ext {
     self = this
     self.on_resize '#outer_wrapper', ->
       console.log 'resized!!'
+      leftmost = null
+      rightmost = null
+      for icon in $('.siteicon')
+        width = $(icon).width()
+        left = $(icon).offset().left
+        right = left + width
+        if (leftmost == null) or left < leftmost
+          leftmost = left
+        if (rightmost == null) or right > rightmost
+          rightmost = right
+      total_width = $(self).width()
+      margin_needed = (total_width - (rightmost - leftmost)) / 2
+      #$('.flexcontainer').css('margin-left', margin_needed)
+      current_offset = $('.flexcontainer').offset()
+      $('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 }, [
   {

@@ -82,6 +82,10 @@ polymer_ext {
       type: Number
       value: 4
     }
+    icon_check_url:{
+      type: String,
+      value: chrome.extension.getURL('icons/icon_check.png') 
+    },
 
   }
   isdemo_changed: (isdemo) ->

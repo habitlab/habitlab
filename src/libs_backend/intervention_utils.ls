@@ -159,6 +159,8 @@ export is_video_domain = (domain) ->
     'www.iqiyi.com': true
     'v.youku.com': true
     'vimeo.com': true
+    # 'youtube.com': true
+    'www.netflix.com': true
   }
   if video_domains[domain]
     return true

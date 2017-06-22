@@ -451,6 +451,9 @@ gulp.task 'generate_goal_intervention_info', (done) ->
     if not goal_info.homepage?
       goal_info.homepage = "https://www.#{goal_info.sitename}.com/"
     interventions_for_goal_new = []
+    if not goal_info.interventions?
+      console.log 'goal is missing interventions: ' + goal_name
+      continue
     for intervention_name in goal_info.interventions
       if intervention_name.startsWith('generic/')
         generic_intervention = intervention_name

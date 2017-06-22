@@ -100,20 +100,12 @@
       padding: 8px;
       box-shadow: 0px 0px 15px #346da3;
       background-color:white ;
-      opacity: 1;
     }
-    .siteicon_enabled{
-      cursor: pointer;
-      width:130px;
-      height:130px;
-      margin:auto;
-      margin-left:10px; 
-      margin-right:10px;
-      border-radius:30px;
-      padding: 8px;
-      box-shadow: 0px 0px 15px #346da3;
-      background-color:white ;
-      opacity: 0.5;
+    .siteicondisabled {
+      opacity: 0.8;
+    }
+    .siteiconenabled{
+      opacity: 1;
     }
     .siteicon:hover {
       opacity: 0.5;
@@ -143,7 +135,7 @@
 
                     <template is="dom-if" if="{{goal.enabled}}">
                     <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
-                    <img style= "width:65px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" src="{{icon_check_url}}"></img>
+                    <img style= "width:65px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
                     </template>
 
                     </div>
@@ -151,7 +143,13 @@
                   <!--<template is="dom-if" if="{{goal.enabled}}">
                   <img goalname="{{goal.name}}" on-click="image_clicked" class="siteicon_enabled" src="{{goal.icon}}" />
                   </template>-->
-                  <img goalname="{{goal.name}}" on-click="image_clicked" class="siteicon" src="{{goal.icon}}" />
+                  <template is="dom-if" if="{{goal.enabled}}">
+                  <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled" src="{{goal.icon}}" />
+                  </template>
+                  <template is="dom-if" if="{{!goal.enabled}}">
+                  <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled" src="{{goal.icon}}" />
+                  </template>
+
 
                   <!--<template is="dom-if" if="{{goal.enabled}}">
                   <img goalname="{{goal.name}}" on-click="image_clicked" class="siteicon" src="{{goal.icon}}" />

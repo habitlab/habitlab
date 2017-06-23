@@ -1,4 +1,4 @@
-description: Prompt the user before watching a Youtube video
+description: Prompt the user before watching a video
 matches:
   - www.youtube.com
 content_scripts:

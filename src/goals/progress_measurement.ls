@@ -30,7 +30,7 @@ export time_spent_on_domain = (goal_info) ->
 
 # rewards visiting more
 export visits_to_domain = (goal_info) ->
-  {domain} = goal_info
+  {domain, is_positive} = goal_info
   return (days_before_today) ->>
     visits = await get_visits_to_domain_days_before_today domain, days_before_today
     progress = visits
@@ -48,12 +48,12 @@ export visits_to_domain = (goal_info) ->
     }
   
 export whether_visited_domain = (goal_info) ->
-  {domain} = goal_info
+  {domain, is_positive} = goal_info
   return (days_before_today) ->>
     visits = await get_visits_to_domain_days_before_today domain, days_before_today
-    progress = visits > 0 : 1 ? 0
+    progress = if visits > 0 then 1 else 0
     units = "visits"
-    message = visits > 0 : "visited" ? "not yet visited"
+    message = if visits > 0 then "visited" else "not yet visited"
     if is_positive
       reward = progress
     else

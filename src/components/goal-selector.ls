@@ -221,6 +221,13 @@ polymer_ext {
         type: 'error'
       }
       return
+    all_goals = await get_goals()
+    for goal_name,goal_info of all_goals
+       if domain == goal_info.domain or canonical_domain == goal_info.domain
+         await set_goal_enabled_manual(goal_name)
+         await this.set_sites_and_goals()
+         this.fire 'need_rerender', {}
+         return
     if domain != canonical_domain
       await add_enable_custom_goal_reduce_time_on_domain(domain)
     await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)

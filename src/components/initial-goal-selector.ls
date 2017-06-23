@@ -64,7 +64,7 @@ polymer_ext {
     },
     title_text: {
       type: String
-      value: msg("Based on your browsing history, HabitLab has come up with a list of suggested sites for you.")
+      value: msg("HabitLab has come up with suggested sites that you spend the most time on, based on your browsing history.")
     }
     title_text_bolded_portion: {
       type: String
@@ -84,7 +84,11 @@ polymer_ext {
     }
     icon_check_url:{
       type: String,
-      value: chrome.extension.getURL('icons/icon_check.png') 
+      value: chrome.extension.getURL('icons/icon_check_bluewhite.png') 
+    },
+    icon_add_url:{
+      type: String,
+      value: chrome.extension.getURL('icons/icon_plus_white.png') 
     },
 
   }

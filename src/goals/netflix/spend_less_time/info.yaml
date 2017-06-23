@@ -5,6 +5,7 @@ interventions:
   - netflix/infinite_alarm
   - netflix/stop_autoplay
   - netflix/mute_sound
+  - video/prompt_before_watch
   #- netflix/show_user_info_interstitial
   #- netflix/num_episodes
   - generic/make_user_wait

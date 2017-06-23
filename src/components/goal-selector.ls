@@ -228,7 +228,7 @@ polymer_ext {
          await this.set_sites_and_goals()
          this.fire 'need_rerender', {}
          return
-    if domain != canonical_domain
+    if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
       await add_enable_custom_goal_reduce_time_on_domain(domain)
     await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
     await this.set_sites_and_goals()

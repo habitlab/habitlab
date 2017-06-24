@@ -82,7 +82,7 @@
         padding-left:0px;
         padding-right:0px;
         padding-top:10px; 
-        padding-bottom:10px;
+        padding-bottom:0px;
         margin-left:0px;
         margin-top: 10px;
         width:320px; 
@@ -176,11 +176,11 @@
 
 
 
-    <paper-dialog id="alignedDialog" no-overlap horizontal-align="left" vertical-align="top">
-        <h2 style = "font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;">Add a new website to reduce time spent on (example: www.amazon.com)</h2>
-        <div style = "margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin:bottom:0px;">
-          <paper-input id="add_website_input" style="display: inline-block; width: calc(100% - 100px)" on-keydown="add_website_input_keydown" no-label-float></paper-input></span>
-          <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button></span>
+    <paper-dialog id="alignedDialog" style = "background-color:rgba(255,255,255,0.75);" no-overlap horizontal-align="left" vertical-align="top">
+        <h2 style = " font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;color:#323f4b;">Add a new website to reduce time spent on (example: www.amazon.com)</h2>
+        <div style = "display: flex; margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin-bottom:0px;padding-left:10px; padding-right:10px;padding-bottom:0px">
+          <paper-input id="add_website_input" style="display: inline-block; width:calc(100% - 78px);" on-keydown="add_website_input_keydown" no-label-float></paper-input></span>
+          <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px;margin-bottom:0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
         </div>
 
 
@@ -239,7 +239,7 @@
             <div>     
               <div style= "position: relative; top:58px; left:58px;">
                 <div style ="position:absolute">
-                  <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" on-click="add_website_input" src="{{icon_add_url}}"></img>
+                  <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{icon_add_url}}"></img>
                 </div>
               </div>
 

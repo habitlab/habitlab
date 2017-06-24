@@ -100,7 +100,7 @@ polymer_ext {
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Minutes'
+            labelString: goal_info.units ? goal_info.target.units ? 'minutes'
           }
         }]        
       }

@@ -296,7 +296,7 @@ polymer_ext {
     this.$.privacy_options.rerender()
   rerender: ->>
     this.$.privacy_options.rerender()
-    await this.$.goal_selector.set_sites_and_goals()
+    await this.$.goal_selector.set_sites_and_spend_less_time_goals()
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

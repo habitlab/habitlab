@@ -37,6 +37,7 @@ var shadow_div;
   var buttonText2 = `Close ${sitename_printable}`
 
   var interst_screen = $('<interstitial-screen-num-visits class="interst_screen">')
+  interst_screen.attr('sitename-printable', sitename_printable)
   interst_screen.attr('intervention', intervention.name)
   interst_screen.attr('btn-txt', buttonText)
   interst_screen.attr('btn-txt2', buttonText2)

@@ -43,7 +43,7 @@
         padding: 10px;
         margin-bottom: 10px;
         width: 100%;
-        font-weight:800;
+        font-weight: 400;
         /*background: #88e188;*/
       };
       --paper-card-content: {
@@ -156,10 +156,8 @@
   </style>
   <template>
     <div class="card-container">
-    <div class="papercard">{{title_text}}</div>
-      <!--
+    <paper-card class="papercard" heading="{{title_text}}">
       <div style="padding: 16px; font-size: 24px; font-weight: 400; color: black">What goals should HabitLab help you achieve? <iron-icon icon="help-outline" on-click="goals_help_icon_clicked" style="margin-bottom: 5px; cursor: pointer"></iron-icon></div>
-      -->
       <goal-selector id="goal_selector"></goal-selector>
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
     </paper-card>

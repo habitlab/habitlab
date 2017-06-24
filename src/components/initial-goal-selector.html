@@ -4,56 +4,101 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 
 
 <dom-module id="initial-goal-selector">
   <style is="custom-style">
     :host {
-      --paper-icon-button: {
-        width:150px;
-        height:150px;
-        display: flex;
+      --paper-input-container-input: {
+        font-size: 16px;
+        text-indent: 5px;
+        padding:0px;
+        color: #415D67;
         sfont-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      
+        margin:auto;
+        width:100%;
+        min-width:200px;
+        margin-left: 0px;
+        margin-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      };
+      --paper-input-container-label: {
+        text-align: center;
+        color: white;
+        font-size: 16px
+        text-shadow:2px 2px 2px #346da3; 
+        sfont-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-weight: 800;
+        width:100%;
+        margin-left: 0px;
+        margin-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      };
+
       --paper-icon-button: {
         opacity:0.75;
-      }
-
       };
     
       --paper-item: {
         min-height: 36px;
       };
 
+
       --paper-input-container:{
         padding-top: 0px;
         padding-bottom: 0px;
-        color: white;
-        background-color:rgb(81, 167,249);
-        width:10
+        margin: auto;
+        margin-top:0px;
+        width: calc(100%-100px);
+        margin-left: 0px;
+        margin-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
 
       };
 
-      --paper-icon-button.unchecked:hover{
-        border-radius:3px;
-        padding: 2px;
+      --paper-dialog:{
+        margin:auto;
+        margin-left:0px;
+        padding-left:0px;
+        padding-right:0px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-top: 10px;
+      
+      }
+      
+      #alignedDialog {
+        margin: auto;
+        padding-left:0px;
+        padding-right:0px;
+        padding-top:10px; 
+        padding-bottom:10px;
+        margin-left:0px;
+        margin-top: 10px;
+        width:320px; 
+      }
 
-      };
-
-      --paper-icon-button.checked{
-        border-radius:3px;
-        padding: 2px;
-        width:150px; 
-        height:150px;
-      };
     }
+    
 
     .dailyLimitContainer {
       margin-top: 2px;
     }
     
-    .index_body{
-      background-color: rgb(81, 167,249);
+    .index_body{ 
+      /*rgb(81, 167,249);rgb(147,199,232)*/
+
+      background-color:rgb(81, 167,249);
     }
 
     .card-content {
@@ -66,8 +111,11 @@
       margin:auto;
       padding-right: 30px;
       padding-left: 30px;
+      padding-top:30px;
+      padding-bottom:30px;
       font-size: 20px;
       text-shadow: 2px 2px 2px #346da3; 
+      min-height:calc(100vh - 60px);
     }
 
 
@@ -88,6 +136,7 @@
       flex-wrap:wrap;
       flex-flow:row wrap; 
       align-content: center;
+      padding-bottom: 10px;
     }
     .siteicon{
       cursor: pointer;
@@ -102,10 +151,20 @@
       background-color:white ;
     }
     .siteicondisabled {
-      opacity: 0.8;
+      opacity: 0.9;
     }
     .siteiconenabled{
       opacity: 1;
+      box-shadow: 0px 0px 15px #346da3;
+    }
+    .siteiconadd {
+      color: rgba(255,255,255,0.35);
+      background-color: rgba(255,255,255,0.3);
+      margin:auto;
+      margin-left:10px;
+      margin-right:10px;
+      margin-bottom:40px;
+
     }
     .siteicon:hover {
       opacity: 0.5;
@@ -114,11 +173,35 @@
   </style>
 
   <template>
+
+
+
+    <paper-dialog id="alignedDialog" no-overlap horizontal-align="left" vertical-align="top">
+        <h2 style = "font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;">Add a new website to reduce time spent on (example: www.amazon.com)</h2>
+        <div style = "margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin:bottom:0px;">
+          <paper-input id="add_website_input" style="display: inline-block; width: calc(100% - 100px)" on-keydown="add_website_input_keydown" no-label-float></paper-input></span>
+          <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button></span>
+        </div>
+
+
+    </paper-dialog>
+    
+
+    <paper-dialog id="actions">
+      <h2>Dialog Title</h2>
+      <p>Add a new website to reduce time spent on (example: www.amazon.com)</p>
+      <div class="buttons">
+        <paper-button>More Info...</paper-button>
+        <paper-button dialog-dismiss>Decline</paper-button>
+        <paper-button dialog-confirm autofocus>Accept</paper-button>
+      </div>
+    </paper-dialog>
+
     <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
     <div id="outer_wrapper">
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
       <div class="card-content">
-        <span><iron-icon icon="settings" style="width: 25px; height: 25px; margin:auto;margin-bottom: 6.5px;margin-right: 7px; color: white"></span><span id= "title">{{title}}</span>  
+        <span><iron-icon icon="settings" style="width: 27px; height: 27px; margin:auto;margin-bottom: 9.5px;margin-right: 6px; color: white;"></span><span id= "title">{{title}}</span>  
         <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;margin: auto; font-size: 16px; margin-bottom: 30px; text-align: center; padding-left:65px; padding-right:65px;'><span>{{title_text}}</span> <span style="font-weight: 800">{{title_text_bolded_portion}}</span></div>
         <div class="flexcontainer wrap row">
         <template is="dom-repeat" items="{{sort_custom_sites_after_and_limit_to_eight(sites_and_goals)}}" as="site_and_goals">
@@ -130,76 +213,55 @@
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
                 <div style="display: inline-block; align-items: center; padding-bottom: 15px;" >
 
-                  <div style="position: relative; top: 40px; left: 50px">
+                  <div style="position: relative; top: 12.5px; left: 21px; ">
                     <div style="position: absolute">
 
                     <template is="dom-if" if="{{goal.enabled}}">
                     <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
-                    <img style= "width:65px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
+                    <img style= "width:30px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
                     </template>
-
                     </div>
                   </div>
-                  <!--<template is="dom-if" if="{{goal.enabled}}">
-                  <img goalname="{{goal.name}}" on-click="image_clicked" class="siteicon_enabled" src="{{goal.icon}}" />
-                  </template>-->
                   <template is="dom-if" if="{{goal.enabled}}">
                   <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled" src="{{goal.icon}}" />
                   </template>
                   <template is="dom-if" if="{{!goal.enabled}}">
                   <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled" src="{{goal.icon}}" />
                   </template>
-
-
-                  <!--<template is="dom-if" if="{{goal.enabled}}">
-                  <img goalname="{{goal.name}}" on-click="image_clicked" class="siteicon" src="{{goal.icon}}" />
-                  </template>-->
-
-
                   <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</div>
-                    <template is="dom-if" if="{{show_internal_names_of_goals()}}">
-                      <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
-                    </template>
-
-                  <!--<paper-icon-button src={{goal.icon}} checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">-->
-                  <!--
-                  <paper-icon-button class = "icons" src={{goal.icon}} >
-                    <span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</span>
-                    <template is="dom-if" if="{{show_internal_names_of_goals()}}">
-                      <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
-                      <div>
-                  </paper-icon-button>
-                  -->
-                  <!--
-                  <template is="dom-if" if="{{goal.enabled}}">
-                    <iron-icon icon="settings" style="width: 25px; height: 25px; margin-left: 10px; color: #415D67; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>
+                  <template is="dom-if" if="{{show_internal_names_of_goals()}}">
+                    <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
                   </template>
-                  <template is="dom-if" if="{{goal.custom}}">
-                    <iron-icon icon="cancel" style="width: 25px; height: 25px; margin-left: 10px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>
-                    
-                    <paper-button style="text-transform: none; -webkit-font-smoothing: subpixel-antialiased; color: white; background-color: #415D67; font-size: 16px; height: 20px; position: absolute; left: 250px; padding: 5px" on-click="delete_goal_clicked" goal_name="{{goal.name}}">Delete</paper-button>
-                    -->
                   </template>
-                  <!--<template is="dom-if" if="{{goal.enabled}}">
-                    <span class="dailyLimitContainer" style="margin-left: auto">
-                      <span style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; padding-left: 30px;'>Daily goal: Less than</span>
-                      <paper-dropdown-menu style="display: inline-block; padding-left: 5px; max-width: 130px; width: 130px;" no-label-float>
-                        <paper-listbox class="dropdown-content" style="width: 130px" selected="[[goal.number]]" on-iron-select="time_updated"> 
-                          <template is="dom-repeat" items="{{daily_goal_values}}" as="goal_mins">
-                            <paper-item class="{{goal.name}}">{{goal_mins}}</paper-item>
-                          </template>
-                        </paper-listbox>
-                      <iron-icon icon="help" style="width: 25px; height: 25px; color: #415D67; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon>
-                    </span>
-                  </template>-->
                 </div>
               </template>
-            </template>
-          </template>
-          </div>
+            </template>   
+            <div>     
+              <div style= "position: relative; top:58px; left:58px;">
+                <div style ="position:absolute">
+                  <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" on-click="add_website_input" src="{{icon_add_url}}"></img>
+                </div>
+              </div>
+
+              <!--<div class="siteicon siteiconadd" on-click="add_custom_goal_clicked"></div>-->
+              <!--<div class="siteicon siteiconadd" on-click="open_actions"></div>-->
+              <div class="siteicon siteiconadd" on-click="openBy"></div>
 
 
 
+              <div>
+                <template is="dom-if" if="{{!goal.enabled}}">
+                <span style="font-family: monospace; font-size: 16px">Add custom goal.</span>
+                </template>
+                <template is="dom-if" if="{{goal.enabled}}">
+                <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
+                </template>
+              </div>
+            </div>
+            <div>  
+            </div>
+            <div><iron-icon icon="help" style="width: 25px; height: 25px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
+         </template>
       </div>  
     </div>
   </template>

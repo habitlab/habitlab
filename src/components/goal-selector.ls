@@ -46,7 +46,11 @@ swal = require 'sweetalert2'
 polymer_ext {
   is: 'goal-selector'
   properties: {
-    sites_and_goals: {
+    sites_and_spend_less_time_goals: {
+      type: Array
+      value: []
+    }
+    sites_and_spend_more_time_goals: {
       type: Array
       value: []
     }
@@ -65,12 +69,12 @@ polymer_ext {
   }
   isdemo_changed: (isdemo) ->
     if isdemo
-      this.set_sites_and_goals()
+      this.set_sites_and_spend_less_time_goals()
       document.body.style.backgroundColor = 'white'
   delete_goal_clicked: (evt) ->>
     goal_name = evt.target.goal_name
     await remove_custom_goal_and_generated_interventions goal_name
-    await this.set_sites_and_goals()
+    await this.set_sites_and_spend_less_time_goals()
     this.fire 'need_rerender', {}
   disable_interventions_which_do_not_satisfy_any_goals: (goal_name) ->>
     enabled_goals = await get_enabled_goals()
@@ -127,7 +131,7 @@ polymer_ext {
     if goal.beta and localStorage.getItem('show_beta_goals_and_interventions') != 'true'
       return false
     return true
-  set_sites_and_goals: ->>
+  set_sites_and_spend_less_time_goals: ->>
     self = this
     goal_name_to_info = await get_goals()
     sitename_to_goals = {}
@@ -138,7 +142,7 @@ polymer_ext {
       if not sitename_to_goals[sitename]?
         sitename_to_goals[sitename] = []
       sitename_to_goals[sitename].push goal_info
-    list_of_sites_and_goals = []
+    list_of_sites_and_spend_less_time_goals = []
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
     enabled_goals = await get_enabled_goals()
     await this.get_daily_targets!
@@ -146,13 +150,17 @@ polymer_ext {
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
-      
+      positive_site = false
       for goal in current_item.goals
         goal.enabled = (enabled_goals[goal.name] == true)
         goal.number = this.index_of_daily_goal_mins[goal.name]
-
-      list_of_sites_and_goals.push current_item
-    self.sites_and_goals = list_of_sites_and_goals
+        if goal.is_positive == true
+          positive_site = true
+      
+      if !positive_site
+        list_of_sites_and_spend_less_time_goals.push current_item
+      
+    self.sites_and_spend_less_time_goals = list_of_sites_and_spend_less_time_goals
   goal_changed: (evt) ->>
     
     checked = evt.target.checked
@@ -192,11 +200,11 @@ polymer_ext {
     if checked
       await enable_interventions_because_goal_was_enabled(goal_name)
     
-    await self.set_sites_and_goals()
+    await self.set_sites_and_spend_less_time_goals()
     self.fire 'goal_changed', {goal_name: goal_name}
-  sort_custom_sites_after: (sites_and_goals) ->
-    [custom_sites_and_goals,normal_sites_and_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_goals
-    return normal_sites_and_goals.concat custom_sites_and_goals
+  sort_custom_sites_after: (sites_and_spend_less_time_goals) ->
+    [custom_sites_and_spend_less_time_goals,normal_sites_and_spend_less_time_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_spend_less_time_goals
+    return normal_sites_and_spend_less_time_goals.concat custom_sites_and_spend_less_time_goals
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
     return
@@ -231,7 +239,7 @@ polymer_ext {
     if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
       await add_enable_custom_goal_reduce_time_on_domain(domain)
     await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
-    await this.set_sites_and_goals()
+    await this.set_sites_and_spend_less_time_goals()
     this.fire 'need_rerender', {}
     return
   ready: ->>

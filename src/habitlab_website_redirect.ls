@@ -124,6 +124,9 @@ if query == 'popup'
 if query == 'dashboard' or query == 'results'
   query = 'options.html'
   hash = 'results'
+if query == 'onboarding'
+  query = 'options.html'
+  hash = 'onboarding'
 if query.startsWith('index.html') or query.startsWith('options.html') or query.startsWith('popup.html') or query.startsWith('index_jspm.html') or query.startsWith('logs.html')
   delete params.q
   if Object.keys(params).length > 0

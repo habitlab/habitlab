@@ -44,7 +44,7 @@
 
         <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; margin-bottom: 20px; text-align: left'>{{msg('Spend less time on the following sites:')}}</div>
 
-        <template is="dom-repeat" items="{{sort_custom_sites_after(sites_and_goals)}}" as="site_and_goals">
+        <template is="dom-repeat" items="{{sort_custom_sites_after(sites_and_spend_less_time_goals)}}" as="site_and_goals">
             <!-- <h3>{{site_and_goals.sitename}}</h3> -->
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">

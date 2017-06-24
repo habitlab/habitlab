@@ -68,7 +68,7 @@ polymer_ext {
     }
     title_text_bolded_portion: {
       type: String
-      value: msg("Select the sites you'd like to add.")
+      value: msg("Select the sites you'd like to spend less time on.")
     }
     isdemo: {
       type: Boolean
@@ -78,12 +78,22 @@ polymer_ext {
       type: String
       value: msg("Let's set some goals.")
     }
+    num_per_line: {
+      type: Number
+      value: 4
+    }
+    icon_check_url:{
+      type: String,
+      value: chrome.extension.getURL('icons/icon_check.png') 
+    },
 
   }
   isdemo_changed: (isdemo) ->
     if isdemo
       this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
+  limit_to_eight: (list) ->
+    return list[0 til 8]
   delete_goal_clicked: (evt) ->>
     goal_name = evt.target.goal_name
     await remove_custom_goal_and_generated_interventions goal_name
@@ -172,15 +182,26 @@ polymer_ext {
 
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-  goal_changed: (evt) ->>
+
+  goal_changed: (evt) ->
     
-    checked = evt.target.checked
-    
+    checked = evt.target.checked    
+    console.log evt.target.goalname
+
     goal_name = evt.target.goal.name
 
 
+  image_clicked: (evt) ->>
+    console.log 'clicked image:'
+    console.log evt.target.goalname
+    goal_name = evt.target.goalname
+    
+    checked = evt.target.checked
+    console.log 'checked is'
+    console.log checked
+
     self = this
-    if checked
+    if not checked
       await set_goal_enabled_manual goal_name
       
       check_if_first_goal = ->>       
@@ -212,13 +233,10 @@ polymer_ext {
     
     await self.set_sites_and_goals()
     self.fire 'goal_changed', {goal_name: goal_name}
-<<<<<<< HEAD
   should_have_newline: (index, num_per_line) ->
     return (index % num_per_line) == 0 
   sort_custom_sites_after_and_limit_to_eight: (sites_and_goals) ->
     return this.sort_custom_sites_after(sites_and_goals)[0 til 8]
-=======
->>>>>>> iqiyi
   sort_custom_sites_after: (sites_and_goals) ->
     [custom_sites_and_goals,normal_sites_and_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_goals
     return normal_sites_and_goals.concat custom_sites_and_goals
@@ -256,6 +274,21 @@ polymer_ext {
     self = this
     self.on_resize '#outer_wrapper', ->
       console.log 'resized!!'
+      leftmost = null
+      rightmost = null
+      for icon in $('.siteicon')
+        width = $(icon).width()
+        left = $(icon).offset().left
+        right = left + width
+        if (leftmost == null) or left < leftmost
+          leftmost = left
+        if (rightmost == null) or right > rightmost
+          rightmost = right
+      total_width = $(self).width()
+      margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
+      #$('.flexcontainer').css('margin-left', margin_needed)
+      current_offset = $('.flexcontainer').offset()
+      $('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 }, [
   {

@@ -3,6 +3,7 @@ progress_description: Time spent on Iqiyi
 interventions:
   - iqiyi/prompt_before_watch
   - iqiyi/remove_sidebar_links
+  - video/link_articles
   - generic/scroll_blocker
   - generic/show_user_info_interstitial
   - generic/make_user_wait

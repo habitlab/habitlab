@@ -100,24 +100,9 @@
     <div class="whiteDiv">
       	
     <div id="block_container" style="margin-top: 50px">
-       <div id = "today" class=timer-text style="text-align:left; color: #415D67; font-size: 20px">Today on</div>
-        <div id = "visits" style="display: inline-block; margin-right: 5px;margin-left: 5px; color:#415D67">
-          <div style="font-size: 40px">{{visits}}</div>
-          <div>visits</div>
+       <div id = "today" class=timer-text style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
+         <br>You have visited it <b>{{visits}}</b> times.   
         </div>
-       <div id="spent" class=timer-text style="color: #415D67; font-size: 20px">you have spent</div>
-
-      <div id = "min" style="display: inline-block; margin-right: 5px; margin-left: 5px;color: #415D67">
-          <div style="font-size: 40px">{{minutes}}</div>
-          <div>min</div>
-        </div>
-        <!--
-        <div id = "sec" style="display: inline-block; margin-left: 5px; margin-right: 5px; color: #415D67">
-          <div style="font-size: 40px">{{seconds}}</div>
-          <div>sec</div>
-        </div>
-        -->
-        <div id = "browsing" class=timer-text style="text-align:left; color: #415D67; font-size: 20px">browsing.</div>
     </div>
 
       <template is="dom-if" if="{{show_rss_message}}">

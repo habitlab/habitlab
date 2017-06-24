@@ -58,23 +58,32 @@ setInterval(function() {
       //finished_watching_current_video = true
     }
   }
+
   if ($('.player-postplay').length > 0) {
-    // we have arrived at the end of the video
+    // we have arrived at the end of the video, 
     console.log('player-postplay div has appeared')
     let a=document.querySelector('video')
-    a.click()
-    console.log('have clicked on the video. should now be maximized')
-    setTimeout(function() {
-      console.log('pausing video')
-      let b=document.querySelector('video')
-      b.pause()
-      //finished_watching_current_video = true
-      console.log('video should now be paused')
-      var end_of_show = $('<netflix-stop-autoplay>')
-      $(document.body).append(end_of_show)
-    }, 500) 
+    if (a != null) {
+      a.click()
+      if (a.currentTime < a.duration - 4) {
+        // more than 4 seconds away from the end of video
+        console.log('have clicked on the video. should now be maximized')
+        setTimeout(function() {
+          console.log('pausing video')
+          let b=document.querySelector('video')
+          if (b != null) {
+            b.pause()
+          }
+          //finished_watching_current_video = true
+          console.log('video should now be paused')
+          var end_of_show = $('<netflix-stop-autoplay>')
+          $(document.body).append(end_of_show)
+        }, 500) 
+      }
+    }
   }
 }, 1000)
+
 
 const {
   get_minutes_spent_on_domain_today,
@@ -110,7 +119,7 @@ var shadow_div;
   interst_screen.attr('btn-txt2', buttonText2)
   interst_screen.attr('title-text', titleString)
   interst_screen.attr('minutes', numMins);
-  interst_screen.attr('visits', numVisits);
+  interst_screen.attr('playings', numVisits);
   interst_screen.attr('seconds', 0);
 
   shadow_div = append_to_body_shadow(interst_screen);

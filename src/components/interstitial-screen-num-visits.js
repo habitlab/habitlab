@@ -11,6 +11,9 @@ Polymer({
   is: 'interstitial-screen-num-visits',
 
   properties: {
+    sitenamePrintable: {
+      type: String,
+    },
     btnTxt: {
       type: String, 
     },

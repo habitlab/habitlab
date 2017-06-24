@@ -1,4 +1,4 @@
-description: Prompt the user before watching a Youku video
+description: Prompt the user before watching a video
 matches:
   - www.youku.com
 content_scripts:

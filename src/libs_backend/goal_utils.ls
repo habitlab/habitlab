@@ -324,7 +324,7 @@ export get_goals = ->>
     return JSON.parse cached_get_goals
     #local_cached_get_goals := JSON.parse cached_get_goals
     #return local_cached_get_goals
-  goal_info_list = (await get_goal_intervention_info()).goals
+  goal_info_list = JSON.parse JSON.stringify (await get_goal_intervention_info()).goals
   output = {}
   for goal_info in goal_info_list
     output[goal_info.name] = goal_info
@@ -333,6 +333,23 @@ export get_goals = ->>
     extra_get_goals = JSON.parse extra_get_goals_text
     for k,v of extra_get_goals
       output[k] = v
+  extra_get_interventions_text = localStorage.getItem 'extra_get_interventions'
+  goal_name_to_intervention_name_set = {}
+  if extra_get_interventions_text?
+    extra_get_interventions = JSON.parse extra_get_interventions_text
+    for intervention_name,intervention_info of extra_get_interventions
+      if not intervention_info.custom
+        continue
+      for goal_name in intervention_info.goals
+        goal_info = output[goal_name]
+        intervention_name_set = goal_name_to_intervention_name_set[goal_name]
+        if not intervention_name_set?
+          intervention_name_set = {[existing_intervention_name, true] for existing_intervention_name in goal_info.interventions}
+          goal_name_to_intervention_name_set[goal_name] = intervention_name_set
+        if intervention_name_set[intervention_name]
+          continue
+        intervention_name_set[intervention_name] = true
+        goal_info.interventions.push(intervention_name)
   localStorage.setItem 'cached_get_goals', JSON.stringify(output)
   #local_cached_get_goals := output
   return output

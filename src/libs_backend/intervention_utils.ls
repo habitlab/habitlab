@@ -159,6 +159,8 @@ export is_video_domain = (domain) ->
     'www.iqiyi.com': true
     'v.youku.com': true
     'vimeo.com': true
+    'www.youtube.com': true
+    'www.netflix.com': true
   }
   if video_domains[domain]
     return true
@@ -237,28 +239,33 @@ export add_new_interventions = (intervention_info_list) ->>
   for intervention_info in intervention_info_list
     extra_get_interventions[intervention_info.name] = intervention_info
   localStorage.setItem 'extra_get_interventions', JSON.stringify(extra_get_interventions)
+  goal_utils.clear_cache_get_goals()
   clear_cache_all_interventions()
   log_utils.clear_intervention_logdb_cache()
   #clear_interventions_from_cache(new_intervention_names)
   await list_all_interventions()
   await get_interventions()
+  await goal_utils.get_goals()
   await log_utils.getInterventionLogDb()
   return
 
 export remove_all_custom_interventions = ->
   clear_cache_all_interventions()
+  goal_utils.clear_cache_get_goals()
   localStorage.removeItem 'extra_get_interventions'
   localStorage.removeItem 'extra_list_all_interventions'
   return
 
 export remove_generated_interventions_for_domain = (domain) ->
   clear_cache_all_interventions()
+  goal_utils.clear_cache_get_goals()
   remove_keys_matching_patternfunc_from_localstorage_dict 'extra_get_interventions', -> it.startsWith("generated_#{domain}/")
   remove_items_matching_patternfunc_from_localstorage_list 'extra_list_all_interventions', -> it.startsWith("generated_#{domain}/")
   return
 
 export remove_custom_intervention = (intervention_name) ->
   clear_cache_all_interventions()
+  goal_utils.clear_cache_get_goals()
   remove_key_from_localstorage_dict 'extra_get_interventions', intervention_name
   remove_item_from_localstorage_list 'extra_list_all_interventions', intervention_name
   return

@@ -82,6 +82,10 @@ polymer_ext {
       type: Number
       value: 4
     }
+    icon_check_url:{
+      type: String,
+      value: chrome.extension.getURL('icons/icon_check.png') 
+    },
 
   }
   isdemo_changed: (isdemo) ->
@@ -178,15 +182,26 @@ polymer_ext {
 
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-  goal_changed: (evt) ->>
+
+  goal_changed: (evt) ->
     
-    checked = evt.target.checked
-    
+    checked = evt.target.checked    
+    console.log evt.target.goalname
+
     goal_name = evt.target.goal.name
 
 
+  image_clicked: (evt) ->>
+    console.log 'clicked image:'
+    console.log evt.target.goalname
+    goal_name = evt.target.goalname
+    
+    checked = evt.target.checked
+    console.log 'checked is'
+    console.log checked
+
     self = this
-    if checked
+    if not checked
       await set_goal_enabled_manual goal_name
       
       check_if_first_goal = ->>       
@@ -225,9 +240,6 @@ polymer_ext {
   sort_custom_sites_after: (sites_and_goals) ->
     [custom_sites_and_goals,normal_sites_and_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_goals
     return normal_sites_and_goals.concat custom_sites_and_goals
-  image_clicked: (evt) ->
-    console.log 'clicked image:'
-    console.log evt.target.goalname
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
     return

@@ -4,7 +4,6 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../iron-icons/icons-icons.html">
 
 
 <dom-module id="initial-goal-selector">
@@ -58,7 +57,7 @@
     }
 
     .card-content {
-      color:whitesmoke;
+      color:white;
       background-color:rgb(81, 167,249);  
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
       font-size: 30px;
@@ -90,7 +89,7 @@
       flex-flow:row wrap; 
       align-content: center;
     }
-    .siteicon {
+    .siteicon{
       cursor: pointer;
       width:130px;
       height:130px;
@@ -102,7 +101,12 @@
       box-shadow: 0px 0px 15px #346da3;
       background-color:white ;
     }
-
+    .siteicondisabled {
+      opacity: 0.8;
+    }
+    .siteiconenabled{
+      opacity: 1;
+    }
     .siteicon:hover {
       opacity: 0.5;
     }
@@ -114,7 +118,7 @@
     <div id="outer_wrapper">
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
       <div class="card-content">
-        <div id= "title">{{title}}</div>  
+        <span><iron-icon icon="settings" style="width: 25px; height: 25px; margin:auto;margin-bottom: 6.5px;margin-right: 7px; color: white"></span><span id= "title">{{title}}</span>  
         <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;margin: auto; font-size: 16px; margin-bottom: 30px; text-align: center; padding-left:65px; padding-right:65px;'><span>{{title_text}}</span> <span style="font-weight: 800">{{title_text_bolded_portion}}</span></div>
         <div class="flexcontainer wrap row">
         <template is="dom-repeat" items="{{sort_custom_sites_after_and_limit_to_eight(sites_and_goals)}}" as="site_and_goals">
@@ -125,14 +129,38 @@
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
                 <div style="display: inline-block; align-items: center; padding-bottom: 15px;" >
-                  <div style="position: relative; top: 50px; left: 50px">
-                    <div style="position: absolute">text!</div>
+
+                  <div style="position: relative; top: 40px; left: 50px">
+                    <div style="position: absolute">
+
+                    <template is="dom-if" if="{{goal.enabled}}">
+                    <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
+                    <img style= "width:65px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
+                    </template>
+
+                    </div>
                   </div>
+                  <!--<template is="dom-if" if="{{goal.enabled}}">
+                  <img goalname="{{goal.name}}" on-click="image_clicked" class="siteicon_enabled" src="{{goal.icon}}" />
+                  </template>-->
+                  <template is="dom-if" if="{{goal.enabled}}">
+                  <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled" src="{{goal.icon}}" />
+                  </template>
+                  <template is="dom-if" if="{{!goal.enabled}}">
+                  <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled" src="{{goal.icon}}" />
+                  </template>
+
+
+                  <!--<template is="dom-if" if="{{goal.enabled}}">
                   <img goalname="{{goal.name}}" on-click="image_clicked" class="siteicon" src="{{goal.icon}}" />
+                  </template>-->
+
+
                   <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</div>
                     <template is="dom-if" if="{{show_internal_names_of_goals()}}">
                       <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
                     </template>
+
                   <!--<paper-icon-button src={{goal.icon}} checked="{{goal.enabled}}" goal="{{goal}}" on-change="goal_changed" noLabelFloat="true">-->
                   <!--
                   <paper-icon-button class = "icons" src={{goal.icon}} >

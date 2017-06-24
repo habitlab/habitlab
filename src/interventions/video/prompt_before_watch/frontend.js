@@ -4,37 +4,29 @@ window.Polymer.dom = 'shadow'
 if (typeof(window.wrap) != 'function')
   window.wrap = null
 
-var $ = require('jquery');
+const $ = require('jquery');
 
-var {
+const {
   once_available
 } = require('libs_frontend/common_libs')
 
 require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
 require('components/video-overlay.deps')
-require('bower_components/paper-button/paper-button.deps')
 
 function pause_video() {
   console.log('pause_video called')
   var video = document.querySelector('video')
   video.pause()
-  //if (!video.paused) {
-  //  document.querySelector('.btn-pause').click()
-  //}
 }
 
 function resume_video() {
   console.log('resume_video called')
   var video = document.querySelector('video')
   video.play()
-  //if (video.paused) {
-  //  document.querySelector('.btn-play').click()
-  //}
 }
 
 function remove_overlay_and_resume_video() {
+  console.log('remove_overlay_and_resume_video called')
   $('video-overlay').remove()
   resume_video()
 }
@@ -43,107 +35,73 @@ function set_overlay_position_over_video() {
   console.log('resizing overlay position over video')
   var video = $('video')
   var overlay = $('video-overlay')
-  overlay.css({
-    position: 'absolute',
-    width: video.width()+'px',
-    height:video.height()+'px',
-    top: video.offset().top+'px',
-    left:video.offset().left+'px',
-    'z-index': 999999999999999
-  })
+  overlay.offset(video.offset())
+  overlay.width(video.width())
+  overlay.height(video.height())
 }
 
 function pause_video_and_add_overlay() {
   pause_video()
   console.log('adding overlay')
-  var overlay = $('<video-overlay>')
+  var overlay = $('<video-overlay>').css({
+    position: 'absolute',
+    'z-index': 999999999999,
+  })
   overlay.on('watch_clicked', function() {
     console.log('watch_clicked on outside')
     remove_overlay_and_resume_video()
   })
-  /*
-  get_seconds_spent_on_domain_today('www.iqiyi.com').then(function(secondsSpent) {
-    const mins = Math.floor(secondsSpent/60)
-    const secs = secondsSpent % 60
-    console.log('getting time spent')
-    $($('video-overlay')[0].$$('#msg')).html("You've spent " + mins + " minutes and " + secs + " seconds on Iqiyi today. <br>Are you sure you want to continue watching videos?")
-  })
-  */
   $('body').append(overlay)
   set_overlay_position_over_video()
+  check_video_size_position()
 }
 
 once_available('video', function() {
   console.log('video tag is now available')
-
-    console.log('pause button is now available')
-    pause_video_and_add_overlay()
-
+  pause_video_and_add_overlay()
 })
-
-/*
-var video_pauser = null;
-var play_video_clicked = false;
-
-function create_video_pauser() {
-  if (video_pauser != null) {
-    return
-  }
-  play_video_clicked = false
-  video_pauser = setInterval(() => {
-    if (play_video_clicked) {
-      clearInterval(video_pauser);
-      video_pauser = null
-      return;
-    }
-    pauseVideo();
-  }, 100);
-}
-
-function pauseVideo() {
-  setInterval(function() {
-    $('.btn-pause').click()
-  }, 1000)
-}
-
-function resumeVideo() {
-  for (let x of $('object[type="application/x-shockwave-flash"]')) {
-    x.style.display = '';
-  }
-  $('.habitlab_overlay').remove();
-}
-
-pauseVideo();
-create_video_pauser();
-
-window.on_intervention_disabled = () => {
-  play_video_clicked = true;
-  resumeVideo();
-}
-*/
 
 let prev_video_width = 0
 let prev_video_height = 0
+let prev_video_offset_left = 0
+let prev_video_offset_top = 0
+let video_checker_stoptime_set = false
+let video_checker = null
 
-function once_video_has_different_height(callback) {
-  let video = $('video')
-  let video_width = video.width()
-  let video_height = video.height()
-  if (prev_video_height === video_height && prev_video_width === video_width) {
-    setTimeout(function() {
-      once_video_has_different_height(callback)
-    }, 100)
-  } else {
-    prev_video_width = video_width
-    prev_video_height = video_height
-    callback()
+function check_video_size_position() {
+  if (video_checker != null) {
+    return
   }
+  video_checker_stoptime_set = false
+  video_checker = setInterval(function() {
+    let video = $('video')
+    if (video.length == 0) {
+      return
+    }
+    if (!video_checker_stoptime_set) {
+      video_checker_stoptime_set = true
+      setTimeout(function() {
+        clearInterval(video_checker)
+        video_checker = null
+      }, 5000)
+    }
+    let video_offset = video.offset()
+    let video_offset_left = video_offset.left
+    let video_offset_top = video_offset.top
+    let video_width = video.width()
+    let video_height = video.height()
+    if (prev_video_width != video_width || prev_video_height != video_height || prev_video_offset_left != video_offset_left || prev_video_offset_top != video_offset_top) {
+      set_overlay_position_over_video()
+      prev_video_offset_left = video_offset_left
+      prev_video_offset_top = video_offset_top
+      prev_video_width = video_width
+      prev_video_height = video_height
+    }
+  }, 50)
 }
 
 window.addEventListener('resize', function(evt){
-  // once_video_has_different_height(set_overlay_position_over_video)
-  once_video_has_different_height(function() {
-   set_overlay_position_over_video()
-  })
+  check_video_size_position()
 })
+
 window.debugeval = x => eval(x);

@@ -4,49 +4,92 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 
 
 <dom-module id="initial-goal-selector">
   <style is="custom-style">
     :host {
-      --paper-input-container: {
-        color:white; 
+      --paper-input-container-input: {
+        font-size: 16px;
+        text-indent: 5px;
+        padding:0px;
+        color: #415D67;
         sfont-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      
+        margin:auto;
+        width:100%;
+        min-width:200px;
+        margin-left: 0px;
+        margin-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      };
+      --paper-input-container-label: {
+        text-align: center;
+        color: white;
+        font-size: 16px
+        text-shadow:2px 2px 2px #346da3; 
+        sfont-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-weight: 800;
+        width:100%;
+        margin-left: 0px;
+        margin-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      };
+
       --paper-icon-button: {
         opacity:0.75;
-      }
-
       };
     
       --paper-item: {
         min-height: 36px;
       };
 
+
       --paper-input-container:{
         padding-top: 0px;
         padding-bottom: 0px;
         margin: auto;
         margin-top:0px;
-        color: white;
-        width: 150px;
+        width: calc(100%-100px);
+        margin-left: 0px;
+        margin-top: 0px;
+        padding-left: 0px;
         padding-right: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
 
       };
 
-      --paper-icon-button.unchecked:hover{
-        border-radius:3px;
-        padding: 2px;
+      --paper-dialog:{
+        margin:auto;
+        margin-left:0px;
+        padding-left:0px;
+        padding-right:0px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-top: 10px;
+      
+      }
+      
+      #alignedDialog {
+        margin: auto;
+        padding-left:0px;
+        padding-right:0px;
+        padding-top:10px; 
+        padding-bottom:10px;
+        margin-left:0px;
+        margin-top: 10px;
+        width:320px; 
+      }
 
-      };
-
-      --paper-icon-button.checked{
-        border-radius:3px;
-        padding: 2px;
-        width:150px; 
-        height:150px;
-      };
     }
+    
 
     .dailyLimitContainer {
       margin-top: 2px;
@@ -72,6 +115,7 @@
       padding-bottom:30px;
       font-size: 20px;
       text-shadow: 2px 2px 2px #346da3; 
+      min-height:calc(100vh - 60px);
     }
 
 
@@ -92,6 +136,7 @@
       flex-wrap:wrap;
       flex-flow:row wrap; 
       align-content: center;
+      padding-bottom: 10px;
     }
     .siteicon{
       cursor: pointer;
@@ -113,9 +158,13 @@
       box-shadow: 0px 0px 15px #346da3;
     }
     .siteiconadd {
-      color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.35);
       background-color: rgba(255,255,255,0.3);
-      margin-top:0px;
+      margin:auto;
+      margin-left:10px;
+      margin-right:10px;
+      margin-bottom:40px;
+
     }
     .siteicon:hover {
       opacity: 0.5;
@@ -124,6 +173,30 @@
   </style>
 
   <template>
+
+
+
+    <paper-dialog id="alignedDialog" no-overlap horizontal-align="left" vertical-align="top">
+        <h2 style = "font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;">Add a new website to reduce time spent on (example: www.amazon.com)</h2>
+        <div style = "margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin:bottom:0px;">
+          <paper-input id="add_website_input" style="display: inline-block; width: calc(100% - 100px)" on-keydown="add_website_input_keydown" no-label-float></paper-input></span>
+          <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button></span>
+        </div>
+
+
+    </paper-dialog>
+    
+
+    <paper-dialog id="actions">
+      <h2>Dialog Title</h2>
+      <p>Add a new website to reduce time spent on (example: www.amazon.com)</p>
+      <div class="buttons">
+        <paper-button>More Info...</paper-button>
+        <paper-button dialog-dismiss>Decline</paper-button>
+        <paper-button dialog-confirm autofocus>Accept</paper-button>
+      </div>
+    </paper-dialog>
+
     <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
     <div id="outer_wrapper">
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
@@ -162,28 +235,33 @@
                   </template>
                 </div>
               </template>
-            </template>        
+            </template>   
+            <div>     
+              <div style= "position: relative; top:58px; left:58px;">
+                <div style ="position:absolute">
+                  <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" on-click="add_website_input" src="{{icon_add_url}}"></img>
+                </div>
+              </div>
+
+              <!--<div class="siteicon siteiconadd" on-click="add_custom_goal_clicked"></div>-->
+              <!--<div class="siteicon siteiconadd" on-click="open_actions"></div>-->
+              <div class="siteicon siteiconadd" on-click="openBy"></div>
+
+
+
               <div>
-             <div class="siteicon siteiconadd" display=flex></div>
-             <paper-input id="add_website_input" label="Add custom" style="display: inline-block; width: calc(100%); color: white;" on-keydown="add_website_input_keydown"></paper-input>
-             </div>
-             
-             <!--<paper-input id="add_website_input" label="Add a new website to reduce time spent on (example: www.amazon.com)" style="display: inline-block; width: calc(100%); color: white;" on-keydown="add_website_input_keydown"></paper-input>-->
-                  <div style="position: relative; bottom:80.5px; left: 11px; ">
-                    <div style="position: absolute">
-                    <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" on-click="add_website_input" src="{{icon_add_url}}"></img>
-                    </div>
-                  </div>
-           <!-- put custom site here-->
-
-
-          <div><iron-icon icon="help" style="width: 25px; height: 25px; color: #415D67; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>
-
-          </template>
-
-          
-          <div><iron-icon icon="help" style="width: 25px; height: 25px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>
-        </div>           
+                <template is="dom-if" if="{{!goal.enabled}}">
+                <span style="font-family: monospace; font-size: 16px">Add custom goal.</span>
+                </template>
+                <template is="dom-if" if="{{goal.enabled}}">
+                <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
+                </template>
+              </div>
+            </div>
+            <div>  
+            </div>
+            <div><iron-icon icon="help" style="width: 25px; height: 25px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
+         </template>
       </div>  
     </div>
   </template>

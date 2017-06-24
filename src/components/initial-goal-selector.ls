@@ -4,6 +4,7 @@ $ = require 'jquery'
 
 swal = require 'sweetalert2'
 
+
 {load_css_file} = require 'libs_common/content_script_utils'
 
 {
@@ -31,7 +32,6 @@ swal = require 'sweetalert2'
 {
   add_log_interventions
 } = require 'libs_backend/log_utils'
-
 
 {
   url_to_domain
@@ -88,7 +88,7 @@ polymer_ext {
     },
     icon_add_url:{
       type: String,
-      value: chrome.extension.getURL('icons/icon_plus_white.png') 
+      value: chrome.extension.getURL('icons/plus.png') 
     },
 
   }
@@ -144,9 +144,61 @@ polymer_ext {
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
   daily_goal_help_clicked: ->
     swal {
-      title: 'How are Daily Goals used?'
-      text: 'Your daily goal is used only to display your progress. If you exceed your daily goal, HabitLab will continue to show interventions as usual (it will not block the site).'
+      title: 'How will HabitLab help me achieve these goals?'
+      text: 'HabitLab will help you achieve these goals by showing you a different intervention, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
     }
+
+  add_custom_goal_clicked: ->
+    swal({
+      title: 'Submit email to run ajax request',
+      input: 'email',
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+      showLoaderOnConfirm: true,
+      preConfirm: (email) ->
+        return new Promise (resolve, reject) ->
+          setTimeout ->
+            if email == 'taken@example.com'
+              reject('This email is already taken.')
+            else
+              resolve()
+          , 2000
+      allowOutsideClick: false
+    }).then (email) ->
+      swal({
+        type: 'success',
+        title: 'Ajax request finished!',
+        html: 'Submitted email: ' + email
+      })
+
+
+  /*add_custom_goal_clicked2: (evt)->
+    this.actions.open*/
+
+  /*open_actions: ->>
+    actions.open()*/
+
+  
+  openBy: (evt) ->
+    console.log(evt)
+    console.log(evt.target)
+    this.$.alignedDialog.positionTarget = evt.target
+    this.$.alignedDialog.open()
+    return
+
+  /*open_feedback_form: ->>
+      feedback_form = document.createElement('feedback-form')
+      feedback_form.screenshot = this.screenshot
+      feedback_form.other = this.other
+      this.$$('#intervention_info_dialog').close()
+      document.body.appendChild(feedback_form)
+      feedback_form.open()
+  }*/
+
+
+
+
+
   settings_goal_clicked: (evt) ->
     evt.preventDefault()
     evt.stopPropagation()
@@ -194,6 +246,8 @@ polymer_ext {
 
     goal_name = evt.target.goal.name
 
+  /*add_custom: (evt) ->
+  console.log 'add custom site.'*/
 
   image_clicked: (evt) ->>
     console.log 'clicked image:'

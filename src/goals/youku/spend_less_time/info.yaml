@@ -3,12 +3,12 @@ progress_description: Time spent on Youku
 interventions:
   - youku/prompt_before_watch
   - youku/remove_sidebar_links
-  - video/link_articles
-  - generic/scroll_blocker
-  - generic/show_user_info_interstitial
-  - generic/make_user_wait
-  - generic/close_tab_timer
-  - generic/block_after_interval_per_visit
+  #- video/link_articles
+  #- generic/scroll_blocker
+  #- generic/show_user_info_interstitial
+  #- generic/make_user_wait
+  #- generic/close_tab_timer
+  #- generic/block_after_interval_per_visit
 measurement: time_spent_on_domain
 domain: www.youku.com
 target:

@@ -1,5 +1,4 @@
 {yfy, add_noerr} = require 'cfy'
-
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {
@@ -52,21 +51,21 @@
 
 swal = require 'sweetalert2'
 
-get_livescript = memoizeSingleAsync ->>
-  await SystemJS.import('livescript15')
+# get_livescript = memoizeSingleAsync ->>
+#   await SystemJS.import('livescript15')
 
-check_for_livescript_errors = (ls_text) ->>
-  ls_compiler = await get_livescript()
-  try
-    js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
-    return false
-  catch e
-    swal {
-      title: 'livescript compile error'
-      text: e.message
-      type: 'error'
-    }
-    return true
+# check_for_livescript_errors = (ls_text) ->>
+#   ls_compiler = await get_livescript()
+#   try
+#     js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
+#     return false
+#   catch e
+#     swal {
+#       title: 'livescript compile error'
+#       text: e.message
+#       type: 'error'
+#     }
+#     return true
 
 polymer_ext {
   is: 'intervention-editor'
@@ -99,27 +98,27 @@ polymer_ext {
     if self.get_edit_mode() != 'js'
       return
     self.have_unsaved_changes()
-  ls_editor_changed: ->>
-    self = this
-    if self.get_edit_mode() == 'js'
-      return
-    self.have_unsaved_changes()
-    ls_text = self.ls_editor.getValue()
-    ls_compiler = await get_livescript()
-    try
-      js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
-      self.js_editor.getSession().setValue(js_text)
-      self.ls_editor.getSession().clearAnnotations()
-    catch e
-      if e?hash?line?
-        self.ls_editor.getSession().setAnnotations([
-          {
-            row: e.hash.line
-            text: e.message
-            type: 'error'
-          }
-        ])
-      console.log e
+  # ls_editor_changed: ->>
+  #   self = this
+  #   if self.get_edit_mode() == 'js'
+  #     return
+  #   self.have_unsaved_changes()
+  #   ls_text = self.ls_editor.getValue()
+  #   ls_compiler = await get_livescript()
+  #   try
+  #     js_text = ls_compiler.compile(ls_text, {bare: true, header: false})
+  #     self.js_editor.getSession().setValue(js_text)
+  #     self.ls_editor.getSession().clearAnnotations()
+  #   catch e
+  #     if e?hash?line?
+  #       self.ls_editor.getSession().setAnnotations([
+  #         {
+  #           row: e.hash.line
+  #           text: e.message
+  #           type: 'error'
+  #         }
+  #       ])
+  #     console.log e
   get_intervention_name: ->
     # return this.$.intervention_name.value
     return this.$.intervention_selector.selectedItem.intervention_name
@@ -139,7 +138,7 @@ polymer_ext {
   save_intervention: ->>
     code = this.js_editor.getSession().getValue().trim()
     lscode = this.ls_editor.getSession().getValue().trim()
-    edit_mode = this.get_edit_mode()
+    # edit_mode = this.get_edit_mode()
     goal_info = this.$.goal_selector.selectedItem.goal_info
     intervention_info = {
       code: code
@@ -163,19 +162,19 @@ polymer_ext {
         }
       ]
       */
-      edit_mode: edit_mode
+      # edit_mode: edit_mode
       goals: [goal_info.name]
       custom: true
     }
-    if edit_mode == 'ls' or edit_mode == 'ls_and_js'
-      if (await check_for_livescript_errors(lscode))
-        return false
+    # if edit_mode == 'ls' or edit_mode == 'ls_and_js'
+    #   if (await check_for_livescript_errors(lscode))
+    #     return false
     if not (await compile_intervention_code(intervention_info))
       return false
     #if not (await add_requires_to_intervention_info(intervention_info))
     #  return false
-    if lscode.length > 0 and (intervention_info.edit_mode == 'ls' or intervention_info.edit_mode == 'ls_and_js')
-      intervention_info.livescript_code = lscode
+    # if lscode.length > 0 and (intervention_info.edit_mode == 'ls' or intervention_info.edit_mode == 'ls_and_js')
+    #   intervention_info.livescript_code = lscode
     this.intervention_info = intervention_info
     await add_new_intervention(intervention_info)
     this.no_unsaved_changes()
@@ -189,17 +188,17 @@ polymer_ext {
     goal_names_list = this.goal_info_list.map (.name)
     goal_idx = goal_names_list.indexOf(goal_name)
     this.$.goal_selector.selected = goal_idx
-    edit_mode_name_to_idx = {
-      js: 0
-      ls: 1
-      ls_and_js: 2
-    }
-    edit_mode_idx = edit_mode_name_to_idx[intervention_info.edit_mode] ? 0
-    this.$.language_selector.selected = edit_mode_idx
-    this.set_edit_mode intervention_info.edit_mode
-    this.js_editor.setValue(intervention_info.code)
-    if intervention_info.livescript_code?
-      this.ls_editor.setValue(intervention_info.livescript_code)
+    # edit_mode_name_to_idx = {
+    #   js: 0
+    #   ls: 1
+    #   ls_and_js: 2
+    # }
+    # edit_mode_idx = edit_mode_name_to_idx[intervention_info.edit_mode] ? 0
+    # this.$.language_selector.selected = edit_mode_idx
+    # this.set_edit_mode intervention_info.edit_mode
+    # this.js_editor.setValue(intervention_info.code)
+    # if intervention_info.livescript_code?
+    #   this.ls_editor.setValue(intervention_info.livescript_code)
   goal_selector_changed: (change_info) ->>
     if not this.intervention_info?
       return
@@ -212,21 +211,21 @@ polymer_ext {
     this.$.intervention_domain.value = goal_info.domain
     preview_page = goal_info.preview ? goal_info.homepage
     this.$.intervention_preview_url.value = preview_page
-  language_selector_changed: (change_info) ->>
-    lang = change_info.detail.item.lang
-    this.set_edit_mode(lang)
-  get_edit_mode: ->
-    return this.$.language_selector.selectedItem.lang
+  # language_selector_changed: (change_info) ->>
+  #   lang = change_info.detail.item.lang
+  #   this.set_edit_mode(lang)
+  # get_edit_mode: ->
+  #   return this.$.language_selector.selectedItem.lang
   set_edit_mode: (lang) ->
     self = this
-    lse = this.S('#livescript_editor')
+    # lse = this.S('#livescript_editor')
     jse = this.S('#javascript_editor')
     if not this.ls_editor? or not this.js_editor
       setTimeout ->
         self.set_edit_mode(lang)
       , 500
       return
-    lslen = this.ls_editor.getSession().getLength()
+    # lslen = this.ls_editor.getSession().getLength()
     jslen = this.js_editor.getSession().getLength()
     if lang == 'ls_and_js'
       jse.css {
@@ -234,19 +233,19 @@ polymer_ext {
         left: '50vw'
         display: 'inline-block'
       }
-      lse.css {
-        width: '50vw'
-        left: '0px'
-        display: 'inline-block'
-      }
+      # lse.css {
+      #   width: '50vw'
+      #   left: '0px'
+      #   display: 'inline-block'
+      # }
       self.js_editor.focus()
       self.js_editor.setValue(self.js_editor.getValue())
       self.js_editor.gotoLine(jslen)
-      self.ls_editor.focus()
-      self.ls_editor.setValue(self.ls_editor.getValue())
-      self.ls_editor.gotoLine(lslen)
+      # self.ls_editor.focus()
+      # self.ls_editor.setValue(self.ls_editor.getValue())
+      # self.ls_editor.gotoLine(lslen)
       self.js_editor.setReadOnly(true)
-      self.ls_editor.setReadOnly(false)
+      # self.ls_editor.setReadOnly(false)
     else if lang == 'ls'
       jse.css {
         width: '0px'
@@ -334,7 +333,7 @@ polymer_ext {
     To learn JavaScript, see https://www.javascript.com/try
 
     This sample intervention will display a popup with SweetAlert.
-    Click the 'Try Now' button to see it run.
+    Click the 'PREVIEW' button to see it run.
 
     To learn how to write HabitLab interventions, see
     https://habitlab.github.io/devdocs
@@ -428,10 +427,13 @@ polymer_ext {
         break
       await sleep(100)
     await open_debug_page_for_tab_id(tab.id)
-  hide_sidebar: ->
-    this.S('#sidebar').hide()
-  show_sidebar: ->
-    this.S('#sidebar').show()
+  hide_or_show_sidebar: ->
+    if this.S('#sidebar').is(":visible")
+      this.S('#sidebar').hide()
+    else
+      this.S('#sidebar').show()
+  # show_sidebar: ->
+  #   this.S('#sidebar').show()
   help_clicked: ->
     chrome.tabs.create {url: 'https://habitlab.github.io/devdocs'}
   share_clicked: ->
@@ -440,22 +442,22 @@ polymer_ext {
     self = this
     brace = await SystemJS.import('brace')
     await SystemJS.import('brace/mode/javascript')
-    await SystemJS.import('brace/mode/livescript')
-    await SystemJS.import('brace/theme/monokai')
+    # await SystemJS.import('brace/mode/livescript')
+    # await SystemJS.import('brace/theme/monokai')
     self.js_editor = js_editor = brace.edit(this.$.javascript_editor)
     js_editor.getSession().setMode('ace/mode/javascript')
     js_editor.getSession().setTabSize(2)
     js_editor.getSession().setUseSoftTabs(true)
     js_editor.setTheme('ace/theme/monokai')
     js_editor.$blockScrolling = Infinity
-    self.ls_editor = ls_editor = brace.edit(this.$.livescript_editor)
-    ls_editor.getSession().setMode('ace/mode/livescript')
-    ls_editor.getSession().setTabSize(2)
-    ls_editor.getSession().setUseSoftTabs(true)
-    ls_editor.setTheme('ace/theme/monokai')
-    ls_editor.$blockScrolling = Infinity
-    ls_editor.on 'change', ->
-      self.ls_editor_changed()
+    # self.ls_editor = ls_editor = brace.edit(this.$.livescript_editor)
+    # ls_editor.getSession().setMode('ace/mode/livescript')
+    # ls_editor.getSession().setTabSize(2)
+    # ls_editor.getSession().setUseSoftTabs(true)
+    # ls_editor.setTheme('ace/theme/monokai')
+    # ls_editor.$blockScrolling = Infinity
+    # ls_editor.on 'change', ->
+    #   self.ls_editor_changed()
     js_editor.on 'change', ->
       self.js_editor_changed()
     all_goals = await get_goals()

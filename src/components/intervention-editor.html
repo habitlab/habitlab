@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="feedback-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 
 <dom-module id="intervention-editor">
   <style>
@@ -20,15 +21,58 @@
     }
     #javascript_editor {
       display: inline-block;
-      width: calc(50vw - 10px);
+      width: 100vw;
       height: calc(100vh - 50px);
       position: fixed;
       top: 50px;
       left: 0px;
       margin: 0;
       padding: 0;
+      background-color:#D8D8D8
     }
-    #livescript_editor {
+    #topbar {
+      display:inline-block;
+      position: fixed; 
+      left: 0px; 
+      top: 0px; 
+      width: 100vw; 
+      height: 50px; 
+      z-index: 998;
+      background-color:#122438
+    }
+    .intervention_tab {
+      /*display:inline-block;*/
+      color: white;
+      background-color: black;
+      height:50px;
+      /*position:fixed;*/
+    }
+    .blue_button{
+      height:40px;
+      z-index: 9999;
+      width:40px;
+    }
+    #sidebar{
+      padding-left: 10px; 
+      padding-right: 10px; 
+      padding-bottom: 10px; 
+      position: fixed; 
+      right: 0px; 
+      top: 50px; 
+      z-index: 999; 
+      height: calc(100vh - 100px);
+      background-color: #4279BD;
+    }
+    #bottombar {
+      position:fixed;
+      left:0px;
+      bottom:0px;
+      height:50px;
+      width:100vw;
+      z-index: 998;
+      background-color:#122438
+    }
+    /*#livescript_editor {
       display: inline-block;
       width: calc(50vw - 10px);
       height: calc(100vh - 50px);
@@ -37,23 +81,37 @@
       left: 50vw;
       margin: 0;
       padding: 0;
-    }
+    }*/
     .button {
       color: white;
-      background-color: #415D67;
-      margin-left: 0px;
+      background-color: #50E3C2;
+      margin-left: 10px;
       margin-right: 10px;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      height: 38px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      height: 30px;
       box-shadow: 2px 2px 2px #888888;
+      font-weight: bold;
     }
+    #intervention_description{
+      color: white;
+    }
+    
   </style>
   <template>
 
-    <paper-card id="topbar" style="position: fixed; left: 0px; top: 0px; width: 100vw; height: 50px; z-index: 998;">
-
-      <div style="position: static; width: 100vw; height: 50px">
+    <paper-card id="topbar">
+      <div id = "intervention_tabs" style="position: fixed; left: 0px; top: 0px; z-index:999;height:50px; float:left;">
+        <paper-tab class="intervention_tab">
+          my_custom_intervention
+        </paper-tab>
+      </div>
+      <div id = "topbar_buttons" style="float:right">
+        <img src="../icons/blue-plus-icon.png" class="blue_button" on-click="prompt_new_intervention">        
+        <img src="../icons/blue-menu-icon.png" class="blue_button" on-click="hide_or_show_sidebar">
+        <img src="../icons/blue-help-icon.png" class="blue_button" right="0" on-click="help_clicked">
+      </div>
+      <!--<div style="position: static; width: 100vw; height: 50px">
         <paper-dropdown-menu style="width: 300px; padding-top: 0px; padding-left: 10px; margin-top: -10px" label="Language">
           <paper-listbox id="language_selector" on-iron-select="language_selector_changed" class="dropdown-content" selected="0">
             <paper-item lang="js">JavaScript</paper-item>
@@ -69,33 +127,30 @@
           <paper-button class="button" on-click="help_clicked">Help</paper-button>
         </div>
         <paper-button class="button" style="position: absolute; top: 4px; right: 0px" on-click="show_sidebar">Show Sidebar</paper-button>
-      </div>
+      </div>-->
 
     </paper-card>
 
-    <paper-card id="sidebar" style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px; position: fixed; right: 0px; top: 0px; z-index: 999; height: 100vh">
+    <paper-card id="sidebar">
     
-    <div style="width: 100%; margin-top: 4px">
-      <paper-button class="button" on-click="hide_sidebar" style="text-align: right; width: 100%">Hide Sidebar</paper-button>
-    </div>
-    <!--
-    <iron-icon style="position: fixed; top: 5px; right: 10px; width: 40px; height: 40px; cursor: pointer; color: #415D67" icon="cancel" on-click="hide_sidebar"></iron-icon>
-    -->
+      <!--<div style="width: 100%; margin-top: 4px">
+        <paper-button class="button" on-click="hide_sidebar" style="text-align: right; width: 100%">Hide Sidebar</paper-button>
+      </div>-->
 
-    <div>
-      <paper-dropdown-menu style="width: 100%; margin-top: 0px" label="Intervention">
+      <!--<div>
+        <paper-dropdown-menu style="width: 100%; margin-top: 0px" label="Intervention">
         <paper-listbox id="intervention_selector" on-iron-select="intervention_selector_changed" class="dropdown-content" selected="0">
           <template is="dom-repeat" items="{{intervention_list}}" as="intervention_name">
             <paper-item intervention_name="{{intervention_name}}">{{intervention_name}}</paper-item>
           </template>
         </paper-listbox>
-      </paper-dropdown-menu>
-    </div>
+        </paper-dropdown-menu>
+      </div>-->
 
-    <paper-button class="button" on-click="prompt_new_intervention">Add New Intervention</paper-button>
+    <!--<paper-button class="button" on-click="prompt_new_intervention">Add New Intervention</paper-button>-->
     <paper-button style="margin-right: 0px" class="button" on-click="delete_intervention">Delete This Intervention</paper-button>
     <!--
-    <paper-input id="intervention_name" label="Intervention Name" value="custom/my_intervention"></paper-input>
+    <!--<paper-input id="intervention_name" label="Intervention Name" value="custom/my_intervention"></paper-input>
     -->
     <paper-input id="intervention_description" label="Intervention Description" value="{{intervention_info.description}}"></paper-input>
 
@@ -109,24 +164,28 @@
       </paper-dropdown-menu>
     </div>
 
-    <paper-input id="intervention_domain" value="[[intervention_info.domain]]" label="Domain"></paper-input>
+    <!--<paper-input id="intervention_domain" value="[[intervention_info.domain]]" label="Domain"></paper-input>-->
     <paper-input id="intervention_preview_url" label="Preview URL" value="[[intervention_info.preview]]"></paper-input>
 
-    <div>
+    <!--<div>
+
+      <paper-button style="margin-right: 0px" class="button" on-click="help_clicked">Help</paper-button>
+    </div>-->
+    <div style="margin-top: 10px">
+      <paper-button class="button" on-click="share_clicked">Share</paper-button>
+      <!--<paper-button class="button" on-click="download_code">Download</paper-button>
+      <feedback-button style="margin-right: 0px"></feedback-button>-->
+    </div>
+
+  </paper-card>
+
+  <paper-card id = "bottombar">
       <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
       <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
       <paper-button class="button" on-click="save_intervention">Save</paper-button>
-      <paper-button style="margin-right: 0px" class="button" on-click="help_clicked">Help</paper-button>
-    </div>
-    <div style="margin-top: 10px">
-      <paper-button class="button" on-click="share_clicked">Share</paper-button>
-      <paper-button class="button" on-click="download_code">Download</paper-button>
-      <feedback-button style="margin-right: 0px"></feedback-button>
-    </div>
+  </paper-card>
 
-    </paper-card>
-
-    <div id="livescript_editor"></div>
+    <!--<div id="livescript_editor"></div>-->
     <div id="javascript_editor"></div>
 
   </template>

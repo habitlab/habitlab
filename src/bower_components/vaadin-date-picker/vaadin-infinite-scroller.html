@@ -1,0 +1,62 @@
+<!--
+@license
+Copyright (c) 2016 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+--><html><head><link rel="import" href="../polymer/polymer.html">
+
+</head><body><dom-module id="vaadin-infinite-scroller">
+  <template>
+    <style>
+      :host {
+        display: block;
+        overflow: hidden;
+        height: 500px;
+      }
+
+      #scroller {
+        position: relative;
+        height: 100%;
+        overflow: auto;
+        outline: none;
+        margin-right: -40px;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;
+        overflow-x: hidden;
+      }
+
+      #scroller.notouchscroll {
+        -webkit-overflow-scrolling: auto;
+      }
+
+      #scroller::-webkit-scrollbar {
+        display: none;
+      }
+
+      .buffer {
+        position: absolute;
+        width: 100%;
+        box-sizing: border-box;
+        padding-right: 40px;
+        @apply(--vaadin-infinite-scroller-buffer);
+      }
+
+      :host(:not([init-animation-done])) .buffer > * {
+        animation: fadein 0.2s;
+      }
+
+      @keyframes fadein {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+    </style>
+
+    <div id="scroller">
+      <div class="buffer"></div>
+      <div class="buffer"></div>
+      <div id="fullHeight"></div>
+    </div>
+  </template>
+</dom-module>
+
+<script src="vaadin-infinite-scroller-0.js"></script>
+</body></html>

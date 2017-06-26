@@ -1,0 +1,106 @@
+<!--
+@license
+Copyright (c) 2016 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../paper-styles/shadow.html">
+<link rel="import" href="vaadin-device-detector.html">
+
+<dom-module id="vaadin-context-menu-overlay">
+  <template>
+    <style>
+      :host {
+        display: block;
+        -webkit-overflow-scrolling: touch;
+        -webkit-user-select: none;
+        overflow: auto;
+      }
+
+      :host(:not([phone])) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        @apply(--shadow-elevation-6dp);
+      }
+
+      :host([phone]) {
+        /* width set to make it possible for the user make the contents fit whole screen */
+        width: 100vw;
+        /* Ideally should be 100vh but iOS phone addr-bar covers view port */
+        max-height: 80vh;
+        /* Needed for iOS */
+        top: auto !important;
+        bottom: 0;
+        /* leave a space around the overlay */
+        margin: 24px;
+        /* Override desktop translate */
+        transform: none !important;
+      }
+    </style>
+    <content></content>
+    <vaadin-device-detector phone="{{phone}}"></vaadin-device-detector>
+  </template>
+  <script>
+    Polymer({
+      is: 'vaadin-context-menu-overlay',
+
+      observers: [
+        '_positionChanged(x, y)', '_phoneChanged(phone)'
+      ],
+
+      properties: {
+        /**
+         * Position of the overlay on horizontal axis.
+         */
+        x: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * Position of the overlay on vertical axis.
+         */
+        y: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * When `true` overlay is optimized for a small touch screen.
+         * When `false`, overlay position and size is optimized for a desktop/tablet screen.
+         */
+        phone: {
+          type: Boolean,
+          reflectToAttribute: true
+        }
+      },
+
+      _phoneChanged: function(phone) {
+        if (!phone) {
+          this.backdropElement.style.opacity = 0;
+        }
+      },
+
+      // monkey patching iron-overlay-behavior to cancel overriding transform styles.
+      _preparePositioning: function() {
+        this.style.display = '';
+      },
+
+      // monkey patching iron-overlay-behavior to cancel overriding transform styles.
+      _finishPositioning: function() {
+        this.style.display = '';
+      },
+
+      _positionChanged: function(x, y) {
+        this.translate3d(x + 'px', y + 'px', 0);
+      },
+
+      behaviors: [
+        Polymer.IronOverlayBehavior
+      ]
+    });
+  </script>
+</dom-module>

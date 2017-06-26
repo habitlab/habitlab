@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head>
+  <meta charset="UTF-8">
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="common.js"></script>
+  <link rel="import" href="common.html">
+  <link rel="import" href="../vaadin-combo-box-light.html">
+  <link rel="import" href="../../iron-input/iron-input.html">
+  <link rel="import" href="../../paper-input/paper-input.html">
+</head>
+
+<body>
+
+  <test-fixture id="combobox-light">
+    <template>
+      <vaadin-combo-box-light>
+        <input is="iron-input">
+      </vaadin-combo-box-light>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="combobox-light-paper-input">
+    <template>
+      <vaadin-combo-box-light>
+        <paper-input>
+          <paper-button suffix="" class="clear-button">Clear</paper-button>
+          <paper-button suffix="" class="toggle-button">Toggle</paper-button>
+        </paper-input>
+      </vaadin-combo-box-light>
+    </template>
+  
+
+  <script src="vaadin-combo-box-light-0.js"></script>
+
+
+</test-fixture></body></html>

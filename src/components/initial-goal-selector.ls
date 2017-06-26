@@ -27,7 +27,12 @@ swal = require 'sweetalert2'
 
 {
   enable_interventions_because_goal_was_enabled
+
 } = require 'libs_backend/intervention_manager'
+
+{
+  get_baseline_time_on_domains
+} = require 'libs_backend/history_utils'
 
 {
   add_log_interventions
@@ -53,6 +58,11 @@ polymer_ext {
     sites_and_goals: {
       type: Array
       value: []
+    }
+    sites_history: {
+      type: Array
+      value: this.get_baseline_time_on_domains
+    
     }
     daily_goal_values: {
       type: Array
@@ -96,6 +106,7 @@ polymer_ext {
     if isdemo
       this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
+  
   limit_to_eight: (list) ->
     return list[0 til 8]
   delete_goal_clicked: (evt) ->>
@@ -148,37 +159,6 @@ polymer_ext {
       text: 'HabitLab will help you achieve these goals by showing you a different intervention, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
     }
 
-  add_custom_goal_clicked: ->
-    swal({
-      title: 'Submit email to run ajax request',
-      input: 'email',
-      showCancelButton: true,
-      confirmButtonText: 'Submit',
-      showLoaderOnConfirm: true,
-      preConfirm: (email) ->
-        return new Promise (resolve, reject) ->
-          setTimeout ->
-            if email == 'taken@example.com'
-              reject('This email is already taken.')
-            else
-              resolve()
-          , 2000
-      allowOutsideClick: false
-    }).then (email) ->
-      swal({
-        type: 'success',
-        title: 'Ajax request finished!',
-        html: 'Submitted email: ' + email
-      })
-
-
-  /*add_custom_goal_clicked2: (evt)->
-    this.actions.open*/
-
-  /*open_actions: ->>
-    actions.open()*/
-
-  
   openBy: (evt) ->
     console.log(evt)
     console.log(evt.target)
@@ -196,7 +176,7 @@ polymer_ext {
   }*/
 
 
-
+  
 
 
   settings_goal_clicked: (evt) ->
@@ -291,6 +271,13 @@ polymer_ext {
     
     await self.set_sites_and_goals()
     self.fire 'goal_changed', {goal_name: goal_name}
+
+  
+
+
+
+
+
   should_have_newline: (index, num_per_line) ->
     return (index % num_per_line) == 0 
   sort_custom_sites_after_and_limit_to_eight: (sites_and_goals) ->

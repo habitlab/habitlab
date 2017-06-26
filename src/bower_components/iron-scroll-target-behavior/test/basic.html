@@ -1,0 +1,64 @@
+<!DOCTYPE html><!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
+The complete set of authors may be found at http://polymer.github.io/AUTHORS
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
+--><html><head>
+  <meta charset="UTF-8">
+  <title>iron-scroll-target-behavior test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="x-scrollable.html">
+  <link rel="import" href="x-nested-scrollable.html">
+
+  <style>
+    #temporaryScrollingRegion,
+    #region {
+      overflow: auto;
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <test-fixture id="trivialScrollable">
+    <template>
+      <div id="temporaryScrollingRegion">
+        <x-scrollable></x-scrollable>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="trivialScrollingRegion">
+    <template>
+      <div id="region">
+        <x-scrollable scroll-target="region"></x-scrollable>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="trivialNestedScrollingRegion">
+    <template>
+      <x-nested-scrollable id="nestedScrollingRegion"></x-nested-scrollable>
+    </template>
+  </test-fixture>
+
+
+  <test-fixture id="trivialDocumentScroll">
+    <template>
+      <x-scrollable scroll-target="document"></x-scrollable>
+    </template>
+  </test-fixture>
+
+  <script src="basic-0.js"></script>
+
+
+
+</body></html>

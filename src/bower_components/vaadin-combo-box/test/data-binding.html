@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head>
+  <meta charset="UTF-8">
+  <title>vaadin-combo data-binding tests</title>
+
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="common.html">
+  <script src="common.js"></script>
+</head>
+
+<body>
+
+  <dom-module id="value-null">
+    <script src="data-binding-0.js"></script>
+  </dom-module>
+
+  <test-fixture id="fixturenull">
+    <template>
+      <div>
+        <template is="dom-bind">
+          <value-null value="{{name}}"></value-null>
+          <vaadin-combo-box items="[[robots]]" value="{{name}}"></vaadin-combo-box>
+          <input is="iron-input" bind-value="{{name}}">
+        </template>
+      </div>
+    </template>
+  </test-fixture>
+
+  <script src="data-binding-0.js"></script>
+
+
+
+
+</body></html>

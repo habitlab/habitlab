@@ -7,6 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
+<link rel="import" href="../../font-roboto/roboto.html">
 
 <!--
 Typographic styles are provided matching the Material Design standard styles:
@@ -15,13 +16,13 @@ http://www.google.com/design/spec/style/typography.html#typography-standard-styl
 To make use of them, apply a `paper-font-<style>` class to elements, matching
 the font style you wish it to inherit.
 
-  <header class="paper-font-display2">Hey there!</header>
+  <h1 class="paper-font-display2">Hey there!</h1>
 
 Note that these are English/Latin centric styles. You may need to further adjust
 line heights and weights for CJK typesetting. See the notes in the Material
 Design typography section.
 -->
-<style is="custom-style">
+<style>
 
 .paper-font-display4,
 .paper-font-display3,
@@ -35,13 +36,13 @@ Design typography section.
 .paper-font-caption,
 .paper-font-menu,
 .paper-font-button {
-  font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'Roboto', 'Noto', sans-serif;
   -webkit-font-smoothing: antialiased;  /* OS X subpixel AA bleed bug */
 }
 
 .paper-font-code2,
 .paper-font-code1 {
-  font-family: 'Consolas', 'Menlo', 'Lucida Console', 'Monaco', monospace;
+  font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
   -webkit-font-smoothing: antialiased;  /* OS X subpixel AA bleed bug */
 }
 

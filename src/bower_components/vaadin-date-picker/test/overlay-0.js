@@ -1,0 +1,291 @@
+
+    describe('vaadin-date-picker-overlay', function() {
+      var overlay;
+
+      beforeEach(function(done) {
+        overlay = fixture('overlay');
+        overlay.i18n = getDefaultI18n();
+
+        overlay.initialPosition = new Date();
+        Polymer.RenderStatus.afterNextRender(overlay.$.scroller, function() {
+          waitUntilScrolledTo(overlay, new Date(), done);
+        });
+
+      });
+
+      it('should stop tap events from bubbling outside the overlay', function() {
+        var tapSpy = sinon.spy();
+        document.addEventListener('tap', tapSpy);
+        overlay.$.scroller.dispatchEvent(new CustomEvent('tap', {
+          bubbles: true
+        }));
+        document.removeEventListener('tap', tapSpy);
+        expect(tapSpy.called).not.to.be.true;
+      });
+
+      it('should return correct month', function() {
+        overlay._originDate = new Date(2016, 2, 31);
+        expect(overlay._dateAfterXMonths(11).getMonth()).to.equal(1);
+      });
+
+      it('should reflect the year of currently visible month on the toolbar', function(done) {
+        var date = new Date(2000, 1, 1);
+        overlay.scrollToDate(date);
+        waitUntilScrolledTo(overlay, date, function() {
+          expect(parseInt(overlay.$.toolbar.textContent)).to.equal(2000);
+          done();
+        });
+      });
+
+      it('should scroll to the given date', function(done) {
+        var date = new Date(2000, 1, 1);
+        overlay.scrollToDate(date);
+        waitUntilScrolledTo(overlay, date, function() {
+          expect(monthsEqual(getFirstVisibleItem(overlay.$.scroller, 0).firstElementChild.month, date)).to.be.true;
+          done();
+        });
+      });
+
+      it('should scroll to the given year', function(done) {
+        var date = new Date(2000, 1, 1);
+        overlay.scrollToDate(date);
+        waitUntilScrolledTo(overlay, date, function() {
+          var offset = overlay.$.yearScroller.clientHeight / 2;
+          overlay.$.yearScroller.flushDebouncer('updateAllClones');
+          expect(getFirstVisibleItem(overlay.$.yearScroller, offset).firstElementChild.textContent).to.equal('2000');
+          done();
+        });
+      });
+
+      describe('taps', function() {
+
+        beforeEach(function(done) {
+          // Wait for ignoreTaps to settle after initial scroll event
+          listenForEvent(overlay.$.scroller.$.scroller, 'scroll', function() {
+            overlay.async(done, 350);
+          });
+
+          overlay.$.scroller.$.scroller.scrollTop += 1;
+        });
+
+        it('should set ignoreTaps to calendar on scroll', function(done) {
+          listenForEvent(overlay.$.scroller.$.scroller, 'scroll', function() {
+            expect(overlay.$.scroller.$$('vaadin-month-calendar').ignoreTaps).to.be.true;
+            done();
+          });
+
+          overlay.$.scroller.$.scroller.scrollTop += 1;
+        });
+
+        it('should not react to year tap after scroll', function(done) {
+          var spy = sinon.spy(overlay, '_scrollToPosition');
+
+          listenForEvent(overlay.$.scroller.$.scroller, 'scroll', function() {
+            tap(overlay.$.yearScroller);
+            expect(spy.called).to.be.false;
+            done();
+          });
+
+          overlay.$.scroller.$.scroller.scrollTop += 1;
+        });
+
+        it('should react to year tap after 300ms elapsed after scroll', function(done) {
+          var spy = sinon.spy(overlay, '_scrollToPosition');
+
+          listenForEvent(overlay.$.scroller.$.scroller, 'scroll', function() {
+            overlay.async(function() {
+              tap(overlay.$.yearScroller);
+              expect(spy.called).to.be.true;
+              done();
+            }, 350);
+          });
+
+          overlay.$.scroller.$.scroller.scrollTop += 1;
+        });
+
+        it('should not react if the tap takes more than 300ms', function(done) {
+          var spy = sinon.spy(overlay, '_scrollToPosition');
+          overlay._onYearScrollTouchStart();
+          overlay.async(function() {
+            tap(overlay.$.yearScroller);
+            expect(spy.called).to.be.false;
+            done();
+          }, 350);
+        });
+      });
+
+      describe('header', function() {
+
+        it('should be visible', function() {
+          overlay.setAttribute('fullscreen', '');
+          // No idea why but IE requires these in order to repaint the header
+          overlay.$.header.setAttribute('style', '');
+          overlay.$.header.removeAttribute('style');
+          expect(window.getComputedStyle(overlay.$.header).display).to.equal('flex');
+        });
+
+        it('should be invisible', function() {
+          expect(window.getComputedStyle(overlay.$.header).display).to.equal('none');
+        });
+
+        it('should reflect value in label', function() {
+          overlay.i18n = {
+            formatDate: function(date) {
+              return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+            }
+          };
+          overlay.selectedDate = new Date(2000, 1, 1);
+          expect(overlay.$.input.bindValue).to.equal('2/1/2000');
+        });
+
+        it('should not show clear button if not value is set', function() {
+          expect(window.getComputedStyle(overlay.$.clear).display).to.equal('none');
+        });
+
+        it('should show clear button if value is set', function() {
+          overlay.selectedDate = new Date();
+          expect(window.getComputedStyle(overlay.$.clear).display).to.equal('flex');
+        });
+
+        it('should clear the value and fire a close on clear', function() {
+          overlay.selectedDate = new Date();
+          var spy = sinon.spy();
+          overlay.addEventListener('close', spy);
+
+          tap(overlay.$.clear);
+
+          expect(overlay.selectedDate).to.equal('');
+          expect(spy.calledOnce).to.be.true;
+        });
+
+      });
+
+      describe('footer', function() {
+        it('should fire close on cancel click', function() {
+          var spy = sinon.spy();
+          overlay.addEventListener('close', spy);
+          tap(overlay.$.cancelButton);
+          expect(spy.calledOnce).to.be.true;
+        });
+
+        describe('today button', function() {
+          it('should scroll to current date', function(done) {
+            var date = new Date(2000, 1, 1);
+            overlay.scrollToDate(date);
+            waitUntilScrolledTo(overlay, date, function() {
+              tap(overlay.$.todayButton);
+              waitUntilScrolledTo(overlay, new Date(), function() {
+                done();
+              });
+            });
+          });
+
+          it('should close the overlay and select today if on current month', function(done) {
+            var today = new Date();
+            overlay.scrollToDate(today);
+            var spy = sinon.spy();
+            overlay.addEventListener('close', spy);
+
+            waitUntilScrolledTo(overlay, today, function() {
+              tap(overlay.$.todayButton);
+
+              expect(overlay.selectedDate.getFullYear()).to.equal(today.getFullYear());
+              expect(overlay.selectedDate.getMonth()).to.equal(today.getMonth());
+              expect(overlay.selectedDate.getDate()).to.equal(today.getDate());
+              expect(spy.calledOnce).to.be.true;
+              done();
+            });
+          });
+
+          it('should not close the overlay and not select today if not on current month', function(done) {
+            var today = new Date();
+            overlay.scrollToDate(today);
+            var spy = sinon.spy();
+            overlay.addEventListener('close', spy);
+
+            waitUntilScrolledTo(overlay, today, function() {
+              overlay.$.scroller.$.scroller.scrollTop -= 1;
+              tap(overlay.$.todayButton);
+
+              expect(overlay.selectedDate).to.be.undefined;
+              expect(spy.called).to.be.false;
+              done();
+            });
+          });
+
+          it('should do nothing if disabled', function(done) {
+            var initialDate = new Date(2000, 1, 1);
+            overlay.scrollToDate(initialDate);
+            var closeSpy = sinon.spy();
+            overlay.addEventListener('close', closeSpy);
+            var scrollSpy = sinon.spy(overlay, 'scrollToDate');
+
+            overlay.$.todayButton.disabled = true;
+
+            waitUntilScrolledTo(overlay, initialDate, function() {
+              var lastScrollPos = overlay.$.scroller.position;
+              MockInteractions.tap(overlay.$.todayButton);
+
+              expect(overlay.$.scroller.position).to.equal(lastScrollPos);
+              expect(scrollSpy.called).to.be.false;
+              expect(closeSpy.called).to.be.false;
+              done();
+            });
+          });
+
+          describe('date limits', function() {
+            var todayMidnight, yesterdayMidnight, tommorrowMidnight;
+
+            beforeEach(function() {
+              var today = new Date();
+              todayMidnight = new Date(0, 0);
+              todayMidnight.setFullYear(today.getFullYear());
+              todayMidnight.setMonth(today.getMonth());
+              todayMidnight.setDate(today.getDate());
+              yesterdayMidnight = new Date(todayMidnight.getTime());
+              yesterdayMidnight.setDate(todayMidnight.getDate() - 1);
+              tommorrowMidnight = new Date(todayMidnight.getTime());
+              tommorrowMidnight.setDate(todayMidnight.getDate() + 1);
+              overlay.minDate = null;
+              overlay.maxDate = null;
+            });
+
+            it('should not be disabled by default', function() {
+              expect(overlay.$.todayButton.disabled).to.be.false;
+            });
+
+            it('should not be disabled if today is inside the limits', function() {
+              overlay.minDate = yesterdayMidnight;
+              overlay.maxDate = tommorrowMidnight;
+
+              expect(overlay.$.todayButton.disabled).to.be.false;
+            });
+
+            it('should not be disabled if today is min', function() {
+              overlay.minDate = todayMidnight;
+
+              expect(overlay.$.todayButton.disabled).to.be.false;
+            });
+
+            it('should not be disabled if today is max', function() {
+              overlay.maxDate = todayMidnight;
+
+              expect(overlay.$.todayButton.disabled).to.be.false;
+            });
+
+            it('should be disabled if the limits are in past', function() {
+              overlay.maxDate = yesterdayMidnight;
+
+              expect(overlay.$.todayButton.disabled).to.be.true;
+            });
+
+            it('should be disabled if the limits are in future', function() {
+              overlay.minDate = tommorrowMidnight;
+
+              expect(overlay.$.todayButton.disabled).to.be.true;
+            });
+          });
+        });
+      });
+    });
+  

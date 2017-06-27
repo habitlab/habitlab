@@ -164,16 +164,12 @@
       * To get @ returned, set noSpecialChars = false
      */
     function normalizedKeyForEvent(keyEvent, noSpecialChars) {
-      // Fall back from .key, to .detail.key for artifical keyboard events,
-      // and then to deprecated .keyIdentifier and .keyCode.
-      if (keyEvent.key) {
-        return transformKey(keyEvent.key, noSpecialChars);
-      }
-      if (keyEvent.detail && keyEvent.detail.key) {
-        return transformKey(keyEvent.detail.key, noSpecialChars);
-      }
-      return transformKeyIdentifier(keyEvent.keyIdentifier) ||
-        transformKeyCode(keyEvent.keyCode) || '';
+      // Fall back from .key, to .keyIdentifier, to .keyCode, and then to
+      // .detail.key to support artificial keyboard events.
+      return transformKey(keyEvent.key, noSpecialChars) ||
+        transformKeyIdentifier(keyEvent.keyIdentifier) ||
+        transformKeyCode(keyEvent.keyCode) ||
+        transformKey(keyEvent.detail ? keyEvent.detail.key : keyEvent.detail, noSpecialChars) || '';
     }
 
     function keyComboMatchesEvent(keyCombo, event) {
@@ -228,31 +224,12 @@
      * and uses an expressive syntax to filter key presses.
      *
      * Use the `keyBindings` prototype property to express what combination of keys
-     * will trigger the callback. A key binding has the format
-     * `"KEY+MODIFIER:EVENT": "callback"` (`"KEY": "callback"` or
-     * `"KEY:EVENT": "callback"` are valid as well). Some examples:
+     * will trigger the event to fire.
      *
-     *      keyBindings: {
-     *        'space': '_onKeydown', // same as 'space:keydown'
-     *        'shift+tab': '_onKeydown',
-     *        'enter:keypress': '_onKeypress',
-     *        'esc:keyup': '_onKeyup'
-     *      }
-     *
-     * The callback will receive with an event containing the following information in `event.detail`:
-     *
-     *      _onKeydown: function(event) {
-     *        console.log(event.detail.combo); // KEY+MODIFIER, e.g. "shift+tab"
-     *        console.log(event.detail.key); // KEY only, e.g. "tab"
-     *        console.log(event.detail.event); // EVENT, e.g. "keydown"
-     *        console.log(event.detail.keyboardEvent); // the original KeyboardEvent
-     *      }
-     *
-     * Use the `keyEventTarget` attribute to set up event handlers on a specific
+     * Use the `key-event-target` attribute to set up event handlers on a specific
      * node.
-     *
-     * See the [demo source code](https://github.com/PolymerElements/iron-a11y-keys-behavior/blob/master/demo/x-key-aware.html)
-     * for an example.
+     * The `keys-pressed` event will fire when one of the key combinations set with the
+     * `keys` property is pressed.
      *
      * @demo demo/index.html
      * @polymerBehavior
@@ -260,9 +237,7 @@
     Polymer.IronA11yKeysBehavior = {
       properties: {
         /**
-         * The EventTarget that will be firing relevant KeyboardEvents. Set it to
-         * `null` to disable the listeners.
-         * @type {?EventTarget}
+         * The HTMLElement that will be firing relevant KeyboardEvents.
          */
         keyEventTarget: {
           type: Object,
@@ -301,12 +276,6 @@
         '_resetKeyEventListeners(keyEventTarget, _boundKeyHandlers)'
       ],
 
-
-      /**
-       * To be used to express what combination of keys  will trigger the relative
-       * callback. e.g. `keyBindings: { 'esc': '_onEscPressed'}`
-       * @type {!Object}
-       */
       keyBindings: {},
 
       registered: function() {
@@ -414,9 +383,6 @@
       },
 
       _listenKeyEventListeners: function() {
-        if (!this.keyEventTarget) {
-          return;
-        }
         Object.keys(this._keyBindings).forEach(function(eventName) {
           var keyBindings = this._keyBindings[eventName];
           var boundKeyHandler = this._onKeyBindingEvent.bind(this, keyBindings);

@@ -5,13 +5,13 @@
    * size or hidden state of their children) and "resizables" (elements that need to be
    * notified when they are resized or un-hidden by their parents in order to take
    * action on their new measurements).
-   *
+   * 
    * Elements that perform measurement should add the `IronResizableBehavior` behavior to
    * their element definition and listen for the `iron-resize` event on themselves.
    * This event will be fired when they become showing after having been hidden,
    * when they are resized explicitly by another resizable, or when the window has been
    * resized.
-   *
+   * 
    * Note, the `iron-resize` event is non-bubbling.
    *
    * @polymerBehavior Polymer.IronResizableBehavior
@@ -28,7 +28,7 @@
       },
 
       /**
-       * True if this element is currently notifying its descendant elements of
+       * True if this element is currently notifying its descedant elements of
        * resize.
        */
       _notifyingDescendant: {
@@ -127,7 +127,7 @@
         return;
       }
 
-      // NOTE(cdata): In ShadowDOM, event retargeting makes echoing of the
+      // NOTE(cdata): In ShadowDOM, event retargetting makes echoing of the
       // otherwise non-bubbling event "just work." We do it manually here for
       // the case where Polymer is not using shadow roots for whatever reason:
       if (!Polymer.Settings.useShadow) {

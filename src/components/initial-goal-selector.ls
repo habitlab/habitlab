@@ -105,13 +105,23 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/plus.png') 
     },
-
+    delete_url:{
+      type: String,
+      value: chrome.extension.getURL('icons/delete.svg') 
+    },
+    baseline_time_on_domains: {
+      type: Object
+    }
   }
   isdemo_changed: (isdemo) ->
     if isdemo
       this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
-  
+  get_time_spent_for_domain: (domain, baseline_time_on_domains) ->
+    if baseline_time_on_domains[domain]?
+      minutes = baseline_time_on_domains[domain] / (1000*60)
+      return (minutes).toPrecision(2) + ' mins'
+    return '0 mins'
   limit_to_eight: (list) ->
     return list[0 til 8]
   delete_goal_clicked: (evt) ->>
@@ -335,9 +345,9 @@ polymer_ext {
     if domain.length == 0
       return
     #this.$$('#add_website_input').value = ''
-    console.log 'checkpoint 1'
+    #console.log 'checkpoint 1'
     canonical_domain = await get_canonical_domain(domain)
-    console.log 'checkpoint 2'
+    #console.log 'checkpoint 2'
     if not canonical_domain?
       swal {
         title: 'Invalid Domain'
@@ -348,16 +358,16 @@ polymer_ext {
         type: 'error'
       }
       return
-    console.log 'checkpoint 3'
+    #console.log 'checkpoint 3'
     if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
       await add_enable_custom_goal_reduce_time_on_domain(domain)
-    console.log 'checkpoint 4'
+    #console.log 'checkpoint 4'
     await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
-    console.log 'checkpoint 5'
+    #console.log 'checkpoint 5'
     await this.set_sites_and_goals()
-    console.log 'checkpoint 6'
+    #console.log 'checkpoint 6'
     this.fire 'need_rerender', {}
-    console.log 'checkpoint 7'
+    #console.log 'checkpoint 7'
     return
   ready: ->>
     self = this

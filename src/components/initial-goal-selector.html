@@ -115,7 +115,7 @@
       padding-top:30px;
       padding-bottom:30px;
       font-size: 20px;
-      text-shadow: 2px 2px 2px #346da3; 
+      text-shadow: 1px 1px 1px #346da3; 
       min-height:calc(100vh - 60px);
     }
 
@@ -127,7 +127,7 @@
       padding-bottom: 20px; 
       text-align:center;
       font-weight:800;
-      text-shadow: 2px 2px 2px #346da3; 
+      text-shadow: 1px 1px 2px #346da3; 
     }
     .flexcontainer { 
       display: flex;
@@ -164,7 +164,7 @@
       margin:auto;
       margin-left:10px;
       margin-right:10px;
-      margin-bottom:40px;
+      margin-bottom:56px;
 
     }
     .siteicon:hover {
@@ -230,6 +230,7 @@
                     <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled" src="{{goal.icon}}" />
                     </template>
                     <div style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
+                    <div style='text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</div>
                     </template>
                   </template>
                 </div>

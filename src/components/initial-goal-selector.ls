@@ -32,6 +32,7 @@ swal = require 'sweetalert2'
 
 {
   get_baseline_time_on_domains
+  get_baseline_time_on_domain
 } = require 'libs_backend/history_utils'
 
 {
@@ -47,6 +48,11 @@ swal = require 'sweetalert2'
 } = require 'libs_backend/canonical_url_utils'
 
 {
+  get_favicon_data_for_domain
+  get_favicon_data_for_domains_bulk
+} = require 'libs_backend/favicon_utils'
+
+{
   msg
 } = require 'libs_common/localization_utils'
 
@@ -59,10 +65,9 @@ polymer_ext {
       type: Array
       value: []
     }
-    sites_history: {
+    suggested_sites: {
       type: Array
-      value: this.get_baseline_time_on_domains
-    
+      value: []
     }
     daily_goal_values: {
       type: Array
@@ -96,7 +101,7 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/icon_check_bluewhite.png') 
     },
-    icon_add_url:{
+    icon_add_url: {
       type: String,
       value: chrome.extension.getURL('icons/plus.png') 
     },
@@ -176,9 +181,6 @@ polymer_ext {
   }*/
 
 
-  
-
-
   settings_goal_clicked: (evt) ->
     evt.preventDefault()
     evt.stopPropagation()
@@ -219,11 +221,12 @@ polymer_ext {
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
 
+
+ 
   goal_changed: (evt) ->
     
     checked = evt.target.checked    
     console.log evt.target.goalname
-
     goal_name = evt.target.goal.name
 
   /*add_custom: (evt) ->
@@ -287,18 +290,29 @@ polymer_ext {
     return normal_sites_and_goals.concat custom_sites_and_goals
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
+    console.log('add goal clicked')
+    
+
     return
-  add_website_input_keydown: (evt) ->
-    if evt.keyCode == 13
-      # enter pressed
-      this.add_custom_website_from_input()
-      return
+   
+  # add_website_input_keydown: ->
+  #    console.log('add_website_input_keydown called')
+  #    console.log(evt)
+  #    if evt.keyCode == 13
+  #      # enter pressed
+  #      this.add_custom_website_from_input()
+  #      return
+
+
   add_custom_website_from_input: ->>
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
+    console.log(domain)
     if domain.length == 0
       return
-    this.$$('#add_website_input').value = ''
+    #this.$$('#add_website_input').value = ''
+    console.log 'checkpoint 1'
     canonical_domain = await get_canonical_domain(domain)
+    console.log 'checkpoint 2'
     if not canonical_domain?
       swal {
         title: 'Invalid Domain'
@@ -309,14 +323,21 @@ polymer_ext {
         type: 'error'
       }
       return
-    if domain != canonical_domain
+    console.log 'checkpoint 3'
+    if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
       await add_enable_custom_goal_reduce_time_on_domain(domain)
+    console.log 'checkpoint 4'
     await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
+    console.log 'checkpoint 5'
     await this.set_sites_and_goals()
+    console.log 'checkpoint 6'
     this.fire 'need_rerender', {}
+    console.log 'checkpoint 7'
     return
   ready: ->>
     self = this
+    load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    /*
     self.on_resize '#outer_wrapper', ->
       console.log 'resized!!'
       leftmost = null
@@ -335,6 +356,26 @@ polymer_ext {
       current_offset = $('.flexcontainer').offset()
       $('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    */
+    #fetch history for suggested sites in intervention settings 
+    this.baseline_time_on_domains = await get_baseline_time_on_domains()
+    baseline_time_on_domains_array = []
+    #console.log('started fetching favicons')
+    #domain_to_favicon = await get_favicon_data_for_domains_bulk(Object.keys(this.baseline_time_on_domains))
+    #for domain,time of this.baseline_time_on_domains
+      #favicon_data = domain_to_favicon[domain] #await get_favicon_data_for_domain(domain)
+      #baseline_time_on_domains_array.push({
+      #  domain: domain
+      #  #time: time
+      #  #favicon: favicon_data
+      #})
+    #console.log('finished fetching favicons')
+    #this.baseline_time_on_domains_array = baseline_time_on_domains_array
+    this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
+    console.log(this.baseline_time_on_domains)
+
+    
+
 }, [
   {
     source: require 'libs_common/localization_utils'

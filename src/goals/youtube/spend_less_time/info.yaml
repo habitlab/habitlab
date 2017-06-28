@@ -4,12 +4,12 @@ interventions:
   - youtube/remove_sidebar_links
   - youtube/prompt_before_watch
   - youtube/remove_comment_section
-  - generic/make_user_wait
-  - generic/block_after_interval_per_visit
-  - generic/close_tab_timer
-  - generic/scroll_blocker
-  - generic/show_user_info_interstitial
-  - video/link_articles
+  #- generic/make_user_wait
+  #- generic/block_after_interval_per_visit
+  #- generic/close_tab_timer
+  #- generic/scroll_blocker
+  #- generic/show_user_info_interstitial
+  #- video/link_articles
 measurement: time_spent_on_domain
 domain: www.youtube.com
 preview: https://www.youtube.com/watch?v=7maJOI3QMu0

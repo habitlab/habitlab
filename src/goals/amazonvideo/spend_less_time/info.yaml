@@ -3,13 +3,12 @@ progress_description: Time spent on Amazon Video
 interventions:
   - amazonvideo/disable_autoplay
   - video/prompt_before_watch
-  - video/link_articles
-  - generic/make_user_wait
-  - generic/block_after_interval_per_visit
-  - generic/close_tab_timer
-  - generic/scroll_blocker
-  - generic/show_user_info_interstitial
-
+  #- video/link_articles
+  #- generic/make_user_wait
+  #- generic/block_after_interval_per_visit
+  #- generic/close_tab_timer
+  #- generic/scroll_blocker
+  #- generic/show_user_info_interstitial
 measurement: time_spent_on_domain
 domain: www.amazon.com
 preview: https://www.amazon.com/dp/B0066O0NP6/?ref=nav_signin&gclid=CIPVhvC6-tMCFYJnfgod7XkH2w&

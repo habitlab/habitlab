@@ -181,6 +181,31 @@ polymer_ext {
   }*/
 
 
+  add_website_input: (evt) ->
+    console.log 'add_website_input'
+    console.log(evt)
+
+  # paper_icon_item_clicked: (evt) ->
+  #   console.log 'paper_icon_item_clicked'
+  #   console.log evt
+  #   console.log evt.target.domain
+  #   console.log evt.target.getAttribute('domain')
+  #   console.log evt.target
+  #   domain = this.$$('#add_website_input').value.trim()
+  #   console.log(domain)
+
+  valueChange: (evt) ->
+    console.log 'valueChange_called'
+    console.log evt
+    console.log evt.target.domain
+    console.log evt.target.getAttribute('domain')
+    console.log evt.target
+    domain = this.$$('#add_website_input').value.trim()
+    console.log(domain)
+    this.add_custom_website_from_input()
+    console.log('ad_custom_website_from_input_called')
+    return
+  
   settings_goal_clicked: (evt) ->
     evt.preventDefault()
     evt.stopPropagation()

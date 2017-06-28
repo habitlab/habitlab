@@ -179,16 +179,15 @@
         <h2 style = " font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;color:#323f4b;">Add a new website to reduce time spent on (example: www.amazon.com)</h2>
         <div style = "display: flex; margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin-bottom:0px;padding-left:10px; padding-right:10px;padding-bottom:0px">
 
-          <vaadin-combo-box id="add_website_input" items = "{{baseline_time_on_domains_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
+          <vaadin-combo-box on-value-changed = "valueChange" id="add_website_input"  change="change_called" custom-value-set="custom_value_set_called" selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" value-changed="value_changed_called" items = "{{baseline_time_on_domains_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
             <template>
-              <paper-icon-item>
-                <!--<img src="[[item.favicon]]" item-icon>-->
-                <!--<img src="{{site.icon}}" item-icon>-->
-                <paper-item-body>
-                  <!--<div>[[website]]</div>-->
-                  <div>[[item]]</div>
+                  <div on-click="div_clicked" domain="[[item]]">[[item]]</div>
+                  <!--
+              <paper-icon-item on-click="paper_icon_item_clicked" domain="[[item]]">
+                <paper-item-body on-click="paper_item_body_clicked" domain="[[item]]">
                 </paper-item-body> 
               </paper-icon-item>
+-->
             </template>
           </vaadin-combo-box>
           <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px;margin-bottom:7px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
@@ -212,24 +211,26 @@
             <!-- <h3>{{site_and_goals.sitename}}</h3> -->
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
-                <div style="display: inline-block; align-items: center; padding-bottom: 15px;" >
+                <template is="dom-if" if="{{!goal.is_positive}}">
+                  <div style="display: inline-block; align-items: center; padding-bottom: 15px;" >
 
-                  <div style="position: relative; top: 12.5px; left: 21px; ">
-                    <div style="position: absolute">
+                    <div style="position: relative; top: 12.5px; left: 21px; ">
+                      <div style="position: absolute">
 
-                    <template is="dom-if" if="{{goal.enabled}}">
-                    <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
-                    <img style= "width:30px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
-                    </template>
+                      <template is="dom-if" if="{{goal.enabled}}">
+                      <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
+                      <img style= "width:30px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
+                      </template>
+                      </div>
                     </div>
-                  </div>
-                  <template is="dom-if" if="{{goal.enabled}}">
-                  <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled" src="{{goal.icon}}" />
-                  </template>
-                  <template is="dom-if" if="{{!goal.enabled}}">
-                  <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled" src="{{goal.icon}}" />
-                  </template>
-                  <div style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
+                    <template is="dom-if" if="{{goal.enabled}}">
+                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled" src="{{goal.icon}}" />
+                    </template>
+                    <template is="dom-if" if="{{!goal.enabled}}">
+                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled" src="{{goal.icon}}" />
+                    </template>
+                    <div style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
+                    </template>
                   </template>
                 </div>
               </template>

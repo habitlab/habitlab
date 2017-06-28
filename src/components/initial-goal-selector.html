@@ -229,10 +229,7 @@
                   <template is="dom-if" if="{{!goal.enabled}}">
                   <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled" src="{{goal.icon}}" />
                   </template>
-                  <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px'>{{goal.sitename_printable}}</div>
-                  <template is="dom-if" if="{{show_internal_names_of_goals()}}">
-                    <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
-                  </template>
+                  <div style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
                   </template>
                 </div>
               </template>

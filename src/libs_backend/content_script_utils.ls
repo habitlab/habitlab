@@ -11,6 +11,8 @@ $ = require 'jquery'
 
 css_packages = require('libs_common/css_packages')
 
+loaded_css_files = {}
+
 /**
  * Loads a css file
  * @param {string} filename - name of css package or path to css file
@@ -18,6 +20,9 @@ css_packages = require('libs_common/css_packages')
 export load_css_file = (filename) ->>
   if css_packages[filename]?
     filename = css_packages[filename]
+  if loaded_css_files[filename]?
+    return
+  loaded_css_files[filename] = true
   css_code = await localget(filename)
   await load_css_code(css_code)
 

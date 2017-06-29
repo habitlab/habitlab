@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/html-echo/html-echo.html">
 <link rel="import" href="feedback-button-right.html">
+<link rel="import" href="initial-goal-selector.html">
 
 <dom-module id="onboarding-view">
   <style>
@@ -16,7 +17,7 @@
       display: block;
       height: 100vh;
       width: 100vw;
-      background-color: #1E8CD2;
+      background-color: rgb(81, 167,249);
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     }
 
@@ -31,7 +32,7 @@
       left: 0px;
       width: 100%;
       height: 50px;
-      background-color: #1E8CD2;
+      background-color: rgb(81, 167,249);
       z-index: 100;
     }
 
@@ -68,17 +69,24 @@
 
     .prevnext_button {
       text-align: center;
-      background-color: #008000;
+      background-color:rgb(0,152,219);
       width: calc(100% - 10px);
     }
 
     .get_started_button {
-      background-color: #008000;
+      background-color: rgb(0,152,219);
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     }
 
     .subtext {
       font-size: 20px;
+    }
+    
+    .title {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+      align-items: center;
     }
 
     .checkbox_div_outer {
@@ -126,13 +134,18 @@
     <div class="slide" on-click="next_slide">
       <div class="inner_slide">
         <br><br><br><br>
-        <div style="font-size: 40px">{{msg("Welcome to HabitLab")}}</div>
+
+        <div class ="title">
+        <img style= "width:38px" src="{{habitlab_logo_white_url}}"></img>
+        <div style="font-size: 40px; padding-right:7px;">{{msg("Welcome to HabitLab")}}</div>
+        </div>
+
         <br><br>
         <div class="subtext">{{welcome_slide_line1}}</div>
         <div class="subtext">{{welcome_slide_line2}}</div>
         <br>
 
-        <paper-button style="background-color: green">
+        <paper-button style="background-color: rgb(0,152,219)">
           <iron-icon icon="arrow-downward" style="color: white; height: 25px; width: 25px; padding-right: 5px"></iron-icon>
           <span> {{msg("Scroll Down")}}</span>
         </paper-button>
@@ -145,14 +158,15 @@
       </div>
     </div>
 
-    <div class="slide" on-click="next_slide">
-      <div class="inner_slide">
-        <div class="image_frame">
-          <img src="https://habitlab.github.io/onboarding_images/dashboard5.png" class="image_inner"></img>
-        </div>
-        <br><br>
-        <div class="subtext">{{msg("HabitLab lets you set goals to limit your usage of selected sites")}}</div>
-      </div>
+    <div class="slide">
+
+
+     <initial-goal-selector id="goal_selector" />
+
+
+
+
+
     </div>
 
     <div class="slide" on-click="next_slide">

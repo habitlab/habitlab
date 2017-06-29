@@ -57,6 +57,15 @@ polymer_ext {
       type: String
       value: [['gko', 'vacs'].join(''), ['stan', 'ford', '.', 'edu'].join('')].join('@')
     }
+    habitlab_logo_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/logo_gradient.svg') 
+    },
+    habitlab_logo_white_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/habitlab_icon_white_gradient.svg') 
+    },
+
   }
   listeners: {
     keydown: 'on_keydown'
@@ -225,6 +234,7 @@ polymer_ext {
     this.window_resized()
   ready: ->>
     self = this
+    this.$$('#goal_selector').set_sites_and_goals()
     this.last_mousewheel_time = 0
     this.last_mousewheel_deltaY = 0
     this.keydown_listener_bound = this.keydown_listener.bind(this)
@@ -238,6 +248,7 @@ polymer_ext {
       # developer mode
       if not localStorage.getItem('enable_debug_terminal')?
         localStorage.setItem('enable_debug_terminal', 'true')
+    console.log('calling set_sites_and_goals')
 }, [{
   source: require 'libs_frontend/polymer_methods'
   methods: [

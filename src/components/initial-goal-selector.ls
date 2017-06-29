@@ -213,7 +213,7 @@ polymer_ext {
     domain = this.$$('#add_website_input').value.trim()
     console.log(domain)
     this.add_custom_website_from_input()
-    console.log('ad_custom_website_from_input_called')
+    console.log('add_custom_website_from_input_called')
     return
   
   settings_goal_clicked: (evt) ->

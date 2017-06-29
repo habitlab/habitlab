@@ -39,12 +39,18 @@ export list_all_badge_info = ->
     }
     {
       minutes_saved: 3*60
+      name: 'Museum'
+      message: 'That is enough time to go to go explore a museum!'
+      icon: 'museum.svg'
+    }
+    {
+      minutes_saved: 4*60
       name: 'Surfing'
       message: 'That is enough time to go to the beach for some surfing!'
       icon: 'surfing.svg'
     }
     {
-      minutes_saved: 4*60
+      minutes_saved: 5*60
       name: 'Skydiving'
       message: 'That is enough time for a skydiving expedition!'
       icon: 'skydiving.svg'

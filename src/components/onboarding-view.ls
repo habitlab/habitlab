@@ -1,6 +1,7 @@
 {cfy} = require 'cfy'
 
 swal = require 'sweetalert2'
+$ = require 'jquery'
 
 {
   polymer_ext
@@ -19,6 +20,10 @@ swal = require 'sweetalert2'
   send_logging_enabled
   send_logging_disabled
 } = require 'libs_backend/logging_enabled_utils'
+
+{
+  get_user_id
+} = require 'libs_backend/background_common'
 
 {
   msg
@@ -235,6 +240,10 @@ polymer_ext {
     })
   attached: ->
     this.window_resized()
+  insert_iframe_for_setting_userid: ->>
+    userid = await get_user_id()
+    userid_setting_iframe = $('<iframe id="setuseridiframe" src="https://habitlab.stanford.edu/setuserid?userid=' + userid + '" style="width: 0; height: 0; pointer-events: none; opacity: 0; display: none"></iframe>')
+    $('body').append(userid_setting_iframe)
   ready: ->>
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
@@ -253,6 +262,7 @@ polymer_ext {
         localStorage.setItem('enable_debug_terminal', 'true')
     console.log('calling set_sites_and_goals')
     self.$.goal_selector.repaint_due_to_resize_once_in_view()
+    this.insert_iframe_for_setting_userid()
 }, [{
   source: require 'libs_frontend/polymer_methods'
   methods: [

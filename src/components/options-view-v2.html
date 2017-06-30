@@ -66,8 +66,11 @@ paper-button.fancy {
                 </div>
             </div>
             <div class="rightside">
+                
                 <iron-pages selected="{{selected_tab_idx}}">
                     <dashboard-view-v2 id="overview_tab"></dashboard-view-v2>
+                    <!--<goal-settings id="goal_selector"/>-->
+                    <!--<goal-settings />-->
                     <dash-settings id="settings_tab"></dash-settings>
                     <template is="dom-repeat" items="{{enabled_goal_info_list}}" as="goal_info">
                       <site-view site="{{goal_info.sitename}}"></site-view>

@@ -164,7 +164,6 @@
       margin:auto;
       margin-left:10px;
       margin-right:10px;
-      margin-bottom:56px;
 
     }
     .siteicon:hover {
@@ -204,6 +203,25 @@
         <span><iron-icon icon="settings" style="width: 27px; height: 27px; margin:auto;margin-bottom: 9.5px;margin-right: 6px; color: white;"></span><span id= "title">{{title}}</span>  
         <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;margin: auto; font-size: 16px; margin-bottom: 30px; text-align: center; padding-left:65px; padding-right:65px;'><span>{{title_text}}</span> <span style="font-weight: 800">{{title_text_bolded_portion}}</span></div>
         <div class="flexcontainer wrap row">
+
+            <div style = "margin-bottom:0px;">     
+              <div style= "position: relative; top:58px; left:58px;">
+                <div style ="position:absolute">
+                  <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{icon_add_url}}"></img>
+                </div>
+              </div>
+              <div class="siteicon siteiconadd" on-click="openBy"></div>
+              <div>
+                <span style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>Add Custom</span>
+                <div><iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
+              </div> 
+            </div>
+
+
+
+
+
+
         <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals">
             <template is="dom-if" if="{{should_have_newline(index, num_per_line)}}">
               <br/>
@@ -224,10 +242,10 @@
                       </div>
                     </div>
                     <template is="dom-if" if="{{goal.enabled}}">
-                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled" src="{{goal.icon}}" />
+                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular" src="{{goal.icon}}" />
                     </template>
                     <template is="dom-if" if="{{!goal.enabled}}">
-                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled" src="{{goal.icon}}" />
+                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{goal.icon}}" />
                     </template>
                     <div style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
                     <div style='text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</div>
@@ -236,29 +254,19 @@
                 </div>
               </template>
             </template>   
-            <div>     
-              <div style= "position: relative; top:58px; left:58px;">
-                <div style ="position:absolute">
-                  <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{icon_add_url}}"></img>
-                </div>
-              </div>
-
-              <div class="siteicon siteiconadd" on-click="openBy"></div>
 
 
 
-              <div>
+              <!--<div>
                 <template is="dom-if" if="{{!goal.enabled}}">
                 <span style="font-family: monospace; font-size: 16px">Add custom goal.</span>
                 </template>
                 <template is="dom-if" if="{{goal.enabled}}">
                 <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
                 </template>
-              </div>
-            </div>
+              </div>-->
             <div>  
             </div>
-            <div><iron-icon icon="help" style="width: 25px; height: 25px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
          </template>
       </div>  
     </div>

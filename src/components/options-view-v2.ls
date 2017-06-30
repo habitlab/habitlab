@@ -155,6 +155,8 @@ polymer_ext {
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)
   ready: ->>
+    ##self = this
+    ##this.$$('#goal_selector').set_sites_and_goals()
     await this.rerender()
     if not this.have_options_page_hash and not this.selected_tab_idx?
       this.selected_tab_idx = 0

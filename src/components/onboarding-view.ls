@@ -220,6 +220,9 @@ polymer_ext {
     window.removeEventListener 'mousewheel', this.mousewheel_listener_bound
     window.removeEventListener 'resize', this.window_resized_bound
   window_resized: ->
+    if this.slide_idx == 1 # on the goal selector page
+      this.$.goal_selector.repaint_due_to_resize()
+      return
     current_height = 400
     target_height = window.innerHeight - 80
     current_width = 600
@@ -241,7 +244,7 @@ polymer_ext {
     this.mousewheel_listener_bound = this.mousewheel_listener.bind(this)
     this.window_resized_bound = this.window_resized.bind(this)
     window.addEventListener 'keydown', this.keydown_listener_bound
-    window.addEventListener 'mousewheel', this.mousewheel_listener_bound
+    #window.addEventListener 'mousewheel', this.mousewheel_listener_bound
     window.addEventListener 'resize', this.window_resized_bound
     await load_css_file('sweetalert2')
     if not chrome.runtime.getManifest().update_url?
@@ -249,6 +252,7 @@ polymer_ext {
       if not localStorage.getItem('enable_debug_terminal')?
         localStorage.setItem('enable_debug_terminal', 'true')
     console.log('calling set_sites_and_goals')
+    self.$.goal_selector.repaint_due_to_resize_once_in_view()
 }, [{
   source: require 'libs_frontend/polymer_methods'
   methods: [

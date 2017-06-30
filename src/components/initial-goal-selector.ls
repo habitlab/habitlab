@@ -79,7 +79,7 @@ polymer_ext {
     },
     title_text: {
       type: String
-      value: msg("HabitLab has come up with suggested sites that you spend the most time on, based on your browsing history.")
+      value: msg("HabitLab has come up with suggested sites that you spend the most time on, on average per day.")
     }
     title_text_bolded_portion: {
       type: String
@@ -369,26 +369,57 @@ polymer_ext {
     this.fire 'need_rerender', {}
     #console.log 'checkpoint 7'
     return
+  repaint_due_to_resize_once_in_view: ->
+    console.log 'calling repaint_due_to_resize_once_in_view'
+    self = this
+    leftmost = null
+    rightmost = null
+    rightmost_without_width = null
+    for icon in $('.siteicon')
+      width = $(icon).width()
+      left = $(icon).offset().left
+      right = left + width
+      if (leftmost == null) or left < leftmost
+        leftmost = left
+      if (rightmost == null) or right > rightmost
+        rightmost = right
+      if (rightmost_without_width == null) or left > rightmost_without_width
+        rightmost_without_width = left
+    if leftmost == rightmost_without_width == 0
+      # is not on screen
+      setTimeout ->
+        self.repaint_due_to_resize_once_in_view()
+      , 100
+    else
+      self.repaint_due_to_resize()
+  repaint_due_to_resize: ->
+    console.log 'resized!!'
+    leftmost = null
+    rightmost = null
+    rightmost_without_width = null
+    for icon in $('.siteicon')
+      width = $(icon).width()
+      left = $(icon).offset().left
+      right = left + width
+      if (leftmost == null) or left < leftmost
+        leftmost = left
+      if (rightmost == null) or right > rightmost
+        rightmost = right
+      if (rightmost_without_width == null) or left > rightmost_without_width
+        rightmost_without_width = left
+    if leftmost == rightmost_without_width == 0
+      # is not on screen
+      return
+    total_width = $(self).width()
+    margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
+    #$('.flexcontainer').css('margin-left', margin_needed)
+    current_offset = this.S('.flexcontainer').offset()
+    this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
   ready: ->>
     self = this
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     self.on_resize '#outer_wrapper', ->
-      console.log 'resized!!'
-      leftmost = null
-      rightmost = null
-      for icon in $('.siteicon')
-        width = $(icon).width()
-        left = $(icon).offset().left
-        right = left + width
-        if (leftmost == null) or left < leftmost
-          leftmost = left
-        if (rightmost == null) or right > rightmost
-          rightmost = right
-      total_width = $(self).width()
-      margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
-      #$('.flexcontainer').css('margin-left', margin_needed)
-      current_offset = $('.flexcontainer').offset()
-      $('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
+      self.repaint_due_to_resize()
     #fetch history for suggested sites in intervention settings 
     this.baseline_time_on_domains = await get_baseline_time_on_domains()
     baseline_time_on_domains_array = []
@@ -405,8 +436,10 @@ polymer_ext {
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
     this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
     console.log(this.baseline_time_on_domains)
-
-    
+    self.once_available '.siteiconregular' ->
+      console.log 'siteiconregular available 1'
+      self.repaint_due_to_resize()
+      console.log 'siteiconregular available 2'
 
 }, [
   {
@@ -419,6 +452,8 @@ polymer_ext {
     source: require 'libs_frontend/polymer_methods'
     methods: [
       'on_resize'
+      'once_available'
+      'S'
     ]
   }
 ]

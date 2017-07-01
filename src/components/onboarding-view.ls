@@ -276,7 +276,7 @@ polymer_ext {
       menu: null,
       direction: 'horizontal',
       verticalCentered: true,
-      sectionsColor: [],
+      sectionsColor: ['rgb(81, 167,249)', 'rgb(81, 167,249)', 'rgb(144, 206,233)'],
       anchors: [],
       scrollingSpeed: 700,
       easing: 'swing',
@@ -284,7 +284,7 @@ polymer_ext {
       loopTop: false,
       css3: true,
       navigation: {
-        'textColor': '#000',
+        'textColor': 'rgb(144, 206,233)',
         'bulletsColor': '#000',
         'position': 'right',
         'tooltips': ['', '','','']

@@ -2,6 +2,9 @@
 
 swal = require 'sweetalert2'
 $ = require 'jquery'
+require('jquery.pagepiling')($)
+
+window.$ = $
 
 {
   polymer_ext
@@ -35,7 +38,7 @@ polymer_ext {
     slide_idx: {
       type: Number
       value: if (window.hashdata_unparsed == 'last') then 4 else 0
-      observer: 'slide_changed'
+      #observer: 'slide_changed'
     }
     prev_slide_idx: {
       type: Number
@@ -158,28 +161,15 @@ polymer_ext {
       this.onboarding_complete()
       return
     this.next_slide()
-  next_slide: ->>
-    if this.animation_inprogress
-      return
-    last_slide_idx = this.SM('.slide').length - 1
-    if this.slide_idx == last_slide_idx
-      return
-      /*
-      try
-        await swal({
-          title: "Let's start by setting your goals"
-        })
-        console.log 'ok pressed'
-        this.fire 'onboarding-complete', {}
-      catch
-        return
-      return
-      */
+  next_slide: (evt) ->
+    $.fn.pagepiling.moveSectionDown();
+    return
+
     this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
-  prev_slide: ->
-    if this.animation_inprogress
-      return
-    this.slide_idx = Math.max(0, this.slide_idx - 1)
+  prev_slide: (evt) ->
+    $.fn.pagepiling.moveSectionUp();
+    return
+
   get_icon: (img_path) ->
     return chrome.extension.getURL('icons/' + img_path)
   keydown_listener: (evt) ->
@@ -247,6 +237,80 @@ polymer_ext {
   ready: ->>
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
+    await load_css_file('jquery.pagepiling')
+    await load_css_file('sweetalert2')
+    #$(this.$.pagepiling).pagepiling({
+    this.$.screen2.addEventListener 'wheel', (evt) ->
+      console.log 'wheel on screen1'
+      #evt.preventDefault()
+      evt.stopPropagation()
+      return
+    this.$.screen2.addEventListener 'mousewheel', (evt) ->
+      console.log 'mousewheel on screen1'
+      #evt.preventDefault()
+      evt.stopPropagation()
+      return
+    /*
+    this.$.pagepiling.addEventListener 'mousewheel', (evt) ->
+      console.log 'mousewheel on pagepiling'
+      evt.preventDefault()
+      evt.stopPropagation()
+      return
+    this.$.pagepiling.addEventListener 'wheel', (evt) ->
+      console.log 'wheel on pagepiling'
+      evt.preventDefault()
+      evt.stopPropagation()
+      return
+    window.addEventListener 'mousewheel', (evt) ->
+      console.log 'mousewheel on window'
+      evt.preventDefault()
+      evt.stopPropagation()
+      return
+    window.addEventListener 'wheel', (evt) ->
+      console.log 'wheel on window'
+      evt.preventDefault()
+      evt.stopPropagation()
+      return
+    */
+    $('#pagepiling').pagepiling({
+      menu: null,
+      direction: 'horizontal',
+      verticalCentered: true,
+      sectionsColor: [],
+      anchors: [],
+      scrollingSpeed: 700,
+      easing: 'swing',
+      loopBottom: false,
+      loopTop: false,
+      css3: true,
+      navigation: {
+        'textColor': '#000',
+        'bulletsColor': '#000',
+        'position': 'right',
+        'tooltips': ['', '','','']
+      },
+      normalScrollElements: null,
+      normalScrollElementTouchThreshold: 5,
+      touchSensitivity: 5,
+      keyboardScrolling: true,
+      sectionSelector: '.section',
+      animateAnchor: false,
+      onLeave: (index, nextIndex, direction) ->
+        console.log 'onLeave called'
+        console.log 'index: ' + index
+        console.log 'nextIndex: ' + nextIndex
+        self.slide_idx = nextIndex - 1
+    })
+    if not chrome.runtime.getManifest().update_url?
+      # developer mode
+      if not localStorage.getItem('enable_debug_terminal')?
+        localStorage.setItem('enable_debug_terminal', 'true')
+    console.log('calling set_sites_and_goals')
+    this.$.goal_selector.repaint_due_to_resize_once_in_view()
+    this.insert_iframe_for_setting_userid()
+    /*
+    self = this
+    this.$$('#goal_selector').set_sites_and_goals()
     this.last_mousewheel_time = 0
     this.last_mousewheel_deltaY = 0
     this.keydown_listener_bound = this.keydown_listener.bind(this)
@@ -256,6 +320,7 @@ polymer_ext {
     #window.addEventListener 'mousewheel', this.mousewheel_listener_bound
     window.addEventListener 'resize', this.window_resized_bound
     await load_css_file('sweetalert2')
+    await load_css_file('jquery.pagepiling')
     if not chrome.runtime.getManifest().update_url?
       # developer mode
       if not localStorage.getItem('enable_debug_terminal')?
@@ -263,6 +328,7 @@ polymer_ext {
     console.log('calling set_sites_and_goals')
     self.$.goal_selector.repaint_due_to_resize_once_in_view()
     this.insert_iframe_for_setting_userid()
+    */
 }, [{
   source: require 'libs_frontend/polymer_methods'
   methods: [

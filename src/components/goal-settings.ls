@@ -372,6 +372,7 @@ polymer_ext {
   ready: ->>
     self = this
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    /*
     self.on_resize '#outer_wrapper', ->
       console.log 'resized!!'
       leftmost = null
@@ -389,6 +390,7 @@ polymer_ext {
       #$('.flexcontainer').css('margin-left', margin_needed)
       current_offset = $('.flexcontainer').offset()
       $('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
+    */
     #fetch history for suggested sites in intervention settings 
     this.baseline_time_on_domains = await get_baseline_time_on_domains()
     baseline_time_on_domains_array = []

@@ -484,10 +484,11 @@ export get_interventions_to_goals = ->>
   output = {}
   goals = await get_goals()
   for goal_name,goal_info of goals
-    for intervention_name in goal_info.interventions
-      if not output[intervention_name]?
-        output[intervention_name] = []
-      output[intervention_name].push goal_name
+    if goal_info.interventions?
+      for intervention_name in goal_info.interventions
+        if not output[intervention_name]?
+          output[intervention_name] = []
+        output[intervention_name].push goal_name
   return output
 
 export get_goals_for_intervention = (intervention_name) ->>

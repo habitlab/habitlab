@@ -75,14 +75,13 @@
 
     .prevnext_button {
       text-align: center;
-      background-color: rgb(81, 167,249);
+      background-color: rgba(81, 167,249,0.95);
     }
 
     .get_started_button {
-      background-color:  rgb(81, 167,249);
+      background-color:rgb(0,152,219);
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      T
-    
+
     }
 
     .subtext {
@@ -173,7 +172,6 @@
         <br>
         <div class="checkbox_div_outer" style = "padding-top:20px;padding-bottom:20px;">
           <div class="checkbox_div">
-            <paper-checkbox checked="{{allow_logging}}">
               <span class="checkbox_span">By using HabitLab, you are agreeing to the <a href="https://github.com/habitlab/habitlab/wiki/Privacy#stanford-irb" target="_blank" style="color: white; text-decoration: underline;" on-click="see_what_gets_loggged_clicked">terms of service.</a></span>
             </paper-checkbox>
 
@@ -199,13 +197,9 @@
   </div>
 
   <div id="screen3" class="section pp-scrollable" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249)"> 
-
-
-
-
-
+      <div class="bottom-bar">
         <paper-button class="get_started_button" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>
-
+      </div>    
 
 
   </div>

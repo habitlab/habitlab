@@ -354,6 +354,14 @@ export get_goals = ->>
   #local_cached_get_goals := output
   return output
 
+export get_spend_more_time_goals = ->>
+  goals = await get_goals()
+  spend-more-time-goals = {}
+  for goal, goal-info of goals
+    if goal-info.is_positive
+      spend-more-time-goals[goal] = goal-info
+  return spend-more-time-goals
+
 export clear_cache_get_goals = ->
   #local_cached_get_goals := null
   localStorage.removeItem 'cached_get_goals'
@@ -385,19 +393,30 @@ export add_custom_goal_info = (goal_info) ->>
   return
 
 export add_custom_goal_reduce_time_on_domain = (domain) ->>
+  await add_custom_goal_involving_time_on_domain(domain, false)
+  return
+
+export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   domain_printable = domain
   if domain_printable.startsWith('www.')
     domain_printable = domain_printable.substr(4)
-  custom_goal_name = "custom/spend_less_time_#{domain}"
-  generic_interventions = await intervention_utils.list_generic_interventions()
-  generated_interventions = [x.split('generic/').join("generated_#{domain}/") for x in generic_interventions]
-  if intervention_utils.is_video_domain(domain)
-    video_interventions = await intervention_utils.list_video_interventions()
-    generated_interventions = generated_interventions.concat [x.split('video/').join("generated_#{domain}/") for x in video_interventions]
+  
+  if is-positive
+    custom_goal_name = "custom/spend_more_time_#{domain}"
+    description = "Spend more time on #{domain_printable}"
+  else
+    custom_goal_name = "custom/spend_less_time_#{domain}"
+    description = "Spend less time on #{domain_printable}"
+    generic_interventions = await intervention_utils.list_generic_interventions()
+    generated_interventions = [x.split('generic/').join("generated_#{domain}/") for x in generic_interventions]
+    if intervention_utils.is_video_domain(domain)
+      video_interventions = await intervention_utils.list_video_interventions()
+      generated_interventions = generated_interventions.concat [x.split('video/').join("generated_#{domain}/") for x in video_interventions]
+  
   goal_info = {
     name: custom_goal_name
     custom: true
-    description: "Spend less time on #{domain_printable}"
+    description: description
     homepage: "http://#{domain}/"
     progress_description: "Time spent on #{domain_printable}"
     sitename: domain
@@ -405,6 +424,7 @@ export add_custom_goal_reduce_time_on_domain = (domain) ->>
     interventions: generated_interventions
     measurement: 'time_spent_on_domain'
     domain: domain
+    is_positive: is-positive
     target: {
       default: 20
       units: 'minutes'
@@ -415,11 +435,17 @@ export add_custom_goal_reduce_time_on_domain = (domain) ->>
     delete goal_info.icon
   await add_custom_goal_info goal_info
   return
+  
 
 export add_enable_custom_goal_reduce_time_on_domain = (domain) ->>
   await add_custom_goal_reduce_time_on_domain(domain)
   await set_goal_enabled("custom/spend_less_time_#{domain}")
   await intervention_utils.generate_interventions_for_domain domain
+  return
+
+export add_enable_custom_goal_increase_time_on_domain = (domain) ->>
+  await add_custom_goal_involving_time_on_domain(domain, true)
+  await set_goal_enabled("custom/spend_more_time_#{domain}")
   return
 
 export disable_all_custom_goals = ->>

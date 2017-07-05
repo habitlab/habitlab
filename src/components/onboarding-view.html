@@ -10,6 +10,8 @@
 <link rel="import" href="../bower_components/html-echo/html-echo.html">
 <link rel="import" href="feedback-button-right.html">
 <link rel="import" href="initial-goal-selector.html">
+<link rel="import" href="positive-goal-selector.html">
+
 
 <dom-module id="onboarding-view">
   <style>
@@ -196,8 +198,21 @@
      <initial-goal-selector id="goal_selector" />
   </div>
 
+<<<<<<< HEAD
   <div id="screen3" class="section pp-scrollable" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249)"> 
       <div class="bottom-bar">
+=======
+  <div id="screen3" class="section pp-scrollable" style="display:block; width: 100vw; height: 100vh; background-color:rgb(81, 167,249) ">
+     <positive-goal-selector id="positive_goal_selector" />
+  </div>
+
+  <div id="screen4" class="section pp-scrollable" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249)"> 
+
+
+
+
+
+>>>>>>> 10fbc7ea8edbdff3ed82584e71893a9d1504d641
         <paper-button class="get_started_button" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>
       </div>    
 

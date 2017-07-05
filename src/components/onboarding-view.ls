@@ -288,11 +288,11 @@ polymer_ext {
     */
     $('#pagepiling').pagepiling({
       menu: null,
-      direction: 'horizontal',
+      direction: 'vertical',
       verticalCentered: true,
       sectionsColor: ['rgb(81, 167,249)', 'rgb(81, 167,249)', 'rgb(144, 206,233)'],
       anchors: [],
-      scrollingSpeed: 700,
+      scrollingSpeed: 1,
       easing: 'swing',
       loopBottom: false,
       loopTop: false,
@@ -308,6 +308,7 @@ polymer_ext {
       touchSensitivity: 5,
       keyboardScrolling: true,
       sectionSelector: '.section',
+      swing: 'linear',
       animateAnchor: false,
       onLeave: (index, nextIndex, direction) ->
         console.log 'onLeave called'

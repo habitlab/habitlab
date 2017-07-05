@@ -218,6 +218,8 @@ polymer_ext {
     if this.slide_idx == 1 # on the goal selector page
       this.$.goal_selector.repaint_due_to_resize()
       return
+    else if this.slide_idx == 2
+      this.$.positive_goal_selector.repaint_due_to_resize()
     current_height = 400
     target_height = window.innerHeight - 80
     current_width = 600
@@ -237,6 +239,8 @@ polymer_ext {
   ready: ->>
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
+    this.$$('#positive_goal_selector').set_sites_and_goals()
+
     await load_css_file('jquery.pagepiling')
     await load_css_file('sweetalert2')
     #$(this.$.pagepiling).pagepiling({
@@ -246,6 +250,16 @@ polymer_ext {
       evt.stopPropagation()
       return
     this.$.screen2.addEventListener 'mousewheel', (evt) ->
+      console.log 'mousewheel on screen1'
+      #evt.preventDefault()
+      evt.stopPropagation()
+      return
+    this.$.screen3.addEventListener 'wheel', (evt) ->
+      console.log 'wheel on screen1'
+      #evt.preventDefault()
+      evt.stopPropagation()
+      return
+    this.$.screen3.addEventListener 'mousewheel', (evt) ->
       console.log 'mousewheel on screen1'
       #evt.preventDefault()
       evt.stopPropagation()
@@ -307,6 +321,8 @@ polymer_ext {
         localStorage.setItem('enable_debug_terminal', 'true')
     console.log('calling set_sites_and_goals')
     this.$.goal_selector.repaint_due_to_resize_once_in_view()
+    this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
+
     this.insert_iframe_for_setting_userid()
     /*
     self = this

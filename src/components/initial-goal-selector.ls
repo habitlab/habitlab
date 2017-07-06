@@ -412,7 +412,7 @@ polymer_ext {
       return
     total_width = $(self).width()
     margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
-    #$('.flexcontainer').css('margin-left', margin_needed)
+    $('.flexcontainer').css('margin-left', margin_needed)
     current_offset = this.S('.flexcontainer').offset()
     this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
   ready: ->>

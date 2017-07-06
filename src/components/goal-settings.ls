@@ -458,11 +458,12 @@ polymer_ext {
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
     this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
     console.log(this.baseline_time_on_domains)
+    /*
     self.once_available '.siteiconregular' ->
       console.log 'siteiconregular available 1'
       self.repaint_due_to_resize()
       console.log 'siteiconregular available 2'
-
+    */
 }, [
   {
     source: require 'libs_common/localization_utils'

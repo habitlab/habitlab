@@ -2,9 +2,6 @@
 prelude = require 'prelude-ls'
 $ = require 'jquery'
 
-swal = require 'sweetalert2'
-
-
 {load_css_file} = require 'libs_common/content_script_utils'
 
 {
@@ -124,11 +121,15 @@ polymer_ext {
     return '0 mins'
   limit_to_eight: (list) ->
     return list[0 til 8]
-  delete_goal_clicked: (evt) ->>
-    goal_name = evt.target.goal_name
-    await remove_custom_goal_and_generated_interventions goal_name
-    await this.set_sites_and_goals()
-    this.fire 'need_rerender', {}
+
+
+  # delete_goal: (evt) ->>
+  #   goal_name = evt.target.goal_name
+  #   await remove_custom_goal_and_generated_interventions goal_name
+  #   await this.set_sites_and_goals()
+  #   this.fire 'need_rerender', {}
+
+
   disable_interventions_which_do_not_satisfy_any_goals: (goal_name) ->>
     enabled_goals = await get_enabled_goals()
     enabled_interventions = await get_enabled_interventions()
@@ -168,11 +169,6 @@ polymer_ext {
       this.index_of_daily_goal_mins[goal] = mins
   show_internal_names_of_goals: ->
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
-  daily_goal_help_clicked: ->
-    swal {
-      title: 'How will HabitLab help me achieve these goals?'
-      text: 'HabitLab will help you achieve these goals by showing you a different intervention, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
-    }
 
   openBy: (evt) ->
     console.log(evt)
@@ -180,7 +176,17 @@ polymer_ext {
     this.$.alignedDialog.positionTarget = evt.target
     this.$.alignedDialog.open()
     return
+      
+  helpOpen: (evt) ->
+    console.log(evt)
+    this.$.animated.open()
+    return
 
+  delete_goal_clicked: (evt) ->>
+    goal_name = evt.target.goal_name
+    await remove_custom_goal_and_generated_interventions goal_name
+    await this.set_sites_and_goals()
+    this.fire 'need_rerender', {}
   /*open_feedback_form: ->>
       feedback_form = document.createElement('feedback-form')
       feedback_form.screenshot = this.screenshot
@@ -417,7 +423,6 @@ polymer_ext {
     this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
   ready: ->>
     self = this
-    load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     self.on_resize '#outer_wrapper', ->
       self.repaint_due_to_resize()
     #fetch history for suggested sites in intervention settings 

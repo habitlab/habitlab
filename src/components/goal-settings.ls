@@ -423,8 +423,25 @@ polymer_ext {
     this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
   ready: ->>
     self = this
+    /*
     self.on_resize '#outer_wrapper', ->
-      self.repaint_due_to_resize()
+      console.log 'resized!!'
+      leftmost = null
+      rightmost = null
+      for icon in $('.siteicon')
+        width = $(icon).width()
+        left = $(icon).offset().left
+        right = left + width
+        if (leftmost == null) or left < leftmost
+          leftmost = left
+        if (rightmost == null) or right > rightmost
+          rightmost = right
+      total_width = $(self).width()
+      margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
+      #$('.flexcontainer').css('margin-left', margin_needed)
+      current_offset = $('.flexcontainer').offset()
+      $('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
+    */
     #fetch history for suggested sites in intervention settings 
     this.baseline_time_on_domains = await get_baseline_time_on_domains()
     baseline_time_on_domains_array = []

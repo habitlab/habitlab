@@ -829,7 +829,7 @@ export get_goals_and_interventions = ->>
   for goalname in list_of_goals
     current_item = {goal: all_goals[goalname]}
     current_item.enabled = enabled_goals[goalname] == true
-    if goal_to_interventions[goalname]?
+    if not goal_to_interventions[goalname]?
       current_item.interventions = []
     else
       current_item.interventions = prelude.sort-by (.name), goal_to_interventions[goalname]

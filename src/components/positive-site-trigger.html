@@ -1,0 +1,23 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
+<dom-module id="positive-site-trigger">
+  <template>
+    <style is="custom-style">
+      #site-icon {
+        margin-top:20px
+      }
+      #site-title {
+        padding-top: 15px
+      }
+      #trigger-container {
+        display: flex;
+      }
+    </style>
+    <div id="trigger-container">
+      <div id="site-title">{{site}}</div>
+      <paper-button class="close-button" text="GO"></button>
+    </div>
+  </template>
+  <script src="positive-site-trigger.js"></script>
+</dom-module>

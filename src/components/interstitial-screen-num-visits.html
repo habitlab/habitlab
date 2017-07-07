@@ -97,28 +97,27 @@
 
 
     
-    <div class="whiteDiv">
-      	
+  <div class="whiteDiv">   	
     <div id="block_container" style="margin-top: 50px">
-       <div id = "today" class=timer-text style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
-         <br>You have visited it <b>{{visits}}</b> times.   
+        <div id = "today" class=timer-text style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
+          <br>You have visited it <b>{{visits}}</b> times.   
         </div>
     </div>
 
-      <template is="dom-if" if="{{show_rss_message}}">
-        <habitlab-rss-message class="message-block"></habitlab-rss-message>
-      </template>
-      <template is="dom-if" if="{{show_workpages_message}}">
-        <workpages-message class="message-block"></workpages-message>
-      </template>
-      <center><habitlab-logo id="logo"></habitlab-logo><center>
-      <center><close-tab-button id="closetabbutton" class="closeTabButton"></close-tab-button></center>
+    <template is="dom-if" if="{{show_rss_message}}">
+      <habitlab-rss-message class="message-block"></habitlab-rss-message>
+    </template>
+    <template is="dom-if" if="{{show_workpages_message}}">
+      <workpages-message class="message-block"></workpages-message>
+    </template>
+    <center><habitlab-logo id="logo"></habitlab-logo><center>
+    <center><close-tab-button id="closetabbutton" class="closeTabButton"></close-tab-button></center>
 
-      <div class="contentContainer">
-        <center><paper-progress id="paperprogress"></paper-progress></center>
-        <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">OK</paper-button></center>
-      </div>
+    <div class="contentContainer">
+      <center><paper-progress id="paperprogress"></paper-progress></center>
+      <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">OK</paper-button></center>
     </div>
+  </div>
 
   </template>
   

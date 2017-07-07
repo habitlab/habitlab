@@ -165,6 +165,7 @@ upload_collection_item_to_server = (name, data) ->>
 export sync_unsynced_items_in_db_collection = (name) ->>
   collection = await getCollection(name)
   num_unsynced = await collection.where('synced').equals(0).count()
+  dlog('num_unsynced is: ' + num_unsynced)
   if num_unsynced == 0
     return true
   #console.log 'num_unsynced: ' + num_unsynced
@@ -187,15 +188,31 @@ export start_syncing_all_db_collections = ->>
     return
   db_syncing_active := true
   collection_names = list_collections_to_sync()
+  sync_num = 120
+  # only sync once every 120 seconds
+  infrequently_synced = [
+    'seconds_on_domain_per_day'
+    'seconds_on_domain_per_session'
+    'custom_measurements_each_day'
+    'visits_to_domain_per_day'
+  ]
   while db_syncing_active
     for collection_name in collection_names
       if not db_syncing_active
         return
+      if infrequently_synced.includes(collection_name)
+        sync_num += 1
+        if sync_num < 120
+          continue
+        else
+          sync_num = 0
+      dlog 'start syncing: ' + collection_name
       all_successful = await sync_unsynced_items_in_db_collection(collection_name)
+      dlog 'done syncing: ' + collection_name + ' all successful: ' + all_successful
       if not all_successful
         dlog 'error during collection syncing, pausing 1200 seconds: ' + collection_name
         await sleep(1200000)
-    await sleep(120000)
+    await sleep(1000)
 
 export stop_syncing_all_db_collections = ->
   db_syncing_active := false

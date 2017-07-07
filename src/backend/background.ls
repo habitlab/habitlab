@@ -119,6 +119,20 @@ do ->>
       chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding:last')})
       close_notification()
 
+  export get_last_visit_to_website_timestamp = ->>
+    history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
+    for search_result in history_search_results
+      if search_result.url.startsWith('https://habitlab.stanford.edu')
+        return search_result.lastVisitTime
+    return -1
+
+  export get_last_visit_to_chrome_store_timestamp = ->>
+    history_search_results = await new Promise -> chrome.history.search({text: 'https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd', startTime: 0}, it)
+    for search_result in history_search_results
+      if search_result.url.startsWith('https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd')
+        return search_result.lastVisitTime
+    return -1
+
   do ->>
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
@@ -136,6 +150,8 @@ do ->>
     await set_default_goals_enabled()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
+    last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()
+    last_visit_to_chrome_store_timestamp = await get_last_visit_to_chrome_store_timestamp()
     need_to_create_new_tab = true
     install_source = 'unknown'
     if tab_info?
@@ -152,6 +168,8 @@ do ->>
       chrome.tabs.create {url: 'options.html#onboarding'}
     install_data = await get_basic_client_data()
     install_data.install_source = install_source
+    install_data.last_visit_to_website = last_visit_to_website_timestamp
+    install_data.last_visit_to_chrome_store = last_visit_to_chrome_store_timestamp
     $.ajax {
       type: 'POST'
       url: 'https://habitlab.herokuapp.com/add_install'

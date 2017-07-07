@@ -1,0 +1,40 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="common.js"></script>
+
+  <link rel="import" href="common.html">
+</head>
+
+<body>
+
+  <dom-module id="x-scope">
+    <template>
+      <vaadin-combo-box id="combobox" items="[[items]]">
+        <template>
+          index: [[index]]
+          item: [[item]]
+          selected: [[selected]]
+          focused: [[focused]]
+          parentProperty: [[parentProperty]]
+          parentProperty.foo: [[parentProperty.foo]]
+          parentMethod: [[parentMethod()]]
+          <button on-tap="parentEventHandler"></button>
+        </template>
+      </vaadin-combo-box>
+    </template>
+    <script src="item-template-0.js"></script>
+  </dom-module>
+
+  <test-fixture id="scope">
+    <template is="dom-template">
+      <x-scope items="[[items]]"></x-scope>
+    </template>
+  </test-fixture>
+
+  <script src="item-template-0.js"></script>
+
+
+
+
+</body></html>

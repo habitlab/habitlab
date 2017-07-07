@@ -1,0 +1,166 @@
+<!--
+@license
+Copyright (c) 2016 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+--><!--
+`<vaadin-upload>` is a Polymer element for uploading multiple files with drag and drop support.
+
+Example:
+
+```html
+<vaadin-upload></vaadin-upload>
+```
+
+### Styling
+
+The following custom properties are available for styling the component.
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--vaadin-upload-drag-ripple`|A mixin that is applied to the ripple animation in the drop area|`{}`
+`--vaadin-upload-drop-label`|A mixin that is applied to the drop label|`{}`
+`--vaadin-upload-drop-label-dragover`|A mixin that is applied to the drop label when overing the component with files|`{}`
+`--vaadin-upload-drop-label-icon`|A mixin that is applied to the drop icon|`{}`
+`--vaadin-upload-file-list`|A mixin that is applied to the file list|`{}`
+`--vaadin-upload-buttons`|A mixin that is applied to the buttons container|`{}`
+`--vaadin-upload-buttons-primary`|A mixin that is applied to the primary buttons container (left side)|`{}`
+`--vaadin-upload-buttons-secondary`|A mixin that is applied to the secondary buttons container (right side)|`{}`
+`--vaadin-upload-button-add`|A mixin that is applied to the upload button|`{}`
+`--vaadin-upload-button-add-disabled`|A mixin that is applied to the upload button when `maxFiles` limit is reached|`{}`
+
+
+
+@element vaadin-upload
+@demo demo/index.html
+--><html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="vaadin-upload-icons.html">
+
+<link rel="import" href="vaadin-upload-file.html">
+
+</head><body><dom-module id="vaadin-upload">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-vertical);
+        display: block;
+        position: relative;
+        text-align: left;
+      }
+
+      :host(:not([nodrop])) {
+        border: 1px dashed;
+        border-color: var(--divider-color, #666);
+        border-radius: 3px;
+        overflow: hidden;
+        padding: 16px;
+      }
+
+      :host([dragover-valid]) {
+        border-color: var(--primary-color, #00B4F0);
+      }
+
+      /*
+        Cover the entire element with transparent overlay when dragging files
+        over it. Helps to reduce the amount of events fired.
+      */
+      :host::before {
+        @apply(--layout-fit);
+        content: '';
+        display: none;
+        z-index: 10;
+      }
+
+      :host([dragover])::before {
+        display: block;
+      }
+
+      #dragRipple {
+        color: var(--light-primary-color, #7CD8F7);
+        @apply(--vaadin-upload-drag-ripple);
+      }
+
+      #dropLabel {
+        @apply(--layout-flex);
+        @apply(--paper-font-body2);
+        position: relative;
+        padding: .43em .57em;
+        margin: 0 .29em;
+        color: var(--disabled-text-color, #b3b3b3);
+        @apply(--vaadin-upload-drop-label);
+      }
+
+      :host([dragover-valid]) #dropLabel,
+      :host([dragover-valid]) ::content .drop-label {
+        color: var(--primary-color, #00B4F0);
+        @apply(--vaadin-upload-drop-label-dragover);
+      }
+
+      #dropLabel ::content iron-icon {
+        margin-right: .25em;
+        @apply(--vaadin-upload-drop-label-icon);
+      }
+
+      #fileList {
+        position: relative;
+        @apply(--vaadin-upload-file-list);
+      }
+
+      #buttons {
+        @apply(--layout-horizontal);
+        position: relative;
+        @apply(--vaadin-upload-buttons);
+      }
+
+      #buttonsPrimary {
+        @apply(--layout-horizontal);
+        @apply(--layout-flex);
+        @apply(--layout-start);
+        margin-left: -.29em;
+        @apply(--vaadin-upload-buttons-primary);
+      }
+
+      #addFiles {
+        @apply(--paper-font-button);
+        padding: .43em .57em;
+        background: var(--primary-color, #00B4F0);
+        color: var(--primary-font-color, #FFF);
+        @apply(--vaadin-upload-button-add);
+      }
+
+      #addFiles[disabled] {
+        background: var(--divider-color, #e0e0e0);
+        color: var(--disabled-text-color, gray);
+        @apply(--vaadin-upload-button-add-disabled);
+      }
+    </style>
+
+    <div id="buttons">
+      <div id="buttonsPrimary">
+        <paper-button id="addFiles" on-tap="_onAddFilesClick" disabled="[[_maxFilesAdded(maxFiles, files.length)]]">[[_i18nPlural(maxFiles, i18n.addFiles, i18n.addFiles.*)]]</paper-button>
+        <div id="dropLabel" hidden$="[[nodrop]]">
+          <content select=".drop-label">
+            <iron-icon icon="vaadin-upload:file-upload"></iron-icon>
+            [[_i18nPlural(maxFiles, i18n.dropFiles, i18n.dropFiles.*)]]
+          </content>
+        </div>
+      </div>
+    </div>
+    <content select=".file-list">
+      <div id="fileList">
+        <template is="dom-repeat" items="[[files]]" as="file">
+          <vaadin-upload-file file="[[file]]"></vaadin-upload-file>
+        </template>
+      </div>
+    </content>
+    <content></content>
+    <input type="file" id="fileInput" on-change="_onFileInputChange" hidden="" accept$="{{accept}}" multiple$="[[_isMultiple(maxFiles)]]">
+    <paper-ripple id="dragRipple" noink=""></paper-ripple>
+  </template>
+</dom-module>
+
+<script src="vaadin-upload-0.js"></script>
+</body></html>

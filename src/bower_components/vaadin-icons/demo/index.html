@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <title>vaadin-icons</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../vaadin-icons.html">
+  <link rel="import" href="../../iron-meta/iron-meta.html">
+  <link rel="import" href="../../elements-demo-resources/common.html">
+
+  <custom-style>
+    <style>
+      #wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .icon-container {
+        margin: 24px 8px;
+        text-align: center;
+        width: 130px;
+        display: inline-block;
+        cursor: default;
+        vertical-align: top;
+      }
+
+      .icon-container span {
+        font-family: sans-serif;
+        font-size: 12px;
+        display: block;
+        margin-top: .5em;
+        color: #616161;
+        transition: all 600ms;
+      }
+
+      .icon-container:hover span {
+        color: #00b4f0;
+      }
+
+      .icon-container iron-icon {
+        display: inline-block;
+        fill: #616161;
+        transition: all 200ms;
+      }
+
+      .icon-container:hover iron-icon {
+        fill: #00b4f0;
+      }
+    </style>
+  </custom-style>
+</head>
+
+<body>
+  <dom-bind>
+    <template is="dom-bind">
+      <dom-repeat>
+        <template is="dom-repeat" items="{{iconsets}}">
+          <dom-repeat id="wrapper">
+            <template is="dom-repeat" items="{{getIconNames(item)}}">
+              <div class="icon-container">
+                <iron-icon icon="[[item]]"></iron-icon>
+                <span>{{item}}</span>
+              </div>
+            </template>
+          </dom-repeat>
+        </template>
+      </dom-repeat>
+    </template>
+  </dom-bind>
+
+  <script>
+    window.addEventListener('WebComponentsReady', function() {
+      var domBind = Polymer.version.match(/^1/) ? document.querySelector('[is=dom-bind]') : document.querySelector('dom-bind');
+
+      domBind.iconsets = new Polymer.IronMeta({type: 'iconset'}).list;
+
+      domBind.getIconNames = function(iconset) {
+        return iconset.getIconNames();
+      };
+    });
+  </script>
+</body>

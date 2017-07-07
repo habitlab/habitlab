@@ -1,7 +1,6 @@
-<head>
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-</head>
+
 <dom-module id="workpages-message">
   <template>
     <style is="custom-style">
@@ -31,7 +30,10 @@
         padding-top: 15px;
         margin-bottom: 15px;
         font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        font-size: 16px;
+        font-size: 20px;
+        color: #415D67;
+        padding-left: 10px;
+        padding-right: 10px;
       }
 
       .linktext {
@@ -55,16 +57,16 @@
 
     </style>
     <div id="rsscontainer">
-      <div id="rsstitle">These productive sites can't wait to have you back!</div>
+      <div id="rsstitle">Work sites you've visited recently</div>
 
-      <template is="dom-repeat" items={{links}}>
+      <template is="dom-repeat" items="{{links}}">
         <div class="linktext">
-          <img src="https://www.google.com/s2/favicons?domain_url={{item}}" style="width: 32px; height: 32px; display: inline-block"></img>
+          <img src="https://www.google.com/s2/favicons?domain_url={{item}}" style="width: 32px; height: 32px; display: inline-block" />
 
           <a href="http://{{item}}" on-click="link_clicked" style="display: inline-block">
             <paper-item>{{item}}</paper-item>
           </a>
-        <div>
+        </div>
       </template>
     </div>
   </template>

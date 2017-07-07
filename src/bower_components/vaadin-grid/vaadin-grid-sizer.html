@@ -1,0 +1,33 @@
+<html><head><link rel="import" href="vaadin-grid-table-cell.html">
+
+</head><body><dom-module id="vaadin-grid-sizer">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        position: relative;
+        width: 100%;
+        visibility: hidden;
+      }
+
+      .cell {
+        display: block;
+        flex-shrink: 0;
+        line-height: 0;
+        font-size: 1px;
+        margin-top: -1em;
+      }
+
+      .cell[hidden] {
+        display: none;
+      }
+    </style>
+
+    <template is="dom-repeat" items="[[_columns]]" as="column">
+      <vaadin-grid-sizer-cell class="cell" column="[[column]]">&nbsp;</vaadin-grid-sizer-cell>
+    </template>
+
+  </template>
+  <script src="vaadin-grid-sizer-0.js"></script>
+</dom-module>
+</body></html>

@@ -1,0 +1,83 @@
+
+  (function() {
+    Polymer.Gestures.register({
+      name: 'vaadin-contextmenu',
+      deps: ['touchstart', 'touchmove', 'touchend', 'tap', 'contextmenu'],
+      flow: {
+        start: ['touchstart', 'contextmenu'],
+        end: ['tap', 'contextmenu']
+      },
+
+      emits: ['vaadin-contextmenu'],
+
+      info: {
+        sourceEvent: null,
+        _ios: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+      },
+
+      reset: function() {
+        this.info.sourceEvent = null;
+        this.info.fired = false;
+        if (this.info.touchJob) {
+          this.info.touchJob.stop();
+        }
+        this.info.touchJob = null;
+        this.info.touchStartCoords = null;
+      },
+
+      touchstart: function(e) {
+        this.info.sourceEvent = e;
+        this.info.touchStartCoords = {
+          x: e.changedTouches[0].clientX,
+          y: e.changedTouches[0].clientY
+        };
+
+        this.info.touchJob = Polymer.Debounce(this.info.touchJob, function() {
+          var t = Polymer.Gestures.findOriginalTarget(e);
+          var ct = e.changedTouches[0];
+          if (this.info._ios && !e.shiftKey) {
+            this.fire(t, ct.clientX, ct.clientY);
+          }
+        }.bind(this), 500); // default setting for Android and iOS.
+      },
+
+      touchmove: function(e) {
+        var moveThreshold = 15;
+        var touchStartCoords = this.info.touchStartCoords;
+        if (Math.abs(touchStartCoords.x - e.changedTouches[0].clientX) > moveThreshold ||
+            Math.abs(touchStartCoords.y - e.changedTouches[0].clientY) > moveThreshold) {
+          this.info.touchJob.stop();
+        }
+      },
+
+      contextmenu: function(e) {
+        if (!e.shiftKey) {
+          this.info.sourceEvent = e;
+          this.fire(e.target, e.clientX, e.clientY);
+        }
+      },
+
+      touchend: function(e) {
+        if (this.info.touchJob) {
+          this.info.touchJob.stop();
+        }
+      },
+
+      tap: function(e) {
+        if (this.info.fired) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+
+      fire: function(target, x, y) {
+        Polymer.Gestures.fire(target, 'vaadin-contextmenu', {
+          x: x,
+          y: y,
+          sourceEvent: this.info.sourceEvent
+        });
+
+        this.info.fired = true;
+      }
+    });
+  })();

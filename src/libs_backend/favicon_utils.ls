@@ -256,4 +256,15 @@ export get_favicon_data_for_domain = (domain) ->>
       return output
   return
 
+export get_favicon_data_for_domains_bulk = (domain_list) ->>
+  output = {}
+  favicon_promises_list = []
+  for domain in domain_list
+    favicon_promises_list.push get_favicon_data_for_domain(domain)
+  favicon_list = await Promise.all(favicon_promises_list)
+  for domain,idx in domain_list
+    favicon = favicon_list[idx]
+    output[domain] = favicon
+  return output
+
 gexport_module 'favicon_utils', -> eval(it)

@@ -40,6 +40,29 @@ export get_user_id = memoizeSingleAsync ->>
     await new Promise -> chrome_storage_sync.remove 'userid', it
     return await get_user_id_real()
 
+export get_user_id_from_history = ->>
+  history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
+  for search_result in history_search_results
+    if search_result.url.startsWith('https://habitlab.stanford.edu/#hashdata|')
+      data_text = search_result.url.replace('https://habitlab.stanford.edu/#hashdata|', '')
+      for data_line in data_text.split('|')
+        if data_line.includes('=')
+          data_line_entries = data_line.split('=')
+          key = data_line_entries[0]
+          value = data_line_entries[1]
+          if key == 'userid'
+            return value
+  return null
+
+export clear_user_id_from_history = ->>
+  history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
+  for search_result in history_search_results
+    if search_result.url.startsWith('https://habitlab.stanford.edu/#hashdata|')
+      await new Promise -> chrome.history.deleteUrl({url: search_result.url}, it)
+
+export set_user_id_in_history = (userid) ->>
+  return await new Promise -> chrome.history.addUrl({url: 'https://habitlab.stanford.edu/#hashdata|source=extension|userid=' + userid}, it)
+
 get_user_id_real = ->>
   if cached_user_id?
     return cached_user_id
@@ -53,7 +76,10 @@ get_user_id_real = ->>
     cached_user_id := userid
     localStorage.setItem('userid', userid)
     return userid
-  userid = generate_random_id()
+  userid = await get_user_id_from_history()
+  if not userid?
+    userid = generate_random_id()
+    await set_user_id_in_history(userid)
   cached_user_id := userid
   localStorage.setItem('userid', userid)
   await new Promise -> chrome_storage_sync.set {userid}, it

@@ -1,0 +1,30 @@
+<html><head></head><body><dom-module id="vaadin-grid-column-reordering-themability-styles">
+  <template>
+    <style>
+      :host([reordering]) .vaadin-grid-cell {
+        background: #000;
+      }
+
+      :host([reordering]) .vaadin-grid-cell[reorder-status="dragging"] {
+        background: var(--primary-color, #000);
+      }
+
+      :host([reordering]) .vaadin-grid-cell:not([detailscell]) ::content > vaadin-grid-cell-content {
+        transition: opacity 300ms;
+        transform: translateZ(0);
+        opacity: 0.8;
+      }
+
+      :host([reordering]) .vaadin-grid-cell[reorder-status="allowed"] ::content > vaadin-grid-cell-content {
+        opacity: 1;
+      }
+
+      :host([reordering]) .vaadin-grid-cell[reorder-status="dragging"] ::content > vaadin-grid-cell-content {
+        opacity: 0.95;
+      }
+    </style>
+  </template>
+</dom-module>
+
+<script src="vaadin-grid-column-reordering-behavior-0.js"></script>
+</body></html>

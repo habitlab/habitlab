@@ -4,19 +4,47 @@
 <dom-module id="positive-site-trigger">
   <template>
     <style is="custom-style">
+      :host {
+        --paper-item: {
+          font-family: "Open Sans";
+          font-size: 20px;
+          font-color: #526FAB;
+          overflow: hidden;
+          white-space: nowrap;
+          display: block;
+          text-overflow: ellipsis;
+        };
+        --paper-item-min-height: 36px;
+      }
+
       #site-icon {
         margin-top:20px
       }
+
       #site-title {
-        padding-top: 15px
-      }
-      #trigger-container {
+        padding-top: 15px;
+        margin-bottom: 15px;
+        font-family: "Open Sans";
+        font-size: 20px;
+        color: #415D67;
+        padding-left: 10px;
+        padding-right: 10px;
         display: flex;
       }
+
+      #trigger-container {
+        max-width: 519px;
+        height: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #95CBEE;
+      }
+
     </style>
     <div id="trigger-container">
       <div id="site-title">{{site}}</div>
-      <paper-button class="close-button" text="GO"></button>
+      <paper-button class="close-button" text="GO"></paper-button>
     </div>
   </template>
   <script src="positive-site-trigger.js"></script>

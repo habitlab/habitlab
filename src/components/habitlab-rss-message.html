@@ -59,14 +59,14 @@
 
     </style>
     <div id="rsscontainer">
-      <div id="rsstitle">Articles you might be interested in</div>
+      <div id="rsstitle">Why not read the New York Times instead?</div>
 
-      <template is="dom-repeat" items={{articles}}>
+      <template is="dom-repeat" items="{{articles}}">
         <div class="linktext">
           <a href="{{item.url}}"  on-click="link_clicked">
             <paper-item>{{item.title}}</paper-item>
           </a>
-        <div>
+        </div>
       </template>
     </div>
   </template>

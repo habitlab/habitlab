@@ -139,6 +139,17 @@ export set_currently_enabled_interventions_manual = (enabled_interventions) ->>
   await setdict 'interventions_currently_disabled', disabled_interventions
   return
 
+export set_intervention_enabled_from_intervention_manager = (intervention_name) ->>
+  await setkey_dict 'interventions_currently_disabled', intervention_name, false
+  return
+
+export set_intervention_disabled_from_intervention_manager = (intervention_name) ->>
+  await setkey_dict 'interventions_currently_disabled', intervention_name, true
+  return
+
+export get_is_intervention_disabled_from_intervention_manager = (intervention_name) ->>
+  return await getkey_dict 'interventions_currently_disabled', intervention_name
+
 export set_currently_enabled_interventions_automatic = (enabled_interventions) ->>
   disabled_interventions = {}
   all_interventions = await intervention_utils.list_all_interventions()

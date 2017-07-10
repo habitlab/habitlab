@@ -1,12 +1,8 @@
 const $ = require('jquery')
 const {polymer_ext} = require('libs_frontend/polymer_utils')
 
-const {
-  log_action,
-} = require('libs_frontend/intervention_log_utils')
-
 polymer_ext({
-  is: 'positive-site-trigger',
+  is: 'interstitial-screen-positive-trigger',
   properties: {
     positiveSite: {
       type: String,
@@ -21,14 +17,9 @@ polymer_ext({
       type: Number,
       value: 0
     },
-    completingTime: {
-      type: Number,
-      value: 5
-    },
-  },
-  goClicked: function() {
-    console.log('go button clicked!')
-    log_action({'positive': 'Went to positive site.'})
-    window.location.href = 'https://www.duolingo.com'
-  },
+    continueButtonText: {
+      type: String,
+      value: "Continue to Facebook"
+    }
+  }
 })

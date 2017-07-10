@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="positive-site-trigger">
   <template>
@@ -18,15 +19,13 @@
       }
 
       #site-icon {
-        margin-top:20px
+        width: 40px;
       }
 
       #site-title {
         padding-top: 15px;
         margin-bottom: 15px;
-        font-family: "Open Sans";
         font-size: 20px;
-        color: #415D67;
         padding-left: 10px;
         padding-right: 10px;
         display: flex;
@@ -34,17 +33,116 @@
 
       #trigger-container {
         max-width: 519px;
-        height: 280px;
+        min-width: 400px;
+        max-height: 280px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        text-align: center;
         background-color: #95CBEE;
+        border-color: #000000;
       }
 
+      .white-div {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #f2fcff;
+        opacity: 1;
+        z-index: 35000000;
+      }
+
+      #intro-text {
+        font-size: 20px;
+        padding-bottom: 10px;
+      }
+      .text-div {
+        font-family: "Open Sans";
+        text-align:center;
+        color: #415D67; 
+        line-height: 150%;
+        font-size: 15px;
+      }
+      
+      #completing-time {
+        margin-bottom: 20px;
+      }
+
+      #trigger-button {
+        cursor: pointer;
+        padding: 5px;
+        background-color: green;
+        color: white;
+        font-size: 25px;
+        box-shadow: 2px 2px 2px #888888;
+        height: 50px;
+        vertical-align: middle;
+      }
+
+      #trigger-button-div {
+        height: 50px;
+        display: table; 
+        text-align: left; 
+        height: 100%; 
+        width: 100%
+      }
+
+      #trigger-button-div .streak-img {
+        height: 80%;
+        display: table-cell;
+        margin-top: 10%;
+      }
+
+      #streak-box {
+        height: 40px;
+        width: 60px;
+        display: table;
+        text-align: left;
+        font-size: 20px;
+        /*box-shadow: 2px 2px 2px #888888;*/
+        background-color: white;
+        padding: 5px;
+      }
+
+      #streak-box .streak-img {
+        height: 80%;
+        margin-top: 10%;
+      }
+
+
     </style>
-    <div id="trigger-container">
-      <div id="site-title">{{site}}</div>
-      <paper-button class="close-button" text="GO"></paper-button>
+    <div class="white-div text-div">
+      <div id="block_container" style="margin-top: 50px">
+        <div id = "intro-text" class="text-div">You set a goal to spend more time on</div>
+      </div>
+    
+      <div id="trigger-container">
+        <img id="site-icon" src="{{positiveSiteIcon}}">
+        <div id="site-title">{{positiveSite}}</div>
+        <div id="completing-time">Completing time: {{completingTime}} minutes</div>
+        <paper-button id="trigger-button">
+          <div id="trigger-button-div">
+            <img class="streak-img" src="http://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png">
+            <div style="display: table-cell; vertical-align: middle;" on-click="goClicked">Go</div>
+          </div>
+        </paper-button>
+        <div style="display: table; margin-top: 20px;">
+          <div style="display: table-cell; vertical-align: middle; padding-right: 20px"> Streak </div>
+          <div id="streak-box">
+            <img class="streak-img" src="http://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png">
+            <div style="display: table-cell; vertical-align: middle;">{{streak}}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </template>
   <script src="positive-site-trigger.js"></script>

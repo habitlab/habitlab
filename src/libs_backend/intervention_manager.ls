@@ -19,6 +19,8 @@
   getCollection
   setdict
   getdict
+  getkey_dict
+  setkey_dict
   getkey_dictdict
   setkey_dictdict
 } = require 'libs_backend/db_utils'

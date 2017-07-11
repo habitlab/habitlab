@@ -290,7 +290,12 @@ polymer_ext {
       menu: null,
       direction: 'vertical',
       verticalCentered: true,
-      sectionsColor: ['rgb(81, 167,249)', 'rgb(81, 167,249)', 'rgb(144, 206,233)'],
+
+      # background-color:-webkit-linear-gradient(#9FE0F4,rgb(81,167,249));
+      # background-color:-o-linear-gradient(#9FE0F4,rgb(81,167,249));
+      # background-color:-moz-linear-gradient(#9FE0F4,rgb(81,167,249));
+      # background-color:linear-gradient(#9FE0F4,rgb(81,167,249));
+      sectionsColor: ['-webkit-linear-gradient(#9FE0F4,rgb(81,167,249))', 'web-kit-linear-gradient(#9FE0F4,rgb(81,167,249))', 'web-kit-linear-gradient(#9FE0F4,rgb(81,167,249))','linear-gradient(#9FE0F4,rgb(81,167,249))'],
       anchors: [],
       scrollingSpeed: 1,
       easing: 'swing',

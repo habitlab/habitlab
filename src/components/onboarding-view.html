@@ -11,7 +11,7 @@
 <link rel="import" href="feedback-button-right.html">
 <link rel="import" href="initial-goal-selector.html">
 <link rel="import" href="positive-goal-selector.html">
-
+<lint rel="import" href="onboarding-badges.html">
 
 <dom-module id="onboarding-view">
   <style>
@@ -20,6 +20,10 @@
       height: 100vh;
       width: 100vw;
       background-color: rgb(81, 167, 249);
+      background-color:-webkit-linear-gradient(#9FE0F4,rgb(81,167,249));
+      background-color:-o-linear-gradient(#9FE0F4,rgb(81,167,249));
+      background-color:-moz-linear-gradient(#9FE0F4,rgb(81,167,249));
+      background-color:linear-gradient(#9FE0F4,rgb(81,167,249));
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     }
 
@@ -139,6 +143,9 @@
       display: table-cell;
       border-radius: 20px
     }
+    
+
+
   </style>
   <template>
 
@@ -222,6 +229,8 @@
   </div>
 
   <div id="screen4" class="section pp-scrollable" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249)"> 
+      <onboarding-badges id = "badges_received" />
+      
       <div class="bottom-bar">
         <paper-button class="get_started_button" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>
       </div>    

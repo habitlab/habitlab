@@ -11,7 +11,7 @@
 <link rel="import" href="feedback-button-right.html">
 <link rel="import" href="initial-goal-selector.html">
 <link rel="import" href="positive-goal-selector.html">
-<lint rel="import" href="onboarding-badges.html">
+<link rel="import" href="onboarding-badges.html">
 
 <dom-module id="onboarding-view">
   <style>
@@ -229,7 +229,7 @@
   </div>
 
   <div id="screen4" class="section pp-scrollable" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249)"> 
-      <onboarding-badges id = "badges_received" />
+      <div><onboarding-badges id = "badges_received" /></div>
       
       <div class="bottom-bar">
         <paper-button class="get_started_button" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>

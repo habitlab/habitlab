@@ -454,28 +454,31 @@ gulp.task 'generate_goal_intervention_info', (done) ->
     if not goal_info.interventions?
       console.log 'goal is missing interventions: ' + goal_name
       continue
+    generic_intervention_categories = ['generic', 'video']
     for intervention_name in goal_info.interventions
-      if intervention_name.startsWith('generic/')
-        generic_intervention = intervention_name
-        make_absolute_path = (content_script) ->
-          if content_script.path?
-            if content_script.path[0] == '/'
+      for generic_intervention_category in generic_intervention_categories
+        generic_intervention_category_with_slash = generic_intervention_category + '/'
+        if intervention_name.startsWith(generic_intervention_category_with_slash)
+          generic_intervention = intervention_name
+          make_absolute_path = (content_script) ->
+            if content_script.path?
+              if content_script.path[0] == '/'
+                return content_script
+              content_script.path = '/interventions/' + generic_intervention + '/' + content_script.path
               return content_script
-            content_script.path = '/interventions/' + generic_intervention + '/' + content_script.path
-            return content_script
-          if content_script[0] == '/'
-            return content_script
-          return '/interventions/' + generic_intervention + '/' + content_script
-        intervention_info = JSON.parse JSON.stringify intervention_name_to_info[generic_intervention]
-        intervention_name = goal_info.sitename + '/' + generic_intervention.substr('generic/'.length)
-        intervention_info.generic_intervention = generic_intervention
-        intervention_info.matches = [goal_info.domain]
-        if intervention_info.content_scripts?
-          intervention_info.content_scripts = intervention_info.content_scripts.map make_absolute_path
-        if intervention_info.background_scripts?
-          intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
-        intervention_info.goals = [goal_info.name]
-        intervention_name_to_info[intervention_name] = intervention_info
+            if content_script[0] == '/'
+              return content_script
+            return '/interventions/' + generic_intervention + '/' + content_script
+          intervention_info = JSON.parse JSON.stringify intervention_name_to_info[generic_intervention]
+          intervention_name = goal_info.sitename + '/' + generic_intervention.substr(generic_intervention_category_with_slash.length)
+          intervention_info.generic_intervention = generic_intervention
+          intervention_info.matches = [goal_info.domain]
+          if intervention_info.content_scripts?
+            intervention_info.content_scripts = intervention_info.content_scripts.map make_absolute_path
+          if intervention_info.background_scripts?
+            intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
+          intervention_info.goals = [goal_info.name]
+          intervention_name_to_info[intervention_name] = intervention_info
       interventions_for_goal_new.push intervention_name
     goal_info.interventions = interventions_for_goal_new
     goals.push goal_info

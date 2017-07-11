@@ -1,6 +1,7 @@
 {cfy} = require 'cfy'
 prelude = require 'prelude-ls'
 $ = require 'jquery'
+swal = require 'sweetalert2'
 
 {load_css_file} = require 'libs_common/content_script_utils'
 

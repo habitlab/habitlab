@@ -165,7 +165,7 @@ polymer_ext {
     $.fn.pagepiling.moveSectionDown();
     return
 
-    this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
+    #this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
   prev_slide: (evt) ->
     $.fn.pagepiling.moveSectionUp();
     return
@@ -290,12 +290,7 @@ polymer_ext {
       menu: null,
       direction: 'vertical',
       verticalCentered: true,
-
-      # background-color:-webkit-linear-gradient(#9FE0F4,rgb(81,167,249));
-      # background-color:-o-linear-gradient(#9FE0F4,rgb(81,167,249));
-      # background-color:-moz-linear-gradient(#9FE0F4,rgb(81,167,249));
-      # background-color:linear-gradient(#9FE0F4,rgb(81,167,249));
-      sectionsColor: ['-webkit-linear-gradient(#9FE0F4,rgb(81,167,249))', 'web-kit-linear-gradient(#9FE0F4,rgb(81,167,249))', 'web-kit-linear-gradient(#9FE0F4,rgb(81,167,249))','linear-gradient(#9FE0F4,rgb(81,167,249))'],
+      sectionsColor: [],
       anchors: [],
       scrollingSpeed: 1,
       easing: 'swing',

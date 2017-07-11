@@ -5,3 +5,4 @@ content_scripts:
     run_at: document_start
 categories:
   - interstitial
+  - positive-site-trigger

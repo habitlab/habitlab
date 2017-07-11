@@ -320,8 +320,8 @@ export get_goals = ->>
   #if local_cached_get_goals?
   #  return local_cached_get_goals
   cached_get_goals = localStorage.getItem 'cached_get_goals'
-  if cached_get_goals?
-    return JSON.parse cached_get_goals
+  /*if cached_get_goals?
+    return JSON.parse cached_get_goals*/
     #local_cached_get_goals := JSON.parse cached_get_goals
     #return local_cached_get_goals
   goal_info_list = JSON.parse JSON.stringify (await get_goal_intervention_info()).goals
@@ -354,6 +354,35 @@ export get_goals = ->>
   #local_cached_get_goals := output
   return output
 
+/**
+ * Gets the goal info for all goals where is_positive set to true, in the form of an object mapping goal names to goal info
+ * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info
+ */
+export get_positive_enabled_goals = ->>
+  goals = await get_goals!
+  console.log(goals)
+  output = {}
+  for goal, goal_info of goals
+    # TODO: change function to one which returns goals that have yet to be completed
+    if goal_info.is_enabled == false
+      continue
+    if goal_info.is_positive
+      output[goal] = goal_info
+  return output
+
+/**
+ * Gets the goal info for a random enabled positive goal
+ * @return {GoalInfo} goal info
+ */
+export get_random_positive_goal = ->>
+  goal-name-to-goal-info = await get_positive_enabled_goals!
+  goals = Object.keys goal-name-to-goal-info
+  if goals.length == 0
+    return null
+  rand-goal-index = Math.floor (Math.random! * goals.length)
+  goal = goals[rand-goal-index]
+  return goal-name-to-goal-info[goal]
+  
 export clear_cache_get_goals = ->
   #local_cached_get_goals := null
   localStorage.removeItem 'cached_get_goals'

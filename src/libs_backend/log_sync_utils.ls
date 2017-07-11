@@ -81,6 +81,7 @@ export sync_unsynced_logs = (name) ->>
   num_unsynced = await collection.where('synced').equals(0).count()
   if num_unsynced == 0
     return true
+  dlog('syncing logs ' + name + ' num_unsynced is: ' + num_unsynced)
   #console.log 'num unsynced ' + num_unsynced
   unsynced_items = await collection.where('synced').equals(0).toArray()
   #console.log 'unsynced_items are'
@@ -165,9 +166,9 @@ upload_collection_item_to_server = (name, data) ->>
 export sync_unsynced_items_in_db_collection = (name) ->>
   collection = await getCollection(name)
   num_unsynced = await collection.where('synced').equals(0).count()
-  dlog('num_unsynced is: ' + num_unsynced)
   if num_unsynced == 0
     return true
+  dlog('syncing db items ' + name + ' num_unsynced is: ' + num_unsynced)
   #console.log 'num_unsynced: ' + num_unsynced
   unsynced_items = await collection.where('synced').equals(0).toArray()
   #console.log 'unsynced_items are'
@@ -206,9 +207,7 @@ export start_syncing_all_db_collections = ->>
           continue
         else
           sync_num = 0
-      dlog 'start syncing: ' + collection_name
       all_successful = await sync_unsynced_items_in_db_collection(collection_name)
-      dlog 'done syncing: ' + collection_name + ' all successful: ' + all_successful
       if not all_successful
         dlog 'error during collection syncing, pausing 1200 seconds: ' + collection_name
         await sleep(1200000)

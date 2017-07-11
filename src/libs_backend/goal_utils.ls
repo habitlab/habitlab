@@ -507,6 +507,9 @@ export get_goal_target = (goal_name) ->>
   return parseInt(goal_info.target.default)
 
 export set_goal_target = (goal_name, target_value) ->>
+  result = await getkey_dict 'goal_targets', goal_name
+  if result? and parseInt(result) == target_value
+    return
   await setkey_dict 'goal_targets', goal_name, target_value
   return
 

@@ -68,7 +68,7 @@
         of your <span>{{success_object.num_goals}}</span> goals.</div>
 
       <template is="dom-repeat" items="{{list_of_goals}}" as="goal_info">
-        <img src="{{goal_info.icon}}"></img>
+        <img src="{{goal_info.icon}}" />
         <div>{{goal_info.description}}}</div>
         <div>{{get_progress_message(progress_on_enabled_goals, day_idx, goal_info.name)}}</div>
       </template>

@@ -9,6 +9,10 @@ const {
   get_random_positive_goal
 } = require('libs_backend/goal_utils')
 
+const {
+  get_streak
+} = require('libs_backend/goal_progress')
+
 polymer_ext({
   is: 'positive-site-trigger',
   properties: {
@@ -48,9 +52,12 @@ polymer_ext({
     this.goal = goal
   },
   ready: async function() {
-    let goal = await get_random_positive_goal()
-    console.log('set goal to ' + goal)
-    this.goal = goal
+    let goal_object = await get_random_positive_goal()
+    let goal_name = goal_object.name
+    let goal_info = goal_object.info
+    this.goal = goal_info
+    console.log('set goal to ' + goal_info)
+    this.streak = await get_streak(goal_name, goal_info)
   }
 })
 

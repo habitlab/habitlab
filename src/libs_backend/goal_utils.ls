@@ -372,7 +372,7 @@ export get_positive_enabled_goals = ->>
 
 /**
  * Gets the goal info for a random enabled positive goal
- * @return {GoalInfo} goal info
+ * @return {Object} Object with a name field and an info field
  */
 export get_random_positive_goal = ->>
   goal-name-to-goal-info = await get_positive_enabled_goals!
@@ -381,7 +381,11 @@ export get_random_positive_goal = ->>
     return null
   rand-goal-index = Math.floor (Math.random! * goals.length)
   goal = goals[rand-goal-index]
-  return goal-name-to-goal-info[goal]
+  goal_info = goal-name-to-goal-info[goal]
+  return {
+    name: goal,
+    info: goal_info
+  }
   
 export clear_cache_get_goals = ->
   #local_cached_get_goals := null

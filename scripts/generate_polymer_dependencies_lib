@@ -133,6 +133,9 @@
     filepath_abs = params.filepath_abs, filename_abs = params.filename_abs, $ = params.$;
     import_path = $(tag).attr('src');
     if (import_path == null) {
+      if (filename_abs.endsWith('/src/popup.html')) {
+        return '';
+      }
       console.log("script tag in " + filename_abs + " is missing src attribute");
       return '';
     }

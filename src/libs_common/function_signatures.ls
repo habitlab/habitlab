@@ -84,6 +84,16 @@ lib_name_to_func_names_and_signatures =
     get_duolingo_username: []
     get_duolingo_info: []
     get_duolingo_info_for_user: 'username'
+  intervention_vars_backend:
+    getvar_intervention_synced_backend: ['intervention_name', 'key']
+    setvar_intervention_synced_backend: ['intervention_name', 'key', 'val']
+    getvar_intervention_unsynced_backend: ['intervention_name', 'key']
+    setvar_intervention_unsynced_backend: ['intervention_name', 'key', 'val']
+  goal_vars_backend:
+    getvar_goal_synced_backend: ['goal_name', 'key']
+    setvar_goal_synced_backend: ['goal_name', 'key', 'val']
+    getvar_goal_unsynced_backend: ['goal_name', 'key']
+    setvar_goal_unsynced_backend: ['goal_name', 'key', 'val']
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

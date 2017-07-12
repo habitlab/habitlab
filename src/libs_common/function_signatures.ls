@@ -80,6 +80,10 @@ lib_name_to_func_names_and_signatures =
   localization_utils_backend:
     record_unlocalized_string: 'text'
     record_localized_string: 'text'
+  duolingo_utils:
+    get_duolingo_username: []
+    get_duolingo_info: []
+    get_duolingo_info_for_user: 'username'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

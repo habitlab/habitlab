@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="svg6202" inkscape:version="0.91 r13725" sodipodi:docname="habitlab_icon_black_gradient2222.svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1296 1728"
+	 style="enable-background:new 0 0 1296 1728;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;fill-opacity:0;}
+	.st1{fill:#00000C;}
+	.st2{fill:url(#path6789_1_);}
+	.st3{fill:url(#SVGID_1_);}
+	.st4{fill:#FFFFFF;}
+</style>
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1" gridtolerance="10" guidetolerance="10" id="namedview6207" inkscape:current-layer="path3029" inkscape:cx="18.272195" inkscape:cy="18.713936" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="658" inkscape:window-maximized="0" inkscape:window-width="1253" inkscape:window-x="100" inkscape:window-y="91" inkscape:zoom="13.906433" objecttolerance="10" pagecolor="#ffffff" showgrid="false">
+	</sodipodi:namedview>
+<path id="path6213" inkscape:connector-curvature="0" class="st0" d="M69.7,1500.9c-38.2-13.6-68.2-50.7-68.5-85.1
+	c-0.3-31.2,32.1-87.3,236.7-409.7l219-345.2V491.2V321.4h-32.7c-39.3,0-58.8-8-69.3-28.3c-11.6-22.4-9.6-35.4,8.2-55.4l16-17.9
+	h236.5H852l15,15c21.8,21.8,20.7,49.9-2.7,70.9c-15.6,13.9-21.8,15.8-53.3,15.8h-35.6v170.3v170.3l215,339
+	c118.3,186.5,219.9,349.9,225.8,363.2c24.6,55.4,8,106.8-42.2,130.2l-28,13l-529.9-0.4C256.7,1506.9,80.9,1504.9,69.7,1500.9z
+	 M916.7,1077.9c-1.5-3.8-57.4-92.9-124.1-198L671.1,688.8V505.1V321.4h-54.9h-54.9v182.8v182.8L437.7,881.8
+	c-68,107.1-123.6,196.6-123.6,198.8c0,2.3,136.2,4.1,302.6,4.1C856.6,1084.8,918.8,1083.3,916.7,1077.9L916.7,1077.9z"/>
+<g id="path3029" transform="translate(0.81355932,256)">
+	<path id="path6205" inkscape:connector-curvature="0" class="st1" d="M1233.6,1091.3c31.5,50.1,37.5,92.9,18.1,128.7
+		c-19.4,35.7-58.9,53.6-118.5,53.6h-972c-59.6,0-99.1-17.9-118.6-53.6c-19.4-35.7-13.3-78.6,18.1-128.7l424.4-669.1V85.6h-54
+		c-14.6,0-27.3-5.3-38-16c-10.7-10.7-16-23.3-16-38s5.3-27.3,16-38c10.7-10.7,23.3-16,38-16h432c14.6,0,27.3,5.3,38,16
+		s16,23.3,16,38s-5.3,27.3-16,38c-10.7,10.7-23.3,16-38,16h-54v336.6L1233.6,1091.3z M576.3,479.6l-229.5,362h600.7l-229.5-362
+		l-16.8-26.2v-31.2V85.6h-108v367.8L576.3,479.6L576.3,479.6z"/>
+	
+		<linearGradient id="path6789_1_" gradientUnits="userSpaceOnUse" x1="10.6496" y1="1701.3408" x2="10.9331" y2="1729.9939" gradientTransform="matrix(52.0576 0 0 -51.8711 93.9646 89596.8594)">
+		<stop  offset="0" style="stop-color:#0098DB"/>
+		<stop  offset="1" style="stop-color:#0098DB;stop-opacity:0"/>
+	</linearGradient>
+	<path id="path6789" inkscape:connector-curvature="0" sodipodi:nodetypes="cccsscc" class="st2" d="M593.2,85.6h108v367.8
+		l246.3,388.2c140.7,222.9,225.2,312.3,161,347c-47.3,25.5-852.7,31.8-919.4,0.4c-57.1-26.9,19.8-127.9,157.7-347.4
+		c78.9-125.6,61.6-99.1,246.4-388.2C593.2,330.8,593.2,208.2,593.2,85.6z"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="613.0096" y1="456.1578" x2="613.0096" y2="456.1578">
+		<stop  offset="0" style="stop-color:#0098DB"/>
+		<stop  offset="1" style="stop-color:#0098DB;stop-opacity:0"/>
+	</linearGradient>
+	<path class="st3" d="M613,456.2"/>
+	<path class="st4" d="M591.6,460.3"/>
+</g>
+</svg>

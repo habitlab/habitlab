@@ -23,6 +23,35 @@ polymer_ext {
     minutes_saved: {
       type: Number
     }
+    habby_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/badges/habby.svg')      
+    }
+    sola_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/badges/sola.svg')     
+    }
+    twinkl_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/badges/twinkl.svg')     
+    }
+    logo_glow_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/badges/habitlab_glow.svg')      
+    }
+    logo_glow_blend_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/badges/glow_blend.svg')      
+    }
+    logo_glow_black_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/badges/habitlab_glow_black.svg')     
+    }
+    logo_offline_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/badges/logo_offline.svg')     
+    }
+
   }
   ready: ->>
     time_saved = await get_time_saved_total()

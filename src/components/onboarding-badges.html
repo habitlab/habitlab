@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<link rel="import" href="badge-display-mini.html">
+<!--<link rel="import" href="badge-display-mini.html">-->
 
 <dom-module id="onboarding-badges">
   <style>
@@ -16,14 +16,24 @@
       */
     }
 
+  .badgesContainer {
+    margin:auto; 
+    margin-top:20px;
+  } 
+
   </style>
   <template>
-    <h4>Here's what you can do with the time you've saved using HabitLab</h4>
-    <br>
-    <div style="display: block">
-      <template is="dom-repeat" items="{{badges}}" as="badge">
+    <h4 style = "margin-top: 50px; font-size: 60px;">Congratulations!</h4>
+    <div>
+    <div class = "badgesContainer">
+      <img style= "width:180px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{logo_glow_blend_url}}"></img>
+        <img style= "width:180px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{sola_url}}"></img>
+        <img style= "width:180px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{habby_url}}"></img>
+        <img style= "width:180px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{twinkl_url}}"></img>
+    </div>
+      <!--<template is="dom-repeat" items="{{badges}}" as="badge">
         <badge-display-mini minutes_saved="{{badge.minutes_saved}}" style="display: inline-block; padding: 5px"></badge-display-mini>
-      </template>
+      </template>-->
     </div>
   </template>
   <script src="onboarding-badges.js"></script>

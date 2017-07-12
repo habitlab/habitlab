@@ -1,4 +1,3 @@
-const $ = require('jquery')
 const {polymer_ext} = require('libs_frontend/polymer_utils')
 
 const {

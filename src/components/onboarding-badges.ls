@@ -10,6 +10,8 @@
   get_time_saved_total
 } = require 'libs_common/gamification_utils'
 
+Bounce = require('bounce.js')
+
 polymer_ext {
   is: 'onboarding-badges'
   properties: {
@@ -46,6 +48,10 @@ polymer_ext {
     logo_glow_black_url: {
       type: String,
       value: chrome.extension.getURL('icons/badges/habitlab_glow_black.svg')     
+    }
+    logo_glow_black_bubbles: {
+      type: String,
+      value: chrome.extension.getURL('icons/badges/habitlab_glow_black_bubbles.svg')     
     }
     logo_offline_url: {
       type: String,

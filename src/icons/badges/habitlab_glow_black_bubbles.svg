@@ -6,8 +6,8 @@
 	.st0{fill:url(#SVGID_1_);}
 	.st1{fill:#2B383A;}
 	.st2{fill:#B5FDC5;}
-	.st3{fill:#BFDCFF;}
-	.st4{fill:#65C5E5;}
+	.st3{fill:#65C5E5;}
+	.st4{fill:#A3DCEF;}
 </style>
 <g>
 	
@@ -32,7 +32,7 @@
 		C404.9,528.6,479.9,531.4,479.9,531.4z"/>
 	<polygon class="st1" points="580.6,524.8 693.4,524.8 693.4,892.3 939,1281.4 336.4,1284.2 583.6,890.5 	"/>
 </g>
-<circle class="st2" cx="778.1" cy="76.5" r="62.5"/>
-<circle class="st3" cx="877.5" cy="213.1" r="62.5"/>
-<circle class="st4" cx="715.6" cy="338.1" r="62.5"/>
+<circle class="st2" cx="704.6" cy="309.8" r="62.5"/>
+<circle class="st3" cx="861.5" cy="215.1" r="62.5"/>
+<circle class="st4" cx="756.5" cy="73.5" r="62.5"/>
 </svg>

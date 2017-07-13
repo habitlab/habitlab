@@ -5,6 +5,7 @@
   "dependencies": {
     "async-debounce-jt": "^1.0.1",
     "base64-js": "^1.2.0",
+    "bounce.js": "^0.8.2",
     "cfy": "^1.0.20",
     "cloner": "^0.4.0",
     "co": "^4.6.0",

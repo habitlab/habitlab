@@ -2,7 +2,7 @@
 
 swal = require 'sweetalert2'
 $ = require 'jquery'
-require('jquery.pagepiling')($)
+#require('jquery.pagepiling')($)
 
 window.$ = $
 
@@ -38,7 +38,7 @@ polymer_ext {
     slide_idx: {
       type: Number
       value: if (window.hashdata_unparsed == 'last') then 4 else 0
-      #observer: 'slide_changed'
+      observer: 'slide_changed'
     }
     prev_slide_idx: {
       type: Number
@@ -53,14 +53,14 @@ polymer_ext {
         return true
       observer: 'allow_logging_changed'
     }
-    welcome_slide_line1: {
-      type: String
-      value: msg("We're here to help you build better habits online.")
-    }
-    welcome_slide_line2: {
-      type: String
-      value: msg("Let's do a quick tutorial and get you set up.")
-    }
+    # welcome_slide_line1: {
+    #   type: String
+    #   value: msg("We're here to help you build better habits online.")
+    # }
+    # welcome_slide_line2: {
+    #   type: String
+    #   value: msg("Let's do a quick tutorial and get you set up.")
+    # }
     geza_meoaddr: {
       type: String
       value: [['gko', 'vacs'].join(''), ['stan', 'ford', '.', 'edu'].join('')].join('@')
@@ -106,11 +106,16 @@ polymer_ext {
   slide_changed: (evt) ->
     self = this
     this.SM('.slide').stop()
+    console.log 'slide_changed called'
+    #this.SM('.slide').show()
     prev_slide_idx = this.prev_slide_idx
     this.prev_slide_idx = this.slide_idx
+    slide = this.SM('.slide').eq(this.slide_idx)
+    if slide.find('.scroll_wrapper').length > 0
+      slide.find('.scroll_wrapper')[0].scrollTop = 0
     if prev_slide_idx == this.slide_idx - 1 # scrolling forward
+      console.log 'slide changed if statement 1'
       prev_slide = this.SM('.slide').eq(prev_slide_idx)
-      slide = this.SM('.slide').eq(this.slide_idx)
       prev_slide.animate({
         top: '-100vh'
       }, 1000)
@@ -124,23 +129,40 @@ polymer_ext {
         self.animation_inprogress = false
       , 1000
     else if prev_slide_idx == this.slide_idx + 1 # scrolling backward
+      console.log 'slide changed if statement 2'
+      console.log 'document.height point 1 is ' + $(document).height()
       prev_slide = this.SM('.slide').eq(prev_slide_idx)
-      slide = this.SM('.slide').eq(this.slide_idx)
+      console.log 'document.height point 2 is ' + $(document).height()
+      console.log 'prev slide is'
+      console.log prev_slide
+      console.log 'slide is'
+      console.log slide
+      console.log('prev_slide offset is')
+      console.log(prev_slide.offset())
+      console.log('slide offset is')
+      console.log(slide.offset())
+      #prev_slide.css('top', '100vh')
+      #prev_slide.css('top', '0px')
       prev_slide.animate({
         top: '+100vh'
       }, 1000)
+      console.log 'document.height point 3 is ' + $(document).height()
       slide.css('top', '-100vh')
+      console.log 'document.height point 4 is ' + $(document).height()
       slide.show()
+      console.log 'document.height point 5 is ' + $(document).height()
       slide.animate({
         top: '0px'
       }, 1000)
+      console.log 'document.height point 6 is ' + $(document).height()
       this.animation_inprogress = true
       setTimeout ->
         self.animation_inprogress = false
+        prev_slide.hide()
       , 1000
     else
+      console.log 'slide changed if statement 3'
       this.SM('.slide').hide()
-      slide = this.SM('.slide').eq(this.slide_idx)
       slide.show()
       slide.css('top', '0px')
       this.animation_inprogress = false
@@ -152,6 +174,8 @@ polymer_ext {
       send_logging_enabled {page: 'onboarding', manual: false, allow_logging_on_default_with_onboarding: true}
       start_syncing_all_data()
     localStorage.setItem('onboarding_complete', 'true')
+    # $('#pagepiling').pagepiling.setAllowScrolling(false)
+    # $('#pagepiling').pagepiling.setKeyboardScrolling(false)
     this.fire 'onboarding-complete', {}
   next_button_clicked: ->>
     if this.animation_inprogress
@@ -162,14 +186,22 @@ polymer_ext {
       return
     this.next_slide()
   next_slide: (evt) ->
-    $.fn.pagepiling.moveSectionDown();
-    return
+    if this.animation_inprogress
+      return
+    last_slide_idx = this.SM('.slide').length - 1
+    if this.slide_idx == last_slide_idx
+      return
+    # $.fn.pagepiling.moveSectionDown();
+    # return
 
-    #this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
-  prev_slide: (evt) ->
-    $.fn.pagepiling.moveSectionUp();
-    return
-
+    this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
+  # prev_slide: (evt) ->
+  #   $.fn.pagepiling.moveSectionUp();
+  #   return
+  prev_slide: ->
+    if this.animation_inprogress
+      return
+    this.slide_idx = Math.max(0, this.slide_idx - 1)
   get_icon: (img_path) ->
     return chrome.extension.getURL('icons/' + img_path)
   keydown_listener: (evt) ->
@@ -182,6 +214,12 @@ polymer_ext {
       evt.preventDefault()
       return
     last_slide_idx = this.SM('.slide').length - 1
+    console.log 'mousewheel_listener called, slide_idx is ' + this.slide_idx
+    if true
+      return
+    if this.slide_idx == 1
+      console.log 'ignoring mouse on slide 1'
+      return
     if this.slide_idx == last_slide_idx
       irb_text = this.SM('#irb_text')
       irb_text_offset = irb_text.offset()
@@ -240,30 +278,38 @@ polymer_ext {
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
     this.$$('#positive_goal_selector').set_sites_and_goals()
-
-    await load_css_file('jquery.pagepiling')
+    this.last_mousewheel_time = 0
+    this.last_mousewheel_deltaY = 0
+    this.keydown_listener_bound = this.keydown_listener.bind(this)
+    this.mousewheel_listener_bound = this.mousewheel_listener.bind(this)
+    this.window_resized_bound = this.window_resized.bind(this)
+    window.addEventListener 'keydown', this.keydown_listener_bound
+    window.addEventListener 'mousewheel', this.mousewheel_listener_bound
+    window.addEventListener 'resize', this.window_resized_bound
     await load_css_file('sweetalert2')
-    #$(this.$.pagepiling).pagepiling({
-    this.$.screen2.addEventListener 'wheel', (evt) ->
-      console.log 'wheel on screen1'
-      #evt.preventDefault()
-      evt.stopPropagation()
-      return
-    this.$.screen2.addEventListener 'mousewheel', (evt) ->
-      console.log 'mousewheel on screen1'
-      #evt.preventDefault()
-      evt.stopPropagation()
-      return
-    this.$.screen3.addEventListener 'wheel', (evt) ->
-      console.log 'wheel on screen1'
-      #evt.preventDefault()
-      evt.stopPropagation()
-      return
-    this.$.screen3.addEventListener 'mousewheel', (evt) ->
-      console.log 'mousewheel on screen1'
-      #evt.preventDefault()
-      evt.stopPropagation()
-      return
+    # await load_css_file('jquery.pagepiling')
+    # await load_css_file('sweetalert2')
+    # #$(this.$.pagepiling).pagepiling({
+    # this.$.screen2.addEventListener 'wheel', (evt) ->
+    #   console.log 'wheel on screen1'
+    #   #evt.preventDefault()
+    #   evt.stopPropagation()
+    #   return
+    # this.$.screen2.addEventListener 'mousewheel', (evt) ->
+    #   console.log 'mousewheel on screen1'
+    #   #evt.preventDefault()
+    #   evt.stopPropagation()
+    #   return
+    # this.$.screen3.addEventListener 'wheel', (evt) ->
+    #   console.log 'wheel on screen1'
+    #   #evt.preventDefault()
+    #   evt.stopPropagation()
+    #   return
+    # this.$.screen3.addEventListener 'mousewheel', (evt) ->
+    #   console.log 'mousewheel on screen1'
+    #   #evt.preventDefault()
+    #   evt.stopPropagation()
+    #   return
     /*
     this.$.pagepiling.addEventListener 'mousewheel', (evt) ->
       console.log 'mousewheel on pagepiling'
@@ -286,36 +332,36 @@ polymer_ext {
       evt.stopPropagation()
       return
     */
-    $('#pagepiling').pagepiling({
-      menu: null,
-      direction: 'vertical',
-      verticalCentered: true,
-      sectionsColor: [],
-      anchors: [],
-      scrollingSpeed: 1,
-      easing: 'swing',
-      loopBottom: false,
-      loopTop: false,
-      css3: true,
-      navigation: {
-        'textColor': 'rgb(144, 206,233)',
-        'bulletsColor': '#000',
-        'position': 'right',
-        'tooltips': ['', '','','']
-      },
-      normalScrollElements: null,
-      normalScrollElementTouchThreshold: 5,
-      touchSensitivity: 5,
-      keyboardScrolling: true,
-      sectionSelector: '.section',
-      swing: 'linear',
-      animateAnchor: false,
-      onLeave: (index, nextIndex, direction) ->
-        console.log 'onLeave called'
-        console.log 'index: ' + index
-        console.log 'nextIndex: ' + nextIndex
-        self.slide_idx = nextIndex - 1
-    })
+    # $('#pagepiling').pagepiling({
+    #   menu: null,
+    #   direction: 'vertical',
+    #   verticalCentered: true,
+    #   sectionsColor: [],
+    #   anchors: [],
+    #   scrollingSpeed: 1,
+    #   easing: 'swing',
+    #   loopBottom: false,
+    #   loopTop: false,
+    #   css3: true,
+    #   navigation: {
+    #     'textColor': 'rgb(144, 206,233)',
+    #     'bulletsColor': '#000',
+    #     'position': 'right',
+    #     'tooltips': ['', '','','']
+    #   },
+    #   normalScrollElements: null,
+    #   normalScrollElementTouchThreshold: 5,
+    #   touchSensitivity: 5,
+    #   keyboardScrolling: true,
+    #   sectionSelector: '.section',
+    #   swing: 'linear',
+    #   animateAnchor: false,
+    #   onLeave: (index, nextIndex, direction) ->
+    #     console.log 'onLeave called'
+    #     console.log 'index: ' + index
+    #     console.log 'nextIndex: ' + nextIndex
+    #     self.slide_idx = nextIndex - 1
+    # })
     if not chrome.runtime.getManifest().update_url?
       # developer mode
       if not localStorage.getItem('enable_debug_terminal')?

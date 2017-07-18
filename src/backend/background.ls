@@ -607,7 +607,7 @@ do ->>
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
-      intervention = possible_interventions[0]
+      intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
       if intervention?
         await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
       else
@@ -615,7 +615,7 @@ do ->>
       localStorage.removeItem('override_enabled_interventions_once')
     else
       active_interventions = JSON.parse active_interventions
-      intervention = active_interventions[0]
+      intervention = active_interventions[Math.floor(Math.random() * possible_interventions.length)]
       intervention_no_longer_enabled = false
       need_new_session_id = false
       #if page_was_just_refreshed

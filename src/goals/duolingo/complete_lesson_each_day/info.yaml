@@ -2,7 +2,7 @@ description: Complete a lesson on Duolingo each day
 progress_description: Lessons completed
 interventions:
   - duolingo/facebook_feed_link_injection
-disabled: true
+disabled: false
 domain: www.duolingo.com
 preview: https://www.facebook.com
 target:

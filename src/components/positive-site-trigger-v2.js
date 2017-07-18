@@ -13,7 +13,7 @@ const {
 } = require('libs_backend/streak_utils')
 
 polymer_ext({
-  is: 'positive-site-trigger',
+  is: 'positive-site-trigger-v2',
   properties: {
     goal: {
       type: Object,

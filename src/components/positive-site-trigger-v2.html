@@ -2,7 +2,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
-<dom-module id="positive-site-trigger">
+<dom-module id="positive-site-trigger-v2">
   <template>
     <style is="custom-style">
       :host {
@@ -22,21 +22,31 @@
         width: 40px;
       }
 
-      #site-title {
+      .hdr {
         padding-top: 15px;
         margin-bottom: 15px;
         font-size: 20px;
+        /*font-style: italic;*/
         padding-left: 10px;
         padding-right: 10px;
         display: flex;
+      }
+      
+      #goal {
+        display: table;
+        font-size: 20px;
+      }
+
+      #goal-description {
+        display: table-cell;
+        vertical-align: middle;
+        padding-left: 10px;
       }
 
       #trigger-container {
         max-width: 519px;
         min-width: 400px;
-        max-height: 280px;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -60,10 +70,6 @@
         font-size: 15px;
       }
       
-      #completing-time {
-        margin-bottom: 10px;
-      }
-
       #trigger-button {
         cursor: pointer;
         padding: 10px;
@@ -117,9 +123,12 @@
 
     </style>
     <div id="trigger-container">
-      <img id="site-icon" src="{{positiveSiteIcon}}">
-      <div id="site-title">{{positiveSite}}</div>
-      <div id="completing-time">Goal you set: {{positiveGoalDescription}}. </div>
+      <div class="hdr">Remember your goal?</div>
+      <div id="goal">
+        <img id="site-icon" src="{{positiveSiteIcon}}">
+        <div id="goal-description"> {{positiveGoalDescription}}.</div>
+      </div>
+
       <div id="streak-container">
         <div style="display: table-cell; vertical-align: middle; padding-right: 20px"> Streak </div>
         <div id="streak-box">
@@ -135,5 +144,5 @@
       </paper-button>
     </div>
   </template>
-  <script src="positive-site-trigger.js"></script>
+  <script src="positive-site-trigger-v2.js"></script>
 </dom-module>

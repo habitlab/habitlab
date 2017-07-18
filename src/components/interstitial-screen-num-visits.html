@@ -100,11 +100,14 @@
     
   <div class="whiteDiv">   	
     <div id="block_container" style="margin-top: 50px">
-        <div id = "today" class=timer-text style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
+        <div id = "today" class="timer-text" style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
           <br>You have visited it <b>{{visits}}</b> times.   
         </div>
     </div>
 
+    <template is="dom-if" if="{{show_quote_message}}">
+      <quote-message class="message-block"></quote-message>
+    </template>
     <template is="dom-if" if="{{show_positive_site_trigger}}">
       <positive-site-trigger class="message-block"></positive-site-trigger>
     </template>

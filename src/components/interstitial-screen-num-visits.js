@@ -45,11 +45,11 @@ Polymer({
     },
     show_rss_message: {
       type: Boolean,
-      computed: 'compute_show_rss_message(show_positive_site_trigger, show_progress_message, randomizer)',
+      computed: 'compute_show_rss_message(show_positive_site_trigger, show_progress_message, show_quote_message, randomizer)',
     },
     show_workpages_message: {
       type: Boolean,
-      computed: 'compute_show_workpages_message(show_positive_site_trigger, show_progress_message, randomizer)',
+      computed: 'compute_show_workpages_message(show_positive_site_trigger, show_progress_message, show_quote_message, randomizer)',
     },
     show_positive_site_trigger: {
       type: Boolean,
@@ -60,6 +60,10 @@ Polymer({
       value: false,
       //computed: 'compute_progress_message()',
     },
+    show_quote_message: {
+      type: Boolean,
+      value: true,
+    }
 
   },
 
@@ -67,11 +71,11 @@ Polymer({
     'disable_intervention': 'disableIntervention',
     'show_button': 'showButton'
   },
-  compute_show_rss_message: function(show_positive_site_trigger, show_progress_message, randomizer) {
-    return !show_positive_site_trigger && (!show_progress_message) && randomizer
+  compute_show_rss_message: function(show_positive_site_trigger, show_progress_message, show_quote_message, randomizer) {
+    return !show_positive_site_trigger && !show_quote_message && (!show_progress_message) && randomizer
   },
-  compute_show_workpages_message: function(show_positive_site_trigger, show_progress_message, randomizer) {
-    return !show_positive_site_trigger && !show_progress_message && !randomizer
+  compute_show_workpages_message: function(show_positive_site_trigger, show_progress_message, show_quote_message, randomizer) {
+    return !show_positive_site_trigger && !show_quote_message && !show_progress_message && !randomizer
   },
   //compute_show_progress_message: function() {
   //  return false
@@ -115,6 +119,7 @@ Polymer({
     //console.log(this.$.titletext.textContent)
     
     this.show_positive_site_trigger = await this.compute_show_positive_site_trigger()
+    this.show_quote_message = !this.show_positive_site_trigger
 
     this.addEventListener('show_button', function() {
       console.log('hi')

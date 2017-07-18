@@ -14,11 +14,6 @@
 measurement_functions = require 'goals/progress_measurement'
 measurement_functions_generated = require 'goals/progress_measurement_generated'
 
-#temp!!
-{
-  get_visits_to_domain_days_before_today
-} = require 'libs_common/time_spent_utils'
-
 export get_progress_measurement_functions = ->>
   output = {}
   goals = await goal_utils.get_goals()
@@ -73,7 +68,8 @@ export get_num_goals_met_days_before_today = (days_before_today) ->>
   for goal_name in as_array(enabled_goals)
     progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
     goal_target = goal_targets[goal_name]
-    if progress_info.progress < goal_target
+    goal_info = await goal_utils.get_goal_info(goal_name)
+    if (progress_info.progress > goal_target) == goal_info.is_positive
       num_goals_met += 1
   return num_goals_met
 
@@ -86,7 +82,8 @@ export get_num_goals_met_this_week = ->>
     for goal_name in as_array(enabled_goals)
       progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
       goal_target = goal_targets[goal_name]
-      if progress_info.progress < goal_target
+      goal_info = await goal_utils.get_goal_info(goal_name)
+      if (progress_info.progress > goal_target) == goal_info.is_positive
         num_goals_met += 1
     days_before_today_to_num_goals_met[days_before_today] = num_goals_met
   return days_before_today_to_num_goals_met
@@ -94,7 +91,7 @@ export get_num_goals_met_this_week = ->>
 /**
  * Gets the streak (days in a row completed) for each enabled goal
  * @return {Promise.<Object.<string, int>>} Object mapping goal names to streaks.
- */
+ *
 export get_positive_streaks = ->>
   enabled_goals = await goal_utils.get_positive_enabled_goals()
   goal_targets = await goal_utils.get_all_goal_targets()
@@ -105,25 +102,15 @@ export get_positive_streaks = ->>
     while streak_continuing
       progress_info = await get_progress_on_goal_days_before_today goal_name, streak
       goal_target = goal_targets[goal_name]
-      if progress_info.progress > goal_target
+      goal_info = await goal_utils.get_goal_info(goal_name)
+      if (progress_info.progress > goal_target) == goal_info.is_positive
         streak += 1
       else
         streak_continuing = false
     output[goal_name] = streak
   return output
 
-export get_streak = (goal_name, goal_info) ->>
-  target = await goal_utils.get_goal_target(goal_name)
-  streak = 0
-  streak_continuing = true
-  console.log await get_visits_to_domain_days_before_today goal_info.domain, 0
-  while streak_continuing
-    progress_info = await get_progress_on_goal_days_before_today goal_name, streak
-    if goal_info.is_positive == (progress_info.progress > target)
-      streak += 1
-    else
-      streak_continuing = false
-  return streak
+  */
 
 export get_progress_on_enabled_goals_days_before_today = (days_before_today) ->>
   enabled_goals = await goal_utils.get_enabled_goals()

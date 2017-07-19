@@ -1,0 +1,6 @@
+description: Injects a call to action for another goal into the Facebook feed
+displayname: In-Feed Call to Action
+matches:
+  - www.facebook.com
+content_scripts:
+  - frontend.js

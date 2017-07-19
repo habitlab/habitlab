@@ -70,5 +70,6 @@ module.exports = {
   get_duolingo_username_uncached,
   get_duolingo_info_for_user,
   get_duolingo_info,
-  get_duolingo_streak
+  get_duolingo_streak,
+  get_duolingo_is_logged_in
 }

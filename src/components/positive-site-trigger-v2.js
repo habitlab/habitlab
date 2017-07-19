@@ -58,12 +58,10 @@ polymer_ext({
     this.goal = goal
   },
   ready: async function() {
-    let goal_object = await get_random_positive_goal()
-    let goal_name = goal_object.name
-    let goal_info = goal_object.info
-    this.goal = goal_info
-    console.log('set goal to ' + goal_info)
-    this.streak = await get_streak(goal_name)
+    this.goal = await get_random_positive_goal()
+    let goal_name = this.goal.name
+    console.log('set goal to ' + goal_name)
+    this.streak = await get_streak(this.goal)
   }
 })
 

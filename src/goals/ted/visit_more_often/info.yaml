@@ -1,9 +1,9 @@
-description: Visit TED more often
+description: Open TED every day
 progress_description: Visited TED
 interventions:
   - generic/close_tab_timer
 measurement: whether_visited_domain
-domain: ted.com
+domain: www.ted.com
 sitename_printable: TED
 target:
   default: 1

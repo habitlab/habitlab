@@ -233,6 +233,10 @@ do ->>
   } = require 'libs_backend/session_utils'
 
   {
+    run_every_timeperiod
+  } = require 'libs_common/common_libs'
+
+  {
     as_array
     as_dictset
   } = require 'libs_common/collection_utils'
@@ -1143,7 +1147,7 @@ do ->>
       start_trying_to_restart_habitlab()
 
   if (not developer_mode) and (localstorage_getbool('allow_logging'))
-    setInterval check_if_update_available_and_run_update, 3600000 # 1000*60*60 every 60 minutes
+    run_every_timeperiod check_if_update_available_and_run_update, 600000 # 1000*60*10 every 10 minutes
 
   url_to_open_on_next_start = localStorage.getItem('habitlab_open_url_on_next_start')
   if url_to_open_on_next_start?

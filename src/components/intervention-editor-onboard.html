@@ -8,30 +8,121 @@
 
 <dom-module id="intervention-editor-onboard">
   <style>
-      :host {
-        display: block;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-        overflow-y: hidden;
-      }
-      #outer_wrapper{ 
-        background-color:rgb(81, 167,249);
-        width: 100%;
-        height: 100%;
-      }
+    :host {
+      display: block;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+    #outer_wrapper{ 
+      background-color:rgb(81, 167,249);
+      width: 100%;
+      height: 100%;
+    }
+    .intervention_tab{
+      cursor: pointer;
+      width:130px;
+      height:130px;
+      margin:auto;
+      margin-left:10px; 
+      margin-right:10px;
+      border-radius:30px;
+      padding: 8px;
+      box-shadow: 0px 0px 15px #346da3;
+      background-color:#86C2FB ;
+      position: relative;
+    }
+    .overlay{
+      position: absolute;
+      top:0;
+      left:0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0);
+      transition: background 0.5s ease;      
+    }
+    .intervention_tab:hover .overlay {
+      display: block;
+      background: rgba(0, 0, 0, .3);
+    }
+    .item_name{
+      position: absolute;
+      width: 500px;
+      left: 0;
+      top: 120px;
+      font-weight: 700;
+      font-size: 30px;
+      text-align: center;
+      color: #122438;
+      z-index: 1;
+      transition: top .5s ease;
+    }
+    .intervention_tab:hover .item_name{
+      opacity:0;
+    }
+    .button {
+      color: white;
+      background-color: #50E3C2;
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      height: 30px;
+      box-shadow: 2px 2px 2px #888888;
+      font-weight: bold;
+      transition: opacity .35s ease;
+    }
+    .intervention_tab:hover .button{
+      opacity:1;
+    }
+    .siteiconadd {
+      color: rgba(255,255,255,0.35);
+      background-color: rgba(255,255,255,0.3);
+      margin:auto;
+      margin-left:10px;
+      margin-right:10px;
+      margin-bottom:40px;
+    }
+
+
   </style>
 
   <template>
     <div id="outer_wrapper">
-      <div id="my_interventions">
+      <div id="my_interventions_section">
         <h1>My interventions</h1>
-        <paper-card id="new_intervention">
+        <div class="intervention_tab" on-click="add_new_intervention_clicked">Add new intervention</div>
+        <template is="dom-repeat" items="{{custom_intervention_list}}" as="my_custom_interventions">
+          <div class="intervention_tab">
+             <!-- <h2>{{my_custom_interventions}}</h2>  -->
+            <p class="item_name">my_custom_intervention</p>
+            <paper-button class="button" on-click="open_code">Open</paper-button>
+            <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
+          </div>
+        </template>
       </div>
-      <div id="popular_templates">
+
+      <div id="popular_templates_section">
         <h1>Popular templates</h1>
+        <paper-card>
+        </paper-card>
       </div>
+
+
+          <div class="intervention_tab">
+             <!-- <h2>{{my_custom_interventions}}</h2>  -->
+            <p class="item_name">my_custom_intervention</p>
+            <div class="overlay"></div>
+            <paper-button class="button" on-click="open_code">Open</paper-button>
+            <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
+          </div>
+
     </div>
+    
+    
+
+
   </template>
 
    <script src="intervention-editor-onboard.js"></script> 

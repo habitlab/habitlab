@@ -33,6 +33,11 @@ swal = require 'sweetalert2'
   get_baseline_time_on_domain
 } = require 'libs_backend/history_utils'
 
+
+{
+  get_seconds_spent_on_domain_all_days
+} = require 'libs_common/time_spent_utils'
+
 {
   add_log_interventions
 } = require 'libs_backend/log_utils'
@@ -62,6 +67,14 @@ polymer_ext {
     sites_and_goals: {
       type: Array
       value: []
+    }
+    goal_info_list: {
+      type: Array
+      value: []
+    }
+    domain_to_seconds_per_day: {
+      type: Object
+      value: {}
     }
     suggested_sites: {
       type: Array
@@ -110,20 +123,35 @@ polymer_ext {
     baseline_time_on_domains: {
       type: Object
     }
+    minutes_per_day:{
+      type: Object
+    }
   }
   isdemo_changed: (isdemo) ->
     if isdemo
       this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
-  get_time_spent_for_domain: (domain, baseline_time_on_domains) ->
-    if baseline_time_on_domains[domain]?
-      minutes = baseline_time_on_domains[domain] / (1000*60)
-      return (minutes).toPrecision(2) + ' mins'
-    return '0 mins'
+  get_time_spent_for_domain: (domain, domain_to_seconds_per_day) ->
+    if not domain_to_seconds_per_day?
+      return 0
+    if not domain_to_seconds_per_day[domain]?
+      return 0
+    return ((domain_to_seconds_per_day[domain])/60).toPrecision(2)+' mins'
+  /*
+  get_time_spent_for_domain: (domain) ->>
+    result = await get_seconds_spent_on_domain_all_days(domain)
+    console.log 'seconds spent on domain all days'
+    console.log result
+    if result?
+      minutes_per_day = (result / (1000*60)).toPrecision(2)
+      console.log minutes_per_day
+    minutes_per_day = 0
+    console.log minutes_per_day
+    return minutes_per_day
+  */
   limit_to_eight: (list) ->
     return list[0 til 8]
-
-
+  
   # delete_goal: (evt) ->>
   #   goal_name = evt.target.goal_name
   #   await remove_custom_goal_and_generated_interventions goal_name
@@ -262,7 +290,16 @@ polymer_ext {
 
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-
+    goal_info_list = []
+    for site_info in list_of_sites_and_goals
+      for goal_info in site_info.goals
+        goal_info_list.push(goal_info)
+    self.goal_info_list = goal_info_list
+    domain_to_seconds_per_day = {}
+    for goal_info in goal_info_list
+      seconds_per_day = await get_average_seconds_spent_on_domain(goal_info.domain)
+      domain_to_seconds_per_day[goal_info.domain] = seconds_per_day
+    self.domain_to_seconds_per_day = domain_to_seconds_per_day
 
  
   goal_changed: (evt) ->
@@ -446,7 +483,13 @@ polymer_ext {
     #fetch history for suggested sites in intervention settings 
     this.baseline_time_on_domains = await get_baseline_time_on_domains()
     baseline_time_on_domains_array = []
-    #console.log('started fetching favicons')
+    this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
+
+    #this.minutes_per_day = await this.get_time_spent_for_domain(this.domain)
+    #minutes_spent_on_domains_all_days_array = []
+    #this.minutes_spent_on_domain_all_days = Object.keys(this.minutes_per_day)
+    
+    #console.log('sta rted fetching favicons')
     #domain_to_favicon = await get_favicon_data_for_domains_bulk(Object.keys(this.baseline_time_on_domains))
     #for domain,time of this.baseline_time_on_domains
       #favicon_data = domain_to_favicon[domain] #await get_favicon_data_for_domain(domain)
@@ -457,8 +500,10 @@ polymer_ext {
       #})
     #console.log('finished fetching favicons')
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
-    this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
-    console.log(this.baseline_time_on_domains)
+
+    #console.log(this.baseline_time_on_domains)
+    
+
     /*
     self.once_available '.siteiconregular' ->
       console.log 'siteiconregular available 1'

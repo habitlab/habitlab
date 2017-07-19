@@ -43,9 +43,12 @@
 
     .bottom-bar {
       position: fixed;
+      width: 100%;
+      align-items:center;
       bottom: 0px;
-      left: 40%;
-      height: 60px;
+      left: 50%-100px;
+      /*left: 37%;*/
+      height: 120px;
       background-color: transparent;
       z-index: 100;
     }
@@ -59,11 +62,11 @@
       text-align: center;
       color: white;
       display: block;
-      text-align: center;
+      align-items:center;
       background-color: rgb(81, 167, 249);
       color: white;
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    
+      margin:auto;
     }
 
     .inner_slide {
@@ -81,11 +84,13 @@
     .prevnext_button_container {
       display: inline-table;
       text-align: center;
-      height: 100%;
+      width:100%;
+      height: 50%;
       vertical-align: middle;
       border: 5px solid transparent;
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
       background-color: none;
+      
     }
 
     .prevnext_button {
@@ -103,19 +108,19 @@
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     }
 
-    .section {
+    /*.section {
       text-align: center;
       background-color: rgb(81, 167, 249);
       color: white;
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    }
-
+    }*/
+/*
     .pp-scrollable {
       text-align: center;
       background-color: rgb(81, 167, 249);
       color: white;
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    }
+    }*/
 
     .checkbox_div_outer {
       display: block;
@@ -155,7 +160,7 @@
 
     
 
-      <div id="screen1" class="section pp-scrollable slide" style="width: 100vw; height: 100vh; overflow: scroll; background-color:rgb(81, 167,249)" on-click = "next_slide">
+      <div id="screen1" class="section slide" style="width: 100vw; height: 100vh; overflow: scroll; background-color:rgb(81, 167,249)" on-click = "next_slide">
 
         <div class="title">
           <img style="width:45px" src="{{habitlab_logo_white_url}}" />
@@ -224,31 +229,50 @@
 
 
 
-  <div id="screen2" class="section pp-scrollable slide" style="width: 100vw; height: 100vh; overflow: scroll; background-color:rgb(81, 167,249)" on-click = "next_slide">
+  <div id="screen2" class="slide" style="width: 100vw; height: 100vh; overflow: scroll; background-color:rgb(81, 167,249)">
     <div id="screen2_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow: scroll">
       <initial-goal-selector id="goal_selector" />
     </div>
   </div>
 
-  <div id="screen3" class="section pp-scrollable slide" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249)" on-click = "next_slide">
+  <div id="screen3" class="  slide" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249)">
     <div id="screen3_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow: scroll">
       <positive-goal-selector id="positive_goal_selector" />
     </div>
   </div>
 
-  <div id="screen4" class="section pp-scrollable slide" style="width: 100vw; height: 100vh; overflow: scroll; background-color:rgb(81, 167,249)" on-click = "next_slide"> 
+  <div id="screen4" class=" slide" style="width: 100vw; height: 100vh; overflow: scroll; background-color:rgb(81, 167,249)"> 
     <div id="screen4_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow: scroll">
       <div><onboarding-badges id = "badges_received" /></div>
       
-      <div class="bottom-bar">
-        <paper-button class="get_started_button" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>
+      <div class="bottom-bar" style=" z-index: 100;align-items:center;">
+        <div style="display:inline-table; text-align: right;padding-right:30px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
+          <div class="prevnext_button_container"> 
+            <div><paper-button class="prevnext_button" on-click="prev_slide"><iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px; margin-bottom:10px;"></iron-icon> {{msg("Previous")}}</paper-button></div>
+            <div><paper-button class="get_started_button" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button></div>
+          </div>
+        </div>  
       </div>
+
+     <!--<div class="bottom-bar">
+        <div style="display:inline-table; text-align: right;padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
+          <div class="prevnext_button_container">
+            <paper-button class="prevnext_button" on-click="prev_slide">
+              <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
+          </div>
+          <div class="prevnext_button_container">
+            <paper-button class="prevnext_button" on-click="next_slide">
+              <iron-icon icon="arrow-downward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Next")}}</paper-button>
+          </div>
+        </div>
+      </div>-->
+
     </div>
   </div>
 
     <template is="dom-if" if="{{is_not_equal_to_any(slide_idx, 0, 3)}}">
       <div class="bottom-bar">
-        <div style="display:inline-table; text-align: right;padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
+        <div style="display:inline-table; text-align: center;align-items:center; padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
           <div class="prevnext_button_container">
             <paper-button class="prevnext_button" on-click="prev_slide">
               <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>

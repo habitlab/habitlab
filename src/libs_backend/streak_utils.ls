@@ -18,7 +18,6 @@ export get_streak = (goal_info) ->>
     target = await get_goal_target(goal_name)
     streak = 0
     streak_continuing = true
-    console.log await get_visits_to_domain_days_before_today goal_info.domain, 0
     while streak_continuing
       progress_info = await get_progress_on_goal_days_before_today goal_name, streak
       console.log progress_info
@@ -28,11 +27,4 @@ export get_streak = (goal_info) ->>
         streak_continuing = false
     console.log "Streak: #{streak}"
     return streak
-
-  /*streak = await getvar_goal_unsynced_backend goal_name, "streak"
-  if !(streak?)
-    setvar_goal_unsynced_backend goal_name, "streak", 0
-  return streak
-  */
-
   

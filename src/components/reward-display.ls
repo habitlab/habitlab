@@ -90,7 +90,7 @@ polymer_ext {
   play: ->>
     seconds_spent = (Date.now() - this.time_inserted) / 1000
     this.seconds_saved = this.baseline_seconds_spent - seconds_spent
-    this.bring_parents_to_top()
+    #this.bring_parents_to_top()
     rewards_to_display = []
     if this.seconds_saved > 0
       rewards_to_display = await record_seconds_saved_and_get_rewards this.seconds_saved, this.intervention_name, this.domain

@@ -100,7 +100,7 @@
       font-size: 14px;
     }
     .timebox {
-      border: 1px solid black;
+      border: 1px solid white;
       padding: 4px;
       margin: 3px;
       cursor: pointer;
@@ -113,15 +113,30 @@
       flex-direction: column;
       align-items: center;
       background-color: rgb(81, 167,249);
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
       
     }
 
     .card-content {
+      color:white;
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
       font-size: 20px;
     }
 
     .radio-group {
       padding-left: 0px;
+      color:white;
+    }
+
+    #title{
+      color:white;
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+      font-size: 30px;
+      padding-top: 30px;
+      padding-bottom: 20px; 
+      text-align:center;
+      font-weight:800;
+      /*text-shadow: 1px 1px 2px #346da3; */
     }
 
     #iconimg {
@@ -147,7 +162,7 @@
       right: 3px;
       position: fixed; 
       top: 0px;
-      border-radius: 5px;
+      border-radius: 5px
     }
     .papercard {
       width: calc(100% - 40px);
@@ -167,7 +182,8 @@
     
     
       <div id="intro1" class="intro" style="display: none;">
-        <paper-card heading="When should interventions be active?" class="papercard">
+        <paper-card id = "title" style = "color:white" class="papercard">
+          <div>When should interventions be active?</div>
           <div class="card-content" >You can set interventions to be always on, or only active during work hours.
             <br>
             <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">

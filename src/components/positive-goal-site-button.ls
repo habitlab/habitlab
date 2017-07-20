@@ -17,16 +17,19 @@ const {
 Polymer {
   is: 'positive-goal-site-button'
   properties: {
-    goal: Object
+    goal: {
+      type: Object
+      observer: 'goalChanged'
+    }
     buttontext: String 
     positiveSiteURL: String
   }
+  goalChanged: ->
+    this.buttontext = msg("#{this.goal.call_to_action}")
+    this.positiveSiteURL = this.goal.domain
   button_clicked: ->
     log_action {'positive': 'positive-goal-site-button clicked'}
     this.$$('#reward_display').play()
   ready: ->>
     this.goal = await get_random_positive_goal!
-    this.buttontext = msg("#{this.goal.call_to_action}")
-    this.positiveSiteURL = this.goal.domain
-    console.log this.positiveSiteURL
 }

@@ -44,7 +44,7 @@ polymer_ext {
   is_intervention_mastered_badge: (badge) ->
     return badge.type == 'intervention_mastered'
   close_button_pressed: ->
-    if url_of_next_page?
+    if this.url_of_next_page?
       window.location.href = 'https://' + this.url_of_next_page
     else
       close_selected_tab()

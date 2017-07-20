@@ -12,6 +12,12 @@ polymer_ext {
   }
   refresh_custom_intervention_list: ->>
     this.custom_intervention_list=await list_custom_interventions()
+  open_code: ->
+    chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+  add_new_clicked: ->
+    console.log 'add_new_clicked'
+  preivew_intervention: ->
+    console.log 'preview_intervention'
   ready: ->>
     self=this
     await self.refresh_custom_intervention_list()

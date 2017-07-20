@@ -517,7 +517,7 @@ do ->>
             SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
               content_script_utils.load_css_file('sweetalert2').then(function() {
                 sweetalert({
-                  title: 'Reload page to disable intervention',
+                  title: 'Reload page to turn off intervention',
                   text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
                 })
               })

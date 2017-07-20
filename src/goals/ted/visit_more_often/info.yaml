@@ -1,5 +1,6 @@
 description: Open TED every day
 progress_description: Visited TED
+call_to_action: Watch a TED talk
 interventions:
   - generic/close_tab_timer
 measurement: whether_visited_domain

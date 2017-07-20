@@ -71,6 +71,9 @@ polymer_ext {
     tab_id: {
       type: Number
     }
+    url_of_next_page: {
+      type: String
+    }
   }
   compute_is_intervention_mastered: (times_intervention_used) ->
     return times_intervention_used >= 10
@@ -126,6 +129,9 @@ polymer_ext {
     console.log 'video_ended called'
     if this.no_autoclose
       this.fire 'reward_done', {finished_playing: true}
+      console.log this.url_of_next_page
+      if this.url_of_next_page?
+          window.location.href = 'https://' + this.url_of_next_page
     else
       close_tab_with_id(this.tab_id)
   query_changed: ->>

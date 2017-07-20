@@ -56,6 +56,7 @@ polymer_ext {
       type: Boolean
       observer: 'isdemo_changed'
     }
+    url_of_next_page: String
   }
   isdemo_changed: (isdemo) ->
     if isdemo
@@ -103,6 +104,8 @@ polymer_ext {
     else
       if this.no_autoclose
         this.fire 'reward_done', {finished_playing: true}
+        if this.url_of_next_page?
+          window.location.href = 'https://' + this.url_of_next_page
       else
         close_tab_with_id(get_tab_id())
   showbadge: ->

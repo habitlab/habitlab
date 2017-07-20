@@ -623,7 +623,7 @@ do ->>
       localStorage.removeItem('override_enabled_interventions_once')
     else
       active_interventions = JSON.parse active_interventions
-      intervention = active_interventions[Math.floor(Math.random() * possible_interventions.length)]
+      intervention = active_interventions[Math.floor(Math.random() * active_interventions.length)]
       intervention_no_longer_enabled = false
       need_new_session_id = false
       #if page_was_just_refreshed

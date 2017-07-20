@@ -121,17 +121,21 @@ do ->>
 
   export get_last_visit_to_website_timestamp = ->>
     history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
+    last_visit_timestamp = -1
     for search_result in history_search_results
       if search_result.url.startsWith('https://habitlab.stanford.edu')
-        return search_result.lastVisitTime
-    return -1
+        if search_result.lastVisitTime > last_visit_timestamp
+          last_visit_timestamp = search_result.lastVisitTime
+    return last_visit_timestamp
 
   export get_last_visit_to_chrome_store_timestamp = ->>
     history_search_results = await new Promise -> chrome.history.search({text: 'https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd', startTime: 0}, it)
+    last_visit_timestamp = -1
     for search_result in history_search_results
       if search_result.url.startsWith('https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd')
-        return search_result.lastVisitTime
-    return -1
+        if search_result.lastVisitTime > last_visit_timestamp
+          last_visit_timestamp = search_result.lastVisitTime
+    return last_visit_timestamp
 
   do ->>
     # open the options page on first run

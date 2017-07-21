@@ -94,6 +94,14 @@ polymer_ext {
     return
 
 
+  openBy: (evt) ->
+    console.log(evt)
+    console.log(evt.target)
+    this.$.alignedDialog.positionTarget = evt.target
+    this.$.alignedDialog.open()
+    return
+
+
   ready: ->>
     time_saved = await get_time_saved_total()
     minutes_saved = time_saved / 60

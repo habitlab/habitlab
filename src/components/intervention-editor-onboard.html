@@ -10,7 +10,6 @@
   <style>
     :host {
       background-color:#122438;
-      display: block;
       margin: 0;
       padding: 0;
       overflow-x: hidden;
@@ -21,6 +20,7 @@
       height: 100vh;
       color: white;
       padding: 20px;
+      display:block;
     }
     #my_interventions_section{
       display: inline-block;
@@ -103,15 +103,23 @@
       position: relative;
       float:left;     
     }
-    .siteiconadd {
-      color: rgba(255,255,255,0.35);
-      background-color: rgba(255,255,255,0.3);
-      margin:auto;
-      margin-left:10px;
-      margin-right:10px;
-      margin-bottom:40px;
+    #intervention_tab2{
+      cursor: pointer;
+      width: 40vw;
+      height: 40vh;
     }
-
+    #template_section{
+      display:flex;
+      flex-wrap:wrap;
+    }
+    img {
+      border: none;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      background: #ccc;
+      transition: transform .2s ease-in-out;
+    }
 
   </style>
 
@@ -130,9 +138,16 @@
             <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
           </div>
         </div>
-        <template is="dom-repeat" items="{{custom_intervention_list}}" as="my_intervention">
-          {{my_intervention}}
-        </template>
+        <!--<template is="dom-repeat" items="{{custom_intervention_list}}" as="my_intervention">
+          <div class="intervention_tab">
+            <div class="item_name">{{my_intervention}}</div>
+            <div class="overlay"></div>
+            <div class="button_container">
+              <paper-button class="button" on-click="open_code">Open</paper-button>
+              <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
+            </div>
+          </div>
+        </template>-->
       </div>
       <br>
 
@@ -150,8 +165,18 @@
           {{pop_template}}
         </template>
       </div>
-    </div>
-    
+      <div class="template_section">
+        <div class="intervention_tab2">
+          <img src="icons/make_user_wait.png" class="screenshot" style="width:40%;height:50%;margin:10px;">
+          <div class="item_name">template_1</div>
+        </div>
+        <div class="intervention_tab2">
+          <img src="icons/make_user_wait.png" class="screenshot" style="width:40%;height:50%;margin:10px;">
+          <div class="item_name">template_1</div>
+        </div>
+      </div>
+    </div> 
+
   </template>
 
    <script src="intervention-editor-onboard.js"></script> 

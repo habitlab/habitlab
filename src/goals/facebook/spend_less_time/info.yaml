@@ -1,9 +1,9 @@
 description: Spend less time on Facebook
 progress_description: Time spent on Facebook
 interventions:
-  - facebook/pause_videos
+  #- facebook/pause_videos
   - facebook/feed_injection_timer
-  - facebook/notification_hijacker
+  #- facebook/notification_hijacker
   - facebook/remove_news_feed
   - facebook/rich_notifications
   - facebook/remove_comments

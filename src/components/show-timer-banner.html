@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="show-timer-banner">
+  <style>
+    :host {
+      
+    }
+    #container {
+      height: 20px;
+      font-size: 20px;
+      line-height: 20px;
+      width: 100vw;
+      text-align: center;
+      position: fixed;
+      pointer-events: none;
+    }
+    #messagediv {
+      background-color: black;
+      color: white;
+      display: inline-block;
+      cursor: default;
+      opacity: 1;
+      padding: 5px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  </style>
+  <template>
+    <div id="container">
+      <div id="messagediv">You've been on this site for {{duration}} today</div>
+    </div>
+  </template>
+  <script src="show-timer-banner.js"></script>
+</dom-module>

@@ -1,7 +1,6 @@
 description: Spend less time on Buzzfeed
 progress_description: Time spent on Buzzfeed 
 interventions:
-  - generic/show_timer_banner
   - generic/scroll_blocker
   - generic/show_user_info_interstitial
   - generic/make_user_wait

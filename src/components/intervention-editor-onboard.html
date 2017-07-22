@@ -104,17 +104,17 @@
       float:left;     
     }
     .template_section{
-      display:flex;
-      flex-wrap:wrap;
+      display:table;
     }
     .template_tab{
       margin:0;
       overflow:hidden;
+      display:table-cell;
     }
     .screenshot{
       cursor:pointer;
     }
-     template_tab:nth-of-type(2n) {
+     /* template_tab:nth-of-type(2n) {
       margin-right: 0;
     }
     @media screen and (min-width: 50em) {
@@ -127,11 +127,11 @@
       template_tab:nth-of-type(4n) {
         margin-right: 0;
       }
-    } 
+    }  */
     .template_name{
       margin-top:15px;  
     }
-    .screenshot:hover .screenshot{
+    .screenshot:hover{
       transform: scale(1.5);
     }
   </style>
@@ -167,19 +167,7 @@
       <div class="template_section">
 
         <div class="template_tab">
-          <img class="screenshot" src="icons/make_user_wait.png" alt="no preview available" style="width:calc(50% - 6px); height:auto;margin:15px;border: none;display: block;transition: transform .2s ease-in-out;">
-          <div class="template_name">
-            make_user_wait
-          </div>
-        </div>
-        <div class="template_tab">
-          <img class="screenshot" src="icons/make_user_wait.png" alt="no preview available" style="width:calc(50% - 6px); height:auto;margin:15px;border: none;display: block;transition: transform .2s ease-in-out;">
-          <div class="template_name">
-            make_user_wait
-          </div>
-        </div>
-        <div class="template_tab">
-          <img class="screenshot" src="icons/make_user_wait.png" alt="no preview available" style="width:calc(50% - 6px); height:auto;margin:15px;border: none;display: block;transition: transform .2s ease-in-out;">
+          <img class="screenshot" src="icons/make_user_wait.png" alt="no preview available" style="width:calc(50% - 6px); height:auto;">
           <div class="template_name">
             make_user_wait
           </div>

@@ -7,7 +7,7 @@
 } = require 'libs_common/intervention_info'
 
 const {
-  get_random_positive_goal
+  get_random_uncompleted_positive_goal
 } = require('libs_backend/goal_utils')
 
 {
@@ -31,5 +31,5 @@ Polymer {
     log_action {'positive': 'positive-goal-site-button clicked'}
     this.$$('#reward_display').play()
   ready: ->>
-    this.goal = await get_random_positive_goal!
+    this.goal = await get_random_uncompleted_positive_goal!
 }

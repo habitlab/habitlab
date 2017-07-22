@@ -31,6 +31,10 @@
   get_favicon_data_for_domain
 } = require 'libs_backend/favicon_utils'
 
+{
+  get_whether_goal_achieved_today
+} = require 'libs_common/goal_progress'
+
 {cfy, yfy} = require 'cfy'
 
 getAllInterventionsGoalInfo = ->>
@@ -359,14 +363,30 @@ export get_goals = ->>
  * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info
  */
 export get_positive_enabled_goals = ->>
-  goals = await get_goals!
-  console.log(goals)
+  goal-to-info-map = await get_goals!
+  enabled_goals = await get_enabled_goals!
+  console.log goal-to-info-map
+  console.log enabled_goals
+  output = {}
+  for goal, goal_info of goal-to-info-map
+    if enabled_goals[goal] and goal_info.is_positive
+      output[goal] = goal_info
+  console.log output
+  return output
+
+/**
+ * Gets the goal info for all goals where is_positive set to true and that have not yet been completed
+ * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info
+ */
+export get_positive_enabled_uncompleted_goals = ->>
+  goals = await get_positive_enabled_goals!
   output = {}
   for goal, goal_info of goals
-    # TODO: change function to one which returns goals that have yet to be completed
-    if goal_info.is_enabled == false
-      continue
-    if goal_info.is_positive
+    completed = await get_whether_goal_achieved_today goal
+    console.log 'goal:'
+    console.log goal_info
+    console.log 'completed: ' + completed
+    if not completed
       output[goal] = goal_info
   return output
 
@@ -376,14 +396,25 @@ export get_positive_enabled_goals = ->>
  */
 export get_random_positive_goal = ->>
   goal-name-to-goal-info = await get_positive_enabled_goals!
-  goals = Object.keys goal-name-to-goal-info
-  if goals.length == 0
+  return get_random_value_from_object goal-name-to-goal-info
+
+/**
+ * Gets the goal info for a random enabled uncompleted positive goal
+ * @return {GoalInfo} The goal info
+ */
+export get_random_uncompleted_positive_goal = ->>
+  goal-name-to-goal-info = await get_positive_enabled_uncompleted_goals!
+  console.log goal-name-to-goal-info
+  return get_random_value_from_object goal-name-to-goal-info
+
+get_random_value_from_object = (obj) ->
+  keyList = Object.keys obj
+  if keyList.length == 0
     return null
-  rand-goal-index = Math.floor (Math.random! * goals.length)
-  goal = goals[rand-goal-index]
-  goal_info = goal-name-to-goal-info[goal]
-  return goal_info
-  
+  rand-index = Math.floor (Math.random! * keyList.length)
+  key = keyList[rand-index]
+  return obj[key]  
+
 export clear_cache_get_goals = ->
   #local_cached_get_goals := null
   localStorage.removeItem 'cached_get_goals'

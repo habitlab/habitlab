@@ -1,14 +1,27 @@
-<link rel="import" href="close-tab-button.html">
-<link rel="import" href="positive-goal-site-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="reward-display.html">
 
 <dom-module id="call-to-action-button">
+  <style>
+    :host {
+      display: var(--call-to-action-button-display, inline-block);
+      min-height: var(--call-to-action-button-height, 38px);
+      width: var(--call-to-action-button-width);
+      margin: var(--call-to-action-button-margin, 0px 0px 0px 0px);
+    }
+    .call-to-action-button {
+      cursor: pointer;
+      color: var(--call-to-action-button-color, white);
+      font-size: var(--call-to-action-button-font-size, 14px);
+      background-color: var(--call-to-action-button-bg-color, rgb(0,155,55));
+      margin: 0 auto;
+      width: 100%;
+      height: 100%;
+      box-shadow: var(--call-to-action-button-shadow, 2px 2px 2px #888888);
+    }
+  </style>
   <template>
-    <template is="dom-if" if="{{useCloseTabButton}}">
-      <close-tab-button/>
-    </template>
-    <template is="dom-if" if="{{usePositiveGoalSiteButton}}">
-      <positive-goal-site-button goal="{{goal}}"/>
-    </template>
+    <paper-button class="call-to-action-button" on-click="buttonClicked">{{buttonText}}</paper-button>
   </template>
 
   <script src="call-to-action-button.js"></script>

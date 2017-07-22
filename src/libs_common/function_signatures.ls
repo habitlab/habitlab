@@ -37,8 +37,14 @@ lib_name_to_func_names_and_signatures =
     set_goal_target: ['goal_name', 'target_value']
     get_all_goal_targets: []
     list_goal_info_for_enabled_goals: []
+    get_random_positive_goal: []
+    get_random_uncompleted_positive_goal: []
+    get_positive_enabled_goals: []
+    get_positive_enabled_uncompleted_goals: []
+    get_goal_info: []
   goal_progress:
     get_progress_on_enabled_goals_this_week: []
+    get_whether_goal_achieved_today: []
   gamification_utils:
     get_num_times_intervention_used: ['intervention_name']
     get_intervention_level: ['intervention_name']

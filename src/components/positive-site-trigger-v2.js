@@ -5,7 +5,7 @@ const {
 } = require('libs_frontend/intervention_log_utils')
 
 const {
-  get_random_positive_goal
+  get_random_uncompleted_positive_goal
 } = require('libs_backend/goal_utils')
 
 const {
@@ -58,7 +58,7 @@ polymer_ext({
     this.goal = goal
   },
   ready: async function() {
-    this.goal = await get_random_positive_goal()
+    this.goal = await get_random_uncompleted_positive_goal()
     let goal_name = this.goal.name
     console.log('set goal to ' + goal_name)
     this.streak = await get_streak(this.goal)

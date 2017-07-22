@@ -200,7 +200,6 @@ generate_dependencies_for_file_recursive = (filename_abs) ->
   if (not options.tostdout) and fs.existsSync(outfile_abs)
     if not options.regenerate
       return
-    fs.unlinkSync(outfile_abs)
   if options.verbose
     console.log "generating: #{outfile_abs}"
   filename_rel = path.relative src_path, filename_abs

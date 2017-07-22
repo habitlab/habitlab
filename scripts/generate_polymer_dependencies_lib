@@ -207,7 +207,6 @@
       if (!options.regenerate) {
         return;
       }
-      fs.unlinkSync(outfile_abs);
     }
     if (options.verbose) {
       console.log("generating: " + outfile_abs);

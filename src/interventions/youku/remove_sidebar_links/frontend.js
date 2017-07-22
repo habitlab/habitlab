@@ -6,7 +6,7 @@ const {wrap_in_shadow} = require('libs_frontend/common_libs')
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
+require('components/call-to-action-button.deps')
 require('bower_components/paper-button/paper-button.deps')
 
 function removeSidebar() {

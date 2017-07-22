@@ -21,7 +21,7 @@
         position: fixed; 
         color: white; 
         width: 120px; 
-        height: 120px;
+        min-height: 120px;
         bottom: 0px; 
         left: 0px; 
         z-index: 99999;
@@ -37,14 +37,14 @@
         margin-bottom: 7px;
       }
 
-      #close_button {
+      #close_tab_button {
         margin-bottom: 7px;
       }
     </style>
 
     <div id="displayText">
       <habitlab-logo id="logo"></habitlab-logo><br/>
-      <close-tab-button id="close_button"></close-tab-button>
+      <close-tab-button id="close_tab_button"></close-tab-button>
       <div>{{displayText}}</div>
     </div>
   </template>

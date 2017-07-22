@@ -21,7 +21,7 @@ const {
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
+require('components/call-to-action-button.deps')
 
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
@@ -73,14 +73,14 @@ function attachButtons() {
     log_action({'negative': 'Remained on Facebook.'})
     showFeed()
   })
-  var closeButton = $(`<close-tab-button text="${msg('Close Facebook')}">`)
+  var callToActionButton = $(`<call-to-action-button style="height:38px">`)
 
   var habitlab_show_feed_div = $('<div>')
   .css({
     'text-align': 'center'
   })
   .append([
-    closeButton,
+    callToActionButton,
     '<br><br>',
     cheatButton,
     '<br><br>',

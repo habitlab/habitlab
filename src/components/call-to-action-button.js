@@ -66,6 +66,7 @@ polymer_ext({
   },
   computeButtonText: function(goal) {
     if (goal.call_to_action != null) {
+      // Should be max 21 characters
       return goal.call_to_action
     } else if (!goal.is_positive) {
       var sitename_printable = get_intervention().sitename_printable

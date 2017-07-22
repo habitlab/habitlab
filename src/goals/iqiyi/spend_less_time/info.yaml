@@ -1,5 +1,6 @@
 description: Spend less time on Iqiyi
 progress_description: Time spent on Iqiyi
+call_to_action: Close Iqiyi
 interventions:
   - iqiyi/prompt_before_watch
   - iqiyi/remove_sidebar_links

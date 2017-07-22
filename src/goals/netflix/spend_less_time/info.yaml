@@ -1,5 +1,6 @@
 description: Spend less time on Netflix
 progress_description: Time spent on Netflix
+call_to_action: Close Netflix
 interventions:
   - netflix/link_articles
   - netflix/infinite_alarm

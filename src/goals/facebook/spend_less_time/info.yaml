@@ -1,5 +1,6 @@
 description: Spend less time on Facebook
 progress_description: Time spent on Facebook
+call_to_action: Close Facebook
 interventions:
   - facebook/pause_videos
   - facebook/feed_injection_timer

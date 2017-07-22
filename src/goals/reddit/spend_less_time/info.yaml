@@ -1,5 +1,6 @@
 description: Spend less time on Reddit
 progress_description: Time spent on Reddit
+call_to_action: Close Reddit
 interventions:
   #- reddit/remove-comment-links
   - generic/scroll_blocker

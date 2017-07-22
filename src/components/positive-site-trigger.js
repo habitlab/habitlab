@@ -6,7 +6,7 @@ const {
 
 const {
   get_random_uncompleted_positive_goal
-} = require('libs_backend/goal_utils')
+} = require('libs_common/goal_utils')
 
 const {
   get_streak
@@ -43,7 +43,13 @@ polymer_ext({
     if (domain.search("http") == -1) {
       domain = 'https://' + domain
     }
-    window.location.href = 'https://' + this.goal.domain
+
+    for (var reward_display of document.querySelectorAll('.habitlab_reward_display')) {
+      if (typeof(reward_display.play) == 'function') {
+        reward_display.play()
+        break
+      }
+    }
   },
   compute_sitename: function(goal) {
     return goal.sitename_printable
@@ -54,14 +60,26 @@ polymer_ext({
   compute_description: function(goal) {
     return goal.description
   },
-  goal_property_changed: function(goal, old_goal) {
-    this.goal = goal
+  goal_property_changed: function(newGoal, oldGoal) {
+    for (var reward_display in document.querySelectorAll('.habitlab_reward_display')) {
+      reward_display.no_autoclose = newGoal.is_positive
+      reward_display.url_of_next_page = newGoal.domain
+      break
+    }
   },
   ready: async function() {
     this.goal = await get_random_uncompleted_positive_goal()
     let goal_name = this.goal.name
     console.log('set goal to ' + goal_name)
     this.streak = await get_streak(this.goal)
+
+    if (document.querySelectorAll('.habitlab_reward_display').length == 0) {
+      let reward_display = document.createElement('reward-display')
+      reward_display.classList.add('habitlab_reward_display')
+      reward_display.no_autoclose = this.goal.is_positive
+      reward_display.url_of_next_page = this.goal.domain
+      document.body.appendChild(reward_display)
+    }
   }
 })
 

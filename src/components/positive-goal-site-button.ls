@@ -8,7 +8,7 @@
 
 const {
   get_random_uncompleted_positive_goal
-} = require('libs_backend/goal_utils')
+} = require('libs_common/goal_utils')
 
 {
   msg

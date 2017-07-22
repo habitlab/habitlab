@@ -1,5 +1,6 @@
 description: Spend less time on Amazon Video
 progress_description: Time spent on Amazon Video
+call_to_action: Close Amazon Video
 interventions:
   - amazonvideo/disable_autoplay
   - video/prompt_before_watch

@@ -365,13 +365,10 @@ export get_goals = ->>
 export get_positive_enabled_goals = ->>
   goal-to-info-map = await get_goals!
   enabled_goals = await get_enabled_goals!
-  console.log goal-to-info-map
-  console.log enabled_goals
   output = {}
   for goal, goal_info of goal-to-info-map
     if enabled_goals[goal] and goal_info.is_positive
       output[goal] = goal_info
-  console.log output
   return output
 
 /**
@@ -383,9 +380,6 @@ export get_positive_enabled_uncompleted_goals = ->>
   output = {}
   for goal, goal_info of goals
     completed = await get_whether_goal_achieved_today goal
-    console.log 'goal:'
-    console.log goal_info
-    console.log 'completed: ' + completed
     if not completed
       output[goal] = goal_info
   return output

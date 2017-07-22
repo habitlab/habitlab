@@ -9,7 +9,7 @@ var {
 
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
+require('components/call-to-action-button.deps')
 require('components/video-overlay.deps')
 require('bower_components/paper-button/paper-button.deps')
 

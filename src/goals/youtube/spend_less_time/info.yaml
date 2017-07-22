@@ -1,5 +1,6 @@
 description: Spend less time on Youtube
 progress_description: Time spent on Youtube
+call_to_action: Close Youtube
 interventions:
   - youtube/remove_sidebar_links
   - youtube/prompt_before_watch

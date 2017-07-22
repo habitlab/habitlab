@@ -12,25 +12,13 @@ const {
   close_selected_tab
 } = require('libs_common/tab_utils')
 
+const {
+  get_random_quote
+} = require('libs_frontend/quote_utils')
+
 require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/reward-display.deps')
-
-const messages = ["You've spent a questionable amount of time on Facebook.",
-                  "Please get off facebook. I'm begging you.",
-                  "You really shouldn't be spending time on Facebook.",
-                  "Get off Facebook. There are children starving in Africa.",
-                  "You know this is a waste of time, right?",
-                  "Why are you still on Facebook.",
-                  "An innocent animal dies every minute you spend on Facebook.",
-                  "Shouldn't you be doing something productive?",
-                  "Money isn't going to make itself! Get off Facebook!",
-                  "WHY ARE YOU STILL HERE. PLEASE LEAVE.",
-                  "Einstein didn't ever use Facebook, and he won a Nobel Prize.",
-                  "Facebook is making so much money off you being here now.",
-                  "Don't you have better things to do than hardcore FOMO?",
-                  "Gandhi once said, 'get off facebook'. Well, not really, but you should.",
-                  ":( Why are you still here :("]
 
 //Injects notification into Facebook feed every "minutes" mins
 function decideToInject(minutes) {
@@ -103,8 +91,10 @@ function insertClickNotification() {
           //Changes attributes to create the notification
           $messageClone.addClass('habitlab_inserted').addClass('jewelItemNew'); //Notification highlighted blue ('new')
           $messageClone.find('.author.fixemoji').text('HabitLab (Click to Close Facebook)'); //Changes notification sender
-          const rand = Math.floor((Math.random() * messages.length));
-          $messageClone.find('.snippet.preview').text(messages[rand]); //Changes text
+          // let quote = get_random_quote()
+          // message = quote.source + ": " + quote.text
+          let message = "You've been on here a while! Ready to go?"
+          $messageClone.find('._1ijj').text(message); //Changes text
           $messageClone.find('.timestamp').text('Just Now'); //Changes time sent
           $messageClone.find('._8o._8s').html('<img src="https://habitlab.github.io/intervention_images/habitlab.png" width="50" height="50" alt="" class="img">'); //Changes icon
           //$messageClone.find('a[href]').attr('href', 'https://habitlab.github.io'); //redirects link to [link in 2nd arg of attr]

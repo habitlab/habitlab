@@ -19,6 +19,8 @@
   getCollection
   setdict
   getdict
+  getkey_dict
+  setkey_dict
   getkey_dictdict
   setkey_dictdict
 } = require 'libs_backend/db_utils'
@@ -138,6 +140,17 @@ export set_currently_enabled_interventions_manual = (enabled_interventions) ->>
       disabled_interventions[intervention_name] = true
   await setdict 'interventions_currently_disabled', disabled_interventions
   return
+
+export set_intervention_enabled_from_intervention_manager = (intervention_name) ->>
+  await setkey_dict 'interventions_currently_disabled', intervention_name, false
+  return
+
+export set_intervention_disabled_from_intervention_manager = (intervention_name) ->>
+  await setkey_dict 'interventions_currently_disabled', intervention_name, true
+  return
+
+export get_is_intervention_disabled_from_intervention_manager = (intervention_name) ->>
+  return await getkey_dict 'interventions_currently_disabled', intervention_name
 
 export set_currently_enabled_interventions_automatic = (enabled_interventions) ->>
   disabled_interventions = {}

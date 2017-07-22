@@ -130,6 +130,8 @@ script_deps = (tag, params) ->
   {filepath_abs, filename_abs, $} = params
   import_path = $(tag).attr('src')
   if not import_path?
+    if filename_abs.endsWith('/src/popup.html')
+      return ''
     console.log "script tag in #{filename_abs} is missing src attribute"
     return ''
   filename_abs = get_abs_path_script import_path, filepath_abs
@@ -183,6 +185,10 @@ export generate_dependencies_for_file = (filename_abs) ->
   generated_during_this_run := {}
   generate_dependencies_for_file_recursive(filename_abs)
 
+file_contents_cached = {}
+
+output_file_contents_cached = {}
+
 generate_dependencies_for_file_recursive = (filename_abs) ->
   if options.target_jspm
     outfile_abs = filename_abs.replace(/\.html/, '.jspm.js')
@@ -191,7 +197,7 @@ generate_dependencies_for_file_recursive = (filename_abs) ->
   if generated_during_this_run[outfile_abs]
     return
   generated_during_this_run[outfile_abs] = true
-  if not options.tostdout and fs.existsSync(outfile_abs)
+  if (not options.tostdout) and fs.existsSync(outfile_abs)
     if not options.regenerate
       return
     fs.unlinkSync(outfile_abs)
@@ -200,7 +206,12 @@ generate_dependencies_for_file_recursive = (filename_abs) ->
   filename_rel = path.relative src_path, filename_abs
   filepath_rel = path.resolve filename_rel, '..'
   filepath_abs = path.resolve filename_abs, '..'
-  $ = cheerio.load(fs.readFileSync(filename_abs, 'utf-8'))
+  cached_contents = file_contents_cached[filename_abs]
+  current_contents = fs.readFileSync(filename_abs, 'utf-8')
+  if current_contents == cached_contents
+    return
+  file_contents_cached[filename_abs] = current_contents
+  $ = cheerio.load(current_contents)
   params = {filepath_rel, filepath_abs, filename_abs, $}
   output = []
   dependencies = []
@@ -241,8 +252,14 @@ generate_dependencies_for_file_recursive = (filename_abs) ->
   if options.tostdout
     console.log output
     return
-  fs.writeFileSync outfile_abs, output
-  if options.recursive
-    for dep in dependencies
-      generate_dependencies_for_file_recursive(dep)
+  cached_output = output_file_contents_cached[outfile_abs]
+  if (not cached_output?) and fs.existsSync(outfile_abs)
+    cached_output = fs.readFileSync outfile_abs, 'utf-8'
+    output_file_contents_cached[outfile_abs] = cached_output
+  if cached_output != output
+    output_file_contents_cached[outfile_abs] = output
+    fs.writeFileSync outfile_abs, output
+    if options.recursive
+      for dep in dependencies
+        generate_dependencies_for_file_recursive(dep)
   return

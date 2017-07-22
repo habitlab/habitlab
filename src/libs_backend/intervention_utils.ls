@@ -128,6 +128,7 @@ export get_enabled_interventions = ->>
 export set_enabled_interventions = (enabled_interventions) ->>
   await intervention_manager.set_currently_enabled_interventions_manual enabled_interventions
 
+/*
 export set_intervention_enabled = (intervention_name) ->>
   enabled_interventions = await get_enabled_interventions()
   if enabled_interventions[intervention_name]
@@ -149,10 +150,34 @@ export set_intervention_disabled = (intervention_name) ->>
     return
   enabled_interventions[intervention_name] = false
   await set_enabled_interventions enabled_interventions
+*/
+
+export set_intervention_enabled = (intervention_name) ->>
+  is_disabled = await intervention_manager.get_is_intervention_disabled_from_intervention_manager(intervention_name)
+  if is_disabled == false
+    return
+  await intervention_manager.set_intervention_enabled_from_intervention_manager(intervention_name)
+  return
+
+export set_intervention_disabled_permanently = (intervention_name) ->>
+  is_disabled = await intervention_manager.get_is_intervention_disabled_from_intervention_manager(intervention_name)
+  if is_disabled == true
+    return
+  await intervention_manager.set_intervention_disabled_from_intervention_manager(intervention_name)
+  return
+
+export set_intervention_disabled = (intervention_name) ->>
+  is_disabled = await intervention_manager.get_is_intervention_disabled_from_intervention_manager(intervention_name)
+  if is_disabled == true
+    return
+  await intervention_manager.set_intervention_disabled_from_intervention_manager(intervention_name)
+  return
 
 export is_intervention_enabled = (intervention_name) ->>
-  enabled_interventions = await get_enabled_interventions()
-  return enabled_interventions[intervention_name]
+  is_disabled = await intervention_manager.get_is_intervention_disabled_from_intervention_manager(intervention_name)
+  if is_disabled == true
+    return false
+  return true
 
 export is_video_domain = (domain) ->
   video_domains = {

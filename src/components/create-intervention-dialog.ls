@@ -53,6 +53,7 @@ polymer_ext {
       intervention_name: this.$.intervention_name.value
       intervention_description: this.$.intervention_description.value
       })
+      chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')   
     else
       console.log 'is_modify_mode'
       this.fire('modify_intervention_info', {})

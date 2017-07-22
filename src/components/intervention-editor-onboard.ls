@@ -27,9 +27,9 @@ polymer_ext {
     goals_list= await list_all_goals()
     create_intervention_dialog.goal_info_list = [all_goals[x] for x in goals_list]
     create_intervention_dialog.open_create_new_intervention_dialog()
-    chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+    intervention-editor=document.createElement('intervention-editor')
     create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
-      self.display_new_intervention(evt.detail)
+      intervention-editor.display_new_intervention(evt.detail)
     console.log 'add_new_clicked completed...'
   preivew_intervention: ->
     console.log 'preview_intervention'

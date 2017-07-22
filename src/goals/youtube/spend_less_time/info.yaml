@@ -1,5 +1,5 @@
-description: Spend less time on Youtube
-progress_description: Time spent on Youtube
+description: Spend less time on YouTube
+progress_description: Time spent on YouTube
 interventions:
   - youtube/remove_sidebar_links
   - youtube/prompt_before_watch

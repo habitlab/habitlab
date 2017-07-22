@@ -159,3 +159,7 @@ export const builtinQuotes =
     text: "Self-respect is the fruit of discipline; the sense of dignity grows with the ability to say no to oneself."
     source: "Abraham Joshua Heschel"
     category: "Discipline"
+  * id: 39
+    text: "Habit is habit, and not to be flung out the window by any man, but coaxed down-stairs a step at a time."
+    source: "Mark Twain"
+    category: "Habit"

@@ -1,11 +1,11 @@
-import {
+const {
   make_notification_backend,
   close_notification_backend
-} from 'libs_common/notification_utils_backend'
+} = require('libs_common/notification_utils_backend')
 
-import {
+const {
   get_tab_id
-} from 'libs_common/intervention_info'
+} = require('libs_common/intervention_info')
 
 /**
  * Creates a notification and returns the notification id

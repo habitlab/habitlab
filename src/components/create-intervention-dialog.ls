@@ -47,6 +47,7 @@ polymer_ext {
         return
     this.$$('#create_new_intervention_dialog').close()
     if this.current_intervention==''
+      console.log 'validate_intervention_name'
       this.fire('display_new_intervention', {
       goal_info: this.$.goal_selector.selectedItem.goal_info
       intervention_name: this.$.intervention_name.value

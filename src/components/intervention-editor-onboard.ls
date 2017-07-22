@@ -1,5 +1,10 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 {list_custom_interventions}=require 'libs_backend/intervention_utils'
+{
+  list_all_goals
+  get_goals
+} = require 'libs_backend/goal_utils'
+
 polymer_ext {
   is: 'intervention-editor-onboard'
   properties:{
@@ -14,8 +19,18 @@ polymer_ext {
     this.custom_intervention_list=await list_custom_interventions()
   open_code: ->
     chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
-  add_new_clicked: ->
-    console.log 'add_new_clicked'
+  add_new_clicked: ->>
+    self = this
+    create_intervention_dialog = document.createElement('create-intervention-dialog')
+    document.body.appendChild(create_intervention_dialog)
+    all_goals=await get_goals()
+    goals_list= await list_all_goals()
+    create_intervention_dialog.goal_info_list = [all_goals[x] for x in goals_list]
+    create_intervention_dialog.open_create_new_intervention_dialog()
+    chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+    create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
+      self.display_new_intervention(evt.detail)
+    console.log 'add_new_clicked completed...'
   preivew_intervention: ->
     console.log 'preview_intervention'
   ready: ->>

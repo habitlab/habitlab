@@ -207,7 +207,9 @@ generate_dependencies_for_file_recursive = (filename_abs) ->
   filepath_rel = path.resolve filename_rel, '..'
   filepath_abs = path.resolve filename_abs, '..'
   cached_contents = file_contents_cached[filename_abs]
-  current_contents = fs.readFileSync(filename_abs, 'utf-8')
+  current_contents = null
+  if fs.existsSync(filename_abs)
+    current_contents = fs.readFileSync(filename_abs, 'utf-8')
   if current_contents == cached_contents
     return
   file_contents_cached[filename_abs] = current_contents

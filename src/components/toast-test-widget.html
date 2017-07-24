@@ -1,0 +1,19 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="toast-test-widget">
+  <style>
+    .yellow-button {
+      text-transform: none;
+      color: #eeff41;
+    }
+  </style>
+  <template>
+    <paper-toast id="sample_toast" text="Hello World v2" duration="0" vertical-align="top" horizontal-align="right">
+      <paper-button class="yellow-button">More</paper-button>
+      <span role="button" tabindex="0" style="color: #eeff41;margin: 10px" onclick="console.log('RETRY')">Retry</span>
+    </paper-toast>
+  </template>
+  <script src="toast-test-widget.js"></script>
+</dom-module>

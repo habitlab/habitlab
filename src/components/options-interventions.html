@@ -114,7 +114,7 @@
       align-items: center;
       background-color: rgb(81, 167,249);
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-      
+      color: white;
     }
 
     .card-content {
@@ -183,28 +183,28 @@
       width:60px;
       height:60px;
       margin:auto;
-      margin-top:20px;
+      margin-top:15px;
       margin-left:10px; 
       margin-right:10px;
+      margin-bottom:15px;
       border-radius:20px;
       padding: 8px;
       box-shadow: 0px 0px 15px #346da3;
       background-color:white;
       padding:5px;
     }
-    .siteicondisabled {
-      opacity: 0.9;
+    .dayicondisabled {
+     background-color:rgb(35,70,110);
     }
-    .siteiconenabled{
-      opacity: 1;
-      box-shadow: 0px 0px 15px #346da3;
+    .dayiconenabled{
+     /* background-color:#FF6F6F; */
+     background-color:rgb(60,230,120);
     }
     .weekdays {
-      color: rgba(255,255,255,0.35);
-      background-color:#FF6F6F;
+     /* background-color:#FF6F6F; */
+     background-color:rgb(60,230,120);
     }
     .weekends {
-      color: rgba(255,255,255,0.35);
       background-color:#213458;
     }
 
@@ -225,9 +225,17 @@
           <div class="card-content" >You can set interventions to be always on, or only active during work hours.
 
 
+
+            <br>
+            <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
+              <paper-radio-button name="always" >Always On</paper-radio-button>
+              <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
+            </paper-radio-group>
+
+
           <div class = "days-container">
             <div>
-              <div style= "position: relative; top:38px; left:18px;">
+              <div style= "position: relative; top:38px; left:19px;">
                 <div style ="position:absolute">
                   <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
                 </div>
@@ -235,19 +243,51 @@
               <div class="dayicon weekends"id ="sunday"></div>
             </div>
             <div>
-              <div style= "position: relative; top:38px; left:18px;">
+              <div style= "position: relative; top:38px; left:19px;">
                 <div style ="position:absolute">
                   <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">M</div>
                 </div>
               </div>
               <div class="dayicon weekdays"id ="monday"></div>
             </div>
-
+            <div>
+              <div style= "position: relative; top:38px; left:19px;">
+                <div style ="position:absolute">
+                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">T</div>
+                </div>
+              </div>
               <div class="dayicon weekdays"id ="tuesday"></div>
+            </div>
+            <div>
+              <div style= "position: relative; top:38px; left:19px;">
+                <div style ="position:absolute">
+                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">W</div>
+                </div>
+              </div>
               <div class="dayicon weekdays"id ="wednesday"></div>
+            </div>            <div>
+              <div style= "position: relative; top:38px; left:19px;">
+                <div style ="position:absolute">
+                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">T</div>
+                </div>
+              </div>
               <div class="dayicon weekdays"id ="thursday"></div>
+            </div>            <div>
+              <div style= "position: relative; top:38px; left:19px;">
+                <div style ="position:absolute">
+                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">F</div>
+                </div>
+              </div>
               <div class="dayicon weekdays"id ="friday"></div>
+            </div>
+            <div>
+              <div style= "position: relative; top:38px; left:19px;">
+                <div style ="position:absolute">
+                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
+                </div>
+              </div>
               <div class="dayicon weekends"id ="saturday"></div>
+            </div>
 
 
           </div>
@@ -255,14 +295,6 @@
 
 
 
-
-
-
-            <br>
-            <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
-              <paper-radio-button name="always" >Always On</paper-radio-button>
-              <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
-            </paper-radio-group>
 
             <!--
             <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>

@@ -3,9 +3,7 @@ content_scripts:
   - path: frontend.js
     run_at: document_start
 parameters:
-  - name: cheatseconds
-    description: Seconds to cheat for after time is up
-    default: 30
+  - name: scrollevents
+    description: The amount of scroll events until the notification appears again
+    default: 750
     type: int
-categories:
-  - interstitial

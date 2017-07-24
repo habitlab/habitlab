@@ -2,6 +2,7 @@ description: Spend less time on Reddit
 progress_description: Time spent on Reddit
 interventions:
   #- reddit/remove-comment-links
+  - generic/show_timer_banner
   - generic/scroll_blocker
   - generic/show_user_info_interstitial
   - generic/make_user_wait

@@ -769,13 +769,15 @@ export get_seconds_spent_on_domain_for_each_intervention = (domain) ->>
 
 export get_seconds_saved_per_session_for_each_intervention_for_goal = (goal_name) ->>
   goal_info = await goal_utils.get_goal_info(goal_name)
+  output = {}
+  if not goal_info.interventions?
+    return output
   domain = goal_info.domain
   intervention_names = goal_info.interventions
   session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
   session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
   intervention_to_seconds_per_session = await get_seconds_spent_on_domain_for_each_intervention(domain)
   baseline_session_time = await get_baseline_session_time_on_domain(domain)
-  output = {}
   for intervention in intervention_names
     seconds_per_session = intervention_to_seconds_per_session[intervention]
     if not seconds_per_session?

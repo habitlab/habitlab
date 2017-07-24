@@ -51,28 +51,44 @@ if window.location.pathname == '/options.html'
     #try
     #  window.hashdata_parsed = JSON.parse(atob(hashdata_unparsed))
     #catch
-  options_view = document.querySelector('#options_view')
+  #options_view = document.querySelector('#options_view')
+  add_options_view = (is_hidden) ->
+    options_view = document.querySelector('#options_view')
+    if options_view?
+      return options_view
+    options_view = document.createElement('options-view-v2')
+    options_view.have_options_page_hash = true
+    options_view.setAttribute('id', 'options_view')
+    if is_hidden
+      options_view.style.display = 'none'
+    options_view.set_selected_tab_by_name(hash)
+    options_view.addEventListener 'options_selected_tab_changed', (evt) ->
+      selected_tab_name = evt.detail.selected_tab_name
+      hash = window.location.hash
+      if hash.startsWith('#')
+        hash = hash.substr(1)
+      if selected_tab_name == 'settings' and hash == 'onboarding'
+        return
+      window.location.hash = selected_tab_name
+    document.getElementById('index_body').appendChild(options_view)
+    return options_view
   if hash == 'onboarding'
     require 'components/onboarding-view.deps'
     onboarding_view = document.createElement('onboarding-view')
     onboarding_view.addEventListener 'onboarding-complete', (evt) ->
       onboarding_view.style.display = 'none'
       onboarding_view.parentNode.removeChild(onboarding_view)
+      options_view = add_options_view(false)
       options_view.style.display = 'block'
       options_view.rerender()
       window.location.hash = 'settings'
-    options_view.style.display = 'none'
+    #options_view.style.display = 'none'
     document.getElementById('index_body').appendChild(onboarding_view)
-  options_view.set_selected_tab_by_name(hash)
-  options_view.addEventListener 'options_selected_tab_changed', (evt) ->
-    selected_tab_name = evt.detail.selected_tab_name
-    hash = window.location.hash
-    if hash.startsWith('#')
-      hash = hash.substr(1)
-    if selected_tab_name == 'settings' and hash == 'onboarding'
-      return
-    window.location.hash = selected_tab_name
-  #  options_view
+    setTimeout ->
+      options_view = add_options_view(true)
+    , 5000
+  else
+    options_view = add_options_view(false)
   require 'libs_common/global_exports_post'
   add_url_input_if_needed()
   return

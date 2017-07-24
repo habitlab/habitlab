@@ -1,0 +1,125 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<!--<link rel="import" href="badge-display-mini.html">-->
+
+<dom-module id="onboarding-badges">
+  <style>
+    :host {
+      width: 100%;
+      text-align: center;
+      /*
+      opacity: 1;
+      width: 100vw;
+      background-color: white;
+      color: black;
+      z-index: 9007199254740991;
+      */
+    }
+
+  .badgesContainer {
+    width: 600px;
+    margin:auto; 
+    margin-top:0px;
+    /*background-color:rgb(255,145,182);*/
+    /*border-radius:30px;*/
+    padding:0px;
+    /*background-color:white;*/
+  } 
+  .heartsContainer {
+    display: inline-flex;
+    width: 600px;
+    margin:auto;
+    margin-left:60px; 
+    margin-top:0px;
+    /*background-color:rgb(255,145,182);*/
+    /*border-radius:30px;*/
+    padding:0px;
+    /*background-color:white;*/
+  } 
+
+  .badges{
+    width:130px;
+    cursor: pointer; 
+    padding:10px;
+    margin-left:15px;
+    margin-right:15px;
+    margin-top:0px;
+    background-color:white;
+    border-radius:15px;
+    box-shadow: 0px 0px 15px #346da3;
+  }
+
+  .hearts{
+    width:80px;
+    cursor: pointer; 
+    padding:0px;
+    margin:auto;
+    margin-left:50px;
+    margin-right:50px;
+    margin-top:10px;
+    /*background-color:white;*/
+    /*border-radius:15px;
+    box-shadow: 0px 0px 15px #346da3*/
+  }
+
+  .badges:hover {
+    opacity: 0.5;
+  }
+      
+
+
+
+
+
+
+  </style>
+  <template>
+    <div>
+    <img style= "width:80px;padding-left:0px;padding-bottom:0px;margin:auto;margin-left:0px;margin-top:50px;margin-bottom:10px;" src="{{logo_glow_black_bubbles}}"></img>
+    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 35px;color:white;">Congratulations! </div>
+    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">You've unlocked some starter interventions!</div>
+    <div class = "badgesContainer">
+      <img class = "badges badges1" on-click="bounce_object" on-click="openBy" src="{{sola_url}}"></img>
+      <img class = "badges badges2" on-click="bounce_object" on-click="openBy" src="{{habby_url}}"></img>
+      <img class = "badges badges3" on-click="bounce_object" on-click="openBy" src="{{twinkl_url}}"></img>
+    </div>  
+
+    <div class = "heartsContainer">
+      <div><img class = "hearts hearts1" on-click="bounce_hearts" src="{{heart_white_url}}"></img>    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">100</div></div>
+      <div><img class = "hearts hearts2" on-click="bounce_hearts" src="{{heart_white_url}}"></img>    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">100</div></div>
+      <div><img class = "hearts hearts3" on-click="bounce_hearts" src="{{heart_white_url}}"></img>    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">100</div></div>
+    </div>
+    <div> 
+
+
+    </div>
+    </div>
+  </template>
+  <script src="onboarding-badges.js"></script>
+</dom-module>
+
+  <paper-dialog id="alignedDialog" style = "background-color:rgba(255,255,255,0.85);" no-overlap horizontal-align="left" vertical-align="top">
+        <h2 style = " font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;color:#323f4b;">Add a new website to reduce time spent on (example: www.amazon.com)</h2>
+        <div style = "display: flex; margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin-bottom:0px;padding-left:10px; padding-right:10px;padding-bottom:0px">
+
+          <vaadin-combo-box on-value-changed = "valueChange" id="add_website_input"  change="change_called" custom-value-set="custom_value_set_called" selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" value-changed="value_changed_called" items = "{{baseline_time_on_domains_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
+            <template>
+                  <div on-click="div_clicked" domain="[[item]]">[[item]]</div>
+            </template>
+          </vaadin-combo-box>
+          <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px;margin-bottom:7px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
+       
+        </div>
+  </paper-dialog>
+
+
+
+

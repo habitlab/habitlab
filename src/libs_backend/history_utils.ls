@@ -16,6 +16,10 @@ require! {
 } = require 'libs_common/cacheget_utils'
 
 {
+  get_seconds_spent_on_domain_all_days
+} = require 'libs_common/time_spent_utils'
+
+{
   getdict
   setdict
 } = require 'libs_backend/db_utils'
@@ -189,6 +193,7 @@ export get_baseline_time_on_domains = ->>
   await setdict 'baseline_time_on_domains', baseline_time_on_domains
   return baseline_time_on_domains
 
+# milliseconds
 export get_baseline_time_on_domain = (domain) ->>
   baseline_time_on_domains = await get_baseline_time_on_domains()
   if baseline_time_on_domains[domain]?
@@ -258,5 +263,13 @@ export ensure_history_utils_data_cached = ->>
     await setdict 'baseline_session_time_on_domains', baseline_session_time_on_domains
     baseline_time_on_domains = await get_baseline_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, date_now)
     await setdict 'baseline_time_on_domains', baseline_time_on_domains
+
+# seconds
+export get_average_seconds_spent_on_domain = (domain) ->>
+  days_before_to_seconds_spent = await get_seconds_spent_on_domain_all_days(domain)
+  num_days_of_data = Object.keys(days_before_to_seconds_spent).length
+  if num_days_of_data < 2
+    return (await get_baseline_time_on_domain(domain)) / 1000.0
+  return prelude.sum(Object.values(days_before_to_seconds_spent)) / num_days_of_data
 
 gexport_module 'history_utils', -> eval(it)

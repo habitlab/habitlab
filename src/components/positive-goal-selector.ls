@@ -10,10 +10,12 @@ swal = require 'sweetalert2'
 {
   get_enabled_goals
   get_goals
+  get_spend_more_time_goals
   set_goal_target
   get_goal_target
   remove_custom_goal_and_generated_interventions
   add_enable_custom_goal_reduce_time_on_domain
+  add_enable_custom_goal_increase_time_on_domain
   set_goal_enabled_manual
   set_goal_disabled_manual
 } = require 'libs_backend/goal_utils'
@@ -59,7 +61,7 @@ swal = require 'sweetalert2'
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 polymer_ext {
-  is: 'initial-goal-selector'
+  is: 'positive-goal-selector'
   properties: {
     sites_and_goals: {
       type: Array
@@ -79,11 +81,11 @@ polymer_ext {
     },
     title_text: {
       type: String
-      value: msg("HabitLab has come up with suggested sites that you spend the most time on, on average per day.")
+      value: msg("Here are some sites other users made into habits that you might like, based on your browsing history.")
     }
     title_text_bolded_portion: {
       type: String
-      value: msg("Which sites would you like to spend less time on?")
+      value: msg("What sites would you like to spend more time on?")
     }
     isdemo: {
       type: Boolean
@@ -91,7 +93,7 @@ polymer_ext {
     }
     title: {
       type: String
-      value: msg("Let's set some goals.")
+      value: msg("Now for some positive goals!")
     }
     num_per_line: {
       type: Number
@@ -246,16 +248,13 @@ polymer_ext {
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
-      
+
       for goal in current_item.goals
         goal.enabled = (enabled_goals[goal.name] == true)
         goal.number = this.index_of_daily_goal_mins[goal.name]
         
-      
-
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-
 
  
   goal_changed: (evt) ->
@@ -360,9 +359,9 @@ polymer_ext {
       return
     #console.log 'checkpoint 3'
     if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
-      await add_enable_custom_goal_reduce_time_on_domain(domain)
+      await add_enable_custom_goal_increase_time_on_domain(domain)
     #console.log 'checkpoint 4'
-    await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
+    await add_enable_custom_goal_increase_time_on_domain(canonical_domain)
     #console.log 'checkpoint 5'
     await this.set_sites_and_goals()
     #console.log 'checkpoint 6'
@@ -412,7 +411,7 @@ polymer_ext {
       return
     total_width = $(self).width()
     margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
-    $('.flexcontainer').css('margin-left', margin_needed)
+    #$('.flexcontainer').css('margin-left', margin_needed)
     current_offset = this.S('.flexcontainer').offset()
     this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
   ready: ->>

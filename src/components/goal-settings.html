@@ -8,7 +8,7 @@
 <link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
-<dom-module id="initial-goal-selector">
+<dom-module id="goal-settings">
   <style is="custom-style">
     :host {
       --paper-input-container-input: {
@@ -89,6 +89,21 @@
         width:320px; 
       }
 
+      #animated {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        width: 70%;
+        overflow: auto;
+      }
+
+
+
+    }
+    
+
+    .dailyLimitContainer {
+      margin-top: 2px;
     }
     
     .index_body{ 
@@ -110,8 +125,6 @@
       padding-top:30px;
       padding-bottom:30px;
       font-size: 20px;
-      /*text-shadow: 1px 1px 1px #346da3; */
-      min-height:calc(100vh - 60px);
     }
 
 
@@ -173,7 +186,7 @@
         <h2 style = " font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;color:#323f4b;">Add a new website to reduce time spent on (example: www.amazon.com)</h2>
         <div style = "display: flex; margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin-bottom:0px;padding-left:10px; padding-right:10px;padding-bottom:0px">
 
-          <vaadin-combo-box on-value-changed = "valueChange" id="add_website_input"  change="change_called" custom-value-set="custom_value_set_called" selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" value-changed="value_changed_called" items = "{{baseline_time_on_domains_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
+          <vaadin-combo-box on-value-changed = "valueChange" id="add_website_input"  change="change_called" custom-value-set="custom_value_set_called" selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" value-changed="value_changed_called" items = "{{minutes_spent_on_domains_all_days_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
             <template>
                   <div on-click="div_clicked" domain="[[item]]">[[item]]</div>
                   <!--
@@ -189,7 +202,30 @@
         </div>
 
     </paper-dialog>
+
+
+    <paper-dialog id="animated" entry-animation="scale-up-animation" style="width:70%; overflow:auto;"exit-animation="fade-out-animation" with-backdrop >
+      <h2 style = "font-size:30px;overflow:auto; margin:auto;margin-bottom:0px;padding-bottom:10px;padding-top:15px;">How will HabitLab help me achieve these goals?</h2>
+      <p style = padding-top:0px;>HabitLab will help you achieve these goals by showing you a different intervention, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)</p>
+    </paper-dialog >    
     
+
+
+    <paper-dialog id="deletion_confirmation" entry-animation="scale-up-animation" style="width:70%; overflow:auto;"exit-animation="fade-out-animation" with-backdrop >
+      <h2 style = "font-size:30px;overflow:auto; margin:auto;margin-bottom:0px;padding-bottom:10px;padding-top:15px;">Are you sure you would like to delete this goal?</h2>
+    </paper-dialog >    
+    
+
+    <paper-dialog id="actions" style="width:70%; overflow:auto;"exit-animation="fade-out-animation" with-backdrop >
+      <!--<h2>If you delete the goal, the history of your progress will also be deleted. Are you sure you would like to delete this goal?</h2>-->
+      <p>If you delete the goal, the history of your progress will also be deleted. Are you sure you would like to delete this goal?</p>
+        <div class="buttons">
+        <paper-button dialog-dismiss id = "delete" on-click="delete_goal">Delete Goal</paper-button>
+        <paper-button dialog-confirm autofocus>Cancel</paper-button>
+      </div>
+    </paper-dialog>
+
+
 
     <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
     <div id="outer_wrapper">
@@ -211,7 +247,8 @@
               <div class="siteicon siteiconadd" on-click="openBy"></div>
               <div>
                 <span style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>Add Custom</span>
-                <div><iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
+                <!--<div><iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>-->
+                <div><iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="helpOpen"></iron-icon></div>        
               </div> 
             </div>
 
@@ -245,8 +282,24 @@
                     <template is="dom-if" if="{{!goal.enabled}}">
                     <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{goal.icon}}" />
                     </template>
-                    <div style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
-                    <div style='text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</div>
+                    <div style='width:145px; white-space:nowrap;font-size:16px;font-weight: 800;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
+                    
+                    
+                    <div style = "display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;align-content:center;">
+                      <div style='text-align:center;text-shadow:none;width:145px; white-space:nowrap;font-size:12px; font-weight:800;overflow:hidden;text-overflow:ellipsis; margin:auto;margin-right:0px;text-align:center;'>
+                        {{get_time_spent_for_domain(goal.domain, domain_to_seconds_per_day)}}
+                      </div>
+
+                      <div>
+                        <template is="dom-if" if="{{goal.custom}}">
+                          <img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>
+                          <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
+                        </template>
+                      </div>
+
+                    </div>
+                    
+                    
                     </template>
                   </template>
                 </div>
@@ -269,5 +322,5 @@
       </div>  
     </div>
   </template>
-  <script src="initial-goal-selector.js"></script>
+  <script src="goal-settings.js"></script>
 </dom-module>

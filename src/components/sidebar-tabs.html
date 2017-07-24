@@ -5,8 +5,8 @@
 <style>
 
 .tab_elem {
-  background-color: #7EAFEA;
-  color: #fff;
+  background-color:rgb(81, 167, 249);
+  color:white ;
   width: 100%;
   height: 50px;
   text-align: center;
@@ -46,6 +46,7 @@
     <div class$="tab_elem vertical_align [[text_if_equal(index, selected_tab_idx, 'selected')]]" on-click="tab_elem_selected" name="{{item}}" idx="{{index}}">
       <img src="{{item.icon}}" style="width: 40px; height: 40px; margin-right: 15px; margin-left: 15px; pointer-events: none" />
       {{item.name}}
+      
     </div>
   </template>
   <div class="tab_elem vertical_align" on-click="feedback_button_clicked">

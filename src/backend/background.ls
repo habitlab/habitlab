@@ -121,17 +121,21 @@ do ->>
 
   export get_last_visit_to_website_timestamp = ->>
     history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
+    last_visit_timestamp = -1
     for search_result in history_search_results
       if search_result.url.startsWith('https://habitlab.stanford.edu')
-        return search_result.lastVisitTime
-    return -1
+        if search_result.lastVisitTime > last_visit_timestamp
+          last_visit_timestamp = search_result.lastVisitTime
+    return last_visit_timestamp
 
   export get_last_visit_to_chrome_store_timestamp = ->>
     history_search_results = await new Promise -> chrome.history.search({text: 'https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd', startTime: 0}, it)
+    last_visit_timestamp = -1
     for search_result in history_search_results
       if search_result.url.startsWith('https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd')
-        return search_result.lastVisitTime
-    return -1
+        if search_result.lastVisitTime > last_visit_timestamp
+          last_visit_timestamp = search_result.lastVisitTime
+    return last_visit_timestamp
 
   do ->>
     # open the options page on first run
@@ -231,6 +235,10 @@ do ->>
   {
     add_tab_navigation_event
   } = require 'libs_backend/session_utils'
+
+  {
+    run_every_timeperiod
+  } = require 'libs_common/common_libs'
 
   {
     as_array
@@ -509,7 +517,7 @@ do ->>
             SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
               content_script_utils.load_css_file('sweetalert2').then(function() {
                 sweetalert({
-                  title: 'Reload page to disable intervention',
+                  title: 'Reload page to turn off intervention',
                   text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
                 })
               })
@@ -615,7 +623,7 @@ do ->>
       localStorage.removeItem('override_enabled_interventions_once')
     else
       active_interventions = JSON.parse active_interventions
-      intervention = active_interventions[Math.floor(Math.random() * possible_interventions.length)]
+      intervention = active_interventions[Math.floor(Math.random() * active_interventions.length)]
       intervention_no_longer_enabled = false
       need_new_session_id = false
       #if page_was_just_refreshed
@@ -1143,7 +1151,7 @@ do ->>
       start_trying_to_restart_habitlab()
 
   if (not developer_mode) and (localstorage_getbool('allow_logging'))
-    setInterval check_if_update_available_and_run_update, 3600000 # 1000*60*60 every 60 minutes
+    run_every_timeperiod check_if_update_available_and_run_update, 600000 # 1000*60*10 every 10 minutes
 
   url_to_open_on_next_start = localStorage.getItem('habitlab_open_url_on_next_start')
   if url_to_open_on_next_start?

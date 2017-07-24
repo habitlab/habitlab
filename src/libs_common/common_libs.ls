@@ -23,3 +23,15 @@ export run_only_one_at_a_time = (func) ->
     func ->
       # finished
       is_running := false
+
+# timeperiod: milliseconds
+export run_every_timeperiod = (func, timeperiod) ->
+  last_run_time = Date.now()
+  func()
+  setInterval ->
+    cur_time = Date.now()
+    if last_run_time + timeperiod < cur_time
+      # need to run again
+      last_run_time := cur_time
+      func()
+  , 1000

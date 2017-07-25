@@ -205,7 +205,7 @@ polymer_ext {
   #   console.log(domain)
 
   valueChange: (evt) ->
-    console.log 'valueChange_called'
+    console.log 'valueChange_called on initial-goal-selector'
     console.log evt
     console.log evt.target.domain
     console.log evt.target.getAttribute('domain')

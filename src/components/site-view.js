@@ -39,7 +39,7 @@ function test() {
 
 // document.getElementById("view_more_button").addEventListener("click", test);
 
-console.log("hello");
+console.log("site-view.js here");
 
 
 function make_intervention_table(interventions) {

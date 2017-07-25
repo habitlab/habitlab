@@ -109,6 +109,7 @@ polymer_ext {
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}
   on_goal_changed: (evt) ->
+    console.log 'goal changed'
     this.rerender()
     #this.$$('#options-interventions').on_goal_changed(evt.detail)
     #this.$$('#dashboard-view').on_goal_changed(evt.detail)
@@ -129,6 +130,8 @@ polymer_ext {
     self.is_habitlab_disabled = not (await is_habitlab_enabled())
     #is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
     goals = await get_goals()
+    console.log 'goals:'
+    console.log goals
     enabled_goals = await get_enabled_goals()
     goals_list = await list_all_goals()
     enabled_goal_info_list = []
@@ -157,6 +160,7 @@ polymer_ext {
   ready: ->>
     ##self = this
     ##this.$$('#goal_selector').set_sites_and_goals()
+    console.log('options-view-v2 ready! rerendering...')
     await this.rerender()
     if not this.have_options_page_hash and not this.selected_tab_idx?
       this.selected_tab_idx = 0

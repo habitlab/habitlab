@@ -31,6 +31,7 @@ swal = require 'sweetalert2'
 {
   get_baseline_time_on_domains
   get_baseline_time_on_domain
+  get_average_seconds_spent_on_domain
 } = require 'libs_backend/history_utils'
 
 
@@ -240,7 +241,7 @@ polymer_ext {
   #   console.log(domain)
 
   valueChange: (evt) ->
-    console.log 'valueChange_called'
+    console.log 'valueChange_called on goal-settings'
     console.log evt
     console.log evt.target.domain
     console.log evt.target.getAttribute('domain')

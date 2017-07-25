@@ -1,6 +1,8 @@
 description: Spend less time on YouTube
 progress_description: Time spent on YouTube
 interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
   - youtube/remove_sidebar_links
   - youtube/prompt_before_watch
   - youtube/remove_comment_section

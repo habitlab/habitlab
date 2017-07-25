@@ -15,8 +15,8 @@
       overflow-y: hidden;
     }
     #outer_wrapper{ 
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       color: white;
       padding: 20px;
       display:block;
@@ -38,43 +38,14 @@
       position: relative;
       display: inline-block;
     }
-    .overlay{
-      position: absolute;
-      top:0;
-      left:0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0);
-      transition: background 0.5s ease;      
-    }
-    .intervention_tab:hover .overlay {
-      display: block;
-      background: rgba(0, 0, 0, .3);
-    }
     .item_name{
       font-weight: 100;
       font-size: 24px;
-      text-align: center;
       color: white;
       z-index: 1;
-      transition: top .5s ease;
-      opacity:1;
       max-width:100%;
       word-wrap:break-word;
-      position: relative;
       top: 50%;
-      transform: translateY(-50%);
-    }
-    .intervention_tab:hover .item_name{
-      opacity:0;
-    }
-    .button_container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: block;
-      opacity:0;
     }
     .button {
       color: white;
@@ -85,9 +56,6 @@
       font-weight: bold;
       transition: opacity .35s ease;
       margin:10px;
-    }
-    .intervention_tab:hover .button_container{
-      opacity:1;
     }
     #add_new_tab {
       cursor: pointer;
@@ -104,81 +72,63 @@
       float:left;     
     }
     .template_section{
-      display:table;
+      display:inline-block;
     }
     .template_tab{
-      margin:0;
       overflow:hidden;
-      display:table-cell;
+      width: 300px;
+      padding: 15px;
+      display:inline-block;
     }
     .screenshot{
       cursor:pointer;
+      box-shadow: 0px 0px 15px #346da3;
     }
-     /* template_tab:nth-of-type(2n) {
-      margin-right: 0;
-    }
-    @media screen and (min-width: 50em) {
-      template_tab {
-        width: calc(25% - 6px);
-      }
-      template_tab:nth-of-type(2n) {
-        margin-right: 8px;
-      }
-      template_tab:nth-of-type(4n) {
-        margin-right: 0;
-      }
-    }  */
     .template_name{
-      margin-top:15px;  
+      margin-top:15px;
+      text-align: center;
+      font-family: "Helvetica";
+      font-size:24px;  
     }
     .screenshot:hover{
       transform: scale(1.5);
     }
+
   </style>
 
   <template>
     <div id="outer_wrapper">
       <div id="my_interventions_section">
-        <h1>My interventions</h1>
+        <h1>Build your own interventions...</h1>
         <div id="add_new_tab" on-click="add_new_clicked">
           <img src="icons/plus.png" style="width:100px; height:100px;margin:15px;">
         </div>
-        <div class="intervention_tab">
-          <div class="item_name">my_custom_intervention</div>
-          <div class="overlay"></div>
-          <div class="button_container">
-            <paper-button class="button" on-click="open_code">Open</paper-button>
-            <!-- <paper-button class="button" on-click="preview_intervention">Preview</paper-button> -->
-          </div>
+        <div id="my_interventions" style="width:100vw;">
+          <template is="dom-repeat" items="{{custom_intervention_list}}" as="my_intervention_name">
+            <paper-tab class="intervention_tab" on-click="open_code">
+              <div class="item_name">{{my_intervention_name}}</div>
+            </paper-tab>
+          </template>
         </div>
-        <!--<template is="dom-repeat" items="{{custom_intervention_list}}" as="my_intervention">
-          <div class="intervention_tab">
-            <div class="item_name">{{my_intervention}}</div>
-            <div class="overlay"></div>
-            <div class="button_container">
-              <paper-button class="button" on-click="open_code">Open</paper-button>
-              <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
-            </div>
-          </div>
-        </template>-->
       </div>
       <br>
-        <h1>Popular templates</h1>
+
       <div class="template_section">
+        <h1>Or modify popular templates...</h1>
+        <div id="my_templates" style="width:100vw;">
 
-        <div class="template_tab">
-          <img class="screenshot" src="icons/make_user_wait.png" alt="no preview available" style="width:calc(50% - 6px); height:auto;">
-          <div class="template_name">
-            make_user_wait
-          </div>
-        </div>
-
-        <!-- <template is="dom-repeat" items="{{templates_list}}" as="pop_template">
-          {{pop_template}}
-        </template> -->
+          <template is="dom-repeat" items="{{templates_list}}" as="my_template_name">
+            <div class="template_tab">
+              <img class="screenshot" src="icons/make_user_wait.png" alt="no preview available" style="width:100%; height:auto;">            
+              <div class="template_name">
+                {{my_template_name}}
+              </div>
+            </div>
+          </template>
       </div>
     </div> 
 
   </template>
-   <script src="intervention-editor-onboard.js"></script> 
+  <script src="intervention-editor.js"></script> 
+  <script src="intervention-editor-onboard.js"></script> 
 </dom-module>

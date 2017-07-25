@@ -115,8 +115,8 @@
   <template>
 
     <div>
-      <iron-pages selected="{{selected_tab_idx}}">
-        <template is="dom-repeat" items="{{intervention_list}}" as="intervention_tab_name">
+      <iron-pages selected="{{selected_tab_idx}}" autoselect>
+        <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
           <div id="editor_{{intervention_tab_name}}" intervention_tab_name="{{intervention_tab_name}}" class="javascript_editor_div"></div>
         </template>
       </iron-pages>

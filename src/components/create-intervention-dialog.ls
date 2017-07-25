@@ -11,9 +11,6 @@ polymer_ext {
     goal_info_list: {
       type: Array
     }
-    intervention_list: {
-      type: Array
-    }
     current_intervention:{
       type: String
       value: ''
@@ -47,7 +44,7 @@ polymer_ext {
         return
     this.$$('#create_new_intervention_dialog').close()
     if this.current_intervention==''
-      console.log 'validate_intervention_name'
+      console.log 'create_new_intervention mode'
       this.fire('display_new_intervention', {
       goal_info: this.$.goal_selector.selectedItem.goal_info
       intervention_name: this.$.intervention_name.value

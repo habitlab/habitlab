@@ -13,6 +13,7 @@ polymer_ext {
     }
     templates_list:{
       type:Array
+      value:['make_user_wait',"my_template"]
     }
   }
   refresh_custom_intervention_list: ->>

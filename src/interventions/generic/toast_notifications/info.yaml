@@ -1,0 +1,4 @@
+description: Shows a toast displaying time spent every minute
+content_scripts:
+  - path: frontend.js
+    run_at: document_start

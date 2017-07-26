@@ -192,6 +192,9 @@ export is_video_domain = (domain) ->
   return false
 
 export generate_interventions_for_domain = (domain) ->>
+  goal_name = "custom/spend_less_time_#{domain}"
+  goal_info = await goal_utils.get_goal_info(goal_name)
+  default_interventions = goal_info.default_interventions ? []
   generic_interventions = await list_generic_interventions()
   if is_video_domain(domain)
     video_interventions = await list_video_interventions()
@@ -225,7 +228,8 @@ export generate_interventions_for_domain = (domain) ->>
       intervention_info.sitename_printable = intervention_info.sitename_printable.substr(4)
     intervention_info.generated = true
     intervention_info.generic_intervention = generic_intervention
-    intervention_info.goals = ["custom/spend_less_time_#{domain}"]
+    intervention_info.goals = [goal_name]
+    intervention_info.is_default = default_interventions.includes(intervention_info.name)
     #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
     new_intervention_info_list.push intervention_info
   await add_new_interventions new_intervention_info_list
@@ -672,15 +676,8 @@ export list_available_interventions_for_enabled_goals = ->>
 
 export list_available_interventions_for_goal = (goal_name) ->>
   # outputs a list of intervention names
-  interventions_to_goals = await goal_utils.get_interventions_to_goals()
-  output = []
-  output_set = {}
-  for intervention_name,goal_names of interventions_to_goals
-    for cur_goal_name in goal_names
-      if goal_name == cur_goal_name and not output_set[intervention_name]?
-        output.push intervention_name
-        output_set[intervention_name] = true
-  return output
+  goal_info = await goal_utils.get_goal_info(goal_name)
+  return goal_info.interventions
 
 export list_enabled_interventions_for_goal = (goal_name) ->>
   # outputs a list of intervention names

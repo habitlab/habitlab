@@ -2,19 +2,30 @@ description: Spend less time on Facebook
 progress_description: Time spent on Facebook
 call_to_action: Close Facebook
 interventions:
-  - facebook/pause_videos
+  #- facebook/pause_videos
   - facebook/feed_injection_timer
   - facebook/feed_injection_positive_goal_widget
-  - facebook/notification_hijacker
+  #- facebook/notification_hijacker
   - facebook/remove_news_feed
   - facebook/rich_notifications
   - facebook/remove_comments
   - facebook/remove_clickbait
+  - generic/toast_notifications
+  - generic/show_timer_banner
   - generic/scroll_blocker
   - generic/show_user_info_interstitial
   - generic/make_user_wait
   - generic/close_tab_timer
   - generic/block_after_interval_per_visit
+default_interventions:
+  - facebook/feed_injection_timer
+  - facebook/remove_news_feed
+  - facebook/rich_notifications
+  - facebook/remove_comments
+  - facebook/remove_clickbait
+  - generic/toast_notifications
+  - generic/show_timer_banner  
+  - generic/scroll_blocker
 measurement: time_spent_on_domain
 domain: www.facebook.com
 target:

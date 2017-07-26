@@ -27,6 +27,9 @@ if (intervention_info.sitename_printable) {
 let current_toast = null
 
 let show_new_toast = function() {
+  if (window.intervention_disabled) {
+    return
+  }
   get_seconds_spent_on_current_domain_today().then(function(seconds_spent) {
     let duration = printable_time_spent_long(seconds_spent)
     current_toast = show_toast({
@@ -37,9 +40,12 @@ let show_new_toast = function() {
 }
 
 show_new_toast()
-setInterval(show_new_toast, 60000)
+let show_new_toast_job = setInterval(show_new_toast, 60000)
 
 let update_time = function() {
+  if (window.intervention_disabled) {
+    return
+  }
   get_seconds_spent_on_current_domain_today().then(function(seconds_spent) {
     let duration = printable_time_spent_long(seconds_spent)
     if (current_toast != null) {
@@ -49,4 +55,14 @@ let update_time = function() {
 }
 
 update_time()
-setInterval(update_time, 1000)
+let update_time_job = setInterval(update_time, 1000)
+
+window.on_intervention_disabled = function() {
+  clearInterval(show_new_toast_job)
+  clearInterval(update_time_job)
+  if (current_toast != null) {
+    current_toast.hide()
+  }
+}
+
+window.debugeval = x => eval(x)

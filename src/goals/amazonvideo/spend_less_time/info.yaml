@@ -19,6 +19,7 @@ default_interventions:
 measurement: time_spent_on_domain
 domain: www.amazon.com
 preview: https://www.amazon.com/dp/B0066O0NP6/?ref=nav_signin&gclid=CIPVhvC6-tMCFYJnfgod7XkH2w&
+disabled: true
 target:
   default: 20
   units: minutes

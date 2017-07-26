@@ -10,6 +10,9 @@ interventions:
   - generic/block_after_interval_per_visit
   #- gmail/no_new_emails
   - gmail/time_writing_email
+default_interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
 measurement: time_spent_on_domain
 domain: mail.google.com
 target:

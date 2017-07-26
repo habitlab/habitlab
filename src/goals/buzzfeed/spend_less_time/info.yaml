@@ -9,6 +9,10 @@ interventions:
   - generic/close_tab_timer
   - generic/block_after_interval_per_visit
   #- buzzfeed/remove_buzz_feed
+default_interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
+  - generic/scroll_blocker
 measurement: time_spent_on_domain
 domain: buzzfeed.com
 target:

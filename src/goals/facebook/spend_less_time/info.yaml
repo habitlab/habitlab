@@ -15,6 +15,15 @@ interventions:
   - generic/make_user_wait
   - generic/close_tab_timer
   - generic/block_after_interval_per_visit
+default_interventions:
+  - facebook/feed_injection_timer
+  - facebook/remove_news_feed
+  - facebook/rich_notifications
+  - facebook/remove_comments
+  - facebook/remove_clickbait
+  - generic/toast_notifications
+  - generic/show_timer_banner  
+  - generic/scroll_blocker
 measurement: time_spent_on_domain
 domain: www.facebook.com
 target:

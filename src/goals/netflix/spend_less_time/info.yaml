@@ -1,6 +1,8 @@
 description: Spend less time on Netflix
 progress_description: Time spent on Netflix
 interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
   - netflix/link_articles
   - netflix/infinite_alarm
   - netflix/stop_autoplay
@@ -13,6 +15,9 @@ interventions:
   #- generic/close_tab_timer
   #- generic/scroll_blocker
   #- generic/show_user_info_interstitial
+default_interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
 measurement: time_spent_on_domain
 domain: www.netflix.com
 target:

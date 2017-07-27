@@ -79,6 +79,11 @@ polymer_ext {
     opened_intervention_list:{
       type:Array
       value:[]
+      observer: 'opened_intervention_list_changed'
+    }
+    selected_tab_idx: {
+      type:Number
+      value:0
     }
   }
 
@@ -92,10 +97,10 @@ polymer_ext {
     self = this
     self.have_unsaved_changes()
   get_intervention_name: ->
-    console.log opened_intervention_list
-    if opened_intervention_list?
+    console.log 'get_intervention_name'+this.selected_tab_idx
+    console.log this.opened_intervention_list
+    if this.opened_intervention_list?
       return this.opened_intervention_list[this.selected_tab_idx]
-    return this.intervention_list[this.selected_tab_idx]
   # download_code: ->
   #   edit_mode = this.get_edit_mode()
   #   if edit_mode == 'ls' or edit_mode == 'ls_and_js'
@@ -164,7 +169,7 @@ polymer_ext {
       }
     catch
       return
-    this.opened_intervention_list.splice selected_tab_idx, 1
+    this.opened_intervention_list.splice this.selected_tab_idx, 1
     remove_custom_intervention(intervention_name)
     delete this.js_editors[intervention_name]
     await this.refresh_intervention_list()
@@ -200,7 +205,29 @@ polymer_ext {
     self=this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
     document.body.appendChild(create_intervention_dialog)
-    create_intervention_dialog.open_existing_custom_intervention_dialog()    
+    create_intervention_dialog.intervention_list=this.intervention_list
+    create_intervention_dialog.open_existing_custom_intervention_dialog()
+    create_intervention_dialog.addEventListener 'display_intervention', (evt) ->
+      self.display_intervention(evt.detail)
+    console.log 'open_existing_custom_intervention completed...'
+  display_intervention: (intervention_data) ->>
+    self = this
+    intervention_name = intervention_data.intervention_name
+    this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
+    #if not this.opened_intervention_list.includes intervention_name
+    this.opened_intervention_list.push intervention_name
+    new_opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
+    this.set('opened_intervention_list', [])
+    this.set('opened_intervention_list', new_opened_intervention_list)
+    once_true ->
+      self.js_editors[intervention_name]?
+    , ->
+      console.log 'self.js_editors have value'
+      self.js_editors[intervention_name].setValue(intervention_info.code)
+    #await this.make_javascript_editor()
+    #console.log 'display_intervention for '+intervention_info.code
+    #console.log this.js_editors[intervention_name]
+    #this.js_editors[intervention_name].setValue(intervention_info.code)
   info_clicked: ->
     create_intervention_dialog = document.createElement('create-intervention-dialog')
     document.body.appendChild(create_intervention_dialog)
@@ -208,10 +235,13 @@ polymer_ext {
     create_intervention_dialog.current_intervention = this.get_intervention_name()
     create_intervention_dialog.open_edit_intervention_info_dialog() 
     console.log 'info_clicked for '+this.get_intervention_name()+' completed...'
+  
+  
+  
+  
   display_new_intervention: (new_intervention_data) ->>
     self = this
     new_intervention_name = new_intervention_data.intervention_name
-    opened_intervention_list.push new_intervention_name
     goal_info = new_intervention_data.goal_info
     comment_section = """/*
     This intervention is written in JavaScript.
@@ -263,10 +293,12 @@ polymer_ext {
     }
     await add_new_intervention(intervention_info)
     await this.refresh_intervention_list()
+    this.opened_intervention_list.push new_intervention_name
+    this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
     this.once_available '#editor_' + new_intervention_name, (result) ->
       self.make_javascript_editor(result)
     console.log('display_new_intervention for '+new_intervention_name+ ' completed...')
-
+    console.log this.opened_intervention_list
   # prompt_new_intervention: ->>
   #   self = this
   #   new_intervention_name = null
@@ -365,10 +397,6 @@ polymer_ext {
   #   await add_new_intervention(intervention_info)
   #   await this.refresh_intervention_list()
   #   # this.select_intervention_by_name(new_intervention_name)
-
-  # select_intervention_by_name: (intervention_name) ->
-  #   intervention_idx = this.intervention_list.indexOf(intervention_name)
-  #   this.$.intervention_selector.selected = intervention_idx
   refresh_intervention_list: ->>
     this.intervention_list = await list_custom_interventions()
     #if this.intervention_list.length == 0
@@ -424,8 +452,12 @@ polymer_ext {
   share_clicked: ->
     chrome.tabs.create {url: 'https://habitlab.github.io/share'}
   make_javascript_editor: (editor_div) ->>
+    console.log 'make_javascript_editor called'
+    console.log editor_div
     intervention_name = editor_div.intervention_tab_name
     self = this
+    if self.js_editors[intervention_name]?
+      return
     brace = await SystemJS.import('brace')
     await SystemJS.import('brace/mode/javascript')
     # await SystemJS.import('brace/theme/monokai')
@@ -439,6 +471,11 @@ polymer_ext {
     js_editor.setValue(intervention_info.code)
     js_editor.on 'change', ->
       self.js_editor_changed()
+  opened_intervention_list_changed: ->>
+    self = this
+    self.once_available_multiselect '.javascript_editor_div', (editor_divs) ->
+      for editor_div in editor_divs
+        self.make_javascript_editor(editor_div)
   ready: ->>
     self = this
     brace = await SystemJS.import('brace')
@@ -458,6 +495,11 @@ polymer_ext {
     self.once_available_multiselect '.javascript_editor_div', (editor_divs) ->
       for editor_div in editor_divs
         self.make_javascript_editor(editor_div)
+    new_intervention_info = localStorage.getItem('intervention_editor_new_intervention_info')
+    if new_intervention_info?
+      new_intervention_info = JSON.parse new_intervention_info
+      localStorage.removeItem('intervention_editor_new_intervention_info')
+      self.display_new_intervention(new_intervention_info)
     /*
     once_true(-> self?intervention_info?code?
     , ->>

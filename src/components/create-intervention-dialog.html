@@ -52,7 +52,7 @@
 
     <paper-dialog id="open_existing_custom_intervention" with-backdrop style="z-index: 9007;">
       <paper-dropdown-menu style="margin-top: 0px; width: 300px" label="Select a custom intervention">
-        <paper-listbox id="intervention_selector" on-iron-select="intervention_selector_changed" class="dropdown-content" selected="0">
+        <paper-listbox id="intervention_selector" class="dropdown-content" selected="0">
           <template is="dom-repeat" items="{{intervention_list}}" as="intervention_name">
             <paper-item intervention_name="{{intervention_name}}">{{intervention_name}}</paper-item>
           </template>

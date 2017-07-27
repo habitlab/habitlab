@@ -15,6 +15,9 @@ polymer_ext {
       type: String
       value: ''
     }
+    intervention_list: {
+      type: Array
+    }
   }
   open_create_new_intervention_dialog: ->
     this.is_modify_mode=false
@@ -55,11 +58,10 @@ polymer_ext {
       console.log 'is_modify_mode'
       this.fire('modify_intervention_info', {})
       this.current_intervention=''
-  intervention_selector_changed: (change_info) ->>
-    # intervention_name = change_info.detail.item.intervention_name
-    # this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
-    # this.js_editors[intervention_name].setValue(intervention_info.code)
-    # this.$$('#open_existing_custom_intervention').close()
-    console.log 'intervention_selector_changed'
   # edit_intervention_info:
+  open_intervention_clicked: ->>
+    this.fire('display_intervention',{
+      intervention_name:this.$.intervention_selector.selectedItem.intervention_name
+    })
+    this.$$('#open_existing_custom_intervention').close()
 }

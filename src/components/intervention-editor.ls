@@ -247,17 +247,13 @@ polymer_ext {
     comment_section = """/*
     This intervention is written in JavaScript.
     To learn JavaScript, see https://www.javascript.com/try
-
     This sample intervention will display a popup with SweetAlert.
     Click the 'PREVIEW' button to see it run.
-
     To learn how to write HabitLab interventions, see
     https://habitlab.github.io/devdocs
-
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
     https://habitlab.github.io/devdocs?q=require_package
     */
-
     """
     if goal_info.preview?
       preview_url=goal_info.preview
@@ -273,7 +269,6 @@ polymer_ext {
       sitename_printable: goal_info.sitename_printable
       custom: true
       code: comment_section + '''
-
     var swal = require_package('sweetalert2');
     swal({
       title: 'Hello World',
@@ -282,7 +277,6 @@ polymer_ext {
     '''
       content_scripts:{
           code: comment_section + '''
-
     var swal = require_package('sweetalert2');
     swal({
       title: 'Hello World',

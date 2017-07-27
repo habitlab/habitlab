@@ -846,7 +846,7 @@ do ->>
     if not session_id?
       return
     interventions_active = await getkey_dictdict('interventions_active_for_domain_and_session', domain, session_id)
-    if (not interventions_active?) or interventions_active.length == 0
+    if (not interventions_active?) or (interventions_active.length == 0) or interventions_active == '[]'
       return
     if reward_display_base_code_cached == null
       reward_display_base_code_cached := await fetch('frontend_utils/close_tab_message.js').then (.text!)

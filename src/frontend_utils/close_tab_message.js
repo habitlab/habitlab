@@ -1,12 +1,18 @@
-// const {polymer_ext} = require('libs_frontend/polymer_utils');
-
-//var
-
-require('enable-webcomponents-in-content-scripts')
-require('bower_components/paper-button/paper-button.deps')
-
 const $ = require('jquery')
 
-$('body').append($('<paper-button style="position: fixed; top: 0px; left: 0px; z-index: 9999999">click me please</paper-button>'))
+function show_reward_display() {
+  $('reward-display-toast').remove()
+  let reward_display = $('<reward-display-toast>')
+  reward_display[0].seconds_saved = window.reward_display_seconds_saved
+  $('body').append(reward_display)
+  reward_display[0].show()
+  reward_display[0].play()
+}
 
-alert('close_tab_message running')
+if (!window.close_tab_message_loaded) {
+  window.close_tab_message_loaded = true
+  require('enable-webcomponents-in-content-scripts')
+  require('components/reward-display-toast.deps')
+}
+
+show_reward_display()

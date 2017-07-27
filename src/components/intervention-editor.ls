@@ -51,6 +51,7 @@
 
 # {get_goal_info} = require 'libs_common/goal_utils'
 swal = require 'sweetalert2'
+lodash = require 'lodash'
 
 polymer_ext {
   is: 'intervention-editor'
@@ -473,9 +474,19 @@ polymer_ext {
       self.js_editor_changed()
   opened_intervention_list_changed: ->>
     self = this
-    self.once_available_multiselect '.javascript_editor_div', (editor_divs) ->
-      for editor_div in editor_divs
-        self.make_javascript_editor(editor_div)
+    while true
+      rendered_interventions = []
+      editor_div_list = self.SM('.javascript_editor_div')
+      for editor_div in editor_div_list
+        intervention_name = editor_div.intervention_tab_name
+        rendered_interventions.push(intervention_name)
+      done_rendering = lodash.isEqual(self.opened_intervention_list, rendered_interventions)
+      if done_rendering
+        for editor_div in editor_div_list
+          self.make_javascript_editor(editor_div)
+        return
+      else
+        await sleep(100)
   ready: ->>
     self = this
     brace = await SystemJS.import('brace')

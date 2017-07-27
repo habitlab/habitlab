@@ -251,6 +251,10 @@ do ->>
     localstorage_getbool
   } = require 'libs_common/localstorage_utils'
 
+  {
+    baseline_time_per_session_for_domain
+  } = require 'libs_common/gamification_utils'
+
   require! {
     moment
     'promise-debounce'

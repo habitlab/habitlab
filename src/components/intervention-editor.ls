@@ -214,21 +214,16 @@ polymer_ext {
   display_intervention: (intervention_data) ->>
     self = this
     intervention_name = intervention_data.intervention_name
-    this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
-    #if not this.opened_intervention_list.includes intervention_name
-    this.opened_intervention_list.push intervention_name
-    new_opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
-    this.set('opened_intervention_list', [])
-    this.set('opened_intervention_list', new_opened_intervention_list)
-    once_true ->
-      self.js_editors[intervention_name]?
-    , ->
-      console.log 'self.js_editors have value'
-      self.js_editors[intervention_name].setValue(intervention_info.code)
-    #await this.make_javascript_editor()
-    #console.log 'display_intervention for '+intervention_info.code
-    #console.log this.js_editors[intervention_name]
-    #this.js_editors[intervention_name].setValue(intervention_info.code)
+    if not this.opened_intervention_list.includes intervention_name
+      this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
+      this.opened_intervention_list.push intervention_name
+      new_opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
+      this.set('opened_intervention_list', [])
+      this.set('opened_intervention_list', new_opened_intervention_list)
+      once_true ->
+        self.js_editors[intervention_name]?
+      , ->
+        self.js_editors[intervention_name].setValue(intervention_info.code)
   info_clicked: ->
     create_intervention_dialog = document.createElement('create-intervention-dialog')
     document.body.appendChild(create_intervention_dialog)
@@ -236,10 +231,6 @@ polymer_ext {
     create_intervention_dialog.current_intervention = this.get_intervention_name()
     create_intervention_dialog.open_edit_intervention_info_dialog() 
     console.log 'info_clicked for '+this.get_intervention_name()+' completed...'
-  
-  
-  
-  
   display_new_intervention: (new_intervention_data) ->>
     self = this
     new_intervention_name = new_intervention_data.intervention_name

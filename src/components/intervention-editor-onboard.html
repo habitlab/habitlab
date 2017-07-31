@@ -105,7 +105,7 @@
         </div>
         <div id="my_interventions" style="width:100vw;">
           <template is="dom-repeat" items="{{custom_intervention_list}}" as="intervention_name">
-            <paper-tab class="intervention_tab" on-click="open_code_clicked">
+            <paper-tab class="intervention_tab" on-click="open_custom_intervention">
               <div class="item_name">{{intervention_name}}</div>
             </paper-tab>
           </template>
@@ -117,11 +117,11 @@
         <h1>Or modify popular templates...</h1>
         <div id="my_templates" style="width:100vw;">
 
-          <template is="dom-repeat" items="{{templates_list}}" as="intervention_name">
+          <template is="dom-repeat" items="{{templates_list}}" as="template_name">
             <div class="template_tab">
-              <img class="screenshot" on-click="open_code_clicked" src="icons/make_user_wait.png" alt="no preview available" style="width:100%; height:auto;">            
-              <div class="intervention_name">
-                {{my_template_name}}
+              <img class="screenshot" on-click="open_template" src="icons/make_user_wait.png" alt="no preview available" style="width:100%; height:auto;">            
+              <div class="template_name">
+                {{template_name}}
               </div>
             </div>
           </template>

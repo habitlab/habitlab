@@ -14,13 +14,15 @@ polymer_ext {
     }
     templates_list:{
       type:Array
-      value:['make_user_wait',"my_template"]
+      value:['generic/make_user_wait',"my_template"]
     }
   }
   refresh_custom_intervention_list: ->>
     this.custom_intervention_list=await list_custom_interventions()
-  open_code_clicked: (evt)->
-    this.open_code(evt.model.intervention_name)
+  open_template: (evt)->
+    this.open_code(evt.model.template_name)
+  open_custom_intervention: (evt)->
+    
   open_code: (intervention_name)->
     console.log 'open_code'
     # chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')

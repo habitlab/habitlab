@@ -1,6 +1,8 @@
 description: Spend less time on Iqiyi
 progress_description: Time spent on Iqiyi
 interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
   - iqiyi/prompt_before_watch
   - iqiyi/remove_sidebar_links
   #- video/link_articles
@@ -9,6 +11,9 @@ interventions:
   #- generic/make_user_wait
   #- generic/close_tab_timer
   #- generic/block_after_interval_per_visit
+default_interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
 measurement: time_spent_on_domain
 domain: www.iqiyi.com
 preview: http://www.iqiyi.com/v_19rrb6fwsg.html

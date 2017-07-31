@@ -1,6 +1,8 @@
 description: Spend less time on Amazon
 progress_description: Time spent on Amazon
 interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
   - generic/scroll_blocker
   - generic/show_user_info_interstitial
   - generic/make_user_wait
@@ -8,6 +10,10 @@ interventions:
   - generic/block_after_interval_per_visit
   - amazon/hide_recommendations
   #- buzzfeed/remove_buzz_feed
+default_interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
+  - amazon/hide_recommendations
 measurement: time_spent_on_domain
 domain: www.amazon.com
 preview: https://www.amazon.com/gp/product/B01N0T5OUF/ref=s9_acsd_aas_bw_c_x_1_w?ie=UTF8&pd_rd_r=WBE88Y3KXHP2D6TK6FA8&pd_rd_w=CFgC4&pd_rd_wg=e0Lps&pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-1&pf_rd_r=WBE88Y3KXHP2D6TK6FA8&pf_rd_r=WBE88Y3KXHP2D6TK6FA8&pf_rd_t=101&pf_rd_p=829a6c73-f784-466d-82dc-515fa2d8c9be&pf_rd_p=829a6c73-f784-466d-82dc-515fa2d8c9be&pf_rd_i=16313234011

@@ -26,7 +26,12 @@ setInterval(function() {
 }, 1000)
 */
 
-setInterval(function() {
+var end_of_show = null
+
+var stop_autoplay_process = setInterval(function() {
+  if (window.intervention_disabled) {
+    return
+  }
   if ($('a.nf-icon-button.nf-flat-button.no-icon').length > 0) {
     if ($('a.nf-icon-button.nf-flat-button.no-icon')[0].innerText.toLowerCase() != 'skip intro') {
       // arrived at the end of the video, small button style
@@ -53,8 +58,10 @@ setInterval(function() {
       console.log('Watch credits button clicked')
       let b=document.querySelector('video')
       b.pause()
-      var end_of_show = $('<netflix-stop-autoplay>')
-      $(document.body).append(end_of_show)
+      if ($('netflix-stop-autoplay').length == 0) {
+        end_of_show = $('<netflix-stop-autoplay>')
+        $(document.body).append(end_of_show)
+      }
       //finished_watching_current_video = true
     }
   }
@@ -76,57 +83,22 @@ setInterval(function() {
           }
           //finished_watching_current_video = true
           console.log('video should now be paused')
-          var end_of_show = $('<netflix-stop-autoplay>')
-          $(document.body).append(end_of_show)
+          if ($('netflix-stop-autoplay').length == 0) {
+            end_of_show = $('<netflix-stop-autoplay>')
+            $(document.body).append(end_of_show)
+          }
         }, 500) 
       }
     }
   }
 }, 1000)
 
-
-const {
-  get_minutes_spent_on_domain_today,
-  get_visits_to_domain_today
-} = require('libs_common/time_spent_utils')
-
-const {
-  append_to_body_shadow
-} = require('libs_frontend/common_libs')
-
-const {
-  url_to_domain
-} = require('libs_common/domain_utils')
-
-const {
-  get_intervention
-} = require('libs_common/intervention_info');
-
-var shadow_div;
-
-(async function() {
-  var domain = url_to_domain(window.location.href)
-  var numMins = await get_minutes_spent_on_domain_today(domain)
-  var numVisits = await get_visits_to_domain_today(domain)
-  var titleString = 'You have visited ' + url_to_domain(window.location.href) +' ' + numVisits + ' times and spent '+ numMins + ' minutes there today.'
-  var sitename_printable = get_intervention().sitename_printable
-  var buttonText = `Click to continue to ${sitename_printable}`
-  var buttonText2 = `Close ${sitename_printable}`
-
-  var interst_screen = $('<interstitial-screen-num-visits class="interst_screen">')
-  interst_screen.attr('intervention', intervention.name)
-  interst_screen.attr('btn-txt', buttonText)
-  interst_screen.attr('btn-txt2', buttonText2)
-  interst_screen.attr('title-text', titleString)
-  interst_screen.attr('minutes', numMins);
-  interst_screen.attr('playings', numVisits);
-  interst_screen.attr('seconds', 0);
-
-  shadow_div = append_to_body_shadow(interst_screen);
-})()
-
 window.on_intervention_disabled = () => {
-  $(shadow_div).remove();
+  clearInterval(stop_autoplay_process)
+  if (end_of_show != null) {
+    end_of_show.remove()
+  }
+  document.querySelector('video').play()
 }
 
 window.debugeval = x => eval(x);

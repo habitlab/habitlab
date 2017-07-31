@@ -92,6 +92,10 @@ htmlpattern_srcgen = [
   'src/**/*.html'
 ]
 
+intervention_copypattern = [
+  'src_gen/interventions/**/*.js'
+]
+
 copypattern = [
   'src/**/*.html'
   'src/**/*.png'
@@ -322,6 +326,12 @@ gulp.task 'yaml_build', ->
   .pipe(gulp-yaml({space: 2}))
   .on('error', gulp-util.log)
   .pipe(gulp.dest('dist'))
+
+gulp.task 'copy_interventions', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'), ->
+  return gulp.src(intervention_copypattern, {root: 'src_gen/interventions'})
+  .pipe(gulp-changed('dist/intervention_templates'))
+  #.pipe(gulp-print( -> "copy: #{it}" ))
+  .pipe(gulp.dest('dist/intervention_templates'))
 
 gulp.task 'copy_build', ->
   return gulp.src(copypattern, {base: 'src'})
@@ -614,6 +624,7 @@ gulp.task 'build_base', gulp.parallel(
   'yaml_build'
   'copy_build'
   'livescript_build'
+  'copy_interventions'
 )
 
 # based on

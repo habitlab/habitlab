@@ -23,24 +23,14 @@
       overflow-x: hidden;
       overflow-y: hidden;
     }
-    #javascript_editor {
-      display: inline-block;
-      width: 100vw;
-      height: calc(100vh - 50px);
-      position: fixed;
-      top: 50px;
-      left: 0px;
-      margin: 0;
-      padding: 0;
-      background-color:#D8D8D8
-    }
     .javascript_editor_div {
       display: inline-block;
       width: 100vw;
-      height: calc(100vh - 50px);
+      height: calc(100vh - 100px);
       position: fixed;
       top: 50px;
       left: 0px;
+      bottom: 50px;
       margin: 0;
       padding: 0;
       background-color:#D8D8D8
@@ -132,7 +122,7 @@
       </paper-tabs>
 
       <div id = "topbar_buttons">
-        <paper-icon-button icon="add" style="color:#4279BD;" on-click="plus_clicked"></paper-icon-button>
+        <paper-icon-button icon="folder-open" style="color:#4279BD;" on-click="open_custom_intervention_clicked"></paper-icon-button>
         <paper-icon-button icon="menu" style="color:#4279BD;" on-click="hide_or_show_sidebar"></paper-icon-button>
         <paper-icon-button icon="help-outline" style="color:#4279BD; " on-click="help_clicked"></paper-icon-button>
       </div>
@@ -140,7 +130,7 @@
     </paper-card>
 
     <paper-card id="sidebar">   
-      <paper-icon-button icon="create" on-click="add_new_intervention_clicked"></paper-icon-button>
+      <paper-icon-button icon="add-box" on-click="add_new_intervention_clicked"></paper-icon-button>
       <paper-icon-button icon="save" on-click="save_intervention"></paper-icon-button>
       <paper-icon-button icon="info" on-click="info_clicked"></paper-icon-button>
       <paper-icon-button icon="delete" on-click="delete_intervention"></paper-icon-button>

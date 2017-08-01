@@ -20,12 +20,11 @@ polymer_ext {
   refresh_custom_intervention_list: ->>
     this.custom_intervention_list=await list_custom_interventions()
   open_template: (evt)->
-    this.open_code(evt.model.template_name)
+    localStorage.setItem('intervention_editor_open_template_name',JSON.stringify(evt.model.template_name))
+    chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
   open_custom_intervention: (evt)->
-    
-  open_code: (intervention_name)->
-    console.log 'open_code'
-    # chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+    localStorage.setItem('intervention_editor_open_intervention_name',JSON.stringify(evt.model.intervention_name))
+    chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
   add_new_clicked: ->>
     self = this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
@@ -36,8 +35,6 @@ polymer_ext {
     create_intervention_dialog.open_create_new_intervention_dialog()
     create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
       localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail))
-  preivew_intervention: ->
-    console.log 'preview_intervention'
   ready: ->>
     self=this
     await self.refresh_custom_intervention_list()

@@ -196,6 +196,12 @@ polymer_ext {
     # return
 
     this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
+    last_slide_idx = this.SM('.slide').length - 1
+    if this.slide_idx == last_slide_idx-1
+      return
+    this.SM('.onboarding_complete').show()
+
+
   # prev_slide: (evt) ->
   #   $.fn.pagepiling.moveSectionUp();
   #   return
@@ -203,6 +209,11 @@ polymer_ext {
     if this.animation_inprogress
       return
     this.slide_idx = Math.max(0, this.slide_idx - 1)
+    last_slide_idx = this.SM('.slide').length - 1
+    if this.slide_idx == last_slide_idx
+      return
+    this.SM('.onboarding_complete').hide()
+
   get_icon: (img_path) ->
     return chrome.extension.getURL('icons/' + img_path)
   keydown_listener: (evt) ->

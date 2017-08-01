@@ -251,6 +251,10 @@ do ->>
     localstorage_getbool
   } = require 'libs_common/localstorage_utils'
 
+  {
+    baseline_time_per_session_for_domain
+  } = require 'libs_common/gamification_utils'
+
   require! {
     moment
     'promise-debounce'
@@ -722,8 +726,8 @@ do ->>
   message_handlers <<< {
     'getLocation': (data) ->>
       location = await getLocation()
-      dlog 'getLocation background page:'
-      dlog location
+      #dlog 'getLocation background page:'
+      #dlog location
       return location
     'load_intervention': (data) ->>
       {intervention_name, tabId} = data
@@ -772,13 +776,15 @@ do ->>
     prev_domain := new_domain
     current_day = get_days_since_epoch()
     addtokey_dictdict 'visits_to_domain_per_day', new_domain, current_day, 1, (total_visits) ->
-      dlog "total visits to #{new_domain} today is #{total_visits}"
+      return
+      #dlog "total visits to #{new_domain} today is #{total_visits}"
 
   # our definition of a session:
   # how long a tab was open and on Facebook (or other site of interest) until it was closed
   # some pitfalls. if user navigates to FB, then goes to say buzzfeed, then goes back (on that same tab) the sessions are merged
   tab_id_to_domain_to_session_id = {}
   # domain_to_session_id_to_intervention = {}
+  tab_id_to_url = {}
 
   export list_domain_to_session_ids = ->
     for tab_id,domain_to_session_id of tab_id_to_domain_to_session_id
@@ -797,7 +803,7 @@ do ->>
     #else
     #  chrome.pageAction.hide(tabId)
     #send_pageupdate_to_tab(tabId)
-    dlog "navigation_occurred to #{url}"
+    #dlog "navigation_occurred to #{url}"
     load_intervention_for_location url, tabId
 
   chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
@@ -805,6 +811,7 @@ do ->>
       # user refreshed the page
       page_was_just_refreshed := true
     if tab.url
+      tab_id_to_url[tabId] = tab.url
       #dlog 'tabs updated!'
       #dlog tab.url
       #if changeInfo.status != 'complete'
@@ -832,7 +839,50 @@ do ->>
       else
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
 
+  reward_display_base_code_cached = null
+
+  chrome.tabs.onRemoved.addListener (tabId, info) ->>
+    url = tab_id_to_url[tabId]
+    if not url?
+      return
+    domain = url_to_domain(url)
+    session_id = tab_id_to_domain_to_session_id[tabId][domain]
+    if not session_id?
+      return
+    interventions_active = await getkey_dictdict('interventions_active_for_domain_and_session', domain, session_id)
+    if (not interventions_active?) or (interventions_active.length == 0) or interventions_active == '[]'
+      return
+    if reward_display_base_code_cached == null
+      reward_display_base_code_cached := await fetch('frontend_utils/close_tab_message.js').then (.text!)
+    baseline_seconds_spent = await baseline_time_per_session_for_domain(domain)
+    seconds_spent = await getkey_dictdict('seconds_on_domain_per_session', domain, session_id)
+    if seconds_spent > baseline_seconds_spent
+      return
+    seconds_saved = baseline_seconds_spent - seconds_spent
+    current_tab_info = await get_active_tab_info()
+    if (not current_tab_info?) or (not current_tab_info.url?)
+      return
+    if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
+      return
+    reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
+    chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
+
+  /*
+  setInterval ->>
+    base_code = await fetch('frontend_utils/close_tab_message.js').then (.text!)
+    reward_display_code = "window.reward_display_seconds_saved = 6;\n\n" + base_code
+    current_tab_info = await get_active_tab_info()
+    chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
+  , 5000
+  */
+
+  #chrome.tabs.onActivated.addListener (info) ->
+  #  console.log 'tab activated'
+  #  console.log info
+
   chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
+    #if info.tabId? and info.url?
+    #  tab_id_to_url[info.tabId] = info.url
     send_message_to_tabid info.tabId, 'navigation_occurred', {
       url: info.url
       tabId: info.tabId
@@ -920,7 +970,7 @@ do ->>
     current_day = get_days_since_epoch()
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
     session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
-    #dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
+    # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
     await addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
     await addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
@@ -1078,7 +1128,7 @@ do ->>
 
   record_restart_failed = (priority) !->
     restart_failed_priority_to_counts[priority] += 1
-    dlog restart_failed_priority_to_counts
+    #dlog restart_failed_priority_to_counts
     restart_habitlab = ->
       chrome.runtime.reload()
       chrome.runtime.restart()

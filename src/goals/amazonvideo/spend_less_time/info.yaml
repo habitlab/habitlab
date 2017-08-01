@@ -2,6 +2,8 @@ description: Spend less time on Amazon Video
 progress_description: Time spent on Amazon Video
 call_to_action: Close Amazon Video
 interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
   - amazonvideo/disable_autoplay
   - video/prompt_before_watch
   #- video/link_articles
@@ -10,9 +12,15 @@ interventions:
   #- generic/close_tab_timer
   #- generic/scroll_blocker
   #- generic/show_user_info_interstitial
+default_interventions:
+  - generic/toast_notifications
+  - generic/show_timer_banner
+  - amazonvideo/disable_autoplay
+  - video/prompt_before_watch
 measurement: time_spent_on_domain
 domain: www.amazon.com
 preview: https://www.amazon.com/dp/B0066O0NP6/?ref=nav_signin&gclid=CIPVhvC6-tMCFYJnfgod7XkH2w&
+disabled: true
 target:
   default: 20
   units: minutes

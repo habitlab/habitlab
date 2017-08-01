@@ -205,9 +205,9 @@ polymer_ext {
     else
       
       await set_goal_disabled_manual goal_name
-    await this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
-    if checked
-      await enable_interventions_because_goal_was_enabled(goal_name)
+    #await this.disable_interventions_which_do_not_satisfy_any_goals(goal_name)
+    #if checked
+    #  await enable_interventions_because_goal_was_enabled(goal_name)
     
     await self.set_sites_and_goals()
     self.fire 'goal_changed', {goal_name: goal_name}

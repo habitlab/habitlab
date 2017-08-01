@@ -82,6 +82,9 @@ Polymer({
   incrementProgress: function() {
     this.$.paperprogress.value += 1;
   },
+  setProgress: function(val) {
+    this.$.paperprogress.value = val;
+  },
   showButton: function() {
     console.log(this.$.okbutton)
     this.$.okbutton.hidden = false

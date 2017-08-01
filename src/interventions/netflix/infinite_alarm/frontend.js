@@ -27,7 +27,10 @@ function display_snooze_display() {
   $(document.body).append(snooze_display)
 }
 
-setInterval(function() {
+var display_snooze_process = setInterval(function() {
+  if (window.intervention_disabled) {
+    return
+  }
   if (Date.now() > alarm_time && $('netflix-alarm-snooze-display').length == 0) {
     display_snooze_display()
   }
@@ -81,7 +84,9 @@ const main = async function() {
 main();
 
 window.on_intervention_disabled = () => {
-  $('.interst_screen').remove();
+  clearInterval(display_snooze_process)
+  $('netflix-alarm-snooze-display').remove()
+  $('netflix-alarm-screen').remove()
 }
 
 window.debugeval = x => eval(x);

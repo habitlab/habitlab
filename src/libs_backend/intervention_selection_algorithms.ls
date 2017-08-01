@@ -37,6 +37,8 @@ export one_random_intervention_per_enabled_goal = (enabled_goals) ->>
   output_set = {}
   for goal_name,goal_enabled of enabled_goals
     goal_info = goals[goal_name]
+    if (not goal_info?) or (not goal_info.interventions?)
+      continue
     interventions = goal_info.interventions
     # what interventions are available that have not been disabled?
     available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]

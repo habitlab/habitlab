@@ -92,6 +92,10 @@ htmlpattern_srcgen = [
   'src/**/*.html'
 ]
 
+intervention_copypattern = [
+  'src_gen/interventions/**/*.js'
+]
+
 copypattern = [
   'src/**/*.html'
   'src/**/*.png'
@@ -323,6 +327,12 @@ gulp.task 'yaml_build', ->
   .on('error', gulp-util.log)
   .pipe(gulp.dest('dist'))
 
+gulp.task 'copy_interventions', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'), ->
+  return gulp.src(intervention_copypattern, {root: 'src_gen/interventions'})
+  .pipe(gulp-changed('dist/intervention_templates'))
+  #.pipe(gulp-print( -> "copy: #{it}" ))
+  .pipe(gulp.dest('dist/intervention_templates'))
+
 gulp.task 'copy_build', ->
   return gulp.src(copypattern, {base: 'src'})
   .pipe(gulp-changed('dist'))
@@ -455,7 +465,9 @@ gulp.task 'generate_goal_intervention_info', (done) ->
       console.log 'goal is missing interventions: ' + goal_name
       continue
     generic_intervention_categories = ['generic', 'video']
+    generic_intervention_name_to_specific_name = {}
     for intervention_name in goal_info.interventions
+      generic_intervention_name_to_specific_name[intervention_name] = intervention_name
       for generic_intervention_category in generic_intervention_categories
         generic_intervention_category_with_slash = generic_intervention_category + '/'
         if intervention_name.startsWith(generic_intervention_category_with_slash)
@@ -477,19 +489,34 @@ gulp.task 'generate_goal_intervention_info', (done) ->
             intervention_info.content_scripts = intervention_info.content_scripts.map make_absolute_path
           if intervention_info.background_scripts?
             intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
-          intervention_info.goals = [goal_info.name]
           intervention_name_to_info[intervention_name] = intervention_info
+          generic_intervention_name_to_specific_name[generic_intervention] = intervention_name
+      intervention_info = intervention_name_to_info[intervention_name]
+      intervention_info.goals = [goal_info.name]
       interventions_for_goal_new.push intervention_name
     goal_info.interventions = interventions_for_goal_new
+    if goal_info.default_interventions?
+      goal_info.default_interventions = goal_info.default_interventions.map(-> generic_intervention_name_to_specific_name[it])
+    else
+      goal_info.default_interventions = goal_info.interventions
+    goal_name_to_info[goal_name] = goal_info
     goals.push goal_info
   # interventions
   for intervention_name in prelude.sort(Object.keys(intervention_name_to_info))
     intervention_info = intervention_name_to_info[intervention_name]
     intervention_info.name = intervention_name
+    generic_name = intervention_info.generic_intervention ? intervention_name
     if not intervention_info.sitename?
       intervention_info.sitename = intervention_name.split('/')[0]
     if not intervention_info.sitename_printable?
       intervention_info.sitename_printable = intervention_info.sitename.substr(0, 1).toUpperCase() + intervention_info.sitename.substr(1)
+    is_default = false
+    if intervention_info.goals?
+      for goal_name in intervention_info.goals
+        goal_info = goal_name_to_info[goal_name]
+        if goal_info.default_interventions? and goal_info.default_interventions.includes(intervention_name)
+          is_default = true
+    intervention_info.is_default = is_default
     interventions.push intervention_info
   fs.writeFileSync 'dist/goal_intervention_info.json', JSON.stringify(output)
   done()
@@ -597,6 +624,7 @@ gulp.task 'build_base', gulp.parallel(
   'yaml_build'
   'copy_build'
   'livescript_build'
+  'copy_interventions'
 )
 
 # based on

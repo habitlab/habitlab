@@ -107,7 +107,7 @@ polymer_ext {
     
   intro1_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro2').style.display = "block"
+    # this.$$('#intro2').style.display = "block"
 
   #intro2_read: (evt) ->
   #  evt.target.style.display = "none"
@@ -116,8 +116,8 @@ polymer_ext {
 
   intro2_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro4').style.display = "block"
-    this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
+    # this.$$('#intro4').style.display = "block"
+    # this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
     window.scrollTo 0, document.body.scrollHeight
 
   show_how_hl_works: (evt) ->
@@ -129,19 +129,19 @@ polymer_ext {
 
   intro3_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro4').style.display = "block"
-    this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
+    # this.$$('#intro4').style.display = "block"
+    # this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
     window.scrollTo 0, document.body.scrollHeight
 
   intro4_read: (evt) ->
     evt.target.style.display = "none"
     
-    this.$$('#intro6').style.display = "block"
+    # this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   intro5_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro6').style.display = "block"
+    # this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   show_swal: ->
@@ -158,14 +158,14 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
     this.$$('#configurations').style.display = "block"
-    this.$$('#intro3').style.display = "block"
+    # this.$$('#intro3').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   show_intro_button_clicked: ->
-    this.$$('#show_intro_button').style.display = 'none'
-    this.$$('#intro1_content').style.display = 'block'
-    this.$$('#intro2').style.display = 'block'
-    this.$$('#intro4').style.display = 'block'
+    # this.$$('#show_intro_button').style.display = 'none'
+    # this.$$('#intro1_content').style.display = 'block'
+    # this.$$('#intro2').style.display = 'block'
+    # this.$$('#intro4').style.display = 'block'
 
   attached: ->
    if window.location.hash != '#introduction'
@@ -173,11 +173,11 @@ polymer_ext {
       elem.style.display = 'inline-flex';
     for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
       elem.style.display = 'none';
-    this.$$('#pointer-div').style.display = 'none';
-    this.$$('#show_intro_button').style.display = 'inline-flex'
-    this.$$('#intro1_content').style.display = 'none'
-    this.$$('#intro2').style.display = 'none'
-    this.$$('#intro4').style.display = 'none'
+    # this.$$('#pointer-div').style.display = 'none';
+    # this.$$('#show_intro_button').style.display = 'inline-flex'
+    # this.$$('#intro1_content').style.display = 'none'
+    # this.$$('#intro2').style.display = 'none'
+    # this.$$('#intro4').style.display = 'none'
 
   ready: ->
    
@@ -188,12 +188,12 @@ polymer_ext {
       popup_view_opened_checker = setInterval ->
         if localStorage.popup_view_has_been_opened == 'true'
           self.popup_view_has_been_opened = true
-          self.$$('#pointer-div').style.display = 'none'
+          # self.$$('#pointer-div').style.display = 'none'
           self.$$('#popup-button').disabled = false
           self.$$('#popup-button').innerText = 'Next'
           clearInterval popup_view_opened_checker
-          if self.$$('#intro4').style.display != 'none'
-            self.show_swal()
+          # if self.$$('#intro4').style.display != 'none'
+          #   self.show_swal()
       , 500
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 
@@ -293,9 +293,9 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
   rerender_privacy_options: ->
-    this.$.privacy_options.rerender()
+    # this.$.privacy_options.rerender()
   rerender: ->>
-    this.$.privacy_options.rerender()
+    # this.$.privacy_options.rerender()
     await this.$.goal_selector.set_sites_and_goals()
 }, {
   source: require 'libs_frontend/polymer_methods'

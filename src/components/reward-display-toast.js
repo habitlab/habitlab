@@ -47,6 +47,7 @@ Polymer({
     }
   },
   play: function() {
+    let self = this
     let video = this.$.rewardvideo
     if (video.readyState == 4) {
       video.play()
@@ -56,6 +57,9 @@ Polymer({
         video.play()
       }
     }
+    setTimeout(function() {
+      self.hide()
+    }, 2000)
   },
   video_ended: function() {
     this.hide()

@@ -67,7 +67,50 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/badges/heart.svg')     
     }
-
+    generic_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Generic.svg')     
+    }
+    facebook_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Facebook.svg')     
+    }
+    youtube_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Youtube.svg')     
+    }
+    gmail_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Gmail.svg')     
+    }    
+    amazon_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Amazon.svg')     
+    }
+    amazonvideo_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Amazonvideo.svg')     
+    }    
+    buzzfeed_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Buzzfeed.svg')     
+    }
+    iqiyi_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/IQIYI.svg')     
+    }    
+    netflix_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Netflix.svg')     
+    }
+    reddit_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/Reddit.svg')     
+    }   
+    twitter_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/intervention_icons/twitter.svg')     
+    }
   }
 
   bounce_object: (evt) ->

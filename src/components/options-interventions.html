@@ -35,6 +35,14 @@
       --paper-item: {
         min-height: 36px;
       };
+      --paper-radio-button: {
+        color: rgb(35,70,110);
+        --paper-radio-button-checked-color:rgb(35,70,110);
+        --paper-radio-button-checked-ink-color: rgb(35,70,110);
+        --paper-radio-button-unchecked-color: rgb(35,70,110);
+        --paper-radio-button-unchecked-ink-color:rgb(35,70,110);
+        --paper-radio-button-label-color: rgb(35,70,110);
+      }
 
       --paper-input-container: {
         padding-top: 0px;
@@ -56,6 +64,7 @@
         padding-top: 0px;
         padding-left: 0px;
       };
+
     }
 
 
@@ -121,6 +130,11 @@
       color:white;
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
       font-size: 20px;
+    }
+
+    .radio-button {
+      color:rgb(35,70,110);
+      --paper-radio-button-label-color: rgb(35,70,110);
     }
 
     .radio-group {
@@ -228,8 +242,8 @@
 
             <br>
             <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
-              <paper-radio-button name="always" >Always On</paper-radio-button>
-              <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
+              <paper-radio-button class = "radio-button" name="always" >Always On</paper-radio-button>
+              <paper-radio-button class = "radio-button" name="workday">Only Work Hours</paper-radio-button>
             </paper-radio-group>
 
 

@@ -33,6 +33,18 @@
     padding:0px;
     /*background-color:white;*/
   } 
+
+
+  .outerContainer {
+    width: 80%;
+    height:1000px;
+    margin:auto; 
+    margin-top:0px;
+    background-color:rgba(75,84,92,95);
+    padding:0px;
+  } 
+
+
   .heartsContainer {
     display: inline-flex;
     width: 600px;
@@ -57,6 +69,10 @@
     box-shadow: 0px 0px 15px #346da3;
   }
 
+  .interventions{
+    width:100px;
+  }
+
   .hearts{
     width:80px;
     cursor: pointer; 
@@ -73,6 +89,11 @@
   .badges:hover {
     opacity: 0.5;
   }
+
+  .badges:hover < description_box +  {
+    display: inline-block;
+  }
+      
       
 
 
@@ -86,7 +107,7 @@
     <img style= "width:80px;padding-left:0px;padding-bottom:0px;margin:auto;margin-left:0px;margin-top:50px;margin-bottom:10px;" src="{{logo_glow_black_bubbles}}"></img>
     <div style = "margin-top: 0px;margin-bottom:15px; font-size: 35px;color:white;">Congratulations! </div>
     <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">You've unlocked some starter interventions!</div>
-    <div class = "badgesContainer">
+    <!-- <div class = "badgesContainer">
       <img class = "badges badges1" on-click="bounce_object" on-click="openBy" src="{{sola_url}}"></img>
       <img class = "badges badges2" on-click="bounce_object" on-click="openBy" src="{{habby_url}}"></img>
       <img class = "badges badges3" on-click="bounce_object" on-click="openBy" src="{{twinkl_url}}"></img>
@@ -96,9 +117,22 @@
       <div><img class = "hearts hearts1" on-click="bounce_hearts" src="{{heart_white_url}}"></img>    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">100</div></div>
       <div><img class = "hearts hearts2" on-click="bounce_hearts" src="{{heart_white_url}}"></img>    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">100</div></div>
       <div><img class = "hearts hearts3" on-click="bounce_hearts" src="{{heart_white_url}}"></img>    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">100</div></div>
-    </div>
+    </div> -->
     <div> 
 
+    <div class = "outerContainer">
+      <img class = "interventions" src = "{{generic_url}}"></img>
+      <img class = "interventions" src = "{{facebook_url}}"></img>
+      <img class = "interventions" src = "{{youtube_url}}"></img>
+      <img class = "interventions" src = "{{gmail_url}}"></img>
+      <img class = "interventions" src = "{{amazon_url}}"></img>
+      <img class = "interventions" src = "{{amazonvideo_url}}"></img>
+      <img class = "interventions" src = "{{buzzfeed_url}}"></img>
+      <img class = "interventions" src = "{{iqiyi_url}}"></img>
+      <img class = "interventions" src = "{{netflix_url}}"></img>
+      <img class = "interventions" src = "{{reddit_url}}"></img>
+      <img class = "interventions" src = "{{twitter_url}}"></img>
+    </div>
 
     </div>
     </div>

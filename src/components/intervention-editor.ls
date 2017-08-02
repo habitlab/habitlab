@@ -49,7 +49,7 @@
   open_debug_page_for_tab_id
 } = require 'libs_backend/debug_console_utils'
 
-# {get_goal_info} = require 'libs_common/goal_utils'
+{get_goal_info} = require 'libs_common/goal_utils'
 swal = require 'sweetalert2'
 lodash = require 'lodash'
 
@@ -140,6 +140,16 @@ polymer_ext {
     this.no_unsaved_changes()
     console.log('saving '+intervention_name+' completed...')
     return true
+  delete_current_intervention: ->>
+    console.log 'delete_current_intervention'
+    intervention_name = this.get_intervention_name()
+    this.opened_intervention_list.splice this.selected_tab_idx, 1
+    this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
+    remove_custom_intervention(intervention_name)
+    delete this.js_editors[intervention_name]
+    console.log intervention_name
+    await this.refresh_intervention_list()
+    console.log 'deleting '+intervention_name+' completed...'
   delete_intervention: ->>
     intervention_name = this.get_intervention_name()
     if not intervention_name
@@ -156,12 +166,7 @@ polymer_ext {
       }
     catch
       return
-    this.opened_intervention_list.splice this.selected_tab_idx, 1
-    this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
-    remove_custom_intervention(intervention_name)
-    delete this.js_editors[intervention_name]
-    await this.refresh_intervention_list()
-    console.log 'deleting '+intervention_name+' completed...'
+    this.delete_current_intervention()
     # this.$.intervention_selector.selected = 0
   /*
   # goal_selector_changed: (change_info) ->
@@ -205,20 +210,23 @@ polymer_ext {
     if idx!=-1
       short_template_name=template_name.slice idx+1
       new_intervention_name='my_'+short_template_name
-      console.log new_intervention_name
     intervention_info=await get_intervention_info(template_name)
+    if intervention_info.goals.length>0
+      goal_info=await get_goal_info(intervention_info.goals[0])
+    else
+      goal_info=await get_goal_info('youtube/spend_less_time')
     intervention_info={
       name:new_intervention_name
       description: intervention_info.description
-      domain: intervention_info.domain
-      preview: intervention_info.preview
-      matches: intervention_info.matches
-      sitename: intervention_info.sitename
-      sitename_printable: intervention_info.sitename_printable
+      domain: goal_info.domain
+      preview: goal_info.preview
+      matches: goal_info.matches
+      sitename: goal_info.sitename
+      sitename_printable: goal_info.sitename_printable
       custom: true
       code: code
       content_scripts:code
-      goals: intervention_info.goals  
+      goals: [goal_info.name] 
     }
     await add_new_intervention(intervention_info)
     await this.refresh_intervention_list()
@@ -243,12 +251,41 @@ polymer_ext {
     intervention_name = intervention_data.intervention_name
     this.display_intervention_by_name(intervention_name)
   info_clicked: ->
+    self=this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
     document.body.appendChild(create_intervention_dialog)
     create_intervention_dialog.goal_info_list = this.goal_info_list 
     create_intervention_dialog.current_intervention = this.get_intervention_name()
+    create_intervention_dialog.addEventListener 'modify_intervention_info', (evt) ->
+      self.modify_intervention_info(evt.detail)
     create_intervention_dialog.open_edit_intervention_info_dialog() 
     console.log 'info_clicked for '+this.get_intervention_name()+' completed...'
+  modify_intervention_info: (data) ->>
+    self=this
+    intervention_info=await get_intervention_info(data.old_intervention_name)
+    intervention_info={
+      name:data.new_intervention_name
+      description: data.new_intervention_description
+      domain: data.new_goal_info.domain
+      preview: data.new_goal_info.preview ? data.new_goal_info.homepage
+      matches: data.new_goal_info.matches
+      sitename: data.new_goal_info.sitename
+      sitename_printable: data.new_goal_info.sitename_printable
+      custom: true
+      code: intervention_info.code
+      content_scripts:intervention_info.code
+      goals: [data.new_goal_info.name]  
+    }
+    console.log 'modify_intervention_info'
+    console.log intervention_info 
+    await add_new_intervention(intervention_info)
+    if data.old_intervention_name!=data.new_intervention_name
+      this.delete_current_intervention()
+      this.opened_intervention_list.push data.new_intervention_name
+      this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
+      this.once_available '#editor_' + data.new_intervention_name, (result) ->
+        self.make_javascript_editor(result)
+    await this.refresh_intervention_list()
   display_new_intervention: (new_intervention_data) ->>
     self = this
     new_intervention_name = new_intervention_data.intervention_name
@@ -264,15 +301,11 @@ polymer_ext {
     https://habitlab.github.io/devdocs?q=require_package
     */
     """
-    if goal_info.preview?
-      preview_url=goal_info.preview
-    else
-      preview_url='https://'+goal_info.domain
     intervention_info={
       name: new_intervention_name
       description: new_intervention_data.intervention_description
       domain: goal_info.domain
-      preview: preview_url
+      preview: goal_info.preview ? goal_info.homepage
       matches: [goal_info.domain]
       sitename: goal_info.sitename
       sitename_printable: goal_info.sitename_printable
@@ -312,6 +345,7 @@ polymer_ext {
       return
     intervention_name=self.get_intervention_name()
     intervention_info=await get_intervention_info(intervention_name)
+    console.log intervention_info.goals[0].preview
     set_override_enabled_interventions_once intervention_name
     chrome.tabs.create {url: intervention_info.preview}
   debug_intervention: ->>

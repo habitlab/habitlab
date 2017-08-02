@@ -20,7 +20,6 @@ polymer_ext {
     }
   }
   open_create_new_intervention_dialog: ->
-    this.is_modify_mode=false
     this.$$('#create_new_intervention_dialog').open()
   open_existing_custom_intervention_dialog: ->
     this.$$('#open_existing_custom_intervention').open()
@@ -34,30 +33,39 @@ polymer_ext {
     this.$.dialog_button.innerHTML='MODIFY'
     this.$$('#create_new_intervention_dialog').open()
   validate_intervention_name: ->>
+    self=this
     proposed_intervention_name=this.$.intervention_name.value
     if proposed_intervention_name.indexOf(' ') != -1
-      this.$$('#hint').innerHTML = 'Cannot contain spaces'
+      self.$$('#hint').innerHTML = 'Cannot contain spaces'
       return
     if proposed_intervention_name == ''
-      this.$$('#hint').innerHTML = 'Must be non-empty'
+      self.$$('#hint').innerHTML = 'Must be non-empty'
       return
     all_interventions = await list_all_interventions()
-    if (this.current_intervention=='' && all_interventions.indexOf(proposed_intervention_name) != -1) || (this.current_intervention!='' && all_interventions.indexOf(proposed_intervention_name) != -1)
-        this.$$('#hint').innerHTML = 'An intervention with this name already exists'
+    if self.current_intervention!='' 
+      console.log 'in modify mode'
+      if all_interventions.indexOf(proposed_intervention_name) != all_interventions.indexOf(this.current_intervention) && all_interventions.indexOf(proposed_intervention_name)!=-1
+        self.$$('#hint').innerHTML = 'An intervention with this name already exists'
         return
-    this.$$('#create_new_intervention_dialog').close()
-    if this.current_intervention==''
-      console.log 'create_new_intervention mode'
-      this.fire('display_new_intervention', {
-      goal_info: this.$.goal_selector.selectedItem.goal_info
-      intervention_name: this.$.intervention_name.value
-      intervention_description: this.$.intervention_description.value
+      self.fire('modify_intervention_info', {
+        old_intervention_name: self.current_intervention
+        new_intervention_name: proposed_intervention_name
+        new_goal_info: self.$.goal_selector.selectedItem.goal_info
+        new_intervention_description:self.$.intervention_description.value
       })
-      chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')   
+      self.current_intervention=''
     else
-      console.log 'is_modify_mode'
-      this.fire('modify_intervention_info', {})
-      this.current_intervention=''
+      if all_interventions.indexOf(proposed_intervention_name) != -1
+        self.$$('#hint').innerHTML = 'An intervention with this name already exists'
+        return        
+      console.log 'create new intervention mode'
+      self.fire('display_new_intervention', {
+        goal_info: self.$.goal_selector.selectedItem.goal_info
+        intervention_name: self.$.intervention_name.value
+        intervention_description: self.$.intervention_description.value
+      })
+      chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+    self.$$('#create_new_intervention_dialog').close()
   # edit_intervention_info:
   open_intervention_clicked: ->>
     this.fire('display_intervention',{

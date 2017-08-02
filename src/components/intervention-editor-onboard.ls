@@ -14,7 +14,7 @@ polymer_ext {
     }
     templates_list:{
       type:Array
-      value:['generic/make_user_wait',"my_template"]
+      value:['generic/make_user_wait',"generic/toast_notifications"]
     }
   }
   refresh_custom_intervention_list: ->>

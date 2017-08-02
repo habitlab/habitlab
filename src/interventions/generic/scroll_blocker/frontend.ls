@@ -10,6 +10,7 @@ if (typeof(window.wrap) != 'function')
 
 {
   append_to_body_shadow
+  once_body_available
 } = require 'libs_frontend/common_libs'
 
 $ = require 'jquery'
@@ -54,7 +55,9 @@ block_arrows = (e) ->
     return false
 
 scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker" --width="10px" --height="10px" onclick="this.clicked()">')
-shadow_div = append_to_body_shadow(scroll_block_display)
+shadow_div = null
+once_body_available ->
+  append_to_body_shadow(scroll_block_display)
 
 enable_scrolling_and_hide_scroll_block!
 disable_scrolling_and_show_scroll_block!

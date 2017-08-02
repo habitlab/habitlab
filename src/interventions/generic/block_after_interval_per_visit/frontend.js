@@ -26,7 +26,7 @@ require('components/timespent-view.deps')
 require('components/habitlab-logo.deps')
 
 const {
-  once_document_available,
+  once_body_available,
   create_shadow_div_on_body
 } = require('libs_frontend/common_libs')
 
@@ -47,6 +47,7 @@ var shadow_div;
   //  return
   //}
 
+  await once_body_available()
   shadow_div = create_shadow_div_on_body();
   shadow_root = shadow_div.shadow_root;
   shadow_div = $(shadow_div);
@@ -231,7 +232,7 @@ var shadow_div;
     addBeginDialog("How many minutes would you like to spend on " + intervention.sitename_printable + " this visit?");
   }
 
-  once_document_available(main);
+  once_body_available(main);
 
 })()
 

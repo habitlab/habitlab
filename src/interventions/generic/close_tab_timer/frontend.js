@@ -11,7 +11,8 @@ const {
 } = require('libs_common/tab_utils')
 
 const {
-  append_to_body_shadow
+  append_to_body_shadow,
+  once_body_available
 } = require('libs_frontend/common_libs')
 
 require('enable-webcomponents-in-content-scripts')
@@ -22,7 +23,10 @@ require('components/time-until-tab-autoclose-view.deps')
 require('bower_components/paper-button/paper-button.deps')
 
 var display_timespent_div = $('<time-until-tab-autoclose-view>');
-var shadow_div = append_to_body_shadow(display_timespent_div);
+var shadow_div;
+once_body_available().then(function() {
+  append_to_body_shadow(display_timespent_div);
+})
 
 /*
 var timeLeft = 6000;

@@ -52,6 +52,7 @@ do ->>
 
   {
     get_goals
+    get_goal_info
     get_enabled_goals
     get_goal_target
     get_goal_intervention_info
@@ -322,6 +323,9 @@ do ->>
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list) ->>
     {content_script_options, name} = intervention_info
 
+    goal_info = {} # await get_goal_info(intervention_info.goals[0])
+    positive_goal_info = {} # await get_positive_goal_
+
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
 
@@ -443,6 +447,8 @@ do ->>
         window.Polymer.dom = 'shadow'
         SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
+          intervention_info_setter_lib.set_goal_info(#{JSON.stringify(goal_info)});
+          intervention_info_setter_lib.set_positive_goal_info(#{JSON.stringify(positive_goal_info)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
           SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code)))}');
         })
@@ -487,6 +493,8 @@ do ->>
     if (!window.loaded_content_scripts['#{options.path}']) {
       window.loaded_content_scripts['#{options.path}'] = true;
       const intervention = #{JSON.stringify(intervention_info_copy)};
+      const goal_info = #{JSON.stringify(goal_info)};
+      const positive_goal_info = #{JSON.stringify(positive_goal_info)}
       const tab_id = #{tabId};
       const dlog = function(...args) { console.log(...args); };
       window.intervention_disabled = false;
@@ -498,6 +506,8 @@ do ->>
       #{debug_content_script_code_with_hlog}
       SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
         intervention_info_setter_lib.set_intervention(intervention);
+        intervention_info_setter_lib.set_goal_info(goal_info);
+        intervention_info_setter_lib.set_positive_goal_info(positive_goal_info);
         intervention_info_setter_lib.set_tab_id(tab_id);
         log_utils.log_impression();
         document.body.addEventListener('disable_intervention', function() {

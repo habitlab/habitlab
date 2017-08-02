@@ -227,8 +227,8 @@ polymer_ext {
       return
     last_slide_idx = this.SM('.slide').length - 1
     console.log 'mousewheel_listener called, slide_idx is ' + this.slide_idx
-    if true
-      return
+    return
+    /*
     if this.slide_idx == 1
       console.log 'ignoring mouse on slide 1'
       return
@@ -260,6 +260,7 @@ polymer_ext {
       this.next_slide()
     else if evt.deltaY < 0
       this.prev_slide()
+    */
   detached: ->
     window.removeEventListener 'keydown', this.keydown_listener_bound
     window.removeEventListener 'mousewheel', this.mousewheel_listener_bound

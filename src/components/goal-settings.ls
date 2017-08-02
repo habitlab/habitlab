@@ -31,6 +31,7 @@ swal = require 'sweetalert2'
 {
   get_baseline_time_on_domains
   get_baseline_time_on_domain
+  get_average_seconds_spent_on_domain
 } = require 'libs_backend/history_utils'
 
 

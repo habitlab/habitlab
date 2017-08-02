@@ -417,7 +417,7 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   goal_info = {
     name: custom_goal_name
     custom: true
-    description: description
+    description: "Spend less time on #{domain_printable}"
     homepage: "http://#{domain}/"
     progress_description: "Time spent on #{domain_printable}"
     sitename: domain

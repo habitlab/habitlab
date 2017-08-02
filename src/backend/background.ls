@@ -58,6 +58,7 @@ do ->>
     get_goal_intervention_info
     set_goals_enabled
     set_default_goals_enabled
+    get_random_uncompleted_positive_goal
   } = require 'libs_backend/goal_utils'
 
   {
@@ -335,8 +336,8 @@ do ->>
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list) ->>
     {content_script_options, name} = intervention_info
 
-    goal_info = {} # await get_goal_info(intervention_info.goals[0])
-    positive_goal_info = {} # await get_positive_goal_
+    goal_info = await get_goal_info(intervention_info.goals[0])
+    positive_goal_info = await get_random_uncompleted_positive_goal()
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)

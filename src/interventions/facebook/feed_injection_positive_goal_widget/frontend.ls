@@ -16,6 +16,10 @@ require 'components/positive-site-trigger-v2.deps'
 
 component_generator = (numitems) ->
   feed-item = $('<positive-site-trigger-v2>')
+  feed-item.get(0).style.setProperty('--trigger-border-style', '')
+  feed-item.get(0).style.setProperty('--trigger-font-family', "San Francisco")
+  feed-item.get(0).style.setProperty('--trigger-bg-color', '#ffffff')
+
   return wrap_in_shadow(feed-item)
 
 inject_into_feed(component_generator)

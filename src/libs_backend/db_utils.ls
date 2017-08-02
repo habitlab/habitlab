@@ -40,6 +40,10 @@ export delete_db_if_outdated_db = ->>
 
 current_schema_for_collections = {
   vars: 'key,synced'
+  intervention_vars_synced: '[key+key2],key,key2,synced'
+  intervention_vars_unsynced: '[key+key2],key,key2'
+  goal_vars_synced: '[key+key2],key,key2,synced'
+  goal_vars_unsynced: '[key+key2],key,key2'
   #lists: '++,key,val'
   # composite index:
   # https://groups.google.com/forum/#!topic/dexiejs/G3_W5PssCGA

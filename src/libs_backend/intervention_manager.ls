@@ -122,12 +122,24 @@ export get_days_on_which_intervention_was_deployed = (intervention_name) ->>
 export get_currently_enabled_interventions = ->>
   interventions_currently_disabled = await getdict 'interventions_currently_disabled'
   all_interventions = await intervention_utils.list_all_interventions()
+  intervention_name_to_info = await intervention_utils.get_interventions()
   output = {}
   for intervention_name in all_interventions
-    if interventions_currently_disabled[intervention_name]
+    intervention_info = intervention_name_to_info[intervention_name]
+    if not intervention_info?
       output[intervention_name] = false
+      continue
+    disable_status = interventions_currently_disabled[intervention_name]
+    if disable_status?
+      if disable_status
+        output[intervention_name] = false
+      else
+        output[intervention_name] = true
     else
-      output[intervention_name] = true 
+      if not intervention_info.is_default?
+        output[intervention_name] = false
+      else
+        output[intervention_name] = intervention_info.is_default
   return output
 
 export set_currently_enabled_interventions_manual = (enabled_interventions) ->>
@@ -251,8 +263,15 @@ export enable_interventions_because_goal_was_enabled = (goal_name) ->>
   intervention_names = await intervention_utils.list_available_interventions_for_goal(goal_name)
   enabled_interventions = await get_currently_enabled_interventions()
   prev_enabled_interventions = JSON.parse JSON.stringify enabled_interventions
+  intervention_name_to_info = await intervention_utils.get_interventions()
   for intervention_name in intervention_names
-    enabled_interventions[intervention_name] = true
+    if enabled_interventions[intervention_name]?
+      continue
+    intervention_info = intervention_name_to_info[intervention_name]
+    if intervention_info.is_default
+      enabled_interventions[intervention_name] = true
+    else
+      enabled_interventions[intervention_name] = false
   await set_currently_enabled_interventions_automatic(enabled_interventions)
   add_log_interventions {
     type: 'enable_interventions_because_goal_was_enabled'

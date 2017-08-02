@@ -103,9 +103,9 @@ Polymer({
   buttonclicked: function() {
     console.log('ok button clicked in polymer during loading')
     log_action({'negative': 'Continuted to site.'})
-    $(this).hide()
     console.log('video should continue')
     document.querySelector('video').play()
+    $(this).remove()
     // console.log('video should now continue to play')    
     // document.querySelector('video').play()
   },
@@ -150,7 +150,7 @@ Polymer({
   },
   disableIntervention: function() {
     console.log('interstitial got callback')
-    $(this).hide()
+    $(this).remove()
   },
   
   attributeChanged: function() {

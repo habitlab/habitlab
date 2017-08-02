@@ -76,8 +76,8 @@ polymer_ext {
     this.fire('disable_intervention')
 
     swal {
-      title: 'Disabled!'
-      text: 'This intervention will be disabled temporarily.'
+      title: 'Turned Off!'
+      text: 'This intervention will be turned off temporarily.'
     }
   disable_perm_callback: ->
     this.$$('#intervention_info_dialog').close()
@@ -85,14 +85,14 @@ polymer_ext {
     this.fire('disable_intervention')
 
     set_intervention_disabled_permanently(this.intervention, ->
-      swal('Disabled!', 'This intervention will be disabled permanently.')
+      swal('Turned Off!', 'This intervention will be turned off permanently.')
     )
   disable_habitlab_callback: ->
     this.$$('#intervention_info_dialog').close()
     disable_habitlab()
     swal {
-      title: 'HabitLab Disabled!',
-      text: 'HabitLab will not deploy interventions for the rest of today.'
+      title: 'HabitLab Turned Off!',
+      text: 'HabitLab will not show you interventions for the rest of today.'
     }
   open_interventions_page: ->
     open_url_in_new_tab('options.html#interventions')

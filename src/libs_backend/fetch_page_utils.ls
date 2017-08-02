@@ -8,7 +8,7 @@
 #  await SystemJS.import('cheerio')
 
 export fetch_page_text = (url) ->>
-  page_request = await fetch(url)
+  page_request = await fetch(url, {credentials: 'include'})
   page_text = await page_request.text()
   return page_text
 

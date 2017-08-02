@@ -40,11 +40,14 @@ var shadow_div;
   interst_screen[0].showProgress();
   interst_screen.attr('intervention', intervention.name)
   var value_counter = 0;
+  var start_time = Date.now()
 
   var countdown = setInterval(function() {
-    interst_screen[0].incrementProgress();
-    value_counter++;
-    if (value_counter >= 100) {
+    var milliseconds_elapsed = Date.now() - start_time
+    var progress_value = milliseconds_elapsed / 50
+    // after 5 seconds, aka 50k milliseconds, will exceed 100
+    interst_screen[0].setProgress(progress_value)
+    if (progress_value >= 100) {
       clearInterval(countdown)
       interst_screen.attr('title-text', intervention.sitename_printable + ' is available, if you really want to visit.')
       interst_screen[0].showButton();

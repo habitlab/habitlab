@@ -121,17 +121,21 @@ do ->>
 
   export get_last_visit_to_website_timestamp = ->>
     history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
+    last_visit_timestamp = -1
     for search_result in history_search_results
       if search_result.url.startsWith('https://habitlab.stanford.edu')
-        return search_result.lastVisitTime
-    return -1
+        if search_result.lastVisitTime > last_visit_timestamp
+          last_visit_timestamp = search_result.lastVisitTime
+    return last_visit_timestamp
 
   export get_last_visit_to_chrome_store_timestamp = ->>
     history_search_results = await new Promise -> chrome.history.search({text: 'https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd', startTime: 0}, it)
+    last_visit_timestamp = -1
     for search_result in history_search_results
       if search_result.url.startsWith('https://chrome.google.com/webstore/detail/habitlab/obghclocpdgcekcognpkblghkedcpdgd')
-        return search_result.lastVisitTime
-    return -1
+        if search_result.lastVisitTime > last_visit_timestamp
+          last_visit_timestamp = search_result.lastVisitTime
+    return last_visit_timestamp
 
   do ->>
     # open the options page on first run
@@ -233,6 +237,10 @@ do ->>
   } = require 'libs_backend/session_utils'
 
   {
+    run_every_timeperiod
+  } = require 'libs_common/common_libs'
+
+  {
     as_array
     as_dictset
   } = require 'libs_common/collection_utils'
@@ -242,6 +250,10 @@ do ->>
     localstorage_setjson
     localstorage_getbool
   } = require 'libs_common/localstorage_utils'
+
+  {
+    baseline_time_per_session_for_domain
+  } = require 'libs_common/gamification_utils'
 
   require! {
     moment
@@ -509,7 +521,7 @@ do ->>
             SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
               content_script_utils.load_css_file('sweetalert2').then(function() {
                 sweetalert({
-                  title: 'Reload page to disable intervention',
+                  title: 'Reload page to turn off intervention',
                   text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
                 })
               })
@@ -607,7 +619,7 @@ do ->>
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
-      intervention = possible_interventions[0]
+      intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
       if intervention?
         await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
       else
@@ -615,7 +627,7 @@ do ->>
       localStorage.removeItem('override_enabled_interventions_once')
     else
       active_interventions = JSON.parse active_interventions
-      intervention = active_interventions[0]
+      intervention = active_interventions[Math.floor(Math.random() * active_interventions.length)]
       intervention_no_longer_enabled = false
       need_new_session_id = false
       #if page_was_just_refreshed
@@ -714,8 +726,8 @@ do ->>
   message_handlers <<< {
     'getLocation': (data) ->>
       location = await getLocation()
-      dlog 'getLocation background page:'
-      dlog location
+      #dlog 'getLocation background page:'
+      #dlog location
       return location
     'load_intervention': (data) ->>
       {intervention_name, tabId} = data
@@ -764,13 +776,15 @@ do ->>
     prev_domain := new_domain
     current_day = get_days_since_epoch()
     addtokey_dictdict 'visits_to_domain_per_day', new_domain, current_day, 1, (total_visits) ->
-      dlog "total visits to #{new_domain} today is #{total_visits}"
+      return
+      #dlog "total visits to #{new_domain} today is #{total_visits}"
 
   # our definition of a session:
   # how long a tab was open and on Facebook (or other site of interest) until it was closed
   # some pitfalls. if user navigates to FB, then goes to say buzzfeed, then goes back (on that same tab) the sessions are merged
   tab_id_to_domain_to_session_id = {}
   # domain_to_session_id_to_intervention = {}
+  tab_id_to_url = {}
 
   export list_domain_to_session_ids = ->
     for tab_id,domain_to_session_id of tab_id_to_domain_to_session_id
@@ -789,7 +803,7 @@ do ->>
     #else
     #  chrome.pageAction.hide(tabId)
     #send_pageupdate_to_tab(tabId)
-    dlog "navigation_occurred to #{url}"
+    #dlog "navigation_occurred to #{url}"
     load_intervention_for_location url, tabId
 
   chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
@@ -797,6 +811,7 @@ do ->>
       # user refreshed the page
       page_was_just_refreshed := true
     if tab.url
+      tab_id_to_url[tabId] = tab.url
       #dlog 'tabs updated!'
       #dlog tab.url
       #if changeInfo.status != 'complete'
@@ -824,7 +839,50 @@ do ->>
       else
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
 
+  reward_display_base_code_cached = null
+
+  chrome.tabs.onRemoved.addListener (tabId, info) ->>
+    url = tab_id_to_url[tabId]
+    if not url?
+      return
+    domain = url_to_domain(url)
+    session_id = tab_id_to_domain_to_session_id[tabId][domain]
+    if not session_id?
+      return
+    interventions_active = await getkey_dictdict('interventions_active_for_domain_and_session', domain, session_id)
+    if (not interventions_active?) or (interventions_active.length == 0) or interventions_active == '[]'
+      return
+    if reward_display_base_code_cached == null
+      reward_display_base_code_cached := await fetch('frontend_utils/close_tab_message.js').then (.text!)
+    baseline_seconds_spent = await baseline_time_per_session_for_domain(domain)
+    seconds_spent = await getkey_dictdict('seconds_on_domain_per_session', domain, session_id)
+    if seconds_spent > baseline_seconds_spent
+      return
+    seconds_saved = baseline_seconds_spent - seconds_spent
+    current_tab_info = await get_active_tab_info()
+    if (not current_tab_info?) or (not current_tab_info.url?)
+      return
+    if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
+      return
+    reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
+    chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
+
+  /*
+  setInterval ->>
+    base_code = await fetch('frontend_utils/close_tab_message.js').then (.text!)
+    reward_display_code = "window.reward_display_seconds_saved = 6;\n\n" + base_code
+    current_tab_info = await get_active_tab_info()
+    chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
+  , 5000
+  */
+
+  #chrome.tabs.onActivated.addListener (info) ->
+  #  console.log 'tab activated'
+  #  console.log info
+
   chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
+    #if info.tabId? and info.url?
+    #  tab_id_to_url[info.tabId] = info.url
     send_message_to_tabid info.tabId, 'navigation_occurred', {
       url: info.url
       tabId: info.tabId
@@ -912,7 +970,7 @@ do ->>
     current_day = get_days_since_epoch()
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
     session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
-    #dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
+    # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
     await addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
     await addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
@@ -1070,7 +1128,7 @@ do ->>
 
   record_restart_failed = (priority) !->
     restart_failed_priority_to_counts[priority] += 1
-    dlog restart_failed_priority_to_counts
+    #dlog restart_failed_priority_to_counts
     restart_habitlab = ->
       chrome.runtime.reload()
       chrome.runtime.restart()
@@ -1143,7 +1201,7 @@ do ->>
       start_trying_to_restart_habitlab()
 
   if (not developer_mode) and (localstorage_getbool('allow_logging'))
-    setInterval check_if_update_available_and_run_update, 3600000 # 1000*60*60 every 60 minutes
+    run_every_timeperiod check_if_update_available_and_run_update, 600000 # 1000*60*10 every 10 minutes
 
   url_to_open_on_next_start = localStorage.getItem('habitlab_open_url_on_next_start')
   if url_to_open_on_next_start?

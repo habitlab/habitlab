@@ -7,8 +7,12 @@
 } = require 'libs_frontend/intervention_log_utils'
 
 {
-  get_intervention
+  get_tab_id
 } = require 'libs_common/intervention_info'
+
+{
+  close_tab_with_id
+} = require 'libs_common/tab_utils'
 
 {
   msg
@@ -22,9 +26,7 @@ Polymer {
       value: msg('Close Tab')
     }
   }
-  button_clicked: ->
-    log_action {'positive': 'close-tab-button clicked'}
-    this.$$('#reward_display').play()
-  #ready: ->
-  #  this.$$('#reward_display').addEventListener 'reward_done', close_selected_tab
+  button_clicked: ->>
+    await log_action {'positive': 'close-tab-button clicked'}
+    close_tab_with_id(get_tab_id())
 }

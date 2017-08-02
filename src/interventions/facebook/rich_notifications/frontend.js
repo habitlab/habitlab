@@ -7,7 +7,7 @@ const {
 } = require('libs_common/time_utils')
 
 const {
-  display_reward_and_close_current_tab
+  close_current_tab
 } = require('libs_frontend/intervention_close_tab')
 
 const {
@@ -51,7 +51,7 @@ function insertRichNotification() {
     notification_onclick(notification_id, function() {
       log_action({'positive': 'User closed Facebook.'})
       close_notification(notification_id);
-      display_reward_and_close_current_tab();
+      close_current_tab();
     })
   })
 }

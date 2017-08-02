@@ -378,10 +378,16 @@ export get_positive_enabled_goals = ->>
 export get_positive_enabled_uncompleted_goals = ->>
   goals = await get_positive_enabled_goals!
   output = {}
-  for goal, goal_info of goals
-    completed = await get_whether_goal_achieved_today goal
+  completed_promises_list = []
+  goal_list = Object.keys(goals)
+  for goal_name in goal_list
+    completed_promises_list.push get_whether_goal_achieved_today(goal_name)
+  completed_list = await Promise.all completed_promises_list
+  for goal_name,idx in goal_list
+    completed = completed_list[idx]
+    goal_info = goals[goal_name]
     if not completed
-      output[goal] = goal_info
+      output[goal_name] = goal_info
   return output
 
 /**

@@ -1,10 +1,11 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 const {log_action} = require('libs_frontend/intervention_log_utils')
 const {
+  get_intervention, 
   get_goal_info,
-  get_random_uncompleted_positive_goal
-} = require('libs_common/goal_utils')
-const {get_intervention} = require('libs_common/intervention_info')
+  get_positive_goal_info
+} = require('libs_common/intervention_info')
+
 const {get_intervention_info} = require('libs_common/intervention_utils')
 
 polymer_ext({
@@ -20,18 +21,9 @@ polymer_ext({
     }
   },
   ready: async function() {
-    console.log('hi!')
-    this.goal = await get_random_uncompleted_positive_goal()
-    console.log(this.goal)
+    this.goal = await get_positive_goal_info()
     if (this.goal == null) {
-      let goal_name = get_intervention().goals[0]
-      this.goal = await get_goal_info(goal_name)
-    }
-
-    console.log('ready called in call-to-action')
-    if (this.goal == null) {
-      let goal_name = get_intervention().goals[0]
-      this.goal = await get_goal_info(goal_name)
+      this.goal = await get_goal_info()
     }
    
     console.log('selected goal: ' + this.goal)

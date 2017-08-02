@@ -1,0 +1,60 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="duolingo-lesson-widget">
+<link rel="import" href="habitlab-logo.html">
+
+  <template>  
+    <style is="custom-style">
+      .lesson-container {
+        /* min-height: 600px; */
+        width: var(--lesson-container-width, 495px);
+        background-color: var(--lesson-container-bg-color, white);
+        text-align: center; 
+      }
+      .call-to-action {
+        padding-top: 20px;
+        font-size: var(--lesson-call-to-action-font-size, 12px);
+        font-style: italic
+      }
+      .lesson-hdr {
+        padding-top: 10px;
+        font-size: var(--lesson-hdr-font-size, 20px);
+      }
+      .duolingo-lesson {
+        padding: 20px;
+        min-width: var(--lesson-min-width, 460px);
+        height: 500px;
+        border: none;
+      }
+      .habitlab-logo {
+        margin-bottom: 20px;
+        align-self: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      #grey-space {
+        background-color: #e9ebee;
+        height: 12px;
+        margin-left: -1px;
+        margin-right: -1px;
+      }
+      #shadow {
+        height: 1px;
+        background-color: #1d2129;
+        opacity: 0.2;
+      }
+    </style>
+  
+    <div class="lesson-container">
+      <div class="call-to-action">{{callToAction}}</div>
+      <div class="lesson-hdr">{{lessonTitle}}</div>
+      <iframe class="duolingo-lesson" src="{{iframeURL}}"></iframe>
+      <habitlab-logo class="habitlab-logo"></habitlab-logo>
+    </div>
+    
+    <div id="shadow"></div>
+    <div id="grey-space"></div>
+  </template>
+  <script src="duolingo-lesson-widget.js"></script>
+</dom-module>

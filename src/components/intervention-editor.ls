@@ -345,7 +345,6 @@ polymer_ext {
       return
     intervention_name=self.get_intervention_name()
     intervention_info=await get_intervention_info(intervention_name)
-    console.log intervention_info.goals[0].preview
     set_override_enabled_interventions_once intervention_name
     chrome.tabs.create {url: intervention_info.preview}
   debug_intervention: ->>

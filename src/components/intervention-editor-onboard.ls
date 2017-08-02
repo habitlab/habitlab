@@ -14,7 +14,7 @@ polymer_ext {
     }
     templates_list:{
       type:Array
-      value:['generic/make_user_wait',"generic/toast_notifications"]
+      value:['generic/make_user_wait',"generic/toast_notifications","generic/show_user_info_interstitial","iqiyi/prompt_before_watch","iqiyi/remove_sidebar_links"]
     }
   }
   refresh_custom_intervention_list: ->>

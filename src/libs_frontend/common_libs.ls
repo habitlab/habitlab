@@ -1,5 +1,3 @@
-{yfy, cfy} = require 'cfy'
-
 {
   gexport
   gexport_module
@@ -21,32 +19,43 @@ export getUrlParameters = ->
   )
   return map
 
-export once_available = yfy (selector, callback) ->
+export sleep = (time) ->>
+  return new Promise ->
+    setTimeout(it, time)
+
+export once_available = (selector, callback) ->>
   current_result = document.querySelector(selector)
-  if current_result != null
-    callback current_result
-  else
-    setTimeout ->
-      once_available selector, callback
-    , 100
+  while not current_result?
+    current_result = document.querySelector(selector)
+    await sleep(100)
+  if callback?
+    callback(current_result)
+  return current_result
 
-export once_available_multiselect = yfy (selector, callback) ->
+export once_available_fast = (selector, callback) ->>
+  current_result = document.querySelector(selector)
+  while not current_result?
+    current_result = document.querySelector(selector)
+    await sleep(30)
+  if callback?
+    callback(current_result)
+  return current_result
+
+export once_available_multiselect = (selector, callback) ->>
   current_result = document.querySelectorAll(selector)
-  if current_result.length > 0
-    callback current_result
-  else
-    setTimeout ->
-      once_available_multiselect selector, callback
-    , 100
+  while not (current_result.length > 0)
+    current_result = document.querySelectorAll(selector)
+    await sleep(100)
+  if callback?
+    callback(current_result)
+  return current_result
 
-
-export once_document_available = yfy (callback) ->
-  if document.body?
+export once_body_available = (callback) ->>
+  while not document.body?
+    await sleep(30)
+  if callback?
     callback()
-  else
-    setTimeout ->
-      once_document_available(callback)
-    , 100
+  return
 
 #export add_toolbar_notification = ->
 #  chrome.browserAction.setBadgeText {text: '1'}

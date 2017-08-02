@@ -3,20 +3,8 @@ window.Polymer.dom = 'shadow'
 
 const $ = require('jquery')
 
-const {
-  wrap_in_shadow
-} = require('libs_frontend/common_libs')
-
-require('enable-webcomponents-in-content-scripts')
-require('components/removed-clickbait-message.deps')
-
+removeClickBait()
 var intervalID = window.setInterval(removeClickBait, 100);
-
-function addNotification() {
-  var removed_clickbait_message = $('<removed-clickbait-message></removed-clickbait-message>')
-  var removed_clickbait_message_wrapper = $(wrap_in_shadow(removed_clickbait_message)).attr('id', 'removed_clickbait_message')
-  $('#pagelet_composer').parent().prepend(removed_clickbait_message_wrapper)
-}
 
 function removeClickBait() {
   if (!window.intervention_disabled) {
@@ -31,9 +19,23 @@ function removeClickBait() {
   }
 }
 
-window.onload = () => {
-  addNotification();
+const {
+  wrap_in_shadow,
+  once_available
+} = require('libs_frontend/common_libs')
+
+require('enable-webcomponents-in-content-scripts')
+require('components/removed-clickbait-message.deps')
+
+function addNotification() {
+  var removed_clickbait_message = $('<removed-clickbait-message></removed-clickbait-message>')
+  var removed_clickbait_message_wrapper = $(wrap_in_shadow(removed_clickbait_message)).attr('id', 'removed_clickbait_message')
+  once_available('#pagelet_composer').then(function() {
+    $('#pagelet_composer').parent().prepend(removed_clickbait_message_wrapper)
+  })
 }
+
+addNotification();
 
 window.on_intervention_disabled = () => {
   clearInterval(intervalID)

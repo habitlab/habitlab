@@ -5,7 +5,8 @@ if (typeof(window.wrap) != 'function') {
 }
 
 let {
-  append_to_body_shadow
+  append_to_body_shadow,
+  once_body_available
 } = require('libs_frontend/common_libs')
 
 let $ = require('jquery')
@@ -15,7 +16,11 @@ require('enable-webcomponents-in-content-scripts')
 require('components/show-timer-banner.deps')
 
 let scroll_block_display = $('<show-timer-banner>');
-let shadow_div = append_to_body_shadow(scroll_block_display);
+let shadow_div;
+
+once_body_available().then(function() {
+  append_to_body_shadow(scroll_block_display);
+})
 
 window.on_intervention_disabled = function() {
   $(shadow_div).remove()

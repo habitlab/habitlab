@@ -1,7 +1,25 @@
+//alert('loaded at ' + Date.now())
+
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
 const $ = require('jquery')
+
+const selectorsToHide = '.ticker_stream, .ego_column, #pagelet_games_rhc, #pagelet_trending_tags_and_topics, #pagelet_canvas_nav_content';
+
+//Removes new feed (modified from 'kill news feed' src code)
+function removeFeed() {
+  var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
+
+  hide(feed.children());
+  hide($(selectorsToHide));
+
+  feedShown = false;
+}
+
+var feedShown = false;
+removeFeed()
+var intervalID = window.setInterval(removeFeed, 30);
 
 const {
   log_action,
@@ -26,9 +44,6 @@ require('components/close-tab-button.deps')
 //Polymer button
 require('bower_components/paper-button/paper-button.deps')
 
-var feedShown = false;
-var intervalID = window.setInterval(removeFeed, 200);
-
 function hide(query) {
   query.css('opacity', 0);
   query.css('pointer-events', 'none');
@@ -37,18 +52,6 @@ function hide(query) {
 function show(query) {
   query.css('opacity', 1);
   query.css('pointer-events', '');
-}
-
-const selectorsToHide = '.ticker_stream, .ego_column, #pagelet_games_rhc, #pagelet_trending_tags_and_topics, #pagelet_canvas_nav_content';
-
-//Removes new feed (modified from 'kill news feed' src code)
-function removeFeed() {
-  var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
-
-  hide(feed.children());
-  hide($(selectorsToHide));
-
-  feedShown = false;
 }
 
 //Shows the news feed

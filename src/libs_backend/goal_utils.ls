@@ -31,10 +31,6 @@
   get_favicon_data_for_domain
 } = require 'libs_backend/favicon_utils'
 
-{
-  get_whether_goal_achieved_today
-} = require 'libs_common/goal_progress'
-
 {cfy, yfy} = require 'cfy'
 
 getAllInterventionsGoalInfo = ->>
@@ -381,7 +377,7 @@ export get_positive_enabled_uncompleted_goals = ->>
   completed_promises_list = []
   goal_list = Object.keys(goals)
   for goal_name in goal_list
-    completed_promises_list.push get_whether_goal_achieved_today(goal_name)
+    completed_promises_list.push goal_progress.get_whether_goal_achieved_today(goal_name)
   completed_list = await Promise.all completed_promises_list
   for goal_name,idx in goal_list
     completed = completed_list[idx]
@@ -604,5 +600,6 @@ export list_goal_info_for_enabled_goals = ->>
 
 intervention_utils = require 'libs_backend/intervention_utils'
 log_utils = require 'libs_backend/log_utils'
+goal_progress = require 'libs_common/goal_progress'
 
 gexport_module 'goal_utils', -> eval(it)

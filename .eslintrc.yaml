@@ -26,6 +26,8 @@ globals:
   'module': true
   'Polymer': true
   'intervention': true
+  'positive_goal_info': true
+  'goal_info': true
   'tab_id': true
   'Buffer': true
   'dlog': true

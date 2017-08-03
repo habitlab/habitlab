@@ -335,9 +335,15 @@ do ->>
 
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list) ->>
     {content_script_options, name} = intervention_info
+    
+    console.log ('execute_content_scripts_for_intervention running')
 
     goal_info = await get_goal_info(intervention_info.goals[0])
+    console.log('goal_info is')
+    console.log(goal_info)
     positive_goal_info = await get_random_uncompleted_positive_goal()
+    console.log('positive_goal_info is')
+    console.log(positive_goal_info)
     console.log 'execute_content_scripts_for_intervention occurred at ' + Date.now()
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
@@ -549,6 +555,9 @@ do ->>
     return
 
   load_intervention_list = (intervention_list, tabId) ->>
+
+    console.log 'load_intervention_list'
+    console.log intervention_list
     if intervention_list.length == 0
       return
 
@@ -613,11 +622,14 @@ do ->>
       return
 
     console.log 'load_intervention_for_location at ' + Date.now()
+    console.log 'location is ' + location
     domain = url_to_domain(location)
     if not domain_to_prev_enabled_interventions[domain]?
       domain_to_prev_enabled_interventions[domain] = []
     prev_enabled_interventions = domain_to_prev_enabled_interventions[domain]
     all_enabled_interventions = await list_all_enabled_interventions_for_location(domain)
+    console.log 'all_enabled_interventions is'
+    console.log all_enabled_interventions
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
     session_id = await get_session_id_for_tab_id_and_domain(tabId, domain)
@@ -628,11 +640,16 @@ do ->>
     dlog 'override_enabled_interventions is'
     dlog override_enabled_interventions
     if not active_interventions?
+      console.log 'active_interventions_not_defined'
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
+      console.log 'possible_interventions is'
+      console.log possible_interventions
       intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
+      console.log 'intervention is'
+      console.log intervention
       if intervention?
         await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
       else
@@ -677,6 +694,7 @@ do ->>
         else
           await set_active_interventions_for_domain_and_session domain, session_id, []
         localStorage.removeItem('override_enabled_interventions_once')
+    console.log 'location 3'
     page_was_just_refreshed := false
     interventions_to_load = []
     if intervention?

@@ -74,7 +74,7 @@ polymer_ext({
     this.iframeURL = "https://www.duolingo.com/skill/"+this.languageInitials+"/"+this.skillURL+"/"+this.lessonNumber
 
     // Pick a random encouraging message based on user's streak and whether it's been extended today yet.
-    var callToActionMessageTemplate = ""
+    let callToActionMessageTemplate = ""
     if (this.streak == 0) {
       callToActionMessageTemplate = noStreakMessages[Math.floor(Math.random() * noStreakMessages.length)]
     } 

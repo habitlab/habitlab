@@ -50,7 +50,7 @@ async function get_hackerrank_submissions_for_user(username) {
 async function get_hackerrank_submissions() {
   var hackerrank_username = await get_hackerrank_username()
   try {
-    return await get_hackerrank_info_for_user(hackerrank_username)
+    return await get_hackerrank_submissions_for_user(hackerrank_username)
   } catch (err) {
     console.log('resetting username cache and trying again...')
     await reset_cached_username()

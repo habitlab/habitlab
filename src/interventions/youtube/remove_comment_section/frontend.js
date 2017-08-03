@@ -4,7 +4,7 @@ window.Polymer.dom = 'shadow'
 const $ = require('jquery')
 
 const {
-  once_available,
+  once_available_fast,
   on_url_change,
   wrap_in_shadow,
 } = require('libs_frontend/common_libs')
@@ -12,15 +12,6 @@ const {
 const {
   run_only_one_at_a_time
 } = require('libs_common/common_libs')
-
-require('enable-webcomponents-in-content-scripts')
-require('bower_components/paper-button/paper-button.deps')
-require('components/habitlab-logo.deps')
-
-function show_comments() {
-  $('#habitlab_show_comments').remove();
-  $('#watch-discussion').show();
-}
 
 function hide_comments() {
   if (window.intervention_disabled) {
@@ -55,7 +46,7 @@ var hide_comments_once_available = run_only_one_at_a_time((callback) => {
   if (window.intervention_disabled) {
     return
   }
-  once_available('#watch-discussion', () => {
+  once_available_fast('#watch-discussion', () => {
     hide_comments()
     callback()
   })
@@ -65,6 +56,15 @@ hide_comments_once_available()
 on_url_change(() => {
   hide_comments_once_available()
 })
+
+require('enable-webcomponents-in-content-scripts')
+require('bower_components/paper-button/paper-button.deps')
+require('components/habitlab-logo.deps')
+
+function show_comments() {
+  $('#habitlab_show_comments').remove();
+  $('#watch-discussion').show();
+}
 
 window.on_intervention_disabled = () => {
   show_comments();

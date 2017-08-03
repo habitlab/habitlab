@@ -9,7 +9,8 @@ require('components/interstitial-screen.deps')
 const $ = require('jquery')
 
 const {
-  append_to_body_shadow
+  append_to_body_shadow,
+  once_body_available
 } = require('libs_frontend/common_libs')
 
 const {
@@ -55,7 +56,9 @@ var shadow_div;
     }
   }, 50)
 
-  shadow_div = append_to_body_shadow(interst_screen)
+  once_body_available().then(function() {
+    shadow_div = append_to_body_shadow(interst_screen);
+  })
 
 })()
 

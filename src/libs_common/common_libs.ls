@@ -1,9 +1,8 @@
 {yfy, cfy} = require 'cfy'
 
 export sleep = (time) ->>
-  sleep_base = (msecs, callback) ->
-    setTimeout(callback, msecs)
-  await yfy(sleep_base)(time)
+  return new Promise ->
+    setTimeout(it, time)
 
 export once_true = yfy (condition, callback) ->
   if condition()

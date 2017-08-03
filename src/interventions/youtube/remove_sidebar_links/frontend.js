@@ -2,19 +2,26 @@ window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
 const {
-  once_available,
+  once_available_fast,
   on_url_change,
   wrap_in_shadow,
 } = require('libs_frontend/common_libs')
+
+const $ = require('jquery')
 
 const {
   run_only_one_at_a_time
 } = require('libs_common/common_libs')
 
-const $ = require('jquery')
-require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('bower_components/paper-button/paper-button.deps')
+const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
+  if (window.intervention_disabled) {
+    return
+  }
+  once_available_fast('.watch-sidebar-section', () => {
+    removeSidebar()
+    callback()
+  })
+})
 
 //Nukes links on the sidebar
 function removeSidebar() {
@@ -48,21 +55,15 @@ function removeSidebar() {
   $('#watch7-sidebar-contents').prepend(habitlab_inserted_div_wrapper)
 }
 
-const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
-  if (window.intervention_disabled) {
-    return
-  }
-  once_available('.watch-sidebar-section', () => {
-    removeSidebar()
-    callback()
-  })
-})
-
 removeSidebarOnceAvailable()
 
 on_url_change(() => {
   removeSidebarOnceAvailable()
 })
+
+require('enable-webcomponents-in-content-scripts')
+require('components/habitlab-logo.deps')
+require('bower_components/paper-button/paper-button.deps')
 
 function disable_intervention() {
   $('.habitlab_inserted_div').remove()

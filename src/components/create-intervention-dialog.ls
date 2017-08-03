@@ -30,6 +30,7 @@ polymer_ext {
     this.$.goal_selector.selected = goal_names_list.indexOf(goal_name)    
     this.$.intervention_description.value=intervention_info.description
     this.$.intervention_name.value=intervention_info.name
+    this.$.preview_url.value=intervention_info.preview
     this.$.dialog_button.innerHTML='MODIFY'
     this.$$('#create_new_intervention_dialog').open()
   validate_intervention_name: ->>
@@ -52,6 +53,7 @@ polymer_ext {
         new_intervention_name: proposed_intervention_name
         new_goal_info: self.$.goal_selector.selectedItem.goal_info
         new_intervention_description:self.$.intervention_description.value
+        new_preview: self.$.preview_url.value
       })
       self.current_intervention=''
     else
@@ -63,6 +65,7 @@ polymer_ext {
         goal_info: self.$.goal_selector.selectedItem.goal_info
         intervention_name: self.$.intervention_name.value
         intervention_description: self.$.intervention_description.value
+        preview_url: self.$.preview_url.value
       })
     self.goToTab()  
     self.$$('#create_new_intervention_dialog').close()
@@ -70,7 +73,8 @@ polymer_ext {
     chrome.tabs.getAllInWindow undefined, (tabs) ->
       for i from 0 to tabs.length-1
         if tabs[i].url==chrome.extension.getURL('index.html?tag=intervention-editor')
-          chrome.tabs.update(tabs[i].update,{selected:true})
+          chrome.tabs.update(tabs[i].id,{selected:true})
+          console.log 'tab update '+i
           return
       chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
       return
@@ -79,4 +83,7 @@ polymer_ext {
       intervention_name:this.$.intervention_selector.selectedItem.intervention_name
     })
     this.$$('#open_existing_custom_intervention').close()
+  goal_selector_changed: (change_info) ->
+    goal_info=change_info.detail.item.goal_info
+    this.$.preview_url.value=goal_info.preview ? goal_info.homepage
 }

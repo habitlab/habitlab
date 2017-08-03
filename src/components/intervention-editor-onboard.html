@@ -15,8 +15,8 @@
       overflow-y: hidden;
     }
     #outer_wrapper{ 
-      width: 100vw;
-      height: 100vh;
+      min-width: 100vw;
+      min-height: 100vh;
       color: white;
       padding: 20px;
       display:block;
@@ -117,11 +117,11 @@
         <h1>Or modify popular templates...</h1>
         <div id="my_templates" style="width:100vw;">
 
-          <template is="dom-repeat" items="{{templates_list}}" as="template_name">
+          <template is="dom-repeat" items="{{templates_info_list}}" as="template_name">
             <div class="template_tab">
-              <img class="screenshot" on-click="open_template" src="screenshots/{{template_name}}.png" alt="no preview available" style="width:100%; height:auto;">            
+              <img class="screenshot" on-click="open_template" src="screenshots/{{template_name.name}}.png" alt="{{template_name.description}}" style="width:300px; height:180px;">            
               <div class="template_name">
-                {{template_name}}
+                {{template_name.displayname}}
               </div>
             </div>
           </template>

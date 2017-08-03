@@ -90,7 +90,6 @@ polymer_ext {
 
   have_unsaved_changes: ->
     window.onbeforeunload = ->
-      swal('are you sure you want to exit?')
       return 'are you sure you want to exit?'
   no_unsaved_changes: ->
     window.onbeforeunload = null
@@ -119,7 +118,6 @@ polymer_ext {
     js_editor = this.js_editors[intervention_name]
     code = js_editor.getSession().getValue().trim()
     intervention_info = await get_intervention_info(intervention_name)
-    # goal_info = this.$.goal_selector.selectedItem.goal_info
     new_intervention_info = {
       code: code
       name: intervention_name
@@ -138,18 +136,14 @@ polymer_ext {
     self.intervention_info = new_intervention_info
     await add_new_intervention(new_intervention_info)
     this.no_unsaved_changes()
-    console.log('saving '+intervention_name+' completed...')
     return true
   delete_current_intervention: ->>
-    console.log 'delete_current_intervention'
     intervention_name = this.get_intervention_name()
     this.opened_intervention_list.splice this.selected_tab_idx, 1
     this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
     remove_custom_intervention(intervention_name)
     delete this.js_editors[intervention_name]
-    console.log intervention_name
     await this.refresh_intervention_list()
-    console.log 'deleting '+intervention_name+' completed...'
   delete_intervention: ->>
     intervention_name = this.get_intervention_name()
     if not intervention_name
@@ -167,24 +161,6 @@ polymer_ext {
     catch
       return
     this.delete_current_intervention()
-    # this.$.intervention_selector.selected = 0
-  /*
-  # goal_selector_changed: (change_info) ->
-    # if not this.intervention_info?
-    #   console.log('no intervention_info')
-    #   return
-    # console.log('this.intervention_info '+this.intervention_info)
-    # goal_info = change_info.detail.item.goal_info
-    # goal_name = this.intervention_info.goals[0]
-    # console.log('goal_name'+goal_name)
-    # if goal_info.name == goal_name
-    #   this.$.intervention_domain.value = this.intervention_info.domain
-    #   this.$.intervention_preview_url.value = this.intervention_info.preview
-    #   return
-    # this.$.intervention_domain.value = goal_info.domain
-    # preview_page = goal_info.preview ? goal_info.homepage
-    # this.$.intervention_preview_url.value = preview_page
-  */
   add_new_intervention_clicked: ->
     self = this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
@@ -193,7 +169,6 @@ polymer_ext {
     create_intervention_dialog.open_create_new_intervention_dialog()
     create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
       self.display_new_intervention(evt.detail)
-    console.log 'add_new_intervention_clicked completed...'
   open_custom_intervention_clicked: ->
     self=this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
@@ -202,7 +177,6 @@ polymer_ext {
     create_intervention_dialog.open_existing_custom_intervention_dialog()
     create_intervention_dialog.addEventListener 'display_intervention', (evt) ->
       self.display_intervention(evt.detail)
-    console.log 'open_existing_custom_intervention completed...'
   display_template_by_name: (template_name) ->>
     self=this
     code=await fetch(chrome.runtime.getURL('/intervention_templates/'+template_name+'/frontend.js')).then((.text!))
@@ -235,7 +209,6 @@ polymer_ext {
     this.once_available '#editor_' + new_intervention_name, (result) ->
       self.make_javascript_editor(result)
   display_intervention_by_name: (intervention_name) ->>
-    console.log 'display_intervention '+intervention_name
     self=this
     if not this.opened_intervention_list.includes intervention_name
       this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
@@ -259,7 +232,6 @@ polymer_ext {
     create_intervention_dialog.addEventListener 'modify_intervention_info', (evt) ->
       self.modify_intervention_info(evt.detail)
     create_intervention_dialog.open_edit_intervention_info_dialog() 
-    console.log 'info_clicked for '+this.get_intervention_name()+' completed...'
   modify_intervention_info: (data) ->>
     self=this
     intervention_info=await get_intervention_info(data.old_intervention_name)
@@ -267,7 +239,7 @@ polymer_ext {
       name:data.new_intervention_name
       description: data.new_intervention_description
       domain: data.new_goal_info.domain
-      preview: data.new_goal_info.preview ? data.new_goal_info.homepage
+      preview: data.new_preview
       matches: data.new_goal_info.matches
       sitename: data.new_goal_info.sitename
       sitename_printable: data.new_goal_info.sitename_printable
@@ -276,8 +248,6 @@ polymer_ext {
       content_scripts:intervention_info.code
       goals: [data.new_goal_info.name]  
     }
-    console.log 'modify_intervention_info'
-    console.log intervention_info 
     await add_new_intervention(intervention_info)
     if data.old_intervention_name!=data.new_intervention_name
       this.delete_current_intervention()
@@ -300,12 +270,13 @@ polymer_ext {
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
     https://habitlab.github.io/devdocs?q=require_package
     */
+
     """
     intervention_info={
       name: new_intervention_name
       description: new_intervention_data.intervention_description
       domain: goal_info.domain
-      preview: goal_info.preview ? goal_info.homepage
+      preview: new_intervention_data.preview_url
       matches: [goal_info.domain]
       sitename: goal_info.sitename
       sitename_printable: goal_info.sitename_printable
@@ -334,11 +305,8 @@ polymer_ext {
     this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
     this.once_available '#editor_' + new_intervention_name, (result) ->
       self.make_javascript_editor(result)
-    console.log('display_new_intervention for '+new_intervention_name+ ' completed...')
   refresh_intervention_list: ->>
     this.intervention_list = await list_custom_interventions()
-    #if this.intervention_list.length == 0
-    #  this.prompt_new_intervention()
   preview_intervention: ->>
     self=this
     if not (await this.save_intervention())
@@ -366,7 +334,6 @@ polymer_ext {
         break
       await sleep(100)
     await open_debug_page_for_tab_id(tab.id)
-    console.log 'debug_intervention for '+intervention_name
   hide_or_show_sidebar: ->
     if this.S('#sidebar').is(":visible")
       this.S('#sidebar').hide()
@@ -423,8 +390,6 @@ polymer_ext {
     await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     await self.refresh_intervention_list()
     setTimeout ->
-      # if self.intervention_info?edit_mode?
-      #   self.set_edit_mode(self.intervention_info.edit_mode)
       self.no_unsaved_changes()
     , 500
     self.once_available_multiselect '.javascript_editor_div', (editor_divs) ->
@@ -433,7 +398,6 @@ polymer_ext {
     new_intervention_info = localStorage.getItem('intervention_editor_new_intervention_info')
     if new_intervention_info?
       new_intervention_info = JSON.parse new_intervention_info
-      console.log 'new_intervention_info'+new_intervention_info
       localStorage.removeItem('intervention_editor_new_intervention_info')
       self.display_new_intervention(new_intervention_info)
     open_intervention_name=localStorage.getItem('intervention_editor_open_intervention_name')
@@ -446,14 +410,6 @@ polymer_ext {
       open_template_name=JSON.parse open_template_name
       localStorage.removeItem('intervention_editor_open_template_name')
       self.display_template_by_name(open_template_name)
-    /*
-    once_true(-> self?intervention_info?code?
-    , ->>
-      await compile_intervention_code(self.intervention_info)
-      clear_cache_all_interventions()
-      get_interventions()
-    )
-    */
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

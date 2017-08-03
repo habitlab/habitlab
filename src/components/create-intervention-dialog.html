@@ -24,31 +24,18 @@
 
     <paper-dialog id="create_new_intervention_dialog" with-backdrop style="z-index: 9007199254740991;">
       <paper-dropdown-menu style="width: 300px" label="Goal">
-        <paper-listbox id="goal_selector" class="dropdown-content" selected="0">
+        <paper-listbox id="goal_selector" class="dropdown-content" on-iron-select="goal_selector_changed" selected="0">
           <template is="dom-repeat" items="{{goal_info_list}}" as="goal_info">
             <paper-item goal_info="{{goal_info}}">{{goal_info.description}}</paper-item>
           </template>
         </paper-listbox>
       </paper-dropdown-menu>
       <paper-input id="intervention_description" label="Intervention Description" value="Describe your intervention here"></paper-input>
+      <paper-input id="preview_url" label="Preview url" value="Type your preview url here"></paper-input>
       <paper-input id="intervention_name" label="Intervention Name" value="my_custom_intervention"></paper-input>
       <em id="hint" style="color:red;"></em><br>
       <paper-button id="dialog_button" on-click="validate_intervention_name" class="button">Add</paper-button>
     </paper-dialog>
-
-    <!-- <paper-dialog id="edit_intervention_info_dialog" with-backdrop style="z-index: 9007199254740991;">
-      <paper-dropdown-menu style="width: 300px" label="Goal">
-        <paper-listbox id="goal_selector" class="dropdown-content" selected="0">
-          <template is="dom-repeat" items="{{goal_info_list}}" as="goal_info">
-            <paper-item goal_info="{{goal_info}}">{{goal_info.description}}</paper-item>
-          </template>
-        </paper-listbox>
-      </paper-dropdown-menu>
-      <paper-input id="intervention_description" label="Intervention Description" value="Describe your intervention here"></paper-input>
-      <paper-input id="intervention_name" label="Intervention Name" value="my_custom_intervention"></paper-input>
-      <em id="hint" style="color:red;"></em><br>
-      <paper-button on-click="validate_intervention_name" class="button">Add</paper-button>
-    </paper-dialog> -->
 
     <paper-dialog id="open_existing_custom_intervention" with-backdrop style="z-index: 9007;">
       <paper-dropdown-menu style="margin-top: 0px; width: 300px" label="Select a custom intervention">

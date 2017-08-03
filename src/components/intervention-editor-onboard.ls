@@ -1,26 +1,27 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
-{list_custom_interventions} = require 'libs_backend/intervention_utils'
 
 {
   list_all_goals
   get_goals
 } = require 'libs_backend/goal_utils'
 
+{
+  get_interventions
+  list_custom_interventions
+} = require('libs_common/intervention_utils')
+
 polymer_ext {
   is: 'intervention-editor-onboard'
   properties:{
+    templates_info_list:{
+      type:Array
+    }
     custom_intervention_list:{
       type:Array
     }
-    templates_list:{
-      type:Array
-      value:['generic/make_user_wait',"generic/toast_notifications","generic/show_user_info_interstitial","iqiyi/prompt_before_watch","iqiyi/remove_sidebar_links"]
-    }
   }
-  refresh_custom_intervention_list: ->>
-    this.custom_intervention_list=await list_custom_interventions()
   open_template: (evt)->
-    localStorage.setItem('intervention_editor_open_template_name',JSON.stringify(evt.model.template_name))
+    localStorage.setItem('intervention_editor_open_template_name',JSON.stringify(evt.model.template_name.name))
     chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
   open_custom_intervention: (evt)->
     localStorage.setItem('intervention_editor_open_intervention_name',JSON.stringify(evt.model.intervention_name))
@@ -36,8 +37,10 @@ polymer_ext {
     create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
       localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail))
   ready: ->>
-    self=this
-    await self.refresh_custom_intervention_list()
+    all_interventions=await get_interventions()
+    templates_list=['generic/make_user_wait',"generic/toast_notifications","iqiyi/prompt_before_watch","iqiyi/remove_sidebar_links"]
+    this.templates_info_list=[all_interventions[x] for x in templates_list]
+    this.custom_intervention_list=await list_custom_interventions()
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

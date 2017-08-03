@@ -499,6 +499,7 @@ do ->>
     if (!window.loaded_content_scripts['#{options.path}']) {
       window.loaded_content_scripts['#{options.path}'] = true;
       const intervention = #{JSON.stringify(intervention_info_copy)};
+      const parameters = #{JSON.stringify(parameter_values)};
       const tab_id = #{tabId};
       const dlog = function(...args) { console.log(...args); };
       window.intervention_disabled = false;

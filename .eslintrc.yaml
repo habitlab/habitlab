@@ -29,6 +29,7 @@ globals:
   'tab_id': true
   'Buffer': true
   'dlog': true
+  'parameters': true
 rules:
   'no-console': 'off'
   'no-unused-vars': 'off'

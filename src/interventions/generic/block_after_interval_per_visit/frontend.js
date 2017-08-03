@@ -162,11 +162,11 @@ var shadow_div;
 
     //Cheat button
     const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')
-    $cheatButton.text("Cheat for " + intervention.params.cheatseconds.value + " Seconds")
+    $cheatButton.text("Cheat for " + parameters.cheatseconds + " Seconds")
     $cheatButton.css({'cursor': 'pointer', 'padding': '5px'});
     $cheatButton.click(() => {
       $dialogBox.remove()
-      cheat(intervention.params.cheatseconds.value)
+      cheat(parameters.cheatseconds)
     })
 
     $contentContainer.append($cheatButton);
@@ -181,12 +181,12 @@ var shadow_div;
   }
 
   function cheatCountdown() {
-    const timeCheatingUp = parseInt(intervention.params.cheatseconds.value) + parseInt(localStorage.cheatStart)
+    const timeCheatingUp = parseInt(parameters.cheatseconds) + parseInt(localStorage.cheatStart)
 
     var cheatTimer = setInterval(() => {
       getTimeSpent((timeSpent) => {
         console.log("Cheat start: " + localStorage.cheatStart)
-        console.log("Cheat Seconds Allowed: " + intervention.params.cheatseconds.value)
+        console.log("Cheat Seconds Allowed: " + parameters.cheatseconds)
         console.log("Time Cheating Up: " + timeCheatingUp)
         console.log("Time Spent: " + timeSpent)
         if (timeSpent > timeCheatingUp) {

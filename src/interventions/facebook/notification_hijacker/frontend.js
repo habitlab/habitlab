@@ -139,7 +139,7 @@ function insertClickNotification() {
 }
 
 function main() {
-  if (decideToInject(intervention.params.minutes.value)) { //Injects notifications every x minutes
+  if (decideToInject(parameters.minutes)) { //Injects notifications every x minutes
       begin()
   } else {
     console.log("Notification not injected")

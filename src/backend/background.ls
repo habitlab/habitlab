@@ -335,16 +335,6 @@ do ->>
 
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list) ->>
     {content_script_options, name} = intervention_info
-    
-    console.log ('execute_content_scripts_for_intervention running')
-
-    goal_info = await get_goal_info(intervention_info.goals[0])
-    console.log('goal_info is')
-    console.log(goal_info)
-    positive_goal_info = await get_random_uncompleted_positive_goal()
-    console.log('positive_goal_info is')
-    console.log(positive_goal_info)
-    console.log 'execute_content_scripts_for_intervention occurred at ' + Date.now()
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
@@ -621,8 +611,6 @@ do ->>
     if !is_habitlab_enabled_sync()
       return
 
-    console.log 'load_intervention_for_location at ' + Date.now()
-    console.log 'location is ' + location
     domain = url_to_domain(location)
     if not domain_to_prev_enabled_interventions[domain]?
       domain_to_prev_enabled_interventions[domain] = []
@@ -714,7 +702,6 @@ do ->>
             interventions_to_load.push permanently_enabled_intervention
             #await load_intervention permanently_enabled_intervention, tabId
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
-    console.log 'load_intervention_for_location 2 at ' + Date.now()
     await load_intervention_list interventions_to_load, tabId
     return
 
@@ -823,7 +810,6 @@ do ->>
       dlog domain_to_session_id
 
   navigation_occurred = (url, tabId) ->
-    console.log 'navigation occurred to ' + url + ' at ' + Date.now()
     new_domain = url_to_domain(url)
     if new_domain != prev_domain
       domain_changed(new_domain)
@@ -948,9 +934,6 @@ do ->>
       #dlog response_data
       # chrome bug - doesn't seem to actually send the response back....
       #sendResponse response_data
-      if type == 'get_var'
-        console.log 'response is'
-        console.log response
       if sendResponse?
         sendResponse response
       # {requestId} = request

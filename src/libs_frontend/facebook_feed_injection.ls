@@ -103,7 +103,7 @@ export inject_into_feed = (component_generator) ->
       fbname = $('.fbxWelcomeBoxName').text()
       chrome.runtime.send-message {feedlearn: 'missingformat', fburl: fburl, fbname: fbname}
     if format != 'none' #format == 'link' or format == 'interactive'
-      do ->>
+      do !->>
         while true
           updateVisibleIds()
           insertIfMissing()

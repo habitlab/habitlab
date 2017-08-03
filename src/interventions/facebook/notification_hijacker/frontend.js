@@ -1,6 +1,10 @@
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
+set_default_parameters({
+  minutes: 10 // The amount of minutes between notification injections
+})
+
 const $ = require('jquery')
 
 const {

@@ -4,6 +4,10 @@ window.Polymer.dom = 'shadow'
 if (typeof(window.wrap) != 'function')
   window.wrap = null
 
+set_default_parameters({
+  cheatseconds: 30 // Seconds to cheat for after time is up
+})
+
 const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')

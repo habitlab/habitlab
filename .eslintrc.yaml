@@ -30,6 +30,7 @@ globals:
   'Buffer': true
   'dlog': true
   'parameters': true
+  'set_default_parameters': true
 rules:
   'no-console': 'off'
   'no-unused-vars': 'off'

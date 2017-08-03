@@ -1,3 +1,7 @@
+set_default_parameters({
+  seconds: 10 // Seconds that the user must wait before the page loads
+})
+
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 

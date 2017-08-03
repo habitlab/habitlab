@@ -5,6 +5,10 @@ if (typeof(window.wrap) != 'function') {
   window.wrap = null;
 }
 
+set_default_parameters({
+  seconds: 10 // Seconds that the user must wait before the page loads
+})
+
 require('enable-webcomponents-in-content-scripts')
 require('components/netflix-screen.deps')
 const $ = require('jquery')

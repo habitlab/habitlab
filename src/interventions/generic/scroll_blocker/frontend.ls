@@ -1,3 +1,7 @@
+set_default_parameters({
+  scrollevents: 750 # The amount of scroll events until the notification appears again
+})
+
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 

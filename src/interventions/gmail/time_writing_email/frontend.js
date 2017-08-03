@@ -1,3 +1,7 @@
+set_default_parameters({
+  minutes: 1 // The amount of minutes between notifications
+})
+
 const $ = require('jquery')
 
 const {

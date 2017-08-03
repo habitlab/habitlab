@@ -466,9 +466,11 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   if is-positive
     custom_goal_name = "custom/spend_more_time_#{domain}"
     description = "Spend more time on #{domain_printable}"
+    call_to_action = "Go to #{domain_printable}"
   else
     custom_goal_name = "custom/spend_less_time_#{domain}"
     description = "Spend less time on #{domain_printable}"
+    call_to_action = "Close #{domain_printable}"
     generic_interventions = await intervention_utils.list_generic_interventions()
     fix_names_generic = (x) ->
       return x.replace('generic/', "generated_#{domain}/")
@@ -487,6 +489,7 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
     name: custom_goal_name
     custom: true
     description: description
+    call_to_action: call_to_action
     homepage: "http://#{domain}/"
     progress_description: "Time spent on #{domain_printable}"
     sitename: domain

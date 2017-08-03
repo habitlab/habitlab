@@ -39,7 +39,7 @@
 
       <div class="title" style="color: white">Help / FAQ</div>
 
-      <paper-card heading="I am not seeing any interventions on a page" class="paper-card">
+      <paper-card heading="I am not seeing any nudges on a page" class="paper-card">
         <div class="card-content">
           Make sure you have set a goal to reduce time spent on that page. You can set goals on the <a on-click="change_tab" newtab="settings" href="https://habitlab.github.io/to?q=options#settings">settings tab</a>.
         </div>
@@ -47,15 +47,15 @@
 
       <paper-card heading="How do I disable an intervention?" class="paper-card">
         <div class="card-content">
-          To disable an intervention for just one visit, click on the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar when the intervention is active, and check "Disabled".
+          To disable an intervention for just one visit, click on the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar when the nudge is active, and check "Disabled".
           <br><br>
           To disable an intervention for future visits, go to the tab for the site on which the intervention operates (ie, <a on-click="change_tab" newtab="facebook" href="https://habitlab.github.io/to?q=options#facebook">Facebook</a>), and click "Disable"" next to the intervention.
         </div>
       </paper-card>
 
-      <paper-card heading="How do I temporarily disable all interventions?" class="paper-card">
+      <paper-card heading="How do I temporarily disable all nudges?" class="paper-card">
         <div class="card-content">
-          You can disable all interventions for the rest of the day by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, and click "Disable HabitLab Today".
+          You can disable all nudges for the rest of the day by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, and click "Disable HabitLab Today".
           <br><br>
           You can also set HabitLab to only deploy interventions during work hours on the <a on-click="change_tab" newtab="settings" href="https://habitlab.github.io/to?q=options#settings">settings tab</a>.
         </div>
@@ -69,7 +69,7 @@
       </paper-card>
       -->
 
-      <paper-card heading="Why do I see a different intervention on each visit?" class="paper-card">
+      <paper-card heading="Why do I see a different nudge on each visit?" class="paper-card">
         <div class="card-content">
           HabitLab will help you achieve your goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
           <br><br>
@@ -81,9 +81,9 @@
         </div>
       </paper-card>
 
-      <paper-card heading="How does HabitLab choose which interventions to show me?" class="paper-card">
+      <paper-card heading="How does HabitLab choose which nudges to show me?" class="paper-card">
         <div class="card-content">
-          Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
+          Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which nudges to deploy, to minimize your time wasted online.
         </div>
       </paper-card>
 
@@ -93,13 +93,13 @@
         </div>
       </paper-card>
 
-      <paper-card heading="How can I make an intervention always shown when I visit a page?" class="paper-card">
+      <paper-card heading="How can I make an nudge always shown when I visit a page?" class="paper-card">
         <div class="card-content">
           Disable all the other interventions for that site.
         </div>
       </paper-card>
 
-      <paper-card heading="How can I make multiple interventions shown when I visit a page?" class="paper-card">
+      <paper-card heading="How can I make multiple nudges shown when I visit a page?" class="paper-card">
         <div class="card-content">
           Not currently supported. As a workaround, you can use the <a href="https://habitlab.github.io/write" target="_blank">intervention editor</a> to create a new intervention that shows multiple interventions at once.
         </div>

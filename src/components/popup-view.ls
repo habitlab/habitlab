@@ -330,7 +330,7 @@ polymer_ext {
       "Goal Website History Graph" : "graph-time-spent-on-goal-sites-daily",
       "Daily Overview" : "site-goal-view",
       "Donut Graph" : "graph-donut-top-sites",
-      "Interventions Deployed Graph" : "graph-num-times-interventions-deployed",
+      "Nudges Deployed Graph" : "graph-num-times-interventions-deployed",
       "Time Saved Due to HabitLab" : "graph-time-saved-daily"
     }
     self.graphNamesToOptions = graphNamesToOptions
@@ -351,7 +351,7 @@ polymer_ext {
 
     #Graph options shown to user
     graphOptions = ['Goal Website History Graph', 'Daily Overview', 
-                    'Donut Graph', 'Interventions Deployed Graph', 
+                    'Donut Graph', 'Nudges Deployed Graph', 
                     'Time Saved Due to HabitLab']
     self.graphOptions = graphOptions 
 

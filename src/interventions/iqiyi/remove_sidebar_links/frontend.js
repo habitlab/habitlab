@@ -15,6 +15,7 @@ function removeSidebar() {
   if ($('.habitlab_inserted_div').length > 0) {
     return
   }
+}
 
 function clear_div(div){
   for (let child of div.children()) {
@@ -42,7 +43,7 @@ console.log("sidebar removed")
 let inserted_div = $('<sidebar-suggestions-removed>')
 $('#jujiPlayListRight').prepend(inserted_div)
 inserted_div.on('show_sidebar_clicked',disable_intervention)
-}
+
 removeSidebar()
 
 window.on_intervention_disabled = () => {

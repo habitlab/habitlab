@@ -1,5 +1,6 @@
 description: Makes you wait a few seconds before visiting.
-displayname: Wait Screen
+# description: Makes you wait a few seconds [and reminds you of a positive goal] before visiting.
+displayname: GateKeeper
 content_scripts:
   - path: frontend.js
     run_at: document_start

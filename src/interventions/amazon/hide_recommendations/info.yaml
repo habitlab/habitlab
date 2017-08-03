@@ -1,4 +1,5 @@
 description: Hides recommendations
+displayname: No Recs
 matches:
   - www.amazon.com
 content_scripts:

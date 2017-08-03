@@ -1,4 +1,5 @@
 description: Removes comment section
+displayname: No Comment
 matches:
   - www.youtube.com
 content_scripts:

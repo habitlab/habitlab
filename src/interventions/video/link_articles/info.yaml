@@ -1,4 +1,5 @@
 description: Gives you a fact and links an article on the effect of TV
+displayname: Fun Facts
 content_scripts:
   - path: frontend.js
     run_at: document_start

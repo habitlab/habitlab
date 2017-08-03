@@ -1,4 +1,5 @@
-description: Displays Facebook message notifications
+description: Give you facebook messages to remind you to be aware of your usage time
+displayname: Reminder Message
 matches:
   - www.facebook.com
 content_scripts:

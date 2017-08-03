@@ -1,4 +1,5 @@
-description: Pause videos
+description: Pause videos that automatically plays in the facebook feed
+display name: Video Freezer
 matches:
   - www.facebook.com
 content_scripts:

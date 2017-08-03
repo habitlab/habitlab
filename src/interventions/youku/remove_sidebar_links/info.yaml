@@ -1,4 +1,5 @@
 description: Remove sidebar links
+displayname: Sidekicker
 matches:
   - www.youku.com
 content_scripts:

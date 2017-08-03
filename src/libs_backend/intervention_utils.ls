@@ -894,7 +894,6 @@ export get_goals_and_interventions = ->>
 
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'
-goal_progress = require 'libs_backend/goal_progress'
 log_utils = require 'libs_backend/log_utils'
 
 gexport_module 'intervention_utils', -> eval(it)

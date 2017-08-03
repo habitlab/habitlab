@@ -12,6 +12,10 @@ const {
   log_action
 } = require('libs_frontend/intervention_log_utils')
 
+const {
+  close_tab_with_id
+} = require('libs_common/tab_utils')
+
 Polymer({
   is: 'action-dropdown',
   properties: {
@@ -45,35 +49,20 @@ Polymer({
     } else {
       this.defaultCallToAction = goal.call_to_action
     }
-
-    // Set up reward display
-    if (document.querySelectorAll('.habitlab_reward_display').length == 0) {
-      let reward_display = document.createElement('reward-display')
-      reward_display.classList.add('habitlab_reward_display')
-      document.body.appendChild(reward_display)
-    }
   },
-  call_to_action_clicked: function(evt) {
-    // Pass needed parts of the goal info to the rewards display
+  call_to_action_clicked: async function(evt) {
     console.log('call_to_action_clicked called')
     let goal = evt.target.goal
     if (goal.is_positive) {
       log_action({'positive': 'positive goal site call-to-action clicked'})
+      window.location.href = 'https://' + goal.domain
     } else {
-      log_action({'positive': 'close tab clicked'})
-    }
-    for (var reward_display in document.querySelectorAll('.habitlab_reward_display')) {
-      reward_display.no_autoclose = goal.is_positive
-      if (goal.is_positive) {
-        reward_display.url_of_next_page = goal.domain
-      }
-      if (typeof(reward_display.play) == 'function') {
-        console.log('playin')
-        reward_display.play()
-      } else {
-        console.log('not playin')
-      }
-      break
+      log_action({'positive': 'close-tab-button clicked'})
+      close_tab_with_id(get_tab_id())
     }
   }
 })
+
+const {
+  get_tab_id
+} = require('libs_common/intervention_info')

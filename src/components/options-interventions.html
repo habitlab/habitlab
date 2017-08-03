@@ -165,7 +165,7 @@
       <div id="intro1" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
           <div class="card-content" id="intro1_content">
-          HabitLab will help you achieve these goals by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
+          HabitLab will help you achieve these goals by showing you a different <i>nudge</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
           </div>
           <paper-button class="next-button" id="show_intro_button" style="display: none;" on-click="show_intro_button_clicked">Show Explanation</paper-button>
           <paper-button class="next-button" on-click="intro1_read">Next</paper-button>
@@ -176,7 +176,7 @@
         <paper-card heading="Which nudges will HabitLab show me?" class="papercard"> 
           <div class="card-content">
            
-           At first, HabitLab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
+           At first, HabitLab will show you a random nudge each visit, and over time it will learn what works most effectively for you.
            <div style="display: none;" id="how_hl_works">
            <br>Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
            </div>
@@ -224,7 +224,7 @@
 
       <div id="intro3" class="intro" style="display: none;">
         <paper-card heading="When should nudges be active?" class="papercard">
-          <div class="card-content" >You can set interventions to be always on, or only active during work hours.
+          <div class="card-content" >You can set nudges to be always on, or only active during work hours.
             <br>
             <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
               <paper-radio-button name="always" >Always On</paper-radio-button>

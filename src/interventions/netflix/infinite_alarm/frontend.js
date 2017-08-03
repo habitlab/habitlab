@@ -49,33 +49,6 @@ const main = async function() {
     console.log(data)
     interst_screen.remove()
   })
-  /*
-  interst_screen.addClass('interst_screen')
-  var buttonText = 'Continue to ' + intervention.sitename_printable
-
-  interst_screen.attr('btn-txt', buttonText)
-
-  var buttonText2 = 'Close ' + intervention.sitename_printable
-  interst_screen.attr('btn-txt2', buttonText2)
-  var secondsLeft = intervention.params.seconds.value
-  var messageString = 'Loading...';
-  secondsLeft--
-  interst_screen.attr('title-text', messageString)
-  interst_screen[0].hideButton();
-  interst_screen[0].showProgress();
-  interst_screen.attr('intervention', intervention.name)
-  var value_counter = 0;
-
-  var countdown = setInterval(function() {
-    interst_screen[0].incrementProgress();
-    value_counter++;
-    if (value_counter >= 100) {
-      clearInterval(countdown)
-      interst_screen.attr('title-text', intervention.sitename_printable + ' is available, if you really want to visit.')
-      interst_screen[0].showButton();
-    }
-  }, 50)
-  */
 
   $(document.body).append(interst_screen)
 

@@ -1,3 +1,7 @@
+set_default_parameters({
+  minutes: 1 // The amount of minutes between notifications
+})
+
 const $ = require('jquery')
 
 const {
@@ -71,7 +75,7 @@ setInterval(function() {
   if (window.location.href.includes('?compose=new')) {
     ++seconds_spent_composing_email;
     console.log(seconds_spent_composing_email);
-    if (shouldInsert(seconds_spent_composing_email, intervention.params.minutes.value)) {
+    if (shouldInsert(seconds_spent_composing_email, parameters.minutes)) {
       console.log('displaying notification');
       insert_composing_time_notification(seconds_spent_composing_email);
     }
@@ -89,7 +93,7 @@ setInterval(function() {
     }
     ++seconds_spent_composing_email;
     $('.nH.Hd').data('time_open', seconds_spent_composing_email);
-    if (shouldInsert(seconds_spent_composing_email, intervention.params.minutes.value)) {
+    if (shouldInsert(seconds_spent_composing_email, parameters.minutes)) {
       console.log('displaying notification');
       insert_composing_time_notification(seconds_spent_composing_email);
     }

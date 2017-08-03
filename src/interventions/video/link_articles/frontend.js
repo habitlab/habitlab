@@ -5,6 +5,10 @@ if (typeof(window.wrap) != 'function') {
   window.wrap = null;
 }
 
+set_default_parameters({
+  seconds: 10 // Seconds that the user must wait before the page loads
+})
+
 require('enable-webcomponents-in-content-scripts')
 require('components/netflix-screen.deps')
 const $ = require('jquery')
@@ -27,7 +31,7 @@ const main = async function() {
 
   var buttonText2 = 'Close ' + intervention.sitename_printable
   interst_screen.attr('btn-txt2', buttonText2)
-  var secondsLeft = intervention.params.seconds.value
+  var secondsLeft = parameters.seconds
   var messageString = 'Loading...';
   secondsLeft--
   interst_screen.attr('title-text', messageString)

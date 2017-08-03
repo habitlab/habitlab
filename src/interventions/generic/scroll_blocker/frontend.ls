@@ -1,3 +1,7 @@
+set_default_parameters({
+  scrollevents: 750 # The amount of scroll events until the notification appears again
+})
+
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
@@ -22,7 +26,7 @@ require('components/fb-scroll-block-display.deps')
 
 window.scrolling_allowed = true
 nscrolls = 0
-NSCROLLS_THRESHOLD = intervention.params.scrollevents.value
+NSCROLLS_THRESHOLD = parameters.scrollevents
 
 window.onwheel = (evt) ->
   if !window.intervention_disabled

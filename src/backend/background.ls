@@ -455,6 +455,20 @@ do ->>
       else
         content_script_code = await localget(options.path)
       if options.jspm_require
+        content_script_code_prequel = """
+        const intervention = #{JSON.stringify(intervention_info_copy)};
+        const parameters = #{JSON.stringify(parameter_values)};
+        const tab_id = #{tabId};
+        const dlog = function(...args) { console.log(...args); };
+        const set_default_parameters = function(parameter_object) {
+          for (let parameter_name of Object.keys(parameter_object)) {
+            if (parameters[parameter_name] == null) {
+              parameters[parameter_name] = parameter_object[parameter_name];
+            }
+          }
+        };
+
+        """
         content_script_code = """
         window.Polymer = window.Polymer || {}
         window.Polymer.dom = 'shadow'
@@ -463,7 +477,7 @@ do ->>
           intervention_info_setter_lib.set_goal_info(#{JSON.stringify(goal_info)});
           intervention_info_setter_lib.set_positive_goal_info(#{JSON.stringify(positive_goal_info)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
-          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code)))}');
+          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_code)))}');
         })
         """
         /*
@@ -508,8 +522,16 @@ do ->>
       const intervention = #{JSON.stringify(intervention_info_copy)};
       const goal_info = #{JSON.stringify(goal_info)};
       const positive_goal_info = #{JSON.stringify(positive_goal_info)}
+      const parameters = #{JSON.stringify(parameter_values)};
       const tab_id = #{tabId};
       const dlog = function(...args) { console.log(...args); };
+      const set_default_parameters = function(parameter_object) {
+        for (let parameter_name of Object.keys(parameter_object)) {
+          if (parameters[parameter_name] == null) {
+            parameters[parameter_name] = parameter_object[parameter_name];
+          }
+        }
+      };
       window.intervention_disabled = false;
 
       if (!window.SystemJS) {

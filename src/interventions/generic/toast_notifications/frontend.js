@@ -13,6 +13,10 @@ const {
 } = require('libs_common/time_spent_utils')
 
 const {
+  once_body_available
+} = require('libs_frontend/common_libs')
+
+const {
   show_toast
 } = require('libs_frontend/toast_utils')
 
@@ -39,7 +43,6 @@ let show_new_toast = function() {
   });
 }
 
-show_new_toast()
 let show_new_toast_job = setInterval(show_new_toast, 60000)
 
 let update_time = function() {
@@ -54,8 +57,12 @@ let update_time = function() {
   });
 }
 
-update_time()
 let update_time_job = setInterval(update_time, 1000)
+
+once_body_available().then(function() {
+  show_new_toast()
+  update_time()
+})
 
 window.on_intervention_disabled = function() {
   clearInterval(show_new_toast_job)

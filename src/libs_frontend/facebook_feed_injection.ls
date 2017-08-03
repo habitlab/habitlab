@@ -2,6 +2,10 @@ $ = require('jquery')
 require('jquery.isinview')($)
 require('jquery-inview')($)
 
+sleep = (time) ->>
+  return new Promise ->
+    setTimeout(it, time)
+
 export inject_into_feed = (component_generator) ->
   window.numitems = 0
 
@@ -51,7 +55,7 @@ export inject_into_feed = (component_generator) ->
         $feeditem.feedlearninserted = true
         window.numitems += 1
       
-        if window.numitems % 10 == 5
+        if window.numitems % 10 == 1
           if window.feed_injection_active
             insertBeforeItem $($feeditem)
     return
@@ -99,11 +103,11 @@ export inject_into_feed = (component_generator) ->
       fbname = $('.fbxWelcomeBoxName').text()
       chrome.runtime.send-message {feedlearn: 'missingformat', fburl: fburl, fbname: fbname}
     if format != 'none' #format == 'link' or format == 'interactive'
-      setInterval ->
-        updateVisibleIds()
-        insertIfMissing()
-        return
-      , 1500
+      do !->>
+        while true
+          updateVisibleIds()
+          insertIfMissing()
+          await sleep(100)
     $(document).mousemove ->
       window.mostrecentmousemove = Date.now()
       return
@@ -128,4 +132,4 @@ export inject_into_feed = (component_generator) ->
 
 
   loadfirststart()
-  window.firststartprocess = setInterval loadfirststart, 5000
+  window.firststartprocess = setInterval loadfirststart, 100

@@ -4,6 +4,10 @@ window.Polymer.dom = 'shadow'
 if (typeof(window.wrap) != 'function')
   window.wrap = null
 
+set_default_parameters({
+  cheatseconds: 30 // Seconds to cheat for after time is up
+})
+
 const $ = require('jquery')
 
 require('enable-webcomponents-in-content-scripts')
@@ -26,7 +30,7 @@ require('components/timespent-view.deps')
 require('components/habitlab-logo.deps')
 
 const {
-  once_document_available,
+  once_body_available,
   create_shadow_div_on_body
 } = require('libs_frontend/common_libs')
 
@@ -47,6 +51,7 @@ var shadow_div;
   //  return
   //}
 
+  await once_body_available()
   shadow_div = create_shadow_div_on_body();
   shadow_root = shadow_div.shadow_root;
   shadow_div = $(shadow_div);
@@ -161,11 +166,11 @@ var shadow_div;
 
     //Cheat button
     const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')
-    $cheatButton.text("Cheat for " + intervention.params.cheatseconds.value + " Seconds")
+    $cheatButton.text("Cheat for " + parameters.cheatseconds + " Seconds")
     $cheatButton.css({'cursor': 'pointer', 'padding': '5px'});
     $cheatButton.click(() => {
       $dialogBox.remove()
-      cheat(intervention.params.cheatseconds.value)
+      cheat(parameters.cheatseconds)
     })
 
     $contentContainer.append($cheatButton);
@@ -180,12 +185,12 @@ var shadow_div;
   }
 
   function cheatCountdown() {
-    const timeCheatingUp = parseInt(intervention.params.cheatseconds.value) + parseInt(localStorage.cheatStart)
+    const timeCheatingUp = parseInt(parameters.cheatseconds) + parseInt(localStorage.cheatStart)
 
     var cheatTimer = setInterval(() => {
       getTimeSpent((timeSpent) => {
         console.log("Cheat start: " + localStorage.cheatStart)
-        console.log("Cheat Seconds Allowed: " + intervention.params.cheatseconds.value)
+        console.log("Cheat Seconds Allowed: " + parameters.cheatseconds)
         console.log("Time Cheating Up: " + timeCheatingUp)
         console.log("Time Spent: " + timeSpent)
         if (timeSpent > timeCheatingUp) {
@@ -231,7 +236,7 @@ var shadow_div;
     addBeginDialog("How many minutes would you like to spend on " + intervention.sitename_printable + " this visit?");
   }
 
-  once_document_available(main);
+  once_body_available(main);
 
 })()
 

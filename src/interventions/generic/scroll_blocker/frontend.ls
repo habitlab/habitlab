@@ -1,3 +1,7 @@
+set_default_parameters({
+  scrollevents: 750 # The amount of scroll events until the notification appears again
+})
+
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
@@ -10,6 +14,7 @@ if (typeof(window.wrap) != 'function')
 
 {
   append_to_body_shadow
+  once_body_available
 } = require 'libs_frontend/common_libs'
 
 $ = require 'jquery'
@@ -21,7 +26,7 @@ require('components/fb-scroll-block-display.deps')
 
 window.scrolling_allowed = true
 nscrolls = 0
-NSCROLLS_THRESHOLD = intervention.params.scrollevents.value
+NSCROLLS_THRESHOLD = parameters.scrollevents
 
 window.onwheel = (evt) ->
   if !window.intervention_disabled
@@ -54,7 +59,9 @@ block_arrows = (e) ->
     return false
 
 scroll_block_display = $('<fb-scroll-block-display intervention="facebook/scroll_blocker" --width="10px" --height="10px" onclick="this.clicked()">')
-shadow_div = append_to_body_shadow(scroll_block_display)
+shadow_div = null
+once_body_available ->
+  shadow_div = append_to_body_shadow(scroll_block_display)
 
 enable_scrolling_and_hide_scroll_block!
 disable_scrolling_and_show_scroll_block!

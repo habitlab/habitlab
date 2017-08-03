@@ -4,12 +4,17 @@ window.Polymer.dom = 'shadow'
 if (typeof(window.wrap) != 'function')
   window.wrap = null
 
+set_default_parameters({
+  seconds: 5 // Seconds that the user must wait before the page loads
+})
+
 require('enable-webcomponents-in-content-scripts')
 require('components/interstitial-screen.deps')
 const $ = require('jquery')
 
 const {
-  append_to_body_shadow
+  append_to_body_shadow,
+  once_body_available
 } = require('libs_frontend/common_libs')
 
 const {
@@ -32,9 +37,7 @@ var shadow_div;
 
   var buttonText2 = 'Close ' + intervention.sitename_printable
   interst_screen.attr('btn-txt2', buttonText2)
-  var secondsLeft = intervention.params.seconds.value
   var messageString = 'Loading...';
-  secondsLeft--
   interst_screen.attr('title-text', messageString)
   interst_screen[0].hideButton();
   interst_screen[0].showProgress();
@@ -43,8 +46,8 @@ var shadow_div;
   var start_time = Date.now()
 
   var countdown = setInterval(function() {
-    var milliseconds_elapsed = Date.now() - start_time
-    var progress_value = milliseconds_elapsed / 50
+    var seconds_elapsed = (Date.now() - start_time) / 1000
+    var progress_value = (seconds_elapsed / parameters.seconds) * 100
     // after 5 seconds, aka 50k milliseconds, will exceed 100
     interst_screen[0].setProgress(progress_value)
     if (progress_value >= 100) {
@@ -54,7 +57,9 @@ var shadow_div;
     }
   }, 50)
 
-  shadow_div = append_to_body_shadow(interst_screen)
+  once_body_available().then(function() {
+    shadow_div = append_to_body_shadow(interst_screen);
+  })
 
 })()
 

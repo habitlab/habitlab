@@ -1,6 +1,10 @@
 window.Polymer = window.Polymer || {}
 window.Polymer.dom = 'shadow'
 
+set_default_parameters({
+  minutes: 10 // The amount of minutes between notification injections
+})
+
 const $ = require('jquery')
 
 const {
@@ -139,7 +143,7 @@ function insertClickNotification() {
 }
 
 function main() {
-  if (decideToInject(intervention.params.minutes.value)) { //Injects notifications every x minutes
+  if (decideToInject(parameters.minutes)) { //Injects notifications every x minutes
       begin()
   } else {
     console.log("Notification not injected")

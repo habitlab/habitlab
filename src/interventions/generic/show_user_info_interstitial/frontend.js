@@ -14,7 +14,8 @@ const {
 } = require('libs_common/time_spent_utils')
 
 const {
-  append_to_body_shadow
+  append_to_body_shadow,
+  once_body_available
 } = require('libs_frontend/common_libs')
 
 const {
@@ -46,7 +47,9 @@ var shadow_div;
   interst_screen.attr('visits', numVisits);
   interst_screen.attr('seconds', 0);
 
-  shadow_div = append_to_body_shadow(interst_screen);
+  once_body_available().then(function() {
+    shadow_div = append_to_body_shadow(interst_screen);
+  })
 })()
 
 window.on_intervention_disabled = () => {

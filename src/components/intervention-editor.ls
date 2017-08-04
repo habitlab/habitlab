@@ -87,15 +87,6 @@ polymer_ext {
       value:0
     }
   }
-
-  have_unsaved_changes: ->
-    window.onbeforeunload = ->
-      return 'are you sure you want to exit?'
-  no_unsaved_changes: ->
-    window.onbeforeunload = null
-  js_editor_changed: ->>
-    self = this
-    self.have_unsaved_changes()
   get_intervention_name: ->
     if this.opened_intervention_list?
       return this.opened_intervention_list[this.selected_tab_idx]
@@ -135,7 +126,8 @@ polymer_ext {
       return false
     self.intervention_info = new_intervention_info
     await add_new_intervention(new_intervention_info)
-    this.no_unsaved_changes()
+    localStorage['saved_intervention_' + intervention_name] = new_intervention_info.code
+    #this.no_unsaved_changes()
     return true
   delete_current_intervention: ->>
     intervention_name = this.get_intervention_name()
@@ -212,6 +204,26 @@ polymer_ext {
     self=this
     if not this.opened_intervention_list.includes intervention_name
       this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
+      localStorage['saved_interventions_' + intervention_name] = this.intervention_info.code
+      autosaved_code = localStorage['autosaved_intervention_' + intervention_name]
+      if autosaved_code? and (autosaved_code != intervention_info.code)
+        try
+          await swal({
+            title: 'Restore autosaved version?',
+            text: 'You closed '+localStorage['last_opened_intervention']+' without saving it. Do you want to restore the autosaved version?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'No'
+            confirmButtonText: 'Restore'
+          })
+          intervention_info.code = autosaved_code
+          localStorage['saved_intervention_' + intervention_name] = autosaved_code
+          delete localStorage['autosaved_intervention_' + intervention_name]
+          await add_new_intervention(intervention_info)
+        catch
+          delete localStorage['autosaved_intervention_' + intervention_name]
       this.opened_intervention_list.push intervention_name
       new_opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
       this.set('opened_intervention_list', [])
@@ -352,17 +364,15 @@ polymer_ext {
         return
       brace = await SystemJS.import('brace')
       await SystemJS.import('brace/mode/javascript')
-      # await SystemJS.import('brace/theme/monokai')
       self.js_editors[intervention_name] = js_editor = brace.edit(editor_div)
       js_editor.getSession().setMode('ace/mode/javascript')
       js_editor.getSession().setTabSize(2)
       js_editor.getSession().setUseSoftTabs(true)
+      # await SystemJS.import('brace/theme/monokai')
       # js_editor.setTheme('ace/theme/monokai')
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
       js_editor.setValue(intervention_info.code)
-      js_editor.on 'change', ->
-        self.js_editor_changed()
   opened_intervention_list_changed: ->>
     self = this
     while true
@@ -380,8 +390,6 @@ polymer_ext {
         await sleep(100)
   ready: ->>
     self = this
-    brace = await SystemJS.import('brace')
-    await SystemJS.import('brace/mode/javascript')
     all_goals = await get_goals()    
     #enabled_goals = as_array(await get_enabled_goals())
     #self.goal_info_list = [all_goals[x] for x in enabled_goals]
@@ -389,9 +397,6 @@ polymer_ext {
     self.goal_info_list = [all_goals[x] for x in goals_list]
     await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     await self.refresh_intervention_list()
-    setTimeout ->
-      self.no_unsaved_changes()
-    , 500
     self.once_available_multiselect '.javascript_editor_div', (editor_divs) ->
       for editor_div in editor_divs
         self.make_javascript_editor(editor_div)
@@ -410,6 +415,19 @@ polymer_ext {
       open_template_name=JSON.parse open_template_name
       localStorage.removeItem('intervention_editor_open_template_name')
       self.display_template_by_name(open_template_name)
+    if localStorage['last_opened_intervention']? and self.opened_intervention_list.length==0
+      self.display_intervention_by_name(localStorage['last_opened_intervention'])
+    window.onbeforeunload = ->
+      have_modifed_interventions = false
+      for intervention_name,js_editor of self.js_editors
+        intervention_text = js_editor.getSession().getValue().trim()
+        localStorage['autosaved_intervention_' + intervention_name] = intervention_text
+        if intervention_text != localStorage['saved_intervention_' + intervention_name]
+          have_modifed_interventions = true
+      localStorage['last_opened_intervention'] = self.get_intervention_name()
+      if have_modifed_interventions
+        return true
+      return
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

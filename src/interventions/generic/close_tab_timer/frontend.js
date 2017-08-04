@@ -25,7 +25,7 @@ require('bower_components/paper-button/paper-button.deps')
 var display_timespent_div = $('<time-until-tab-autoclose-view>');
 var shadow_div;
 once_body_available().then(function() {
-  append_to_body_shadow(display_timespent_div);
+  shadow_div = append_to_body_shadow(display_timespent_div);
 })
 
 /*

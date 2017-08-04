@@ -30,7 +30,7 @@ polymer_ext({
   properties: {
     intervention: {
       type: String,
-      value: '',
+      value: get_intervention().name,
     },
     minutes: {
       type: Number,
@@ -57,6 +57,7 @@ polymer_ext({
   },
   */
   continue_scrolling: function(event) {
+    console.log('continue_scrolling called')
     this.fire('continue_scrolling', {})
   },
   ready: function() {

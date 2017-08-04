@@ -19,7 +19,7 @@ let scroll_block_display = $('<show-timer-banner>');
 let shadow_div;
 
 once_body_available().then(function() {
-  append_to_body_shadow(scroll_block_display);
+  shadow_div = append_to_body_shadow(scroll_block_display);
 })
 
 window.on_intervention_disabled = function() {

@@ -84,7 +84,7 @@ polymer_ext {
       'dashboard': 0
       'overview': 0
       'goals': 1
-      'interventions': 1
+      'nudges': 1
       'configure': 1
       'config': 1
       'manage': 1

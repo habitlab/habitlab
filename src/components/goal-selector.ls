@@ -118,7 +118,7 @@ polymer_ext {
   daily_goal_help_clicked: ->
     swal {
       title: 'How are Daily Goals used?'
-      text: 'Your daily goal is used only to display your progress. If you exceed your daily goal, HabitLab will continue to show interventions as usual (it will not block the site).'
+      text: 'Your daily goal is used only to display your progress. If you exceed your daily goal, HabitLab will continue to show nudges as usual (it will not block the site).'
     }
   settings_goal_clicked: (evt) ->
     evt.preventDefault()

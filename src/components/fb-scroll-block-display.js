@@ -28,10 +28,6 @@ const {
 polymer_ext({
   is: 'fb-scroll-block-display',
   properties: {
-    intervention: {
-      type: String,
-      value: get_intervention().name,
-    },
     minutes: {
       type: Number,
     },
@@ -57,7 +53,6 @@ polymer_ext({
   },
   */
   continue_scrolling: function(event) {
-    console.log('continue_scrolling called')
     this.fire('continue_scrolling', {})
   },
   ready: function() {

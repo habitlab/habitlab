@@ -22,7 +22,7 @@ polymer_ext {
   ready: ->>
     self = this
     
-    #MARK: Num Times Interventions Deployed Graph
+    #MARK: Num Times Nudges Deployed Graph
     #Retrieves all interventions    
     seenInterventions = await get_interventions_seen_today()
 

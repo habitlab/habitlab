@@ -153,6 +153,8 @@ polymer_ext {
     catch
       return
     this.delete_current_intervention()
+    if this.opened_intervention_list.length>0
+      this.selected_tab_idx=this.opened_intervention_list.length-1
   add_new_intervention_clicked: ->
     self = this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
@@ -232,6 +234,7 @@ polymer_ext {
         self.js_editors[intervention_name]?
       , ->
         self.js_editors[intervention_name].setValue(intervention_info.code)
+      this.selected_tab_idx=this.opened_intervention_list.length-1
   display_intervention: (intervention_data) ->
     intervention_name = intervention_data.intervention_name
     this.display_intervention_by_name(intervention_name)
@@ -281,9 +284,7 @@ polymer_ext {
     https://habitlab.github.io/devdocs
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
     https://habitlab.github.io/devdocs?q=require_package
-    */
-
-    """
+    */"""+'\n'
     intervention_info={
       name: new_intervention_name
       description: new_intervention_data.intervention_description
@@ -317,6 +318,7 @@ polymer_ext {
     this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
     this.once_available '#editor_' + new_intervention_name, (result) ->
       self.make_javascript_editor(result)
+    this.selected_tab_idx=this.opened_intervention_list.length-1
   refresh_intervention_list: ->>
     this.intervention_list = await list_custom_interventions()
   preview_intervention: ->>
@@ -415,7 +417,7 @@ polymer_ext {
       open_template_name=JSON.parse open_template_name
       localStorage.removeItem('intervention_editor_open_template_name')
       self.display_template_by_name(open_template_name)
-    if localStorage['last_opened_intervention']? and self.opened_intervention_list.length==0
+    if (not new_intervention_info?) and (not open_intervention_name?) and (not open_template_name?) and localStorage['last_opened_intervention']? and self.opened_intervention_list.length==0
       self.display_intervention_by_name(localStorage['last_opened_intervention'])
     window.onbeforeunload = ->
       have_modifed_interventions = false

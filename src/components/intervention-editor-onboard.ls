@@ -38,7 +38,7 @@ polymer_ext {
       localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail))
   ready: ->>
     all_interventions=await get_interventions()
-    templates_list=['generic/make_user_wait',"generic/toast_notifications","iqiyi/prompt_before_watch","iqiyi/remove_sidebar_links"]
+    templates_list=['generic/make_user_wait',"generic/toast_notifications","iqiyi/prompt_before_watch","iqiyi/remove_sidebar_links","netflix/infinite_alarm","netflix/link_articles","facebook/remove_news_feed","facebook/rich_notifications"]
     this.templates_info_list=[all_interventions[x] for x in templates_list]
     this.custom_intervention_list=await list_custom_interventions()
 }, {

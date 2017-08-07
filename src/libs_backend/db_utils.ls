@@ -90,7 +90,7 @@ export is_collection_synced = (collection_name) ->
 local_cache_db = null
 
 export getDb = ->>
-  if local_cache_db?
+  if local_cache_db? and local_cache_db.isOpen()
     return local_cache_db
   await delete_db_if_outdated_db()
   db = new dexie('habitlab', {autoOpen: false})

@@ -366,7 +366,14 @@ polymer_ext {
         return
       brace = await SystemJS.import('brace')
       await SystemJS.import('brace/mode/javascript')
+      await SystemJS.import('brace/ext/language_tools')
+      brace.acequire('ace/ext/language_tools')
       self.js_editors[intervention_name] = js_editor = brace.edit(editor_div)
+      js_editor.setOptions({
+        enableBasicAutocompletion: true
+        enableSnippets: true
+        enableLiveAutocompletion: true
+      });
       js_editor.getSession().setMode('ace/mode/javascript')
       js_editor.getSession().setTabSize(2)
       js_editor.getSession().setUseSoftTabs(true)

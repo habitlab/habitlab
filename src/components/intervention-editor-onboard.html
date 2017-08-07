@@ -76,9 +76,11 @@
     }
     .template_tab{
       overflow:hidden;
-      width: 300px;
+      width: 200px;
       padding: 15px;
       display:inline-block;
+      height: 250px;
+
     }
     .screenshot{
       cursor:pointer;
@@ -86,9 +88,9 @@
     }
     .template_name{
       margin-top:15px;
-      text-align: center;
       font-family: "Helvetica";
       font-size:24px;  
+      margin-left: 10px;
     }
     .screenshot:hover{
       transform: scale(1.5);
@@ -119,7 +121,8 @@
 
           <template is="dom-repeat" items="{{templates_info_list}}" as="template_name">
             <div class="template_tab">
-              <img class="screenshot" on-click="open_template" src="screenshots/{{template_name.name}}.png" alt="{{template_name.description}}" style="width:300px; height:180px;">            
+              <!--<img class="screenshot" on-click="open_template" src="screenshots/{{template_name.name}}.png" alt="{{template_name.description}}" style="width:300px; height:180px;">-->
+              <img class="intervention_tab" on-click="open_template" src="interventions/{{template_name.name}}/icon.svg" alt="{{template_name.description}}">
               <div class="template_name">
                 {{template_name.displayname}}
               </div>

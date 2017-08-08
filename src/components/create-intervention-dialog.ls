@@ -3,6 +3,10 @@
   get_intervention_info
 } = require 'libs_backend/intervention_utils'
 
+{
+  get_goal_info
+} = require 'libs_backend/goal_utils'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 polymer_ext {
@@ -30,7 +34,11 @@ polymer_ext {
     this.$.goal_selector.selected = goal_names_list.indexOf(goal_name)    
     this.$.intervention_description.value=intervention_info.description
     this.$.intervention_name.value=intervention_info.name
-    this.$.preview_url.value=intervention_info.preview
+    preview_url = intervention_info.preview
+    if not preview_url?
+      goal_info = await get_goal_info(intervention_info.goals[0])
+      preview_url = goal_info.preview ? ('https://' + goal_info.domain + '/')
+    this.$.preview_url.value=preview_url
     this.$.dialog_button.innerHTML='MODIFY'
     this.$$('#create_new_intervention_dialog').open()
   validate_intervention_name: ->>

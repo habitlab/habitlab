@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
 <dom-module id="intervention-editor-onboard">
   <style>
@@ -96,7 +97,6 @@
     /* .screenshot:hover{
       transform: scale(1.5);
     } */
-
   </style>
 
   <template>
@@ -124,6 +124,7 @@
             <div class="template_tab">
               <!--<img class="screenshot" on-click="open_template" src="screenshots/{{template_name.name}}.png" alt="{{template_name.description}}" style="width:300px; height:180px;">-->
               <img class="intervention_tab" on-click="open_template" src="interventions/{{template_name.name}}/icon.svg" alt="{{template_name.description}}">
+              <paper-tooltip position="top" offset="-10">{{template_name.description}}</paper-tooltip>
               <div class="template_name">
                 {{template_name.displayname}}
               </div>

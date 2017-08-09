@@ -3,7 +3,7 @@ window.Polymer.dom = 'shadow'
 
 {
   inject_into_feed
-} = require 'libs_frontend/facebook_feed_injection'
+} = require 'libs_frontend/facebook_utils'
 
 {
   wrap_in_shadow

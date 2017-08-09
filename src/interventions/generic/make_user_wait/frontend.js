@@ -24,11 +24,6 @@ const {
 var shadow_div;
 
 (async function() {
-  //const on_same_domain_and_same_tab = await is_on_same_domain_and_same_tab(tab_id)
-  //if (on_same_domain_and_same_tab) {
-  //  return
-  //}
-
   var interst_screen = $('<interstitial-screen>')
   interst_screen.addClass('interst_screen')
   var buttonText = 'Continue to ' + intervention.sitename_printable

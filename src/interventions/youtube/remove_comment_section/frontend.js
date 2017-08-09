@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery')
 
 const {
@@ -57,7 +54,6 @@ on_url_change(() => {
   hide_comments_once_available()
 })
 
-require('enable-webcomponents-in-content-scripts')
 require('bower_components/paper-button/paper-button.deps')
 require('components/habitlab-logo.deps')
 
@@ -88,5 +84,3 @@ window.on_intervention_disabled = () => {
     - remember, that polymer component is then required into the dashboard
     - visual studio code
 */
-
-window.debugeval = x => eval(x);

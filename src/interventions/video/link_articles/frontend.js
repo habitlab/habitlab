@@ -1,15 +1,7 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function') {
-  window.wrap = null;
-}
-
 set_default_parameters({
   seconds: 10 // Seconds that the user must wait before the page loads
 })
 
-require('enable-webcomponents-in-content-scripts')
 require('components/netflix-screen.deps')
 const $ = require('jquery')
 
@@ -59,5 +51,3 @@ main();
 window.on_intervention_disabled = () => {
   $('.interst_screen').remove();
 }
-
-window.debugeval = x => eval(x);

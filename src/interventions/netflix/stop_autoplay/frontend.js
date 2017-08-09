@@ -1,10 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
-require('enable-webcomponents-in-content-scripts')
 require('components/netflix-stop-autoplay.deps')
 const $ = require('jquery')
 
@@ -100,5 +93,3 @@ window.on_intervention_disabled = () => {
   }
   document.querySelector('video').play()
 }
-
-window.debugeval = x => eval(x);

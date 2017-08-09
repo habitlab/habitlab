@@ -1,4 +1,3 @@
-require('enable-webcomponents-in-content-scripts')
 //require('components/netflix-mute-sound.deps')
 const $ = require('jquery')
 

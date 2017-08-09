@@ -1,11 +1,7 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 if (typeof(window.wrap) != 'function') {
   window.wrap = null;
 }
 
-require('enable-webcomponents-in-content-scripts')
 require('components/netflix-alarm-screen.deps')
 require('components/netflix-alarm-snooze-display.deps')
 const $ = require('jquery')
@@ -61,5 +57,3 @@ window.on_intervention_disabled = () => {
   $('netflix-alarm-snooze-display').remove()
   $('netflix-alarm-screen').remove()
 }
-
-window.debugeval = x => eval(x);

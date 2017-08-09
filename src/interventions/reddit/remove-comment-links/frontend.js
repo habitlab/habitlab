@@ -32,5 +32,3 @@ const main = async function() {
 }
 
 main();
-
-window.debugeval = x => eval(x);

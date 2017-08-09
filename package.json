@@ -16,6 +16,7 @@
     "js-yaml": "^3.6.1",
     "jspm": "0.17.0-beta.34",
     "levn": "^0.3.0",
+    "list_requires_multi": "^1.0.1",
     "livereload": "^0.6.0",
     "livescript-async": "^1.5.2",
     "livescript-async-loader": "^0.1.7",

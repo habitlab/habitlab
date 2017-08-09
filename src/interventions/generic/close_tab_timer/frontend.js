@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {};
-window.Polymer.dom = 'shadow';
-
 if (typeof(window.wrap) != 'function')
   window.wrap = null
 
@@ -15,7 +12,6 @@ const {
   once_body_available
 } = require('libs_frontend/common_libs')
 
-require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/time-until-tab-autoclose-view.deps')
 
@@ -56,5 +52,3 @@ var countdownTimer = setInterval(() => {
 window.on_intervention_disabled = () => {
   $(shadow_div).remove()
 }
-
-window.debugeval = x => eval(x);

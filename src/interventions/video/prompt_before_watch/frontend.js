@@ -1,16 +1,9 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
 const $ = require('jquery');
 
 const {
   once_available
 } = require('libs_frontend/common_libs')
 
-require('enable-webcomponents-in-content-scripts')
 require('components/video-overlay.deps')
 
 function pause_video() {
@@ -103,5 +96,3 @@ function check_video_size_position() {
 window.addEventListener('resize', function(evt){
   check_video_size_position()
 })
-
-window.debugeval = x => eval(x);

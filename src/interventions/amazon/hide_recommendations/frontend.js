@@ -1,13 +1,9 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const {
   wrap_in_shadow
 } = require('libs_frontend/common_libs')
 
 var $ = require('jquery');
 
-require('enable-webcomponents-in-content-scripts');
 require('bower_components/paper-button/paper-button.deps');
 require('components/habitlab-logo.deps')
 
@@ -65,6 +61,4 @@ attachButtons();
 window.on_intervention_disabled = () => {
   showRec();
 }
-
-window.debugeval = x => eval(x);
 

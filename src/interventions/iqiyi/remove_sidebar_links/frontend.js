@@ -1,11 +1,7 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery');
 
 const {wrap_in_shadow} = require('libs_frontend/common_libs');
 
-require('enable-webcomponents-in-content-scripts')
 require('components/sidebar-suggestions-removed.deps')
 
 function removeSidebar() {
@@ -49,5 +45,3 @@ removeSidebar()
 window.on_intervention_disabled = () => {
   disable_intervention()
 }
-
-window.debugeval = x => eval(x);

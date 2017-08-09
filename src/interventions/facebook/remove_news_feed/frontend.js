@@ -1,8 +1,5 @@
 //alert('loaded at ' + Date.now())
 
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery')
 
 const selectorsToHide = '.ticker_stream, .ego_column, #pagelet_games_rhc, #pagelet_trending_tags_and_topics, #pagelet_canvas_nav_content';
@@ -37,7 +34,6 @@ const {
   msg
 } = require('libs_common/localization_utils')
 
-require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')
 
@@ -106,5 +102,3 @@ attachButtons();
 window.on_intervention_disabled = () => {
   showFeed();
 }
-
-window.debugeval = x => eval(x);

@@ -47,5 +47,3 @@ pauseAll();
 window.on_intervention_disabled = () => {
   stopPauseAll();
 }
-
-window.debugeval = x => eval(x);

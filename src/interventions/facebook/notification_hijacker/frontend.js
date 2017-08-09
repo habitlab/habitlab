@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 set_default_parameters({
   minutes: 10 // The amount of minutes between notification injections
 })
@@ -16,7 +13,6 @@ const {
   close_selected_tab
 } = require('libs_common/tab_utils')
 
-require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/reward-display.deps')
 
@@ -156,5 +152,3 @@ setTimeout(begin, 3000);
 window.on_intervention_disabled = () => {
   $('.habitlab_inserted').remove()
 }
-
-window.debugeval = x => eval(x);

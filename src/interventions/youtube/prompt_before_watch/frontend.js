@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery')
 
 const {close_selected_tab} = require('libs_frontend/tab_utils')
@@ -23,7 +20,6 @@ const {
   log_action,
 } = require('libs_frontend/intervention_log_utils')
 
-require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')
 require('bower_components/paper-button/paper-button.deps')
@@ -377,5 +373,3 @@ window.addEventListener('resize', function(evt) {
 window.on_intervention_disabled = () => {
   removeDivAndPlay()
 }
-
-window.debugeval = x => eval(x);

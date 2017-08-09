@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 if (typeof(window.wrap) != 'function')
   window.wrap = null
 
@@ -9,8 +6,6 @@ set_default_parameters({
 })
 
 const $ = require('jquery')
-
-require('enable-webcomponents-in-content-scripts')
 
 /*
 window.Polymer = {
@@ -243,5 +238,3 @@ var shadow_div;
 window.on_intervention_disabled = () => {
   shadow_div.remove()
 }
-
-window.debugeval = x => eval(x);

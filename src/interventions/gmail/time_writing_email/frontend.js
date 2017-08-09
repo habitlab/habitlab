@@ -113,5 +113,3 @@ function main() {
 }
 
 //$(document).ready(main);
-
-window.debugeval = x => eval(x);

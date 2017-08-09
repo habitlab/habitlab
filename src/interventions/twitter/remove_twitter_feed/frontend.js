@@ -5,7 +5,6 @@ const {
   once_available,
 } = require('libs_frontend/common_libs')
 
-require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 
 //Polymer button
@@ -46,5 +45,3 @@ $('.content-main.top-timeline-tweetbox').append(container)
 window.on_intervention_disabled = () => {
   showFeed()
 }
-
-window.debugeval = x => eval(x);

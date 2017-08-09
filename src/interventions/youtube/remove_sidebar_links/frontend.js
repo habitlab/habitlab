@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const {
   once_available_fast,
   on_url_change,
@@ -61,7 +58,6 @@ on_url_change(() => {
   removeSidebarOnceAvailable()
 })
 
-require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('bower_components/paper-button/paper-button.deps')
 
@@ -86,5 +82,3 @@ window.on_intervention_disabled = () => {
     }
 }, true);
 */
-
-window.debugeval = x => eval(x);

@@ -2,9 +2,6 @@ set_default_parameters({
   scrollevents: 750 # The amount of scroll events until the notification appears again
 })
 
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 if (typeof(window.wrap) != 'function')
   window.wrap = null
 
@@ -19,8 +16,6 @@ if (typeof(window.wrap) != 'function')
 
 $ = require 'jquery'
 
-
-require('enable-webcomponents-in-content-scripts')
 #require('components_skate/fb-scroll-block-display')
 require('components/fb-scroll-block-display.deps')
 
@@ -74,5 +69,3 @@ once_body_available ->
 window.on_intervention_disabled = ->
   enable_scrolling_and_hide_scroll_block()
   $(shadow_div).remove()
-
-window.debugeval = -> eval(it)

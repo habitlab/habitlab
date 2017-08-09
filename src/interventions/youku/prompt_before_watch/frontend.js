@@ -1,9 +1,5 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 var $ = require('jquery');
 
-require('enable-webcomponents-in-content-scripts')
 require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')
 require('components/video-overlay.deps')
@@ -73,6 +69,3 @@ window.on_intervention_disabled = () => {
   play_video_clicked = true;
   resumeVideo();
 }
-
-window.debugeval = x => eval(x);
-

@@ -1,11 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
-require('enable-webcomponents-in-content-scripts')
-
 const $ = require('jquery')
 require('components/interstitial-screen-num-visits.deps')
 const {
@@ -55,5 +47,3 @@ var shadow_div;
 window.on_intervention_disabled = () => {
   $(shadow_div).remove();
 }
-
-window.debugeval = x => eval(x);

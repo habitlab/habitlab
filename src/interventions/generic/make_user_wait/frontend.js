@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 if (typeof(window.wrap) != 'function')
   window.wrap = null
 
@@ -8,7 +5,6 @@ set_default_parameters({
   seconds: 5 // Seconds that the user must wait before the page loads
 })
 
-require('enable-webcomponents-in-content-scripts')
 require('components/interstitial-screen.deps')
 const $ = require('jquery')
 
@@ -61,5 +57,3 @@ var shadow_div;
 window.on_intervention_disabled = () => {
   $(shadow_div).remove();
 }
-
-window.debugeval = x => eval(x);

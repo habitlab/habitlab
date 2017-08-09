@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-=======
-//alert('loaded at ' + Date.now())
->>>>>>> b3fb3c840b8eb1c0705d4c156b169bffe64f310a
-
 const $ = require('jquery')
 
 const selectorsToHide = '.ticker_stream, .ego_column, #pagelet_games_rhc, #pagelet_trending_tags_and_topics, #pagelet_canvas_nav_content';
@@ -25,14 +18,10 @@ const {
   msg
 } = require('libs_common/localization_utils')
 
-<<<<<<< HEAD
 const {
   get_news_feed
 }  = require('libs_frontend/facebook_utils')
 
-require('enable-webcomponents-in-content-scripts')
-=======
->>>>>>> b3fb3c840b8eb1c0705d4c156b169bffe64f310a
 require('components/habitlab-logo.deps')
 require('components/close-tab-button.deps')
 require('bower_components/paper-button/paper-button.deps')

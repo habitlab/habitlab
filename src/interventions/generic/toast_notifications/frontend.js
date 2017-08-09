@@ -41,7 +41,7 @@ let show_new_toast = function() {
   });
 }
 
-//let show_new_toast_job = setInterval(show_new_toast, 60000)
+let show_new_toast_job = setInterval(show_new_toast, 60000)
 
 let update_time = function() {
   if (window.intervention_disabled) {

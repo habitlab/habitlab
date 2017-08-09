@@ -10,7 +10,7 @@ sleep = (time) ->>
  * Inject an HTMLElement into facebook news feeds
  * @return {jQuery object} facebook's news feeds
  */
-export get_news_feeds = ->
+export get_news_feed = ->
   return $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]')
 
 /**
@@ -26,8 +26,6 @@ export inject_into_feed = (component_generator) ->
   window.all_shown_times = {} # id -> Date.now()
   window.itemsseen = 0
   window.feed_injection_active = true
-
-  
 
   randstr = ->
     chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz'

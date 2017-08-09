@@ -13,7 +13,14 @@ function show_toast(options) {
   }
   let $toast = $('<paper-toast>')
   $toast.css({
-    'z-index': Number.MAX_SAFE_INTEGER
+    'z-index': Number.MAX_SAFE_INTEGER,
+    'margin': '12px',
+    'padding': '16px 24px',
+    'box-sizing': 'content-box',
+    'font-family': '"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
+    'font-size': '14px',
+    'line-height': 1,
+    'opacity': 1,
   })
   $toast.attr('text', options.text)
   $toast.attr('vertical-align', 'top')

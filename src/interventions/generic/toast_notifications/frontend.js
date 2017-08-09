@@ -36,12 +36,12 @@ let show_new_toast = function() {
     let duration = printable_time_spent_long(seconds_spent)
     current_toast = show_toast({
       text: `You've been on ${sitename_printable} for ${duration} today`,
-      duration: 5000
+      duration: 0
     })
   });
 }
 
-let show_new_toast_job = setInterval(show_new_toast, 60000)
+//let show_new_toast_job = setInterval(show_new_toast, 60000)
 
 let update_time = function() {
   if (window.intervention_disabled) {

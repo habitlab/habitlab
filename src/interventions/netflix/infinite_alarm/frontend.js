@@ -1,7 +1,3 @@
-if (typeof(window.wrap) != 'function') {
-  window.wrap = null;
-}
-
 require('components/netflix-alarm-screen.deps')
 require('components/netflix-alarm-snooze-display.deps')
 const $ = require('jquery')

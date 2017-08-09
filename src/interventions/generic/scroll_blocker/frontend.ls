@@ -2,9 +2,6 @@ set_default_parameters({
   scrollevents: 750 # The amount of scroll events until the notification appears again
 })
 
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
 {
   log_action
 } = require 'libs_frontend/intervention_log_utils'

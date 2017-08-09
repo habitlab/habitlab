@@ -1,6 +1,3 @@
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
 set_default_parameters({
   seconds: 5 // Seconds that the user must wait before the page loads
 })

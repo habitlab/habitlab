@@ -75,7 +75,7 @@ compile = (code) ->>
   code_with_async_wrapper = """
   (async function() {
     #{code}
-  })()
+  })();
   """
   all_requires = list_requires(code_with_async_wrapper, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
   extra_code = []

@@ -1,6 +1,30 @@
 const list_requires = require('list_requires_multi')
+const fs = require('fs')
+
+function get_components_to_require_statements(components) {
+  let output = {}
+  for (let component of components) {
+    let component_path = `bower_components/${component}/${component}.deps.js`
+    if (fs.existsSync('src/' + component_path)) {
+      output[component] = component_path
+      continue
+    }
+    component_path = `components/#{component}.deps.js`
+    //if (fs.existsSync('src/' + component_path)) {
+    //  output[component] = component_path
+    //  continue
+    //}
+    //component_path = `components/#{component}.deps.js`
+  }
+  return output
+}
 
 function preprocess_javascript(source) {
+  let code_with_async_wrapper = `
+  (async function() {
+    ${source}
+  })();
+  `
   let prefix_lines = []
   let suffix_lines = []
   suffix_lines.push('window.debugeval = x => eval(x);')
@@ -35,11 +59,10 @@ function preprocess_javascript(source) {
       prefix_lines.push('require("enable-webcomponents-in-content-scripts");')
     }
   }
-  /*
   if (is_nonempty(all_requires.require_component)) {
-
+    let component_list = all_requires.require_component
+    let requires_for_components = get_components_to_require_statements(component_list)
   }
-  */
   return prefix_lines.join('\n') + '\n\n' + source + '\n\n' + suffix_lines.join('\n')
 }
 

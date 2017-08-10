@@ -1,4 +1,4 @@
-require('components/netflix-stop-autoplay.deps')
+require_component('netflix-stop-autoplay')
 const $ = require('jquery')
 
 /*

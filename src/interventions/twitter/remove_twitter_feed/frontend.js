@@ -5,10 +5,10 @@ const {
   once_available,
 } = require('libs_frontend/common_libs')
 
-require('components/habitlab-logo.deps')
+require_component('habitlab-logo')
 
 //Polymer button
-require('bower_components/paper-button/paper-button.deps')
+require_component('paper-button')
 
 var intervalID = window.setInterval(removeFeed, 200);
 

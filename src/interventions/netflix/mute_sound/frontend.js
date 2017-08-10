@@ -1,4 +1,4 @@
-//require('components/netflix-mute-sound.deps')
+//require_component('netflix-mute-sound)
 const $ = require('jquery')
 
 

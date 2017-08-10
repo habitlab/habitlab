@@ -36,7 +36,7 @@ let show_new_toast = function() {
     let duration = printable_time_spent_long(seconds_spent)
     current_toast = show_toast({
       text: `You've been on ${sitename_printable} for ${duration} today`,
-      duration: 0
+      duration: 5000
     })
   });
 }

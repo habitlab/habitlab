@@ -2,7 +2,7 @@ set_default_parameters({
   seconds: 10 // Seconds that the user must wait before the page loads
 })
 
-require('components/netflix-screen.deps')
+require_component('netflix-screen')
 const $ = require('jquery')
 
 const {

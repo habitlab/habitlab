@@ -1,9 +1,9 @@
 var $ = require('jquery');
 
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
-require('components/video-overlay.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('close-tab-button')
+require_component('video-overlay')
+require_component('paper-button')
 
 var video_pauser = null;
 var play_video_clicked = false;

@@ -4,7 +4,7 @@ const {
   once_available
 } = require('libs_frontend/common_libs')
 
-require('components/video-overlay.deps')
+require_component('video-overlay')
 
 function pause_video() {
   console.log('pause_video called')

@@ -65,7 +65,7 @@ if window.location.pathname == '/options.html'
 
 {
   getUrlParameters
-} = require 'libs_frontend/common_libs'
+} = require 'libs_frontend/frontend_libs'
 
 {
   set_intervention
@@ -104,7 +104,7 @@ require! {
 
 {
   wrap_in_shadow
-} = require 'libs_frontend/common_libs'
+} = require 'libs_frontend/frontend_libs'
 
 /*
 export getUrlParameters = ->

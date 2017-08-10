@@ -3,7 +3,7 @@ const $ = require('jquery')
 const {
   on_url_change,
   once_available,
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 require_component('habitlab-logo')
 

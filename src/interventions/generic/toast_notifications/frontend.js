@@ -12,7 +12,7 @@ const {
 
 const {
   once_body_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   show_toast

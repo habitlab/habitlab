@@ -1,5 +1,5 @@
 var $ = require('jquery');
-const {wrap_in_shadow} = require('libs_frontend/common_libs')
+const {wrap_in_shadow} = require('libs_frontend/frontend_libs')
 
 require_component('habitlab-logo')
 require_component('close-tab-button')

@@ -8,7 +8,7 @@ const $ = require('jquery')
 const {
   append_to_body_shadow,
   once_body_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   is_on_same_domain_and_same_tab

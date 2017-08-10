@@ -6,7 +6,7 @@ const {
   once_available,
   on_url_change,
   wrap_in_shadow,
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   run_only_one_at_a_time

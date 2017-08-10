@@ -11,6 +11,7 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="create-intervention-dialog.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/marked-element/marked-element.html">
 
 <dom-module id="intervention-editor">
   <style>
@@ -25,7 +26,7 @@
     }
     .javascript_editor_div {
       display: inline-block;
-      width: 100vw;
+      width: calc(100vw - 360px);
       height: calc(100vh - 100px);
       position: fixed;
       top: 50px;
@@ -65,9 +66,6 @@
       z-index: 9999;
     }
     #sidebar{
-      padding-left: 10px; 
-      padding-right: 10px; 
-      padding-bottom: 10px; 
       position: fixed; 
       right: 0px; 
       top: 50px; 
@@ -75,6 +73,7 @@
       height: calc(100vh - 100px);
       background-color: #4279BD;
       display:inline-grid;
+      width:60px;
     }
     #bottombar {
       position:fixed;
@@ -96,12 +95,22 @@
       box-shadow: 2px 2px 2px #888888;
       font-weight: bold;
     }
-    #intervention_description{
-      color: white;
+    .marked-div {
+      display: inline-block;
+      width: 300px;
+      position: fixed;
+      overflow-y: scroll;
+      top: 50px;
+      right:60px;
+      bottom: 50px;
     }
     
   </style>
   <template>
+
+      <marked-element class="marked-div" id="markdown_display">
+        <div slot="markdown-html"></div>
+      </marked-element>
 
     <div>
       <iron-pages selected="{{selected_tab_idx}}">

@@ -32,9 +32,11 @@ function msg(text, substitutions) {
   const translation = chrome.i18n.getMessage(keyname, substitutions)
   if (translation == null || translation == '') {
     if (developer_mode) {
+      /*
       SystemJS.import('libs_common/localization_utils_backend').then(localization_utils => {
         localization_utils.record_unlocalized_string(text);
       });
+      */
     }
     if (substitutions == null || substitutions.length == 0) {
       return text;
@@ -42,9 +44,11 @@ function msg(text, substitutions) {
     return make_substitutions(text, substitutions);
   }
   if (developer_mode) {
+    /*
     SystemJS.import('libs_common/localization_utils_backend').then(localization_utils => {
       localization_utils.record_localized_string(text);
     });
+    */
   }
   return translation;
 }

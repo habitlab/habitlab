@@ -180,7 +180,6 @@ polymer_ext {
     this.$$('#intro4').style.display = 'none'
 
   ready: ->
-   
     this.rerender()
     self = this
     if window.location.hash == '#introduction'

@@ -10,7 +10,7 @@ swal = require 'sweetalert2'
   get_enabled_goals
   get_goals
   set_goal_target
-  get_goal_target
+  get_all_goal_targets
   remove_custom_goal_and_generated_interventions
   add_enable_custom_goal_reduce_time_on_domain
   set_goal_enabled_manual
@@ -106,11 +106,13 @@ polymer_ext {
     mins = Number (obj.item.innerText.trim ' ' .split ' ' .0)
     set_goal_target obj.item.class, mins
   get_daily_targets: ->>
-    goals = await get_goals!
+    #[goals, goal_targets] = await Promise.all [get_goals(), get_all_goal_targets()]
+    goals = await get_goals()
+    goal_targets = await get_all_goal_targets()
     for goal in Object.keys goals
       if goal == "debug/all_interventions" 
         continue
-      mins = await get_goal_target goal
+      mins = goal_targets[goal]
       mins = mins/5 - 1
       this.index_of_daily_goal_mins[goal] = mins
   show_internal_names_of_goals: ->
@@ -144,8 +146,8 @@ polymer_ext {
       sitename_to_goals[sitename].push goal_info
     list_of_sites_and_spend_less_time_goals = []
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
-    enabled_goals = await get_enabled_goals()
-    await this.get_daily_targets!
+    enabled_goals_promise = get_enabled_goals()
+    [enabled_goals, _] = await Promise.all [enabled_goals_promise, self.get_daily_targets()]
     
     for sitename in list_of_sites
       current_item = {sitename: sitename}

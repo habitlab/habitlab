@@ -21,7 +21,7 @@ const {
   once_available
 } = require('libs_frontend/common_libs')
 
-require('components/removed-clickbait-message.deps')
+require_component('removed-clickbait-message')
 
 function addNotification() {
   var removed_clickbait_message = $('<removed-clickbait-message></removed-clickbait-message>')

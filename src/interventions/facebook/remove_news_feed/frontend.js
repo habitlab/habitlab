@@ -22,9 +22,9 @@ const {
   get_news_feed
 }  = require('libs_frontend/facebook_utils')
 
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('close-tab-button')
+require_component('paper-button')
 
 var feedShown = false;
 removeFeed()

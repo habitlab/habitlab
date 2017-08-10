@@ -4,8 +4,8 @@ const {
 
 var $ = require('jquery');
 
-require('bower_components/paper-button/paper-button.deps');
-require('components/habitlab-logo.deps')
+require_component('paper-button')
+require_component('habitlab-logo')
 
 //Removes recommendations (modified from 'remove_news_feed' src code)
 function removeRec() {

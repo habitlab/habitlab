@@ -20,9 +20,9 @@ const {
   log_action,
 } = require('libs_frontend/intervention_log_utils')
 
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('close-tab-button')
+require_component('paper-button')
 
 //console.log('youtube prompt before watch loaded frontend')
 

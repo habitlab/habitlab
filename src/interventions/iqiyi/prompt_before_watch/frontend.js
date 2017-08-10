@@ -4,10 +4,10 @@ var {
   once_available
 } = require('libs_frontend/common_libs')
 
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
-require('components/video-overlay.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('close-tab-button')
+require_component('video-overlay')
+require_component('paper-button')
 
 function pause_video() {
   console.log('pause_video called')

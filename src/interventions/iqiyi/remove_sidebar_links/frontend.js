@@ -2,7 +2,7 @@ const $ = require('jquery');
 
 const {wrap_in_shadow} = require('libs_frontend/common_libs');
 
-require('components/sidebar-suggestions-removed.deps')
+require_component('sidebar-suggestions-removed')
 
 function removeSidebar() {
   if (window.intervention_disabled) {

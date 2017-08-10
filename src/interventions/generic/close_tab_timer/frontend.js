@@ -9,11 +9,11 @@ const {
   once_body_available
 } = require('libs_frontend/common_libs')
 
-require('components/habitlab-logo.deps')
-require('components/time-until-tab-autoclose-view.deps')
+require_component('habitlab-logo')
+require_component('time-until-tab-autoclose-view')
 
 //Polymer button
-require('bower_components/paper-button/paper-button.deps')
+require_component('paper-button')
 
 var display_timespent_div = $('<time-until-tab-autoclose-view>');
 var shadow_div;

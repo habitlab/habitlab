@@ -13,8 +13,7 @@ set_default_parameters({
 
 $ = require 'jquery'
 
-#require('components_skate/fb-scroll-block-display')
-require('components/fb-scroll-block-display.deps')
+require_component('fb-scroll-block-display')
 
 window.scrolling_allowed = true
 nscrolls = 0

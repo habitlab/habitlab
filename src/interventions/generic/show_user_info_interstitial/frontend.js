@@ -1,5 +1,5 @@
 const $ = require('jquery')
-require('components/interstitial-screen-num-visits.deps')
+require_component('interstitial-screen-num-visits')
 const {
   get_minutes_spent_on_domain_today,
   get_visits_to_domain_today

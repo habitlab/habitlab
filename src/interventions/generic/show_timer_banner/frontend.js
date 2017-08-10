@@ -5,7 +5,7 @@ let {
 
 let $ = require('jquery')
 
-require('components/show-timer-banner.deps')
+require_component('show-timer-banner')
 
 let scroll_block_display = $('<show-timer-banner>');
 let shadow_div;

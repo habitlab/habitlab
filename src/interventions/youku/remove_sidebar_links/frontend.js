@@ -1,9 +1,9 @@
 var $ = require('jquery');
 const {wrap_in_shadow} = require('libs_frontend/common_libs')
 
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('close-tab-button')
+require_component('paper-button')
 
 function removeSidebar() {
   if (window.intervention_disabled) {

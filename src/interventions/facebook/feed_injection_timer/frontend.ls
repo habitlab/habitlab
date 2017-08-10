@@ -8,7 +8,7 @@
 
 $ = require 'jquery'
 
-require 'components/feed-item-timer-polymer.deps'
+require_component('feed-item-timer-polymer')
 
 component_generator = (numitems) ->
   feed-item = $('<feed-item-timer-polymer>')

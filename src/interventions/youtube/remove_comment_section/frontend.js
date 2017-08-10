@@ -54,8 +54,8 @@ on_url_change(() => {
   hide_comments_once_available()
 })
 
-require('bower_components/paper-button/paper-button.deps')
-require('components/habitlab-logo.deps')
+require_component('paper-button')
+require_component('habitlab-logo')
 
 function show_comments() {
   $('#habitlab_show_comments').remove();

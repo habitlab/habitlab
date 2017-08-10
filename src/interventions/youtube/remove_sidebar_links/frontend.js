@@ -58,8 +58,8 @@ on_url_change(() => {
   removeSidebarOnceAvailable()
 })
 
-require('components/habitlab-logo.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('paper-button')
 
 function disable_intervention() {
   $('.habitlab_inserted_div').remove()

@@ -2,7 +2,7 @@ set_default_parameters({
   seconds: 5 // Seconds that the user must wait before the page loads
 })
 
-require('components/interstitial-screen.deps')
+require_component('interstitial-screen')
 const $ = require('jquery')
 
 const {

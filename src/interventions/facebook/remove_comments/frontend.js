@@ -4,12 +4,11 @@ const {
   wrap_in_shadow
 } = require('libs_frontend/common_libs')
 
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
-//require('components/timespent-view.deps')
+require_component('habitlab-logo')
+require_component('close-tab-button')
 
 //Polymer button
-require('bower_components/paper-button/paper-button.deps')
+require_component('paper-button')
 
 var intervalID = window.setInterval(removeComments, 200);
 

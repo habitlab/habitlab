@@ -13,8 +13,8 @@ const {
   close_selected_tab
 } = require('libs_common/tab_utils')
 
-require('components/habitlab-logo.deps')
-require('components/reward-display.deps')
+require_component('habitlab-logo')
+require_component('reward-display')
 
 const messages = ["You've spent a questionable amount of time on Facebook.",
                   "Please get off facebook. I'm begging you.",

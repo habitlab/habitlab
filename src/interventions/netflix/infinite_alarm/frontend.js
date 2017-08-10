@@ -1,5 +1,5 @@
-require('components/netflix-alarm-screen.deps')
-require('components/netflix-alarm-snooze-display.deps')
+require_component('netflix-alarm-screen')
+require_component('netflix-alarm-snooze-display')
 const $ = require('jquery')
 
 const {

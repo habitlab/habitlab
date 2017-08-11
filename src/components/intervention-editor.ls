@@ -445,8 +445,7 @@ polymer_ext {
         return true
       return
     fetch(chrome.runtime.getURL('API.md')).then((.text!)).then (markdown_text) ->
-      fetch(chrome.runtime.getURL('intervention_editor_help.md')).then((.text!)).then (markdown_text2) ->
-        self.$.markdown_display.markdown = markdown_text +'\n\n'+ markdown_text2
+      self.$.markdown_display.markdown = markdown_text
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

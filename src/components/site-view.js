@@ -104,7 +104,7 @@ polymer_ext({
       //cancelButtonText: 'Close'
     })
   },
-  site_changed: async function(site) {
+  rerender1: async function() {
     const goal_info_list = await list_goals_for_site(this.site);
     const intervention_name_to_info_map = await get_interventions();
     const enabled_interventions = await get_enabled_interventions();
@@ -112,6 +112,18 @@ polymer_ext({
       const intervention_info = intervention_name_to_info_map[intervention_name];
       intervention_info.enabled = (enabled_interventions[intervention_name] == true);
     }
+    return [intervention_name_to_info_map, goal_info_list]
+  },
+  rerender: async function() {
+    let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
+    //if (this.site != site) {
+    //  return;
+    //}
+    this.intervention_name_to_info_map = intervention_name_to_info_map;
+    this.goal_info = goal_info_list[0];
+  },
+  site_changed: async function(site) {
+    let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
     if (this.site != site) {
       return;
     }

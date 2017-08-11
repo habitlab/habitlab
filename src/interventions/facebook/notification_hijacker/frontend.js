@@ -7,7 +7,7 @@ const $ = require('jquery')
 const {
   once_available,
   wrap_in_shadow,
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   close_selected_tab

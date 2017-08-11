@@ -32,6 +32,8 @@ polymer_ext {
     labels = []
     time_spent = []
     for goal_name in as_array(enabled_goals)
+      if not goal_to_progress[goal_name]?progress?
+        continue
       minutes_spent = goal_to_progress[goal_name].progress
       if isNaN minutes_spent
         continue

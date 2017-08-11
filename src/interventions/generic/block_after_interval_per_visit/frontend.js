@@ -24,7 +24,7 @@ require_component('habitlab-logo')
 const {
   once_body_available,
   create_shadow_div_on_body
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   get_seconds_spent_on_current_domain_today

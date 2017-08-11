@@ -2,7 +2,7 @@ const $ = require('jquery');
 
 const {
   once_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 require_component('video-overlay')
 

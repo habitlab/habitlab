@@ -2,7 +2,7 @@ var $ = require('jquery');
 
 var {
   once_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 require_component('habitlab-logo')
 require_component('close-tab-button')

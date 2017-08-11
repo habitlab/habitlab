@@ -13,13 +13,18 @@ polymer_ext {
     site_info_list: {
       type: Array
     }
+    isdemo: {
+      type: Boolean
+      observer: 'isdemo_changed'
+    }
   }
   /*
   buttonAction1: ->
     this.linedata.datasets[0].label = 'a new label'
     this.$$('#linechart').chart.update()
   */
-
+  isdemo_changed: ->
+    this.rerender()
   on_goal_changed: (evt) ->
     this.rerender()
     this.$$('graph-time-spent-on-goal-sites-daily').ready()
@@ -28,8 +33,8 @@ polymer_ext {
     this.$$('graph-num-times-interventions-deployed').ready()
     this.$$('graph-donut-top-sites').ready()
 
-  ready: ->
-    this.rerender()
+  #ready: ->
+  #  this.rerender()
   rerender: ->>
     #Polymer tabbing
     self = this

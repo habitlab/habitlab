@@ -19,7 +19,7 @@ function removeClickBait() {
 const {
   wrap_in_shadow,
   once_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 require_component('removed-clickbait-message')
 

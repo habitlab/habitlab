@@ -10,10 +10,6 @@ const {
   once_body_available
 } = require('libs_frontend/common_libs')
 
-const {
-  is_on_same_domain_and_same_tab
-} = require('libs_common/session_utils')
-
 var shadow_div;
 
 (async function() {

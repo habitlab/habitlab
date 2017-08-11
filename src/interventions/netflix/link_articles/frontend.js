@@ -5,16 +5,7 @@ set_default_parameters({
 require_component('netflix-screen')
 const $ = require('jquery')
 
-const {
-  is_on_same_domain_and_same_tab
-} = require('libs_common/session_utils')
-
 const main = async function() {
-  //const on_same_domain_and_same_tab = await is_on_same_domain_and_same_tab(tab_id)
-  //if (on_same_domain_and_same_tab) {
-  //  return
-  //}
-
   var interst_screen = $('<netflix-screen>')
   interst_screen.addClass('interst_screen')
   var buttonText = 'Continue to ' + intervention.sitename_printable
@@ -43,7 +34,6 @@ const main = async function() {
   }, 50)
 
   $(document.body).append(interst_screen)
-
 }
 
 main();

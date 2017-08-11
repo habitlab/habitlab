@@ -59,6 +59,10 @@ export get_minutes_spent_on_domain_today = (domain) ->>
     return Math.floor(result/60.0)
   return 0
 
+/**
+* Return seconds spent on current domain today
+* @return {integer} seconds spent
+*/
 export get_seconds_spent_on_current_domain_today = ->>
   current_domain = window.location.hostname
   result = await get_seconds_spent_on_domain_today current_domain

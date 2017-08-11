@@ -1,6 +1,14 @@
 const $ = require('jquery')
 require('bower_components/paper-toast/paper-toast.deps')
 
+/**
+ * Show a toast on the webpage
+ * @param {Object} options - a string of toast text or an object of toast properties
+ * @param {string} options.text - toast text
+ * @param {string} options.duration - duration of the toast
+ * @param {string} options.close_button - close button
+ * @return {HTMLElement} - The created toast
+ */
 function show_toast(options) {
   if (typeof(options) == 'string') {
     options = {text: options}

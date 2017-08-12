@@ -1,4 +1,47 @@
 {
+  get_interventions
+  get_intervention_info
+  get_enabled_interventions
+  set_intervention_enabled
+  set_intervention_disabled
+  set_intervention_automatically_managed
+  set_intervention_manually_managed
+  get_intervention_parameters
+  set_intervention_parameter
+  set_override_enabled_interventions_once
+} = require 'libs_backend/intervention_utils'
+
+{
+  list_goal_info_for_enabled_goals
+} = require 'libs_backend/goal_utils'
+
+{ 
+  get_goal_intervention_info
+  get_enabled_goals
+  get_goals
+  list_site_info_for_sites_for_which_goals_are_enabled
+  list_goals_for_site
+  set_goal_target
+  get_goal_target
+  remove_custom_goal_and_generated_interventions
+  add_enable_custom_goal_reduce_time_on_domain
+  set_goal_enabled_manual
+  set_goal_disabled_manual
+} = require 'libs_backend/goal_utils'
+
+{
+  add_log_interventions
+} = require 'libs_backend/log_utils'
+
+{
+  localstorage_getbool
+} = require 'libs_common/localstorage_utils'
+
+{
+  localstorage_getbool
+} = require 'libs_common/localstorage_utils'
+
+{
   polymer_ext
 } = require 'libs_frontend/polymer_utils'
 
@@ -9,6 +52,10 @@
 {
   get_time_saved_total
 } = require 'libs_common/gamification_utils'
+
+
+{cfy} = require 'cfy'
+{swal} = require 'sweetalert2'
 
 Bounce = require('bounce.js')
 $ = require 'jquery'
@@ -71,47 +118,125 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/intervention_icons/Generic.svg')     
     }
-    facebook_url: {
+    generic_unlock_icon_url:{
       type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Facebook.svg')     
+      value: chrome.extension.getURL('interventions/generic/unlock.svg')     
     }
-    youtube_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Youtube.svg')     
+    # facebook_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/Facebook.svg')     
+    # }
+    # youtube_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/Youtube.svg')     
+    # }
+    # gmail_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/Gmail.svg')     
+    # }    
+    # amazon_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/Amazon.svg')     
+    # }
+    # amazonvideo_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/Amazonvideo.svg')     
+    # }    
+    # buzzfeed_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/Buzzfeed.svg')     
+    # }
+    # iqiyi_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/IQIYI.svg')     
+    # }    
+    # netflix_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/Netflix.svg')     
+    # }
+    # reddit_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/Reddit.svg')     
+    # }   
+    # twitter_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/intervention_icons/twitter.svg')     
+    # }
+    # icons_url: {
+    #   type: String, 
+    #   value: chrome.extension.getURL('interventions/generic/toast_notifications/icon.svg')
+    # }
+    # icons2_url: {
+    #   type: String, 
+    #   value: chrome.extension.getURL('interventions/generic/show_timer_banner/icon.svg')
+    # }
+    intervention: {
+      type: Object
+      observer: 'intervention_property_changed'
     }
-    gmail_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Gmail.svg')     
-    }    
-    amazon_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Amazon.svg')     
+    goal_info_list: {
+      type: Array
     }
-    amazonvideo_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Amazonvideo.svg')     
-    }    
-    buzzfeed_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Buzzfeed.svg')     
+    interventions_info:{
+      type: Array
     }
-    iqiyi_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/IQIYI.svg')     
-    }    
-    netflix_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Netflix.svg')     
+    intervention_name_to_info_map: {
+      type: Object
     }
-    reddit_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Reddit.svg')     
-    }   
-    twitter_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/twitter.svg')     
+    enabled_goals_info_list: {
+      type: Array
     }
+    goal_intervention_info_list:{
+      type: Array 
+    }
+    generic_interventions:{
+      type:Array
+    }
+    enabled_interventions_for_goal:{
+      type:Array
+    }
+    goal_name_to_intervention_info_list: {
+      type: Object
+    }
+
   }
+  
+  get_goal_icon_url: (sitename) ->
+    url_path = 'interventions/'+ sitename.toString() + '/siteicon.svg'
+    return (chrome.extension.getURL(url_path)).toString()
+
+  get_unlock_icon_url: (sitename) ->
+    url_path = 'interventions/'+ sitename.toString() + '/unlock.svg'
+    return (chrome.extension.getURL(url_path)).toString()
+
+  get_intervention_icon_url: (intervention_name) ->
+    url_path = 'interventions/'+ intervention_name.toString() + '/icon.svg'
+    return (chrome.extension.getURL(url_path)).toString()
+
+  get_enabled_interventions_for_goal_sync: (goal_name, goal_name_to_intervention_info_list) ->
+    goal_name_to_intervention_info_list[goal_name]
+
+  distinct_interventions_exist: (goal_name, goal_name_to_intervention_info_list) ->
+    if (goal_name_to_intervention_info_list[goal_name]).length < 1
+      return false
+    return true
+
+  get_enabled_interventions_for_goal: (goal_name) ->>
+    goal_info = await get_goal_info(goal_name)
+    all_interventions = await get_interventions()
+    enabled_interventions = await get_enabled_interventions()
+    output = []
+    for intervention_name in goal_info.interventions
+      if not enabled_interventions[intervention_name]
+        continue
+      intervention_info = all_interventions[intervention_name]
+      if intervention_info.generic_intervention?
+        continue
+      output.push(intervention_info)
+    return output
+
+  compute_sitename: (goal) ->
+    return goal.sitename_printable
 
   bounce_object: (evt) ->
     bounce = new Bounce()
@@ -136,7 +261,6 @@ polymer_ext {
     bounce2.applyTo(this.SM('.hearts'))
     return
 
-
   openBy: (evt) ->
     console.log(evt)
     console.log(evt.target)
@@ -144,15 +268,41 @@ polymer_ext {
     this.$.alignedDialog.open()
     return
 
-
   ready: ->>
-    time_saved = await get_time_saved_total()
-    minutes_saved = time_saved / 60
-    if this.minutes_saved?
-      minutes_saved = this.minutes_saved
-    this.badges = get_all_badges_earned_for_minutes_saved(minutes_saved)
+    # enabled_goals_list=[]
+    # enabled_goals = await get_enabled_goals()
+    # for goals in enabled_goals
+    #   enabled_goals_list.push x
+    # this.enabled_goals = enabled_goals_list
+    # # console.log('enabled_goals')
+    # # console.log(enabled_goals)
+    # # this.enabled_goals = enabled_goals
 
+    enabled_goals_info_list = await list_goal_info_for_enabled_goals()
+    # # for x in enabled_goals_info_list
+    # #   if x.is_positive == true
+    # #     positive_site = true
+    # #   else
+    # this.enabled_goals_info_list = new_list
+    
+    console.log('enabled_goals_info_list')
+    console.log(enabled_goals_info_list)
+    
+    this.enabled_goals_info_list = enabled_goals_info_list 
 
+    generic_interventions = await list_generic_interventions()
+    generic_interventions_info = []
+    for x in generic_interventions
+      info = await get_intervention_info(x)
+      generic_interventions_info.push info
+    this.generic_interventions_info = generic_interventions_info
+    console.log(generic_interventions_info)
+    goal_name_to_intervention_info_list = []
+    for goal_info in enabled_goals_info_list
+      console.log(goal_info)
+      goal_name_to_intervention_info_list[goal_info.name] = await this.get_enabled_interventions_for_goal(goal_info.name)
+    this.goal_name_to_intervention_info_list = goal_name_to_intervention_info_list
+    
   isdemo_changed: (isdemo) ->
     if isdemo
       this.minutes_saved = 300
@@ -160,8 +310,8 @@ polymer_ext {
   source: require 'libs_frontend/polymer_methods'
   methods: [
     'SM'
+    'S'
+    'once_available'
+    'first_elem'
   ]
 }
-
-
- 

@@ -527,7 +527,11 @@ export list_goal_info_for_enabled_goals = ->>
   goal_names = await get_enabled_goals()
   goal_names = as_array goal_names
   goal_name_to_info = await get_goals()
-  return [goal_name_to_info[goal_name] for goal_name in goal_names]
+  output = []
+  for goal_name in goal_names
+    if goal_name_to_info[goal_name]?
+      output.push goal_name_to_info[goal_name]
+  return output
 
 intervention_utils = require 'libs_backend/intervention_utils'
 log_utils = require 'libs_backend/log_utils'

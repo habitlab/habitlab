@@ -7,6 +7,12 @@
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="intervention-parameter-view.html">
+<link rel="import" href="interventions-for-sites.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
 
 <!--<link rel="import" href="badge-display-mini.html">-->
 
@@ -15,13 +21,6 @@
     :host {
       width: 100%;
       text-align: center;
-      /*
-      opacity: 1;
-      width: 100vw;
-      background-color: white;
-      color: black;
-      z-index: 9007199254740991;
-      */
     }
 
   .badgesContainer {
@@ -34,16 +33,33 @@
     /*background-color:white;*/
   } 
 
-
   .outerContainer {
-    width: 80%;
-    height:1000px;
+    display: block;
+    width: 950px;
     margin:auto; 
     margin-top:0px;
     background-color:rgba(75,84,92,95);
     padding:0px;
+    padding-bottom:20px; 
   } 
-
+  .interventionsContainer {
+    display: flex;
+    flex-wrap:wrap;
+    width: 660px;
+    margin:auto; 
+    margin-top:30px;
+    margin-left:20px;
+    margin-bottom:10px; 
+    margin-right: 20px;
+    background-color:rgba(40,40,40,100);
+    padding:10px;
+    padding-top:15px;
+    padding-left:15px;
+    padding-right:5px;
+    padding-bottom:0px;
+    font-weight:800;
+    font-size:16px;
+  } 
 
   .heartsContainer {
     display: inline-flex;
@@ -71,6 +87,16 @@
 
   .interventions{
     width:100px;
+    margin-right:10px;
+    cursor: pointer;
+  }
+  
+  .siteicons{
+    width:130px;
+    margin:auto;
+    margin-top: 25px;
+    margin-right:0px;
+    cursor: pointer;
   }
 
   .hearts{
@@ -90,19 +116,11 @@
     opacity: 0.5;
   }
 
-  .badges:hover < description_box +  {
-    display: inline-block;
-  }
-      
-      
-
-
-
-
-
-
   </style>
+
+
   <template>
+  
     <div>
     <img style= "width:80px;padding-left:0px;padding-bottom:0px;margin:auto;margin-left:0px;margin-top:50px;margin-bottom:10px;" src="{{logo_glow_black_bubbles}}"></img>
     <div style = "margin-top: 0px;margin-bottom:15px; font-size: 35px;color:white;">Congratulations! </div>
@@ -121,39 +139,74 @@
     <div> 
 
     <div class = "outerContainer">
-      <img class = "interventions" src = "{{generic_url}}"></img>
-      <img class = "interventions" src = "{{facebook_url}}"></img>
-      <img class = "interventions" src = "{{youtube_url}}"></img>
-      <img class = "interventions" src = "{{gmail_url}}"></img>
-      <img class = "interventions" src = "{{amazon_url}}"></img>
-      <img class = "interventions" src = "{{amazonvideo_url}}"></img>
-      <img class = "interventions" src = "{{buzzfeed_url}}"></img>
-      <img class = "interventions" src = "{{iqiyi_url}}"></img>
-      <img class = "interventions" src = "{{netflix_url}}"></img>
-      <img class = "interventions" src = "{{reddit_url}}"></img>
-      <img class = "interventions" src = "{{twitter_url}}"></img>
-    </div>
 
-    </div>
-    </div>
-  </template>
-  <script src="onboarding-badges.js"></script>
-</dom-module>
+      <div style = "display:inline-flex; padding-bottom: 0px;">
 
-  <paper-dialog id="alignedDialog" style = "background-color:rgba(255,255,255,0.85);" no-overlap horizontal-align="left" vertical-align="top">
-        <h2 style = " font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;color:#323f4b;">Add a new website to reduce time spent on (example: www.amazon.com)</h2>
-        <div style = "display: flex; margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin-bottom:0px;padding-left:10px; padding-right:10px;padding-bottom:0px">
-
-          <vaadin-combo-box on-value-changed = "valueChange" id="add_website_input"  change="change_called" custom-value-set="custom_value_set_called" selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" value-changed="value_changed_called" items = "{{baseline_time_on_domains_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
-            <template>
-                  <div on-click="div_clicked" domain="[[item]]">[[item]]</div>
-            </template>
-          </vaadin-combo-box>
-          <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px;margin-bottom:7px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
-       
+        <div "display:block;">
+          <img class = "siteicons" src = "{{generic_url}}"></img>
+          <div style = "position: relative; left: 0px;top:0px; color: rgb(185,200,235);font-size:22px;">Generic</div>
         </div>
-  </paper-dialog>
+
+        <div class = "interventionsContainer">
+          <template is="dom-repeat" items="{{generic_interventions_info}}" as="intervention">
+            <div "display:block;">
+              <img class = "interventions" src = {{get_intervention_icon_url(intervention.name)}}></img>
+              <div style = "position:relative; left:0px; top:8px; color: rgb(185,200,235);max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
+            </div>
+          </template>
+
+          <div style = "display:block;">
+            <img class = "interventions" src = "{{generic_unlock_icon_url}}"></img>
+            <div style = "display: flex; flex-wrap:nowrap; justify-content:center;align-content:flex-start;align-items:flex-start;">
+              <img style = "width:28px;height:28px;" src = {{heart_empty_url}} ></img>
+              <div style = "position:relative; left:0px; top:3px; color: rgb(185,200,235);max-width:70px; overflow:wrap; margin-bottom:15px;text-overflow:ellipsis;text-align:left;font-size:16px;margin-left:2px;
+              ">Unlock More</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
+        <template is="dom-repeat" items="{{enabled_goals_info_list}}" as="goal">
+          <template is = "dom-if" if="{{distinct_interventions_exist(goal.name, goal_name_to_intervention_info_list)}}">
+                <div style = "display:inline-flex" >
+                    <div "display:block">
+                      <img class="siteicons" src = {{get_goal_icon_url(goal.sitename)}}> </img>
+                      <div style='position:relative;left:0px; top:0px;color: rgb(185,200,235); width:110px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;font-size:22px;'> {{goal.sitename_printable}} </div>
+                    </div>
+
+                  <div class= "interventionsContainer">
+                    <template is="dom-repeat" items="{{get_enabled_interventions_for_goal_sync(goal.name, goal_name_to_intervention_info_list)}}" as="intervention">
+                      <div "display:block">
+
+                        <img class="interventions" src = {{get_intervention_icon_url(intervention.name)}}></img>
+                        <div style='position:relative;left:0px; top:8px;color: rgb(185,200,235); width:105px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:auto;text-align:center;margin-bottom:15px;'> {{intervention.displayname}} </div>
+
+                      </div>
+                    </template>
+
+                    <div style = "display:block;">
+                      <img class = "interventions" src = {{get_unlock_icon_url(goal.sitename)}}></img>
+                      <div style = "display: flex; flex-wrap:nowrap; justify-content:center;align-content:flex-start;align-items:flex-start;">
+                        <img style = "width:28px;height:28px;" src = {{heart_empty_url}} ></img>
+                        <div style = "position:relative; left:0px; top:3px; color: rgb(185,200,235);max-width:70px; overflow:wrap; margin-bottom:15px;text-overflow:ellipsis;text-align:left;font-size:16px;margin-left:2px;
+                        ">Unlock More</div>
+                    </div>
+
+                  </div>
+                </div>
+        </template>
+      </template>
+
+    </div>
+
+    </div>
+    </div>
+
+</template>
+
+<script src="onboarding-badges.js"></script>
+
+</dom-module>
 
 

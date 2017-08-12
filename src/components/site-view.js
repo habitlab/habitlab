@@ -123,12 +123,14 @@ polymer_ext({
     this.goal_info = goal_info_list[0];
   },
   site_changed: async function(site) {
+    /*
     let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
     if (this.site != site) {
       return;
     }
     this.intervention_name_to_info_map = intervention_name_to_info_map;
     this.goal_info = goal_info_list[0];
+    */
   }
 }, {
   source: require('libs_frontend/polymer_methods'),

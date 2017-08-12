@@ -18,6 +18,9 @@ permissions:
   - <all_urls>
   - 'http://*/'
   - 'https://*/'
+optional_permissions :
+  - identity
+  - "identity.email"
 content_security_policy: >-
   script-src 'self' 'unsafe-eval'
   'sha256-Lnjp6S+Lhd5zhPB1WhXY2otcDuecbUd93KaBjOx9gGE='; object-src 'self'

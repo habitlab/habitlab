@@ -1,4 +1,4 @@
-description: Notifies you of time spent in the top-right desktop corner.
+description: Notifies you of time spent in the top-right desktop corner
 displayname: TimeKeeper
 matches:
   - www.facebook.com

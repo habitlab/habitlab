@@ -1,5 +1,5 @@
 description: Removes Facebook comments
-display name: No Comment
+displayname: No Comment
 matches:
   - www.facebook.com
 content_scripts:

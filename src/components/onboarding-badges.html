@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-tooltop/paper-tooltip.html">
 <link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
@@ -23,6 +24,16 @@
       text-align: center;
     }
 
+
+  .tooltip {
+      --paper-tooltip-opacity: 1;
+      /* --paper-tooltip-background: black; */
+      --paper-tooltip-text-color: white;
+      font-size:16px;
+    }
+
+
+
   .badgesContainer {
     width: 600px;
     margin:auto; 
@@ -38,6 +49,7 @@
     width: 950px;
     margin:auto; 
     margin-top:0px;
+    margin-bottom:30px;
     background-color:rgba(75,84,92,95);
     padding:0px;
     padding-bottom:20px; 
@@ -122,9 +134,9 @@
   <template>
   
     <div>
-    <img style= "width:80px;padding-left:0px;padding-bottom:0px;margin:auto;margin-left:0px;margin-top:50px;margin-bottom:10px;" src="{{logo_glow_black_bubbles}}"></img>
-    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 35px;color:white;">Congratulations! </div>
-    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">You've unlocked some starter interventions!</div>
+    <img style= "width:80px;padding-left:0px;padding-bottom:0px;margin:auto;margin-left:0px;margin-top:25px;margin-bottom:10px;" src="{{logo_glow_black_bubbles}}"></img>
+    <div style = "margin-top: 0px;margin-bottom:13px; font-size: 35px;color:white;">Congratulations! </div>
+    <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">You've unlocked some starter Nudges!</div>
     <!-- <div class = "badgesContainer">
       <img class = "badges badges1" on-click="bounce_object" on-click="openBy" src="{{sola_url}}"></img>
       <img class = "badges badges2" on-click="bounce_object" on-click="openBy" src="{{habby_url}}"></img>
@@ -144,14 +156,18 @@
 
         <div "display:block;">
           <img class = "siteicons" src = "{{generic_url}}"></img>
-          <div style = "position: relative; left: 0px;top:0px; color: rgb(185,200,235);font-size:22px;">Generic</div>
+          <div style = "position: relative; left: 0px;top:0px; color: rgb(185,200,235);font-size:22px;"> All Sites </div>
+          <paper-tooltip class = "tooltip" offset = "10px" animation-delay="0">These Nudges can be used on all sites!</paper-tooltip>
         </div>
 
         <div class = "interventionsContainer">
           <template is="dom-repeat" items="{{generic_interventions_info}}" as="intervention">
             <div "display:block;">
-              <img class = "interventions" src = {{get_intervention_icon_url(intervention.name)}}></img>
-              <div style = "position:relative; left:0px; top:8px; color: rgb(185,200,235);max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
+              <div>
+                <img class = "interventions" id="intervention" src = {{get_intervention_icon_url(intervention.name)}}></img>
+                <div style = "position:relative; left:0px; top:8px; color: rgb(185,200,235);max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
+              </div>
+              <paper-tooltip class = "tooltip" offset = "10px" animation-delay="0">{{intervention.description}}</paper-tooltip>
             </div>
           </template>
 
@@ -162,6 +178,7 @@
               <div style = "position:relative; left:0px; top:3px; color: rgb(185,200,235);max-width:70px; overflow:wrap; margin-bottom:15px;text-overflow:ellipsis;text-align:left;font-size:16px;margin-left:2px;
               ">Unlock More</div>
             </div>
+            <paper-tooltip class = "tooltip" offset = "10px" animation-delay="0">You can unlock more Nudges as you use HabitLab with Habit Hearts!</paper-tooltip>
           </div>
         </div>
       </div>
@@ -171,17 +188,21 @@
           <template is = "dom-if" if="{{distinct_interventions_exist(goal.name, goal_name_to_intervention_info_list)}}">
                 <div style = "display:inline-flex" >
                     <div "display:block">
-                      <img class="siteicons" src = {{get_goal_icon_url(goal.sitename)}}> </img>
-                      <div style='position:relative;left:0px; top:0px;color: rgb(185,200,235); width:110px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;font-size:22px;'> {{goal.sitename_printable}} </div>
+                      <div>
+                        <img class="siteicons" src = {{get_goal_icon_url(goal.sitename)}}> </img>
+                        <div style='position:relative;left:0px; top:0px;color: rgb(185,200,235); width:110px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;font-size:22px;'> {{goal.sitename_printable}} </div>
+                      </div>
+                      <paper-tooltip class = "tooltip" offset = "10px" animation-delay="0">These are some Nudges you can use on {{goal.sitename_printable}}!</paper-tooltip>
                     </div>
 
                   <div class= "interventionsContainer">
                     <template is="dom-repeat" items="{{get_enabled_interventions_for_goal_sync(goal.name, goal_name_to_intervention_info_list)}}" as="intervention">
                       <div "display:block">
-
-                        <img class="interventions" src = {{get_intervention_icon_url(intervention.name)}}></img>
-                        <div style='position:relative;left:0px; top:8px;color: rgb(185,200,235); width:105px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:auto;text-align:center;margin-bottom:15px;'> {{intervention.displayname}} </div>
-
+                        <div>
+                          <img class="interventions" src = {{get_intervention_icon_url(intervention.name)}}></img>
+                          <div style='position:relative;left:0px; top:8px;color: rgb(185,200,235); width:105px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:auto;text-align:center;margin-bottom:15px;'> {{intervention.displayname}} </div>
+                        </div>
+                        <paper-tooltip class = "tooltip" offset = "10px" animation-delay="0">{{intervention.description}}</paper-tooltip>
                       </div>
                     </template>
 
@@ -192,7 +213,7 @@
                         <div style = "position:relative; left:0px; top:3px; color: rgb(185,200,235);max-width:70px; overflow:wrap; margin-bottom:15px;text-overflow:ellipsis;text-align:left;font-size:16px;margin-left:2px;
                         ">Unlock More</div>
                     </div>
-
+                    <paper-tooltip class = "tooltip" offset = "10px" animation-delay="0">Start building good habits and collect Habit Hearts to unlock more {{goal.sitename_printable}} Nudges!</paper-tooltip>
                   </div>
                 </div>
         </template>

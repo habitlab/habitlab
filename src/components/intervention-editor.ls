@@ -445,6 +445,7 @@ polymer_ext {
         return true
       return
     fetch(chrome.runtime.getURL('API.md')).then((.text!)).then (markdown_text) ->
+      markdown_text = markdown_text.replace('### Table of Contents', '### Useful Methods')
       self.$.markdown_display.markdown = markdown_text
 }, {
   source: require 'libs_frontend/polymer_methods'

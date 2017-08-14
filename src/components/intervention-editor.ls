@@ -50,6 +50,11 @@
 } = require 'libs_backend/debug_console_utils'
 
 {get_goal_info} = require 'libs_common/goal_utils'
+
+{
+  upload_intervention
+} = require 'libs_backend/intervention_sharing_utils' 
+
 swal = require 'sweetalert2'
 lodash = require 'lodash'
 
@@ -362,8 +367,50 @@ polymer_ext {
       this.S('#sidebar').show()
   help_clicked: ->
     chrome.tabs.create {url: 'https://habitlab.github.io/devdocs'}
-  share_clicked: ->
-    chrome.tabs.create {url: 'https://habitlab.github.io/share'}
+  share_clicked: ->>
+    self=this
+    chrome.permissions.request {
+      permissions: ['identity', 'identity.email']
+      origins: []
+    }, (granted) -> 
+      console.log 'granted: ' + granted
+      return
+    intervention_name=self.get_intervention_name()
+    intervention_info = await get_intervention_info(intervention_name)
+    chrome.identity.getProfileUserInfo (author_info) ->>
+      upload_result = await upload_intervention(intervention_info, author_info)
+      if upload_result.status=='success'
+        try
+          await swal({
+            title: 'Copy the url below to privately share your nudge. \n Click Submit for HabitLab developers to publish your nudge to all users.'
+            text: upload_result.url
+            type: 'info'
+            showCancelButton: true
+            confirmButtonText: 'Submit'
+            cancelButtonText: 'No'
+          })
+        catch
+          console.log 'not sharing this time'
+          # TODO remove_intervention(intervention_name)
+      return
+    # try
+    #   await swal({
+    #     title: 'Restore autosaved version?',
+    #     text: 
+    #     type: 'warning',
+    #     showCancelButton: true,
+    #     confirmButtonColor: '#3085d6',
+    #     cancelButtonColor: '#d33',
+    #     cancelButtonText: 'No'
+    #     confirmButtonText: 'Restore'
+    #   })
+    #   intervention_info.code = autosaved_code
+    #   localStorage['saved_intervention_' + intervention_name] = autosaved_code
+    #   delete localStorage['autosaved_intervention_' + intervention_name]
+    #   await add_new_intervention(intervention_info)
+    # catch
+    #   delete localStorage['autosaved_intervention_' + intervention_name]]
+    # chrome.tabs.create {url: 'https://habitlab.github.io/share'}
   make_javascript_editor: (editor_div) ->>
     console.log 'make_javascript_editor called'
     intervention_name = editor_div.intervention_tab_name

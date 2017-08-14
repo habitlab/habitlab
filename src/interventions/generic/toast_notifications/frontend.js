@@ -1,5 +1,3 @@
-require('enable-webcomponents-in-content-scripts')
-
 const {
   get_intervention
 } = require('libs_common/intervention_info')
@@ -14,7 +12,7 @@ const {
 
 const {
   once_body_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   show_toast
@@ -71,5 +69,3 @@ window.on_intervention_disabled = function() {
     current_toast.hide()
   }
 }
-
-window.debugeval = x => eval(x)

@@ -120,7 +120,7 @@ polymer_ext {
   get_time_spent_for_domain: (domain, baseline_time_on_domains) ->
     if baseline_time_on_domains[domain]?
       minutes = baseline_time_on_domains[domain] / (1000*60)
-      return (minutes).toPrecision(2) + ' mins'
+      return (minutes).toPrecision(2) + 'mins'
     return '0 mins'
   limit_to_eight: (list) ->
     return list[0 til 8]
@@ -171,8 +171,14 @@ polymer_ext {
   daily_goal_help_clicked: ->
     swal {
       title: 'How will HabitLab help me achieve these goals?'
-      text: 'HabitLab will help you achieve these goals by showing you a different intervention, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
+      text: 'HabitLab will help you achieve these goals by showing you a different nudge, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
     }
+
+  # more_than_zero_minutes: (goal,get_time_spent_for_domain,baseline_time_on_domains) ->    
+  #   if baseline_time_on_domains[domain]?
+  #     if (baseline_time_on_domains[domain] / (1000*60)) > 0 
+  #       return true
+  #   return false
 
   openBy: (evt) ->
     console.log(evt)

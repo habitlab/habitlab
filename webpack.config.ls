@@ -74,6 +74,17 @@ webpack_config = {
             fromcwd('src/jspm_packages')
           ]
         }
+        {
+          # js loader
+          test: /\.js$/
+          loader: './webpack_habitlab_js_intervention_loader.js'
+          include: [fromcwd('src/interventions')]
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
+        }
         # {
         #  test: /\.ls$/
         #  # livescript with embedded jsx
@@ -88,12 +99,23 @@ webpack_config = {
         # }
         {
           test: /\.ls$/
+          loader: './webpack_habitlab_ls_intervention_loader.js'
+          include: [fromcwd('src/interventions')]
+          exclude: [
+            fromcwd('node_modules')
+            fromcwd('src/bower_components')
+            fromcwd('src/jspm_packages')
+          ]
+        }
+        {
+          test: /\.ls$/
           loader: 'livescript-async-loader'
           include: [fromcwd('src')]
           exclude: [
             fromcwd('node_modules')
             fromcwd('src/bower_components')
             fromcwd('src/jspm_packages')
+            fromcwd('src/interventions')
           ]
         }
         # {

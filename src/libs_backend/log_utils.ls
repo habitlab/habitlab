@@ -87,7 +87,7 @@ export clear_intervention_logdb_cache = ->
   intervention_logdb_cache := null
 
 export getInterventionLogDb = ->>
-  if intervention_logdb_cache?
+  if intervention_logdb_cache? and intervention_logdb_cache.isOpen()
     return intervention_logdb_cache
   output = await getInterventionLogDb_uncached()
   intervention_logdb_cache := output

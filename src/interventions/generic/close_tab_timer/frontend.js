@@ -1,9 +1,3 @@
-window.Polymer = window.Polymer || {};
-window.Polymer.dom = 'shadow';
-
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
 const $ = require('jquery')
 
 const {
@@ -13,19 +7,18 @@ const {
 const {
   append_to_body_shadow,
   once_body_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
-require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/time-until-tab-autoclose-view.deps')
+require_component('habitlab-logo')
+require_component('time-until-tab-autoclose-view')
 
 //Polymer button
-require('bower_components/paper-button/paper-button.deps')
+require_component('paper-button')
 
 var display_timespent_div = $('<time-until-tab-autoclose-view>');
 var shadow_div;
 once_body_available().then(function() {
-  append_to_body_shadow(display_timespent_div);
+  shadow_div = append_to_body_shadow(display_timespent_div);
 })
 
 /*
@@ -56,5 +49,3 @@ var countdownTimer = setInterval(() => {
 window.on_intervention_disabled = () => {
   $(shadow_div).remove()
 }
-
-window.debugeval = x => eval(x);

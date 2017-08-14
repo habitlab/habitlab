@@ -147,7 +147,7 @@
       background-color:white;
     }
     .siteicondisabled {
-      opacity: 0.9;
+      opacity: 0.5;
     }
     .siteiconenabled{
       opacity: 1;
@@ -227,7 +227,9 @@
             <!-- <h3>{{site_and_goals.sitename}}</h3> -->
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
+                <!-- <template is = "dom-if" if="{{more_than_zero_minutes(goal,get_time_spent_for_domain,baseline_time_on_domains)}}"> -->
                 <template is="dom-if" if="{{!goal.is_positive}}">
+
                   <div style="display: inline-block; align-items: center; padding-bottom: 15px;" >
 
                     <div style="position: relative; top: 12.5px; left: 21px; ">
@@ -235,34 +237,25 @@
 
                       <template is="dom-if" if="{{goal.enabled}}">
                       <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
-                      <img style= "width:30px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
+                      <img style= "width:45px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
                       </template>
                       </div>
                     </div>
                     <template is="dom-if" if="{{goal.enabled}}">
-                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular" src="{{goal.icon}}" />
+                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular" src="{{goal.icon}}" />
                     </template>
                     <template is="dom-if" if="{{!goal.enabled}}">
-                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{goal.icon}}" />
+                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{goal.icon}}" />
                     </template>
                     <div style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
                     <div style='text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</div>
                     </template>
                   </template>
-                </div>
+                  <!-- </template> -->
+                  </div>
+
               </template>
             </template>   
-
-
-
-              <!--<div>
-                <template is="dom-if" if="{{!goal.enabled}}">
-                <span style="font-family: monospace; font-size: 16px">Add custom goal.</span>
-                </template>
-                <template is="dom-if" if="{{goal.enabled}}">
-                <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
-                </template>
-              </div>-->
             <div>  
             </div>
          </template>

@@ -28,10 +28,6 @@ const {
 polymer_ext({
   is: 'fb-scroll-block-display',
   properties: {
-    intervention: {
-      type: String,
-      value: '',
-    },
     minutes: {
       type: Number,
     },

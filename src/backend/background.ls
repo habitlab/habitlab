@@ -334,8 +334,6 @@ do ->>
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list) ->>
     {content_script_options, name} = intervention_info
 
-    console.log 'execute_content_scripts_for_intervention occurred at ' + Date.now()
-
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
 
@@ -452,13 +450,27 @@ do ->>
       else
         content_script_code = await localget(options.path)
       if options.jspm_require
+        content_script_code_prequel = """
+        const intervention = #{JSON.stringify(intervention_info_copy)};
+        const parameters = #{JSON.stringify(parameter_values)};
+        const tab_id = #{tabId};
+        const dlog = function(...args) { console.log(...args); };
+        const set_default_parameters = function(parameter_object) {
+          for (let parameter_name of Object.keys(parameter_object)) {
+            if (parameters[parameter_name] == null) {
+              parameters[parameter_name] = parameter_object[parameter_name];
+            }
+          }
+        };
+
+        """
         content_script_code = """
         window.Polymer = window.Polymer || {}
         window.Polymer.dom = 'shadow'
         SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
-          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code)))}');
+          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_code)))}');
         })
         """
         /*
@@ -501,8 +513,16 @@ do ->>
     if (!window.loaded_content_scripts['#{options.path}']) {
       window.loaded_content_scripts['#{options.path}'] = true;
       const intervention = #{JSON.stringify(intervention_info_copy)};
+      const parameters = #{JSON.stringify(parameter_values)};
       const tab_id = #{tabId};
       const dlog = function(...args) { console.log(...args); };
+      const set_default_parameters = function(parameter_object) {
+        for (let parameter_name of Object.keys(parameter_object)) {
+          if (parameters[parameter_name] == null) {
+            parameters[parameter_name] = parameter_object[parameter_name];
+          }
+        }
+      };
       window.intervention_disabled = false;
 
       if (!window.SystemJS) {
@@ -602,7 +622,6 @@ do ->>
     if !is_habitlab_enabled_sync()
       return
 
-    console.log 'load_intervention_for_location at ' + Date.now()
     domain = url_to_domain(location)
     if not domain_to_prev_enabled_interventions[domain]?
       domain_to_prev_enabled_interventions[domain] = []
@@ -686,7 +705,6 @@ do ->>
             interventions_to_load.push permanently_enabled_intervention
             #await load_intervention permanently_enabled_intervention, tabId
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
-    console.log 'load_intervention_for_location 2 at ' + Date.now()
     await load_intervention_list interventions_to_load, tabId
     return
 
@@ -795,7 +813,6 @@ do ->>
       dlog domain_to_session_id
 
   navigation_occurred = (url, tabId) ->
-    console.log 'navigation occurred to ' + url + ' at ' + Date.now()
     new_domain = url_to_domain(url)
     if new_domain != prev_domain
       domain_changed(new_domain)
@@ -920,9 +937,6 @@ do ->>
       #dlog response_data
       # chrome bug - doesn't seem to actually send the response back....
       #sendResponse response_data
-      if type == 'get_var'
-        console.log 'response is'
-        console.log response
       if sendResponse?
         sendResponse response
       # {requestId} = request

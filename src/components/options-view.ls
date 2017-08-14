@@ -40,7 +40,7 @@ polymer_ext {
       'dashboard': 1
       'overview': 1
       'goals': 0
-      'interventions': 0
+      'nudges': 0
       'configure': 0
       'config': 0
       'manage': 0

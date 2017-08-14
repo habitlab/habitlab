@@ -11,6 +11,11 @@ export printable_time_spent = (seconds) ->
     return seconds + ' seconds'
   return moment().add(seconds, 'seconds').fromNow(true)
 
+/**
+* Return time spent in hours, minutes, seconds format
+* @param {Integer} seconds - seconds spent
+* @return {String} 
+*/
 export printable_time_spent_long = (seconds) ->
   hours = Math.floor(seconds / 3600)
   remaining_seconds = seconds - (hours * 3600)

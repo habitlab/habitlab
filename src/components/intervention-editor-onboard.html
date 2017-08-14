@@ -1,0 +1,138 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<dom-module id="intervention-editor-onboard">
+  <style>
+    :host {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+    #outer_wrapper{ 
+      min-width: 100vw;
+      min-height: 100vh;
+      color: white;
+      padding: 20px;
+      display:block;
+      background-color:#1E8CD2;
+    }
+    #my_interventions_section{
+      display: inline-block;
+    }
+    .intervention_tab{
+      cursor: pointer;
+      width:130px;
+      height:130px;
+      margin:10px auto;
+      margin-left:10px; 
+      margin-right:10px;
+      border-radius:30px;
+      padding: 8px;
+      box-shadow: 0px 0px 15px #346da3;
+      background-color:#7EAFEA ;
+      position: relative;
+      display: inline-block;
+    }
+    .item_name{
+      font-weight: 100;
+      font-size: 24px;
+      color: white;
+      z-index: 1;
+      max-width:100%;
+      word-wrap:break-word;
+      top: 50%;
+    }
+    .button {
+      color: white;
+      background-color: #50E3C2;
+      width:50px;
+      height: 30px;
+      box-shadow: 2px 2px 2px #888888;
+      font-weight: bold;
+      transition: opacity .35s ease;
+      margin:10px;
+    }
+    #add_new_tab {
+      cursor: pointer;
+      width:130px;
+      height:130px;
+      margin:10px auto;
+      margin-left:10px; 
+      margin-right:10px;
+      border-radius:30px;
+      padding: 8px;
+      box-shadow: 0px 0px 15px #346da3;
+      background-color:#7EAFEA;
+      position: relative;
+      float:left;     
+    }
+    .template_section{
+      display:inline-block;
+    }
+    .template_tab{
+      overflow:hidden;
+      width: 200px;
+      padding: 15px;
+      display:inline-block;
+      height: 250px;
+
+    }
+    /* .screenshot{
+      cursor:pointer;
+      box-shadow: 0px 0px 15px #346da3;
+    } */
+    .template_name{
+      margin-top:15px;
+      font-family: "Helvetica";
+      font-size:24px;  
+      margin-left: 10px;
+    }
+    /* .screenshot:hover{
+      transform: scale(1.5);
+    } */
+  </style>
+
+  <template>
+    <div id="outer_wrapper">
+      <div id="my_interventions_section">
+        <h1>Build your own interventions...</h1>
+        <div id="add_new_tab" on-click="add_new_clicked">
+          <img src="icons/plus.png" style="width:100px; height:100px;margin:15px;">
+        </div>
+        <div id="my_interventions" style="width:100vw;">
+          <template is="dom-repeat" items="{{custom_intervention_list}}" as="intervention_name">
+            <paper-tab class="intervention_tab" on-click="open_custom_intervention">
+              <div class="item_name">{{intervention_name}}</div>
+            </paper-tab>
+          </template>
+        </div>
+      </div>
+      <br>
+
+      <div class="template_section">
+        <h1>Or modify popular templates...</h1>
+        <div id="my_templates" style="width:100vw;">
+
+          <template is="dom-repeat" items="{{templates_info_list}}" as="template_name">
+            <div class="template_tab">
+              <!--<img class="screenshot" on-click="open_template" src="screenshots/{{template_name.name}}.png" alt="{{template_name.description}}" style="width:300px; height:180px;">-->
+              <img class="intervention_tab" on-click="open_template" src="interventions/{{template_name.name}}/icon.svg" alt="{{template_name.description}}">
+              <paper-tooltip position="top" offset="-10">{{template_name.description}}</paper-tooltip>
+              <div class="template_name">
+                {{template_name.displayname}}
+              </div>
+            </div>
+          </template>
+        </div>
+      </div> 
+    </div>
+  </template>
+  <script src="intervention-editor-onboard.js"></script> 
+</dom-module>

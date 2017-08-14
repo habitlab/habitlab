@@ -287,7 +287,8 @@ SystemJS.config({
     "npm:w3c-blob@0.0.1/browser.js",
     "npm:w3c-blob@0.0.1.json",
     "npm:jspm-nodelibs-process@0.2.0/process.js",
-    "npm:jspm-nodelibs-process@0.2.0.json"
+    "npm:jspm-nodelibs-process@0.2.0.json",
+    "npm:brace@0.9.1/ext/language_tools.js"
   ]
 }
 });

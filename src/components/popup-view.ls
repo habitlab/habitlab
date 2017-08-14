@@ -274,9 +274,9 @@ polymer_ext {
     swal {
       title: 'How HabitLab Works'
       html: '''
-      HabitLab will help you achieve your goal by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal site.
+      HabitLab will help you achieve your goal by showing you a different <i>nudge</i>, like a news feed blocker or a delayed page loader, each time you visit your goal site.
       <br><br>
-      At first, HabitLab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
+      At first, HabitLab will show you a random nudge each visit, and over time it will learn what works most effectively for you.
       <br><br>
       Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
       '''
@@ -330,7 +330,7 @@ polymer_ext {
       "Goal Website History Graph" : "graph-time-spent-on-goal-sites-daily",
       "Daily Overview" : "site-goal-view",
       "Donut Graph" : "graph-donut-top-sites",
-      "Interventions Deployed Graph" : "graph-num-times-interventions-deployed",
+      "Nudges Deployed Graph" : "graph-num-times-interventions-deployed",
       "Time Saved Due to HabitLab" : "graph-time-saved-daily"
     }
     self.graphNamesToOptions = graphNamesToOptions
@@ -351,7 +351,7 @@ polymer_ext {
 
     #Graph options shown to user
     graphOptions = ['Goal Website History Graph', 'Daily Overview', 
-                    'Donut Graph', 'Interventions Deployed Graph', 
+                    'Donut Graph', 'Nudges Deployed Graph', 
                     'Time Saved Due to HabitLab']
     self.graphOptions = graphOptions 
 

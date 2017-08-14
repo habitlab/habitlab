@@ -22,6 +22,7 @@ globals:
   #'$': true
   'SystemJS': true
   'require': true
+  'require_component': true
   'exports': true
   'module': true
   'Polymer': true
@@ -29,6 +30,8 @@ globals:
   'tab_id': true
   'Buffer': true
   'dlog': true
+  'parameters': true
+  'set_default_parameters': true
 rules:
   'no-console': 'off'
   'no-unused-vars': 'off'

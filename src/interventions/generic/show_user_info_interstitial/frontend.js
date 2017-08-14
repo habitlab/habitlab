@@ -1,13 +1,5 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
-require('enable-webcomponents-in-content-scripts')
-
 const $ = require('jquery')
-require('components/interstitial-screen-num-visits.deps')
+require_component('interstitial-screen-num-visits')
 const {
   get_minutes_spent_on_domain_today,
   get_visits_to_domain_today
@@ -16,7 +8,7 @@ const {
 const {
   append_to_body_shadow,
   once_body_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   url_to_domain
@@ -55,5 +47,3 @@ var shadow_div;
 window.on_intervention_disabled = () => {
   $(shadow_div).remove();
 }
-
-window.debugeval = x => eval(x);

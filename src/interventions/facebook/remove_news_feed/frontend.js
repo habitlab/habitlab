@@ -1,25 +1,6 @@
-//alert('loaded at ' + Date.now())
-
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery')
 
 const selectorsToHide = '.ticker_stream, .ego_column, #pagelet_games_rhc, #pagelet_trending_tags_and_topics, #pagelet_canvas_nav_content';
-
-//Removes new feed (modified from 'kill news feed' src code)
-function removeFeed() {
-  var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
-
-  hide(feed.children());
-  hide($(selectorsToHide));
-
-  feedShown = false;
-}
-
-var feedShown = false;
-removeFeed()
-var intervalID = window.setInterval(removeFeed, 30);
 
 const {
   log_action,
@@ -27,22 +8,35 @@ const {
 
 const {
   wrap_in_shadow
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   on_url_change,
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   msg
 } = require('libs_common/localization_utils')
 
-require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/close-tab-button.deps')
+const {
+  get_news_feed
+}  = require('libs_frontend/facebook_utils')
 
-//Polymer button
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('close-tab-button')
+require_component('paper-button')
+
+var feedShown = false;
+removeFeed()
+var intervalID = window.setInterval(removeFeed, 30);
+
+//Removes new feed (modified from 'kill news feed' src code)
+function removeFeed() {
+  var feed = get_news_feed();
+  hide(feed.children());
+  hide($(selectorsToHide));
+  feedShown = false;
+}
 
 function hide(query) {
   query.css('opacity', 0);
@@ -58,26 +52,21 @@ function show(query) {
 function showFeed() {
   clearInterval(intervalID) //stop refreshing the page to hide elements
   $('#habitlab_show_feed_div').remove()
-
-  var feed = $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]');
-
+  var feed = get_news_feed();
   show(feed.children());
   show($(selectorsToHide));
-
   feedShown = true;
 }
 
 //Attaches habitlab button and show news feed button
-
 function attachButtons() {
-  var habitlab_logo = $('<habitlab-logo intervention="facebook/remove_news_feed" style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo>')
+  var habitlab_logo = $('<habitlab-logo style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo>')
   var cheatButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #415D67; color: white; -webkit-font-smoothing: antialiased; height: 38px" raised>Show my News Feed</paper-button>')
   cheatButton.click(function(evt) {
     log_action({'negative': 'Remained on Facebook.'})
     showFeed()
   })
   var closeButton = $(`<close-tab-button text="${msg('Close Facebook')}">`)
-
   var habitlab_show_feed_div = $('<div>')
   .css({
     'text-align': 'center'
@@ -106,5 +95,3 @@ attachButtons();
 window.on_intervention_disabled = () => {
   showFeed();
 }
-
-window.debugeval = x => eval(x);

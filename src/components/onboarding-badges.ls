@@ -2,28 +2,17 @@
   get_interventions
   get_intervention_info
   get_enabled_interventions
-  set_intervention_enabled
-  set_intervention_disabled
-  set_intervention_automatically_managed
-  set_intervention_manually_managed
-  get_intervention_parameters
-  set_intervention_parameter
-  set_override_enabled_interventions_once
+  list_generic_interventions
 } = require 'libs_backend/intervention_utils'
 
 {
   list_goal_info_for_enabled_goals
 } = require 'libs_backend/goal_utils'
 
-{ 
-  get_goal_intervention_info
-  get_enabled_goals
-  get_goals
-  list_site_info_for_sites_for_which_goals_are_enabled
-  list_goals_for_site
-  set_goal_target
-  get_goal_target
-  remove_custom_goal_and_generated_interventions
+{   
+  get_enabled_goals  
+  get_goal_info
+  list_site_info_for_sites_for_which_goals_are_enabled  
   add_enable_custom_goal_reduce_time_on_domain
   set_goal_enabled_manual
   set_goal_disabled_manual
@@ -122,54 +111,6 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('interventions/generic/unlock.svg')     
     }
-    # facebook_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/Facebook.svg')     
-    # }
-    # youtube_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/Youtube.svg')     
-    # }
-    # gmail_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/Gmail.svg')     
-    # }    
-    # amazon_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/Amazon.svg')     
-    # }
-    # amazonvideo_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/Amazonvideo.svg')     
-    # }    
-    # buzzfeed_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/Buzzfeed.svg')     
-    # }
-    # iqiyi_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/IQIYI.svg')     
-    # }    
-    # netflix_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/Netflix.svg')     
-    # }
-    # reddit_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/Reddit.svg')     
-    # }   
-    # twitter_url: {
-    #   type: String,
-    #   value: chrome.extension.getURL('icons/intervention_icons/twitter.svg')     
-    # }
-    # icons_url: {
-    #   type: String, 
-    #   value: chrome.extension.getURL('interventions/generic/toast_notifications/icon.svg')
-    # }
-    # icons2_url: {
-    #   type: String, 
-    #   value: chrome.extension.getURL('interventions/generic/show_timer_banner/icon.svg')
-    # }
     intervention: {
       type: Object
       observer: 'intervention_property_changed'
@@ -198,7 +139,6 @@ polymer_ext {
     goal_name_to_intervention_info_list: {
       type: Object
     }
-
   }
   
   get_goal_icon_url: (sitename) ->
@@ -269,22 +209,9 @@ polymer_ext {
     return
 
   ready: ->>
-    # enabled_goals_list=[]
-    # enabled_goals = await get_enabled_goals()
-    # for goals in enabled_goals
-    #   enabled_goals_list.push x
-    # this.enabled_goals = enabled_goals_list
-    # # console.log('enabled_goals')
-    # # console.log(enabled_goals)
-    # # this.enabled_goals = enabled_goals
 
     enabled_goals_info_list = await list_goal_info_for_enabled_goals()
-    # # for x in enabled_goals_info_list
-    # #   if x.is_positive == true
-    # #     positive_site = true
-    # #   else
-    # this.enabled_goals_info_list = new_list
-    
+
     console.log('enabled_goals_info_list')
     console.log(enabled_goals_info_list)
     

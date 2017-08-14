@@ -7,7 +7,7 @@ content_scripts:
 parameters:
   - name: seconds
     description: Seconds that the user must wait before the page loads
-    default: 10
+    default: 5
     type: int
 categories:
   - interstitial

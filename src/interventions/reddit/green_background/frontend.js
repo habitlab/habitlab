@@ -2,9 +2,9 @@ const $ = require('jquery')
 
 const {
   once_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
-// const once_available = require('libs_frontend/common_libs')['once_available']
+// const once_available = require('libs_frontend/frontend_libs')['once_available']
 
 //setTimeout(() => {
 //  $('body').css('background-color', 'green')
@@ -13,5 +13,3 @@ const {
 once_available('body', () => {
   $('body').css('background-color', 'green')
 })
-
-window.debugeval = x => eval(x);

@@ -1,13 +1,10 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery')
 
 const {
   once_available_fast,
   on_url_change,
   wrap_in_shadow,
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   run_only_one_at_a_time
@@ -57,9 +54,8 @@ on_url_change(() => {
   hide_comments_once_available()
 })
 
-require('enable-webcomponents-in-content-scripts')
-require('bower_components/paper-button/paper-button.deps')
-require('components/habitlab-logo.deps')
+require_component('paper-button')
+require_component('habitlab-logo')
 
 function show_comments() {
   $('#habitlab_show_comments').remove();
@@ -88,5 +84,3 @@ window.on_intervention_disabled = () => {
     - remember, that polymer component is then required into the dashboard
     - visual studio code
 */
-
-window.debugeval = x => eval(x);

@@ -1,20 +1,20 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
+set_default_parameters({
+  minutes: 10 // The amount of minutes between notification injections
+})
 
 const $ = require('jquery')
 
 const {
   once_available,
   wrap_in_shadow,
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   close_selected_tab
 } = require('libs_common/tab_utils')
 
-require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/reward-display.deps')
+require_component('habitlab-logo')
+require_component('reward-display')
 
 const messages = ["You've spent a questionable amount of time on Facebook.",
                   "Please get off facebook. I'm begging you.",
@@ -139,7 +139,7 @@ function insertClickNotification() {
 }
 
 function main() {
-  if (decideToInject(intervention.params.minutes.value)) { //Injects notifications every x minutes
+  if (decideToInject(parameters.minutes)) { //Injects notifications every x minutes
       begin()
   } else {
     console.log("Notification not injected")
@@ -152,5 +152,3 @@ setTimeout(begin, 3000);
 window.on_intervention_disabled = () => {
   $('.habitlab_inserted').remove()
 }
-
-window.debugeval = x => eval(x);

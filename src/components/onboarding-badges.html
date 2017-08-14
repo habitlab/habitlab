@@ -29,6 +29,7 @@
       /* --paper-tooltip-background: black; */
       --paper-tooltip-text-color: white;
       font-size:16px;
+
     }
 
 
@@ -132,7 +133,7 @@
 
   <template>
   
-    <div>
+    <div style="position: relative">
     <img style= "width:80px;padding-left:0px;padding-bottom:0px;margin:auto;margin-left:0px;margin-top:25px;margin-bottom:10px;" src="{{logo_glow_black_bubbles}}"></img>
     <div style = "margin-top: 0px;margin-bottom:13px; font-size: 35px;color:white;">Congratulations! </div>
     <div style = "margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">You've unlocked some starter Nudges!</div>
@@ -153,7 +154,7 @@
 
       <div style = "display:inline-flex; padding-bottom: 0px;">
 
-        <div "display:block;">
+        <div style="display:block;">
           <img class = "siteicons" src = "{{generic_url}}"></img>
           <div style = "position: relative; left: 0px;top:0px; color: rgb(185,200,235);font-size:22px;"> All Sites </div>
           <paper-tooltip class = "tooltip" offset = "10px" animation-delay="0">These Nudges can be used on all sites!</paper-tooltip>

@@ -99,9 +99,9 @@ export getDb = ->>
     return local_cache_db
   if getdb_running
     while getdb_running
-      await sleep(50)
+      await sleep(1)
     while getdb_running or local_cache_db == null
-      await sleep(50)
+      await sleep(1)
     return local_cache_db
   getdb_running := true
   await delete_db_if_outdated_db()

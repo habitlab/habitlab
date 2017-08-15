@@ -238,7 +238,7 @@ polymer_ext {
     return true
   set_sites_and_goals: ->>
     self = this
-    goal_name_to_info = await get_goals()
+    [goal_name_to_info, enabled_goals] = await Promise.all [get_goals(), get_enabled_goals()]
     sitename_to_goals = {}
     for goal_name,goal_info of goal_name_to_info
       if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
@@ -249,33 +249,15 @@ polymer_ext {
       sitename_to_goals[sitename].push goal_info
     list_of_sites_and_goals = []
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
-    enabled_goals = await get_enabled_goals()
-    await this.get_daily_targets!
-    
+
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
       
       for goal in current_item.goals
         goal.enabled = (enabled_goals[goal.name] == true)
-        goal.number = this.index_of_daily_goal_mins[goal.name]
-        
-      
-
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-
-
- 
-  goal_changed: (evt) ->
-    
-    checked = evt.target.checked    
-    console.log evt.target.goalname
-    goal_name = evt.target.goal.name
-
-  /*add_custom: (evt) ->
-  console.log 'add custom site.'*/
-
   image_clicked: (evt) ->>
     console.log 'clicked image:'
     console.log evt.target.goalname
@@ -424,11 +406,12 @@ polymer_ext {
     $('.flexcontainer').css('margin-left', margin_needed)
     current_offset = this.S('.flexcontainer').offset()
     this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
-  ready: ->>
+  attached: ->>
     self = this
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    self.on_resize '#outer_wrapper', ->
-      self.repaint_due_to_resize()
+    if self.is_onboarding
+      self.on_resize '#outer_wrapper', ->
+        self.repaint_due_to_resize()
     #fetch history for suggested sites in intervention settings 
     this.baseline_time_on_domains = await get_baseline_time_on_domains()
     baseline_time_on_domains_array = []
@@ -445,11 +428,11 @@ polymer_ext {
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
     this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
     console.log(this.baseline_time_on_domains)
-    self.once_available '.siteiconregular' ->
-      console.log 'siteiconregular available 1'
-      self.repaint_due_to_resize()
-      console.log 'siteiconregular available 2'
-
+    if self.is_onboarding
+      self.once_available '.siteiconregular' ->
+        console.log 'siteiconregular available 1'
+        self.repaint_due_to_resize()
+        console.log 'siteiconregular available 2'
 }, [
   {
     source: require 'libs_common/localization_utils'

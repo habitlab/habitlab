@@ -121,7 +121,7 @@ polymer_ext {
       description: intervention_info.description
       domain: intervention_info.domain
       preview: intervention_info.preview
-      matches: intervention_info.matches
+      matches: [intervention_info.domain]
       sitename: intervention_info.sitename
       sitename_printable: intervention_info.sitename_printable
       goals: intervention_info.goals
@@ -193,7 +193,7 @@ polymer_ext {
       description: intervention_info.description
       domain: goal_info.domain
       preview: goal_info.preview
-      matches: goal_info.matches
+      matches: [goal_info.domain]
       sitename: goal_info.sitename
       sitename_printable: goal_info.sitename_printable
       custom: true
@@ -260,7 +260,7 @@ polymer_ext {
       description: data.new_intervention_description
       domain: data.new_goal_info.domain
       preview: data.new_preview
-      matches: data.new_goal_info.matches
+      matches: [data.new_goal_info.domain]
       sitename: data.new_goal_info.sitename
       sitename_printable: data.new_goal_info.sitename_printable
       custom: true

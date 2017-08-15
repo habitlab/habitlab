@@ -166,38 +166,16 @@ polymer_ext {
     window.scrollTo 0, document.body.scrollHeight
 
   show_intro_button_clicked: ->
-    this.$$('#show_intro_button').style.display = 'none'
+    #this.$$('#show_intro_button').style.display = 'none'
     this.$$('#intro1_content').style.display = 'block'
     this.$$('#intro2').style.display = 'block'
     this.$$('#intro4').style.display = 'block'
-
   attached: ->
    if window.location.hash != '#introduction'
     for elem in Polymer.dom(this.root).querySelectorAll('.intro')
       elem.style.display = 'inline-flex';
-    for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
-      elem.style.display = 'none';
-    this.$$('#pointer-div').style.display = 'none';
-    this.$$('#show_intro_button').style.display = 'inline-flex'
-    this.$$('#intro1_content').style.display = 'none'
-    this.$$('#intro2').style.display = 'none'
-    this.$$('#intro4').style.display = 'none'
-
   ready: ->
     this.rerender()
-    self = this
-    if window.location.hash == '#introduction'
-      localStorage.removeItem 'popup_view_has_been_opened'
-      popup_view_opened_checker = setInterval ->
-        if localStorage.popup_view_has_been_opened == 'true'
-          self.popup_view_has_been_opened = true
-          self.$$('#pointer-div').style.display = 'none'
-          self.$$('#popup-button').disabled = false
-          self.$$('#popup-button').innerText = 'Next'
-          clearInterval popup_view_opened_checker
-          if self.$$('#intro4').style.display != 'none'
-            self.show_swal()
-      , 500
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 
   show_randomize_button: ->

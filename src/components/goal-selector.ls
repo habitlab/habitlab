@@ -106,15 +106,15 @@ polymer_ext {
     mins = Number (obj.item.innerText.trim ' ' .split ' ' .0)
     set_goal_target obj.item.class, mins
   get_daily_targets: ->>
-    #[goals, goal_targets] = await Promise.all [get_goals(), get_all_goal_targets()]
-    goals = await get_goals()
     goal_targets = await get_all_goal_targets()
-    for goal in Object.keys goals
-      if goal == "debug/all_interventions" 
+    index_of_daily_goal_mins = {}
+    for goal_name,goal_target of goal_targets
+      if goal_name == "debug/all_interventions" 
         continue
-      mins = goal_targets[goal]
+      mins = goal_targets[goal_name]
       mins = mins/5 - 1
-      this.index_of_daily_goal_mins[goal] = mins
+      index_of_daily_goal_mins[goal_name] = mins
+    return index_of_daily_goal_mins
   show_internal_names_of_goals: ->
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
   daily_goal_help_clicked: ->
@@ -135,7 +135,7 @@ polymer_ext {
     return true
   set_sites_and_goals: ->>
     self = this
-    goal_name_to_info = await get_goals()
+    [goal_name_to_info, enabled_goals] = await Promise.all [get_goals(), get_enabled_goals()]
     sitename_to_goals = {}
     for goal_name,goal_info of goal_name_to_info
       if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
@@ -146,16 +146,13 @@ polymer_ext {
       sitename_to_goals[sitename].push goal_info
     list_of_sites_and_spend_less_time_goals = []
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
-    enabled_goals_promise = get_enabled_goals()
-    [enabled_goals, _] = await Promise.all [enabled_goals_promise, self.get_daily_targets()]
-    
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
       positive_site = false
       for goal in current_item.goals
         goal.enabled = (enabled_goals[goal.name] == true)
-        goal.number = this.index_of_daily_goal_mins[goal.name]
+        #goal.number = index_of_daily_goal_mins[goal.name]
         if goal.is_positive == true
           positive_site = true
       
@@ -245,6 +242,9 @@ polymer_ext {
     this.fire 'need_rerender', {}
     return
   ready: ->>
+    this.start_time = Date.now()
+    console.log('goal-selector being loaded')
+    await getDb()
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 }, {
   source: require 'libs_common/localization_utils'

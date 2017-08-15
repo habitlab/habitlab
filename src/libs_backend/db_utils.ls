@@ -87,11 +87,23 @@ export is_collection_synced = (collection_name) ->
     return true
   return false
 
+sleep = (time) ->>
+  return new Promise ->
+    setTimeout(it, time)
+
 local_cache_db = null
+getdb_running = false
 
 export getDb = ->>
-  if local_cache_db?
+  if local_cache_db? and local_cache_db.isOpen()
     return local_cache_db
+  if getdb_running
+    while getdb_running
+      await sleep(1)
+    while getdb_running or local_cache_db == null
+      await sleep(1)
+    return local_cache_db
+  getdb_running := true
   await delete_db_if_outdated_db()
   db = new dexie('habitlab', {autoOpen: false})
   dbver = get_current_dbver_db()
@@ -120,6 +132,7 @@ export getDb = ->>
       local_cache_db := new_db
     return false
   local_cache_db := await db.open()
+  getdb_running := false
   return local_cache_db
 
 export deleteDb = ->>

@@ -1,16 +1,8 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
 set_default_parameters({
   cheatseconds: 30 // Seconds to cheat for after time is up
 })
 
 const $ = require('jquery')
-
-require('enable-webcomponents-in-content-scripts')
 
 /*
 window.Polymer = {
@@ -21,18 +13,18 @@ window.Polymer = {
 */
 
 //Polymer Component
-require('bower_components/paper-slider/paper-slider.deps')
-require('bower_components/paper-input/paper-input.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('paper-slider')
+require_component('paper-input')
+require_component('paper-button')
 
-require('components/interstitial-screen.deps')
-require('components/timespent-view.deps')
-require('components/habitlab-logo.deps')
+require_component('interstitial-screen')
+require_component('timespent-view')
+require_component('habitlab-logo')
 
 const {
   once_body_available,
   create_shadow_div_on_body
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   get_seconds_spent_on_current_domain_today
@@ -243,5 +235,3 @@ var shadow_div;
 window.on_intervention_disabled = () => {
   shadow_div.remove()
 }
-
-window.debugeval = x => eval(x);

@@ -39,7 +39,7 @@ do ->>
 
   {
     getUrlParameters
-  } = await SystemJS.import 'libs_frontend/common_libs'
+  } = await SystemJS.import 'libs_frontend/frontend_libs'
 
   use_polyfill = getUrlParameters().polyfill
   if use_polyfill and use_polyfill != 'false' and parseInt(use_polyfill) != 0

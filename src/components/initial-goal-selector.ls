@@ -171,7 +171,7 @@ polymer_ext {
   daily_goal_help_clicked: ->
     swal {
       title: 'How will HabitLab help me achieve these goals?'
-      text: 'HabitLab will help you achieve these goals by showing you a different intervention, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
+      text: 'HabitLab will help you achieve these goals by showing you a different nudge, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
     }
 
   openBy: (evt) ->

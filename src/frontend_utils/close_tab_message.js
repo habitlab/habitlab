@@ -11,6 +11,8 @@ function show_reward_display() {
 
 if (!window.close_tab_message_loaded) {
   window.close_tab_message_loaded = true
+  window.Polymer = window.Polymer || {};
+  window.Polymer.dom = 'shadow';
   require('enable-webcomponents-in-content-scripts')
   require('components/reward-display-toast.deps')
 }

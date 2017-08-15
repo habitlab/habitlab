@@ -3,13 +3,12 @@ const $ = require('jquery')
 const {
   on_url_change,
   once_available,
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
-require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
+require_component('habitlab-logo')
 
 //Polymer button
-require('bower_components/paper-button/paper-button.deps')
+require_component('paper-button')
 
 var intervalID = window.setInterval(removeFeed, 200);
 
@@ -46,5 +45,3 @@ $('.content-main.top-timeline-tweetbox').append(container)
 window.on_intervention_disabled = () => {
   showFeed()
 }
-
-window.debugeval = x => eval(x);

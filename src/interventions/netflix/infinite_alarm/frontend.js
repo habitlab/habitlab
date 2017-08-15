@@ -1,18 +1,6 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function') {
-  window.wrap = null;
-}
-
-require('enable-webcomponents-in-content-scripts')
-require('components/netflix-alarm-screen.deps')
-require('components/netflix-alarm-snooze-display.deps')
+require_component('netflix-alarm-screen')
+require_component('netflix-alarm-snooze-display')
 const $ = require('jquery')
-
-const {
-  is_on_same_domain_and_same_tab
-} = require('libs_common/session_utils')
 
 let alarm_time = NaN
 
@@ -37,11 +25,6 @@ var display_snooze_process = setInterval(function() {
 }, 1000)
 
 const main = async function() {
-  //const on_same_domain_and_same_tab = await is_on_same_domain_and_same_tab(tab_id)
-  //if (on_same_domain_and_same_tab) {
-  //  return
-  //}
-
   var interst_screen = $('<netflix-alarm-screen>')
   interst_screen.on('alarm_set', function(data) {
     alarm_time = data.detail.ring_time
@@ -49,9 +32,7 @@ const main = async function() {
     console.log(data)
     interst_screen.remove()
   })
-
   $(document.body).append(interst_screen)
-
 }
 
 main();
@@ -61,5 +42,3 @@ window.on_intervention_disabled = () => {
   $('netflix-alarm-snooze-display').remove()
   $('netflix-alarm-screen').remove()
 }
-
-window.debugeval = x => eval(x);

@@ -6,6 +6,9 @@
   close_tab_with_id
 } = require 'libs_frontend/tab_utils'
 
+/*
+* Close the current tab in Chrome
+*/
 close_current_tab = ->>
   tab_id = get_tab_id()
   await close_tab_with_id(tab_id)

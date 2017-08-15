@@ -22,6 +22,7 @@ globals:
   #'$': true
   'SystemJS': true
   'require': true
+  'require_component': true
   'exports': true
   'module': true
   'Polymer': true

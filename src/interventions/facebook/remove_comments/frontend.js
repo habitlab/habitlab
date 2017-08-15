@@ -1,19 +1,14 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery')
 
 const {
   wrap_in_shadow
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
-require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/call-to-action-button.deps')
-//require('components/timespent-view.deps')
+require_component('habitlab-logo')
+require_component('call-to-action-button')
 
 //Polymer button
-require('bower_components/paper-button/paper-button.deps')
+require_component('paper-button')
 
 var intervalID = window.setInterval(removeComments, 200);
 
@@ -58,5 +53,3 @@ window.on_intervention_disabled = () => {
   $('.habitlab_button_container').remove()
   showComments();
 }
-
-window.debugeval = x => eval(x);

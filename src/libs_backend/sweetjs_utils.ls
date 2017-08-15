@@ -75,12 +75,18 @@ compile = (code) ->>
   code_with_async_wrapper = """
   (async function() {
     #{code}
-  })()
+  })();
   """
   all_requires = list_requires(code_with_async_wrapper, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
   extra_code = []
   extra_code_segment2 = []
-  if (all_requires.define_component? and all_requires.define_component.length > 0) or (all_requires.require_component? and all_requires.require_component.length > 0)
+  is_component_require = (x) ->
+    if x.endsWith('.deps') or x.endsWith('.deps.js')
+      return true
+    if x == 'libs_frontend/toast_utils'
+      return true
+    return false
+  if (all_requires.require? and (all_requires.require.filter(is_component_require).length > 0)) or (all_requires.define_component? and all_requires.define_component.length > 0) or (all_requires.require_component? and all_requires.require_component.length > 0)
     extra_code.push "require('enable-webcomponents-in-content-scripts');"
   if all_requires.require_component? and all_requires.require_component.length > 0
     component_list = all_requires.require_component

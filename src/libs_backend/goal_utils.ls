@@ -320,8 +320,12 @@ export get_goals = ->>
   #if local_cached_get_goals?
   #  return local_cached_get_goals
   cached_get_goals = localStorage.getItem 'cached_get_goals'
-  /*if cached_get_goals?
-    return JSON.parse cached_get_goals*/
+  if cached_get_goals?
+    output = JSON.parse cached_get_goals
+    for goal_name,goal_info of output
+      if goal_info.icon == 'icon.png'
+        goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
+    return output
     #local_cached_get_goals := JSON.parse cached_get_goals
     #return local_cached_get_goals
   goal_info_list = JSON.parse JSON.stringify (await get_goal_intervention_info()).goals
@@ -352,6 +356,9 @@ export get_goals = ->>
         goal_info.interventions.push(intervention_name)
   localStorage.setItem 'cached_get_goals', JSON.stringify(output)
   #local_cached_get_goals := output
+  for goal_name,goal_info of output
+    if goal_info.icon == 'icon.png'
+      goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
   return output
 
 /**

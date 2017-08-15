@@ -2,7 +2,7 @@ const $ = require('jquery')
 
 const {
   once_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const swal = require('sweetalert2')
 
@@ -32,5 +32,3 @@ const main = async function() {
 }
 
 main();
-
-window.debugeval = x => eval(x);

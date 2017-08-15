@@ -2,27 +2,10 @@ set_default_parameters({
   seconds: 10 // Seconds that the user must wait before the page loads
 })
 
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function') {
-  window.wrap = null;
-}
-
-require('enable-webcomponents-in-content-scripts')
-require('components/netflix-screen.deps')
+require_component('netflix-screen')
 const $ = require('jquery')
 
-const {
-  is_on_same_domain_and_same_tab
-} = require('libs_common/session_utils')
-
 const main = async function() {
-  //const on_same_domain_and_same_tab = await is_on_same_domain_and_same_tab(tab_id)
-  //if (on_same_domain_and_same_tab) {
-  //  return
-  //}
-
   var interst_screen = $('<netflix-screen>')
   interst_screen.addClass('interst_screen')
   var buttonText = 'Continue to ' + intervention.sitename_printable
@@ -51,7 +34,6 @@ const main = async function() {
   }, 50)
 
   $(document.body).append(interst_screen)
-
 }
 
 main();
@@ -59,5 +41,3 @@ main();
 window.on_intervention_disabled = () => {
   $('.interst_screen').remove();
 }
-
-window.debugeval = x => eval(x);

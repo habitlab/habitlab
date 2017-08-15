@@ -10,7 +10,7 @@ swal = require 'sweetalert2'
   get_enabled_goals
   get_goals
   set_goal_target
-  get_goal_target
+  get_all_goal_targets
   remove_custom_goal_and_generated_interventions
   add_enable_custom_goal_reduce_time_on_domain
   set_goal_enabled_manual
@@ -109,19 +109,21 @@ polymer_ext {
     num = Number (obj.item.innerText.trim ' ' .split ' ' .0)
     set_goal_target obj.item.class, num
   get_daily_targets: ->>
-    goals = await get_goals!
-    for goal in Object.keys goals
-      if goal == "debug/all_interventions" 
+    goal_targets = await get_all_goal_targets()
+    index_of_daily_goal_mins = {}
+    for goal_name,goal_target of goal_targets
+      if goal_name == "debug/all_interventions" 
         continue
-      mins = await get_goal_target goal
-      minsIndex = mins/5 - 1
-      this.index_of_daily_goal_mins[goal] = minsIndex
+      mins = goal_targets[goal_name]
+      mins = mins/5 - 1
+      index_of_daily_goal_mins[goal_name] = mins
+    return index_of_daily_goal_mins
   show_internal_names_of_goals: ->
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
   daily_goal_help_clicked: ->
     swal {
       title: 'How are Daily Goals used?'
-      text: 'Your daily goal is used only to display your progress. If you exceed your daily goal, HabitLab will continue to show interventions as usual (it will not block the site).'
+      text: 'Your daily goal is used only to display your progress. If you exceed your daily goal, HabitLab will continue to show nudges as usual (it will not block the site).'
     }
   settings_goal_clicked: (evt) ->
     evt.preventDefault()
@@ -136,7 +138,7 @@ polymer_ext {
     return true
   set_sites_and_goals: ->>
     self = this
-    goal_name_to_info = await get_goals()
+    [goal_name_to_info, enabled_goals] = await Promise.all [get_goals(), get_enabled_goals()]
     sitename_to_goals = {}
     for goal_name,goal_info of goal_name_to_info
       if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
@@ -149,16 +151,13 @@ polymer_ext {
     list_of_sites_and_spend_more_time_goals = []
 
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
-    enabled_goals = await get_enabled_goals()
-    await this.get_daily_targets!
-    
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
       positive_site = false
       for goal in current_item.goals
         goal.enabled = (enabled_goals[goal.name] == true)
-        goal.number = this.index_of_daily_goal_mins[goal.name]
+        #goal.number = index_of_daily_goal_mins[goal.name]
         if goal.is_positive == true
           positive_site = true
       
@@ -252,6 +251,9 @@ polymer_ext {
     this.fire 'need_rerender', {}
     return
   ready: ->>
+    this.start_time = Date.now()
+    console.log('goal-selector being loaded')
+    await getDb()
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 }, {
   source: require 'libs_common/localization_utils'

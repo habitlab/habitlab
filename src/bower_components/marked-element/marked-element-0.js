@@ -2,6 +2,8 @@
 
   'use strict';
 
+  const marked = require('marked');
+
   Polymer({
 
     is: 'marked-element',

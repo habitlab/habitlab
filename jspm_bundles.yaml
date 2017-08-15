@@ -42,3 +42,4 @@
   - brace/mode/livescript
   - brace/mode/html
   - brace/theme/monokai
+  - brace/ext/language_tools

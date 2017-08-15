@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery')
 
 removeClickBait()
@@ -22,10 +19,9 @@ function removeClickBait() {
 const {
   wrap_in_shadow,
   once_available
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
-require('enable-webcomponents-in-content-scripts')
-require('components/removed-clickbait-message.deps')
+require_component('removed-clickbait-message')
 
 function addNotification() {
   var removed_clickbait_message = $('<removed-clickbait-message></removed-clickbait-message>')
@@ -41,5 +37,3 @@ window.on_intervention_disabled = () => {
   clearInterval(intervalID)
   $('#removed_clickbait_message').remove()
 }
-
-window.debugeval = x => eval(x);

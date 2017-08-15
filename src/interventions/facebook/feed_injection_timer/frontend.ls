@@ -1,18 +1,14 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 {
   inject_into_feed
-} = require 'libs_frontend/facebook_feed_injection'
+} = require 'libs_frontend/facebook_utils'
 
 {
   wrap_in_shadow
-} = require 'libs_frontend/common_libs'
+} = require 'libs_frontend/frontend_libs'
 
 $ = require 'jquery'
 
-require 'enable-webcomponents-in-content-scripts'
-require 'components/feed-item-timer-polymer.deps'
+require_component('feed-item-timer-polymer')
 
 component_generator = (numitems) ->
   feed-item = $('<feed-item-timer-polymer>')
@@ -25,8 +21,3 @@ window.on_intervention_disabled = ->
   $('feed-item-timer-polymer').remove()
   window.feed_injection_active = false
   clearInterval(window.firststartprocess)
-
-window.debugeval = -> eval(it)
-
-
-

@@ -23,6 +23,12 @@ export sleep = (time) ->>
   return new Promise ->
     setTimeout(it, time)
 
+/**
+* Return an element once it's available (check every 0.1 seconds)
+* @param {String} selector of the element
+* @param {function} callback
+* @return {HTMLElement}
+*/
 export once_available = (selector, callback) ->>
   current_result = document.querySelector(selector)
   while not current_result?
@@ -32,6 +38,12 @@ export once_available = (selector, callback) ->>
     callback(current_result)
   return current_result
 
+/**
+* Return an element once it's available (check every 0.03 seconds)
+* @param {String} selector of the element
+* @param {function} callback
+* @return {HTMLElement}
+*/
 export once_available_fast = (selector, callback) ->>
   current_result = document.querySelector(selector)
   while not current_result?
@@ -41,6 +53,12 @@ export once_available_fast = (selector, callback) ->>
     callback(current_result)
   return current_result
 
+/**
+* Return multiple elements once they are available (check every 0.1 seconds)
+* @param {String} selector of the elements
+* @param {function} callback
+* @return {NodeList} the list of elements selected
+*/
 export once_available_multiselect = (selector, callback) ->>
   current_result = document.querySelectorAll(selector)
   while not (current_result.length > 0)
@@ -50,6 +68,10 @@ export once_available_multiselect = (selector, callback) ->>
     callback(current_result)
   return current_result
 
+/**
+* Return once body is available (check every 0.03 seconds)
+* @param {function} callback
+*/
 export once_body_available = (callback) ->>
   while not document.body?
     await sleep(30)
@@ -61,6 +83,10 @@ export once_body_available = (callback) ->>
 #  chrome.browserAction.setBadgeText {text: '1'}
 #  chrome.browserAction.setBadgeBackgroundColor {color: '#3498DB'}
 
+/**
+* Execute a particular function when curren url changes
+* @param {function} func - function to get executed
+*/
 export on_url_change = (func) ->
   prev_url = window.location.href
   chrome.runtime.onMessage.addListener (msg, sender, sendResponse) ->
@@ -79,6 +105,11 @@ to_camelcase_dict = (options) ->
     output[to_camelcase_string(k)] = v
   return output
 
+/**
+* Creates a div in the shadow dom to protect the div styling from outside CSS
+* @param options - css styling which should be applied to shadow div
+* @return the created shadow div
+*/
 export create_shadow_div = (options) ->
   if not options?
     options = {}
@@ -127,6 +158,11 @@ export wrap_in_shadow = (elem, options) ->
   create_shadow_div(options) # return value is equal to elem
   return elem.shadow_host
 
+/**
+* Creates a div in the shadow dom to protect the div styling from outside CSS
+* @param {Object} [options] - Options(CSS styling) for the creation of the Shadow DOM wrapper element
+* @return the created shadow div
+*/
 export create_shadow_div_on_body = (options) ->
   if not options?
     options = {}

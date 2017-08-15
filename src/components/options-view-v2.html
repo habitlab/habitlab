@@ -99,7 +99,7 @@ paper-button.fancy {
                     <!--<goal-settings />-->
                     <dash-settings id="settings_tab"></dash-settings>
                     <template is="dom-repeat" items="{{enabled_goal_info_list}}" as="goal_info">
-                      <site-view site="{{goal_info.sitename}}"></site-view>
+                      <site-view id="siteview_{{goal_info.sitename}}" site="{{goal_info.sitename}}"></site-view>
                       <!--
                       <div>
                         {{goal_info.sitename_printable}}

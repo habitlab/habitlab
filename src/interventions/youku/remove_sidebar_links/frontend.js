@@ -1,13 +1,9 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 var $ = require('jquery');
-const {wrap_in_shadow} = require('libs_frontend/common_libs')
+const {wrap_in_shadow} = require('libs_frontend/frontend_libs')
 
-require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/call-to-action-button.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('call-to-action-button')
+require_component('paper-button')
 
 function removeSidebar() {
   if (window.intervention_disabled) {
@@ -39,7 +35,4 @@ removeSidebar()
 window.on_intervention_disabled = () => {
   disable_intervention()
 }
-
-window.debugeval = x => eval(x);
-
 

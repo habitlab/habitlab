@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 const $ = require('jquery')
 
 const {close_selected_tab} = require('libs_frontend/tab_utils')
@@ -9,7 +6,7 @@ const {
   once_available,
   on_url_change,
   wrap_in_shadow,
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   run_only_one_at_a_time
@@ -23,11 +20,10 @@ const {
   log_action,
 } = require('libs_frontend/intervention_log_utils')
 
-require('enable-webcomponents-in-content-scripts')
-require('components/habitlab-logo.deps')
-require('components/call-to-action-button.deps')
-require('components/positive-goal-site-button.deps')
-require('bower_components/paper-button/paper-button.deps')
+require_component('habitlab-logo')
+require_component('call-to-action-button')
+require_component('positive-goal-site-button')
+require_component('paper-button')
 
 
 //console.log('youtube prompt before watch loaded frontend')
@@ -385,5 +381,3 @@ window.addEventListener('resize', function(evt) {
 window.on_intervention_disabled = () => {
   removeDivAndPlay()
 }
-
-window.debugeval = x => eval(x);

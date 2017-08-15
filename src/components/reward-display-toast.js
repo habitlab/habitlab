@@ -17,6 +17,9 @@ Polymer({
     isdemo: {
       type: Boolean,
       observer: 'isdemo_changed'
+    },
+    image_url: {
+      type: String
     }
   },
   compute_time_saved_message: function(seconds_saved) {
@@ -48,6 +51,7 @@ Polymer({
   },
   play: function() {
     let self = this
+    /*
     let video = this.$.rewardvideo
     if (video.readyState == 4) {
       video.play()
@@ -57,6 +61,7 @@ Polymer({
         video.play()
       }
     }
+    */
     setTimeout(function() {
       self.hide()
     }, 2000)
@@ -70,9 +75,10 @@ Polymer({
     //console.log results
     //console.log results.data.image_url
     //this.img_url = results.data.image_url
-    if (results.data.image_mp4_url.startsWith('http:')) {
-      results.data.image_mp4_url = results.data.image_mp4_url.replace(/^http:/, 'https:')
+    console.log(results.data)
+    if (results.data.image_url.startsWith('http:')) {
+      results.data.image_url = results.data.image_url.replace(/^http:/, 'https:')
     }
-    this.video_url = results.data.image_mp4_url
+    this.image_url = results.data.image_url.replace(/\.gif$/, '.webp')
   }
 })

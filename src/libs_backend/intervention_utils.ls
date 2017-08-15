@@ -344,6 +344,12 @@ export list_all_interventions = ->>
   #local_cache_list_all_interventions := interventions_list
   return interventions_list
 
+export clear_extra_interventions_and_cache = ->
+  localStorage.removeItem('extra_get_interventions')
+  localStorage.removeItem('extra_list_all_interventions')
+  clear_cache_all_interventions()
+
+
 export clear_cache_all_interventions = ->
   clear_cache_list_all_interventions()
   clear_cache_get_interventions()

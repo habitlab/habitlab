@@ -91,9 +91,9 @@ polymer_ext({
     swal({
       title: 'How HabitLab Works',
       html: `
-      HabitLab will help you achieve your goal by showing you a different <i>intervention</i>, like a news feed blocker or a delayed page loader, each time you visit your goal site.
+      HabitLab will help you achieve your goal by showing you a different <i>nudge</i>, like a news feed blocker or a delayed page loader, each time you visit your goal site.
       <br><br>
-      At first, HabitLab will show you a random intervention each visit, and over time it will learn what works most effectively for you.
+      At first, HabitLab will show you a random nudge each visit, and over time it will learn what works most effectively for you.
       <br><br>
       Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
       `,
@@ -104,7 +104,7 @@ polymer_ext({
       //cancelButtonText: 'Close'
     })
   },
-  site_changed: async function(site) {
+  rerender1: async function() {
     const goal_info_list = await list_goals_for_site(this.site);
     const intervention_name_to_info_map = await get_interventions();
     const enabled_interventions = await get_enabled_interventions();
@@ -112,11 +112,25 @@ polymer_ext({
       const intervention_info = intervention_name_to_info_map[intervention_name];
       intervention_info.enabled = (enabled_interventions[intervention_name] == true);
     }
+    return [intervention_name_to_info_map, goal_info_list]
+  },
+  rerender: async function() {
+    let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
+    //if (this.site != site) {
+    //  return;
+    //}
+    this.intervention_name_to_info_map = intervention_name_to_info_map;
+    this.goal_info = goal_info_list[0];
+  },
+  site_changed: async function(site) {
+    /*
+    let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
     if (this.site != site) {
       return;
     }
     this.intervention_name_to_info_map = intervention_name_to_info_map;
     this.goal_info = goal_info_list[0];
+    */
   }
 }, {
   source: require('libs_frontend/polymer_methods'),

@@ -1,34 +1,18 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
-if (typeof(window.wrap) != 'function')
-  window.wrap = null
-
 set_default_parameters({
   seconds: 5 // Seconds that the user must wait before the page loads
 })
 
-require('enable-webcomponents-in-content-scripts')
-require('components/interstitial-screen.deps')
+require_component('interstitial-screen')
 const $ = require('jquery')
 
 const {
   append_to_body_shadow,
   once_body_available
-} = require('libs_frontend/common_libs')
-
-const {
-  is_on_same_domain_and_same_tab
-} = require('libs_common/session_utils')
+} = require('libs_frontend/frontend_libs')
 
 var shadow_div;
 
 (async function() {
-  //const on_same_domain_and_same_tab = await is_on_same_domain_and_same_tab(tab_id)
-  //if (on_same_domain_and_same_tab) {
-  //  return
-  //}
-
   var interst_screen = $('<interstitial-screen>')
   interst_screen.addClass('interst_screen')
   var buttonText = 'Continue to ' + intervention.sitename_printable
@@ -67,5 +51,3 @@ var shadow_div;
 window.on_intervention_disabled = () => {
   $(shadow_div).remove();
 }
-
-window.debugeval = x => eval(x);

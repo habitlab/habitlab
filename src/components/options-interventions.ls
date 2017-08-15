@@ -83,6 +83,10 @@ polymer_ext {
       type: Boolean
       value: localStorage.work_hours_only != "true"
     },
+    weekdays:{
+      type: Array
+      value: ['M','T','W','Th','F']
+    }
     seen_tutorial: {
       type: Boolean
       value: localStorage.seen_tutorial != "true"

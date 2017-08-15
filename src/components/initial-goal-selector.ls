@@ -238,7 +238,7 @@ polymer_ext {
     return true
   set_sites_and_goals: ->>
     self = this
-    goal_name_to_info = await get_goals()
+    [goal_name_to_info, enabled_goals] = await Promise.all [get_goals(), get_enabled_goals()]
     sitename_to_goals = {}
     for goal_name,goal_info of goal_name_to_info
       if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
@@ -249,33 +249,15 @@ polymer_ext {
       sitename_to_goals[sitename].push goal_info
     list_of_sites_and_goals = []
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
-    enabled_goals = await get_enabled_goals()
-    await this.get_daily_targets!
-    
+
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
       
       for goal in current_item.goals
         goal.enabled = (enabled_goals[goal.name] == true)
-        goal.number = this.index_of_daily_goal_mins[goal.name]
-        
-      
-
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-
-
- 
-  goal_changed: (evt) ->
-    
-    checked = evt.target.checked    
-    console.log evt.target.goalname
-    goal_name = evt.target.goal.name
-
-  /*add_custom: (evt) ->
-  console.log 'add custom site.'*/
-
   image_clicked: (evt) ->>
     console.log 'clicked image:'
     console.log evt.target.goalname

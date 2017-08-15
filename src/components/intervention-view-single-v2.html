@@ -15,6 +15,11 @@
     .always_show_button {
 
     }
+    .interventions{
+      width:100px;
+      margin-right:10px;
+      cursor: pointer;
+     }
     .always_show_button[active] {
       background-color: lightblue;
     }
@@ -34,7 +39,8 @@
           <template is="dom-if" if="{{!compact}}">
             <div style="display: flex">
               <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 8px'>
-                <span>{{intervention.description}}</span>
+                <span>{{intervention.displayname}}</span>
+                <img class="interventions" src = {{get_intervention_icon_url(intervention.name)}}></img>                
                 <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
                   <span style="font-family: monospace">[<span>{{intervention.name}}</span>]</span>
                 </template>
@@ -50,6 +56,7 @@
             </div>
           </template>
 
+
           <template is="dom-if" if="{{compact}}">
             <div style="padding-left: 10px;">
               <div id="invn_name" style='padding-bottom: 3px; font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; display: block; font-size: 14px; vertical-align: top; padding-top: 1px'>
@@ -64,6 +71,7 @@
               <paper-button id="preview_intervention_button" style="text-align: right; text-transform: none; display: inline-block; position: relative; background-color: #415D67; border-top: 1px #415D67 solid; border-bottom: 1px #415D67 solid; border-left: 1px #415D67 solid; border-right: 3.5px #415D67 solid; color: white; vertical-align: top; margin-top: 0px; margin-left: 10px; -webkit-font-smoothing: subpixel-antialiased" on-click="preview_intervention">Try now</paper-button>
             </div>
           </template>
+
 
         </div>
 

@@ -82,6 +82,11 @@ polymer_ext {
   intervention_property_changed: (intervention, old_intervention) ->
     #this.automatic = this.intervention.automatic
     this.enabled = this.intervention.enabled
+
+  get_intervention_icon_url: (intervention_name) ->
+    url_path = 'interventions/'+ intervention_name.toString() + '/icon.svg'
+    return (chrome.extension.getURL(url_path)).toString()
+
   /*
   automatic_and_enabled: (automatic, enabled) ->
     return automatic and enabled

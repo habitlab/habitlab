@@ -205,6 +205,7 @@
       box-shadow: 0px 0px 5px #346da3;
       background-color:white;
       padding:5px;
+      cursor:pointer;
     }
     .dayicondisabled {
      background-color:rgb(35,70,110);
@@ -237,11 +238,11 @@
           <div>When should interventions be active?</div>
           <div class="card-content" >You can set interventions to be always on, or only active during work hours.
             <br>
-            <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
-            <!-- <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
+            <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
+             <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
               <paper-radio-button class = "radio-button" name="always" >Always On</paper-radio-button>
               <paper-radio-button class = "radio-button" name="workday">Only Work Hours</paper-radio-button>
-            </paper-radio-group> -->
+            </paper-radio-group> 
             
             <div class = "days-container">
               <div style="display: inline-block">
@@ -250,7 +251,7 @@
                     <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
                   </div>
                 </div>
-                <div class="dayicon weekends"id ="sunday"></div>
+                <div class="dayicon weekends" id ="sunday" on-click = "change_intervention_activeness"></div>
               </div>
               <template is="dom-repeat" items="{{weekdays}}" as="weekday">
                 <div style="display: inline-block">

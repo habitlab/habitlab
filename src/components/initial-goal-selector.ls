@@ -111,6 +111,9 @@ polymer_ext {
     },
     baseline_time_on_domains: {
       type: Object
+    },
+    is_onboarding: {
+      type: Boolean
     }
   }
   isdemo_changed: (isdemo) ->

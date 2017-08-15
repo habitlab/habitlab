@@ -11,7 +11,7 @@ require('components/positive-site-trigger.deps')
 
 const {
   append_to_body_shadow
-} = require('libs_frontend/common_libs')
+} = require('libs_frontend/frontend_libs')
 
 const {
   get_intervention

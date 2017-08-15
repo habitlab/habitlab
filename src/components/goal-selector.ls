@@ -18,6 +18,10 @@ swal = require 'sweetalert2'
 } = require 'libs_backend/goal_utils'
 
 {
+   getDb
+} = require 'libs_backend/db_utils'
+
+{
   get_interventions
   get_enabled_interventions
   set_intervention_disabled

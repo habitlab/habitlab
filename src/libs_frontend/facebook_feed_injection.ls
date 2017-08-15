@@ -55,7 +55,7 @@ export inject_into_feed = (component_generator) ->
         $feeditem.feedlearninserted = true
         window.numitems += 1
       
-        if window.numitems % 10 == 1
+        if window.numitems % 10 == 5
           if window.feed_injection_active
             insertBeforeItem $($feeditem)
     return

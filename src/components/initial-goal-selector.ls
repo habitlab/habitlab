@@ -424,11 +424,12 @@ polymer_ext {
     $('.flexcontainer').css('margin-left', margin_needed)
     current_offset = this.S('.flexcontainer').offset()
     this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
-  ready: ->>
+  attached: ->>
     self = this
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    self.on_resize '#outer_wrapper', ->
-      self.repaint_due_to_resize()
+    if self.is_onboarding
+      self.on_resize '#outer_wrapper', ->
+        self.repaint_due_to_resize()
     #fetch history for suggested sites in intervention settings 
     this.baseline_time_on_domains = await get_baseline_time_on_domains()
     baseline_time_on_domains_array = []
@@ -445,11 +446,11 @@ polymer_ext {
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
     this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
     console.log(this.baseline_time_on_domains)
-    self.once_available '.siteiconregular' ->
-      console.log 'siteiconregular available 1'
-      self.repaint_due_to_resize()
-      console.log 'siteiconregular available 2'
-
+    if self.is_onboarding
+      self.once_available '.siteiconregular' ->
+        console.log 'siteiconregular available 1'
+        self.repaint_due_to_resize()
+        console.log 'siteiconregular available 2'
 }, [
   {
     source: require 'libs_common/localization_utils'

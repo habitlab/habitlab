@@ -63,18 +63,7 @@ polymer_ext {
     minutes_saved: {
       type: Number
     }
-    habby_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/badges/habby.svg')      
-    }
-    sola_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/badges/sola.svg')     
-    }
-    twinkl_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/badges/twinkl.svg')     
-    }
+
     logo_glow_url: {
       type: String,
       value: chrome.extension.getURL('icons/badges/habitlab_glow.svg')      
@@ -95,10 +84,10 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/badges/logo_offline.svg')     
     }
-    heart_white_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/badges/heart_white.svg')     
-    }
+    # heart_white_url: {
+    #   type: String,
+    #   value: chrome.extension.getURL('icons/badges/heart_white.svg')     
+    # }
     heart_empty_url: {
       type: String,
       value: chrome.extension.getURL('icons/badges/heart.svg')     

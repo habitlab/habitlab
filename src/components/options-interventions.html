@@ -237,86 +237,43 @@
 
           <div>When should interventions be active?</div>
           <div class="card-content" >You can set interventions to be always on, or only active during work hours.
-
-
-
             <br>
-            <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
+            <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
+            <!-- <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
               <paper-radio-button class = "radio-button" name="always" >Always On</paper-radio-button>
               <paper-radio-button class = "radio-button" name="workday">Only Work Hours</paper-radio-button>
-            </paper-radio-group>
-
-
-          <div class = "days-container">
-            <div style="display: inline-block">
-              <div style= "position: relative; top:20px; left:5px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
-                </div>
-              </div>
-              <div class="dayicon weekends"id ="sunday"></div>
-            </div>
-            <div style="display: inline-block">
-              <div style= "position: relative; top:20px; left:5px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">M</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="monday"></div>
-            </div>
-            <div style="display: inline-block">
-              <div style= "position: relative; top:20px; left:5px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">T</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="tuesday"></div>
-            </div>
-            <div style="display: inline-block">
-              <div style= "position: relative; top:20px; left:5px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">W</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="wednesday"></div>
-            </div>
-            <div style="display: inline-block">
-              <div style= "position: relative; top:20px; left:5px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">T</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="thursday"></div>
-            </div>
-            <div style="display: inline-block">
-              <div style= "position: relative; top:20px; left:5px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">F</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="friday"></div>
-            </div>
-            <div style="display: inline-block">
-              <div style= "position: relative; top:20px; left:5px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
-                </div>
-              </div>
-              <div class="dayicon weekends"id ="saturday"></div>
-            </div>
-
-
-          </div>
-
-
-
-
-
-            <!--
-            <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
-            -->
+            </paper-radio-group> -->
             
+            <div class = "days-container">
+              <div style="display: inline-block">
+                <div style= "position: relative; top:20px; left:5px;">
+                  <div style ="position:absolute">
+                    <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
+                  </div>
+                </div>
+                <div class="dayicon weekends"id ="sunday"></div>
+              </div>
+              <template is="dom-repeat" items="{{weekdays}}" as="weekday">
+                <div style="display: inline-block">
+                  <div style= "position: relative; top:20px; left:5px;">
+                    <div style ="position:absolute">
+                      <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">{{weekday}}</div>
+                    </div>
+                  </div>
+                  <div class="dayicon weekdays"></div>
+                </div>
+              </template>
+              <div style="display: inline-block">
+                <div style= "position: relative; top:20px; left:5px;">
+                  <div style ="position:absolute">
+                    <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
+                  </div>
+                </div>
+                <div class="dayicon weekends"id ="sunday"></div>
+              </div>
+            </div>
 
+            <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
             <template is="dom-if" if="{{!always_active}}">
               <div id="timepicker" >
                 <span class="time-string">Interventions are only active between</span>
@@ -342,6 +299,7 @@
 
               </div>
             </template>
+            
           </div>
           <!--
           <br>
@@ -373,13 +331,8 @@
         </paper-card>
       </div>-->
 
-<<<<<<< HEAD
       <!--<div id="intro2" class="intro" style="display:none;">
         <paper-card heading="Which interventions will HabitLab show me?" class="papercard"> 
-=======
-      <div id="intro2" class="intro" style="display:none;">
-        <paper-card heading="Which nudges will HabitLab show me?" class="papercard"> 
->>>>>>> master
           <div class="card-content">
            
            At first, HabitLab will show you a random nudge each visit, and over time it will learn what works most effectively for you.

@@ -254,11 +254,11 @@
                     <div style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">{{goal.sitename_printable}}</div>
                     <div style="text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</div>
                   </div>
-                  <l2t-context-menu selector=".sitebutton-{{siteidx}}-{{goalidx}}" class="orange">
-                    <dom-if if="{{!is_onboarding}}">
-                      <paper-item style="text-align: left; font-weight: normal" on-click="configure_clicked" goal_name="{{goal.name}}" sitename="{{goal.sitename}}">⚙️ Configure</paper-item>
-                    </dom-if>
-                    <paper-item style="text-align: left; font-weight: normal" on-click="remove_clicked" goal_name="{{goal.name}}" is_custom="{{goal.custom}}">❌ Remove</paper-item>
+                  <l2t-context-menu parentclass="sitebutton-{{siteidx}}-{{goalidx}}" class="orange">
+                    <template is="dom-if" if="{{!is_onboarding}}">
+                      <paper-item style="text-align: left; font-weight: normal" on-click="configure_clicked" goal_name="{{goal.name}}" sitename_printable="{{goal.sitename_printable}}" is_enabled="{{goal.enabled}}" goal_description="{{goal.description}}">⚙️ Configure</paper-item>
+                    </template>
+                    <paper-item style="text-align: left; font-weight: normal" on-click="remove_clicked" goal_name="{{goal.name}}" is_custom="{{goal.custom}}" goal_description="{{goal.description}}">❌ Remove</paper-item>
                   </l2t-context-menu>
                 </template>
               </template>

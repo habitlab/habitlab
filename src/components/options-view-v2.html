@@ -114,7 +114,7 @@ paper-button.fancy {
                         <!--<goal-settings />-->
                         <dash-settings id="settings_tab"></dash-settings>
                         <template is="dom-repeat" items="{{enabled_goal_info_list}}" as="goal_info">
-                          <site-view site="{{goal_info.sitename}}" id="siteview_{{string_to_id(goal_info.sitename)}}"></site-view>
+                          <site-view site="{{goal_info.sitename}}" id="siteview_{{string_to_id(goal_info.sitename_printable)}}"></site-view>
                         <!--
                         <div>
                             {{goal_info.sitename_printable}}
@@ -134,7 +134,7 @@ paper-button.fancy {
                 <div style="width: 100%; margin: 10px">
                     <div style="font-size: 36px; text-align: center">You've disabled HabitLab today.<br>Click to re-enable</div>
                     <div style="margin: 20px; width: calc(100% - 40px); height: 300px; display: flex; justify-content: center">
-                        <img style="display: inline-block; width: 100%; text-align: center" src="{{get_power_icon_src()}}"></img>
+                        <img style="display: inline-block; width: 100%; text-align: center" src="{{get_power_icon_src()}}" />
                     </div>
                 </div>
             </paper-card>

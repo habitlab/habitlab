@@ -114,6 +114,7 @@ polymer_ext {
     },
     is_onboarding: {
       type: Boolean
+      value: false
     }
   }
   isdemo_changed: (isdemo) ->
@@ -327,24 +328,38 @@ polymer_ext {
   #      return
 
   configure_clicked: (evt) ->
-    console.log 'configure_clicked'
-    console.log evt
-    console.log evt.target
-    console.log evt.target.goal_name
-    console.log evt.target.sitename
-    newtab = evt.target.sitename
-    this.fire 'need_tab_change', {newtab: newtab}
-  remove_clicked: (evt) ->
-    console.log 'remove_clicked'
-    console.log evt
-    console.log evt.target
-    console.log evt.target.goal_name
-    is_custom = evt.target.is_custom
-    console.log is_custom
-    if is_custom
-      alert('removed goal')
+    newtab = evt.target.sitename_printable.toLowerCase()
+    goal_description = evt.target.goal_description
+    is_enabled = evt.target.is_enabled
+    if not is_enabled
+      swal {
+        title: 'Enable goal to configure it'
+        html: $('<div>').append([
+          $('<div>').text('Please enable the goal:')
+          $('<div>').text(goal_description)
+        ])
+      }
       return
-    alert('attempting to remove non-custom goal')
+    this.fire 'need_tab_change', {newtab: newtab}
+  remove_clicked: (evt) ->>
+    goal_name = evt.target.goal_name
+    is_custom = evt.target.is_custom
+    if is_custom
+      await remove_custom_goal_and_generated_interventions goal_name
+      await this.set_sites_and_goals()
+      this.fire 'need_rerender', {}
+      return
+    goal_description = evt.target.goal_description
+    swal {
+      title: 'Built-in goal disabled but not removed'
+      html: $('<div>').append([
+        $('<div>').text('The goal you selected is built-in, so it has been disabled, but not removed:')
+        $('<div>').text(goal_description)
+      ])
+    }
+    await set_goal_disabled_manual goal_name
+    await this.set_sites_and_goals()
+    this.fire 'need_rerender', {}
   add_custom_website_from_input: ->>
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
     console.log(domain)
@@ -458,6 +473,7 @@ polymer_ext {
   {
     source: require 'libs_frontend/polymer_methods'
     methods: [
+      'text_if'
       'on_resize'
       'once_available'
       'S'

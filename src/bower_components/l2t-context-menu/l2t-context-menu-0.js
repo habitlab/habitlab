@@ -121,9 +121,7 @@
       *
       */
       _getPosition: function(e){
-        return e.pageX||e.pageY?(t=e.pageX,n=e.pageY):
-        (e.clientX||e.clientY)&&(t=e.clientX+document.body.scrollLeft+document.documentElement.scrollLeft,n=e.clientY+document.body.scrollTop+document.documentElement.scrollTop),
-        {x:t,y:n}
+        return {x: e.clientX, y: e.clientY};
       },
       /**
       * Method to start all listeners

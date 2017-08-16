@@ -10,6 +10,9 @@
   get_intervention_info
   get_interventions
   clear_cache_all_interventions
+  get_enabled_interventions
+  set_intervention_disabled
+  set_intervention_enabled
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -91,7 +94,25 @@ polymer_ext {
       type:Number
       value:0
     }
+    pill_button_idx: {
+      type:Number
+      # computed:'get_pill_button_idx'
+    }
   }
+  get_pill_button_idx: ->>
+    intervention_name=this.get_intervention_name()
+    if intervention_name?
+      enabled_interventions = await get_enabled_interventions()
+      if enabled_interventions[intervention_name]
+        return 1
+      return 0
+  pill_button_selected: (evt) ->
+    if evt.detail.buttonidx == 0 
+      set_intervention_disabled(this.get_intervention_name())
+      this.pill_button_idx=1
+    else
+      set_intervention_enabled(this.get_intervention_name())
+      this.pill_button_idx=0
   get_intervention_name: ->
     if this.opened_intervention_list?
       return this.opened_intervention_list[this.selected_tab_idx]
@@ -412,7 +433,6 @@ polymer_ext {
     #   delete localStorage['autosaved_intervention_' + intervention_name]]
     # chrome.tabs.create {url: 'https://habitlab.github.io/share'}
   make_javascript_editor: (editor_div) ->>
-    console.log 'make_javascript_editor called'
     intervention_name = editor_div.intervention_tab_name
     if intervention_name?
       self = this
@@ -436,6 +456,7 @@ polymer_ext {
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
       js_editor.setValue(intervention_info.code)
+      self.pill_button_idx = await self.get_pill_button_idx()
   opened_intervention_list_changed: ->>
     self = this
     while true

@@ -252,7 +252,13 @@
                       <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{goal.icon}}" />
                     </template>
                     <div style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">{{goal.sitename_printable}}</div>
-                    <div style="text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</div>
+                    <div style="position: relative; text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">
+                      <span>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</span>
+                      <template is="dom-if" if="{{goal.custom}}">
+                        <img src="{{delete_url}}" style="position: absolute; right: 0px; width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
+                        <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
+                      </template>
+                    </div>
                   </div>
                   <l2t-context-menu parentclass="sitebutton-{{siteidx}}-{{goalidx}}" class="orange">
                     <template is="dom-if" if="{{!is_onboarding}}">

@@ -105,13 +105,13 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/plus.png') 
     },
-    delete_url:{
+    delete_url: {
       type: String,
       value: chrome.extension.getURL('icons/delete.svg') 
-    },
+    }
     baseline_time_on_domains: {
       type: Object
-    },
+    }
     is_onboarding: {
       type: Boolean
       value: false
@@ -344,6 +344,8 @@ polymer_ext {
   remove_clicked: (evt) ->>
     goal_name = evt.target.goal_name
     is_custom = evt.target.is_custom
+    console.log 'remove_clicked'
+    console.log goal_name
     if is_custom
       await remove_custom_goal_and_generated_interventions goal_name
       await this.set_sites_and_goals()

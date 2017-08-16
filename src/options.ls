@@ -84,9 +84,9 @@ if window.location.pathname == '/options.html'
       window.location.hash = 'settings'
     #options_view.style.display = 'none'
     document.getElementById('index_body').appendChild(onboarding_view)
-    setTimeout ->
-      options_view = add_options_view(true)
-    , 5000
+    #setTimeout ->
+    #  options_view = add_options_view(true)
+    #, 5000
   else
     options_view = add_options_view(false)
   require 'libs_common/global_exports_post'

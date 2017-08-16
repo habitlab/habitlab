@@ -41,11 +41,9 @@
       background-color:#122438;
     }
     .intervention_tab {
-      /*display:inline-block;*/
       color: white;
       background-color: black;
       height:50px;
-      /*position:fixed;*/
     }
     #topbar_buttons {
       float: right;
@@ -104,9 +102,9 @@
   </style>
   <template>
 
-      <marked-element class="marked-div" id="markdown_display">
-        <div slot="markdown-html"></div>
-      </marked-element>
+    <marked-element class="marked-div" id="markdown_display">
+      <div slot="markdown-html"></div>
+    </marked-element>
 
     <div>
       <iron-pages selected="{{selected_tab_idx}}">

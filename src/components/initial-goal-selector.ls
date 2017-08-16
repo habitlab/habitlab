@@ -317,10 +317,7 @@ polymer_ext {
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
     console.log('add goal clicked')
-    
-
     return
-   
   # add_website_input_keydown: ->
   #    console.log('add_website_input_keydown called')
   #    console.log(evt)
@@ -329,7 +326,25 @@ polymer_ext {
   #      this.add_custom_website_from_input()
   #      return
 
-
+  configure_clicked: (evt) ->
+    console.log 'configure_clicked'
+    console.log evt
+    console.log evt.target
+    console.log evt.target.goal_name
+    console.log evt.target.sitename
+    newtab = evt.target.sitename
+    this.fire 'need_tab_change', {newtab: newtab}
+  remove_clicked: (evt) ->
+    console.log 'remove_clicked'
+    console.log evt
+    console.log evt.target
+    console.log evt.target.goal_name
+    is_custom = evt.target.is_custom
+    console.log is_custom
+    if is_custom
+      alert('removed goal')
+      return
+    alert('attempting to remove non-custom goal')
   add_custom_website_from_input: ->>
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
     console.log(domain)

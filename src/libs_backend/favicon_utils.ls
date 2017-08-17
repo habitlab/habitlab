@@ -14,6 +14,10 @@ require! {
   get_canonical_url
 } = require 'libs_backend/canonical_url_utils'
 
+require! {
+  localforage
+}
+
 {
   memoizeSingleAsync
 } = require 'libs_common/memoize'
@@ -49,6 +53,12 @@ favicon_patterns_href = [
 #  'meta[name=twitter\\:image]',
 #  'meta[property=og\\:image]'
 #]
+
+localforage_store_iconcache = null
+get_store_iconcache = ->
+  if not localforage_store_iconcache?
+    localforage_store_iconcache := localforage.createInstance({name: 'iconcache'})
+  return localforage_store_iconcache
 
 domain_to_favicons_cache = {}
 
@@ -229,6 +239,15 @@ export get_png_data_for_url = (domain) ->>
       return 'data:image/png;base64,' + favicon_ico_base64
   catch
   return
+
+export get_favicon_data_for_domain_cached = (domain) ->>
+  store = get_store_iconcache()
+  res = await store.getItem(domain)
+  if res?
+    return res
+  res = await get_favicon_data_for_domain(domain)
+  await store.setItem(domain, res)
+  return res
 
 export get_favicon_data_for_domain = (domain) ->>
   try

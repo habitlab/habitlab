@@ -451,7 +451,7 @@ export add_enable_custom_goal_reduce_time_on_domain = (domain) ->>
   await add_custom_goal_reduce_time_on_domain(domain)
   await set_goal_enabled("custom/spend_less_time_#{domain}")
   await intervention_utils.generate_interventions_for_domain domain
-  return
+  return "custom/spend_less_time_#{domain}"
 
 export add_enable_custom_goal_increase_time_on_domain = (domain) ->>
   await add_custom_goal_involving_time_on_domain(domain, true)

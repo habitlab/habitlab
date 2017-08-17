@@ -53,6 +53,10 @@ swal = require 'sweetalert2'
 } = require 'libs_backend/favicon_utils'
 
 {
+  promise_all_object
+} = require 'libs_common/promise_utils'
+
+{
   msg
 } = require 'libs_common/localization_utils'
 
@@ -238,6 +242,8 @@ polymer_ext {
   get_icon_for_goal: (goal, goal_name_to_icon) ->
     if goal.icon?
       return goal.icon
+    if goal_name_to_icon[goal.name]?
+      return goal_name_to_icon[goal.name]
     return chrome.extension.getURL('icons/loading.gif')
   is_goal_shown: (goal) ->
     if goal.hidden and localStorage.getItem('show_hidden_goals_and_interventions') != 'true'
@@ -267,6 +273,18 @@ polymer_ext {
         goal.enabled = (enabled_goals[goal.name] == true)
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
+    goal_name_to_icon_changed = false
+    goal_name_to_new_icon_promises = {}
+    for sitename_and_goals in list_of_sites_and_goals
+      for goal_info in sitename_and_goals.goals
+        if not goal_info.icon?
+          goal_name_to_new_icon_promises[goal_info.name] = get_favicon_data_for_domain_cached(goal_info.domain)
+          goal_name_to_icon_changed = true
+    if goal_name_to_icon_changed
+      goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
+      for goal_name,icon of goal_name_to_new_icons
+        self.goal_name_to_icon[goal_name] = icon
+      self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
   image_clicked: (evt) ->>
     console.log 'clicked image:'
     console.log evt.target.goalname
@@ -396,10 +414,12 @@ polymer_ext {
     #console.log 'checkpoint 4'
     #await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
     #console.log 'checkpoint 5'
-    await add_enable_custom_goal_reduce_time_on_domain(domain)
+    goal_name = await add_enable_custom_goal_reduce_time_on_domain(domain)
     await this.set_sites_and_goals()
     #console.log 'checkpoint 6'
     this.fire 'need_rerender', {}
+    #this.goal_name_to_icon[goal_name] = await get_favicon_data_for_domain_cached(domain)
+    #this.goal_name_to_icon = JSON.parse JSON.stringify this.goal_name_to_icon
     #console.log 'checkpoint 7'
     return
   repaint_due_to_resize_once_in_view: ->
@@ -469,12 +489,9 @@ polymer_ext {
     #console.log('finished fetching favicons')
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
     this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
-    console.log(this.baseline_time_on_domains)
     if self.is_onboarding
       self.once_available '.siteiconregular' ->
-        console.log 'siteiconregular available 1'
         self.repaint_due_to_resize()
-        console.log 'siteiconregular available 2'
 }, [
   {
     source: require 'libs_common/localization_utils'

@@ -3,6 +3,7 @@ const {cfy} = require('cfy');
 
 polymer_ext({
   is: 'habitlab-logo',
+  doc: 'Turn off button for user to turn off current nudge or HabitLab',
   properties: {
     width: {
       type: String,

@@ -6,6 +6,7 @@ const {
 
 polymer_ext({
 	is: 'habitlab-rss-message',
+	doc: 'Suggest the user to read the New York Times with links to NYT articles',
 	properties: {
 		articles: {
 			type: Array

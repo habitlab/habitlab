@@ -4,6 +4,7 @@
 
 polymer_ext {
   is: 'star-display'
+  docs: 'Display stars earned through the current nudge'
   properties: {
     num_stars: {
       type: Number

@@ -10,7 +10,7 @@ const {
 
 Polymer({
   is: 'netflix-alarm-screen',
-
+  doc: 'An alarm clock screen for stop watching netflix videos.',
   properties: {
     btnTxt: {
       type: String, 

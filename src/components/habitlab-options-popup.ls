@@ -28,6 +28,7 @@ intervention = require('libs_common/intervention_info').get_intervention()
 
 polymer_ext {
   is: 'habitlab-options-popup'
+  doc: 'A habitlab options popup for user to turn off the current nudge or HabitLab'
   properties: {
     isdemo: {
       type: Boolean

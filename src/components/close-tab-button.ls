@@ -20,6 +20,7 @@
 
 Polymer {
   is: 'close-tab-button'
+  doc: 'A button that closes the current tab'
   properties: {
     buttontext: {
       type: String

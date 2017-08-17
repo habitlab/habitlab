@@ -55,6 +55,16 @@ export text_if_equal = (val1, val2, text) ->
     return text
   return ''
 
+export text_if_elem_in_array = (elem, array, text) ->
+  if array.includes(elem)
+    return text
+  return ''
+
+export text_if_elem_not_in_array = (elem, array, text) ->
+  if not array.includes(elem)
+    return text
+  return ''
+
 export first_elem = (list) ->
   if list? and list.length > 0
     return list[0]

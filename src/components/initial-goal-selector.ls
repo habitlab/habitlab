@@ -112,6 +112,10 @@ polymer_ext {
     baseline_time_on_domains: {
       type: Object
     }
+    goal_name_to_icon: {
+      type: Object
+      value: {}
+    }
     is_onboarding: {
       type: Boolean
       value: false
@@ -231,6 +235,10 @@ polymer_ext {
     evt.stopPropagation()
     newtab = evt.target.sitename
     this.fire 'need_tab_change', {newtab: newtab}
+  get_icon_for_goal: (goal, goal_name_to_icon) ->
+    if goal.icon?
+      return goal.icon
+    return chrome.extension.getURL('icons/loading.gif')
   is_goal_shown: (goal) ->
     if goal.hidden and localStorage.getItem('show_hidden_goals_and_interventions') != 'true'
       return false
@@ -369,24 +377,26 @@ polymer_ext {
       return
     #this.$$('#add_website_input').value = ''
     #console.log 'checkpoint 1'
-    canonical_domain = await get_canonical_domain(domain)
+    canonical_domain = domain
+    #canonical_domain = await get_canonical_domain(domain)
     #console.log 'checkpoint 2'
-    if not canonical_domain?
-      swal {
-        title: 'Invalid Domain'
-        html: $('<div>').append([
-          $('<div>').text('You entered an invalid domain: ' + domain)
-          $('<div>').text('Please enter a valid domain such as www.amazon.com')
-        ])
-        type: 'error'
-      }
-      return
+    # if not canonical_domain?
+    #   swal {
+    #     title: 'Invalid Domain'
+    #     html: $('<div>').append([
+    #       $('<div>').text('You entered an invalid domain: ' + domain)
+    #       $('<div>').text('Please enter a valid domain such as www.amazon.com')
+    #     ])
+    #     type: 'error'
+    #   }
+    #   return
     #console.log 'checkpoint 3'
-    if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
-      await add_enable_custom_goal_reduce_time_on_domain(domain)
+    #if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
+    #  await add_enable_custom_goal_reduce_time_on_domain(domain)
     #console.log 'checkpoint 4'
-    await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
+    #await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
     #console.log 'checkpoint 5'
+    await add_enable_custom_goal_reduce_time_on_domain(domain)
     await this.set_sites_and_goals()
     #console.log 'checkpoint 6'
     this.fire 'need_rerender', {}

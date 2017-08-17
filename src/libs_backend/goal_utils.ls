@@ -439,9 +439,10 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
       units: 'minutes'
     }
   }
-  goal_info.icon = await get_favicon_data_for_domain(domain)
-  if not goal_info.icon?
-    delete goal_info.icon
+  #goal_info.icon = chrome.extension.getURL('icons/loading.gif')
+  #goal_info.icon = await get_favicon_data_for_domain(domain)
+  #if not goal_info.icon?
+  #  delete goal_info.icon
   await add_custom_goal_info goal_info
   return
   

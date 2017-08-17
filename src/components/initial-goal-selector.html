@@ -246,10 +246,10 @@
                       </div>
                     </div>
                     <template is="dom-if" if="{{goal.enabled}}">
-                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular" src="{{goal.icon}}" />
+                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular" src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
                     </template>
                     <template is="dom-if" if="{{!goal.enabled}}">
-                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{goal.icon}}" />
+                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
                     </template>
                     <div style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">{{goal.sitename_printable}}</div>
                     <div style="position: relative; text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">

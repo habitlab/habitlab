@@ -1,0 +1,169 @@
+<html>
+  <head>
+    <title>l2t-context-menu</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#003366">
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link rel="import" href="../../polymer/polymer.html">
+    <link rel="import" href="../l2t-context-menu.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+        text-align: center;
+      }
+      li {
+        list-style-type: numeric;
+      }
+      .deletable, .done, .lines{
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border-bottom: 1px #795548 solid;
+        background: #FFFED6;
+        padding: 15px 0px 0px 15px;
+        max-width: 500px;
+      }
+      .deletable {
+        text-decoration: none;
+        color: #000;
+      }
+      .done {
+        text-decoration: line-through;
+        color: #777;
+      }
+      demo-snippet {
+        width: 768px;
+        margin: 0 auto;
+        text-align: left;
+      }
+      @media screen and (max-width: 768px) {
+        demo-snippet {
+          width: 100%;
+        }
+      }
+    </style>
+    <style is="custom-style">
+        .orange-menu {
+          --context-background-color: #F57C00;
+          --context-text-color: #FFF;
+          --context-link-text-color: #FFE0B2;
+          --context-horizontal-rule-color: #BCBCBC;
+        }
+    </style>
+	</head>
+	  
+  <body>
+    <b>'To do list' Example:</b><br><br>
+    <demo-snippet>
+      <template>
+        <li class="deletable" onmousedown="storeDelete(event)" id="Item1">Wake up</li>
+        <li class="deletable" onmousedown="storeDelete(event)" id="Item2">Eat Breakfast</li>
+        <li class="deletable" onmousedown="storeDelete(event)" id="Item3">Brush Teeth</li>
+        <li class="deletable" onmousedown="storeDelete(event)" id="Item4">Nap time?</li>
+        <li class="lines">&nbsp;</li>
+      </template>
+    </demo-snippet>
+    <demo-snippet><b>Element usage:</b>
+      <template>
+        <!-- First Menu  -->
+        <l2t-context-menu parentclass="deletable" class="orange-menu">
+          <li><b>Complete Menu:</b></li>
+          <paper-item><a href="javascript:deleteFake()">Done</a></paper-item>
+        </l2t-context-menu>
+      
+        <!-- Second Menu  -->
+        <l2t-context-menu parentclass="done" class="orange-menu">
+          <li><b>Complete Menu:</b></li>
+          <paper-item><a href="javascript:undeleteFake()">Redo</a></paper-item>
+        </l2t-context-menu>
+      </template>
+    </demo-snippet>
+    <demo-snippet><b>Styling:</b> (This needs to be in the head section)
+      <template>
+        <style is="custom-style"> 
+          .orange-menu {
+            --context-background-color: #F57C00;
+            --context-text-color: #FFF;
+            --context-link-text-color: #FFE0B2;
+            --context-horizontal-rule-color: #BCBCBC;
+          }
+        </style>
+      </template>
+    </demo-snippet>
+    <demo-snippet><b>Javascript:</b> (Just to simulate function)
+      <template>
+        <script>
+          var storeClicked;
+          function storeDelete(e) {
+            if(e.which == 3) {
+              storeClicked = document.getElementById(e.target.id);
+            }
+          }
+          function deleteFake() {
+            storeClicked.className = "done";
+          }
+          function undeleteFake() {
+            storeClicked.className = "deletable";
+          }
+        </script>
+      </template>
+    </demo-snippet>
+    </demo-snippet>
+    <br><br>
+    <b>Example with Submenus:</b><br><br>
+    <demo-snippet>
+      <template>
+        <div style="background:green;width:100px;height:100px;margin:5 25px;" class="colorbox"></div>
+      </template>
+    </demo-snippet>
+	  <demo-snippet><b>Element usage:</b>
+      <template>
+        <l2t-context-menu parentclass="colorbox">
+          <paper-submenu opened>
+            <paper-item class="menu-trigger">Standard Colors:</paper-item>
+            <paper-menu class="menu-content">
+              <paper-item><a href='javascript:colorUpdate("Red")'>Red</a></paper-item>
+              <paper-item><a href='javascript:colorUpdate("Blue")'>Blue</a></paper-item>
+              <paper-item><a href='javascript:colorUpdate("Yellow")'>Yellow</a></paper-item>
+            </paper-menu>
+          </paper-submenu>
+          
+          <paper-submenu>
+            <paper-item class="menu-trigger">Rare Colors:</paper-item>
+            <paper-menu class="menu-content">
+              <paper-item><a href='javascript:colorUpdate("gold")'>Gold</a></paper-item>
+              <paper-item><a href='javascript:colorUpdate("silver")'>Silver</a></paper-item>
+              <paper-item><a href='javascript:colorUpdate("MistyRose")'>Misty Rose</a></paper-item>
+            </paper-menu>
+          </paper-submenu>
+          
+          <paper-submenu>
+            <paper-item class="menu-trigger">Boring Colors:</paper-item>
+            <paper-menu class="menu-content">
+              <paper-item><a href='javascript:colorUpdate("black")'>Black</a></paper-item>
+              <paper-item><a href='javascript:colorUpdate("white")'>White</a></paper-item>
+              <paper-item><a href='javascript:colorUpdate("Beige ")'>Beige </a></paper-item>
+            </paper-menu>
+          </paper-submenu>
+          
+          <hr>
+          <paper-item><a href='javascript:colorUpdate("rgba(0,0,0,0)")'>Invisible</a></paper-item>      
+        </l2t-context-menu>
+      </template>
+    </demo-snippet>
+    <demo-snippet><b>Javascript:</b> (Just to simulate function)
+      <template>
+        <script>
+          function colorUpdate(color) {
+            document.querySelector(".colorbox").style.backgroundColor = color;
+          }
+        </script>
+      </template>
+    </demo-snippet>
+  </body>
+</html>

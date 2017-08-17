@@ -243,8 +243,6 @@ polymer_ext {
     return
   ready: ->>
     this.start_time = Date.now()
-    console.log('goal-selector being loaded')
-    await getDb()
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 }, {
   source: require 'libs_common/localization_utils'

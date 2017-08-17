@@ -105,15 +105,16 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/plus.png') 
     },
-    delete_url:{
+    delete_url: {
       type: String,
       value: chrome.extension.getURL('icons/delete.svg') 
-    },
+    }
     baseline_time_on_domains: {
       type: Object
-    },
+    }
     is_onboarding: {
       type: Boolean
+      value: false
     }
   }
   isdemo_changed: (isdemo) ->
@@ -317,10 +318,7 @@ polymer_ext {
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
     console.log('add goal clicked')
-    
-
     return
-   
   # add_website_input_keydown: ->
   #    console.log('add_website_input_keydown called')
   #    console.log(evt)
@@ -329,7 +327,41 @@ polymer_ext {
   #      this.add_custom_website_from_input()
   #      return
 
-
+  configure_clicked: (evt) ->
+    newtab = evt.target.sitename_printable.toLowerCase()
+    goal_description = evt.target.goal_description
+    is_enabled = evt.target.is_enabled
+    if not is_enabled
+      swal {
+        title: 'Enable goal to configure it'
+        html: $('<div>').append([
+          $('<div>').text('Please enable the goal:')
+          $('<div>').text(goal_description)
+        ])
+      }
+      return
+    this.fire 'need_tab_change', {newtab: newtab}
+  remove_clicked: (evt) ->>
+    goal_name = evt.target.goal_name
+    is_custom = evt.target.is_custom
+    console.log 'remove_clicked'
+    console.log goal_name
+    if is_custom
+      await remove_custom_goal_and_generated_interventions goal_name
+      await this.set_sites_and_goals()
+      this.fire 'need_rerender', {}
+      return
+    goal_description = evt.target.goal_description
+    swal {
+      title: 'Built-in goal disabled but not removed'
+      html: $('<div>').append([
+        $('<div>').text('The goal you selected is built-in, so it has been disabled, but not removed:')
+        $('<div>').text(goal_description)
+      ])
+    }
+    await set_goal_disabled_manual goal_name
+    await this.set_sites_and_goals()
+    this.fire 'need_rerender', {}
   add_custom_website_from_input: ->>
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
     console.log(domain)
@@ -443,6 +475,7 @@ polymer_ext {
   {
     source: require 'libs_frontend/polymer_methods'
     methods: [
+      'text_if'
       'on_resize'
       'once_available'
       'S'

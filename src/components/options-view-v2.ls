@@ -97,6 +97,7 @@ polymer_ext {
     selected_tab_idx = name_to_idx_map[selected_tab_name]
     if selected_tab_idx?
       self.selected_tab_idx = selected_tab_idx
+      window.scrollTo(0, 0)
       return
     await once_true(-> self.enabled_goal_info_list?length?)
     goals_list = self.enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
@@ -104,18 +105,25 @@ polymer_ext {
     selected_goal_idx = goals_list.indexOf(selected_tab_name)
     if selected_goal_idx?
       self.selected_tab_idx = selected_goal_idx + 2
+    window.scrollTo(0, 0)
   compute_selected_tab_name: (selected_tab_idx, enabled_goal_info_list) ->
     goals_list = enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
     return (['overview', 'settings'].concat(goals_list)).concat(['help'])[selected_tab_idx]
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}
+  string_to_id: (sitename) ->
+    output = ''
+    for c in sitename
+      if 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.indexOf(c) != -1
+        output += c
+    return output.toLowerCase()
   selected_tab_idx_changed: (selected_tab_idx) ->>
     self = this
     if (not selected_tab_idx?) or selected_tab_idx == 0 or selected_tab_idx == 1
       return
     goal_idx = selected_tab_idx - 2
     await once_true(-> self.enabled_goal_info_list?length?)
-    goal_sitename_list = self.enabled_goal_info_list.map((.sitename))
+    goal_sitename_list = self.enabled_goal_info_list.map((.sitename_printable)).map(-> self.string_to_id(it))
     if goal_idx < 0 or goal_idx >= goal_sitename_list.length
       return
     goal_sitename = goal_sitename_list[goal_idx]

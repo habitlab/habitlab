@@ -14,6 +14,7 @@ $ = require 'jquery'
 
 polymer_ext {
   is: 'badge-display-mini'
+  docs: 'A boilerplate for badges earned through HabitLab'
   properties: {
     minutes_saved: {
       type: Number

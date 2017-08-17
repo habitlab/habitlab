@@ -19,6 +19,7 @@ $ = require 'jquery'
 
 polymer_ext {
   is: 'reward-display-playgif'
+  docs: 'Display time saved and an inspiring gif.'
   properties: {
     img_url: {
       type: String

@@ -27,6 +27,7 @@ const {
 
 polymer_ext({
   is: 'fb-scroll-block-display',
+  doc: 'Block facebook scrolling',
   properties: {
     minutes: {
       type: Number,

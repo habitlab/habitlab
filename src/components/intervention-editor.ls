@@ -10,6 +10,9 @@
   get_intervention_info
   get_interventions
   clear_cache_all_interventions
+  get_enabled_interventions
+  set_intervention_disabled
+  set_intervention_enabled
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -90,8 +93,27 @@ polymer_ext {
     selected_tab_idx: {
       type:Number
       value:0
+      observer: 'selected_tab_idx_changed'
+    }
+    pill_button_idx: {
+      type:Number
+    }
+    pill_button_idxes: {
+      type: Object
+      value: {}
     }
   }
+  pill_button_selected: (evt) ->
+    if evt.detail.buttonidx == 0 
+      set_intervention_disabled(this.get_intervention_name())
+      this.pill_button_idx=this.pill_button_idxes[this.get_intervention_name()]=0
+    else
+      set_intervention_enabled(this.get_intervention_name())
+      this.pill_button_idx=this.pill_button_idxes[this.get_intervention_name()]=1     
+  selected_tab_idx_changed: ->>
+    while not this.get_intervention_name()?
+      await sleep(100)
+    this.pill_button_idx=this.pill_button_idxes[this.get_intervention_name()]
   get_intervention_name: ->
     if this.opened_intervention_list?
       return this.opened_intervention_list[this.selected_tab_idx]
@@ -132,7 +154,6 @@ polymer_ext {
     self.intervention_info = new_intervention_info
     await add_new_intervention(new_intervention_info)
     localStorage['saved_intervention_' + intervention_name] = new_intervention_info.code
-    #this.no_unsaved_changes()
     return true
   delete_current_intervention: ->>
     intervention_name = this.get_intervention_name()
@@ -393,30 +414,15 @@ polymer_ext {
           console.log 'not sharing this time'
           # TODO remove_intervention(intervention_name)
       return
-    # try
-    #   await swal({
-    #     title: 'Restore autosaved version?',
-    #     text: 
-    #     type: 'warning',
-    #     showCancelButton: true,
-    #     confirmButtonColor: '#3085d6',
-    #     cancelButtonColor: '#d33',
-    #     cancelButtonText: 'No'
-    #     confirmButtonText: 'Restore'
-    #   })
-    #   intervention_info.code = autosaved_code
-    #   localStorage['saved_intervention_' + intervention_name] = autosaved_code
-    #   delete localStorage['autosaved_intervention_' + intervention_name]
-    #   await add_new_intervention(intervention_info)
-    # catch
-    #   delete localStorage['autosaved_intervention_' + intervention_name]]
-    # chrome.tabs.create {url: 'https://habitlab.github.io/share'}
   make_javascript_editor: (editor_div) ->>
-    console.log 'make_javascript_editor called'
     intervention_name = editor_div.intervention_tab_name
     if intervention_name?
       self = this
       if self.js_editors[intervention_name]?
+        if self.pill_button_idxes[intervention_name]?
+          return
+        else
+          
         return
       brace = await SystemJS.import('brace')
       await SystemJS.import('brace/mode/javascript')
@@ -460,6 +466,12 @@ polymer_ext {
     self.goal_info_list = [all_goals[x] for x in goals_list]
     await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     await self.refresh_intervention_list()
+    enabled_interventions = await get_enabled_interventions()
+    for intervention_name in self.intervention_list
+      if enabled_interventions[intervention_name]
+        self.pill_button_idxes[intervention_name]=1
+      else
+        self.pill_button_idxes[intervention_name]=0
     self.once_available_multiselect '.javascript_editor_div', (editor_divs) ->
       for editor_div in editor_divs
         self.make_javascript_editor(editor_div)

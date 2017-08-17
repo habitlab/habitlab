@@ -5,7 +5,6 @@ interventions:
   #- facebook/pause_videos
   - facebook/feed_injection_timer
   - facebook/feed_injection_positive_goal_widget
-  - duolingo/facebook_feed_lesson_injection
   #- facebook/notification_hijacker
   - facebook/remove_news_feed
   - facebook/rich_notifications

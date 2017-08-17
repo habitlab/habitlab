@@ -1,0 +1,6 @@
+description: Replace the YouTube sidebar with a Duolingo lesson
+matches:
+  - www.youtube.com
+preview: https://www.youtube.com/watch?v=Km9-DiFaxpU
+content_scripts:
+  - frontend.js

@@ -15,7 +15,7 @@ require 'enable-webcomponents-in-content-scripts'
 require 'components/duolingo-lesson-widget.deps'
 
 component_generator = (numitems) ->
-  feed-item = $('<duolingo-lesson-widget>Hi</duolingo-lesson-widget>')
+  feed-item = $('<duolingo-lesson-widget></duolingo-lesson-widget>')
   feed-item.attr('items', window.itemsseen)
   return wrap_in_shadow(feed-item)
 

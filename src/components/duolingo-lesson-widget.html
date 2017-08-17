@@ -6,7 +6,7 @@
     <style is="custom-style">
       .lesson-container {
         /* min-height: 600px; */
-        width: var(--lesson-container-width, 495px);
+        width: var(--lesson-container-width, 100%);
         background-color: var(--lesson-container-bg-color, white);
         text-align: center; 
       }
@@ -17,12 +17,13 @@
         line-height: 1.5;
       }
       .lesson-hdr {
-        padding-top: 10px;
+        padding: 10px 10px 0px 10px;
         font-size: var(--lesson-hdr-font-size, 20px);
       }
       .duolingo-lesson {
         padding: 20px;
-        min-width: var(--lesson-min-width, 460px);
+        width: 100%;
+        box-sizing: border-box;
         height: 500px;
         border: none;
       }

@@ -1,4 +1,4 @@
-description: Insert links to Duolingo into my Facebook feed
+description: Replace the Facebook ads sidebar with a Duolingo lesson
 matches:
   - www.facebook.com
 preview: https://www.facebook.com

@@ -1,0 +1,6 @@
+description: Replace the Iqiyi sidebar with a Duolingo lesson
+matches:
+  - www.iqiyi.com
+preview: http://www.iqiyi.com/v_19rrb6fwsg.html
+content_scripts:
+  - frontend.js

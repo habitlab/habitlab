@@ -79,9 +79,9 @@ polymer_ext {
       type: Number,
       value: if localStorage.end_mins_since_midnight then parseInt(localStorage.end_mins_since_midnight) else 1020
     },
-    active_days_array: {
+    activedaysarray: {
       type: Array,
-      value:  if localStorage.active_days_array? then JSON.parse(localStorage.active_days_array) else [0,1,2,3,4,5,6]
+      value:  if localStorage.activedaysarray? then JSON.parse(localStorage.activedaysarray) else [0,1,2,3,4,5,6]
     }
     always_active: {
       type: Boolean
@@ -105,18 +105,17 @@ polymer_ext {
     self.goals_and_interventions = []
     <- get_and_set_new_enabled_interventions_for_today()
     self.rerender()
-
   on_goal_changed: (evt) ->
     this.rerender()
-  is_active_for_day_idx: (dayidx, active_days_array) ->
+  is_active_for_day_idx: (dayidx, activedaysarray) ->
     console.log 'called is_active_for_day_idx'
     console.log dayidx
-    console.log active_days_array
-    return active_days_array.includes(dayidx)
+    console.log activedaysarray
+    return activedaysarray.includes(dayidx)
   change_intervention_activeness: (evt) ->
     console.log(evt.target)
     console.log('change_intervention_activeness called')
-    console.log(evt.target.data-day)      
+    console.log(evt.target.data-day)
     localStorage.work_hours_only = true;
     @always_active = false
     #localStorage.active_days = @active_days_array
@@ -124,28 +123,21 @@ polymer_ext {
     console.log('day_index is')
     console.log day_index
     console.log('id attriute is')
-    console.log(evt.target.getAttribute('change_day_enabled'))
-    if evt.target.getAttribute('change_day_enabled')?
-      if evt.target.getAttribute('change_day_enabled') != 'true'
-        @active_days_array.push day_index
-        evt.target.setAttribute('change_day_enabled', 'true')
-        evt.target.style.background-color = "rgb(35,70,110)"
-        console.log(evt.target)
-        localStorage.active_days = JSON.stringify(@active_days_array)
-        console.log(@active_days_array)
-        return
-      else
-        console.log('change_day_to_inactive_called')
-        @active_days_array = @active_days_array.filter(-> it != day_index)
-        evt.target.setAttribute('change_day_enabled', 'false')
-        evt.target.style.background-color = "transparent"
-        console.log(evt.target)
-        localStorage.active_days = JSON.stringify(@active_days_array)
-        console.log(@active_days_array)
-        return
+    console.log evt.target.isdayenabled
+    if !evt.target.isdayenabled
+      @activedaysarray.push day_index
+      @activedaysarray = JSON.parse JSON.stringify @activedaysarray
+      console.log(evt.target)
+      localStorage.activedaysarray = JSON.stringify(@activedaysarray)
+      console.log(@activedaysarray)
       return
     else
-      evt.target.setAttribute('change_day_enabled', 'true')
+      @activedaysarray = @activedaysarray.filter(-> it != day_index)
+      @activedaysarray = JSON.parse JSON.stringify @activedaysarray
+      console.log(evt.target)
+      localStorage.activedaysarray = JSON.stringify(@activedaysarray)
+      console.log(@activedaysarray)
+      return
   
   goals_set: (evt) ->
     if (Object.keys this.enabled_goals).length > 0 
@@ -329,5 +321,7 @@ polymer_ext {
   source: require 'libs_frontend/polymer_methods'
   methods: [
     'msg'
+    'text_if_elem_in_array'
+    'text_if_elem_not_in_array'
   ]
 }

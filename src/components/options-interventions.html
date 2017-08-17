@@ -206,6 +206,14 @@
       cursor:pointer;
     }
 
+    .dayiconactive {
+      background-color: rgb(35,70,110);
+    }
+
+    .dayiconinactive {
+      background-color: transparent;
+    }
+
     #disabled {
       background-color: transparent;
     }
@@ -248,12 +256,12 @@
                 </div> -->
                 <template is="dom-repeat" items="{{days}}" as="weekday" index-as="dayidx">
                   <div style="display: inline-block">
-                    <div style= "position: relative; top:20px; left:5px;">
+                    <div style= "position: relative; top:20px; left:5px; pointer-events: none">
                       <div style ="position:absolute">
                         <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">{{weekday}}</div>
                       </div>
                     </div>
-                    <div class="dayicon weekdays" change_day_enabled = "{{is_active_for_day_idx(dayidx, active_days_array)}}" style = "background-color: rgb(35,70,110)" data-day = "{{dayidx}}" on-click = "change_intervention_activeness" ></div>
+                    <div class$="dayicon weekdays {{text_if_elem_in_array(dayidx, activedaysarray, 'dayiconactive')}} {{text_if_elem_not_in_array(dayidx, activedaysarray, 'dayiconinactive')}}" isdayenabled="{{is_active_for_day_idx(dayidx, activedaysarray)}}" data-day = "{{dayidx}}" on-click = "change_intervention_activeness" ></div>
                   </div>
                 </template>
                 <!-- <div style="display: inline-block">

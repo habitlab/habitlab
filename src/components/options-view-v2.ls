@@ -156,6 +156,10 @@ polymer_ext {
         continue
       enabled_goal_info_list.push(goal_info)
     enabled_goal_info_list.sort (a, b) ->
+      if a.is_positive and not b.is_positive
+        return 1
+      if b.is_positive and not a.is_positive
+        return -1
       if a.custom and not b.custom
         return 1
       if b.custom and not a.custom

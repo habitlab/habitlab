@@ -83,7 +83,6 @@
       -webkit-font-smoothing: subpixel-antialiased;
     }
       
-      
     .works-button {
       color: white;
       background-color: #415D67;
@@ -203,27 +202,19 @@
       border-radius:10px;
       padding: 8px;
       box-shadow: 0px 0px 5px #346da3;
-      background-color:white;
       padding:5px;
       cursor:pointer;
     }
-    .dayicondisabled {
-     background-color:rgb(35,70,110);
-    }
-    .dayiconenabled{
-     /* background-color:#FF6F6F; */
-     background-color:rgb(134,194,251);
-    }
-    .weekdays {
-     /* background-color:#FF6F6F; */
-     background-color:rgb(134,194,251);
-    }
-    .weekends {
-      background-color:#213458;
-    }
 
-
-
+    #disabled {
+      background-color: transparent;
+    }
+    #enabled{
+      background-color: rgb(35,70,110); 
+    }
+    #day{
+      background-color: rgb(35,70,110);
+    }
 
   </style>
   <template>
@@ -243,43 +234,43 @@
               <paper-radio-button class = "radio-button" name="always" >Always On</paper-radio-button>
               <paper-radio-button class = "radio-button" name="workday">Only Work Hours</paper-radio-button>
             </paper-radio-group> 
-            
-            <div class = "days-container">
-              <div style="display: inline-block">
-                <div style= "position: relative; top:20px; left:5px;">
-                  <div style ="position:absolute">
-                    <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
-                  </div>
-                </div>
-                <div class="dayicon weekends" id ="sunday" on-click = "change_intervention_activeness"></div>
-              </div>
-              <template is="dom-repeat" items="{{weekdays}}" as="weekday">
-                <div style="display: inline-block">
-                  <div style= "position: relative; top:20px; left:5px;">
-                    <div style ="position:absolute">
-                      <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">{{weekday}}</div>
-                    </div>
-                  </div>
-                  <div class="dayicon weekdays"></div>
-                </div>
-              </template>
-              <div style="display: inline-block">
-                <div style= "position: relative; top:20px; left:5px;">
-                  <div style ="position:absolute">
-                    <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
-                  </div>
-                </div>
-                <div class="dayicon weekends"id ="sunday"></div>
-              </div>
-            </div>
 
             <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
             <template is="dom-if" if="{{!always_active}}">
+              <div class = "days-container">
+                <!-- <div style="display: inline-block">
+                  <div style= "position: relative; top:20px; left:5px;">
+                    <div style ="position:absolute">
+                      <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">Su</div>
+                    </div>
+                  </div>
+                  <div class="dayicon weekends" id ="disabled" data-day = "Su" on-click = "change_intervention_activeness" ></div>
+                </div> -->
+                <template is="dom-repeat" items="{{days}}" as="weekday" index-as="dayidx">
+                  <div style="display: inline-block">
+                    <div style= "position: relative; top:20px; left:5px;">
+                      <div style ="position:absolute">
+                        <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">{{weekday}}</div>
+                      </div>
+                    </div>
+                    <div class="dayicon weekdays" change_day_enabled = "{{is_active_for_day_idx(dayidx, active_days_array)}}" style = "background-color: rgb(35,70,110)" data-day = "{{dayidx}}" on-click = "change_intervention_activeness" ></div>
+                  </div>
+                </template>
+                <!-- <div style="display: inline-block">
+                  <div style= "position: relative; top:20px; left:5px;">
+                    <div style ="position:absolute">
+                      <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">Sa</div>
+                    </div>
+                  </div>
+                  <div class="dayicon weekends" id = "disabled" data-day = "Sa" on-click = "change_intervention_activeness" ></div>
+                </div> -->
+              </div>
+
               <div id="timepicker" >
                 <span class="time-string">Interventions are only active between</span>
-                <span class="time-string timebox" id="start-time" on-tap="show_dialog">{{start_time_string}}</span>
+                <span class="time-string timebox" id="start-time" on-tap="show_dialog" style = "color: black">{{start_time_string}}</span>
                 <span class="time-string"> and </span>
-                <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time_string}}</span>
+                <span class="time-string timebox" id="end-time" on-tap="show_dialog" style = "color: black">{{end_time_string}}</span>
 
                 <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
                   <paper-time-picker id="start-picker" time="[[start_time_string]]"></paper-time-picker>

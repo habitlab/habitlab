@@ -196,13 +196,13 @@ export generate_interventions_for_domain = (domain) ->>
   goal_info = await goal_utils.get_goal_info(goal_name)
   default_interventions = goal_info.default_interventions ? []
   generic_interventions = await list_generic_interventions()
+  all_intervention_info = await get_interventions()
   if is_video_domain(domain)
     video_interventions = await list_video_interventions()
     generic_interventions = generic_interventions.concat video_interventions
   new_intervention_info_list = []
   for generic_intervention in generic_interventions
-    intervention_info = await get_intervention_info generic_intervention
-    # TODO replace the above step with something that is non-asynchronous
+    intervention_info = all_intervention_info[generic_intervention]
     intervention_info = JSON.parse JSON.stringify intervention_info
     fixed_intervention_name = generic_intervention
     fixed_intervention_name = fixed_intervention_name.split('generic/').join("generated_#{domain}/")

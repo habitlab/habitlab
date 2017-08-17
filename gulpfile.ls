@@ -99,6 +99,7 @@ intervention_copypattern = [
 copypattern = [
   'src/**/*.html'
   'src/**/*.png'
+  'src/**/*.gif'
   'src/**/*.svg'
   'src/*.json'
   'src/*.js'

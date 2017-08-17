@@ -117,8 +117,6 @@ polymer_ext {
     console.log('change_intervention_activeness called')
     console.log(evt.target.data-day)
     localStorage.work_hours_only = true;
-    @always_active = false
-    #localStorage.active_days = @active_days_array
     day_index = evt.target.data-day
     console.log('day_index is')
     console.log day_index

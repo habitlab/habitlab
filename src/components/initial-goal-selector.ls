@@ -112,6 +112,10 @@ polymer_ext {
     baseline_time_on_domains: {
       type: Object
     }
+    goal_name_to_icon: {
+      type: Object
+      value: {}
+    }
     is_onboarding: {
       type: Boolean
       value: false
@@ -231,6 +235,10 @@ polymer_ext {
     evt.stopPropagation()
     newtab = evt.target.sitename
     this.fire 'need_tab_change', {newtab: newtab}
+  get_icon_for_goal: (goal, goal_name_to_icon) ->
+    if goal.icon?
+      return goal.icon
+    return chrome.extension.getURL('icons/loading.gif')
   is_goal_shown: (goal) ->
     if goal.hidden and localStorage.getItem('show_hidden_goals_and_interventions') != 'true'
       return false

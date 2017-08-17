@@ -79,13 +79,17 @@ polymer_ext {
       type: Number,
       value: if localStorage.end_mins_since_midnight then parseInt(localStorage.end_mins_since_midnight) else 1020
     },
+    active_days_array: {
+      type: Array,
+      value:  if localStorage.active_days_array? then JSON.parse(localStorage.active_days_array) else [0,1,2,3,4,5,6]
+    }
     always_active: {
       type: Boolean
       value: localStorage.work_hours_only != "true"
     },
-    weekdays:{
+    days:{
       type: Array
-      value: ['M','T','W','Th','F']
+      value: ['Su','M','Tu','W','Th','F','Sa']
     }
     seen_tutorial: {
       type: Boolean
@@ -101,9 +105,48 @@ polymer_ext {
     self.goals_and_interventions = []
     <- get_and_set_new_enabled_interventions_for_today()
     self.rerender()
+
   on_goal_changed: (evt) ->
     this.rerender()
-    
+  is_active_for_day_idx: (dayidx, active_days_array) ->
+    console.log 'called is_active_for_day_idx'
+    console.log dayidx
+    console.log active_days_array
+    return active_days_array.includes(dayidx)
+  change_intervention_activeness: (evt) ->
+    console.log(evt.target)
+    console.log('change_intervention_activeness called')
+    console.log(evt.target.data-day)      
+    localStorage.work_hours_only = true;
+    @always_active = false
+    #localStorage.active_days = @active_days_array
+    day_index = evt.target.data-day
+    console.log('day_index is')
+    console.log day_index
+    console.log('id attriute is')
+    console.log(evt.target.getAttribute('change_day_enabled'))
+    if evt.target.getAttribute('change_day_enabled')?
+      if evt.target.getAttribute('change_day_enabled') != 'true'
+        @active_days_array.push day_index
+        evt.target.setAttribute('change_day_enabled', 'true')
+        evt.target.style.background-color = "rgb(35,70,110)"
+        console.log(evt.target)
+        localStorage.active_days = JSON.stringify(@active_days_array)
+        console.log(@active_days_array)
+        return
+      else
+        console.log('change_day_to_inactive_called')
+        @active_days_array = @active_days_array.filter(-> it != day_index)
+        evt.target.setAttribute('change_day_enabled', 'false')
+        evt.target.style.background-color = "transparent"
+        console.log(evt.target)
+        localStorage.active_days = JSON.stringify(@active_days_array)
+        console.log(@active_days_array)
+        return
+      return
+    else
+      evt.target.setAttribute('change_day_enabled', 'true')
+  
   goals_set: (evt) ->
     if (Object.keys this.enabled_goals).length > 0 
       evt.target.style.display = "none"
@@ -142,6 +185,8 @@ polymer_ext {
     
     this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
+
+  
 
   intro5_read: (evt) ->
     evt.target.style.display = "none"
@@ -188,6 +233,7 @@ polymer_ext {
       this.$$('#start-dialog').toggle!
     else
       this.$$('#end-dialog').toggle!
+
   toggle_timepicker_idx: (evt) ->
    
     buttonidx = evt.detail.buttonidx
@@ -208,7 +254,7 @@ polymer_ext {
         localStorage.work_hours_only = true;
         @always_active = false
         localStorage.start_mins_since_midnight = @start_time_mins#this.$$('#start-picker').rawValue
-        
+      
         localStorage.end_mins_since_midnight = @end_time_mins#this.$$('#end-picker').rawValue
         localStorage.start_as_string = @start_time_string#this.$$('#start-picker').time
         localStorage.end_as_string = @end_time_string#this.$$('#end-picker').time
@@ -249,6 +295,7 @@ polymer_ext {
       return 'always'
     else 
       return 'workday'
+
   determine_selected_idx: (always_active) ->
     if always_active
       return 0

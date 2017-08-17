@@ -100,13 +100,18 @@ export set_enabled_interventions = (enabled_interventions) ->>
 */
 
 export is_it_outside_work_hours = ->
-  {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
+  
+  {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440', active_days} = localStorage
   work_hours_only = work_hours_only == 'true'
   start_mins_since_midnight = parseInt start_mins_since_midnight
   end_mins_since_midnight = parseInt end_mins_since_midnight
   mins_since_midnight = moment().hours()*60 + moment().minutes()
-  if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
-    return true
+  if work_hours_only
+    if not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
+      return true
+    today_idx = moment().weekday()
+    if not active_days.includes(today_idx)
+      return true
   return false
 
 /**

@@ -112,6 +112,10 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/delete.svg') 
     }
+    configure_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/configure.svg') 
+    }
     baseline_time_on_domains: {
       type: Object
     }
@@ -131,7 +135,7 @@ polymer_ext {
   get_time_spent_for_domain: (domain, baseline_time_on_domains) ->
     if baseline_time_on_domains[domain]?
       minutes = baseline_time_on_domains[domain] / (1000*60)
-      return (minutes).toPrecision(2) + 'mins'
+      return (minutes).toPrecision(2) + ' mins'
     return '0 mins'
   limit_to_eight: (list) ->
     return list[0 til 8]

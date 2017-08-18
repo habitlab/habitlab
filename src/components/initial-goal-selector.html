@@ -167,7 +167,7 @@
 
     }
     .siteicon:hover {
-      opacity: 0.5;
+      box-shadow: 0px 0px 45px #346da3;
     }
 
   </style>
@@ -207,13 +207,14 @@
         </div>
         <div class="flexcontainer wrap row">
 
-            <div style = "margin-bottom:0px;">     
-              <div style= "position: relative; top:58px; left:58px;">
-                <div style ="position:absolute">
-                  <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{icon_add_url}}" />
+            <div style = "margin-bottom:0px;">
+              <div class="siteicon siteiconadd" on-click="openBy">
+                <div style= "position: relative; top:48px; left:48px;">
+                  <div style ="cursor: pointer; position:absolute">
+                    <img style= "width:30px; padding-left:0px;margin-left:5px;margin-top:0px;" src="{{icon_add_url}}" />
+                  </div>
                 </div>
               </div>
-              <div class="siteicon siteiconadd" on-click="openBy"></div>
               <div>
                 <span style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">Add Custom</span>
                 <div><iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
@@ -237,11 +238,11 @@
 
                   <div class$="sitebutton-{{siteidx}}-{{goalidx}}" style="display: inline-block; align-items: center; padding-bottom: 15px;" >
 
-                    <div style="position: relative; top: 12.5px; left: 21px; ">
-                      <div style="position: absolute">
+                    <div style="position: relative; top: 12.5px; left: 21px; pointer-events: none">
+                      <div style="position: absolute; pointer-events: none">
                         <template is="dom-if" if="{{goal.enabled}}">
                         <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
-                        <img style= "width:45px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}" />
+                        <img style= "width:45px; pointer-events: none" src="{{icon_check_url}}" />
                         </template>
                       </div>
                     </div>
@@ -252,11 +253,20 @@
                       <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
                     </template>
                     <div style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">{{goal.sitename_printable}}</div>
-                    <div style="position: relative; text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">
+                    <div style="height: 17px; position: relative; text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">
                       <span>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</span>
-                      <template is="dom-if" if="{{goal.custom}}">
-                        <img src="{{delete_url}}" style="position: absolute; right: 0px; width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
-                        <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
+                      <template is="dom-if" if="{{is_onboarding}}">
+                        <template is="dom-if" if="{{goal.custom}}">
+                          <img src="{{delete_url}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
+                          <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
+                        </template>
+                      </template>
+                      <template is="dom-if" if="{{!is_onboarding}}">
+                        <template is="dom-if" if="{{goal.custom}}">
+                          <img src="{{delete_url}}" style="position: absolute; left: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
+                          <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
+                        </template>
+                        <img src="{{configure_url}}" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" />
                       </template>
                     </div>
                   </div>

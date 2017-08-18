@@ -1,0 +1,100 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-menu/paper-submenu.html">
+
+<!--
+  Polymer element to replace right click functionality.
+
+  ### Examples
+  You can do anything you would expect to be able to do within paper-menu. See the documentation for that element here: <a href="https://elements.polymer-project.org/elements/paper-menu">Paper-menu</a>.
+  The only real difference is that l2t-context-menu tags are used as the initial paper-menu tags.
+
+      <l2t-context-menu parentclass="standardExample">
+        <paper-item>
+          <a href="#">Normal Item</a>
+        </paper-item>
+      </l2t-context-menu>
+      
+  You may need to use actual paper-menu tags further down the chain if they are required, like when using submenus for instance.
+
+      <l2t-context-menu parentclass="submenuExample">
+        <paper-submenu opened>
+          <paper-item class="menu-trigger">Submenu Head</paper-item>
+          <paper-menu class="menu-content">
+            <paper-item><a href='#'>Submenu Item</a></paper-item>
+          </paper-menu>
+        </paper-submenu>
+      </l2t-context-menu>
+  
+  ### Styling
+    
+The following custom properties are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--context-background-color` | Background color of the menu. | `#fff`
+`--context-text-color` | Text color within the menu. | `#333`
+`--context-link-text-color` | Text color and on hover background color for links<br>For text within 'A' tags. | `#0066aa`
+`--context-horizontal-rule-color` | Color of 'HR' tags. | `#bcbcbc`
+
+  @element l2t-context-menu
+  @demo demo/index.html
+-->
+
+</head><body><dom-module id="l2t-context-menu">
+  <style>
+    .context-menu {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      padding: 12px;
+      background-color: var(--context-background-color, #fff);
+      -moz-box-shadow:0 2px 5px 0 rgba(0,0,0,.4);
+      box-shadow:0 2px 5px 0 rgba(0,0,0,.4);
+    }
+
+    .context-menu--active {
+      display: block;
+    }
+
+    ::content li, ::content paper-item{
+      display: block;
+      color: var(--context-text-color, #333);
+      padding: 2px;
+    }
+
+    ::content paper-item {
+      cursor: pointer;
+    }
+
+    ::content li:last-child {
+      margin-bottom: 0;
+    }
+
+    ::content a {
+      display: block;
+      color: var(--context-link-text-color, #0066aa);
+      padding: 4px 12px;
+      text-decoration: none;
+    }
+
+    ::content a:hover {
+      background-color: var(--context-link-text-color, #0066aa);
+      color: var(--context-background-color, #fff);
+    }
+
+    ::content hr {
+      border-color: var(--context-horizontal-rule-color, #bcbcbc);
+    }
+
+    ::content .paper-menu-0{
+      background-color: var(--context-background-color, #fff);
+    }                                       
+  </style>
+  <template>
+    <paper-menu id="context-menu" class="context-menu">
+      <content></content>
+    </paper-menu>
+  </template>
+</dom-module>
+<script src="l2t-context-menu-0.js"></script></body></html>

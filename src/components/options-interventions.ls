@@ -79,10 +79,18 @@ polymer_ext {
       type: Number,
       value: if localStorage.end_mins_since_midnight then parseInt(localStorage.end_mins_since_midnight) else 1020
     },
+    activedaysarray: {
+      type: Array,
+      value:  if localStorage.activedaysarray? then JSON.parse(localStorage.activedaysarray) else [0,1,2,3,4,5,6]
+    }
     always_active: {
       type: Boolean
       value: localStorage.work_hours_only != "true"
     },
+    days:{
+      type: Array
+      value: ['Su','M','Tu','W','Th','F','Sa']
+    }
     seen_tutorial: {
       type: Boolean
       value: localStorage.seen_tutorial != "true"
@@ -99,7 +107,36 @@ polymer_ext {
     self.rerender()
   on_goal_changed: (evt) ->
     this.rerender()
-    
+  is_active_for_day_idx: (dayidx, activedaysarray) ->
+    console.log 'called is_active_for_day_idx'
+    console.log dayidx
+    console.log activedaysarray
+    return activedaysarray.includes(dayidx)
+  change_intervention_activeness: (evt) ->
+    console.log(evt.target)
+    console.log('change_intervention_activeness called')
+    console.log(evt.target.data-day)
+    localStorage.work_hours_only = true;
+    day_index = evt.target.data-day
+    console.log('day_index is')
+    console.log day_index
+    console.log('id attriute is')
+    console.log evt.target.isdayenabled
+    if !evt.target.isdayenabled
+      @activedaysarray.push day_index
+      @activedaysarray = JSON.parse JSON.stringify @activedaysarray
+      console.log(evt.target)
+      localStorage.activedaysarray = JSON.stringify(@activedaysarray)
+      console.log(@activedaysarray)
+      return
+    else
+      @activedaysarray = @activedaysarray.filter(-> it != day_index)
+      @activedaysarray = JSON.parse JSON.stringify @activedaysarray
+      console.log(evt.target)
+      localStorage.activedaysarray = JSON.stringify(@activedaysarray)
+      console.log(@activedaysarray)
+      return
+  
   goals_set: (evt) ->
     if (Object.keys this.enabled_goals).length > 0 
       evt.target.style.display = "none"
@@ -139,6 +176,8 @@ polymer_ext {
     this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
+  
+
   intro5_read: (evt) ->
     evt.target.style.display = "none"
     this.$$('#intro6').style.display = "block"
@@ -162,38 +201,16 @@ polymer_ext {
     window.scrollTo 0, document.body.scrollHeight
 
   show_intro_button_clicked: ->
-    this.$$('#show_intro_button').style.display = 'none'
+    #this.$$('#show_intro_button').style.display = 'none'
     this.$$('#intro1_content').style.display = 'block'
     this.$$('#intro2').style.display = 'block'
     this.$$('#intro4').style.display = 'block'
-
   attached: ->
    if window.location.hash != '#introduction'
     for elem in Polymer.dom(this.root).querySelectorAll('.intro')
       elem.style.display = 'inline-flex';
-    for elem in Polymer.dom(this.root).querySelectorAll('.next-button')
-      elem.style.display = 'none';
-    this.$$('#pointer-div').style.display = 'none';
-    this.$$('#show_intro_button').style.display = 'inline-flex'
-    this.$$('#intro1_content').style.display = 'none'
-    this.$$('#intro2').style.display = 'none'
-    this.$$('#intro4').style.display = 'none'
-
   ready: ->
     this.rerender()
-    self = this
-    if window.location.hash == '#introduction'
-      localStorage.removeItem 'popup_view_has_been_opened'
-      popup_view_opened_checker = setInterval ->
-        if localStorage.popup_view_has_been_opened == 'true'
-          self.popup_view_has_been_opened = true
-          self.$$('#pointer-div').style.display = 'none'
-          self.$$('#popup-button').disabled = false
-          self.$$('#popup-button').innerText = 'Next'
-          clearInterval popup_view_opened_checker
-          if self.$$('#intro4').style.display != 'none'
-            self.show_swal()
-      , 500
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 
   show_randomize_button: ->
@@ -206,6 +223,7 @@ polymer_ext {
       this.$$('#start-dialog').toggle!
     else
       this.$$('#end-dialog').toggle!
+
   toggle_timepicker_idx: (evt) ->
    
     buttonidx = evt.detail.buttonidx
@@ -226,7 +244,7 @@ polymer_ext {
         localStorage.work_hours_only = true;
         @always_active = false
         localStorage.start_mins_since_midnight = @start_time_mins#this.$$('#start-picker').rawValue
-        
+      
         localStorage.end_mins_since_midnight = @end_time_mins#this.$$('#end-picker').rawValue
         localStorage.start_as_string = @start_time_string#this.$$('#start-picker').time
         localStorage.end_as_string = @end_time_string#this.$$('#end-picker').time
@@ -267,6 +285,7 @@ polymer_ext {
       return 'always'
     else 
       return 'workday'
+
   determine_selected_idx: (always_active) ->
     if always_active
       return 0
@@ -295,10 +314,12 @@ polymer_ext {
     this.$.privacy_options.rerender()
   rerender: ->>
     this.$.privacy_options.rerender()
-    await this.$.goal_selector.set_sites_and_spend_less_time_goals()
+    await this.$.goal_selector.set_sites_and_goals()
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [
     'msg'
+    'text_if_elem_in_array'
+    'text_if_elem_not_in_array'
   ]
 }

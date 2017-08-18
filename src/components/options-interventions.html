@@ -16,7 +16,7 @@
 <link rel="import" href="habitlab-logo.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="goal-selector.html">
+<link rel="import" href="initial-goal-selector.html">
 <link rel="import" href="privacy-options.html">
 <link rel="import" href="update-check.html">
 <link rel="import" href="advanced-features.html">
@@ -27,12 +27,21 @@
       display: block;
       width: 100%;
       height: 100%;
-      min-height: 100vh;
+      min-height: 100vh;     
+      background-color: rgb(81, 167,249);
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
       
       --paper-item: {
         min-height: 36px;
       };
+      --paper-radio-button: {
+        color: rgb(35,70,110);
+        --paper-radio-button-checked-color:rgb(35,70,110);
+        --paper-radio-button-checked-ink-color: rgb(35,70,110);
+        --paper-radio-button-unchecked-color: rgb(35,70,110);
+        --paper-radio-button-unchecked-ink-color:rgb(35,70,110);
+        --paper-radio-button-label-color: rgb(35,70,110);
+      }
 
       --paper-input-container: {
         padding-top: 0px;
@@ -44,7 +53,8 @@
         margin-bottom: 10px;
         width: 100%;
         font-weight: 400;
-        /*background: #88e188;*/
+        padding:0px;
+        
       };
       --paper-card-content: {
         font-size: 16px;
@@ -53,6 +63,7 @@
         padding-top: 0px;
         padding-left: 0px;
       };
+
     }
 
 
@@ -71,7 +82,6 @@
       text-transform: none;
       -webkit-font-smoothing: subpixel-antialiased;
     }
-      
       
     .works-button {
       color: white;
@@ -97,7 +107,7 @@
       font-size: 14px;
     }
     .timebox {
-      border: 1px solid black;
+      border: 1px solid white;
       padding: 4px;
       margin: 3px;
       cursor: pointer;
@@ -109,15 +119,36 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      
+      background-color: rgb(81, 167,249);
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+      color: white;
     }
 
     .card-content {
+      color:white;
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
       font-size: 20px;
+    }
+
+    .radio-button {
+      color:rgb(35,70,110);
+      --paper-radio-button-label-color: rgb(35,70,110);
     }
 
     .radio-group {
       padding-left: 0px;
+      color:white;
+    }
+
+    #title{
+      color:white;
+      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+      font-size: 30px;
+      padding-top: 30px;
+      padding-bottom: 20px; 
+      text-align:center;
+      font-weight:800;
+      /*text-shadow: 1px 1px 2px #346da3; */
     }
 
     #iconimg {
@@ -143,26 +174,153 @@
       right: 3px;
       position: fixed; 
       top: 0px;
-      border-radius: 5px;
+      border-radius: 5px
     }
     .papercard {
       width: calc(100% - 40px);
       margin-left: 20px;
       margin-right: 20px;
+      background-color: rgb(81, 167,249);
+      color: white;
     }
     .intro {
       width: 100%;
     }
+    .days-container{
+      display: block;
+    }
+
+    .dayicon{
+      cursor: pointer;
+      width:40px;
+      height:40px;
+      margin:auto;
+      margin-top:10px;
+      margin-left:5px; 
+      margin-right:5px;
+      margin-bottom:10px;
+      border-radius:10px;
+      padding: 8px;
+      box-shadow: 0px 0px 5px #346da3;
+      padding:5px;
+      cursor:pointer;
+    }
+
+    .dayiconactive {
+      background-color: rgb(35,70,110);
+    }
+
+    .dayiconinactive {
+      background-color: transparent;
+    }
+
+    #disabled {
+      background-color: transparent;
+    }
+    #enabled{
+      background-color: rgb(35,70,110); 
+    }
+    #day{
+      background-color: rgb(35,70,110);
+    }
+
   </style>
   <template>
     <div class="card-container">
+    
+    
+    
+    
+      <div id="intro1" class="intro" style="display: none;">
+        <paper-card id = "title" style = "color:white" class="papercard">
+
+          <div>When should interventions be active?</div>
+          <div class="card-content" >You can set interventions to be always on, or only active during work hours.
+            <br>
+            <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
+             <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
+              <paper-radio-button class = "radio-button" name="always" >Always On</paper-radio-button>
+              <paper-radio-button class = "radio-button" name="workday">Only Work Hours</paper-radio-button>
+            </paper-radio-group> 
+
+            <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
+            <template is="dom-if" if="{{!always_active}}">
+              <div class = "days-container">
+                <!-- <div style="display: inline-block">
+                  <div style= "position: relative; top:20px; left:5px;">
+                    <div style ="position:absolute">
+                      <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">Su</div>
+                    </div>
+                  </div>
+                  <div class="dayicon weekends" id ="disabled" data-day = "Su" on-click = "change_intervention_activeness" ></div>
+                </div> -->
+                <template is="dom-repeat" items="{{days}}" as="weekday" index-as="dayidx">
+                  <div style="display: inline-block">
+                    <div style= "position: relative; top:20px; left:5px; pointer-events: none">
+                      <div style ="position:absolute">
+                        <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">{{weekday}}</div>
+                      </div>
+                    </div>
+                    <div class$="dayicon weekdays {{text_if_elem_in_array(dayidx, activedaysarray, 'dayiconactive')}} {{text_if_elem_not_in_array(dayidx, activedaysarray, 'dayiconinactive')}}" isdayenabled="{{is_active_for_day_idx(dayidx, activedaysarray)}}" data-day = "{{dayidx}}" on-click = "change_intervention_activeness" ></div>
+                  </div>
+                </template>
+                <!-- <div style="display: inline-block">
+                  <div style= "position: relative; top:20px; left:5px;">
+                    <div style ="position:absolute">
+                      <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">Sa</div>
+                    </div>
+                  </div>
+                  <div class="dayicon weekends" id = "disabled" data-day = "Sa" on-click = "change_intervention_activeness" ></div>
+                </div> -->
+              </div>
+
+              <div id="timepicker" >
+                <span class="time-string">Interventions are only active between</span>
+                <span class="time-string timebox" id="start-time" on-tap="show_dialog" style = "color: black">{{start_time_string}}</span>
+                <span class="time-string"> and </span>
+                <span class="time-string timebox" id="end-time" on-tap="show_dialog" style = "color: black">{{end_time_string}}</span>
+
+                <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
+                  <paper-time-picker id="start-picker" time="[[start_time_string]]"></paper-time-picker>
+                  <div class="buttons">
+                    <paper-button dialog-dismiss>CANCEL</paper-button>
+                    <paper-button dialog-confirm>OK</paper-button>
+                  </div>
+                </paper-dialog>
+
+                <paper-dialog id="end-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
+                  <paper-time-picker id="end-picker" time="[[end_time_string]]"></paper-time-picker>
+                  <div class="buttons">
+                    <paper-button dialog-dismiss>CANCEL</paper-button>
+                    <paper-button dialog-confirm>OK</paper-button>
+                  </div>
+                </paper-dialog>
+
+              </div>
+            </template>
+            
+          </div>
+          <!--
+          <br>
+          <paper-button class="next-button" id="done-btn" on-click="intro3_read">Next</paper-button>
+          -->
+
+
+
+
+
+
+
+        </paper-card>
+      </div>
+    
     <paper-card class="papercard" heading="{{title_text}}">
-      <div style="padding: 16px; font-size: 24px; font-weight: 400; color: black">What goals should HabitLab help you achieve? <iron-icon icon="help-outline" on-click="goals_help_icon_clicked" style="margin-bottom: 5px; cursor: pointer"></iron-icon></div>
-      <goal-selector id="goal_selector"></goal-selector>
+      <!--<div style="padding: 16px; font-size: 24px; font-weight: 400; color: black">What goals should HabitLab help you achieve? <iron-icon icon="help-outline" on-click="goals_help_icon_clicked" style="margin-bottom: 5px; cursor: pointer"></iron-icon></div>-->
+      <initial-goal-selector id="goal_selector" />
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
     </paper-card>
 
-      <div id="intro1" class="intro" style="display:none;">
+      <!--<div id="intro3" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
           <div class="card-content" id="intro1_content">
           HabitLab will help you achieve these goals by showing you a different <i>nudge</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
@@ -170,23 +328,23 @@
           <paper-button class="next-button" id="show_intro_button" style="display: none;" on-click="show_intro_button_clicked">Show Explanation</paper-button>
           <paper-button class="next-button" on-click="intro1_read">Next</paper-button>
         </paper-card>
-      </div>
+      </div>-->
 
-      <div id="intro2" class="intro" style="display:none;">
-        <paper-card heading="Which nudges will HabitLab show me?" class="papercard"> 
+      <!--<div id="intro2" class="intro" style="display:none;">
+        <paper-card heading="Which interventions will HabitLab show me?" class="papercard"> 
           <div class="card-content">
            
            At first, HabitLab will show you a random nudge each visit, and over time it will learn what works most effectively for you.
            <div style="display: none;" id="how_hl_works">
            <br>Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
            </div>
-          </div>
+          </div>-->
           
-          <paper-button class="works-button" on-click="show_how_hl_works">Tell me how this works</paper-button>
+          <!--<paper-button class="works-button" on-click="show_how_hl_works">Tell me how this works</paper-button>
           <paper-button class="next-button" on-click="intro2_read">Next</paper-button>
         </paper-card>
-      </div>
-
+      </div>-->
+      <!--
       <div id="intro4" class="intro" style="display: none;">
         <paper-card heading="Accessing this page" class="papercard">
           <div class="card-content">
@@ -196,6 +354,7 @@
         </paper-card>        
           <div id="pointer-div" >Click the <img id="iconimg" src="{{get_icon()}}"> icon in the toolbar above!</div>
       </div>
+      -->
 
       <!--
       <div id="intro5" class="intro" style="display: none; padding-top: 0px;">
@@ -221,53 +380,6 @@
 
       </div>
       -->
-
-      <div id="intro3" class="intro" style="display: none;">
-        <paper-card heading="When should nudges be active?" class="papercard">
-          <div class="card-content" >You can set nudges to be always on, or only active during work hours.
-            <br>
-            <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
-              <paper-radio-button name="always" >Always On</paper-radio-button>
-              <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
-            </paper-radio-group>
-
-            <!--
-            <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
-            -->
-            
-
-            <template is="dom-if" if="{{!always_active}}">
-              <div id="timepicker" >
-                <span class="time-string">Interventions are only active between</span>
-                <span class="time-string timebox" id="start-time" on-tap="show_dialog">{{start_time_string}}</span>
-                <span class="time-string"> and </span>
-                <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time_string}}</span>
-
-                <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
-                  <paper-time-picker id="start-picker" time="[[start_time_string]]"></paper-time-picker>
-                  <div class="buttons">
-                    <paper-button dialog-dismiss>CANCEL</paper-button>
-                    <paper-button dialog-confirm>OK</paper-button>
-                  </div>
-                </paper-dialog>
-
-                <paper-dialog id="end-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
-                  <paper-time-picker id="end-picker" time="[[end_time_string]]"></paper-time-picker>
-                  <div class="buttons">
-                    <paper-button dialog-dismiss>CANCEL</paper-button>
-                    <paper-button dialog-confirm>OK</paper-button>
-                  </div>
-                </paper-dialog>
-
-              </div>
-            </template>
-          </div>
-          <!--
-          <br>
-          <paper-button class="next-button" id="done-btn" on-click="intro3_read">Next</paper-button>
-          -->
-        </paper-card>
-      </div>
 
       <div id="intro5" class="intro" style="display: none;">
         <paper-card heading="Logging and Privacy" class="papercard">

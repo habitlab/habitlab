@@ -53,6 +53,10 @@ swal = require 'sweetalert2'
 } = require 'libs_backend/favicon_utils'
 
 {
+  promise_all_object
+} = require 'libs_common/promise_utils'
+
+{
   msg
 } = require 'libs_common/localization_utils'
 
@@ -79,11 +83,11 @@ polymer_ext {
     },
     title_text: {
       type: String
-      value: msg("HabitLab has come up with suggested sites that you spend the most time on, based on your browsing history.")
+      value: msg("HabitLab has come up with suggested sites that you spend the most time on, on average per day.")
     }
     title_text_bolded_portion: {
       type: String
-      value: msg("Select the sites you'd like to spend less time on.")
+      value: msg("Which sites would you like to spend less time on?")
     }
     isdemo: {
       type: Boolean
@@ -105,13 +109,31 @@ polymer_ext {
       type: String,
       value: chrome.extension.getURL('icons/plus.png') 
     },
-
+    delete_url: {
+      type: String,
+      value: chrome.extension.getURL('icons/delete.svg') 
+    }
+    baseline_time_on_domains: {
+      type: Object
+    }
+    goal_name_to_icon: {
+      type: Object
+      value: {}
+    }
+    is_onboarding: {
+      type: Boolean
+      value: false
+    }
   }
   isdemo_changed: (isdemo) ->
     if isdemo
       this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
-  
+  get_time_spent_for_domain: (domain, baseline_time_on_domains) ->
+    if baseline_time_on_domains[domain]?
+      minutes = baseline_time_on_domains[domain] / (1000*60)
+      return (minutes).toPrecision(2) + 'mins'
+    return '0 mins'
   limit_to_eight: (list) ->
     return list[0 til 8]
   delete_goal_clicked: (evt) ->>
@@ -164,9 +186,13 @@ polymer_ext {
       text: 'HabitLab will help you achieve these goals by showing you a different nudge, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
     }
 
+  # more_than_zero_minutes: (goal,get_time_spent_for_domain,baseline_time_on_domains) ->    
+  #   if baseline_time_on_domains[domain]?
+  #     if (baseline_time_on_domains[domain] / (1000*60)) > 0 
+  #       return true
+  #   return false
+
   openBy: (evt) ->
-    console.log(evt)
-    console.log(evt.target)
     this.$.alignedDialog.positionTarget = evt.target
     this.$.alignedDialog.open()
     return
@@ -181,11 +207,33 @@ polymer_ext {
   }*/
 
 
+  add_website_input: (evt) ->
+
+  # paper_icon_item_clicked: (evt) ->
+  #   console.log 'paper_icon_item_clicked'
+  #   console.log evt
+  #   console.log evt.target.domain
+  #   console.log evt.target.getAttribute('domain')
+  #   console.log evt.target
+  #   domain = this.$$('#add_website_input').value.trim()
+  #   console.log(domain)
+
+  valueChange: (evt) ->
+    domain = this.$$('#add_website_input').value.trim()
+    this.add_custom_website_from_input()
+    return
+  
   settings_goal_clicked: (evt) ->
     evt.preventDefault()
     evt.stopPropagation()
     newtab = evt.target.sitename
     this.fire 'need_tab_change', {newtab: newtab}
+  get_icon_for_goal: (goal, goal_name_to_icon) ->
+    if goal.icon?
+      return goal.icon
+    if goal_name_to_icon[goal.name]?
+      return goal_name_to_icon[goal.name]
+    return chrome.extension.getURL('icons/loading.gif')
   is_goal_shown: (goal) ->
     if goal.hidden and localStorage.getItem('show_hidden_goals_and_interventions') != 'true'
       return false
@@ -194,7 +242,7 @@ polymer_ext {
     return true
   set_sites_and_goals: ->>
     self = this
-    goal_name_to_info = await get_goals()
+    [goal_name_to_info, enabled_goals] = await Promise.all [get_goals(), get_enabled_goals()]
     sitename_to_goals = {}
     for goal_name,goal_info of goal_name_to_info
       if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
@@ -205,41 +253,32 @@ polymer_ext {
       sitename_to_goals[sitename].push goal_info
     list_of_sites_and_goals = []
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
-    enabled_goals = await get_enabled_goals()
-    await this.get_daily_targets!
-    
+
     for sitename in list_of_sites
       current_item = {sitename: sitename}
       current_item.goals = prelude.sort-by (.name), sitename_to_goals[sitename]
       
       for goal in current_item.goals
         goal.enabled = (enabled_goals[goal.name] == true)
-        goal.number = this.index_of_daily_goal_mins[goal.name]
-        
-      
-
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-
-
- 
-  goal_changed: (evt) ->
-    
-    checked = evt.target.checked    
-    console.log evt.target.goalname
-    goal_name = evt.target.goal.name
-
-  /*add_custom: (evt) ->
-  console.log 'add custom site.'*/
-
+    do !->>
+      goal_name_to_icon_changed = false
+      goal_name_to_new_icon_promises = {}
+      for sitename_and_goals in list_of_sites_and_goals
+        for goal_info in sitename_and_goals.goals
+          if not goal_info.icon?
+            goal_name_to_new_icon_promises[goal_info.name] = get_favicon_data_for_domain_cached(goal_info.domain)
+            goal_name_to_icon_changed = true
+      if goal_name_to_icon_changed
+        goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
+        for goal_name,icon of goal_name_to_new_icons
+          self.goal_name_to_icon[goal_name] = icon
+        self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
+    return
   image_clicked: (evt) ->>
-    console.log 'clicked image:'
-    console.log evt.target.goalname
     goal_name = evt.target.goalname
-    
     checked = evt.target.checked
-    console.log 'checked is'
-    console.log checked
 
     self = this
     if not checked
@@ -290,11 +329,7 @@ polymer_ext {
     return normal_sites_and_goals.concat custom_sites_and_goals
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
-    console.log('add goal clicked')
-    
-
     return
-   
   # add_website_input_keydown: ->
   #    console.log('add_website_input_keydown called')
   #    console.log(evt)
@@ -303,57 +338,122 @@ polymer_ext {
   #      this.add_custom_website_from_input()
   #      return
 
-
+  configure_clicked: (evt) ->
+    newtab = evt.target.sitename_printable.toLowerCase()
+    goal_description = evt.target.goal_description
+    is_enabled = evt.target.is_enabled
+    if not is_enabled
+      swal {
+        title: 'Enable goal to configure it'
+        html: $('<div>').append([
+          $('<div>').text('Please enable the goal:')
+          $('<div>').text(goal_description)
+        ])
+      }
+      return
+    this.fire 'need_tab_change', {newtab: newtab}
+  remove_clicked: (evt) ->>
+    goal_name = evt.target.goal_name
+    is_custom = evt.target.is_custom
+    if is_custom
+      await remove_custom_goal_and_generated_interventions goal_name
+      await this.set_sites_and_goals()
+      this.fire 'need_rerender', {}
+      return
+    goal_description = evt.target.goal_description
+    swal {
+      title: 'Built-in goal disabled but not removed'
+      html: $('<div>').append([
+        $('<div>').text('The goal you selected is built-in, so it has been disabled, but not removed:')
+        $('<div>').text(goal_description)
+      ])
+    }
+    await set_goal_disabled_manual goal_name
+    await this.set_sites_and_goals()
+    this.fire 'need_rerender', {}
   add_custom_website_from_input: ->>
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
-    console.log(domain)
     if domain.length == 0
       return
     #this.$$('#add_website_input').value = ''
-    console.log 'checkpoint 1'
-    canonical_domain = await get_canonical_domain(domain)
-    console.log 'checkpoint 2'
-    if not canonical_domain?
-      swal {
-        title: 'Invalid Domain'
-        html: $('<div>').append([
-          $('<div>').text('You entered an invalid domain: ' + domain)
-          $('<div>').text('Please enter a valid domain such as www.amazon.com')
-        ])
-        type: 'error'
-      }
-      return
-    console.log 'checkpoint 3'
-    if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
-      await add_enable_custom_goal_reduce_time_on_domain(domain)
-    console.log 'checkpoint 4'
-    await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
-    console.log 'checkpoint 5'
+    #console.log 'checkpoint 1'
+    canonical_domain = domain
+    #canonical_domain = await get_canonical_domain(domain)
+    #console.log 'checkpoint 2'
+    # if not canonical_domain?
+    #   swal {
+    #     title: 'Invalid Domain'
+    #     html: $('<div>').append([
+    #       $('<div>').text('You entered an invalid domain: ' + domain)
+    #       $('<div>').text('Please enter a valid domain such as www.amazon.com')
+    #     ])
+    #     type: 'error'
+    #   }
+    #   return
+    #console.log 'checkpoint 3'
+    #if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
+    #  await add_enable_custom_goal_reduce_time_on_domain(domain)
+    #console.log 'checkpoint 4'
+    #await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
+    #console.log 'checkpoint 5'
+    goal_name = await add_enable_custom_goal_reduce_time_on_domain(domain)
     await this.set_sites_and_goals()
-    console.log 'checkpoint 6'
+    #console.log 'checkpoint 6'
     this.fire 'need_rerender', {}
-    console.log 'checkpoint 7'
+    #this.goal_name_to_icon[goal_name] = await get_favicon_data_for_domain_cached(domain)
+    #this.goal_name_to_icon = JSON.parse JSON.stringify this.goal_name_to_icon
+    #console.log 'checkpoint 7'
     return
-  ready: ->>
+  repaint_due_to_resize_once_in_view: ->
+    self = this
+    leftmost = null
+    rightmost = null
+    rightmost_without_width = null
+    for icon in $('.siteicon')
+      width = $(icon).width()
+      left = $(icon).offset().left
+      right = left + width
+      if (leftmost == null) or left < leftmost
+        leftmost = left
+      if (rightmost == null) or right > rightmost
+        rightmost = right
+      if (rightmost_without_width == null) or left > rightmost_without_width
+        rightmost_without_width = left
+    if leftmost == rightmost_without_width == 0
+      # is not on screen
+      setTimeout ->
+        self.repaint_due_to_resize_once_in_view()
+      , 100
+    else
+      self.repaint_due_to_resize()
+  repaint_due_to_resize: ->
+    leftmost = null
+    rightmost = null
+    rightmost_without_width = null
+    for icon in $('.siteicon')
+      width = $(icon).width()
+      left = $(icon).offset().left
+      right = left + width
+      if (leftmost == null) or left < leftmost
+        leftmost = left
+      if (rightmost == null) or right > rightmost
+        rightmost = right
+      if (rightmost_without_width == null) or left > rightmost_without_width
+        rightmost_without_width = left
+    if leftmost == rightmost_without_width == 0
+      # is not on screen
+      return
+    total_width = $(self).width()
+    margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
+    $('.flexcontainer').css('margin-left', margin_needed)
+    current_offset = this.S('.flexcontainer').offset()
+    this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
+  attached: ->>
     self = this
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    self.on_resize '#outer_wrapper', ->
-      console.log 'resized!!'
-      leftmost = null
-      rightmost = null
-      for icon in $('.siteicon')
-        width = $(icon).width()
-        left = $(icon).offset().left
-        right = left + width
-        if (leftmost == null) or left < leftmost
-          leftmost = left
-        if (rightmost == null) or right > rightmost
-          rightmost = right
-      total_width = $(self).width()
-      margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
-      #$('.flexcontainer').css('margin-left', margin_needed)
-      current_offset = $('.flexcontainer').offset()
-      $('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
+    if self.is_onboarding
+      self.on_resize '#outer_wrapper', ->
+        self.repaint_due_to_resize()
     #fetch history for suggested sites in intervention settings 
     this.baseline_time_on_domains = await get_baseline_time_on_domains()
     baseline_time_on_domains_array = []
@@ -369,10 +469,9 @@ polymer_ext {
     #console.log('finished fetching favicons')
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
     this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
-    console.log(this.baseline_time_on_domains)
-
-    
-
+    if self.is_onboarding
+      self.once_available '.siteiconregular' ->
+        self.repaint_due_to_resize()
 }, [
   {
     source: require 'libs_common/localization_utils'
@@ -383,7 +482,10 @@ polymer_ext {
   {
     source: require 'libs_frontend/polymer_methods'
     methods: [
+      'text_if'
       'on_resize'
+      'once_available'
+      'S'
     ]
   }
 ]

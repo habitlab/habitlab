@@ -1,7 +1,7 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw new Error(evt.reason)
 
-do ->>
+do !->>
   localStorage.removeItem 'cached_list_all_goals'
   localStorage.removeItem 'cached_list_all_interventions'
   localStorage.removeItem 'cached_list_generic_interventions'
@@ -137,7 +137,7 @@ do ->>
           last_visit_timestamp = search_result.lastVisitTime
     return last_visit_timestamp
 
-  do ->>
+  do !->>
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       if not localStorage.getItem('allow_logging')? # user did not complete onboarding

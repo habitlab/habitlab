@@ -69,12 +69,12 @@ polymer_ext {
   }
   isdemo_changed: (isdemo) ->
     if isdemo
-      this.set_sites_and_spend_less_time_goals()
+      this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
   delete_goal_clicked: (evt) ->>
     goal_name = evt.target.goal_name
     await remove_custom_goal_and_generated_interventions goal_name
-    await this.set_sites_and_spend_less_time_goals()
+    await this.set_sites_and_goals()
     this.fire 'need_rerender', {}
   disable_interventions_which_do_not_satisfy_any_goals: (goal_name) ->>
     enabled_goals = await get_enabled_goals()
@@ -133,7 +133,7 @@ polymer_ext {
     if goal.beta and localStorage.getItem('show_beta_goals_and_interventions') != 'true'
       return false
     return true
-  set_sites_and_spend_less_time_goals: ->>
+  set_sites_and_goals: ->>
     self = this
     [goal_name_to_info, enabled_goals] = await Promise.all [get_goals(), get_enabled_goals()]
     sitename_to_goals = {}
@@ -199,7 +199,7 @@ polymer_ext {
     #if checked
     #  await enable_interventions_because_goal_was_enabled(goal_name)
     
-    await self.set_sites_and_spend_less_time_goals()
+    await self.set_sites_and_goals()
     self.fire 'goal_changed', {goal_name: goal_name}
   sort_custom_sites_after: (sites_and_spend_less_time_goals) ->
     [custom_sites_and_spend_less_time_goals,normal_sites_and_spend_less_time_goals] = prelude.partition (-> it.goals.filter((.custom)).length > 0), sites_and_spend_less_time_goals
@@ -232,19 +232,17 @@ polymer_ext {
     for goal_name,goal_info of all_goals
        if domain == goal_info.domain or canonical_domain == goal_info.domain
          await set_goal_enabled_manual(goal_name)
-         await this.set_sites_and_spend_less_time_goals()
+         await this.set_sites_and_goals()
          this.fire 'need_rerender', {}
          return
     if domain != canonical_domain and domain.replace('www.', '') != canonical_domain and canonical_domain.replace('www.', '') != domain
       await add_enable_custom_goal_reduce_time_on_domain(domain)
     await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
-    await this.set_sites_and_spend_less_time_goals()
+    await this.set_sites_and_goals()
     this.fire 'need_rerender', {}
     return
   ready: ->>
     this.start_time = Date.now()
-    console.log('goal-selector being loaded')
-    await getDb()
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 }, {
   source: require 'libs_common/localization_utils'

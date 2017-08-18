@@ -1,4 +1,5 @@
 description: Remove links to comment sections
+displayname: No Comment
 matches:
   - www.reddit.com
 content_scripts:

@@ -74,6 +74,10 @@ polymer_ext({
     },
     intervention_name_to_info_map: {
       type: Object
+    },
+    isdemo: {
+      type: Boolean,
+      observer: 'isdemo_changed'
     }
   },
   /*
@@ -81,6 +85,12 @@ polymer_ext({
     this.linedata.datasets[0].label = 'a new label'
     this.$$('#linechart').chart.update()
   */
+  isdemo_changed: function(isdemo) {
+    if (isdemo) {
+      this.site = 'facebook'
+      this.rerender()
+    }
+  },
   intervention_name_to_info: function(intervention_name, intervention_name_to_info_map) {
     return intervention_name_to_info_map[intervention_name];
   },

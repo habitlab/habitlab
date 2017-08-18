@@ -100,13 +100,19 @@ export set_enabled_interventions = (enabled_interventions) ->>
 */
 
 export is_it_outside_work_hours = ->
-  {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440'} = localStorage
+  {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440', activedaysarray} = localStorage
   work_hours_only = work_hours_only == 'true'
   start_mins_since_midnight = parseInt start_mins_since_midnight
   end_mins_since_midnight = parseInt end_mins_since_midnight
   mins_since_midnight = moment().hours()*60 + moment().minutes()
-  if work_hours_only and not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
-    return true
+  if work_hours_only
+    if not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
+      return true
+    if activedaysarray?
+      activedaysarray = JSON.parse activedaysarray
+      today_idx = moment().weekday()
+      if not activedaysarray.includes(today_idx)
+        return true
   return false
 
 /**
@@ -196,13 +202,13 @@ export generate_interventions_for_domain = (domain) ->>
   goal_info = await goal_utils.get_goal_info(goal_name)
   default_interventions = goal_info.default_interventions ? []
   generic_interventions = await list_generic_interventions()
+  all_intervention_info = await get_interventions()
   if is_video_domain(domain)
     video_interventions = await list_video_interventions()
     generic_interventions = generic_interventions.concat video_interventions
   new_intervention_info_list = []
   for generic_intervention in generic_interventions
-    intervention_info = await get_intervention_info generic_intervention
-    # TODO replace the above step with something that is non-asynchronous
+    intervention_info = all_intervention_info[generic_intervention]
     intervention_info = JSON.parse JSON.stringify intervention_info
     fixed_intervention_name = generic_intervention
     fixed_intervention_name = fixed_intervention_name.split('generic/').join("generated_#{domain}/")
@@ -772,13 +778,15 @@ export get_seconds_spent_on_domain_for_each_intervention = (domain) ->>
 
 export get_seconds_saved_per_session_for_each_intervention_for_goal = (goal_name) ->>
   goal_info = await goal_utils.get_goal_info(goal_name)
+  output = {}
+  if not goal_info.interventions?
+    return output
   domain = goal_info.domain
   intervention_names = goal_info.interventions
   session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
   session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
   intervention_to_seconds_per_session = await get_seconds_spent_on_domain_for_each_intervention(domain)
   baseline_session_time = await get_baseline_session_time_on_domain(domain)
-  output = {}
   for intervention in intervention_names
     seconds_per_session = intervention_to_seconds_per_session[intervention]
     if not seconds_per_session?

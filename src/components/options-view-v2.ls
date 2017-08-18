@@ -25,6 +25,10 @@
 } = require 'libs_common/common_libs'
 
 {
+  promise_all_object
+} = require 'libs_common/promise_utils'
+
+{
   msg
 } = require 'libs_common/localization_utils'
 
@@ -47,7 +51,7 @@ polymer_ext {
     }
     sidebar_items: {
       type: Array
-      computed: 'compute_sidebar_items(enabled_goal_info_list)'
+      computed: 'compute_sidebar_items(enabled_goal_info_list, goal_name_to_icon)'
       #value: ["Home", "Settings", "Facebook", "omg"]
     }
     enabled_goal_info_list: {
@@ -56,15 +60,23 @@ polymer_ext {
     have_options_page_hash: {
       type: Boolean
     }
+    goal_name_to_icon: {
+      type: Object
+      value: {}
+    }
   }
   listeners: {
     goal_changed: 'on_goal_changed'
     need_rerender: 'rerender'
     need_tab_change: 'on_need_tab_change'
   }
-  compute_sidebar_items: (enabled_goal_info_list) ->
-    default_icon = habitlab_icon
-    return [{name: msg('Overview'), icon: habitlab_icon}, {name: msg('Settings'), icon: gear_icon}].concat([{name: x.sitename_printable, icon: x.icon ? default_icon} for x in enabled_goal_info_list]).concat({name: msg('Help / FAQ'), icon: help_icon})
+  compute_sidebar_items: (enabled_goal_info_list, goal_name_to_icon) ->
+    default_icon = chrome.extension.getURL('icons/loading.gif')
+    output = [{name: msg('Overview'), icon: habitlab_icon}, {name: msg('Settings'), icon: gear_icon}]
+    for x in enabled_goal_info_list
+      output.push {name: x.sitename_printable, icon: x.icon ? goal_name_to_icon[x.name] ? default_icon}
+    output.push({name: msg('Help / FAQ'), icon: help_icon})
+    return output
   enable_habitlab_button_clicked: ->
     this.is_habitlab_disabled = false
     enable_habitlab()
@@ -147,6 +159,7 @@ polymer_ext {
   #         \n\nClick OK to begin selecting your goals!
   #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
   rerender: ->>
+    console.log 'rerender called in options-view-v2 at ' + Date.now()
     self = this
     self.is_habitlab_disabled = not (await is_habitlab_enabled())
     #is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
@@ -171,7 +184,20 @@ polymer_ext {
         return -1
       return 0
     self.enabled_goal_info_list = enabled_goal_info_list
+    console.log 'enabled_goal_info_list has been set at ' + Date.now()
     self.$$('#settings_tab').rerender_privacy_options()
+    do !->>
+      goal_name_to_icon_changed = false
+      goal_name_to_new_icon_promises = {}
+      for goal_info in enabled_goal_info_list
+        if not goal_info.icon?
+          goal_name_to_new_icon_promises[goal_info.name] = get_favicon_data_for_domain_cached(goal_info.domain)
+          goal_name_to_icon_changed = true
+      if goal_name_to_icon_changed
+        goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
+        for goal_name,icon of goal_name_to_new_icons
+          self.goal_name_to_icon[goal_name] = icon
+        self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
     #self.$$('#overview_tab').rerender()
     #self.$$('#settings_tab').rerender()
   #  self.once_available '#optionstab', ->

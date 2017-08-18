@@ -240,6 +240,11 @@ export get_png_data_for_url = (domain) ->>
   catch
   return
 
+export remove_cached_favicon_for_domain = (domain) ->>
+  store = get_store_iconcache()
+  await store.removeItem(domain)
+  return
+
 export get_favicon_data_for_domain_cached = (domain) ->>
   store = get_store_iconcache()
   res = await store.getItem(domain)

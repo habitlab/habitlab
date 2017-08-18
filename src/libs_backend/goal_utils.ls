@@ -28,7 +28,7 @@
 } = require 'libs_common/cacheget_utils'
 
 {
-  get_favicon_data_for_domain
+  remove_cached_favicon_for_domain
 } = require 'libs_backend/favicon_utils'
 
 {cfy, yfy} = require 'cfy'
@@ -488,6 +488,7 @@ export remove_custom_goal_and_generated_interventions = (goal_name) ->>
   clear_cache_all_goals()
   remove_key_from_localstorage_dict 'extra_get_goals', goal_name
   remove_item_from_localstorage_list 'extra_list_all_goals', goal_name
+  remove_cached_favicon_for_domain goal.domain
   return
 
 export get_interventions_to_goals = ->>

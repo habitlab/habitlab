@@ -231,7 +231,7 @@ polymer_ext {
     domain = this.$$('#add_website_input').value.trim()
     console.log(domain)
     this.add_custom_website_from_input()
-    console.log('add_custom_website_from_input_called')
+    console.log('add_custom_website_from_input_called at ' + Date.now())
     return
   
   settings_goal_clicked: (evt) ->
@@ -273,18 +273,20 @@ polymer_ext {
         goal.enabled = (enabled_goals[goal.name] == true)
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
-    goal_name_to_icon_changed = false
-    goal_name_to_new_icon_promises = {}
-    for sitename_and_goals in list_of_sites_and_goals
-      for goal_info in sitename_and_goals.goals
-        if not goal_info.icon?
-          goal_name_to_new_icon_promises[goal_info.name] = get_favicon_data_for_domain_cached(goal_info.domain)
-          goal_name_to_icon_changed = true
-    if goal_name_to_icon_changed
-      goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
-      for goal_name,icon of goal_name_to_new_icons
-        self.goal_name_to_icon[goal_name] = icon
-      self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
+    do !->>
+      goal_name_to_icon_changed = false
+      goal_name_to_new_icon_promises = {}
+      for sitename_and_goals in list_of_sites_and_goals
+        for goal_info in sitename_and_goals.goals
+          if not goal_info.icon?
+            goal_name_to_new_icon_promises[goal_info.name] = get_favicon_data_for_domain_cached(goal_info.domain)
+            goal_name_to_icon_changed = true
+      if goal_name_to_icon_changed
+        goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
+        for goal_name,icon of goal_name_to_new_icons
+          self.goal_name_to_icon[goal_name] = icon
+        self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
+    return
   image_clicked: (evt) ->>
     console.log 'clicked image:'
     console.log evt.target.goalname
@@ -415,7 +417,9 @@ polymer_ext {
     #await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
     #console.log 'checkpoint 5'
     goal_name = await add_enable_custom_goal_reduce_time_on_domain(domain)
+    console.log 'set_sites_and_goals set at ' + Date.now()
     await this.set_sites_and_goals()
+    console.log 'need_rerender called at ' + Date.now()
     #console.log 'checkpoint 6'
     this.fire 'need_rerender', {}
     #this.goal_name_to_icon[goal_name] = await get_favicon_data_for_domain_cached(domain)

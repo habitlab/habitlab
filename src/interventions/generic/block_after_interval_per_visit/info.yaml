@@ -1,4 +1,5 @@
-description: Blocks site after some amount of time per visit
+description: Enters timer into the screen and bounces you off the tab after the timer ends
+displayname: Bouncer
 content_scripts:
   - path: frontend.js
     run_at: document_start

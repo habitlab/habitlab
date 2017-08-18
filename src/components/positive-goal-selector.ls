@@ -325,8 +325,6 @@ polymer_ext {
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
     console.log('add goal clicked')
-    
-
     return
    
   # add_website_input_keydown: ->

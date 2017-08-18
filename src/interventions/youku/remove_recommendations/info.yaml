@@ -1,4 +1,5 @@
 description: Remove recommendations on Youku
+displayname: No Recs
 matches:
   - www.youku.com
 content_scripts:

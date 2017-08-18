@@ -11,7 +11,7 @@ dlog = window.dlog = (...args) ->
 
 require 'libs_backend/systemjs'
 
-do ->>
+do !->>
 
   add_url_input_if_needed = ->
     if localStorage.index_show_url_bar == 'true'

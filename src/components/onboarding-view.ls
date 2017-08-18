@@ -37,7 +37,7 @@ polymer_ext {
   properties: {
     slide_idx: {
       type: Number
-      value: if (window.hashdata_unparsed == 'last') then 4 else 0
+      value: if (window.hashdata_unparsed == 'last') then 2 else 0
       observer: 'slide_changed'
     }
     prev_slide_idx: {
@@ -106,7 +106,6 @@ polymer_ext {
   slide_changed: (evt) ->
     self = this
     this.SM('.slide').stop()
-    console.log 'slide_changed called'
     #this.SM('.slide').show()
     prev_slide_idx = this.prev_slide_idx
     this.prev_slide_idx = this.slide_idx
@@ -114,7 +113,6 @@ polymer_ext {
     if slide.find('.scroll_wrapper').length > 0
       slide.find('.scroll_wrapper')[0].scrollTop = 0
     if prev_slide_idx == this.slide_idx - 1 # scrolling forward
-      console.log 'slide changed if statement 1'
       prev_slide = this.SM('.slide').eq(prev_slide_idx)
       prev_slide.animate({
         top: '-100vh'
@@ -129,39 +127,23 @@ polymer_ext {
         self.animation_inprogress = false
       , 1000
     else if prev_slide_idx == this.slide_idx + 1 # scrolling backward
-      console.log 'slide changed if statement 2'
-      console.log 'document.height point 1 is ' + $(document).height()
       prev_slide = this.SM('.slide').eq(prev_slide_idx)
-      console.log 'document.height point 2 is ' + $(document).height()
-      console.log 'prev slide is'
-      console.log prev_slide
-      console.log 'slide is'
-      console.log slide
-      console.log('prev_slide offset is')
-      console.log(prev_slide.offset())
-      console.log('slide offset is')
-      console.log(slide.offset())
       #prev_slide.css('top', '100vh')
       #prev_slide.css('top', '0px')
       prev_slide.animate({
         top: '+100vh'
       }, 1000)
-      console.log 'document.height point 3 is ' + $(document).height()
       slide.css('top', '-100vh')
-      console.log 'document.height point 4 is ' + $(document).height()
       slide.show()
-      console.log 'document.height point 5 is ' + $(document).height()
       slide.animate({
         top: '0px'
       }, 1000)
-      console.log 'document.height point 6 is ' + $(document).height()
       this.animation_inprogress = true
       setTimeout ->
         self.animation_inprogress = false
         prev_slide.hide()
       , 1000
     else
-      console.log 'slide changed if statement 3'
       this.SM('.slide').hide()
       slide.show()
       slide.css('top', '0px')
@@ -176,6 +158,7 @@ polymer_ext {
     localStorage.setItem('onboarding_complete', 'true')
     # $('#pagepiling').pagepiling.setAllowScrolling(false)
     # $('#pagepiling').pagepiling.setKeyboardScrolling(false)
+    $('body').css('overflow', 'auto')
     this.fire 'onboarding-complete', {}
   next_button_clicked: ->>
     if this.animation_inprogress
@@ -195,6 +178,12 @@ polymer_ext {
     # return
 
     this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
+    last_slide_idx = this.SM('.slide').length - 1
+    if this.slide_idx == last_slide_idx-1
+      return
+    this.SM('.onboarding_complete').show()
+
+
   # prev_slide: (evt) ->
   #   $.fn.pagepiling.moveSectionUp();
   #   return
@@ -202,6 +191,11 @@ polymer_ext {
     if this.animation_inprogress
       return
     this.slide_idx = Math.max(0, this.slide_idx - 1)
+    last_slide_idx = this.SM('.slide').length - 1
+    if this.slide_idx == last_slide_idx
+      return
+    this.SM('.onboarding_complete').hide()
+
   get_icon: (img_path) ->
     return chrome.extension.getURL('icons/' + img_path)
   keydown_listener: (evt) ->
@@ -214,10 +208,8 @@ polymer_ext {
       evt.preventDefault()
       return
     last_slide_idx = this.SM('.slide').length - 1
-    console.log 'mousewheel_listener called, slide_idx is ' + this.slide_idx
+    return
     /*
-    if true
-      return
     if this.slide_idx == 1
       console.log 'ignoring mouse on slide 1'
       return
@@ -250,7 +242,6 @@ polymer_ext {
     else if evt.deltaY < 0
       this.prev_slide()
     */
-    
   detached: ->
     window.removeEventListener 'keydown', this.keydown_listener_bound
     window.removeEventListener 'mousewheel', this.mousewheel_listener_bound
@@ -259,8 +250,8 @@ polymer_ext {
     if this.slide_idx == 1 # on the goal selector page
       this.$.goal_selector.repaint_due_to_resize()
       return
-    else if this.slide_idx == 2
-      this.$.positive_goal_selector.repaint_due_to_resize()
+    #else if this.slide_idx == 2
+    #  this.$.positive_goal_selector.repaint_due_to_resize()
     current_height = 400
     target_height = window.innerHeight - 80
     current_width = 600
@@ -278,9 +269,10 @@ polymer_ext {
     userid_setting_iframe = $('<iframe id="setuseridiframe" src="https://habitlab.stanford.edu/setuserid?userid=' + userid + '" style="width: 0; height: 0; pointer-events: none; opacity: 0; display: none"></iframe>')
     $('body').append(userid_setting_iframe)
   ready: ->>
+    $('body').css('overflow', 'hidden')
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
-    this.$$('#positive_goal_selector').set_sites_and_goals()
+    #this.$$('#positive_goal_selector').set_sites_and_goals()
     this.last_mousewheel_time = 0
     this.last_mousewheel_deltaY = 0
     this.keydown_listener_bound = this.keydown_listener.bind(this)
@@ -371,7 +363,7 @@ polymer_ext {
         localStorage.setItem('enable_debug_terminal', 'true')
     console.log('calling set_sites_and_goals')
     this.$.goal_selector.repaint_due_to_resize_once_in_view()
-    this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
+    #this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
     this.insert_iframe_for_setting_userid()
     /*
     self = this

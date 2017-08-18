@@ -16,8 +16,7 @@
 <link rel="import" href="habitlab-logo.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="goal-selector.html">
-<link rel="import" href="goal-settings.html">
+<link rel="import" href="initial-goal-selector.html">
 <link rel="import" href="privacy-options.html">
 <link rel="import" href="update-check.html">
 <link rel="import" href="advanced-features.html">
@@ -35,6 +34,14 @@
       --paper-item: {
         min-height: 36px;
       };
+      --paper-radio-button: {
+        color: rgb(35,70,110);
+        --paper-radio-button-checked-color:rgb(35,70,110);
+        --paper-radio-button-checked-ink-color: rgb(35,70,110);
+        --paper-radio-button-unchecked-color: rgb(35,70,110);
+        --paper-radio-button-unchecked-ink-color:rgb(35,70,110);
+        --paper-radio-button-label-color: rgb(35,70,110);
+      }
 
       --paper-input-container: {
         padding-top: 0px;
@@ -56,6 +63,7 @@
         padding-top: 0px;
         padding-left: 0px;
       };
+
     }
 
 
@@ -74,7 +82,6 @@
       text-transform: none;
       -webkit-font-smoothing: subpixel-antialiased;
     }
-      
       
     .works-button {
       color: white;
@@ -121,6 +128,11 @@
       color:white;
       font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
       font-size: 20px;
+    }
+
+    .radio-button {
+      color:rgb(35,70,110);
+      --paper-radio-button-label-color: rgb(35,70,110);
     }
 
     .radio-group {
@@ -175,41 +187,42 @@
       width: 100%;
     }
     .days-container{
-      display: inline-flex;
+      display: block;
     }
 
     .dayicon{
       cursor: pointer;
-      width:60px;
-      height:60px;
+      width:40px;
+      height:40px;
       margin:auto;
-      margin-top:15px;
-      margin-left:10px; 
-      margin-right:10px;
-      margin-bottom:15px;
-      border-radius:20px;
+      margin-top:10px;
+      margin-left:5px; 
+      margin-right:5px;
+      margin-bottom:10px;
+      border-radius:10px;
       padding: 8px;
-      box-shadow: 0px 0px 15px #346da3;
-      background-color:white;
+      box-shadow: 0px 0px 5px #346da3;
       padding:5px;
-    }
-    .dayicondisabled {
-     background-color:rgb(35,70,110);
-    }
-    .dayiconenabled{
-     /* background-color:#FF6F6F; */
-     background-color:rgb(60,230,120);
-    }
-    .weekdays {
-     /* background-color:#FF6F6F; */
-     background-color:rgb(60,230,120);
-    }
-    .weekends {
-      background-color:#213458;
+      cursor:pointer;
     }
 
+    .dayiconactive {
+      background-color: rgb(35,70,110);
+    }
 
+    .dayiconinactive {
+      background-color: transparent;
+    }
 
+    #disabled {
+      background-color: transparent;
+    }
+    #enabled{
+      background-color: rgb(35,70,110); 
+    }
+    #day{
+      background-color: rgb(35,70,110);
+    }
 
   </style>
   <template>
@@ -219,90 +232,49 @@
 
           <div>When should nudges be active?</div>
           <div class="card-content" >You can set nudges to be always on, or only active during work hours.
-
-
-
             <br>
-            <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
-              <paper-radio-button name="always" >Always On</paper-radio-button>
-              <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
-            </paper-radio-group>
+            <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
+             <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
+              <paper-radio-button class = "radio-button" name="always" >Always On</paper-radio-button>
+              <paper-radio-button class = "radio-button" name="workday">Only Work Hours</paper-radio-button>
+            </paper-radio-group> 
 
-
-          <div class = "days-container">
-            <div>
-              <div style= "position: relative; top:38px; left:19px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
-                </div>
-              </div>
-              <div class="dayicon weekends"id ="sunday"></div>
-            </div>
-            <div>
-              <div style= "position: relative; top:38px; left:19px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">M</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="monday"></div>
-            </div>
-            <div>
-              <div style= "position: relative; top:38px; left:19px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">T</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="tuesday"></div>
-            </div>
-            <div>
-              <div style= "position: relative; top:38px; left:19px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">W</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="wednesday"></div>
-            </div>            <div>
-              <div style= "position: relative; top:38px; left:19px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">T</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="thursday"></div>
-            </div>            <div>
-              <div style= "position: relative; top:38px; left:19px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">F</div>
-                </div>
-              </div>
-              <div class="dayicon weekdays"id ="friday"></div>
-            </div>
-            <div>
-              <div style= "position: relative; top:38px; left:19px;">
-                <div style ="position:absolute">
-                  <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">S</div>
-                </div>
-              </div>
-              <div class="dayicon weekends"id ="saturday"></div>
-            </div>
-
-
-          </div>
-
-
-
-
-
-            <!--
-            <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
-            -->
-            
-
+            <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
             <template is="dom-if" if="{{!always_active}}">
+              <div class = "days-container">
+                <!-- <div style="display: inline-block">
+                  <div style= "position: relative; top:20px; left:5px;">
+                    <div style ="position:absolute">
+                      <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">Su</div>
+                    </div>
+                  </div>
+                  <div class="dayicon weekends" id ="disabled" data-day = "Su" on-click = "change_intervention_activeness" ></div>
+                </div> -->
+                <template is="dom-repeat" items="{{days}}" as="weekday" index-as="dayidx">
+                  <div style="display: inline-block">
+                    <div style= "position: relative; top:20px; left:5px; pointer-events: none">
+                      <div style ="position:absolute">
+                        <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">{{weekday}}</div>
+                      </div>
+                    </div>
+                    <div class$="dayicon weekdays {{text_if_elem_in_array(dayidx, activedaysarray, 'dayiconactive')}} {{text_if_elem_not_in_array(dayidx, activedaysarray, 'dayiconinactive')}}" isdayenabled="{{is_active_for_day_idx(dayidx, activedaysarray)}}" data-day = "{{dayidx}}" on-click = "change_intervention_activeness" ></div>
+                  </div>
+                </template>
+                <!-- <div style="display: inline-block">
+                  <div style= "position: relative; top:20px; left:5px;">
+                    <div style ="position:absolute">
+                      <div style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;">Sa</div>
+                    </div>
+                  </div>
+                  <div class="dayicon weekends" id = "disabled" data-day = "Sa" on-click = "change_intervention_activeness" ></div>
+                </div> -->
+              </div>
+
               <div id="timepicker" >
                 <span class="time-string">Interventions are only active between</span>
-                <span class="time-string timebox" id="start-time" on-tap="show_dialog">{{start_time_string}}</span>
+                <span class="time-string timebox" id="start-time" on-tap="show_dialog" style = "color: black">{{start_time_string}}</span>
                 <span class="time-string"> and </span>
-                <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time_string}}</span>
+                <span class="time-string timebox" id="end-time" on-tap="show_dialog" style = "color: black">{{end_time_string}}</span>
 
                 <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
                   <paper-time-picker id="start-picker" time="[[start_time_string]]"></paper-time-picker>
@@ -322,6 +294,7 @@
 
               </div>
             </template>
+            
           </div>
           <!--
           <br>
@@ -339,7 +312,7 @@
     
     <paper-card class="papercard" heading="{{title_text}}">
       <!--<div style="padding: 16px; font-size: 24px; font-weight: 400; color: black">What goals should HabitLab help you achieve? <iron-icon icon="help-outline" on-click="goals_help_icon_clicked" style="margin-bottom: 5px; cursor: pointer"></iron-icon></div>-->
-      <goal-settings id="goal_selector" />
+      <initial-goal-selector id="goal_selector" />
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
     </paper-card>
 
@@ -367,7 +340,7 @@
           <paper-button class="next-button" on-click="intro2_read">Next</paper-button>
         </paper-card>
       </div>-->
-<!--
+      <!--
       <div id="intro4" class="intro" style="display: none;">
         <paper-card heading="Accessing this page" class="papercard">
           <div class="card-content">
@@ -377,7 +350,7 @@
         </paper-card>        
           <div id="pointer-div" >Click the <img id="iconimg" src="{{get_icon()}}"> icon in the toolbar above!</div>
       </div>
--->
+      -->
 
       <!--
       <div id="intro5" class="intro" style="display: none; padding-top: 0px;">
@@ -403,53 +376,6 @@
 
       </div>
       -->
-
-      <div id="intro3" class="intro" style="display: none;">
-        <paper-card heading="When should nudges be active?" class="papercard">
-          <div class="card-content" >You can set nudges to be always on, or only active during work hours.
-            <br>
-            <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
-              <paper-radio-button name="always" >Always On</paper-radio-button>
-              <paper-radio-button name="workday">Only Work Hours</paper-radio-button>
-            </paper-radio-group>
-
-            <!--
-            <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group>
-            -->
-            
-
-            <template is="dom-if" if="{{!always_active}}">
-              <div id="timepicker" >
-                <span class="time-string">Interventions are only active between</span>
-                <span class="time-string timebox" id="start-time" on-tap="show_dialog">{{start_time_string}}</span>
-                <span class="time-string"> and </span>
-                <span class="time-string timebox" id="end-time" on-tap="show_dialog">{{end_time_string}}</span>
-
-                <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
-                  <paper-time-picker id="start-picker" time="[[start_time_string]]"></paper-time-picker>
-                  <div class="buttons">
-                    <paper-button dialog-dismiss>CANCEL</paper-button>
-                    <paper-button dialog-confirm>OK</paper-button>
-                  </div>
-                </paper-dialog>
-
-                <paper-dialog id="end-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
-                  <paper-time-picker id="end-picker" time="[[end_time_string]]"></paper-time-picker>
-                  <div class="buttons">
-                    <paper-button dialog-dismiss>CANCEL</paper-button>
-                    <paper-button dialog-confirm>OK</paper-button>
-                  </div>
-                </paper-dialog>
-
-              </div>
-            </template>
-          </div>
-          <!--
-          <br>
-          <paper-button class="next-button" id="done-btn" on-click="intro3_read">Next</paper-button>
-          -->
-        </paper-card>
-      </div>
 
       <div id="intro5" class="intro" style="display: none;">
         <paper-card heading="Logging and Privacy" class="papercard">

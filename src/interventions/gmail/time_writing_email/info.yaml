@@ -1,5 +1,5 @@
 description: Times how long you've been taking to write an email 
-displayname: Desktop Notifier
+displayname: Stopwatch
 matches:
   - mail.google.com
 content_scripts:

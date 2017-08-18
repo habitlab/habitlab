@@ -1,4 +1,5 @@
-description: Mute sound
+description: Mutes sound of your current playing show
+displayname: No Sound
 matches:
   - www.netflix.com
 content_scripts:

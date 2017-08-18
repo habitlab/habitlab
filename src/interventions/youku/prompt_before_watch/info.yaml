@@ -1,4 +1,5 @@
 description: Prompt the user before watching a video
+displayname: Think Twice
 matches:
   - www.youku.com
 content_scripts:

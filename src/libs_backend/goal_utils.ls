@@ -28,7 +28,7 @@
 } = require 'libs_common/cacheget_utils'
 
 {
-  get_favicon_data_for_domain
+  remove_cached_favicon_for_domain
 } = require 'libs_backend/favicon_utils'
 
 {cfy, yfy} = require 'cfy'
@@ -507,9 +507,10 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
       units: 'minutes'
     }
   }
-  goal_info.icon = await get_favicon_data_for_domain(domain)
-  if not goal_info.icon?
-    delete goal_info.icon
+  #goal_info.icon = chrome.extension.getURL('icons/loading.gif')
+  #goal_info.icon = await get_favicon_data_for_domain(domain)
+  #if not goal_info.icon?
+  #  delete goal_info.icon
   await add_custom_goal_info goal_info
   return
   
@@ -518,7 +519,7 @@ export add_enable_custom_goal_reduce_time_on_domain = (domain) ->>
   await add_custom_goal_reduce_time_on_domain(domain)
   await set_goal_enabled("custom/spend_less_time_#{domain}")
   await intervention_utils.generate_interventions_for_domain domain
-  return
+  return "custom/spend_less_time_#{domain}"
 
 export add_enable_custom_goal_increase_time_on_domain = (domain) ->>
   await add_custom_goal_involving_time_on_domain(domain, true)
@@ -555,6 +556,7 @@ export remove_custom_goal_and_generated_interventions = (goal_name) ->>
   clear_cache_all_goals()
   remove_key_from_localstorage_dict 'extra_get_goals', goal_name
   remove_item_from_localstorage_list 'extra_list_all_goals', goal_name
+  remove_cached_favicon_for_domain goal.domain
   return
 
 export get_interventions_to_goals = ->>
@@ -603,7 +605,11 @@ export list_goal_info_for_enabled_goals = ->>
   goal_names = await get_enabled_goals()
   goal_names = as_array goal_names
   goal_name_to_info = await get_goals()
-  return [goal_name_to_info[goal_name] for goal_name in goal_names]
+  output = []
+  for goal_name in goal_names
+    if goal_name_to_info[goal_name]?
+      output.push goal_name_to_info[goal_name]
+  return output
 
 intervention_utils = require 'libs_backend/intervention_utils'
 log_utils = require 'libs_backend/log_utils'

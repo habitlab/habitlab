@@ -8,6 +8,7 @@
   set_intervention_parameter
   set_override_enabled_interventions_once
   list_custom_interventions
+  get_interventions
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -71,7 +72,7 @@ polymer_ext {
     }
     custom: {
       type: Boolean
-      value: false
+      computed: 'compute_custom(intervention)'
     }
   }
   /*
@@ -81,11 +82,26 @@ polymer_ext {
     else if pill_button_idx == 1
       return "A 'Never Shown' intervention<br>is disabled and will not be shown."
   */
+  compute_custom: (intervention) ->
+    return intervention.custom == true
   compute_sitename: (goal) ->
     return goal.sitename_printable
   intervention_property_changed: (intervention, old_intervention) ->
     #this.automatic = this.intervention.automatic
     this.enabled = this.intervention.enabled
+
+  get_intervention_icon_url: (intervention) ->
+    if intervention.generic_intervention?
+      url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
+    else
+      if intervention.custom == true
+        url_path = 'interventions/custom/icon.svg'
+      else
+        url_path = 'interventions/'+ intervention.name + '/icon.svg'
+    return (chrome.extension.getURL(url_path)).toString()
+
+
+
   /*
   automatic_and_enabled: (automatic, enabled) ->
     return automatic and enabled
@@ -104,6 +120,17 @@ polymer_ext {
   #  return !enabled and !automatic
   display_internal_names_for_interventions: ->
     return localstorage_getbool('intervention_view_show_internal_names')
+  
+  is_generic_intervention: (intervention_name)->>
+    all_interventions = await get_interventions()
+    ourput = false
+    intervention_info = all_interventions[intervention_name]
+    if intervention_info.generic_intervention?
+      output = true
+    return output
+
+  is_generic_intervention_sync:(intervention_name,is_generic_intervention) ->
+    return is_generic_intervention(intervention_name)
   /*
   pill_button_selected: (evt) ->>
     buttonidx = evt.detail.buttonidx
@@ -177,10 +204,10 @@ polymer_ext {
   edit_custom_intervention: ->
     localStorage.setItem('intervention_editor_open_intervention_name',JSON.stringify(this.intervention.name))
     chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
-  ready: ->>
-    custom_interventions=await list_custom_interventions()
-    if custom_interventions.includes this.intervention.name
-      this.custom=true
+  #ready: ->>
+  #  custom_interventions=await list_custom_interventions()
+  #  if custom_interventions.includes this.intervention.name
+  #    this.custom=true
   /*
   dropdown_menu_changed: (evt) ->>
     selected = this.$$('#enabled_selector').selected

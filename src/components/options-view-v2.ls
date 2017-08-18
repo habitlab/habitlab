@@ -14,6 +14,10 @@
 } = require 'libs_backend/goal_utils'
 
 {
+  get_favicon_data_for_domain_cached
+} = require 'libs_backend/favicon_utils'
+
+{
   results_icon
   gear_icon
   habitlab_icon
@@ -23,6 +27,10 @@
 {
   once_true
 } = require 'libs_common/common_libs'
+
+{
+  promise_all_object
+} = require 'libs_common/promise_utils'
 
 {
   msg
@@ -47,7 +55,7 @@ polymer_ext {
     }
     sidebar_items: {
       type: Array
-      computed: 'compute_sidebar_items(enabled_goal_info_list)'
+      computed: 'compute_sidebar_items(enabled_goal_info_list, goal_name_to_icon)'
       #value: ["Home", "Settings", "Facebook", "omg"]
     }
     enabled_goal_info_list: {
@@ -56,15 +64,23 @@ polymer_ext {
     have_options_page_hash: {
       type: Boolean
     }
+    goal_name_to_icon: {
+      type: Object
+      value: {}
+    }
   }
   listeners: {
     goal_changed: 'on_goal_changed'
     need_rerender: 'rerender'
     need_tab_change: 'on_need_tab_change'
   }
-  compute_sidebar_items: (enabled_goal_info_list) ->
-    default_icon = habitlab_icon
-    return [{name: msg('Overview'), icon: habitlab_icon}, {name: msg('Settings'), icon: gear_icon}].concat([{name: x.sitename_printable, icon: x.icon ? default_icon} for x in enabled_goal_info_list]).concat({name: msg('Help / FAQ'), icon: help_icon})
+  compute_sidebar_items: (enabled_goal_info_list, goal_name_to_icon) ->
+    default_icon = chrome.extension.getURL('icons/loading.gif')
+    output = [{name: msg('Overview'), icon: habitlab_icon}, {name: msg('Settings'), icon: gear_icon}]
+    for x in enabled_goal_info_list
+      output.push {name: x.sitename_printable, icon: x.icon ? goal_name_to_icon[x.name] ? default_icon}
+    output.push({name: msg('Help / FAQ'), icon: help_icon})
+    return output
   enable_habitlab_button_clicked: ->
     this.is_habitlab_disabled = false
     enable_habitlab()
@@ -97,6 +113,7 @@ polymer_ext {
     selected_tab_idx = name_to_idx_map[selected_tab_name]
     if selected_tab_idx?
       self.selected_tab_idx = selected_tab_idx
+      window.scrollTo(0, 0)
       return
     await once_true(-> self.enabled_goal_info_list?length?)
     goals_list = self.enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
@@ -104,18 +121,29 @@ polymer_ext {
     selected_goal_idx = goals_list.indexOf(selected_tab_name)
     if selected_goal_idx?
       self.selected_tab_idx = selected_goal_idx + 2
+    window.scrollTo(0, 0)
   compute_selected_tab_name: (selected_tab_idx, enabled_goal_info_list) ->
     goals_list = enabled_goal_info_list.map((.sitename_printable)).map((.toLowerCase!))
     return (['overview', 'settings'].concat(goals_list)).concat(['help'])[selected_tab_idx]
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}
+  string_to_id: (sitename) ->
+    output = ''
+    for c in sitename
+      if 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.indexOf(c) != -1
+        output += c
+    return output.toLowerCase()
   selected_tab_idx_changed: (selected_tab_idx) ->>
     self = this
-    if (not selected_tab_idx?) or selected_tab_idx == 0 or selected_tab_idx == 1
+    if (not selected_tab_idx?) or selected_tab_idx == 1
+      return
+    if selected_tab_idx == 0
+      overview_tab = await self.once_available('#overview_tab')
+      overview_tab.rerender()
       return
     goal_idx = selected_tab_idx - 2
     await once_true(-> self.enabled_goal_info_list?length?)
-    goal_sitename_list = self.enabled_goal_info_list.map((.sitename))
+    goal_sitename_list = self.enabled_goal_info_list.map((.sitename_printable)).map(-> self.string_to_id(it))
     if goal_idx < 0 or goal_idx >= goal_sitename_list.length
       return
     goal_sitename = goal_sitename_list[goal_idx]
@@ -171,6 +199,18 @@ polymer_ext {
       return 0
     self.enabled_goal_info_list = enabled_goal_info_list
     self.$$('#settings_tab').rerender_privacy_options()
+    do !->>
+      goal_name_to_icon_changed = false
+      goal_name_to_new_icon_promises = {}
+      for goal_info in enabled_goal_info_list
+        if not goal_info.icon?
+          goal_name_to_new_icon_promises[goal_info.name] = get_favicon_data_for_domain_cached(goal_info.domain)
+          goal_name_to_icon_changed = true
+      if goal_name_to_icon_changed
+        goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
+        for goal_name,icon of goal_name_to_new_icons
+          self.goal_name_to_icon[goal_name] = icon
+        self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
     #self.$$('#overview_tab').rerender()
     #self.$$('#settings_tab').rerender()
   #  self.once_available '#optionstab', ->

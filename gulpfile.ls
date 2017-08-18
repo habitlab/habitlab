@@ -99,6 +99,7 @@ intervention_copypattern = [
 copypattern = [
   'src/**/*.html'
   'src/**/*.png'
+  'src/**/*.gif'
   'src/**/*.svg'
   'src/*.json'
   'src/*.js'
@@ -695,10 +696,18 @@ tasks_and_patterns = [
 ]
 */
 
+gulp.task 'make_docs_markdown', (done) ->
+  {exec} = require 'shelljs'
+  if not fs.existsSync('doc')
+    fs.mkdirSync('doc')
+  exec('./node_modules/documentation-habitlab/bin/documentation.js build src_gen/libs_frontend/*.js src_gen/libs_backend/*.js src_gen/libs_common/*.js src/flowtypes/*.js -f md -o doc/API.md --github')
+  fse.copySync 'doc/API.md', 'dist/API.md'
+  done()
+
 #gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
 gulp.task 'build', gulp.parallel 'build_base', 'webpack_build', 'webpack_content_scripts'
 
-gulp.task 'build_release', gulp.parallel 'build_base', 'webpack_prod', 'webpack_content_scripts_prod' #, 'webpack_vulcanize_prod'
+gulp.task 'build_release', gulp.parallel gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod' #, 'webpack_vulcanize_prod'
 
 gulp.task 'mkzip', (done) ->
   mkdirp.sync 'releases'

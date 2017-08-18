@@ -1,4 +1,5 @@
 description: Replace the Iqiyi sidebar with a Duolingo lesson
+displayname: Learning on the Side
 matches:
   - www.iqiyi.com
 preview: http://www.iqiyi.com/v_19rrb6fwsg.html

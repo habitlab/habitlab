@@ -1,0 +1,43 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="habitlab-logo.html">
+
+<dom-module id="gratitude-prompt">
+  <style>
+    #container {
+      text-align: center;
+      padding: 10px;
+    }
+    #prompt {
+      font-size: 1.5em;
+    }
+    #input {
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
+    /* #submission-div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    } */
+  </style>
+  <template>
+    <div id="container">
+      <center>
+        <div id="prompt">What is one thing you are grateful for?</div>
+        <paper-input id="input" value="{{gratitude_entry}}" on-keyup="input_keyup"></paper-input>
+        
+        <!-- <div id="submission-div">
+          <paper-button disabled$="[[submitIsDisabled()]]" on-click="ok_clicked" >OK</paper-button>
+          <div> press <strong>ENTER</strong> </div>
+        </div> -->
+        <habitlab-logo></habitlab-logo>
+      </center>
+      <
+    </div>
+  </template>
+  <script src="gratitude-prompt.js"></script>
+</dom-module>
+

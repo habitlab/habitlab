@@ -35,12 +35,14 @@ Polymer({
   ready: async function() {
     // Populate goals array
     let goals = await get_positive_enabled_goals()
-    var goalsList = Object.values(goals)
+    // Remove goals that don't have an associated domain
+    let goalsList = Object.values(goals)
+    goalsList = goalsList.filter(goal => (typeof goal.domain != 'undefined' && goal.domain != null))
     goalsList.push(await get_goal_info())
     this.goals = goalsList
 
     // Pick default option
-    var goal = await get_positive_goal_info()
+    let goal = await get_positive_goal_info()
     if (goal == null) {
       goal = await get_goal_info()
     }

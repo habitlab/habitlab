@@ -1,0 +1,11 @@
+description: Write one thing you're grateful for each day
+progress_description: Wrote what you're grateful for
+call_to_action: Write what grateful for
+interventions:
+  - gratitude/interstitial_gratitude_prompt
+default_interventions:
+  - gratitude/interstitial_gratitude_prompt
+target:
+  default: 1
+  units: times
+icon: icon.png

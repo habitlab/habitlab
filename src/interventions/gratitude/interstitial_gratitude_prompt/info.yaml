@@ -1,0 +1,9 @@
+description: Write one thing you're grateful for before visiting.
+displayname: Gratitude Break
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+matches:
+  - www.facebook.com # TODO: make this match all goal sites
+categories:
+  - interstitial

@@ -48,8 +48,7 @@ swal = require 'sweetalert2'
 } = require 'libs_backend/canonical_url_utils'
 
 {
-  get_favicon_data_for_domain
-  get_favicon_data_for_domains_bulk
+  get_favicon_data_for_domain_cached
 } = require 'libs_backend/favicon_utils'
 
 {

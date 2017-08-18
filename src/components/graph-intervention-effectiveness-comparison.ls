@@ -57,7 +57,7 @@ polymer_ext {
     available_interventions = await list_available_interventions_for_goal(goal_name)
     intervention_to_seconds_saved = await get_seconds_saved_per_session_for_each_intervention_for_goal(goal_name)
 
-    intervention_minutes_saved_and_description = []
+    intervention_minutes_saved_and_displayname = []
     for intervention_name in available_interventions
       seconds_saved = intervention_to_seconds_saved[intervention_name]
       if isNaN seconds_saved
@@ -67,16 +67,16 @@ polymer_ext {
       if minutes_saved < 0
         minutes_saved = 0
       intervention_info = all_interventions[intervention_name]
-      intervention_description = intervention_info.description
-      intervention_minutes_saved_and_description.push {
+      intervention_displayname = intervention_info.displayname
+      intervention_minutes_saved_and_displayname.push {
         name: intervention_name
-        description: intervention_description
+        displayname: intervention_displayname
         minutes_saved: minutes_saved
       }
     
-    intervention_minutes_saved_and_description = prelude.sortBy (-> -it.minutes_saved), intervention_minutes_saved_and_description
-    minutes_saved_list = intervention_minutes_saved_and_description.map (.minutes_saved)
-    intervention_description_list = intervention_minutes_saved_and_description.map (.description)
+    intervention_minutes_saved_and_displayname = prelude.sortBy (-> -it.minutes_saved), intervention_minutes_saved_and_displayname
+    minutes_saved_list = intervention_minutes_saved_and_displayname.map (.minutes_saved)
+    intervention_displayname_list = intervention_minutes_saved_and_displayname.map (.displayname)
 
     if goal_name != this.goal_name
       return
@@ -85,7 +85,7 @@ polymer_ext {
     #displays onto the graph
     self.interventionFreqData = {
       #labels: seenInterventionsLabels
-      labels: intervention_description_list
+      labels: intervention_displayname_list
       datasets: [
         {
           label: "Minutes saved per visit (average)",

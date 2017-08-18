@@ -115,9 +115,11 @@ polymer_ext({
     })
   },
   rerender1: async function() {
-    const goal_info_list = await list_goals_for_site(this.site);
-    const intervention_name_to_info_map = await get_interventions();
-    const enabled_interventions = await get_enabled_interventions();
+    const [goal_info_list, intervention_name_to_info_map, enabled_interventions] = await Promise.all([
+      list_goals_for_site(this.site),
+      get_interventions(),
+      get_enabled_interventions()
+    ])
     for (let intervention_name of Object.keys(intervention_name_to_info_map)) {
       const intervention_info = intervention_name_to_info_map[intervention_name];
       intervention_info.enabled = (enabled_interventions[intervention_name] == true);

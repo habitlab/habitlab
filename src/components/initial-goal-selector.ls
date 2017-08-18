@@ -193,8 +193,6 @@ polymer_ext {
   #   return false
 
   openBy: (evt) ->
-    console.log(evt)
-    console.log(evt.target)
     this.$.alignedDialog.positionTarget = evt.target
     this.$.alignedDialog.open()
     return
@@ -210,8 +208,6 @@ polymer_ext {
 
 
   add_website_input: (evt) ->
-    console.log 'add_website_input'
-    console.log(evt)
 
   # paper_icon_item_clicked: (evt) ->
   #   console.log 'paper_icon_item_clicked'
@@ -223,15 +219,8 @@ polymer_ext {
   #   console.log(domain)
 
   valueChange: (evt) ->
-    console.log 'valueChange_called'
-    console.log evt
-    console.log evt.target.domain
-    console.log evt.target.getAttribute('domain')
-    console.log evt.target
     domain = this.$$('#add_website_input').value.trim()
-    console.log(domain)
     this.add_custom_website_from_input()
-    console.log('add_custom_website_from_input_called at ' + Date.now())
     return
   
   settings_goal_clicked: (evt) ->
@@ -288,13 +277,8 @@ polymer_ext {
         self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
     return
   image_clicked: (evt) ->>
-    console.log 'clicked image:'
-    console.log evt.target.goalname
     goal_name = evt.target.goalname
-    
     checked = evt.target.checked
-    console.log 'checked is'
-    console.log checked
 
     self = this
     if not checked
@@ -345,7 +329,6 @@ polymer_ext {
     return normal_sites_and_goals.concat custom_sites_and_goals
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
-    console.log('add goal clicked')
     return
   # add_website_input_keydown: ->
   #    console.log('add_website_input_keydown called')
@@ -372,8 +355,6 @@ polymer_ext {
   remove_clicked: (evt) ->>
     goal_name = evt.target.goal_name
     is_custom = evt.target.is_custom
-    console.log 'remove_clicked'
-    console.log goal_name
     if is_custom
       await remove_custom_goal_and_generated_interventions goal_name
       await this.set_sites_and_goals()
@@ -392,7 +373,6 @@ polymer_ext {
     this.fire 'need_rerender', {}
   add_custom_website_from_input: ->>
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
-    console.log(domain)
     if domain.length == 0
       return
     #this.$$('#add_website_input').value = ''
@@ -417,9 +397,7 @@ polymer_ext {
     #await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
     #console.log 'checkpoint 5'
     goal_name = await add_enable_custom_goal_reduce_time_on_domain(domain)
-    console.log 'set_sites_and_goals set at ' + Date.now()
     await this.set_sites_and_goals()
-    console.log 'need_rerender called at ' + Date.now()
     #console.log 'checkpoint 6'
     this.fire 'need_rerender', {}
     #this.goal_name_to_icon[goal_name] = await get_favicon_data_for_domain_cached(domain)
@@ -427,7 +405,6 @@ polymer_ext {
     #console.log 'checkpoint 7'
     return
   repaint_due_to_resize_once_in_view: ->
-    console.log 'calling repaint_due_to_resize_once_in_view'
     self = this
     leftmost = null
     rightmost = null
@@ -450,7 +427,6 @@ polymer_ext {
     else
       self.repaint_due_to_resize()
   repaint_due_to_resize: ->
-    console.log 'resized!!'
     leftmost = null
     rightmost = null
     rightmost_without_width = null

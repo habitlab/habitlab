@@ -159,7 +159,6 @@ polymer_ext {
   #         \n\nClick OK to begin selecting your goals!
   #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
   rerender: ->>
-    console.log 'rerender called in options-view-v2 at ' + Date.now()
     self = this
     self.is_habitlab_disabled = not (await is_habitlab_enabled())
     #is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
@@ -184,7 +183,6 @@ polymer_ext {
         return -1
       return 0
     self.enabled_goal_info_list = enabled_goal_info_list
-    console.log 'enabled_goal_info_list has been set at ' + Date.now()
     self.$$('#settings_tab').rerender_privacy_options()
     do !->>
       goal_name_to_icon_changed = false

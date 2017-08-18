@@ -266,7 +266,9 @@
                           <img src="{{delete_url}}" style="position: absolute; left: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
                           <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
                         </template>
-                        <img src="{{configure_url}}" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" />
+                        <template is="dom-if" if="{{goal.enabled}}">
+                          <img src="{{configure_url}}" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" />
+                        </template>
                       </template>
                     </div>
                   </div>

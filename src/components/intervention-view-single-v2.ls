@@ -85,15 +85,16 @@ polymer_ext {
 
   get_intervention_icon_url: (intervention) ->
     if intervention.generic_intervention?
-      url_path = 'interventions/'+ intervention.generic_intervention + '/icon.svg'
+      url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
     else
-      url_path = 'interventions/'+ intervention.name + '/icon.svg'
+      if intervention.custom == true
+        url_path = 'interventions/custom/icon.svg'
+      else
+        url_path = 'interventions/'+ intervention.name + '/icon.svg'
     return (chrome.extension.getURL(url_path)).toString()
 
 
-  get_generic_intervention_icon_url: (intervention) ->
-    url_path = 'interventions/'+ intervention.generic_intervention + '/icon.svg'
-    return (chrome.extension.getURL(url_path)).toString()
+
   /*
   automatic_and_enabled: (automatic, enabled) ->
     return automatic and enabled

@@ -135,7 +135,11 @@ polymer_ext {
     return output.toLowerCase()
   selected_tab_idx_changed: (selected_tab_idx) ->>
     self = this
-    if (not selected_tab_idx?) or selected_tab_idx == 0 or selected_tab_idx == 1
+    if (not selected_tab_idx?) or selected_tab_idx == 1
+      return
+    if selected_tab_idx == 0
+      overview_tab = await self.once_available('#overview_tab')
+      overview_tab.rerender()
       return
     goal_idx = selected_tab_idx - 2
     await once_true(-> self.enabled_goal_info_list?length?)

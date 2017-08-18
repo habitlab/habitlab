@@ -83,9 +83,17 @@ polymer_ext {
     #this.automatic = this.intervention.automatic
     this.enabled = this.intervention.enabled
 
-  get_intervention_icon_url: (intervention_name) ->
-    url_path = 'interventions/'+ intervention_name.toString() + '/icon.svg'
+  get_intervention_icon_url: (intervention) ->
+    if intervention.generic_intervention?
+      url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
+    else
+      if intervention.custom == true
+        url_path = 'interventions/custom/icon.svg'
+      else
+        url_path = 'interventions/'+ intervention.name + '/icon.svg'
     return (chrome.extension.getURL(url_path)).toString()
+
+
 
   /*
   automatic_and_enabled: (automatic, enabled) ->
@@ -105,6 +113,17 @@ polymer_ext {
   #  return !enabled and !automatic
   display_internal_names_for_interventions: ->
     return localstorage_getbool('intervention_view_show_internal_names')
+  
+  is_generic_intervention: (intervention_name)->>
+    all_interventions = await get_interventions()
+    ourput = false
+    intervention_info = all_interventions[intervention_name]
+    if intervention_info.generic_intervention?
+      output = true
+    return output
+
+  is_generic_intervention_sync:(intervention_name,is_generic_intervention) ->
+    return is_generic_intervention(intervention_name)
   /*
   pill_button_selected: (evt) ->>
     buttonidx = evt.detail.buttonidx

@@ -201,11 +201,6 @@ polymer_ext {
 
     enabled_goals_info_list = await list_goal_info_for_enabled_goals()
 
-    console.log('enabled_goals_info_list')
-    console.log(enabled_goals_info_list)
-    
-    this.enabled_goals_info_list = enabled_goals_info_list 
-
     generic_interventions = await list_generic_interventions()
     generic_interventions_info = []
     for x in generic_interventions
@@ -218,7 +213,18 @@ polymer_ext {
       console.log(goal_info)
       goal_name_to_intervention_info_list[goal_info.name] = await this.get_enabled_interventions_for_goal(goal_info.name)
     this.goal_name_to_intervention_info_list = goal_name_to_intervention_info_list
+
+    enabled_goals_info_list.sort (a, b) ->
+      intervention_info_list_a = goal_name_to_intervention_info_list[a.name]
+      intervention_info_list_b = goal_name_to_intervention_info_list[b.name]
+      num_interventions_a = intervention_info_list_a.length ? 0
+      num_interventions_b = intervention_info_list_b.length ? 0
+      return num_interventions_b - num_interventions_a
+    console.log('enabled_goals_info_list')
+    console.log(enabled_goals_info_list)
     
+    this.enabled_goals_info_list = enabled_goals_info_list 
+
   isdemo_changed: (isdemo) ->
     if isdemo
       this.minutes_saved = 300

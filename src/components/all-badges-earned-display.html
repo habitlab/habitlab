@@ -15,7 +15,9 @@
       z-index: 9007199254740991;
       */
     }
-
+    h5 {
+      font-size: 15px;
+    }
   </style>
   <template>
     <h4>Here's what you can do with the time you've saved using HabitLab</h4>
@@ -23,6 +25,9 @@
     <div style="display: block">
       <template is="dom-repeat" items="{{badges}}" as="badge">
         <badge-display-mini minutes_saved="{{badge.minutes_saved}}" style="display: inline-block; padding: 5px"></badge-display-mini>
+      </template>
+      <template is="dom-if" if="{{no_badges_yet()}}">
+        <h5>No badges earned yet — come back soon!</h5>
       </template>
     </div>
   </template>

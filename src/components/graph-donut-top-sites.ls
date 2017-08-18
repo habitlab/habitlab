@@ -13,6 +13,10 @@
 polymer_ext {
   is: 'graph-donut-top-sites'
   properties: {
+    graph_has_data: {
+      type: Boolean,
+      value: true
+    }
   }
 
   timeSpentButtonAction: ->
@@ -54,8 +58,13 @@ polymer_ext {
     
     #MARK: Donut Graph
     a = await get_seconds_spent_on_all_domains_today()
+
     sorted = bySortedValue(a)
     #accounts for visiting less than 5 websites
+    if sorted.length == 0
+      this.graph_has_data = false
+    else
+      this.graph_has_data = true
     if sorted.length < 5 
       for i from sorted.length to 4
         sorted.push(["", 0])

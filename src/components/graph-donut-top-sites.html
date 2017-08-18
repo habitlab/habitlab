@@ -30,10 +30,18 @@
       transform: translateX(-50%) translateY(-50%);
       font-size: 1em;
     }    
+    h5 {
+      font-size: 15px
+    }
   </style>
   <template>
     <h4>Today's five most visited sites by minutes spent</h4>
-    <chart-doughnut data="[[donutdata]]" style="width: 100%"></chart-doughnut>      
+    <template is="dom-if" if="{{graph_has_data}}">
+      <chart-doughnut data="[[donutdata]]" style="width: 100%"></chart-doughnut>
+    </template>
+    <template is="dom-if" if="{{!graph_has_data}}">
+      <h5>No sites visited yet - come back later.</h5>
+    </template>
     <!--
     <div class="buttons">
       <button raised class="timeSpentButton" value="neverClicked" on-click="timeSpentButtonAction">

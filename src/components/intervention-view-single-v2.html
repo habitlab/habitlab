@@ -67,11 +67,11 @@
             <div style = 'display: flex;justify-content: space-between; align-items:center; align-content: space-around; font-family:"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 8px'>
               <!-- <div style = "display: table-row;"> -->
               <!-- <div style= 'display:flex; align-items:center; align-content:space-around;font-family:"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 8px'> -->
-                <div style = "display: flex;width: 150px;justify-content: flex-start; align-items:center;align-content:space-around">
+                <div style = "display: flex;width: 200px;justify-content: flex-start; align-items:center;align-content:space-around">
                   <img style = "align-self: auto; width:50px; border: transparent;" class="interventions" src = "{{get_intervention_icon_url(intervention)}}" />
-                  <div style = "align-self:auto; width:100px;border: transparent;">{{intervention.displayname}}: </div> 
+                  <div style = "align-self:auto; width:150px;border: transparent;">{{intervention.displayname}} </div> 
                 </div>
-                <div style = "align-self: auto ;border:transparent;">{{intervention.description}} </div> 
+                <div style = "align-self:auto; border:transparent; padding: 0px 10px 0px 10px;">{{intervention.description}} </div> 
                 <!-- <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
                   <span style="font-family: monospace">[<span>{{intervention.displayname}}</span>]</span>
                 </template> -->

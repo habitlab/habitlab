@@ -184,7 +184,7 @@
       </div>
 
 
-        <template is="dom-repeat" items="{{enabled_goals_info_list}}" as="goal">
+        <template is="dom-repeat" items="{{enabled_goals_info_list}}" as="goal" style ="margin-bottom:50px;">
           <template is = "dom-if" if="{{distinct_interventions_exist(goal.name, goal_name_to_intervention_info_list)}}">
                 <div style = "display:inline-flex" >
                     <div style = "display:block">

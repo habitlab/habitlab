@@ -28,7 +28,7 @@
 } = require 'libs_common/cacheget_utils'
 
 {
-  get_favicon_data_for_domain
+  remove_cached_favicon_for_domain
 } = require 'libs_backend/favicon_utils'
 
 {cfy, yfy} = require 'cfy'
@@ -451,7 +451,7 @@ export add_enable_custom_goal_reduce_time_on_domain = (domain) ->>
   await add_custom_goal_reduce_time_on_domain(domain)
   await set_goal_enabled("custom/spend_less_time_#{domain}")
   await intervention_utils.generate_interventions_for_domain domain
-  return
+  return "custom/spend_less_time_#{domain}"
 
 export add_enable_custom_goal_increase_time_on_domain = (domain) ->>
   await add_custom_goal_involving_time_on_domain(domain, true)
@@ -488,6 +488,7 @@ export remove_custom_goal_and_generated_interventions = (goal_name) ->>
   clear_cache_all_goals()
   remove_key_from_localstorage_dict 'extra_get_goals', goal_name
   remove_item_from_localstorage_list 'extra_list_all_goals', goal_name
+  remove_cached_favicon_for_domain goal.domain
   return
 
 export get_interventions_to_goals = ->>

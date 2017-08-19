@@ -3,6 +3,8 @@
   list_polymer_ext_tags_with_info
 } = require 'libs_frontend/polymer_utils'
 
+window.list_polymer_ext_tags_with_info = list_polymer_ext_tags_with_info
+
 polymer_ext {
   is: 'debug-view'
   tag_link_url: (tagname) ->

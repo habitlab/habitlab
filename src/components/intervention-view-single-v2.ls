@@ -7,6 +7,8 @@
   get_intervention_parameters
   set_intervention_parameter
   set_override_enabled_interventions_once
+  list_custom_interventions
+  get_interventions
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -20,7 +22,6 @@
 {cfy} = require 'cfy'
 
 #debounce = require('async-debounce-jt')
-
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 #set_intervention_options_debounced = debounce (args, callback) ->
@@ -69,6 +70,10 @@ polymer_ext {
       type: String
       computed: 'compute_sitename(goal)'
     }
+    custom: {
+      type: Boolean
+      computed: 'compute_custom(intervention)'
+    }
   }
   /*
   get_pill_button_tooltip: (pill_button_idx) ->
@@ -77,6 +82,8 @@ polymer_ext {
     else if pill_button_idx == 1
       return "A 'Never Shown' intervention<br>is disabled and will not be shown."
   */
+  compute_custom: (intervention) ->
+    return intervention.custom == true
   compute_sitename: (goal) ->
     return goal.sitename_printable
   intervention_property_changed: (intervention, old_intervention) ->
@@ -194,6 +201,13 @@ polymer_ext {
     chrome.tabs.create {url: preview_page}
   parameters_shown: ->
     return localstorage_getbool('intervention_view_show_parameters')
+  edit_custom_intervention: ->
+    localStorage.setItem('intervention_editor_open_intervention_name',JSON.stringify(this.intervention.name))
+    chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+  #ready: ->>
+  #  custom_interventions=await list_custom_interventions()
+  #  if custom_interventions.includes this.intervention.name
+  #    this.custom=true
   /*
   dropdown_menu_changed: (evt) ->>
     selected = this.$$('#enabled_selector').selected

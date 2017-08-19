@@ -24,6 +24,7 @@ const {close_selected_tab} = require('libs_frontend/tab_utils')
 
 polymer_ext({
   is: 'feed-item-timer-polymer',
+  doc: 'News feeds blocker that displays time spent on current site today',
   properties: {
     site: {
       type: String,

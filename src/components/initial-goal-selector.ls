@@ -48,9 +48,12 @@ swal = require 'sweetalert2'
 } = require 'libs_backend/canonical_url_utils'
 
 {
-  get_favicon_data_for_domain
-  get_favicon_data_for_domains_bulk
+  get_favicon_data_for_domain_cached
 } = require 'libs_backend/favicon_utils'
+
+{
+  promise_all_object
+} = require 'libs_common/promise_utils'
 
 {
   msg
@@ -189,8 +192,6 @@ polymer_ext {
   #   return false
 
   openBy: (evt) ->
-    console.log(evt)
-    console.log(evt.target)
     this.$.alignedDialog.positionTarget = evt.target
     this.$.alignedDialog.open()
     return
@@ -206,8 +207,6 @@ polymer_ext {
 
 
   add_website_input: (evt) ->
-    console.log 'add_website_input'
-    console.log(evt)
 
   # paper_icon_item_clicked: (evt) ->
   #   console.log 'paper_icon_item_clicked'
@@ -219,15 +218,8 @@ polymer_ext {
   #   console.log(domain)
 
   valueChange: (evt) ->
-    console.log 'valueChange_called'
-    console.log evt
-    console.log evt.target.domain
-    console.log evt.target.getAttribute('domain')
-    console.log evt.target
     domain = this.$$('#add_website_input').value.trim()
-    console.log(domain)
     this.add_custom_website_from_input()
-    console.log('add_custom_website_from_input_called')
     return
   
   settings_goal_clicked: (evt) ->
@@ -238,6 +230,8 @@ polymer_ext {
   get_icon_for_goal: (goal, goal_name_to_icon) ->
     if goal.icon?
       return goal.icon
+    if goal_name_to_icon[goal.name]?
+      return goal_name_to_icon[goal.name]
     return chrome.extension.getURL('icons/loading.gif')
   is_goal_shown: (goal) ->
     if goal.hidden and localStorage.getItem('show_hidden_goals_and_interventions') != 'true'
@@ -267,14 +261,23 @@ polymer_ext {
         goal.enabled = (enabled_goals[goal.name] == true)
       list_of_sites_and_goals.push current_item
     self.sites_and_goals = list_of_sites_and_goals
+    do !->>
+      goal_name_to_icon_changed = false
+      goal_name_to_new_icon_promises = {}
+      for sitename_and_goals in list_of_sites_and_goals
+        for goal_info in sitename_and_goals.goals
+          if not goal_info.icon?
+            goal_name_to_new_icon_promises[goal_info.name] = get_favicon_data_for_domain_cached(goal_info.domain)
+            goal_name_to_icon_changed = true
+      if goal_name_to_icon_changed
+        goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
+        for goal_name,icon of goal_name_to_new_icons
+          self.goal_name_to_icon[goal_name] = icon
+        self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
+    return
   image_clicked: (evt) ->>
-    console.log 'clicked image:'
-    console.log evt.target.goalname
     goal_name = evt.target.goalname
-    
     checked = evt.target.checked
-    console.log 'checked is'
-    console.log checked
 
     self = this
     if not checked
@@ -325,7 +328,6 @@ polymer_ext {
     return normal_sites_and_goals.concat custom_sites_and_goals
   add_goal_clicked: (evt) ->
     this.add_custom_website_from_input()
-    console.log('add goal clicked')
     return
   # add_website_input_keydown: ->
   #    console.log('add_website_input_keydown called')
@@ -352,8 +354,6 @@ polymer_ext {
   remove_clicked: (evt) ->>
     goal_name = evt.target.goal_name
     is_custom = evt.target.is_custom
-    console.log 'remove_clicked'
-    console.log goal_name
     if is_custom
       await remove_custom_goal_and_generated_interventions goal_name
       await this.set_sites_and_goals()
@@ -372,7 +372,6 @@ polymer_ext {
     this.fire 'need_rerender', {}
   add_custom_website_from_input: ->>
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
-    console.log(domain)
     if domain.length == 0
       return
     #this.$$('#add_website_input').value = ''
@@ -396,14 +395,15 @@ polymer_ext {
     #console.log 'checkpoint 4'
     #await add_enable_custom_goal_reduce_time_on_domain(canonical_domain)
     #console.log 'checkpoint 5'
-    await add_enable_custom_goal_reduce_time_on_domain(domain)
+    goal_name = await add_enable_custom_goal_reduce_time_on_domain(domain)
     await this.set_sites_and_goals()
     #console.log 'checkpoint 6'
     this.fire 'need_rerender', {}
+    #this.goal_name_to_icon[goal_name] = await get_favicon_data_for_domain_cached(domain)
+    #this.goal_name_to_icon = JSON.parse JSON.stringify this.goal_name_to_icon
     #console.log 'checkpoint 7'
     return
   repaint_due_to_resize_once_in_view: ->
-    console.log 'calling repaint_due_to_resize_once_in_view'
     self = this
     leftmost = null
     rightmost = null
@@ -426,7 +426,6 @@ polymer_ext {
     else
       self.repaint_due_to_resize()
   repaint_due_to_resize: ->
-    console.log 'resized!!'
     leftmost = null
     rightmost = null
     rightmost_without_width = null
@@ -469,12 +468,9 @@ polymer_ext {
     #console.log('finished fetching favicons')
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
     this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
-    console.log(this.baseline_time_on_domains)
     if self.is_onboarding
       self.once_available '.siteiconregular' ->
-        console.log 'siteiconregular available 1'
         self.repaint_due_to_resize()
-        console.log 'siteiconregular available 2'
 }, [
   {
     source: require 'libs_common/localization_utils'

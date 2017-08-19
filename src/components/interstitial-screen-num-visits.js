@@ -9,7 +9,7 @@ const {
 
 Polymer({
   is: 'interstitial-screen-num-visits',
-
+  doc: 'A screen that shows time spent on a site today, number of visits, and links to New York Times articles.',
   properties: {
     sitenamePrintable: {
       type: String,

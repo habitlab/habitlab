@@ -78,13 +78,13 @@
 
       <paper-card>
         <div class="card-content">
-          <paper-tabs id="graphsOfGoalsTab" style="width: 500px;" selected={{selected_goal_view}} scrollable>
+          <paper-tabs id="graphsOfGoalsTab" style="width: 100%;" selected="{{selected_goal_view}}" scrollable>
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
               <paper-tab>{{site_info.sitename_printable}}</paper-tab>
             </template>
           </paper-tabs>
 
-          <iron-pages selected={{selected_goal_view}}>
+          <iron-pages selected="{{selected_goal_view}}">
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
               <div><site-goal-view-v2 site="{{site_info.sitename}}"></site-goal-view-v2></div>
             </template>
@@ -94,14 +94,14 @@
 
       <paper-card>
         <div class="card-content">
-          <paper-tabs id="graphsOfInterventionEffectivenessTab" style="width: 100%;" selected={{selected_intervention_effectiveness_idx}} scrollable>
+          <paper-tabs id="graphsOfInterventionEffectivenessTab" style="width: 100%;" selected="{{selected_intervention_effectiveness_idx}}" scrollable>
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
               <paper-tab>{{site_info.sitename_printable}}</paper-tab>
             </template>
           </paper-tabs>
           <br>
 
-          <iron-pages selected={{selected_intervention_effectiveness_idx}}>
+          <iron-pages selected="{{selected_intervention_effectiveness_idx}}">
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
               <div>
                 <h4>{{site_info.sitename_printable}} Nudge Effectiveness</h4>

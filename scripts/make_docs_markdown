@@ -1,6 +1,8 @@
 #!/bin/bash
 
+mkdir -p doc
 gulp js_srcgen
 gulp livescript_srcgen
 ./node_modules/documentation-habitlab/bin/documentation.js build src_gen/libs_frontend/*.js src_gen/libs_backend/*.js src_gen/libs_common/*.js src/flowtypes/*.js -f md -o doc/API.md --github
+mkdir -p dist
 cp doc/API.md dist/API.md

@@ -223,7 +223,7 @@ window.uselib = (libname, callback) ->
     ].join('\n'))
 
 if localStorage.refresh_livereload == 'true'
-  do ->>
+  do !->>
     try
       script_fetch_result = await fetch('http://localhost:35729/livereload.js?snipver=1')
       script_text = await script_fetch_result.text()

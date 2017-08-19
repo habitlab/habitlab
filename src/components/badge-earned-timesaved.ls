@@ -14,6 +14,7 @@ $ = require 'jquery'
 
 polymer_ext {
   is: 'badge-earned-timesaved'
+  docs: 'Display the badge unlocked and time saved.'
   properties: {
     minutes_saved: {
       type: Number

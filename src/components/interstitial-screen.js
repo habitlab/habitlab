@@ -9,7 +9,7 @@ const {
 
 Polymer({
   is: 'interstitial-screen',
-
+  doc: 'A screen that either shows work sites visited today or suggested links to New York Times articles.',
   properties: {
     btnTxt: {
       type: String, 

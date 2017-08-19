@@ -11,7 +11,6 @@ var intervention = require('libs_common/intervention_info').get_intervention();
 
 Polymer({
   is: 'interstitial-screen-netflix-showinfo',
-
   properties: {
     btnTxt: {
       type: String, 

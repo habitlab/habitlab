@@ -37,7 +37,7 @@ polymer_ext {
   properties: {
     slide_idx: {
       type: Number
-      value: if (window.hashdata_unparsed == 'last') then 4 else 0
+      value: if (window.hashdata_unparsed == 'last') then 2 else 0
       observer: 'slide_changed'
     }
     prev_slide_idx: {
@@ -106,7 +106,6 @@ polymer_ext {
   slide_changed: (evt) ->
     self = this
     this.SM('.slide').stop()
-    console.log 'slide_changed called'
     #this.SM('.slide').show()
     prev_slide_idx = this.prev_slide_idx
     this.prev_slide_idx = this.slide_idx
@@ -114,7 +113,6 @@ polymer_ext {
     if slide.find('.scroll_wrapper').length > 0
       slide.find('.scroll_wrapper')[0].scrollTop = 0
     if prev_slide_idx == this.slide_idx - 1 # scrolling forward
-      console.log 'slide changed if statement 1'
       prev_slide = this.SM('.slide').eq(prev_slide_idx)
       prev_slide.animate({
         top: '-100vh'
@@ -129,39 +127,23 @@ polymer_ext {
         self.animation_inprogress = false
       , 1000
     else if prev_slide_idx == this.slide_idx + 1 # scrolling backward
-      console.log 'slide changed if statement 2'
-      console.log 'document.height point 1 is ' + $(document).height()
       prev_slide = this.SM('.slide').eq(prev_slide_idx)
-      console.log 'document.height point 2 is ' + $(document).height()
-      console.log 'prev slide is'
-      console.log prev_slide
-      console.log 'slide is'
-      console.log slide
-      console.log('prev_slide offset is')
-      console.log(prev_slide.offset())
-      console.log('slide offset is')
-      console.log(slide.offset())
       #prev_slide.css('top', '100vh')
       #prev_slide.css('top', '0px')
       prev_slide.animate({
         top: '+100vh'
       }, 1000)
-      console.log 'document.height point 3 is ' + $(document).height()
       slide.css('top', '-100vh')
-      console.log 'document.height point 4 is ' + $(document).height()
       slide.show()
-      console.log 'document.height point 5 is ' + $(document).height()
       slide.animate({
         top: '0px'
       }, 1000)
-      console.log 'document.height point 6 is ' + $(document).height()
       this.animation_inprogress = true
       setTimeout ->
         self.animation_inprogress = false
         prev_slide.hide()
       , 1000
     else
-      console.log 'slide changed if statement 3'
       this.SM('.slide').hide()
       slide.show()
       slide.css('top', '0px')
@@ -226,7 +208,6 @@ polymer_ext {
       evt.preventDefault()
       return
     last_slide_idx = this.SM('.slide').length - 1
-    console.log 'mousewheel_listener called, slide_idx is ' + this.slide_idx
     return
     /*
     if this.slide_idx == 1
@@ -269,8 +250,8 @@ polymer_ext {
     if this.slide_idx == 1 # on the goal selector page
       this.$.goal_selector.repaint_due_to_resize()
       return
-    else if this.slide_idx == 2
-      this.$.positive_goal_selector.repaint_due_to_resize()
+    #else if this.slide_idx == 2
+    #  this.$.positive_goal_selector.repaint_due_to_resize()
     current_height = 400
     target_height = window.innerHeight - 80
     current_width = 600
@@ -291,7 +272,7 @@ polymer_ext {
     $('body').css('overflow', 'hidden')
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
-    this.$$('#positive_goal_selector').set_sites_and_goals()
+    #this.$$('#positive_goal_selector').set_sites_and_goals()
     this.last_mousewheel_time = 0
     this.last_mousewheel_deltaY = 0
     this.keydown_listener_bound = this.keydown_listener.bind(this)
@@ -382,7 +363,7 @@ polymer_ext {
         localStorage.setItem('enable_debug_terminal', 'true')
     console.log('calling set_sites_and_goals')
     this.$.goal_selector.repaint_due_to_resize_once_in_view()
-    this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
+    #this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
     this.insert_iframe_for_setting_userid()
     /*
     self = this

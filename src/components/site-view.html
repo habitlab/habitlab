@@ -28,6 +28,7 @@
         margin-top: 10px;
       };
     }
+
     .container {
       text-align: center;
       display: flex;
@@ -35,15 +36,18 @@
       align-items: center;
       justify-content: center;
     }
+
     .title {
       font-size: 48px;
       margin-top: 0.3em;
       /*font-weight: 200;*/
     }
+
     .description {
       font-size: 2.2em;
       margin-top: 0.8em;
     }
+<<<<<<< HEAD
     .button{
       color: white;
       background-color: #415D67;
@@ -51,15 +55,33 @@
       font-size: 16px;
       text-transform: none;
       -webkit-font-smoothing: subpixel-antialiased;
+=======
+
+    .buttons {
+      text-align: center;
+      padding-top: 3em;
+      padding-bottom: 3em;
     }
+
+    button {
+      position: absolute;
+      left: 50%;
+      cursor: pointer;
+      transform: translateX(-50%) translateY(-50%);
+      font-size: 1em;
+>>>>>>> c475af5c32dd633d1fb57cf667d03dcf4c5b7e1c
+    }
+
     hr {
       margin-top: 2em;
     }
+
     .paper-card {
       width: calc(100% - 40px);
       margin-left: 20px;
       margin-right: 20px;
     }
+
     .card-content {
       font-size: 20px;
     }
@@ -72,9 +94,11 @@
       <div class="title" style="color: white">　{{goal_info.sitename_printable}}　</div>
 
       <paper-card heading="{{goal_info.sitename_printable}} Nudges" class="paper-card">
-        <div class="card-content">Nudges turned on will only be shown some of the time <iron-icon icon="help" on-click="help_icon_clicked" style="width: 25px; height: 25px; color: #415D67; cursor: pointer; margin-bottom: 5px"></iron-icon></div>
+        <div class="card-content">Nudges turned on will only be shown some of the time
+          <iron-icon icon="help" on-click="help_icon_clicked" style="width: 25px; height: 25px; color: #415D67; cursor: pointer; margin-bottom: 5px"></iron-icon>
+        </div>
         <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
-          <intervention-view-single-v2  goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
+          <intervention-view-single-v2 goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
           <br> <br>
         </template>
         <paper-button class="button" on-click="code_custom_nudge_clicked">Code your custom nudge</paper-button>

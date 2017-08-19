@@ -419,8 +419,6 @@ polymer_ext {
     if intervention_name?
       self = this
       if self.js_editors[intervention_name]?
-        if self.pill_button_idxes[intervention_name]?
-          return
         return
       brace = await SystemJS.import('brace')
       await SystemJS.import('brace/mode/javascript')

@@ -200,18 +200,27 @@ polymer_ext {
     return
 
   rerender: ->>
-    enabled_goals_info_list = await list_goal_info_for_enabled_goals()
-    generic_interventions = await list_generic_interventions()
+    [enabled_goals_info_list, generic_interventions, all_interventions, enabled_interventions] = await Promise.all [
+      list_goal_info_for_enabled_goals()
+      list_generic_interventions()
+      get_interventions()
+      get_enabled_interventions()
+    ]
     generic_interventions_info = []
     for x in generic_interventions
-      info = await get_intervention_info(x)
+      info = all_interventions[x]
       generic_interventions_info.push info
     this.generic_interventions_info = generic_interventions_info
     goal_name_to_intervention_info_list = []
     for goal_info in enabled_goals_info_list
-      goal_name_to_intervention_info_list[goal_info.name] = await this.get_enabled_interventions_for_goal(goal_info.name)
+      intervention_info_list_for_goal = []
+      for intervention_name in goal_info.interventions
+        intervention_info = all_interventions[intervention_name]
+        if intervention_info.generic_intervention?
+          continue
+        intervention_info_list_for_goal.push intervention_info
+      goal_name_to_intervention_info_list[goal_info.name] = intervention_info_list_for_goal
     this.goal_name_to_intervention_info_list = goal_name_to_intervention_info_list
-
     enabled_goals_info_list.sort (a, b) ->
       intervention_info_list_a = goal_name_to_intervention_info_list[a.name]
       intervention_info_list_b = goal_name_to_intervention_info_list[b.name]

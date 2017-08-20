@@ -37,42 +37,63 @@ export get_requires_for_package_list = (packages) ->>
     output.push package_name
   return output
 
+extra_file_list_cached_list = null
+extra_file_list_cached_dict = null
+
+get_extra_files_cached_list = ->>
+  if extra_file_list_cached_list?
+    return extra_file_list_cached_list
+  extra_file_list_cached_list := await fetch('/extra_file_list.json').then (.json!)
+  return extra_file_list_cached_list
+
+get_extra_files_cached_dict = ->>
+  if extra_file_list_cached_dict?
+    return extra_file_list_cached_dict
+  newdict = {}
+  extra_file_list = await get_extra_files_cached_list()
+  for x in extra_file_list
+    newdict[x] = true
+  extra_file_list_cached_dict := newdict
+
+export does_extra_file_exist = (filepath) ->>
+  extra_files_dict = await get_extra_files_cached_dict()
+  return extra_files_dict[filepath] == true
+
+export get_path_for_file = (filename) ->>
+  extra_files_list = await get_extra_files_cached_list()
+  for filepath in extra_files_list
+    if filepath.endsWith('/' + filename)
+      return filepath
+  return null
+
 export get_requires_for_component_list = (components) ->>
   output = []
   for component in components
-    try
-      #component_path = "bower_components/#{component}/#{component}.jspm.js"
-      component_path = "bower_components/#{component}/#{component}.deps.js"
-      component_request = await fetch(component_path)
-      component_html = await component_request.text()
-    catch
-      try
-        #component_path = "components/#{component}.jspm.js"
-        component_path = "components/#{component}.deps.js"
-        component_request = await fetch(component_path)
-        component_html = await component_request.text()
-      catch
-        component_path = "components/#{component}.deps.js"
-    output.push component_path
-  #console.log output
+    component_path = "bower_components/#{component}/#{component}.deps.js"
+    if (await does_extra_file_exist(component_path))
+      output.push(component_path)
+      continue
+    component_path = "components/#{component}.deps.js"
+    if (await does_extra_file_exist(component_path))
+      output.push(component_path)
+      continue
+    component_path = await get_path_for_file("#{component}.deps.js")
+    if component_path?
+      output.push(component_path)
   return output
 
 export get_components_to_require_statements = (components) ->>
   output = {}
   for component in components
-    try
-      #component_path = "bower_components/#{component}/#{component}.jspm.js"
-      component_path = "bower_components/#{component}/#{component}.deps.js"
-      component_request = await fetch(component_path)
-      component_html = await component_request.text()
-    catch
-      try
-        #component_path = "components/#{component}.jspm.js"
-        component_path = "components/#{component}.deps.js"
-        component_request = await fetch(component_path)
-        component_html = await component_request.text()
-      catch
-        component_path = "components/#{component}.deps.js"
-    output[component] = component_path
-  #console.log output
+    component_path = "bower_components/#{component}/#{component}.deps.js"
+    if (await does_extra_file_exist(component_path))
+      output[component] = component_path
+      continue
+    component_path = "components/#{component}.deps.js"
+    if (await does_extra_file_exist(component_path))
+      output[component] = component_path
+      continue
+    component_path = await get_path_for_file("#{component}.deps.js")
+    if component_path?
+      output[component] = component_path
   return output

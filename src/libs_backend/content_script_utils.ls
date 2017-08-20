@@ -4,7 +4,7 @@
 } = require 'cfy'
 
 {
-  localget
+  systemjsget
 } = require 'libs_common/cacheget_utils'
 
 $ = require 'jquery'
@@ -23,7 +23,7 @@ export load_css_file = (filename) ->>
   if loaded_css_files[filename]?
     return
   loaded_css_files[filename] = true
-  css_code = await localget(filename)
+  css_code = await systemjsget(filename)
   await load_css_code(css_code)
 
 /**

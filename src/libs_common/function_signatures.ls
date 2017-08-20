@@ -67,6 +67,7 @@ lib_name_to_func_names_and_signatures =
     remoteget: 'url'
     remoteget_json: 'url'
     remoteget_base64: 'url'
+    systemjsget: 'url'
   favicon_utils:
     get_favicon_data_for_domain: 'domain'
   debug_console_utils:

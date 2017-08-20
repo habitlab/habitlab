@@ -7,11 +7,11 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
+is_production = chrome.runtime.getManifest().update_url? or localStorage.getItem('devmode_use_cache') == 'true'
 localforage_store = null
 get_store = ->
   if not localforage_store?
-    manifest = chrome.runtime.getManifest()
-    if manifest.update_url? or localStorage.getItem('devmode_use_cache') == 'true'
+    if is_production
       localforage_store := localforage.createInstance({name: 'localget'})
     else
       localforage_store := {
@@ -28,6 +28,12 @@ get_store_remote = ->
     localforage_store_remote := localforage.createInstance({name: 'remoteget'})
   return localforage_store_remote
 
+localforage_store_systemjs = null
+get_store_systemjs = ->
+  if not localforage_store_systemjs?
+    localforage_store_systemjs := localforage.createInstance({name: 'systemjsget'})
+  return localforage_store_systemjs
+
 /**
  * Clears the cache used by {@link #localget|localget} and {@link #localget_json|localget_json}
  */
@@ -40,6 +46,10 @@ export clear_cache_localget = ->>
  */
 export clear_cache_remoteget = ->>
   store = get_store_remote()
+  await store.clear()
+
+export clear_cache_systemjs = ->>
+  store = get_store_systemjs()
   await store.clear()
 
 /**
@@ -105,5 +115,19 @@ export remoteget_base64 = (url) ->>
   if text?
     return 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(text)))
   return null
+
+export systemjsget = (url) ->>
+  if not is_production
+    url = url.replace(chrome.extension.getURL('/'), '')
+    return await fetch(chrome.extension.getURL('/' + url)).then((.text!))
+  store = get_store_systemjs()
+  url = url.replace(chrome.extension.getURL('/'), '')
+  res = await store.getItem(url)
+  if res?
+    return res
+  request = await fetch('http://habitlab-dist.netlify.com/' + url)
+  res = await request.text()
+  await store.setItem(url, res)
+  return res
 
 gexport_module 'cacheget_utils', -> eval(it)

@@ -1,6 +1,6 @@
 (function() {
   if (!window.systemjs_fetch) {
-    var {localget, remoteget} = require('libs_frontend/cacheget_utils');
+    var {systemjsget, remoteget} = require('libs_frontend/cacheget_utils');
     var chrome_base_url = chrome.runtime.getURL('');
     var is_local_package = function(input) {
       for (var prefix of ['bower_components', 'bundles', 'components', 'frontend_utils', 'generated_libs', 'goals', 'intervention_utils', 'jspm_packages', 'libs_backend', 'libs_common', 'libs_frontend', 'node_modules_custom']) {
@@ -13,7 +13,7 @@
     window.systemjs_fetch = function(input, init) {
       if (input.startsWith(chrome_base_url)) {
         if (is_local_package(input)) {
-          return localget(input).then(function(text) {
+          return systemjsget(input).then(function(text) {
             return new Response(text);
           });
         } else {

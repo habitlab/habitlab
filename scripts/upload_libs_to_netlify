@@ -1,0 +1,3 @@
+#!/bin/bash
+
+netlify deploy -s 12e812fe-f55f-46f1-9cf8-1e4cb7f28c5d -p dist

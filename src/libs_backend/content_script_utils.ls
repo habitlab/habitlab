@@ -10,6 +10,7 @@
 $ = require 'jquery'
 
 css_packages = require('libs_common/css_packages')
+css_files_cached = require('libs_common/css_files_cached')
 
 loaded_css_files = {}
 
@@ -23,7 +24,10 @@ export load_css_file = (filename) ->>
   if loaded_css_files[filename]?
     return
   loaded_css_files[filename] = true
-  css_code = await systemjsget(filename)
+  if css_files_cached[filename]?
+    css_code = css_files_cached[filename]
+  else
+    css_code = await systemjsget(filename)
   await load_css_code(css_code)
 
 /**

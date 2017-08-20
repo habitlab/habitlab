@@ -39,6 +39,9 @@ do !->>
       store = localforage.createInstance({
         name: 'localget'
       })
+      storesystemjs = localforage.createInstance({
+        name: 'systemjsget'
+      })
       if not need_to_clear_cache
         if (not developer_mode)
           version_cached = await store.getItem('habitlab_version')
@@ -47,6 +50,7 @@ do !->>
       if need_to_clear_cache
         await store.clear()
         await store.setItem('habitlab_version', habitlab_version)
+        await storesystemjs.clear()
 
   require 'libs_backend/systemjs'
 
@@ -199,7 +203,7 @@ do !->>
 
   require 'libs_backend/expose_backend_libs'
 
-  {localget, remoteget} = require 'libs_common/cacheget_utils'
+  {localget, remoteget, systemjsget} = require 'libs_common/cacheget_utils'
 
   {
     start_syncing_all_data
@@ -742,6 +746,7 @@ do !->>
     return output
 
   css_packages = require('libs_common/css_packages')
+  css_files_cached = require('libs_common/css_files_cached')
 
   message_handlers = get_all_message_handlers()
 
@@ -771,7 +776,10 @@ do !->>
         await new Promise -> chrome.tabs.insertCSS tabid, {code: css_code}, it
         return
       else
-        css_code = await localget(css_file)
+        if css_files_cached[css_file]?
+          css_code = css_files_cached[css_file]
+        else
+          css_code = await systemjsget(css_file)
         await new Promise -> chrome.tabs.insertCSS tabid, {code: css_code}, it
         return
     'load_css_code': (data) ->>

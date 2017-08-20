@@ -84,13 +84,19 @@ default_goals_list = ['facebook/spend_less_time', 'youtube/spend_less_time']
  * @return {Promise.<Object.<GoalName, boolean>>} Object with enabled goals as keys
  */
 export get_enabled_goals = ->>
+  all_goals = await get_goals()
   enabled_goals_str = localStorage.getItem('enabled_goals')
+  enabled_goals = {}
   if not enabled_goals_str?
-    enabled_goals = {}
     for default_goal_name in default_goals_list
+      if not all_goals[default_goal_name]?
+        continue
       enabled_goals[default_goal_name] = true
   else
-    enabled_goals = JSON.parse enabled_goals_str
+    for k,v of JSON.parse enabled_goals_str
+      if not all_goals[k]?
+        continue
+      enabled_goals[k] = v
     if enabled_goals['debug/all_interventions']
       if localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
         delete enabled_goals['debug/all_interventions']

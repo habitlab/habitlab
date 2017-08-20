@@ -58,6 +58,10 @@
   upload_intervention
 } = require 'libs_backend/intervention_sharing_utils' 
 
+{
+  systemjsget
+} = require 'libs_backend/cacheget_utils'
+
 swal = require 'sweetalert2'
 lodash = require 'lodash'
 
@@ -199,7 +203,7 @@ polymer_ext {
       self.display_intervention(evt.detail)
   display_template_by_name: (template_name) ->>
     self=this
-    code=await fetch(chrome.runtime.getURL('/intervention_templates/'+template_name+'/frontend.js')).then((.text!))
+    code=await systemjsget(chrome.runtime.getURL('/intervention_templates/'+template_name+'/frontend.js')).then((.text!))
     idx=template_name.indexOf '/'
     if idx!=-1
       short_template_name=template_name.slice idx+1

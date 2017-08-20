@@ -600,7 +600,7 @@ gulp.task 'generate_polymer_components_html', (done) ->
   fs.writeFileSync 'src/components/components.html', output.join("\n")
   done()
 
-extra_folders = ['node_modules_custom', 'generated_libs', 'bundles', 'bower_components', 'libs_frontend', 'libs_common', 'libs_backend', 'components']
+extra_folders = ['node_modules_custom', 'intervention_templates', 'generated_libs', 'bundles', 'bower_components', 'libs_frontend', 'libs_common', 'libs_backend', 'components']
 
 gulp.task 'make_extra_file_list', (done) ->
   complete_file_list = []

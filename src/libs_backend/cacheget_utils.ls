@@ -7,7 +7,9 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-is_production = chrome.runtime.getManifest().update_url? or localStorage.getItem('devmode_use_cache') == 'true'
+manifest = chrome.runtime.getManifest()
+habitlab_version = manifest.version.split('.').join('-')
+is_production = manifest.update_url? or localStorage.getItem('devmode_use_cache') == 'true'
 localforage_store = null
 get_store = ->
   if not localforage_store?
@@ -125,7 +127,7 @@ export systemjsget = (url) ->>
   res = await store.getItem(url)
   if res?
     return res
-  request = await fetch('http://habitlab-dist.netlify.com/' + url)
+  request = await fetch('http://habitlab-dist-' + habitlab_version + '.netlify.com/' + url)
   res = await request.text()
   await store.setItem(url, res)
   return res

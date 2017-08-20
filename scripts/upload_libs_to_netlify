@@ -1,3 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-netlify deploy -s 12e812fe-f55f-46f1-9cf8-1e4cb7f28c5d -p dist
+let jsyaml = require('js-yaml')
+let fs = require('fs')
+
+let version = jsyaml.safeLoad(fs.readFileSync('src/manifest.yaml', 'utf-8')).version.trim().split('.').join('-')
+
+let netlify = require('netlify')
+let getsecret = require('getsecret')
+
+let token = getsecret('netlify_token')
+
+let client = netlify.createClient({access_token: token})
+
+async function main() {
+  let site = await client.createSite({
+    name: "habitlab-dist-" + version
+  })
+  console.log('site created: habitlab-dist-' + version)
+  let deploy = await site.createDeploy({
+    dir: 'dist'
+  })
+  console.log('deploy started')
+  await deploy.waitForReady()
+  console.log('deploy finished')
+}
+
+main()

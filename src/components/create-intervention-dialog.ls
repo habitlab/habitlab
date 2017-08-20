@@ -15,6 +15,9 @@ polymer_ext {
     goal_info_list: {
       type: Array
     }
+    current_goal:{
+      type: String
+    }
     current_intervention:{
       type: String
       value: ''
@@ -24,6 +27,9 @@ polymer_ext {
     }
   }
   open_create_new_intervention_dialog: ->
+    if this.current_goal?
+      goal_names_list = this.goal_info_list.map (.name)
+      this.$.goal_selector.selected = goal_names_list.indexOf(this.current_goal)
     this.$$('#create_new_intervention_dialog').open()
   open_existing_custom_intervention_dialog: ->
     this.$$('#open_existing_custom_intervention').open()
@@ -64,6 +70,7 @@ polymer_ext {
         new_preview: self.$.preview_url.value
       })
       self.current_intervention=''
+      self.goToTab()  
     else
       if all_interventions.indexOf(proposed_intervention_name) != -1
         self.$$('#hint').innerHTML = 'An intervention with this name already exists'
@@ -75,7 +82,7 @@ polymer_ext {
         intervention_description: self.$.intervention_description.value
         preview_url: self.$.preview_url.value
       })
-    self.goToTab()  
+      chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
     self.$$('#create_new_intervention_dialog').close()
   goToTab: ->
     chrome.tabs.getAllInWindow undefined, (tabs) ->

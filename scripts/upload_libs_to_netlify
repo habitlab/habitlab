@@ -13,10 +13,18 @@ let token = getsecret('netlify_token')
 let client = netlify.createClient({access_token: token})
 
 async function main() {
-  let site = await client.createSite({
-    name: "habitlab-dist-" + version
-  })
-  console.log('site created: habitlab-dist-' + version)
+  let sites = await client.sites()
+  let name = "habitlab-dist-" + version
+  let site = sites.filter(x => x.name == name)[0]
+  if (site == null) {
+    console.log('creating site: ' + name)
+    site = await client.createSite({
+      name: name
+    })
+    console.log('site created: ' + name)
+  } else {
+    console.log('site already exists: ' + name)
+  }
   let deploy = await site.createDeploy({
     dir: 'dist'
   })

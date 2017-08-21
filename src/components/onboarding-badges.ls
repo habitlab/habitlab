@@ -107,6 +107,10 @@ polymer_ext {
     goal_info_list: {
       type: Array
     }
+    dialog_intervention: {
+      type: Object
+    }
+
     interventions_info:{
       type: Array
     }
@@ -167,6 +171,18 @@ polymer_ext {
   compute_sitename: (goal) ->
     return goal.sitename_printable
 
+  openBy: (evt) ->
+    console.log(evt)
+    console.log(evt.target)
+    this.$$('#alignedDialog').positionTarget = evt.target
+    this.$$('#alignedDialog').open()
+    return
+
+  helpOpen: (evt) ->
+    console.log(evt)
+    this.$.animated.open()
+    return   
+
   bounce_object: (evt) ->
     bounce = new Bounce()
     bounce.scale({
@@ -188,13 +204,6 @@ polymer_ext {
       to: 360
     });
     bounce2.applyTo(this.SM('.hearts'))
-    return
-
-  openBy: (evt) ->
-    console.log(evt)
-    console.log(evt.target)
-    this.$.alignedDialog.positionTarget = evt.target
-    this.$.alignedDialog.open()
     return
 
   ready: ->>

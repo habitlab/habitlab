@@ -19,8 +19,31 @@
 <dom-module id="onboarding-badges">
   <style>
      :host {
-      width: 100%;
+      width: 100%;      
       text-align: center;
+
+      --paper-dialog:{
+        margin:auto;
+        margin-left:0px;
+        padding-left:0px;
+        padding-right:0px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-top: 10px;
+      
+      }
+      
+      #alignedDialog {
+        margin: auto;
+        padding-left:0px;
+        padding-right:0px;
+        padding-top:10px; 
+        padding-bottom:0px;
+        margin-left:0px;
+        margin-top: 10px;
+        width:320px; 
+      }
+
     }
 
 
@@ -30,8 +53,6 @@
       --paper-tooltip-text-color: white;
       font-size: 16px;
     }
-
-
 
     .badgesContainer {
       width: 600px;
@@ -48,7 +69,7 @@
       width: 950px;
       margin: auto;
       margin-top: 0px;
-      margin-bottom: 30px;
+      margin-bottom: 100px;
       padding: 0px;
       padding-bottom: 20px;
     }
@@ -129,7 +150,20 @@
   </style>
 
 
+
+
+
   <template>
+
+    <paper-dialog id="alignedDialog" intervention = "dialog_intervention" style = "background-color:rgba(255,255,255,1);" no-overlap horizontal-align="left" vertical-align="top">
+      <h2>{{intervention.displayname}}</h2>
+      <p>{{intervention.displayname}} {{intervention.description}}</p>
+      <div class="buttons">
+        <paper-button>More Info...</paper-button>
+        <paper-button dialog-dismiss>Decline</paper-button>
+        <paper-button dialog-confirm autofocus>Accept</paper-button>
+      </div>
+    </paper-dialog>
 
     <div style="position: relative">
       <img style="width:80px;padding-left:0px;padding-bottom:0px;margin:auto;margin-left:0px;margin-top:25px;margin-bottom:10px;"
@@ -149,7 +183,7 @@
     </div> -->
       <div>
 
-        <div class="outerContainer">
+        <div class="outerContainer" >
 
           <div style="display:inline-flex; padding-bottom: 0px;">
 
@@ -161,9 +195,10 @@
 
             <div class="interventionsContainer">
               <template is="dom-repeat" items="{{generic_interventions_info}}" as="intervention">
+                    
                 <div style="display:block;">
                   <div>
-                    <img class="interventions" id="intervention" src="{{get_intervention_icon_url(intervention.name)}}" />
+                    <img class="interventions" id="intervention" src="{{get_intervention_icon_url(intervention.name)}}" on-click = "openBy" />
                     <div style="position:relative; left:0px; top:8px; color: white;max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
                   </div>
                   <paper-tooltip class="tooltip" offset="10px" animation-delay="0">{{intervention.description}}</paper-tooltip>
@@ -202,7 +237,7 @@
                     as="intervention">
                     <div style="display:block">
                       <div>
-                        <img class="interventions" src="{{get_intervention_icon_url(intervention.name)}}" />
+                        <img class="interventions" src="{{get_intervention_icon_url(intervention.name)}}" on-click = "openBy" />
                         <div style="position:relative;left:0px; top:8px;color: white; width:105px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:auto;text-align:center;margin-bottom:15px;">
                         {{intervention.displayname}} </div>
                       </div>
@@ -219,6 +254,7 @@
                     </div>
                     <paper-tooltip class="tooltip" offset="0" animation-delay="0">Start building good habits and collect Habit Hearts to unlock more {{goal.sitename_printable}} Nudges!</paper-tooltip>
                   </div>
+
                 </div>
               </div>
             </template>

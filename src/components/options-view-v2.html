@@ -53,7 +53,7 @@
     padding: 0;
     display: inline-block;
     position: absolute;
-    background-color:rgb(120, 200,250);
+    background-color:rgb(81, 167, 249);
     top: 0;
     left: 25%;
 }
@@ -61,7 +61,7 @@
     width: calc(100% - 40px);
     margin-left: 20px;
     margin-right: 0px;
-    background-color: rgb(120, 200,250);
+    background-color: rgb(81, 167, 249);
     color: white;
 }
 
@@ -111,7 +111,7 @@ paper-button.fancy {
                         <dashboard-view-v2 id="overview_tab"></dashboard-view-v2>
                         <!--<goal-settings id="goal_selector"/>-->
                         <!--<goal-settings />-->
-                        <dash-settings id="settings_tab"></dash-settings>
+                        <dash-settings id="settings_tab" style = "margin-bottom:0px;"></dash-settings>
                         <template is="dom-repeat" items="{{enabled_goal_info_list}}" as="goal_info">
                           <site-view site="{{goal_info.sitename}}" id="siteview_{{string_to_id(goal_info.sitename_printable)}}"></site-view>
                         <!--
@@ -129,7 +129,7 @@ paper-button.fancy {
 
     <template is="dom-if" if="{{is_habitlab_disabled}}">
         <div style="width: calc(100% - 20px); display: inline-block; margin: 10px;">
-            <paper-card style="cursor: pointer; margin-bottom: 10px; display: inline-block; width: 100%" on-click="enable_habitlab_button_clicked">
+            <paper-card style="cursor: pointer;margin-bottom:10px; display: inline-block; width: 100%" on-click="enable_habitlab_button_clicked">
                 <div style="width: 100%; margin: 10px">
                     <div style="font-size: 36px; text-align: center">You've disabled HabitLab today.<br>Click to re-enable</div>
                     <div style="margin: 20px; width: calc(100% - 40px); height: 300px; display: flex; justify-content: center">

@@ -140,6 +140,7 @@ webpack_pattern = [
   'src/options.ls'
   'src/popup.ls'
   'src/popup_loader.js'
+  'src/index_loader.js'
 ]
 
 webpack_pattern_content_scripts = [
@@ -741,6 +742,7 @@ gulp.task 'mkzip', (done) ->
     'index_jspm.html'
     'index_jspm.js'
     'index_loader.js'
+    'index.js'
     'systemjs_paths.js'
     'logs.html'
     'logs.js'

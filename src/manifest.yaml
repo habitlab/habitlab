@@ -23,7 +23,7 @@ optional_permissions:
   - identity.email
 content_security_policy: >-
   script-src 'self' 'unsafe-eval'
-  'sha256-Lnjp6S+Lhd5zhPB1WhXY2otcDuecbUd93KaBjOx9gGE='; object-src 'self'
+  'sha256-E0MkOp33Cht0zp6cDgLSKKFXEcK8qgePJG9yW+w/jR8=' 'sha256-Lnjp6S+Lhd5zhPB1WhXY2otcDuecbUd93KaBjOx9gGE='; object-src 'self'
 web_accessible_resources:
   - options.html
   - popup.html

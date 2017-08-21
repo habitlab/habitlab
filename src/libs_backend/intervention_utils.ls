@@ -209,6 +209,8 @@ export generate_interventions_for_domain = (domain) ->>
   new_intervention_info_list = []
   for generic_intervention in generic_interventions
     intervention_info = all_intervention_info[generic_intervention]
+    if not intervention_info?
+      continue
     intervention_info = JSON.parse JSON.stringify intervention_info
     fixed_intervention_name = generic_intervention
     fixed_intervention_name = fixed_intervention_name.split('generic/').join("generated_#{domain}/")

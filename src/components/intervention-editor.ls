@@ -203,7 +203,7 @@ polymer_ext {
       self.display_intervention(evt.detail)
   display_template_by_name: (template_name) ->>
     self=this
-    code=await systemjsget(chrome.runtime.getURL('/intervention_templates/'+template_name+'/frontend.js')).then((.text!))
+    code=await systemjsget(chrome.runtime.getURL('/intervention_templates/'+template_name+'/frontend.js'))
     idx=template_name.indexOf '/'
     if idx!=-1
       short_template_name=template_name.slice idx+1

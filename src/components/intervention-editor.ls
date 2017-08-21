@@ -503,7 +503,7 @@ polymer_ext {
       if have_modifed_interventions
         return true
       return
-    fetch(chrome.runtime.getURL('API.md')).then((.text!)).then (markdown_text) ->
+    systemjsget(chrome.runtime.getURL('API.md')).then (markdown_text) ->
       markdown_text = markdown_text.replace('### Table of Contents', '### Useful Methods')
       self.$.markdown_display.markdown = markdown_text
 }, {

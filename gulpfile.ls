@@ -723,14 +723,49 @@ gulp.task 'make_docs_markdown', (done) ->
 #gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
 gulp.task 'build', gulp.parallel('build_base', 'webpack_build', 'webpack_content_scripts')
 
-gulp.task 'build_release', gulp.series(gulp.parallel(gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod'), 'remove_extra_files')
+gulp.task 'build_release', gulp.parallel(gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod')
 
 gulp.task 'mkzip', (done) ->
   mkdirp.sync 'releases'
   manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
   version = manifest_info.version
   output_zip_file = path.join('releases', "habitlab_#{version}.zip")
-  <- bestzip output_zip_file, ['dist/*']
+  if fs.existsSync('mkzip_tmp')
+    fse.removeSync('mkzip_tmp')
+  mkdirp.sync 'mkzip_tmp'
+  files_to_skip = [
+    'interventions/interventions.json'
+    'goals/goals.json'
+    'API.md'
+    'popup_loader.js'
+    'index_jspm.html'
+    'index_jspm.js'
+    'index_loader.js'
+    'systemjs_paths.js'
+    'logs.html'
+    'logs.js'
+  ]
+  input_files = []
+  for filename in glob.sync('dist/**')
+    if not fs.lstatSync(filename).isFile()
+      continue
+    skip_file = false
+    x = filename.replace('dist/', '')
+    for extra_folder in extra_folders
+      if x.startsWith(extra_folder)
+        skip_file = true
+    if x.endsWith('/info.json') and (x.startsWith('goals/') or x.startsWith('interventions/'))
+      skip_file = true
+    if skip_file
+      continue
+    if files_to_skip.includes(x)
+      continue
+    input_files.push filename
+  for x in input_files
+    fse.ensureFileSync(x.replace('dist/', 'mkzip_tmp/'))
+    fse.copySync(x, x.replace('dist/', 'mkzip_tmp/'))
+  <- bestzip output_zip_file, ['mkzip_tmp/*']
+  fse.removeSync('mkzip_tmp')
   done()
 
 get_latest_published_version = cfy ->*

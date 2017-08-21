@@ -17,3 +17,6 @@ export load_css_file = (filename) ->>
 
 export load_css_code = (css_code) ->>
   await send_message_to_background 'load_css_code', {css_code: css_code}
+
+export set_alternative_url_to_track = (url) ->>
+  await send_message_to_background 'set_alternative_url_to_track', {url: url}

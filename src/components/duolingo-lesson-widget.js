@@ -6,6 +6,9 @@ const {
   get_duolingo_info
 } = require('libs_common/duolingo_utils')
 
+const {
+  set_alternative_url_to_track
+} = require('libs_frontend/content_script_utils')
 
 let noStreakMessages = [
   "All it takes to learn LANGUAGE is a bit of practice each day! You can do this!",
@@ -54,7 +57,11 @@ polymer_ext({
       value: ""
     },
     streak: Number,
-    streakExtendedToday: Boolean
+    streakExtendedToday: Boolean,
+    hovered: {
+      type: Boolean,
+      value: false
+    }
   },
   ready: async function() {
     let info = await get_duolingo_info()
@@ -95,5 +102,13 @@ polymer_ext({
     }
     callToActionMessageTemplate = callToActionMessageTemplate.replace(streakPlaceholder, this.streak)
     this.callToAction = callToActionMessageTemplate.replace(languagePlaceholder, languageData.language_string)
+  },
+  onHovered: function() {
+    this.hovered = true;
+    set_alternative_url_to_track(this.iframeURL)
+  },
+  onUnhovered: function() {
+    this.hovered = false;
+    set_alternative_url_to_track(null)
   }
 })

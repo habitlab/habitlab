@@ -767,6 +767,8 @@ do !->>
       output.push curlist
     return output
 
+  iframed_domain_to_track = null
+
   css_packages = require('libs_common/css_packages')
   css_files_cached = require('libs_common/css_files_cached')
 
@@ -816,6 +818,12 @@ do !->>
       existing_messages.push data
       localstorage_setjson('debug_terminal_messages', existing_messages)
       return
+    'set_alternative_url_to_track': (data) ->>
+      {url} = data
+      if url?
+        iframed_domain_to_track = url_to_domain(url)
+      else
+        iframed_domain_to_track = null
   }
 
   #tabid_to_current_location = {}
@@ -846,6 +854,8 @@ do !->>
     new_domain = url_to_domain(url)
     if new_domain != prev_domain
       domain_changed(new_domain)
+    iframed_domain_to_track = null
+    
     #if tabid_to_current_location[tabId] == url
     #  return
     #tabid_to_current_location[tabId] = url
@@ -857,6 +867,13 @@ do !->>
     #send_pageupdate_to_tab(tabId)
     #dlog "navigation_occurred to #{url}"
     load_intervention_for_location url, tabId
+
+  # A bit naive and over-conservative, but a start
+  chrome.windows.onFocusChanged.addListener (windowId) ->
+    iframed_domain_to_track = null
+  
+  chrome.windows.onRemoved.addListener (windowId) ->
+    iframed_domain_to_track = null
 
   chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
     if changeInfo.status == 'loading' and not changeInfo.url?
@@ -890,7 +907,7 @@ do !->>
           chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
       else
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
-
+    iframed_domain_to_track = null
   reward_display_base_code_cached = null
 
   chrome.tabs.onRemoved.addListener (tabId, info) ->>
@@ -918,6 +935,7 @@ do !->>
       return
     reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
     chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
+    iframed_domain_to_track = null
 
   /*
   setInterval ->>
@@ -1015,7 +1033,10 @@ do !->>
       return
     if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
       return
-    current_domain = url_to_domain(active_tab.url)
+    if iframed_domain_to_track?
+      current_domain = iframed_domain_to_track
+    else
+      current_domain = url_to_domain(active_tab.url)
     current_day = get_days_since_epoch()
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
     session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)

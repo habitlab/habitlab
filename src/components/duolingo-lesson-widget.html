@@ -48,7 +48,7 @@
       }
     </style>
   
-    <div class="lesson-container">
+    <div class="lesson-container" on-mouseover="{{onHovered}}" on-mouseout="{{onUnhovered}}">
       <div class="call-to-action">{{callToAction}}</div>
       <div class="lesson-hdr">{{lessonTitle}}</div>
       <iframe class="duolingo-lesson" src="{{iframeURL}}"></iframe>

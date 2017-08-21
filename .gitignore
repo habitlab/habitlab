@@ -21,3 +21,5 @@ npm-debug.log
 *.sublime-workspace
 /doc
 /.netlify
+/.getsecret.yaml
+/mkzip_tmp

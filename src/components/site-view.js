@@ -13,7 +13,9 @@ const {load_css_file} = require('libs_common/content_script_utils');
 
 const {
   list_site_info_for_sites_for_which_goals_are_enabled,
-  list_goals_for_site
+  list_goals_for_site,
+  get_goals,
+  list_all_goals,
 } = require('libs_backend/goal_utils');
 
 const {
@@ -143,6 +145,18 @@ polymer_ext({
     this.intervention_name_to_info_map = intervention_name_to_info_map;
     this.goal_info = goal_info_list[0];
     */
+  },
+  code_custom_nudge_clicked: async function(){
+    let create_intervention_dialog = document.createElement('create-intervention-dialog')
+    document.body.appendChild(create_intervention_dialog)
+    let all_goals=await get_goals()
+    let goals_list= await list_all_goals()
+    create_intervention_dialog.goal_info_list = goals_list.map(x => all_goals[x])
+    create_intervention_dialog.current_goal = this.goal_info.name
+    create_intervention_dialog.open_create_new_intervention_dialog();
+    create_intervention_dialog.addEventListener('display_new_intervention', function(evt) {
+      localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail));
+    });
   }
 }, {
   source: require('libs_frontend/polymer_methods'),

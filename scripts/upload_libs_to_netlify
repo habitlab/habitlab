@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+let jsyaml = require('js-yaml')
+let fs = require('fs')
+
+let version = jsyaml.safeLoad(fs.readFileSync('src/manifest.yaml', 'utf-8')).version.trim().split('.').join('-')
+
+let netlify = require('netlify')
+let getsecret = require('getsecret')
+
+let token = getsecret('netlify_token')
+
+let client = netlify.createClient({access_token: token})
+
+async function main() {
+  let sites = await client.sites()
+  let name = "habitlab-dist-" + version
+  let site = sites.filter(x => x.name == name)[0]
+  if (site == null) {
+    console.log('creating site: ' + name)
+    site = await client.createSite({
+      name: name
+    })
+    console.log('site created: ' + name)
+  } else {
+    console.log('site already exists: ' + name)
+  }
+  let deploy = await site.createDeploy({
+    dir: 'dist'
+  })
+  console.log('deploy started')
+  await deploy.waitForReady()
+  console.log('deploy finished')
+}
+
+main()

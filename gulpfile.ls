@@ -140,6 +140,7 @@ webpack_pattern = [
   'src/options.ls'
   'src/popup.ls'
   'src/popup_loader.js'
+  'src/index_loader.js'
 ]
 
 webpack_pattern_content_scripts = [
@@ -600,6 +601,22 @@ gulp.task 'generate_polymer_components_html', (done) ->
   fs.writeFileSync 'src/components/components.html', output.join("\n")
   done()
 
+extra_folders = ['node_modules_custom', 'intervention_templates', 'generated_libs', 'bundles', 'bower_components', 'libs_frontend', 'libs_common', 'libs_backend', 'components']
+
+gulp.task 'make_extra_file_list', (done) ->
+  complete_file_list = []
+  for subfolder in extra_folders
+    for entry in glob.sync('dist/' + subfolder + '/**')
+      entry = entry.replace('dist/', '')
+      complete_file_list.push entry
+  fs.writeFileSync 'dist/extra_file_list.json', JSON.stringify(complete_file_list)
+  done()
+
+gulp.task 'remove_extra_files', (done) ->
+  for subfolder in extra_folders
+    fse.removeSync 'dist/' + subfolder
+  done()
+
 gulp.task 'generate_skate_components_js', (done) ->
   #if fs.existsSync('src/components/components.html')
   #  fs.unlinkSync('src/components/components.yaml')
@@ -613,7 +630,7 @@ gulp.task 'generate_skate_components_js', (done) ->
   fs.writeFileSync 'src/components_skate/components_skate.js', output.join("\n")
   done()
 
-gulp.task 'build_base', gulp.parallel(
+gulp.task 'build_base', gulp.series(gulp.parallel(
   gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies')
   gulp.series('generate_jspm_config', 'copy_root_build')
   #'generate_skate_components_js'
@@ -626,7 +643,7 @@ gulp.task 'build_base', gulp.parallel(
   'copy_build'
   'livescript_build'
   'copy_interventions'
-)
+), 'make_extra_file_list')
 
 # based on
 # https://github.com/webpack/webpack-with-common-libs/blob/master/gulpfile.js
@@ -705,16 +722,52 @@ gulp.task 'make_docs_markdown', (done) ->
   done()
 
 #gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
-gulp.task 'build', gulp.parallel 'build_base', 'webpack_build', 'webpack_content_scripts'
+gulp.task 'build', gulp.parallel('build_base', 'webpack_build', 'webpack_content_scripts')
 
-gulp.task 'build_release', gulp.parallel gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod' #, 'webpack_vulcanize_prod'
+gulp.task 'build_release', gulp.parallel(gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod')
 
 gulp.task 'mkzip', (done) ->
   mkdirp.sync 'releases'
   manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
   version = manifest_info.version
   output_zip_file = path.join('releases', "habitlab_#{version}.zip")
-  <- bestzip output_zip_file, ['dist/*']
+  if fs.existsSync('mkzip_tmp')
+    fse.removeSync('mkzip_tmp')
+  mkdirp.sync 'mkzip_tmp'
+  files_to_skip = [
+    'interventions/interventions.json'
+    'goals/goals.json'
+    'API.md'
+    'popup_loader.js'
+    'index_jspm.html'
+    'index_jspm.js'
+    'index_loader.js'
+    'index.js'
+    'systemjs_paths.js'
+    'logs.html'
+    'logs.js'
+  ]
+  input_files = []
+  for filename in glob.sync('dist/**')
+    if not fs.lstatSync(filename).isFile()
+      continue
+    skip_file = false
+    x = filename.replace('dist/', '')
+    for extra_folder in extra_folders
+      if x.startsWith(extra_folder)
+        skip_file = true
+    if x.endsWith('/info.json') and (x.startsWith('goals/') or x.startsWith('interventions/'))
+      skip_file = true
+    if skip_file
+      continue
+    if files_to_skip.includes(x)
+      continue
+    input_files.push filename
+  for x in input_files
+    fse.ensureFileSync(x.replace('dist/', 'mkzip_tmp/'))
+    fse.copySync(x, x.replace('dist/', 'mkzip_tmp/'))
+  <- bestzip output_zip_file, ['mkzip_tmp/*']
+  fse.removeSync('mkzip_tmp')
   done()
 
 get_latest_published_version = cfy ->*

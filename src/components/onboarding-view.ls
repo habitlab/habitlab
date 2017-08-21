@@ -196,6 +196,8 @@ polymer_ext {
       return
     this.SM('.onboarding_complete').hide()
 
+  rerender_onboarding_badges: ->
+    this.$$('#badges_received').rerender()
   get_icon: (img_path) ->
     return chrome.extension.getURL('icons/' + img_path)
   keydown_listener: (evt) ->

@@ -20,4 +20,4 @@ preview: https://www.amazon.com/gp/product/B01N0T5OUF/ref=s9_acsd_aas_bw_c_x_1_w
 target:
   default: 20
   units: minutes
-icon: icon.png
+icon: icon.svg

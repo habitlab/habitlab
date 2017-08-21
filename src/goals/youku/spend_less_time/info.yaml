@@ -19,5 +19,5 @@ domain: www.youku.com
 target:
   default: 20
   units: minutes
-icon: icon.png
+icon: icon.svg
 preview: http://v.youku.com/v_show/id_XMjcxOTUyMjY2MA==.html?spm=a2hww.20023042.m_223465.5~5~5~5~5~5~A&from=y1.3-idx-beta-1519-23042.223465.1-1

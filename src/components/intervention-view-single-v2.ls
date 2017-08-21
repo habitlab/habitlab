@@ -95,7 +95,7 @@ polymer_ext {
       url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
     else
       if intervention.custom == true
-        url_path = 'interventions/custom/icon.svg'
+        url_path = 'icons/custom_intervention_icon.svg'
       else
         url_path = 'interventions/'+ intervention.name + '/icon.svg'
     return (chrome.extension.getURL(url_path)).toString()

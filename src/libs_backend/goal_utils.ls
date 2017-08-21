@@ -329,7 +329,7 @@ export get_goals = ->>
   if cached_get_goals?
     output = JSON.parse cached_get_goals
     for goal_name,goal_info of output
-      if goal_info.icon == 'icon.png'
+      if goal_info.icon == 'icon.png' or goal_info.icon == 'icon.svg'
         goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
     return output
     #local_cached_get_goals := JSON.parse cached_get_goals
@@ -363,7 +363,7 @@ export get_goals = ->>
   localStorage.setItem 'cached_get_goals', JSON.stringify(output)
   #local_cached_get_goals := output
   for goal_name,goal_info of output
-    if goal_info.icon == 'icon.png'
+    if goal_info.icon == 'icon.png' or goal_info.icon == 'icon.svg'
       goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
   return output
 

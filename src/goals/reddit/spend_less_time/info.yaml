@@ -17,4 +17,4 @@ domain: www.reddit.com
 target:
   default: 20
   units: minutes
-icon: icon.png
+icon: icon.svg

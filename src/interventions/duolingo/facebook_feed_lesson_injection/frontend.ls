@@ -73,7 +73,7 @@ component_generator = (numitems) ->
     if isInView && window.feed_injection_active
       offset = $placeholder.offset()
       duolingo-lesson-div.offset(offset)
-      $current-injected-div := $this
+      $current-injected-div := $placeholder
       duolingo-lesson.css('visibility', 'visible')
     # else
     #   duolingo-lesson.css('visibility', 'hidden')

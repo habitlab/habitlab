@@ -880,6 +880,9 @@ do !->>
     session_id = tab_id_to_domain_to_session_id[tabId][domain]
     if not session_id?
       return
+    delete tab_id_to_domain_to_session_id[tabId]
+    delete tab_id_to_url[tabId]
+    delete tab_id_to_loaded_interventions[tabId]
     interventions_active = await getkey_dictdict('interventions_active_for_domain_and_session', domain, session_id)
     if (not interventions_active?) or (interventions_active.length == 0) or interventions_active == '[]'
       return

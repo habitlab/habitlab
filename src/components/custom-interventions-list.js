@@ -40,8 +40,6 @@ function test() {
 
 // document.getElementById("view_more_button").addEventListener("click", test);
 
-console.log("hello from custom");
-
 
 function make_intervention_table(interventions) {
   var rows = Object.keys(interventions).length;

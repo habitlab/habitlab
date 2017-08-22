@@ -4,16 +4,8 @@
 
 $ = require 'jquery'
 
-{
-  cfy
-} = require 'cfy'
-
-{
-  get_intervention
-} = require 'libs_common/intervention_info'
-
 polymer_ext {
-  is: 'reward-display-v10'
+  is: 'reward-display-v4'
   properties: {
     img_url: {
       type: String
@@ -27,10 +19,6 @@ polymer_ext {
       type: Boolean
       value: false
       observer: 'autoplay_changed'
-    }
-    intervention_name: {
-      type: String
-      value: get_intervention().displayname
     }
     isdemo: {
       type: Boolean
@@ -64,7 +52,7 @@ polymer_ext {
     #, 3000
   video_ended: ->
     console.log 'video_ended called'
-    this.fire 'reward_done', {finished_playing: true}
+    #this.fire 'reward_done', {finished_playing: true}
   query_changed: ->>
     results = await $.get 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query
     #results = await $.get 'http://api.giphy.com/v1/gifs/translate?s=' + this.query + '&api_key=dc6zaTOxFJmzC'

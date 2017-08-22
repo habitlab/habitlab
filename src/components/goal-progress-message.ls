@@ -1,7 +1,5 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
-$ = require 'jquery'
-
 {
   get_work_pages_visited_today
 } = require 'libs_common/history_utils'
@@ -9,10 +7,6 @@ $ = require 'jquery'
 {
   url_to_domain
 } = require 'libs_common/domain_utils'
-
-{
-  cfy
-} = require 'cfy'
 
 {
   as_array

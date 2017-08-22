@@ -1,6 +1,6 @@
-$ = require 'jquery'
-
-{cfy} = require 'cfy'
+{
+  post_json
+} = require 'libs_backend/ajax_utils'
 
 {
   get_user_id
@@ -32,13 +32,8 @@ export send_logging_enabled = (options) ->>
   data.logging_enabled = true
   for k,v of options
     data[k] = v
-  $.ajax {
-    type: 'POST'
-    url: 'https://habitlab.herokuapp.com/add_logging_state'
-    dataType: 'json'
-    contentType: 'application/json'
-    data: JSON.stringify(data)
-  }
+  post_json('https://habitlab.herokuapp.com/add_logging_state', data)
+  return
 
 export send_logging_disabled = (options) ->>
   options = options ? {}
@@ -46,10 +41,5 @@ export send_logging_disabled = (options) ->>
   data.logging_enabled = false
   for k,v of options
     data[k] = v
-  $.ajax {
-    type: 'POST'
-    url: 'https://habitlab.herokuapp.com/add_logging_state'
-    dataType: 'json'
-    contentType: 'application/json'
-    data: JSON.stringify(data)
-  }
+  post_json('https://habitlab.herokuapp.com/add_logging_state', data)
+  return

@@ -1,6 +1,5 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
-{cfy} = require 'cfy'
 {load_css_file} = require 'libs_common/content_script_utils'
 {add_log_feedback} = require 'libs_backend/log_utils'
 screenshot_utils = require 'libs_common/screenshot_utils'
@@ -60,8 +59,6 @@ swal = require 'sweetalert2'
   localstorage_getbool
   localstorage_setbool
 } = require 'libs_common/localstorage_utils'
-
-$ = require 'jquery'
 
 polymer_ext {
   is: 'popup-view'
@@ -327,15 +324,6 @@ polymer_ext {
       chrome.tabs.create {url: 'options.html#settings'}
     )
 
-    /*
-    self.S('#feedbackButton').click( ->
-      if self.$$('.feedbackform').style.display == "block"
-        self.$$('.feedbackform').style.display = "none"
-      else
-        self.$$('.feedbackform').style.display = "block"
-    )
-    */
-
     #MARK: Graphs on popup view
 
     #Map from graph option names to graph polymer component
@@ -383,6 +371,5 @@ polymer_ext {
   source: require 'libs_frontend/polymer_methods'
   methods: [
     'S'
-    'once_available'
   ]
 }

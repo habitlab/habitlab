@@ -29,8 +29,6 @@
   get_time_saved_total
 } = require 'libs_common/gamification_utils'
 
-{cfy} = require 'cfy'
-
 Bounce = require('bounce.js')
 $ = require 'jquery'
 

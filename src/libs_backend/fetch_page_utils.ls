@@ -1,5 +1,3 @@
-{cfy} = require 'cfy'
-
 {
   memoizeSingleAsync
 } = require 'libs_common/memoize'

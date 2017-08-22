@@ -3,8 +3,6 @@ const {
   list_polymer_ext_tags_with_info
 } = require('libs_frontend/polymer_utils');
 
-const {cfy} = require('cfy');
-
 const swal = require('sweetalert2');
 
 const $ = require('jquery');
@@ -158,8 +156,6 @@ polymer_ext({
 }, {
   source: require('libs_frontend/polymer_methods'),
   methods: [
-    'S',
-    'once_available',
     'first_elem'
   ]
 })

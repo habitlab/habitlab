@@ -44,17 +44,10 @@ prelude = require 'prelude-ls'
 } = require 'libs_backend/canonical_url_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
-{cfy} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 swal = require 'sweetalert2'
-
-$ = require 'jquery'
-
-{
-msg
-} = require 'libs_common/localization_utils'
 
 polymer_ext {
   is: 'options-interventions'

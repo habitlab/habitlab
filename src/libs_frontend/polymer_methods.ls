@@ -1,8 +1,10 @@
 $ = require 'jquery'
 
-{yfy} = require 'cfy'
-
 export {msg} = require 'libs_common/localization_utils'
+
+sleep = (time) ->>
+  return new Promise ->
+    setTimeout(it, time)
 
 export S = (pattern) ->
   $(this.$$(pattern))
@@ -101,25 +103,25 @@ export iterate_object_values: (obj) ->
 export json_stringify = (obj) ->
   JSON.stringify(obj, null, 2)
 
-export once_available = yfy (selector, callback) ->
+export once_available = (selector, callback) ->>
   self = this
   current_result = self.$$(selector)
-  if current_result != null
-    callback current_result
-  else
-    setTimeout ->
-      self.once_available selector, callback
-    , 100
+  while not current_result?
+    current_result = self.$$(selector)
+    await sleep(100)
+  if callback?
+    callback(current_result)
+  return current_result
 
-export once_available_multiselect = yfy (selector, callback) ->
+export once_available_multiselect = (selector, callback) ->>
   self = this
   current_result = Polymer.dom(self.root).querySelectorAll(selector)
-  if current_result.length > 0
-    callback current_result
-  else
-    setTimeout ->
-      self.once_available_multiselect selector, callback
-    , 100
+  while not current_result?
+    current_result = Polymer.dom(self.root).querySelectorAll(selector)
+    await sleep(100)
+  if callback?
+    callback(current_result)
+  return current_result
 
 css_element_queries_cached = null
 get_css_element_queries = ->>

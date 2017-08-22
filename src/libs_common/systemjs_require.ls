@@ -1,10 +1,7 @@
-{cfy} = require 'cfy'
-
 lib_cache = {}
 
 common_libs_list = [
   'jquery'
-  'cfy'
   'libs_common/domain_utils'
   'libs_common/time_utils'
   'moment'

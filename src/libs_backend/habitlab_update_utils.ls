@@ -1,5 +1,3 @@
-{cfy} = require 'cfy'
-
 require! {
   semver
 }

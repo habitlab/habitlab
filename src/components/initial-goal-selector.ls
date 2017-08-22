@@ -1,4 +1,3 @@
-{cfy} = require 'cfy'
 prelude = require 'prelude-ls'
 $ = require 'jquery'
 

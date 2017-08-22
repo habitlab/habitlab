@@ -38,8 +38,6 @@
   add_log_interventions
 } = require 'libs_backend/log_utils'
 
-{cfy} = require 'cfy'
-
 /*
 export set_enabled_interventions_for_today_manual = (enabled_interventions) ->>
   await setdict_for_key2_dictdict 'interventions_enabled_each_day', get_days_since_epoch(), enabled_interventions

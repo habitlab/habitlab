@@ -4,8 +4,6 @@
   set_intervention_parameter
 } = require 'libs_backend/intervention_utils'
 
-# debounce = require('async-debounce-jt')
-
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 /*

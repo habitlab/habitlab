@@ -3,8 +3,6 @@
   domain_to_url
 } = require 'libs_common/domain_utils'
 
-{cfy} = require 'cfy'
-
 get_canonical_url_cache = {}
 
 export get_canonical_url = (url) ->>

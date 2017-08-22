@@ -7,8 +7,6 @@
   printable_time_spent
 } = require 'libs_common/time_utils'
 
-{cfy} = require 'cfy'
-
 # rewards spending less time
 export time_spent_on_domain = (goal_info) ->
   {domain, is_positive} = goal_info

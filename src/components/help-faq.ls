@@ -1,5 +1,4 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
-{cfy} = require 'cfy'
 screenshot_utils = require 'libs_common/screenshot_utils'
 
 polymer_ext {

@@ -95,7 +95,6 @@ require! {
   'js-yaml'
 }
 
-{cfy} = require 'cfy'
 {get_interventions} = require 'libs_backend/intervention_utils'
 
 {

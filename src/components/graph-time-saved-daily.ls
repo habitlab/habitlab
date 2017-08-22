@@ -16,8 +16,6 @@
   get_baseline_time_on_domain
 } = require 'libs_backend/history_utils'
 
-{cfy} = require 'cfy'
-
 polymer_ext {
   is: 'graph-time-saved-daily'
   properties: {

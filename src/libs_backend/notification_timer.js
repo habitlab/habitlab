@@ -5,8 +5,6 @@ const {
   get_num_goals_met_yesterday
 } = require ('libs_backend/goal_progress')
 
-const {cfy} = require('cfy');
-
 document.addEventListener('DOMContentLoaded', function () {
   if (Notification.permission !== "granted")
     Notification.requestPermission();

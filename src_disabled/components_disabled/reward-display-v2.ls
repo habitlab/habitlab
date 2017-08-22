@@ -4,12 +4,8 @@
 
 $ = require 'jquery'
 
-{
-  cfy
-} = require 'cfy'
-
 polymer_ext {
-  is: 'reward-display-v1'
+  is: 'reward-display-v2'
   properties: {
     img_url: {
       type: String
@@ -49,10 +45,10 @@ polymer_ext {
       video.oncanplay = ->
         video.oncanplay = null
         video.play()
-    #setTimeout ->
-    #  if not video.paused
-    #    self.fire 'reward_done', {finished_playing: false}
-    #, 1500
+    setTimeout ->
+      if not video.paused
+        self.fire 'reward_done', {finished_playing: false}
+    , 2500
     #, 3000
   video_ended: ->
     console.log 'video_ended called'

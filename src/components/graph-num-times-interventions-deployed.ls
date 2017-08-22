@@ -13,8 +13,6 @@
   get_interventions
 } = require 'libs_backend/intervention_utils'
 
-{cfy} = require 'cfy'
-
 polymer_ext {
   is: 'graph-num-times-interventions-deployed'
   properties: {

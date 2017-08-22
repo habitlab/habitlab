@@ -26,8 +26,6 @@ require! {
 
 {generate_random_id} = require 'libs_common/generate_random_id'
 
-{cfy} = require 'cfy'
-
 chrome_manifest = chrome.runtime.getManifest()
 habitlab_version = chrome_manifest.version
 developer_mode = not chrome_manifest.update_url?

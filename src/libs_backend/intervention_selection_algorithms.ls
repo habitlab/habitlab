@@ -26,8 +26,6 @@ prelude = require 'prelude-ls'
   gexport_module
 } = require 'libs_common/gexport'
 
-{cfy} = require 'cfy'
-
 export one_random_intervention_per_enabled_goal = (enabled_goals) ->>
   if not enabled_goals?
     enabled_goals = await get_enabled_goals()

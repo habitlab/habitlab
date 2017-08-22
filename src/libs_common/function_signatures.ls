@@ -59,7 +59,7 @@ lib_name_to_func_names_and_signatures =
   fetch_page_utils:
     fetch_page_text: 'url'
   ajax_utils:
-    ajax: ['url', 'data']
+    post_json: ['url', 'data']
   cacheget_utils:
     localget: 'url'
     localget_json: 'url'

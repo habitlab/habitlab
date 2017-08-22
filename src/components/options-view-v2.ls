@@ -1,6 +1,5 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 {load_css_file} = require 'libs_common/content_script_utils'
-{cfy} = require 'cfy'
 
 {
   is_habitlab_enabled

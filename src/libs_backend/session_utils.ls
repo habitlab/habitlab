@@ -7,8 +7,6 @@
   url_to_domain
 } = require 'libs_common/domain_utils'
 
-{cfy} = require 'cfy'
-
 tab_id_to_prev2_url_visited = {}
 tab_id_to_prev1_url_visited = {}
 

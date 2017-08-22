@@ -1,5 +1,3 @@
-{cfy} = require 'cfy'
-
 {remoteget} = require 'libs_backend/cacheget_utils'
 
 {

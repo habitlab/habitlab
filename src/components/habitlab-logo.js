@@ -1,5 +1,4 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
-const {cfy} = require('cfy');
 
 polymer_ext({
   is: 'habitlab-logo',

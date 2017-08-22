@@ -2,8 +2,6 @@
   polymer_ext
 } = require 'libs_frontend/polymer_utils'
 
-{cfy} = require 'cfy'
-
 {
   list_goals_for_site
 } = require 'libs_backend/goal_utils'

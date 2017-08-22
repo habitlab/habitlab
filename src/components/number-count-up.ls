@@ -4,10 +4,6 @@
 
 $ = require 'jquery'
 
-{
-  cfy
-} = require 'cfy'
-
 polymer_ext {
   is: 'number-count-up'
   properties: {

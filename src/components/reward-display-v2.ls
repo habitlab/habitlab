@@ -4,10 +4,6 @@
 
 $ = require 'jquery'
 
-{
-  cfy
-} = require 'cfy'
-
 polymer_ext {
   is: 'reward-display-v2'
   properties: {

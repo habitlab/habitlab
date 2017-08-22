@@ -1,6 +1,5 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 {load_css_file} = require 'libs_common/content_script_utils'
-{cfy} = require 'cfy'
 
 {
   is_habitlab_enabled
@@ -76,10 +75,4 @@ polymer_ext {
     is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)
-}, {
-  source: require 'libs_frontend/polymer_methods'
-  methods: [
-    'S'
-    'once_available'
-  ]
 }

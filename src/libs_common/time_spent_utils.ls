@@ -26,8 +26,6 @@ prelude = require 'prelude-ls'
   gexport_module
 } = require 'libs_common/gexport'
 
-{cfy} = require 'cfy'
-
 export get_seconds_spent_on_all_domains_today = ->>
   await getdict_for_key2_dictdict 'seconds_on_domain_per_day', get_days_since_epoch()
 

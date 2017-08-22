@@ -4,8 +4,6 @@
   load_css_file
 } = require 'libs_common/content_script_utils'
 
-{cfy} = require 'cfy'
-
 {
   eval_content_script_debug_for_tabid
   eval_content_script_for_tabid
@@ -190,7 +188,7 @@ polymer_ext {
     }
     custom_commands.javascript = custom_commands.js
     custom_commands.livescript = custom_commands.ls
-    terminal_handler = cfy (command, term) ->>
+    terminal_handler_real = (command, term) ->>
       is_livescript = localstorage_getbool('debug_terminal_livescript')
       if command[0] == '#'
         after_hash = command.substr(1)
@@ -229,6 +227,9 @@ polymer_ext {
         """
       result = await self.run_eval_debug(command)
       term.echo result
+    terminal_handler = (command, term, callback) ->
+      terminal_handler_real().then(callback)
+      return
     messages = []
     if not localstorage_getbool('debug_terminal_livescript')
       messages = messages_javascript

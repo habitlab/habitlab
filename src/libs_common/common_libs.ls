@@ -1,16 +1,16 @@
-{yfy} = require 'cfy'
-
 export sleep = (time) ->>
   return new Promise ->
     setTimeout(it, time)
 
-export once_true = yfy (condition, callback) ->
-  if condition()
+export once_true = (condition, callback) ->>
+  current_result = condition()
+  while not current_result
+    current_result = condition()
+    await sleep(100)
+  if callback?
     callback()
-  else
-    setTimeout ->
-      once_true(condition, callback)
-    , 100
+  return
+
 
 export run_only_one_at_a_time = (func) ->
   # func is assumed to take 1 argument (finished callback) for the time being

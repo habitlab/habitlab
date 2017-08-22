@@ -6,10 +6,6 @@
   bandits
 } = require 'percipio'
 
-{
-  cfy
-} = require 'cfy'
-
 /*
 to_training_data_for_single_intervention = (list_of_seconds_spent) ->
   # input: dictionary of day => number of seconds spent on FB

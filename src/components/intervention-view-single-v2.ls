@@ -19,8 +19,6 @@
   localstorage_getbool
 } = require 'libs_common/localstorage_utils'
 
-{cfy} = require 'cfy'
-
 #debounce = require('async-debounce-jt')
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 

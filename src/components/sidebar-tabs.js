@@ -1,5 +1,4 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
-const {cfy} = require('cfy');
 const screenshot_utils = require('libs_common/screenshot_utils');
 const {msg} = require('libs_common/localization_utils');
 

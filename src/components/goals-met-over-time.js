@@ -14,11 +14,7 @@ const {
   get_progress_on_enabled_goals_this_week
 } = require('libs_backend/goal_progress');
 
-const {cfy} = require('cfy');
-
 const moment = require('moment');
-
-const $ = require('jquery');
 
 polymer_ext({
   is: 'goals-met-over-time',

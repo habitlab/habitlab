@@ -12,7 +12,6 @@
 } = require 'libs_common/localstorage_utils'
 
 require! {
-  cfy
   semver
 }
 

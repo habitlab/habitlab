@@ -9,8 +9,6 @@
   as_array
 } = require 'libs_common/collection_utils'
 
-{cfy} = require 'cfy'
-
 measurement_functions = require 'goals/progress_measurement'
 measurement_functions_generated = require 'goals/progress_measurement_generated'
 

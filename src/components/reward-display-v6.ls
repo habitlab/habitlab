@@ -5,10 +5,6 @@
 $ = require 'jquery'
 
 {
-  cfy
-} = require 'cfy'
-
-{
   get_intervention
 } = require 'libs_common/intervention_info'
 

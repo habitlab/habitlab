@@ -7,8 +7,6 @@ prelude = require 'prelude-ls'
   set_goal_disabled_manual
 } = require 'libs_backend/goal_utils'
 
-{cfy} = require 'cfy'
-
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 polymer_ext {

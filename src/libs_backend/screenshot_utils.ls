@@ -1,5 +1,3 @@
-{cfy, yfy} = require 'cfy'
-
 {
   gexport
   gexport_module
@@ -28,7 +26,7 @@
 
 export get_screenshot_as_base64 = ->>
   fetch('https://habitlab-reportbug.herokuapp.com/ping').then(-> it.text())
-  data_url = await yfy(chrome.tabs.captureVisibleTab)(chrome.windows.WINDOW_ID_CURRENT, {})
+  data_url = await new Promise -> chrome.tabs.captureVisibleTab chrome.windows.WINDOW_ID_CURRENT, {}, it
   return data_url
 
 export get_data_for_feedback = ->>

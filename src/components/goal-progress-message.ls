@@ -9,10 +9,6 @@
 } = require 'libs_common/domain_utils'
 
 {
-  cfy
-} = require 'cfy'
-
-{
   as_array
 } = require 'libs_common/collection_utils'
 

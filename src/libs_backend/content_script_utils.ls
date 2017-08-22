@@ -1,13 +1,6 @@
 {
-  cfy
-  yfy
-} = require 'cfy'
-
-{
   systemjsget
 } = require 'libs_common/cacheget_utils'
-
-$ = require 'jquery'
 
 css_packages = require('libs_common/css_packages')
 css_files_cached = require('libs_common/css_files_cached')

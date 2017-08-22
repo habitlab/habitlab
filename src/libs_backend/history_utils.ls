@@ -1,7 +1,5 @@
-{cfy, yfy, add_noerr} = require 'cfy'
 {url_to_domain} = require 'libs_common/domain_utils'
 {memoizeSingleAsync} = require 'libs_common/memoize'
-$ = require 'jquery'
 
 {gexport, gexport_module} = require 'libs_common/gexport'
 

@@ -78,8 +78,6 @@ do !->>
     get_basic_client_data
   } = require 'libs_backend/logging_enabled_utils'
 
-  {yfy} = require 'cfy'
-
   export make_tab_focused = (tab_id, window_id) ->>
     await new Promise -> chrome.windows.update(window_id, {focused: true}, it)
     await new Promise -> chrome.tabs.update(tab_id, {active: true}, it)
@@ -549,7 +547,7 @@ do !->>
     }
   }
       """
-      await yfy(chrome.tabs.executeScript) tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}
+      await new Promise -> chrome.tabs.executeScript tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, it
     return
 
   load_intervention_list = (intervention_list, tabId) ->>

@@ -1,4 +1,4 @@
-{yfy, cfy} = require 'cfy'
+{yfy} = require 'cfy'
 
 export sleep = (time) ->>
   return new Promise ->

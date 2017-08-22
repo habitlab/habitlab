@@ -13,18 +13,13 @@
 
 {generate_random_id} = require 'libs_common/generate_random_id'
 
-{cfy, yfy, add_noerr} = require 'cfy'
-
-chrome_tabs_sendmessage = yfy (tab_id, data, options, callback) ->
-  if not callback? and typeof(options) == 'function'
-    callback = options
+chrome_tabs_sendmessage = (tab_id, data, options) ->
+  if not options?
     options = {}
-  chrome.tabs.sendMessage tab_id, data, options, (result) ->
-    callback(result)
-    return true
-
-if chrome?tabs?query?
-  chrome_tabs_query = yfy(chrome.tabs.query)
+  return new Promise (resolve, reject) ->
+    chrome.tabs.sendMessage tab_id, data, options, (result) ->
+      resolve(result)
+      return true
 
 chrome_storage_sync = chrome.storage?sync ? chrome.storage?local
 
@@ -117,13 +112,13 @@ get_user_secret_real = ->>
   return user_secret
 
 export send_message_to_active_tab = (type, data) ->>
-  tabs = await chrome_tabs_query {active: true, lastFocusedWindow: true}
+  tabs = await new Promise -> chrome.tabs.query {active: true, lastFocusedWindow: true}, it
   if tabs.length == 0
     return
   await chrome_tabs_sendmessage tabs[0].id, {type, data}
 
 send_message_to_all_active_tabs = (type, data) ->>
-  tabs = await chrome_tabs_query {active: true}
+  tabs = await new Promise -> chrome.tabs.query {active: true}, it
   if tabs.length == 0
     return
   outputs = []
@@ -166,7 +161,7 @@ export list_currently_loaded_interventions_for_tabid = (tab_id) ->>
   return as_array(loaded_interventions)
 
 export is_tab_still_open = (tab_id) ->>
-  tabs = await chrome_tabs_query {}
+  tabs = await new Promise -> chrome.tabs.query {}, it
   for tab in tabs
     if tab.id == tab_id
       return true
@@ -196,19 +191,19 @@ export disable_interventions_in_active_tab = ->>
   await disable_interventions_for_tabid tab.id
 
 export disable_interventions_in_all_tabs = ->>
-  tabs = await chrome_tabs_query {}
+  tabs = await new Promise -> chrome.tabs.query {}, it
   await Promise.all [disable_interventions_for_tabid(tab.id) for tab in tabs]
   return
 
 export get_active_tab_info = ->>
-  tabs = await chrome_tabs_query {active: true, lastFocusedWindow: true}
+  tabs = await new Promise -> chrome.tabs.query {active: true, lastFocusedWindow: true}, it
   if tabs.length > 0
     return tabs[0]
   # this part seems necessary for opera sometimes
   last_focused_window_info = await new Promise -> chrome.windows.getLastFocused(it)
   if not last_focused_window_info?id?
     return
-  tabs = await chrome_tabs_query {active: true, windowId: last_focused_window_info.id}
+  tabs = await new Promise -> chrome.tabs.query {active: true, windowId: last_focused_window_info.id}, it
   if tabs.length > 0
     return tabs[0]
   return

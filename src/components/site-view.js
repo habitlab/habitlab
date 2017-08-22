@@ -130,9 +130,6 @@ polymer_ext({
   },
   rerender: async function() {
     let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
-    //if (this.site != site) {
-    //  return;
-    //}
     this.intervention_name_to_info_map = intervention_name_to_info_map;
     this.goal_info = goal_info_list[0];
   },
@@ -157,6 +154,7 @@ polymer_ext({
     create_intervention_dialog.addEventListener('display_new_intervention', function(evt) {
       localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail));
     });
+    chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
   }
 }, {
   source: require('libs_frontend/polymer_methods'),

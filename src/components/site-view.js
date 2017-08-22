@@ -143,17 +143,19 @@ polymer_ext({
     this.goal_info = goal_info_list[0];
     */
   },
-  code_custom_nudge_clicked: async function(){
-    let create_intervention_dialog = document.createElement('create-intervention-dialog')
-    document.body.appendChild(create_intervention_dialog)
-    let all_goals=await get_goals()
-    let goals_list= await list_all_goals()
-    create_intervention_dialog.goal_info_list = goals_list.map(x => all_goals[x])
-    create_intervention_dialog.current_goal = this.goal_info.name
-    create_intervention_dialog.open_create_new_intervention_dialog();
-    create_intervention_dialog.addEventListener('display_new_intervention', function(evt) {
-      localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail));
-    });
+  // code_custom_nudge_clicked: async function(){
+  //   let create_intervention_dialog = document.createElement('create-intervention-dialog')
+  //   document.body.appendChild(create_intervention_dialog)
+  //   let all_goals=await get_goals()
+  //   let goals_list= await list_all_goals()
+  //   create_intervention_dialog.goal_info_list = goals_list.map(x => all_goals[x])
+  //   create_intervention_dialog.current_goal = this.goal_info.name
+  //   create_intervention_dialog.open_create_new_intervention_dialog();
+  //   create_intervention_dialog.addEventListener('display_new_intervention', function(evt) {
+  //     localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail));
+  //   });
+  // }
+  code_custom_nudge_clicked: function(){
     chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
   }
 }, {

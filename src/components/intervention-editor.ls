@@ -140,10 +140,11 @@ polymer_ext {
     js_editor = this.js_editors[intervention_name]
     code = js_editor.getSession().getValue().trim()
     intervention_info = await get_intervention_info(intervention_name)
+    display_name=intervention_name.replace new RegExp('_', 'g'), ' '
     new_intervention_info = {
       code: code
       name: intervention_name
-      displayname: intervention_name
+      displayname: display_name
       description: intervention_info.description
       domain: intervention_info.domain
       preview: intervention_info.preview
@@ -186,13 +187,14 @@ polymer_ext {
     if this.opened_intervention_list.length>0
       this.selected_tab_idx=this.opened_intervention_list.length-1
   add_new_intervention_clicked: ->
-    self = this
-    create_intervention_dialog = document.createElement('create-intervention-dialog')
-    document.body.appendChild(create_intervention_dialog)
-    create_intervention_dialog.goal_info_list = this.goal_info_list
-    create_intervention_dialog.open_create_new_intervention_dialog()
-    create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
-      self.display_new_intervention(evt.detail)
+    # self = this
+    # create_intervention_dialog = document.createElement('create-intervention-dialog')
+    # document.body.appendChild(create_intervention_dialog)
+    # create_intervention_dialog.goal_info_list = this.goal_info_list
+    # create_intervention_dialog.open_create_new_intervention_dialog()
+    # create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
+    #   self.display_new_intervention(evt.detail)
+    chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
   open_custom_intervention_clicked: ->
     self=this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
@@ -207,15 +209,17 @@ polymer_ext {
     idx=template_name.indexOf '/'
     if idx!=-1
       short_template_name=template_name.slice idx+1
-      new_intervention_name='my_'+short_template_name
+      new_intervention_name='custom_'+short_template_name
     intervention_info=await get_intervention_info(template_name)
     if intervention_info.goals.length>0
       goal_info=await get_goal_info(intervention_info.goals[0])
     else
       goal_info=await get_goal_info('youtube/spend_less_time')
+    display_name=new_intervention_name.replace new RegExp('_', 'g'), ' '
     intervention_info={
       name:new_intervention_name
       description: intervention_info.description
+      displayname: display_name
       domain: goal_info.domain
       preview: goal_info.preview
       matches: [goal_info.domain]
@@ -280,8 +284,10 @@ polymer_ext {
   modify_intervention_info: (data) ->>
     self=this
     intervention_info=await get_intervention_info(data.old_intervention_name)
+    display_name=data.new_intervention_name.replace new RegExp('_', 'g'), ' '
     intervention_info={
       name:data.new_intervention_name
+      displayname: display_name
       description: data.new_intervention_description
       domain: data.new_goal_info.domain
       preview: data.new_preview
@@ -315,8 +321,10 @@ polymer_ext {
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
     https://habitlab.github.io/devdocs?q=require_package
     */"""+'\n'
+    display_name=new_intervention_name.replace new RegExp('_', 'g'), ' '
     intervention_info={
       name: new_intervention_name
+      displayname: display_name
       description: new_intervention_data.intervention_description
       domain: goal_info.domain
       preview: new_intervention_data.preview_url
@@ -393,31 +401,32 @@ polymer_ext {
   help_clicked: ->
     chrome.tabs.create {url: 'https://habitlab.github.io/devdocs'}
   share_clicked: ->>
-    self=this
-    chrome.permissions.request {
-      permissions: ['identity', 'identity.email']
-      origins: []
-    }, (granted) -> 
-      console.log 'granted: ' + granted
-      return
-    intervention_name=self.get_intervention_name()
-    intervention_info = await get_intervention_info(intervention_name)
-    chrome.identity.getProfileUserInfo (author_info) ->>
-      upload_result = await upload_intervention(intervention_info, author_info)
-      if upload_result.status=='success'
-        try
-          await swal({
-            title: 'Copy the url below to privately share your nudge. \n Click Submit for HabitLab developers to publish your nudge to all users.'
-            text: upload_result.url
-            type: 'info'
-            showCancelButton: true
-            confirmButtonText: 'Submit'
-            cancelButtonText: 'No'
-          })
-        catch
-          console.log 'not sharing this time'
-          # TODO remove_intervention(intervention_name)
-      return
+    # self=this
+    # chrome.permissions.request {
+    #   permissions: ['identity', 'identity.email']
+    #   origins: []
+    # }, (granted) -> 
+    #   console.log 'granted: ' + granted
+    #   return
+    # intervention_name=self.get_intervention_name()
+    # intervention_info = await get_intervention_info(intervention_name)
+    # chrome.identity.getProfileUserInfo (author_info) ->>
+    #   upload_result = await upload_intervention(intervention_info, author_info)
+    #   if upload_result.status=='success'
+    #     try
+    #       await swal({
+    #         title: 'Copy the url below to privately share your nudge. \n Click Submit for HabitLab developers to publish your nudge to all users.'
+    #         text: upload_result.url
+    #         type: 'info'
+    #         showCancelButton: true
+    #         confirmButtonText: 'Submit'
+    #         cancelButtonText: 'No'
+    #       })
+    #     catch
+    #       console.log 'not sharing this time'
+    #       # TODO remove_intervention(intervention_name)
+    #   return
+    chrome.tabs.create {url: 'https://www.dropbox.com/request/gqIpKLEHo8u64E8SZvlG'}
   make_javascript_editor: (editor_div) ->>
     intervention_name = editor_div.intervention_tab_name
     if intervention_name?

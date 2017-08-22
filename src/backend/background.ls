@@ -5,6 +5,7 @@ do !->>
   localStorage.removeItem 'cached_list_all_goals'
   localStorage.removeItem 'cached_list_all_interventions'
   localStorage.removeItem 'cached_list_generic_interventions'
+  localStorage.removeItem 'cached_list_video_interventions'
   localStorage.removeItem 'cached_get_goals'
   localStorage.removeItem 'cached_get_interventions'
   localStorage.removeItem 'baseline_session_time_on_domains'
@@ -122,7 +123,7 @@ do !->>
     }
     close_notification = notification.close.bind(notification)
     notification.onclick = ->
-      chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding:last')})
+      chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding')})
       close_notification()
 
   export get_last_visit_to_website_timestamp = ->>
@@ -918,6 +919,9 @@ do !->>
     session_id = tab_id_to_domain_to_session_id[tabId][domain]
     if not session_id?
       return
+    delete tab_id_to_domain_to_session_id[tabId]
+    delete tab_id_to_url[tabId]
+    delete tab_id_to_loaded_interventions[tabId]
     interventions_active = await getkey_dictdict('interventions_active_for_domain_and_session', domain, session_id)
     if (not interventions_active?) or (interventions_active.length == 0) or interventions_active == '[]'
       return

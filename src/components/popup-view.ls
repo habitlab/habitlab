@@ -108,9 +108,9 @@ polymer_ext {
       type: Object
       value: {}
     }
-    url_override: {
-      type: String
-    }
+    #url_override: {
+    #  type: String
+    #}
     is_habitlab_disabled: {
       type: Boolean
     }
@@ -226,14 +226,31 @@ polymer_ext {
       await this.set_goals_and_interventions!
 
   set_goals_and_interventions: ->>
-    if this.url_override?
-      url = this.url_override
-    else
-      url = await get_active_tab_url()
+    sites_promise = list_sites_for_which_goals_are_enabled()
+    enabledInterventions_promise = list_currently_loaded_interventions()
+    intervention_name_to_info_promise = get_interventions()
+    all_goals_and_interventions_promise = get_goals_and_interventions()
+    url_promise = get_active_tab_url()
     
-    domain = url_to_domain url
+    [
+      sites
+      enabledInterventions
+      intervention_name_to_info
+      all_goals_and_interventions
+      url
+    ] = await Promise.all [
+      sites_promise
+      enabledInterventions_promise
+      intervention_name_to_info_promise
+      all_goals_and_interventions_promise
+      url_promise
+    ]
 
-    all_goals_and_interventions = await get_goals_and_interventions!
+    this.sites = sites
+    this.enabledInterventions = enabledInterventions
+    this.intervention_name_to_info = intervention_name_to_info
+
+    domain = url_to_domain url
     
     filtered_goals_and_interventions = all_goals_and_interventions.filter (obj) ->
     
@@ -250,7 +267,6 @@ polymer_ext {
         }
       ]
     this.goals_and_interventions = filtered_goals_and_interventions
-    this.sites = await list_sites_for_which_goals_are_enabled!
 
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
@@ -292,15 +308,12 @@ polymer_ext {
     #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
     self = this
     is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
-    self.intervention_name_to_info = await get_interventions()
-   
+
     #FILTER THIS FOR ONLY THE CURRENT GOAL SITE#
     await this.set_goals_and_interventions!
 
-    enabledInterventions = await list_currently_loaded_interventions()
-    self.enabledInterventions = enabledInterventions
-    have_enabled_custom_interventions = enabledInterventions.map(-> self.intervention_name_to_info[it]).filter(-> it?custom).length > 0
-    if enabledInterventions.length > 0 and (localstorage_getbool('enable_debug_terminal') or have_enabled_custom_interventions)
+    have_enabled_custom_interventions = self.enabledInterventions.map(-> self.intervention_name_to_info[it]).filter(-> it?custom).length > 0
+    if self.enabledInterventions.length > 0 and (localstorage_getbool('enable_debug_terminal') or have_enabled_custom_interventions)
       self.S('#debugButton').show()
 
     if self.enabledInterventions.length == 0

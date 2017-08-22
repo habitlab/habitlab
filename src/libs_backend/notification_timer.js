@@ -37,8 +37,8 @@ setInterval(async function() {
   var cur_date = new Date();
   if (cur_date.getDate() !== prev_date.getDate()) {
     //new day
-    var num_goals_met = await get_num_goals_met_yesterday();
     var num_goals_total = await get_num_enabled_goals();
+    var num_goals_met = await get_num_goals_met_yesterday();
     make_notification(num_goals_met, num_goals_total);
   }
   prev_date = cur_date;

@@ -94,11 +94,11 @@ polymer_ext {
     }
     generic_url: {
       type: String,
-      value: chrome.extension.getURL('icons/intervention_icons/Generic.svg')     
+      value: chrome.extension.getURL('icons/generic_goal_icon.svg')     
     }
-    generic_unlock_icon_url:{
+    unlock_icon_url:{
       type: String,
-      value: chrome.extension.getURL('interventions/generic/unlock.svg')     
+      value: chrome.extension.getURL('icons/unlock.svg')
     }
     intervention: {
       type: Object
@@ -129,17 +129,15 @@ polymer_ext {
       type: Object
     }
   }
-  
-  get_goal_icon_url: (sitename) ->
-    url_path = 'interventions/'+ sitename.toString() + '/siteicon.svg'
-    return (chrome.extension.getURL(url_path)).toString()
 
-  get_unlock_icon_url: (sitename) ->
-    url_path = 'interventions/'+ sitename.toString() + '/unlock.svg'
-    return (chrome.extension.getURL(url_path)).toString()
-
-  get_intervention_icon_url: (intervention_name) ->
-    url_path = 'interventions/'+ intervention_name.toString() + '/icon.svg'
+  get_intervention_icon_url: (intervention) ->
+    if intervention.generic_intervention?
+      url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
+    else
+      if intervention.custom == true
+        url_path = 'icons/custom_intervention_icon.svg'
+      else
+        url_path = 'interventions/'+ intervention.name + '/icon.svg'
     return (chrome.extension.getURL(url_path)).toString()
 
   get_enabled_interventions_for_goal_sync: (goal_name, goal_name_to_intervention_info_list) ->

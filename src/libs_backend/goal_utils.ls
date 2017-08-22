@@ -329,7 +329,7 @@ export get_goals = ->>
   if cached_get_goals?
     output = JSON.parse cached_get_goals
     for goal_name,goal_info of output
-      if goal_info.icon == 'icon.png'
+      if goal_info.icon == 'icon.png' or goal_info.icon == 'icon.svg'
         goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
     return output
     #local_cached_get_goals := JSON.parse cached_get_goals
@@ -363,7 +363,7 @@ export get_goals = ->>
   localStorage.setItem 'cached_get_goals', JSON.stringify(output)
   #local_cached_get_goals := output
   for goal_name,goal_info of output
-    if goal_info.icon == 'icon.png'
+    if goal_info.icon == 'icon.png' or goal_info.icon == 'icon.svg'
       goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
   return output
 
@@ -585,10 +585,10 @@ export get_goals_for_intervention = (intervention_name) ->>
 export get_goal_target = (goal_name) ->>
   result = await getkey_dict 'goal_targets', goal_name
   if result?
-    return parseInt(result)
+    return parseFloat(result)
   all_goals = await get_goals()
   goal_info = all_goals[goal_name]
-  return parseInt(goal_info.target.default)
+  return parseFloat(goal_info.target.default)
 
 export set_goal_target = (goal_name, target_value) ->>
   result = await getkey_dict 'goal_targets', goal_name
@@ -598,13 +598,14 @@ export set_goal_target = (goal_name, target_value) ->>
   return
 
 export get_all_goal_targets = ->>
-  result = await getdict 'goal_targets'
-  if result?
-    return result
   all_goals = await get_goals()
+  saved_targets = await getdict 'goal_targets'
   output = {}
   for goal_name,goal_info of all_goals
-    output[goal_name] = goal_info.target.default
+    if saved_targets[goal_name]?
+      output[goal_name] = parseFloat(saved_targets[goal_name])
+    else
+      output[goal_name] = parseFloat(goal_info.target.default)
   return output
 
 export list_goal_info_for_enabled_goals = ->>

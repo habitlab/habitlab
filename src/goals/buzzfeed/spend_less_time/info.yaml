@@ -19,4 +19,4 @@ domain: buzzfeed.com
 target:
   default: 20
   units: minutes
-icon: icon.png
+icon: icon.svg

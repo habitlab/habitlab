@@ -130,7 +130,7 @@ script_deps = (tag, params) ->
   {filepath_abs, filename_abs, $} = params
   import_path = $(tag).attr('src')
   if not import_path?
-    if filename_abs.endsWith('/src/popup.html')
+    if filename_abs.endsWith('/src/popup.html') or filename_abs.endsWith('/src/index.html')
       return ''
     console.log "script tag in #{filename_abs} is missing src attribute"
     return ''

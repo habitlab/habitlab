@@ -41,9 +41,6 @@ function test() {
 
 // document.getElementById("view_more_button").addEventListener("click", test);
 
-console.log("site-view.js here");
-
-
 function make_intervention_table(interventions) {
   var rows = Object.keys(interventions).length;
   var cols = 2;
@@ -130,9 +127,6 @@ polymer_ext({
   },
   rerender: async function() {
     let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
-    //if (this.site != site) {
-    //  return;
-    //}
     this.intervention_name_to_info_map = intervention_name_to_info_map;
     this.goal_info = goal_info_list[0];
   },
@@ -146,17 +140,20 @@ polymer_ext({
     this.goal_info = goal_info_list[0];
     */
   },
-  code_custom_nudge_clicked: async function(){
-    let create_intervention_dialog = document.createElement('create-intervention-dialog')
-    document.body.appendChild(create_intervention_dialog)
-    let all_goals=await get_goals()
-    let goals_list= await list_all_goals()
-    create_intervention_dialog.goal_info_list = goals_list.map(x => all_goals[x])
-    create_intervention_dialog.current_goal = this.goal_info.name
-    create_intervention_dialog.open_create_new_intervention_dialog();
-    create_intervention_dialog.addEventListener('display_new_intervention', function(evt) {
-      localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail));
-    });
+  // code_custom_nudge_clicked: async function(){
+  //   let create_intervention_dialog = document.createElement('create-intervention-dialog')
+  //   document.body.appendChild(create_intervention_dialog)
+  //   let all_goals=await get_goals()
+  //   let goals_list= await list_all_goals()
+  //   create_intervention_dialog.goal_info_list = goals_list.map(x => all_goals[x])
+  //   create_intervention_dialog.current_goal = this.goal_info.name
+  //   create_intervention_dialog.open_create_new_intervention_dialog();
+  //   create_intervention_dialog.addEventListener('display_new_intervention', function(evt) {
+  //     localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail));
+  //   });
+  // }
+  code_custom_nudge_clicked: function(){
+    chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
   }
 }, {
   source: require('libs_frontend/polymer_methods'),

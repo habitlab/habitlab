@@ -31,8 +31,6 @@ webpack-stream = require 'webpack2-stream-watch'
 process.on 'unhandledRejection', (reason, p) ->
   throw new Error(reason)
 
-{cfy} = require 'cfy'
-
 prelude = require 'prelude-ls'
 
 gen_deps = require './scripts/generate_polymer_dependencies_lib.ls'
@@ -770,17 +768,17 @@ gulp.task 'mkzip', (done) ->
   fse.removeSync('mkzip_tmp')
   done()
 
-get_latest_published_version = cfy ->*
+get_latest_published_version = ->>
   latest_published_version = '0.0.0'
   for extension_id in ['obghclocpdgcekcognpkblghkedcpdgd', 'bleifeoekkfhicamkpadfoclfhfmmina']
-    chrome_store_item = yield chrome-web-store-item-property(extension_id)
+    chrome_store_item = await chrome-web-store-item-property(extension_id)
     published_version = chrome_store_item.version
     if semver.gt(published_version, latest_published_version)
       latest_published_version = published_version
   return latest_published_version
 
-gulp.task 'newver', cfy ->*
-  published_version = yield get_latest_published_version()
+gulp.task 'newver', (done) ->>
+  published_version = await get_latest_published_version()
   manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
   version = manifest_info.version
   if published_version == version
@@ -788,6 +786,9 @@ gulp.task 'newver', cfy ->*
     version_parts[*-1] = (parseInt(version_parts[*-1]) + 1).toString()
     manifest_info.version = version_parts.join('.')
     fs.writeFileSync 'src/manifest.yaml', js-yaml.safeDump(manifest_info)
+  if done?
+    done()
+  return
 
 gulp.task 'newver_forced', (done) ->
   manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))

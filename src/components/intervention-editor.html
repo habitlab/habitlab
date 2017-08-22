@@ -78,7 +78,7 @@
     }
     .button {
       color: white;
-      background-color: #50E3C2;
+      background-color: #4279BD;
       margin-left: 10px;
       margin-right: 10px;
       margin-top: 10px;
@@ -126,15 +126,14 @@
       <div id = "topbar_buttons">
         <paper-icon-button icon="folder-open" id="open_button" style="color:#4279BD;" on-click="open_custom_intervention_clicked"></paper-icon-button>
         <paper-tooltip position="bottom" for="open_button">Open an existing custom nudge.</paper-tooltip>
-        <paper-icon-button icon="menu" style="color:#4279BD;" on-click="hide_or_show_sidebar"></paper-icon-button>
+        <paper-icon-button id ="add_button" style="color:#4279BD;" icon="add-circle-outline" on-click="add_new_intervention_clicked"></paper-icon-button>
+        <paper-tooltip for="add_button" position="left">Add a new nudge</paper-tooltip>
+        <!-- <paper-icon-button icon="menu" style="color:#4279BD;" on-click="hide_or_show_sidebar"></paper-icon-button> -->
         <paper-icon-button icon="help-outline" style="color:#4279BD; " on-click="help_clicked"></paper-icon-button>
       </div>
-
     </paper-card>
 
     <paper-card id="sidebar">   
-      <paper-icon-button id ="add_button" icon="add-box" on-click="add_new_intervention_clicked"></paper-icon-button>
-      <paper-tooltip for="add_button" position="left">Add a new nudge</paper-tooltip>
       <paper-icon-button id="save_button" icon="save" on-click="save_intervention"></paper-icon-button>
       <paper-tooltip position="left" for ="save_button">Save and turn on this nudge in HabitLab settings to implement this right away!</paper-tooltip>
       <paper-icon-button icon="info" id="info_button" on-click="info_clicked"></paper-icon-button>
@@ -150,6 +149,7 @@
       <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
       <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
       <paper-tooltip position="top" for="pill_selector">Click to enable/disable your custom nudge.</paper-tooltip>
+      <paper-button class="button" on-click="add_new_intervention_clicked" style="float:right;">Back</paper-button>
     </paper-card>
 
   </template>

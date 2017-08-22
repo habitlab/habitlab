@@ -2,6 +2,10 @@ $ = require 'jquery'
 
 export {msg} = require 'libs_common/localization_utils'
 
+sleep = (time) ->>
+  return new Promise ->
+    setTimeout(it, time)
+
 export S = (pattern) ->
   $(this.$$(pattern))
 

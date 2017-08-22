@@ -73,8 +73,6 @@ do !->>
     list_currently_loaded_interventions_for_tabid
   } = require 'libs_backend/background_common'
 
-  $ = require 'jquery'
-
   {
     send_logging_enabled
     get_basic_client_data
@@ -143,6 +141,9 @@ do !->>
     return last_visit_timestamp
 
   do !->>
+    {
+      post_json
+    } = require('libs_backend/ajax_utils')
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       if not localStorage.getItem('allow_logging')? # user did not complete onboarding
@@ -179,21 +180,9 @@ do !->>
     install_data.install_source = install_source
     install_data.last_visit_to_website = last_visit_to_website_timestamp
     install_data.last_visit_to_chrome_store = last_visit_to_chrome_store_timestamp
-    $.ajax {
-      type: 'POST'
-      url: 'https://habitlab.herokuapp.com/add_install'
-      dataType: 'json'
-      contentType: 'application/json'
-      data: JSON.stringify(install_data)
-    }
+    post_json('https://habitlab.herokuapp.com/add_install', install_data)
     user_secret = await get_user_secret()
-    $.ajax {
-      type: 'POST'
-      url: 'https://habitlab.herokuapp.com/add_secret'
-      dataType: 'json'
-      contentType: 'application/json'
-      data: JSON.stringify({user_id, user_secret})
-    }
+    post_json('https://habitlab.herokuapp.com/add_secret', {user_id, user_secret})
     setInterval ->
       show_finish_configuring_notification_if_needed()
     , 5000

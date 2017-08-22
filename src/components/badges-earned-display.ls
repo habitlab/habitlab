@@ -2,8 +2,6 @@
   polymer_ext
 } = require 'libs_frontend/polymer_utils'
 
-$ = require 'jquery'
-
 {
   close_selected_tab
 } = require 'libs_common/tab_utils'

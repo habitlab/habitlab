@@ -13,9 +13,9 @@
   get_user_id
 } = require 'libs_backend/background_common'
 
-$ = require 'jquery'
-
-{cfy} = require 'cfy'
+{
+  post_json
+} = require 'libs_backend/ajax_utils'
 
 {
   sleep
@@ -54,13 +54,7 @@ upload_log_item_to_server = (name, data) ->>
   data.logname = name
   upload_successful = true
   try
-    response = await $.ajax({
-      type: 'POST'
-      url: logging_server_url + 'addtolog'
-      dataType: 'json'
-      contentType: 'application/json'
-      data: JSON.stringify(data)
-    })
+    response = await post_json(logging_server_url + 'addtolog', data)
     if response.success
       await collection.where('id').equals(data.id).modify({synced: 1})
     else
@@ -143,13 +137,7 @@ upload_collection_item_to_server = (name, data) ->>
     data.unofficial_version = chrome.runtime.id
   upload_successful = true
   try
-    response = await $.ajax({
-      type: 'POST'
-      url: logging_server_url + 'sync_collection_item'
-      dataType: 'json'
-      contentType: 'application/json'
-      data: JSON.stringify(data)
-    })
+    response = await post_json(logging_server_url + 'sync_collection_item', data)
     if response.success
       await make_item_synced_in_collection(name, data)
     else

@@ -7,8 +7,6 @@ const {cfy} = require('cfy');
 
 const swal = require('sweetalert2');
 
-const $ = require('jquery');
-
 const {load_css_file} = require('libs_common/content_script_utils');
 
 const {

@@ -1,7 +1,5 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
-$ = require 'jquery'
-
 {
   get_work_pages_visited_today
 } = require 'libs_common/history_utils'

@@ -2,8 +2,6 @@
   polymer_ext
 } = require 'libs_frontend/polymer_utils'
 
-$ = require 'jquery'
-
 {
   get_minutes_saved_to_badges
 } = require 'libs_common/badges_utils'

@@ -17,8 +17,6 @@
   localstorage_getbool
 } = require 'libs_common/localstorage_utils'
 
-#debounce = require('async-debounce-jt')
-
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 #set_intervention_options_debounced = debounce (args, callback) ->

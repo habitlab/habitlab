@@ -3,7 +3,6 @@
   "private": true,
   "description": "",
   "dependencies": {
-    "async-debounce-jt": "^1.0.1",
     "base64-js": "^1.2.0",
     "bounce.js": "^0.8.2",
     "clean-css": "^4.1.7",

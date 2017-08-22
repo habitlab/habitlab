@@ -289,10 +289,6 @@ ast-types@0.9.2:
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/ast-types/-/ast-types-0.9.2.tgz#2cc19979d15c655108bf565323b8e7ee38751f6b"
 
-async-debounce-jt@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/async-debounce-jt/-/async-debounce-jt-1.0.1.tgz#c217757cf07314f98794d5045ad59d5886540b9e"
-
 async-done@^1.2.0, async-done@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/async-done/-/async-done-1.2.2.tgz#ba4280da55a16e15f4bb8bf3a844a91878740e31"

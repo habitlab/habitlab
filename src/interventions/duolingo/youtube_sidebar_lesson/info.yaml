@@ -1,5 +1,5 @@
-description: Replace the YouTube sidebar with a Duolingo lesson
-displayname: Learning on the Side
+description: Replace the YouTube sidebar with my next Duolingo lesson
+displayname: Learn on the Side
 matches:
   - www.youtube.com
 preview: https://www.youtube.com/watch?v=Km9-DiFaxpU

@@ -821,9 +821,9 @@ do !->>
     'set_alternative_url_to_track': (data) ->>
       {url} = data
       if url?
-        iframed_domain_to_track = url_to_domain(url)
+        iframed_domain_to_track := url_to_domain(url)
       else
-        iframed_domain_to_track = null
+        iframed_domain_to_track := null
   }
 
   #tabid_to_current_location = {}
@@ -854,7 +854,7 @@ do !->>
     new_domain = url_to_domain(url)
     if new_domain != prev_domain
       domain_changed(new_domain)
-    iframed_domain_to_track = null
+      iframed_domain_to_track = null
     
     #if tabid_to_current_location[tabId] == url
     #  return
@@ -879,6 +879,7 @@ do !->>
     if changeInfo.status == 'loading' and not changeInfo.url?
       # user refreshed the page
       page_was_just_refreshed := true
+      iframed_domain_to_track = null
     if tab.url
       tab_id_to_url[tabId] = tab.url
       #dlog 'tabs updated!'
@@ -907,7 +908,6 @@ do !->>
           chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
       else
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
-    iframed_domain_to_track = null
   reward_display_base_code_cached = null
 
   chrome.tabs.onRemoved.addListener (tabId, info) ->>

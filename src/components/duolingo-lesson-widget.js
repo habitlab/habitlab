@@ -103,11 +103,12 @@ polymer_ext({
     callToActionMessageTemplate = callToActionMessageTemplate.replace(streakPlaceholder, this.streak)
     this.callToAction = callToActionMessageTemplate.replace(languagePlaceholder, languageData.language_string)
   },
-  onHovered: function() {
+  onHovered: function(evt) {
     this.hovered = true;
     set_alternative_url_to_track(this.iframeURL)
+    console.log('Hovered!')
   },
-  onUnhovered: function() {
+  onUnhovered: function(evt) {
     this.hovered = false;
     set_alternative_url_to_track(null)
   }

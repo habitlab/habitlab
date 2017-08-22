@@ -1,5 +1,5 @@
-description: Replace the Facebook ads sidebar with a Duolingo lesson
-displayname: Ad Replacer
+description: Replace the Facebook ads sidebar with my next Duolingo lesson
+displayname: Swap Out Ads
 matches:
   - www.facebook.com
 preview: https://www.facebook.com

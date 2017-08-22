@@ -1,4 +1,4 @@
-description: Insert Duolingo lessons into my Facebook feed
+description: Insert my next Duolingo lesson into my Facebook feed
 displayname: Lesson Injector
 matches:
   - www.facebook.com

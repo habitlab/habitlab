@@ -121,7 +121,7 @@ do !->>
     }
     close_notification = notification.close.bind(notification)
     notification.onclick = ->
-      chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding:last')})
+      chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding')})
       close_notification()
 
   export get_last_visit_to_website_timestamp = ->>

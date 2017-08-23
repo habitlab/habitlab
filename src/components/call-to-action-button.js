@@ -28,6 +28,7 @@ polymer_ext({
   },
   ready: async function() {
     this.goal = await get_goal_info()
+    /*
     if (document.querySelectorAll('.habitlab_reward_display').length == 0) {
       let reward_display = document.createElement('reward-display')
       reward_display.classList.add('habitlab_reward_display')
@@ -35,6 +36,7 @@ polymer_ext({
       reward_display.url_of_next_page = this.goal.domain
       document.body.appendChild(reward_display)
     }
+    */
   },
   buttonClicked: function() {
     if (this.goal.is_positive) {

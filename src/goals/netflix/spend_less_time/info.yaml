@@ -1,5 +1,6 @@
 description: Spend less time on Netflix
 progress_description: Time spent on Netflix
+call_to_action: Close Netflix
 interventions:
   - generic/toast_notifications
   - generic/show_timer_banner

@@ -25,6 +25,7 @@ polymer_ext {
       type: Boolean
       observer: 'isdemo_changed'
     }
+    url_of_next_page: String
   }
   compute_close_button_img_src: ->
     return chrome.extension.getURL 'icons/close_button.svg'
@@ -41,5 +42,8 @@ polymer_ext {
   is_intervention_mastered_badge: (badge) ->
     return badge.type == 'intervention_mastered'
   close_button_pressed: ->
-    close_selected_tab()
+    if this.url_of_next_page?
+      window.location.href = 'https://' + this.url_of_next_page
+    else
+      close_selected_tab()
 }

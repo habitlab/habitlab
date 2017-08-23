@@ -21,7 +21,7 @@ var shadow_div;
 
   var buttonText2 = 'Close ' + intervention.sitename_printable
   interst_screen.attr('btn-txt2', buttonText2)
-  var messageString = 'Loading...';
+  let messageString = 'Take a deep breath.';
   interst_screen.attr('title-text', messageString)
   interst_screen[0].hideButton();
   interst_screen[0].showProgress();
@@ -38,6 +38,7 @@ var shadow_div;
       clearInterval(countdown)
       interst_screen.attr('title-text', intervention.sitename_printable + ' is available, if you really want to visit.')
       interst_screen[0].showButton();
+
     }
   }, 50)
 

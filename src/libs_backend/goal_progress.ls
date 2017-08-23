@@ -33,7 +33,17 @@ export get_progress_measurement_function_for_goal_name = (goal_name) ->>
   return progress_measurement_functions[goal_name]
 
 export get_progress_on_goal_today = (goal_name) ->>
-  await get_progress_on_goal_days_before_today goal_name, 0
+  return await get_progress_on_goal_days_before_today goal_name, 0
+
+export get_whether_goal_achieved_today = (goal_name) ->>
+  return await get_whether_goal_achieved_days_before_today goal_name, 0
+  
+export get_whether_goal_achieved_days_before_today = (goal_name, days_before_today) ->>
+  goal_targets = await goal_utils.get_all_goal_targets()
+  progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
+  goal_target = goal_targets[goal_name]
+  goal_info = await goal_utils.get_goal_info(goal_name)
+  return (progress_info.progress >= goal_target) == goal_info.is_positive
 
 export get_progress_on_goal_this_week = (goal_name) ->>
   results = []
@@ -64,9 +74,7 @@ export get_num_goals_met_days_before_today = (days_before_today) ->>
   goal_targets = await goal_utils.get_all_goal_targets()
   num_goals_met = 0
   for goal_name in as_array(enabled_goals)
-    progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
-    goal_target = goal_targets[goal_name]
-    if progress_info.progress < goal_target
+    if get_whether_goal_achieved_days_before_today goal_name, days_before_today
       num_goals_met += 1
   return num_goals_met
 
@@ -79,7 +87,8 @@ export get_num_goals_met_this_week = ->>
     for goal_name in as_array(enabled_goals)
       progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
       goal_target = goal_targets[goal_name]
-      if progress_info.progress < goal_target
+      goal_info = await goal_utils.get_goal_info(goal_name)
+      if (progress_info.progress > goal_target) == goal_info.is_positive
         num_goals_met += 1
     days_before_today_to_num_goals_met[days_before_today] = num_goals_met
   return days_before_today_to_num_goals_met

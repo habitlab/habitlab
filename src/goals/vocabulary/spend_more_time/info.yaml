@@ -1,11 +1,13 @@
 description: Spend more time on Vocabulary.com
 progress_description: Time spent on Vocabulary.com
+call_to_action: Go learn a new word
 interventions:
-  - generic/close_tab_timer
+  - facebook/feed_injection_positive_goal_widget
 measurement: time_spent_on_domain
-domain: vocabulary.com
+domain: www.vocabulary.com
 target:
-  default: 1
-  units: visits
+  default: 2
+  units: minutes
 is_positive: true
+sitename_printable: Vocabulary.com
 icon: icon.png

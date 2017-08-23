@@ -1,5 +1,6 @@
 description: Spend less time on Amazon
 progress_description: Time spent on Amazon
+call_to_action: Close Amazon
 interventions:
   - generic/toast_notifications
   - generic/show_timer_banner

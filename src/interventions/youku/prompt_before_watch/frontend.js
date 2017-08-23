@@ -1,7 +1,7 @@
 var $ = require('jquery');
 
 require_component('habitlab-logo')
-require_component('close-tab-button')
+require_component('call-to-action-button')
 require_component('video-overlay')
 require_component('paper-button')
 

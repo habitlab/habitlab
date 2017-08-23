@@ -1,5 +1,6 @@
 description: Spend less time on Iqiyi
 progress_description: Time spent on Iqiyi
+call_to_action: Close Iqiyi
 interventions:
   - generic/toast_notifications
   - generic/show_timer_banner

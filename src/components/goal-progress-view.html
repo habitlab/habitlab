@@ -2,6 +2,8 @@
 <link rel="import" href="../bower_components/chart-elements/chart-bar.html">
 <link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
 <link rel="import" href="../bower_components/chart-elements/chart-line.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
+
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
 <dom-module id="goal-progress-view">
@@ -14,6 +16,9 @@
     
   </style>
   <template>
+      <template is="dom-if" if="{{!loaded}}">
+        <paper-spinner id="loading-spinner" active></paper-spinner>
+      </template>
       <chart-line data="[[data]]" options="[[options]]" style="width: 100%"></chart-line>
   </template>
   <script src="goal-progress-view.js"></script>

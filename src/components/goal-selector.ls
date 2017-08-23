@@ -16,6 +16,10 @@ swal = require 'sweetalert2'
 } = require 'libs_backend/goal_utils'
 
 {
+   getDb
+} = require 'libs_backend/db_utils'
+
+{
   get_interventions
   get_enabled_interventions
   set_intervention_disabled
@@ -103,6 +107,9 @@ polymer_ext {
   time_updated: (evt, obj) ->>
     mins = Number (obj.item.innerText.trim ' ' .split ' ' .0)
     set_goal_target obj.item.class, mins
+  goal_number_updated: (evt, obj) ->>
+    num = Number (obj.item.innerText.trim ' ' .split ' ' .0)
+    set_goal_target obj.item.class, num
   get_daily_targets: ->>
     goal_targets = await get_all_goal_targets()
     index_of_daily_goal_mins = {}
@@ -143,6 +150,8 @@ polymer_ext {
         sitename_to_goals[sitename] = []
       sitename_to_goals[sitename].push goal_info
     list_of_sites_and_spend_less_time_goals = []
+    list_of_sites_and_spend_more_time_goals = []
+
     list_of_sites = prelude.sort Object.keys(sitename_to_goals)
     for sitename in list_of_sites
       current_item = {sitename: sitename}
@@ -156,8 +165,12 @@ polymer_ext {
       
       if !positive_site
         list_of_sites_and_spend_less_time_goals.push current_item
+      else
+        list_of_sites_and_spend_more_time_goals.push current_item
       
     self.sites_and_spend_less_time_goals = list_of_sites_and_spend_less_time_goals
+    self.sites_and_spend_more_time_goals = list_of_sites_and_spend_more_time_goals
+
   goal_changed: (evt) ->>
     
     checked = evt.target.checked

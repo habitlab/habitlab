@@ -1,0 +1,172 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="reward-display.html">
+
+<dom-module id="positive-site-trigger-v2">
+  <template>
+    <style is="custom-style">
+      :host {
+        --paper-item: {
+          font-family: "Open Sans";
+          font-size: 20px;
+          font-color: #526FAB;
+          overflow: hidden;
+          white-space: nowrap;
+          display: block;
+          text-overflow: ellipsis;
+        };
+        --paper-item-min-height: 36px;
+      }
+
+      #site-icon {
+        width: 40px;
+      }
+
+      .hdr {
+        padding-top: 15px;
+        margin-bottom: 15px;
+        font-size: 20px;
+        /*font-style: italic;*/
+        padding-left: 10px;
+        padding-right: 10px;
+        display: flex;
+      }
+      
+      #goal {
+        display: table;
+        font-size: 20px;
+      }
+
+      #goal-description {
+        display: table-cell;
+        vertical-align: middle;
+        padding-left: 10px;
+      }
+
+      #trigger-container {
+        max-width: 519px;
+        min-width: 400px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        font-family: var(--trigger-font-family);
+         border-color: var(--trigger-border-color, #ffffff);
+        border-style: var(--trigger-border-style, none);
+        border-width: var(--trigger-border-width, 0px);
+        background-color: var(--trigger-bg-color, #ffffff);
+        /* border-color: var(--trigger-border-color, #000000);
+        border-style: var(--trigger-border-style, solid);
+        border-width: var(--trigger-border-width, 2px);
+        background-color: var(--trigger-bg-color, #95CBEE);  /* or white, or rgb (0,155,55) */
+        /*box-shadow: 2px 2px 2px #888888;*/
+      }
+
+      #intro-text {
+        font-size: 20px;
+        padding-bottom: 10px;
+      }
+      .text-div {
+        font-family: "Open Sans";
+        text-align:center;
+        color: #415D67; 
+        line-height: 150%;
+        font-size: 15px;
+      }
+      
+      #trigger-button {
+        cursor: pointer;
+        padding: 10px;
+        background-color: green;
+        color: white;
+        font-size: 30px;
+        box-shadow: 2px 2px 2px #888888;
+        height: 70px;
+        width: 140px;
+        vertical-align: middle;
+      }
+
+      #trigger-button-div {
+        height: 50px;
+        display: flex; 
+        align-items: center;
+        justify-content: left;
+        text-align: left; 
+        height: 100%; 
+        width: 100%
+      }
+
+      #trigger-button-div .streak-img {
+        height: 80%;
+        margin: 5px;
+      }
+
+      #streak-container {
+        display: table;
+        font-size: 20px;
+        margin: 10px;
+        padding: 5px 10px 5px 10px;
+        /*background-color: white;*/
+      }
+
+      #streak-box {
+        height: 40px;
+        width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+        /*font-size: 20px;*/
+        /*box-shadow: 2px 2px 2px #888888;*/
+        padding: 5px;
+        background-color: white;
+      }
+
+      #streak-box .streak-img {
+        height: 80%;
+        margin: 5px;
+      }
+      
+      #grey-space {
+        background-color: #e9ebee;
+        height: 12px;
+        margin-left: -1px;
+        margin-right: -1px;
+      }
+      #shadow {
+        height: 1px;
+        background-color: #1d2129;
+        opacity: 0.2;
+      }
+
+    </style>
+    <div id="trigger-container">
+      <div class="hdr">Remember your goal?</div>
+      <div id="goal">
+        <img id="site-icon" src="{{positiveSiteIcon}}">
+        <div id="goal-description"> {{positiveGoalDescription}}.</div>
+      </div>
+
+      <div id="streak-container">
+        <div style="display: table-cell; vertical-align: middle; padding-right: 20px"> Streak </div>
+        <div id="streak-box">
+          <img class="streak-img" src="http://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png">
+          <div style="margin: 5px">{{streak}}</div>
+        </div>
+      </div>
+      <paper-button id="trigger-button">
+        <div id="trigger-button-div">
+          <img class="streak-img" src="http://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png">
+          <div style="margin: 5px; width: 80px; text-align:center;" on-click="goClicked">Go</div>
+        </div>
+      </paper-button>
+    </div>
+    <template is="dom-if" if="{{in_facebook_news_feed}}">
+      <div id="shadow"></div>
+      <div id="grey-space"></div>
+    </template>
+  </template>
+  <script src="positive-site-trigger-v2.js"></script>
+</dom-module>

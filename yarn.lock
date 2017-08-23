@@ -289,10 +289,6 @@ ast-types@0.9.2:
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/ast-types/-/ast-types-0.9.2.tgz#2cc19979d15c655108bf565323b8e7ee38751f6b"
 
-async-debounce-jt@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/async-debounce-jt/-/async-debounce-jt-1.0.1.tgz#c217757cf07314f98794d5045ad59d5886540b9e"
-
 async-done@^1.2.0, async-done@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/async-done/-/async-done-1.2.2.tgz#ba4280da55a16e15f4bb8bf3a844a91878740e31"
@@ -1430,13 +1426,6 @@ center-align@^0.1.1:
   dependencies:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
-
-cfy@^1.0.20:
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/cfy/-/cfy-1.0.20.tgz#c7e5c2a321de277224ff5541952db078cc41be83"
-  dependencies:
-    co "^4.6.0"
-    unthenify "^1.0.2"
 
 chai@^3.5.0:
   version "3.5.0"
@@ -6888,12 +6877,6 @@ unreachable-branch-transform@^0.3.0:
     recast "^0.10.1"
     through2 "^0.6.2"
 
-unthenify@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/unthenify/-/unthenify-1.0.2.tgz#dffe00cafe4e4df2449c43fd19f7b95446fc55de"
-  dependencies:
-    util-arity "^1.0.2"
-
 upath@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/upath/-/upath-0.2.0.tgz#bdbad0f2c60afea165f8127dbb1b5bdee500ad81"
@@ -6933,10 +6916,6 @@ useragent@^2.1.10:
   resolved "https://registry.yarnpkg.com/useragent/-/useragent-2.1.11.tgz#6a026e6a6c619b46ca7a0b2fdef6c1ac3da8ca29"
   dependencies:
     lru-cache "2.2.x"
-
-util-arity@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/util-arity/-/util-arity-1.0.2.tgz#294ab6e35711a436ff4375fd380831390c0a0386"
 
 util-deprecate@~1.0.1:
   version "1.0.2"

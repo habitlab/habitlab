@@ -4,12 +4,8 @@
 
 $ = require 'jquery'
 
-{
-  cfy
-} = require 'cfy'
-
 polymer_ext {
-  is: 'reward-display-v5'
+  is: 'reward-display-v3'
   properties: {
     img_url: {
       type: String

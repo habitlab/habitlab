@@ -1,5 +1,3 @@
-{cfy, add_noerr} = require 'cfy'
-
 open_debug_page_for_tab_id = (tab_id) ->>
   debug_page_url = chrome.runtime.getURL('index.html?tag=terminal-view&autoload=true&ispopup=true&tabid=' + tab_id)
   popup_windows = await new Promise -> chrome.windows.getAll {windowTypes: ['popup']}, it

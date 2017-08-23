@@ -1,10 +1,5 @@
 #fetch_favicon = require 'fetch-favicon'
 
-require! {
-  co
-  cfy
-}
-
 {
   domain_to_url
 } = require 'libs_common/domain_utils'

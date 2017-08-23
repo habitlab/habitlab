@@ -42,7 +42,7 @@ window.developer_options = ->
   window.location.href = '/index.html?tag=options-dev'
 
 if window.location.pathname == '/options.html'
-  require 'components/options-view.deps'
+  require 'components/options-view-v2.deps'
 
   hash = window.location.hash
   if not hash? or hash == ''
@@ -95,7 +95,6 @@ require! {
   'js-yaml'
 }
 
-{cfy} = require 'cfy'
 {get_interventions} = require 'libs_backend/intervention_utils'
 
 {

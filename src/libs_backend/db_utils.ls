@@ -12,8 +12,6 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-{yfy, cfy} = require 'cfy'
-
 export get_db_major_version_db = -> '5'
 export get_db_minor_version_db = -> '1'
 

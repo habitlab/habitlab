@@ -1,7 +1,5 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
-{cfy} = require 'cfy'
-
 {
   get_domain_to_time_spent_days_before_today
   get_baseline_time_on_domains

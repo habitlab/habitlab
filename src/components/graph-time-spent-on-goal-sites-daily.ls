@@ -16,8 +16,6 @@
   get_progress_on_enabled_goals_today
 } = require 'libs_backend/goal_progress'
 
-{cfy} = require 'cfy'
-
 polymer_ext {
   is: 'graph-time-spent-on-goal-sites-daily'
   properties: {

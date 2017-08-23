@@ -26,10 +26,6 @@ require! {
   moment
 }
 
-{
-  cfy
-} = require 'cfy'
-
 polymer_ext {
   is: 'goal-progress-view'
   properties: {

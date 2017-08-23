@@ -1,6 +1,4 @@
-{cfy} = require 'cfy'
 prelude = require 'prelude-ls'
-$ = require 'jquery'
 
 swal = require 'sweetalert2'
 
@@ -232,12 +230,15 @@ polymer_ext {
     this.$$('#add_website_input').value = ''
     canonical_domain = await get_canonical_domain(domain)
     if not canonical_domain?
+      {escape_as_html} = require 'libs_common/html_utils'
       swal {
         title: 'Invalid Domain'
-        html: $('<div>').append([
-          $('<div>').text('You entered an invalid domain: ' + domain)
-          $('<div>').text('Please enter a valid domain such as www.amazon.com')
-        ])
+        html: '''
+          <div>
+            <div>You entered an invalid domain: ''' + escape_as_html(domain) + '''</div>
+            <div>Please enter a valid domain such as www.amazon.com</div>
+          </div>
+        '''
         type: 'error'
       }
       return

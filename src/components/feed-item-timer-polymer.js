@@ -1,6 +1,3 @@
-const $ = require('jquery')
-
-
 const {
   load_css_file
 } = require('libs_common/content_script_utils')

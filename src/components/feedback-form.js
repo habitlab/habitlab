@@ -1,7 +1,7 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
 const _ = require('underscore');
 const ajax_utils = require('libs_common/ajax_utils');
-const $ = require('jquery');
+const {escape_as_html} = require('libs_common/html_utils')
 
 polymer_ext({
   is: 'feedback-form',
@@ -104,13 +104,7 @@ polymer_ext({
     this.$$('#feedback_dialog').close();
     this.$$('#submitting_wait_dialog').open();
     try {
-      var response = await ajax_utils.ajax({
-        type: 'POST',
-        url: 'https://habitlab-reportbug.herokuapp.com/report_bug',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(data)
-      });
+      var response = await ajax_utils.post_json('https://habitlab-reportbug.herokuapp.com/report_bug', data)
       this.wait_dialog_html = `
         <h2>Thanks for your feedback!</h2>
         <div>
@@ -119,7 +113,7 @@ polymer_ext({
       `;
       this.$$('#submitting_wait_dialog').notifyResize();
     } catch (err) {
-      var message_html = $('<span>').text(data.message).html().split('\n').join('<br>');
+      var message_html = escape_as_html(data.message)
       this.wait_dialog_html = `
         <h2>Sorry, our server is having issues</h2>
         <div>

@@ -5,10 +5,6 @@
 $ = require 'jquery'
 
 {
-  cfy
-} = require 'cfy'
-
-{
   close_tab_with_id
   get_selected_tab_id
 } = require 'libs_common/tab_utils'

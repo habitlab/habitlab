@@ -5,15 +5,11 @@
 $ = require 'jquery'
 
 {
-  cfy
-} = require 'cfy'
-
-{
   get_intervention
 } = require 'libs_common/intervention_info'
 
 polymer_ext {
-  is: 'reward-display-v11'
+  is: 'reward-display-v10'
   properties: {
     img_url: {
       type: String

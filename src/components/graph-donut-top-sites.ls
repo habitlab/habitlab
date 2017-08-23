@@ -8,8 +8,6 @@
   get_seconds_spent_on_all_domains_days_before_today
 } = require 'libs_common/time_spent_utils'
 
-{cfy} = require 'cfy'
-
 polymer_ext {
   is: 'graph-donut-top-sites'
   properties: {

@@ -1,5 +1,4 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils');
-const {cfy} = require('cfy');
 
 polymer_ext({
   is: 'habitlab-logo',
@@ -38,7 +37,6 @@ polymer_ext({
     habitlab_options_popup.open();
   },
   get_url: function() {
-    //return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');
     return chrome.extension.getURL('icons/gear_white.svg');
   },
 }, {

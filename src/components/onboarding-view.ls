@@ -1,10 +1,6 @@
-{cfy} = require 'cfy'
-
 swal = require 'sweetalert2'
 $ = require 'jquery'
 #require('jquery.pagepiling')($)
-
-window.$ = $
 
 {
   polymer_ext

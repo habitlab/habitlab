@@ -26,8 +26,6 @@ polymer_ext {
 }, {
   source: require('libs_frontend/polymer_methods'),
   methods: [
-    'S'
-    'once_available'
     'xrange'
   ]
 }

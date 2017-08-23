@@ -82,8 +82,8 @@ polymer_ext {
         intervention_description: self.$.intervention_description.value
         preview_url: self.$.preview_url.value
       })
-      self.goToTab()
-        # chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+      # self.goToTab()
+      chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
     self.$$('#create_new_intervention_dialog').close()
     window.close()
   goToTab: ->

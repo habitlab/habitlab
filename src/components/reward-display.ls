@@ -5,10 +5,6 @@
 $ = require 'jquery'
 
 {
-  cfy
-} = require 'cfy'
-
-{
   baseline_time_per_session_for_domain
   record_seconds_saved_and_get_rewards
   get_num_times_intervention_used

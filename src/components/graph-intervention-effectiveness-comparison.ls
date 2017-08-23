@@ -13,8 +13,6 @@
   list_available_interventions_for_goal
 } = require 'libs_backend/intervention_utils'
 
-{cfy} = require 'cfy'
-
 prelude = require 'prelude-ls'
 
 polymer_ext {

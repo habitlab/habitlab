@@ -42,8 +42,6 @@
   get_time_saved_total
 } = require 'libs_common/gamification_utils'
 
-
-{cfy} = require 'cfy'
 {swal} = require 'sweetalert2'
 
 Bounce = require('bounce.js')

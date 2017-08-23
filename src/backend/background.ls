@@ -75,14 +75,10 @@ do !->>
     list_currently_loaded_interventions_for_tabid
   } = require 'libs_backend/background_common'
 
-  $ = require 'jquery'
-
   {
     send_logging_enabled
     get_basic_client_data
   } = require 'libs_backend/logging_enabled_utils'
-
-  {yfy} = require 'cfy'
 
   export make_tab_focused = (tab_id, window_id) ->>
     await new Promise -> chrome.windows.update(window_id, {focused: true}, it)
@@ -145,6 +141,9 @@ do !->>
     return last_visit_timestamp
 
   do !->>
+    {
+      post_json
+    } = require('libs_backend/ajax_utils')
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       if not localStorage.getItem('allow_logging')? # user did not complete onboarding
@@ -181,21 +180,9 @@ do !->>
     install_data.install_source = install_source
     install_data.last_visit_to_website = last_visit_to_website_timestamp
     install_data.last_visit_to_chrome_store = last_visit_to_chrome_store_timestamp
-    $.ajax {
-      type: 'POST'
-      url: 'https://habitlab.herokuapp.com/add_install'
-      dataType: 'json'
-      contentType: 'application/json'
-      data: JSON.stringify(install_data)
-    }
+    post_json('https://habitlab.herokuapp.com/add_install', install_data)
     user_secret = await get_user_secret()
-    $.ajax {
-      type: 'POST'
-      url: 'https://habitlab.herokuapp.com/add_secret'
-      dataType: 'json'
-      contentType: 'application/json'
-      data: JSON.stringify({user_id, user_secret})
-    }
+    post_json('https://habitlab.herokuapp.com/add_secret', {user_id, user_secret})
     setInterval ->
       show_finish_configuring_notification_if_needed()
     , 5000
@@ -571,7 +558,7 @@ do !->>
     }
   }
       """
-      await yfy(chrome.tabs.executeScript) tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}
+      await new Promise -> chrome.tabs.executeScript tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, it
     return
 
   load_intervention_list = (intervention_list, tabId) ->>
@@ -906,7 +893,7 @@ do !->>
         if loaded_interventions? and loaded_interventions.length > 0
           chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         else
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_cropped.svg')}
       else
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
   reward_display_base_code_cached = null
@@ -1115,6 +1102,8 @@ do !->>
       
 
   ensure_history_utils_data_cached()
+
+  chrome.browserAction.setIcon({path: chrome.extension.getURL('icons/icon_cropped.svg')})
 
   require('libs_backend/require_remote_utils')
 

@@ -48,8 +48,6 @@ prelude = require 'prelude-ls'
   localget_json
 } = require 'libs_common/cacheget_utils'
 
-{cfy, yfy} = require 'cfy'
-
 /*
 cached_get_intervention_info = {}
 cached_get_intervention_info_unmodified = {}

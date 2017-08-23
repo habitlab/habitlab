@@ -1,5 +1,3 @@
-{yfy} = require 'cfy'
-
 debounce = require('promise-debounce')
 
 export memoizeSingleAsync = (func) ->

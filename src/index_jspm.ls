@@ -55,7 +55,6 @@ do !->>
   }
 
   js-yaml = await SystemJS.import 'js-yaml'
-  {cfy} = await SystemJS.import 'cfy'
   {get_interventions} = await SystemJS.import 'libs_backend/intervention_utils'
 
   /*

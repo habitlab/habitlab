@@ -1,5 +1,3 @@
-{cfy} = require 'cfy'
-
 {
   localstorage_getjson
 } = require 'libs_common/localstorage_utils'

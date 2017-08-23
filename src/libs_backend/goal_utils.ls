@@ -31,8 +31,6 @@
   remove_cached_favicon_for_domain
 } = require 'libs_backend/favicon_utils'
 
-{cfy, yfy} = require 'cfy'
-
 getAllInterventionsGoalInfo = ->>
   goal_info = {
     name: 'debug/all_interventions'

@@ -6,16 +6,6 @@ SystemJS.config({
     "github:": "src/jspm_packages/github/"
   },
   bundles: {
-  "bundles/cfy.js": [
-    "npm:cfy@1.0.20/index.js",
-    "npm:cfy@1.0.20.json",
-    "npm:unthenify@1.0.4/dist/index.js",
-    "npm:unthenify@1.0.4.json",
-    "npm:util-arity@1.1.0/arity.js",
-    "npm:util-arity@1.1.0.json",
-    "npm:co@4.6.0/index.js",
-    "npm:co@4.6.0.json"
-  ],
   "bundles/jquery.js": [
     "npm:jquery@3.1.1/dist/jquery.js",
     "npm:jquery@3.1.1.json"

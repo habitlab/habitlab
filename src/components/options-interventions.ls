@@ -44,17 +44,10 @@ prelude = require 'prelude-ls'
 } = require 'libs_backend/canonical_url_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
-{cfy} = require 'cfy'
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 swal = require 'sweetalert2'
-
-$ = require 'jquery'
-
-{
-msg
-} = require 'libs_common/localization_utils'
 
 polymer_ext {
   is: 'options-interventions'
@@ -302,7 +295,7 @@ polymer_ext {
       <br><br>
       At first, HabitLab will show you a random nudge each visit, and over time it will learn what works most effectively for you.
       <br><br>
-      Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
+      Each visit, HabitLab will test a new nudge and measure how much time you spend on the site. Then it determines the efficacy of each nudge by comparing the time spent per visit when that nudge was deployed, compared to when other nudges are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which nudges work best and choose which nudges to deploy, to minimize your time wasted online.
       '''
       allowOutsideClick: true
       allowEscapeKey: true

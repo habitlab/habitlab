@@ -12,8 +12,6 @@
   get_goals
 } = require 'libs_backend/goal_utils'
 
-{cfy} = require 'cfy'
-
 polymer_ext {
   is: 'graph-daily-overview'
   properties: {

@@ -4,16 +4,8 @@
 
 $ = require 'jquery'
 
-{
-  cfy
-} = require 'cfy'
-
-{
-  get_intervention
-} = require 'libs_common/intervention_info'
-
 polymer_ext {
-  is: 'reward-display-v8'
+  is: 'reward-display-v1'
   properties: {
     img_url: {
       type: String
@@ -27,10 +19,6 @@ polymer_ext {
       type: Boolean
       value: false
       observer: 'autoplay_changed'
-    }
-    intervention_name: {
-      type: String
-      value: get_intervention().displayname
     }
     isdemo: {
       type: Boolean
@@ -57,10 +45,10 @@ polymer_ext {
       video.oncanplay = ->
         video.oncanplay = null
         video.play()
-    setTimeout ->
-      if not video.paused
-        self.fire 'reward_done', {finished_playing: false}
-    , 2500
+    #setTimeout ->
+    #  if not video.paused
+    #    self.fire 'reward_done', {finished_playing: false}
+    #, 1500
     #, 3000
   video_ended: ->
     console.log 'video_ended called'

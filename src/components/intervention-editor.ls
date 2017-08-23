@@ -1,4 +1,3 @@
-{yfy, add_noerr} = require 'cfy'
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {
@@ -513,7 +512,7 @@ polymer_ext {
         return true
       return
     systemjsget(chrome.runtime.getURL('API.md')).then (markdown_text) ->
-      markdown_text = markdown_text.replace('### Table of Contents', '### Useful Methods')
+      markdown_text = markdown_text.replace('### Table of Contents', '### API')
       self.$.markdown_display.markdown = markdown_text
 }, {
   source: require 'libs_frontend/polymer_methods'

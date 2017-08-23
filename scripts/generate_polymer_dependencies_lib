@@ -136,6 +136,9 @@
       if (filename_abs.endsWith('/src/popup.html') || filename_abs.endsWith('/src/index.html')) {
         return '';
       }
+      if ($(tag).attr('type') === 'text/markdown') {
+        return '';
+      }
       console.log("script tag in " + filename_abs + " is missing src attribute");
       return '';
     }

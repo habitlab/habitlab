@@ -1,7 +1,5 @@
 $ = require 'jquery'
 
-export {msg} = require 'libs_common/localization_utils'
-
 sleep = (time) ->>
   return new Promise ->
     setTimeout(it, time)
@@ -122,21 +120,3 @@ export once_available_multiselect = (selector, callback) ->>
   if callback?
     callback(current_result)
   return current_result
-
-css_element_queries_cached = null
-get_css_element_queries = ->>
-  if css_element_queries_cached?
-    return css_element_queries_cached
-  css_element_queries_cached := await SystemJS.import('css-element-queries')
-  return css_element_queries_cached
-
-export on_resize = (selector, callback) ->
-  self = this
-  get_css_element_queries().then (css_element_queries) ->
-    once_available.call(self, selector).then (elem) ->
-      css_element_queries.ResizeSensor(elem, callback)
-
-export on_resize_elem = (elem, callback) ->
-  self = this
-  get_css_element_queries().then (css_element_queries) ->
-    css_element_queries.ResizeSensor(elem, callback)

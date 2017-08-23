@@ -308,11 +308,18 @@ polymer_ext {
   rerender: ->>
     this.$.privacy_options.rerender()
     await this.$.goal_selector.set_sites_and_goals()
-}, {
-  source: require 'libs_frontend/polymer_methods'
-  methods: [
-    'msg'
-    'text_if_elem_in_array'
-    'text_if_elem_not_in_array'
-  ]
-}
+}, [
+  {
+    source: require 'libs_common/localization_utils'
+    methods: [
+      'msg'
+    ]
+  }
+  {
+    source: require 'libs_frontend/polymer_methods'
+    methods: [
+      'text_if_elem_in_array'
+      'text_if_elem_not_in_array'
+    ]
+  }
+]

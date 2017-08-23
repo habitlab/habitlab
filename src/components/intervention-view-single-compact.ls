@@ -26,7 +26,7 @@
 #  set_intervention_options(intervention_name, options_text, callback)
 
 polymer_ext {
-  is: 'intervention-view-single-v2'
+  is: 'intervention-view-single-compact'
   properties: {
     intervention: {
       type: Object

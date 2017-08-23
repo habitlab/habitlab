@@ -146,8 +146,10 @@ polymer_ext {
     if goal_idx < 0 or goal_idx >= goal_sitename_list.length
       return
     goal_sitename = goal_sitename_list[goal_idx]
-    siteview = await self.once_available('#siteview_' + goal_sitename)
-    siteview.rerender()
+    once_true ->
+      self.$$('#siteview_' + goal_sitename)?rerender?
+    , ->
+      self.$$('#siteview_' + goal_sitename).rerender()
     return
   on_goal_changed: (evt) ->
     console.log 'goal changed'
@@ -231,14 +233,11 @@ polymer_ext {
 
     require('components/sidebar-tabs.deps')
 
-    console.log 'sidebar-tabs finished at'
-    console.log Date.now() - start_time
-
     if this.selected_tab_idx == 0
       require('components/dashboard-view-v2.deps')
     else if this.selected_tab_idx == 1
       require('components/options-interventions.deps')
-    else if this.selected_tab_name == 'help'
+    else if window.location.hash == '#help' or window.location.hash == '#faq'
       require('components/help-faq.deps')
     else
       require('components/site-view.deps')

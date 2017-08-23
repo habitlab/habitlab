@@ -33,6 +33,7 @@
     "sortablejs": "^1.5.0-rc1",
     "sweetalert2": "^6.3.2",
     "systemjs": "github:gkovacs/systemjs",
+    "uglify-es": "3.0.28",
     "uglifyjs-webpack-plugin": "v1.0.0-beta.2",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1",

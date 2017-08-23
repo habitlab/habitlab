@@ -6976,7 +6976,7 @@ typical@^2.3.0, typical@^2.4.2, typical@^2.5.0, typical@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/typical/-/typical-2.6.0.tgz#89d51554ab139848a65bcc2c8772f8fb450c40ed"
 
-uglify-es@^3.0.24:
+uglify-es@3.0.28, uglify-es@^3.0.24:
   version "3.0.28"
   resolved "git://github.com/mishoo/UglifyJS2#067d52b6bac67378cccbc8fdea2320676aafc47e"
   dependencies:

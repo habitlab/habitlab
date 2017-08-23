@@ -12,7 +12,7 @@
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="intervention-parameter-view.html">
 <link rel="import" href="interventions-for-sites.html">
-
+<link rel="import" href="pill-button-group.html">
 
 <!--<link rel="import" href="badge-display-mini.html">-->
 
@@ -22,6 +22,15 @@
       width: 100%;      
       text-align: center;
 
+      paper-dialog.size-position{
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        width: 300px;
+        height: 300px;
+        overflow: auto;
+      }
+
       --paper-dialog:{
         margin:auto;
         margin-left:0px;
@@ -30,18 +39,21 @@
         padding-top:10px;
         padding-bottom:10px;
         margin-top: 10px;
-      
+        /* max-height:300px;
+        max-width:600px; */
       }
       
       #alignedDialog {
-        margin: auto;
         padding-left:0px;
         padding-right:0px;
         padding-top:10px; 
         padding-bottom:0px;
         margin-left:0px;
         margin-top: 10px;
-        width:320px; 
+        margin-right:0px;
+        width:230px;
+        align-content: center;
+        align-items: center;
       }
 
     }
@@ -144,6 +156,11 @@
     box-shadow: 0px 0px 15px #346da3*/
     }
 
+    .buttons{
+      margin:auto;
+      align-items: center;
+      width:225px;
+    }
     .badges:hover {
       opacity: 0.5;
     }
@@ -151,18 +168,23 @@
 
 
 
-
-
   <template>
 
-    <paper-dialog id="alignedDialog" intervention = "dialog_intervention" style = "background-color:rgba(255,255,255,1);" no-overlap horizontal-align="left" vertical-align="top">
-      <h2>{{intervention.displayname}}</h2>
-      <p>{{intervention.displayname}} {{intervention.description}}</p>
+    <paper-dialog class = "size-position" id="alignedDialog" style = "background-color:rgba(255,255,255,1); display: block">
+      <img class="interventions" src="{{get_intervention_icon_url(dialog_intervention.name)}}" />
+      <h2>{{dialog_intervention.displayname}}</h2>
+      <p>{{dialog_intervention.displayname}} {{dialog_intervention.description}}</p>
+      
       <div class="buttons">
-        <paper-button>More Info...</paper-button>
-        <paper-button dialog-dismiss>Decline</paper-button>
-        <paper-button dialog-confirm autofocus>Accept</paper-button>
+        <div style = "align-self:center; width:150px;border:transparent;">
+          <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
+          <paper-tooltip for="pill_selector" animation-delay="0">Each time you visit <span>{{dialog_intervention.sitename}}</span>,<br>HabitLab will show one of the<br>nudges turned 'On'.</paper-tooltip>
+        </div>
+        <div style = "align-self:center; vertical-align:middle; width:75px; margin-right: 0px; border: transparent;">    
+        <paper-button class="try-now-button" on-click="preview_intervention" >Try now</paper-button>
+        </div>
       </div>
+
     </paper-dialog>
 
     <div style="position: relative">
@@ -198,7 +220,7 @@
                     
                 <div style="display:block;">
                   <div>
-                    <img class="interventions" id="intervention" src="{{get_intervention_icon_url(intervention.name)}}" on-click = "openBy" />
+                    <img class="interventions" intervention_info="{{intervention}}" goal_info = "{{goal}}" src="{{get_intervention_icon_url(intervention.name)}}" on-click = "openBy" />
                     <div style="position:relative; left:0px; top:8px; color: white;max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
                   </div>
                   <paper-tooltip class="tooltip" offset="10px" animation-delay="0">{{intervention.description}}</paper-tooltip>
@@ -237,7 +259,7 @@
                     as="intervention">
                     <div style="display:block">
                       <div>
-                        <img class="interventions" src="{{get_intervention_icon_url(intervention.name)}}" on-click = "openBy" />
+                        <img class="interventions" intervention_info="{{intervention}}" goal_info = "{{goal}}" src="{{get_intervention_icon_url(intervention.name)}}" on-click = "openBy" />
                         <div style="position:relative;left:0px; top:8px;color: white; width:105px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:auto;text-align:center;margin-bottom:15px;">
                         {{intervention.displayname}} </div>
                       </div>

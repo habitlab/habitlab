@@ -110,7 +110,9 @@ polymer_ext {
     dialog_intervention: {
       type: Object
     }
-
+    dialog_goal:{
+      type: Object
+    }
     interventions_info:{
       type: Array
     }
@@ -131,6 +133,10 @@ polymer_ext {
     }
     goal_name_to_intervention_info_list: {
       type: Object
+    }
+    pill_button_idx: {
+      type: Number
+      computed: 'get_pill_button_idx(enabled)'
     }
   }
   
@@ -174,42 +180,106 @@ polymer_ext {
   openBy: (evt) ->
     console.log(evt)
     console.log(evt.target)
-    this.$$('#alignedDialog').positionTarget = evt.target
+    dialog_intervention = evt.target.intervention_info
+    dialog_goal = evt.target.goal_info
+    console.log('dialog_intervention')
+    console.log(dialog_intervention)
+    console.log('dialog_goal')
+    console.log(dialog_goal)
+    this.dialog_intervention = dialog_intervention
+    this.dialog_goal = dialog_goal
+    # console.log(this.$$('#alignedDialog').dialog_intervention)
+    # this.$$('#alignedDialog').positionTarget = evt.target
     this.$$('#alignedDialog').open()
     return
 
-  helpOpen: (evt) ->
-    console.log(evt)
-    this.$.animated.open()
-    return   
+  get_dialog_intervention: ->
+    console.log("dialog_intervention_called")
+    console.log(dialog_intervention)
+    return dialog_intervention
 
-  bounce_object: (evt) ->
-    bounce = new Bounce()
-    bounce.scale({
-      from: {x:0.9,y:0.9},
-      to: {x:1,y:1}
-      easing: "bounce",
-      duration: 1000,
-      delay: 0,
-      bounces: 5,
-      stiffness:1
-    });
-    bounce.applyTo(this.SM('.badges'))
-    return
+
+  # helpOpen: (evt) ->
+  #   console.log(evt)
+  #   this.$.animated.open()
+  #   return   
+
+  # bounce_object: (evt) ->
+  #   bounce = new Bounce()
+  #   bounce.scale({
+  #     from: {x:0.9,y:0.9},
+  #     to: {x:1,y:1}
+  #     easing: "bounce",
+  #     duration: 1000,
+  #     delay: 0,
+  #     bounces: 5,
+  #     stiffness:1
+  #   });
+  #   bounce.applyTo(this.SM('.badges'))
+  #   return
   
-  bounce_hearts: (evt) ->
-    bounce2 = new Bounce()
-    bounce2.rotate({
-      from: 0
-      to: 360
-    });
-    bounce2.applyTo(this.SM('.hearts'))
-    return
+  # bounce_hearts: (evt) ->
+  #   bounce2 = new Bounce()
+  #   bounce2.rotate({
+  #     from: 0
+  #     to: 360
+  #   });
+  #   bounce2.applyTo(this.SM('.hearts'))
+  #   return
+
+  pill_button_selected: (evt) ->>
+    buttonidx = evt.detail.buttonidx
+    if buttonidx == 1 # enabled
+      this.enabled = true
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_enabled this.dialog_intervention.name
+      add_log_interventions {
+        type: 'intervention_set_smartly_managed'
+        manual: true
+        intervention_name: this.dialog_intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+    else if buttonidx == 0 # never shown
+      this.enabled = false
+      prev_enabled_interventions = await get_enabled_interventions()
+      await set_intervention_disabled this.dialog_intervention.name
+      add_log_interventions {
+        type: 'intervention_set_always_disabled'
+        manual: true
+        intervention_name: this.dialog_intervention.name
+        prev_enabled_interventions: prev_enabled_interventions
+      }
+  get_pill_button_idx: (enabled) ->
+    if enabled
+      return 1
+    else
+      return 0
+  /*
+  get_dropdown_idx: (automatic, enabled) ->
+    if !automatic
+      if enabled
+        return 1
+      else
+        return 2
+    return 0
+  */
+  preview_intervention: ->
+    intervention_name = this.dialog_intervention.name
+    set_override_enabled_interventions_once intervention_name
+    # if this.dialog_intervention.preview == null
+    #   preview_page = "https://www.facebook.com/"
+    # if this.dialog_goal.preview == null
+    #   preview_page = "https://www.facebook.com/"
+    # else
+    #   preview_page = this.dialog_intervention.preview ? this.dialog_goal.preview ? this.dialog_goal.homepage
+    preview_page = this.dialog_intervention.preview ? this.dialog_goal.preview ? this.dialog_goal.homepage
+    chrome.tabs.create {url: preview_page}
+    console.log('preview_page')
+    console.log(preview_page)
 
   ready: ->>
 
     enabled_goals_info_list = await list_goal_info_for_enabled_goals()
-
     generic_interventions = await list_generic_interventions()
     generic_interventions_info = []
     for x in generic_interventions

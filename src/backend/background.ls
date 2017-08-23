@@ -853,7 +853,7 @@ do !->>
         if loaded_interventions? and loaded_interventions.length > 0
           chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         else
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_cropped.svg')}
       else
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
 
@@ -1059,6 +1059,8 @@ do !->>
       
 
   ensure_history_utils_data_cached()
+
+  chrome.browserAction.setIcon({path: chrome.extension.getURL('icons/icon_cropped.svg')})
 
   require('libs_backend/require_remote_utils')
 

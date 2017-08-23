@@ -51,11 +51,14 @@ Polymer({
     }
   },
   call_to_action_clicked: async function(evt) {
-    console.log('call_to_action_clicked called')
     let goal = evt.target.goal
     if (goal.is_positive) {
       log_action({'positive': 'positive goal site call-to-action clicked'})
-      window.location.href = 'https://' + goal.domain
+      var domain = goal.domain
+      if (domain.search("http") == -1) {
+        domain = 'https://' + domain
+      }
+      window.location.href = domain
     } else {
       log_action({'positive': 'close-tab-button clicked'})
       close_tab_with_id(get_tab_id())

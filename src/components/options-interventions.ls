@@ -137,7 +137,7 @@ polymer_ext {
     
   intro1_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro2').style.display = "block"
+    # this.$$('#intro2').style.display = "block"
 
   #intro2_read: (evt) ->
   #  evt.target.style.display = "none"
@@ -146,8 +146,8 @@ polymer_ext {
 
   intro2_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro4').style.display = "block"
-    this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
+    # this.$$('#intro4').style.display = "block"
+    # this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
     window.scrollTo 0, document.body.scrollHeight
 
   show_how_hl_works: (evt) ->
@@ -159,21 +159,21 @@ polymer_ext {
 
   intro3_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro4').style.display = "block"
-    this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
+    # this.$$('#intro4').style.display = "block"
+    # this.$$('#intro4').scrollTop = this.$$('#intro4').scrollHeight
     window.scrollTo 0, document.body.scrollHeight
 
   intro4_read: (evt) ->
     evt.target.style.display = "none"
     
-    this.$$('#intro6').style.display = "block"
+    # this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   
 
   intro5_read: (evt) ->
     evt.target.style.display = "none"
-    this.$$('#intro6').style.display = "block"
+    # this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   show_swal: ->
@@ -190,7 +190,7 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
     this.$$('#configurations').style.display = "block"
-    this.$$('#intro3').style.display = "block"
+    # this.$$('#intro3').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
   show_intro_button_clicked: ->
@@ -304,10 +304,11 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
   rerender_privacy_options: ->
-    this.$.privacy_options.rerender()
+    # this.$.privacy_options.rerender()
   rerender: ->>
-    this.$.privacy_options.rerender()
+    # this.$.privacy_options.rerender()
     await this.$.goal_selector.set_sites_and_goals()
+    await this.$.positive_goal_selector.set_sites_and_goals()
 }, [
   {
     source: require 'libs_common/localization_utils'

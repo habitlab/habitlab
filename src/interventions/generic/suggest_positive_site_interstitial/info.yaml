@@ -1,0 +1,8 @@
+description: Before visiting the site, prompts if you want to go to a site that you said you want to spend more time on.
+displayname: Why Not Bot
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+categories:
+  - interstitial
+  - positive-site-trigger

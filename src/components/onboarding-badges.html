@@ -264,8 +264,7 @@
                     <div style="display:block">
                       <div>
                         <img class="interventions" intervention_info="{{intervention}}" goal_info = "{{goal}}" src="{{get_intervention_icon_url(intervention)}}" on-click = "openBy" />
-                        <div style="position:relative;left:0px; top:8px;color: white; width:105px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:auto;text-align:center;margin-bottom:15px;">
-                        {{intervention.displayname}} </div>
+                        <div style="position:relative; left:0px; top:8px; color: white;max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
                       </div>
                       <paper-tooltip class="tooltip" offset="10px" animation-delay="0">{{intervention.description}}</paper-tooltip>
                     </div>

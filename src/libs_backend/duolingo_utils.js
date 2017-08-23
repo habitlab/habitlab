@@ -18,6 +18,10 @@ async function get_duolingo_username_uncached() {
   return duolingo_text_after_username.substr(0, username_end_idx)
 }
 
+async function reset_cached_username() {
+  await setvar('duolingo_username', '')
+}
+
 async function get_duolingo_username() {
   let cached_duolingo_username = await getvar('duolingo_username')
   if (cached_duolingo_username != null && cached_duolingo_username.length > 0) {
@@ -38,8 +42,27 @@ async function get_duolingo_info_for_user(username) {
 }
 
 async function get_duolingo_info() {
-  let duolingo_username = await get_duolingo_username()
-  return await get_duolingo_info_for_user(duolingo_username)
+  var duolingo_username = await get_duolingo_username()
+  try {
+    return await get_duolingo_info_for_user(duolingo_username)
+  } catch (err) {
+    console.error(err)
+    console.log('resetting username cache and trying again...')
+    await reset_cached_username()
+    duolingo_username = await get_duolingo_username()
+    return await get_duolingo_info_for_user(duolingo_username)
+  }
+}
+
+async function get_duolingo_is_logged_in() {
+  let username = await get_duolingo_username_uncached()
+  return username != ''
+}
+
+/// Precondition: user is logged in (call get_whether_logged_in() first)
+async function get_duolingo_streak() {
+  let info = await get_duolingo_info()
+  return info.site_streak
 }
 
 module.exports = {
@@ -47,4 +70,6 @@ module.exports = {
   get_duolingo_username_uncached,
   get_duolingo_info_for_user,
   get_duolingo_info,
+  get_duolingo_streak,
+  get_duolingo_is_logged_in
 }

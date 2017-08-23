@@ -33,7 +33,7 @@ polymer_ext {
   properties: {
     slide_idx: {
       type: Number
-      value: if (window.hashdata_unparsed == 'last') then 2 else 0
+      value: if (window.hashdata_unparsed == 'last') then 3 else 0
       observer: 'slide_changed'
     }
     prev_slide_idx: {
@@ -248,8 +248,8 @@ polymer_ext {
     if this.slide_idx == 1 # on the goal selector page
       this.$.goal_selector.repaint_due_to_resize()
       return
-    #else if this.slide_idx == 2
-    #  this.$.positive_goal_selector.repaint_due_to_resize()
+    else if this.slide_idx == 2
+      this.$.positive_goal_selector.repaint_due_to_resize()
     current_height = 400
     target_height = window.innerHeight - 80
     current_width = 600
@@ -270,7 +270,7 @@ polymer_ext {
     $('body').css('overflow', 'hidden')
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
-    #this.$$('#positive_goal_selector').set_sites_and_goals()
+    this.$$('#positive_goal_selector').set_sites_and_goals()
     this.last_mousewheel_time = 0
     this.last_mousewheel_deltaY = 0
     this.keydown_listener_bound = this.keydown_listener.bind(this)
@@ -360,8 +360,8 @@ polymer_ext {
       if not localStorage.getItem('enable_debug_terminal')?
         localStorage.setItem('enable_debug_terminal', 'true')
     console.log('calling set_sites_and_goals')
-    this.$$('#goal_selector').repaint_due_to_resize_once_in_view()
-    #this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
+    this.$.goal_selector.repaint_due_to_resize_once_in_view()
+    this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
     this.insert_iframe_for_setting_userid()
     /*
     self = this

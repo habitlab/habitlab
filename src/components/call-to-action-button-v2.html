@@ -1,0 +1,15 @@
+<link rel="import" href="close-tab-button.html">
+<link rel="import" href="positive-goal-site-button.html">
+
+<dom-module id="call-to-action-button-v2">
+  <template>
+    <template is="dom-if" if="{{useCloseTabButton}}">
+      <close-tab-button text="{{closeTabText}}"/>
+    </template>
+    <template is="dom-if" if="{{usePositiveGoalSiteButton}}">
+      <positive-goal-site-button goal="{{goal}}"/>
+    </template>
+  </template>
+
+  <script src="call-to-action-button-v2.js"></script>
+</dom-module>

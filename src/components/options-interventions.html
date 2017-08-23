@@ -17,6 +17,7 @@
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="initial-goal-selector.html">
+<link rel="import" href="positive-goal-selector.html">
 <link rel="import" href="privacy-options.html">
 <link rel="import" href="update-check.html">
 <link rel="import" href="advanced-features.html">
@@ -229,15 +230,11 @@
   </style>
   <template>
     <div class="card-container">
-    
-    
-    
-    
       <div id="intro1" class="intro" style="display: none;">
         <paper-card id = "title" style = "color:white" class="papercard">
 
-          <div>When should interventions be active?</div>
-          <div class="card-content" >You can set interventions to be always on, or only active during work hours.
+          <div>When should nudges be active?</div>
+          <div class="card-content" >You can set nudges to be always on, or only active during work hours.
             <br>
             <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
              <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
@@ -322,6 +319,12 @@
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
     </paper-card>
 
+    <paper-card class="papercard" heading="{{title_text}}">
+      <!--<div style="padding: 16px; font-size: 24px; font-weight: 400; color: black">What goals should HabitLab help you achieve? <iron-icon icon="help-outline" on-click="goals_help_icon_clicked" style="margin-bottom: 5px; cursor: pointer"></iron-icon></div>-->
+      <positive-goal-selector id="positive_goal_selector" />
+      <paper-button id="positive-goals-button" class="next-button" on-click="goals_set">Next</paper-button>
+    </paper-card>
+
       <!--<div id="intro3" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
           <div class="card-content" id="intro1_content">
@@ -333,7 +336,7 @@
       </div>-->
 
       <!--<div id="intro2" class="intro" style="display:none;">
-        <paper-card heading="Which interventions will HabitLab show me?" class="papercard"> 
+        <paper-card heading="Which nudges will HabitLab show me?" class="papercard"> 
           <div class="card-content">
            
            At first, HabitLab will show you a random nudge each visit, and over time it will learn what works most effectively for you.
@@ -402,7 +405,6 @@
       </div>
 
     </div>
-
   </template>
   <script src="options-interventions.js"></script>
 </dom-module>

@@ -57,11 +57,13 @@ do !->>
 
   {
     get_goals
+    get_goal_info
     get_enabled_goals
     get_goal_target
     get_goal_intervention_info
     set_goals_enabled
     set_default_goals_enabled
+    get_random_uncompleted_positive_goal
   } = require 'libs_backend/goal_utils'
 
   {
@@ -329,6 +331,9 @@ do !->>
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
 
+    goal_info = await get_goal_info(intervention_info.goals[0])
+    positive_goal_info = await get_random_uncompleted_positive_goal()
+
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
     parameter_values = await get_intervention_parameters(intervention_info.name)
     for i in [0 til intervention_info_copy.parameters.length]
@@ -461,6 +466,8 @@ do !->>
         window.Polymer.dom = 'shadow'
         SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
+          intervention_info_setter_lib.set_goal_info(#{JSON.stringify(goal_info)});
+          intervention_info_setter_lib.set_positive_goal_info(#{JSON.stringify(positive_goal_info)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
           SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_code)))}');
         })
@@ -505,6 +512,8 @@ do !->>
     if (!window.loaded_content_scripts['#{options.path}']) {
       window.loaded_content_scripts['#{options.path}'] = true;
       const intervention = #{JSON.stringify(intervention_info_copy)};
+      const goal_info = #{JSON.stringify(goal_info)};
+      const positive_goal_info = #{JSON.stringify(positive_goal_info)}
       const parameters = #{JSON.stringify(parameter_values)};
       const tab_id = #{tabId};
       const dlog = function(...args) { console.log(...args); };
@@ -524,6 +533,8 @@ do !->>
       #{debug_content_script_code_with_hlog}
       SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
         intervention_info_setter_lib.set_intervention(intervention);
+        intervention_info_setter_lib.set_goal_info(goal_info);
+        intervention_info_setter_lib.set_positive_goal_info(positive_goal_info);
         intervention_info_setter_lib.set_tab_id(tab_id);
         log_utils.log_impression();
         document.body.addEventListener('disable_intervention', function() {
@@ -551,6 +562,9 @@ do !->>
     return
 
   load_intervention_list = (intervention_list, tabId) ->>
+
+    console.log 'load_intervention_list'
+    console.log intervention_list
     if intervention_list.length == 0
       return
 
@@ -619,6 +633,8 @@ do !->>
       domain_to_prev_enabled_interventions[domain] = []
     prev_enabled_interventions = domain_to_prev_enabled_interventions[domain]
     all_enabled_interventions = await list_all_enabled_interventions_for_location(domain)
+    console.log 'all_enabled_interventions is'
+    console.log all_enabled_interventions
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
     session_id = await get_session_id_for_tab_id_and_domain(tabId, domain)
@@ -629,11 +645,16 @@ do !->>
     dlog 'override_enabled_interventions is'
     dlog override_enabled_interventions
     if not active_interventions?
+      console.log 'active_interventions_not_defined'
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
+      console.log 'possible_interventions is'
+      console.log possible_interventions
       intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
+      console.log 'intervention is'
+      console.log intervention
       if intervention?
         await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
       else
@@ -678,6 +699,7 @@ do !->>
         else
           await set_active_interventions_for_domain_and_session domain, session_id, []
         localStorage.removeItem('override_enabled_interventions_once')
+    console.log 'location 3'
     page_was_just_refreshed := false
     interventions_to_load = []
     if intervention?
@@ -737,6 +759,8 @@ do !->>
       output.push curlist
     return output
 
+  iframed_domain_to_track = null
+
   css_packages = require('libs_common/css_packages')
   css_files_cached = require('libs_common/css_files_cached')
 
@@ -786,6 +810,12 @@ do !->>
       existing_messages.push data
       localstorage_setjson('debug_terminal_messages', existing_messages)
       return
+    'set_alternative_url_to_track': (data) ->>
+      {url} = data
+      if url?
+        iframed_domain_to_track := url_to_domain(url)
+      else
+        iframed_domain_to_track := null
   }
 
   #tabid_to_current_location = {}
@@ -816,6 +846,8 @@ do !->>
     new_domain = url_to_domain(url)
     if new_domain != prev_domain
       domain_changed(new_domain)
+      iframed_domain_to_track = null
+    
     #if tabid_to_current_location[tabId] == url
     #  return
     #tabid_to_current_location[tabId] = url
@@ -828,10 +860,18 @@ do !->>
     #dlog "navigation_occurred to #{url}"
     load_intervention_for_location url, tabId
 
+  # A bit naive and over-conservative, but a start
+  chrome.windows.onFocusChanged.addListener (windowId) ->
+    iframed_domain_to_track = null
+  
+  chrome.windows.onRemoved.addListener (windowId) ->
+    iframed_domain_to_track = null
+
   chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
     if changeInfo.status == 'loading' and not changeInfo.url?
       # user refreshed the page
       page_was_just_refreshed := true
+      iframed_domain_to_track = null
     if tab.url
       tab_id_to_url[tabId] = tab.url
       #dlog 'tabs updated!'
@@ -860,7 +900,6 @@ do !->>
           chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
       else
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
-
   reward_display_base_code_cached = null
 
   chrome.tabs.onRemoved.addListener (tabId, info) ->>
@@ -891,6 +930,7 @@ do !->>
       return
     reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
     chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
+    iframed_domain_to_track = null
 
   /*
   setInterval ->>
@@ -988,7 +1028,10 @@ do !->>
       return
     if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
       return
-    current_domain = url_to_domain(active_tab.url)
+    if iframed_domain_to_track?
+      current_domain = iframed_domain_to_track
+    else
+      current_domain = url_to_domain(active_tab.url)
     current_day = get_days_since_epoch()
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
     session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)

@@ -1,0 +1,325 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/marked-element/marked-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="intervention-editor-tutorial">
+  <style>
+    .editor {
+      width: 300px;
+      height: 300px;
+    }
+  </style>
+  <template>
+
+    <p>You can write new interventions within HabitLab by visiting the <a href="http://habitlab.github.io/to?tag=intervention-editor-onboard">intervention editor</a> (you need to <a href="https://habitlab.stanford.edu/chrome">install HabitLab</a> first)</p>
+      
+      <p>You can find the code for built-in interventions at <a href="https://github.com/habitlab/habitlab/tree/master/src/interventions/">src/interventions</a> and see interventions others have shared at [[Share Interventions]]</p>
+      
+      <h2 id="examples">Examples</h2>
+      
+      <p>Interventions are written in JavaScript. You can find tutorials which teach you JavaScript and web development <a href="Technologies">here</a>.</p>
+      
+      <h3 id="showanalert">Show an alert</h3>
+      
+      <p>This intervention will show an alert saying "Hello World" when you visit the website.</p>
+
+      <div class="editor" id="hello_world_editor"></div>
+
+      <paper-button raised on-click="demo_clicked" srcname="hello_world_editor">Demo</paper-button>
+      
+      <h3 id="flippageupsidedown">Flip page upside down</h3>
+      
+      <p>This intervention (tested on youtube and buzzfeed) will flip the page upside down.</p>
+      
+      <div class="editor" id="flip_page_editor"></div>
+
+      <pre><code class="javascript language-javascript">document.body.style.transform = 'rotate(180deg)';
+      </code></pre>
+      
+      <h3 id="flippageupsidedownusingastylesheet">Flip page upside down using a stylesheet</h3>
+      
+      <p>This is the same as the intervention above, but implemented by injecting CSS code into the page.</p>
+      
+      <pre><code class="javascript language-javascript">require_style(`
+        body {
+          transform: rotate(180deg);
+        }
+      `)
+      </code></pre>
+      
+      <p>Here, <a href="require_style"><code>require_style</code></a> allows you to inject CSS code into the page.</p>
+      
+      <h3 id="flippageupsidedownusingjquery">Flip page upside down using jquery</h3>
+      
+      <p>This is the same as the intervention above, but implemented with <a href="http://api.jquery.com/">jquery</a>.</p>
+      
+      <pre><code class="javascript language-javascript">var $ = require('jquery');
+      
+      $('body').css('transform', 'rotate(180deg)');
+      </code></pre>
+      
+      <p>Here, <a href="require"><code>require</code></a> allows you to use [[libraries]] (such as <a href="http://api.jquery.com/">jquery</a>) that are included in HabitLab to make it easier to write interventions.</p>
+      
+      <h3 id="changeopacityeverysecondusingjquery">Change opacity every second using jquery</h3>
+      
+      <p>This intervention changes the opacity of the page to a random value every second.</p>
+      
+      <pre><code class="javascript language-javascript">var $ = require('jquery');
+      
+      setInterval(function() {
+        $('body').css('opacity', Math.random());
+      }, 1000);
+      </code></pre>
+      
+      <h3 id="showadialogusingsweetalert2">Show a Dialog using sweetalert2</h3>
+      
+      <p>Here is another example intervention (tested on youtube and buzzfeed) that shows a <a href="https://limonte.github.io/sweetalert2/">sweetalert2</a> dialog</p>
+      
+      <pre><code class="javascript language-javascript">var sweetalert = require_package('sweetalert2');
+      
+      sweetalert({
+        title: 'Hello World',
+        text: 'This is a sample intervention'
+      })
+      </code></pre>
+      
+      <p>Here, <a href="require_package"><code>require_package</code></a> is a shorthand that ensures the necessary css is injected, and uses <a href="require"><code>require</code></a> to use <a href="https://limonte.github.io/sweetalert2/">sweetalert2</a>, which is one of the [[libraries]] included in HabitLab.</p>
+      
+      <h3 id="displayinginformationabouttimespentonsitetoday">Displaying information about time spent on site today</h3>
+      
+      <p>This intervention will show an alert displaying how much time you spent on a site today.</p>
+      
+      <pre><code class="javascript language-javascript">var sweetalert = require_package('sweetalert2');
+      var {get_seconds_spent_on_current_domain_today} = require('libs_common/time_spent_utils');
+      
+      var seconds_spent = await get_seconds_spent_on_current_domain_today();
+      sweetalert('You have spent ' + seconds_spent + ' seconds here today');
+      </code></pre>
+      
+      <p>Here, <code>get_seconds_spent_on_current_domain_today</code> is a function provided by <a href="https://github.com/habitlab/habitlab/blob/master/src/libs_common/time_spent_utils.ls"><code>libs_common/time_spent_utils</code></a>, which is one of the internal [[libraries]] that HabitLab provides. Because it is an <a href="async-functions">asynchronous function</a> that returns a <code>Promise</code>, we need to use <code>await</code> when calling it.</p>
+      
+      <h3 id="insertamessageintothepageusingjquery">Insert a message into the page using jquery</h3>
+      
+      <p>This example uses jquery to insert a message "Hello world" into the page. The inserted message will be shown on the top-left corner of the page and will have a red background. Clicking on the message will show an alert.</p>
+      
+      <pre><code class="javascript language-javascript">var $ = require('jquery');
+      var sweetalert = require_package('sweetalert2');
+      
+      var mydiv = $('&lt;div&gt;').text('Hello world').css({
+        'background-color': 'red',
+        'color': 'white',
+        'z-index': 9007199254740991,
+        'position': 'fixed',
+        'top': '0px',
+        'left': '0px'
+      });
+      
+      mydiv.click(function() {
+        sweetalert('the message was clicked');
+      })
+      
+      $('body').append(mydiv);
+      </code></pre>
+      
+      <h3 id="showabuttonusingpaperbutton">Show a Button using paper-button</h3>
+      
+      <p>This intervention uses a <a href="https://www.polymer-project.org/1.0/">Polymer</a> component (<a href="https://www.webcomponents.org/element/PolymerElements/paper-button"><code>paper-button</code></a>) to show a button in the top-left corner of the page. When clicked, the button will show an alert.</p>
+
+      <marked-element>
+          <div slot="markdown-html"></div>
+          <script type="text/markdown">
+            ```javascript
+            require_component('paper-button');
+            
+            var $ = require('jquery');
+            var sweetalert = require_package('sweetalert2');
+            
+            var button = $('<paper-button>').text('Click me').css({
+              'background-color': 'red',
+              'color': 'white',
+              'z-index': 9007199254740991,
+              'position': 'fixed',
+              'top': '0px',
+              'left': '0px'
+            });
+            
+            button.click(function() {
+              sweetalert('button was clicked');
+            })
+            
+            $('body').append(button);
+            ```
+          </script>
+        </marked-element>
+
+      <paper-button raised>Demo</paper-button>
+
+      <pre><code class="javascript language-javascript">require_component('paper-button');
+      
+      var $ = require('jquery');
+      var sweetalert = require_package('sweetalert2');
+      
+      var button = $('&lt;paper-button&gt;').text('Click me').css({
+        'background-color': 'red',
+        'color': 'white',
+        'z-index': 9007199254740991,
+        'position': 'fixed',
+        'top': '0px',
+        'left': '0px'
+      });
+      
+      button.click(function() {
+        sweetalert('button was clicked');
+      })
+      
+      $('body').append(button);
+      </code></pre>
+      
+      <p>Here, <a href="require_component"><code>require_component</code></a> allows us to use Polymer [[components]] (which are essentially custom HTML tags). The list of available components is at [[components]].</p>
+      
+      <h3 id="showabuttonbydefiningyourownpolymercomponent">Show a Button by defining your own Polymer component</h3>
+      
+      <p>This intervention is the same as the previous one. But this time we will implement it by defining a custom <a href="https://www.polymer-project.org/1.0/">Polymer</a> component titled <code>my-button</code> and using it within the intervention.</p>
+      
+      <pre><code class="javascript language-javascript">require_component('paper-button');
+      
+      var $ = require('jquery');
+      var sweetalert = require_package('sweetalert2');
+      
+      define_component(`
+        &lt;style&gt;
+          .redbutton {
+            background-color: red;
+            color: white;
+            z-index: 9007199254740991;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+          }
+        &lt;/style&gt;
+        &lt;template&gt;
+          &lt;paper-button class="redbutton" on-click="button_clicked"&gt;Click me&lt;/paper-button&gt;
+        &lt;/template&gt;
+      `, {
+        is: 'my-button',
+        button_clicked: function() {
+          sweetalert('button was clicked');
+        }
+      })
+      
+      var custom_component = $('&lt;my-button&gt;');
+      $('body').append(custom_component);
+      </code></pre>
+      
+      <p>Here, <a href="define_component"><code>define_component</code></a> is used for defining a custom Polymer component. It takes as first argument a string that describes the HTML (style and template) that the component should contain, and the second argument is an object with fields that define its name, properties, methods, and events.</p>
+      
+      <h3 id="acustompolymercomponentthatdisplayssecondselapsed">A Custom Polymer Component that Displays Seconds Elapsed</h3>
+      
+      <p>This is another example of defining a custom Polymer component, this one named <code>time-spent-counter-banner</code>. This intervention will display a counter displaying the number of seconds spent on the page with white text on a black background in the top-left corner:</p>
+      
+      <pre><code class="javascript language-javascript">var $ = require('jquery');
+      
+      define_component(`
+        &lt;style&gt;
+          .white_on_black {
+            color: white;
+            background-color: black;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index: 9007199254740991;
+          }
+        &lt;/style&gt;
+        &lt;template&gt;
+          &lt;div class="white_on_black"&gt;
+            &lt;div&gt;Hello you've been here for {{seconds_elapsed}} seconds&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/template&gt;
+      `, {
+        is: 'time-spent-counter-banner',
+        properties: {
+          seconds_elapsed: {
+            type: Number,
+            value: 0
+          }
+        },
+        ready: function() {
+          var self = this
+          setInterval(function() {
+            self.seconds_elapsed += 1
+          }, 1000)
+        }
+      })
+      
+      var custom_component = $('&lt;time-spent-counter-banner&gt;');
+      $('body').append(custom_component);
+      </code></pre>
+      
+      <h3 id="acustompolymercomponentthatdisplayssecondselapsedandshowsthehabitlablogoandaclosebutton">A Custom Polymer Component that Displays Seconds Elapsed and shows the HabitLab logo and a close button</h3>
+      
+      <p>This is an enhancement of the previous intervention which displays the components <a href="https://github.com/habitlab/habitlab/blob/master/src/components/habitlab-logo.html"><code>habitlab-logo</code></a> and <a href="https://github.com/habitlab/habitlab/blob/master/src/components/close-tab-button.html"><code>close-tab-button</code></a> which are both <a href="components">custom components built-in to HabitLab</a></p>
+      
+      <pre><code class="javascript language-javascript">require_component('habitlab-logo');
+      require_component('close-tab-button');
+      
+      var $ = require('jquery');
+      
+      define_component(`
+        &lt;style&gt;
+          .white_on_black {
+            color: white;
+            background-color: black;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index: 9007199254740991;
+            text-align: center;
+            padding: 10px;
+          }
+        &lt;/style&gt;
+        &lt;template&gt;
+          &lt;div class="white_on_black"&gt;
+            &lt;div&gt;Hello you've been here for {{seconds_elapsed}} seconds&lt;/div&gt;
+            &lt;habitlab-logo&gt;&lt;/habitlab-logo&gt;
+            &lt;br&gt;
+            &lt;close-tab-button&gt;&lt;/close-tab-button&gt;
+          &lt;/div&gt;
+        &lt;/template&gt;
+      `, {
+        is: 'time-spent-counter-banner',
+        properties: {
+          seconds_elapsed: {
+            type: Number,
+            value: 0
+          }
+        },
+        ready: function() {
+          var self = this
+          setInterval(function() {
+            self.seconds_elapsed += 1
+          }, 1000)
+        }
+      })
+      
+      var custom_component = $('&lt;time-spent-counter-banner&gt;');
+      $('body').append(custom_component);
+      </code></pre>
+      
+      <h2 id="usingexternallibraries">Using external libraries</h2>
+      
+      <p>You can use external libraries using <a href="require_remote"><code>require_remote</code></a> [supported only in HabitLab version 1.0.85 and higher]</p>
+      
+      <pre><code class="javascript language-javascript">var d3 = require_remote('https://d3js.org/d3.v4.min.js');
+      alert('imported d3 version ' + d3.version);
+      </code></pre>
+      
+      <h2 id="moreexamples">More Examples</h2>
+      
+      <p>You can find the code for built-in interventions at <a href="https://github.com/habitlab/habitlab/tree/master/src/interventions/">src/interventions</a></p>
+      
+      <h1 id="shareinterventions">Share Interventions</h1>
+      
+      <p>[[Share Interventions]]</p>
+  </template>
+  <script src="intervention-editor-tutorial.js"></script>
+</dom-module>

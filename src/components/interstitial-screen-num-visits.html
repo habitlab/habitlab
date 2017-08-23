@@ -2,11 +2,13 @@
 <link rel="import" href="habitlab-logo.html">
 <link rel="import" href="habitlab-rss-message.html">
 <link rel="import" href="workpages-message.html">
+<link rel="import" href="positive-site-trigger.html">
 <link rel="import" href="goal-progress-message.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
 <link rel="import" href="../bower_components/paper-progress/paper-progress.html">
-<link rel="import" href="close-tab-button.html">
+<link rel="import" href="call-to-action-button.html">
+<link rel="import" href="quote-message.html">
 
 <dom-module id="interstitial-screen-num-visits">
   <template>
@@ -20,6 +22,11 @@
       height: 100%;
       background-color: #95CBEE;
       z-index: 35000000;
+
+      --call-to-action-button-height: 38px;
+      /*--call-to-action-button-font-size: 14px;*/
+      --call-to-action-button-padding: 5px;
+      --call-to-action-button-margin: 0px 0px 10px 0px;
     }
 
 
@@ -60,14 +67,7 @@
       height: 38px;
       box-shadow: 2px 2px 2px #888888;
     }
-    .closeTabButton {
-      cursor: pointer;
-      padding: 5px;
-      margin-top: 0px;
-      margin-bottom: 10px; 
-      font-size: 14px;
-      height: 38px;
-    }    
+
     #logo {
       margin-top: 10px;
       padding-bottom: 10px;
@@ -97,28 +97,33 @@
 
 
     
-    <div class="whiteDiv">
-      	
+  <div class="whiteDiv">   	
     <div id="block_container" style="margin-top: 50px">
-       <div id = "today" class=timer-text style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
-         <br>You have visited it <b>{{visits}}</b> times.   
+        <div id = "today" class="timer-text" style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
+          <br>You have visited it <b>{{visits}}</b> times.   
         </div>
     </div>
 
-      <template is="dom-if" if="{{show_rss_message}}">
-        <habitlab-rss-message class="message-block"></habitlab-rss-message>
-      </template>
-      <template is="dom-if" if="{{show_workpages_message}}">
-        <workpages-message class="message-block"></workpages-message>
-      </template>
-      <center><habitlab-logo id="logo"></habitlab-logo><center>
-      <center><close-tab-button id="closetabbutton" class="closeTabButton"></close-tab-button></center>
+    <template is="dom-if" if="{{show_quote_message}}">
+      <quote-message class="message-block"></quote-message>
+    </template>
+    <template is="dom-if" if="{{show_positive_site_trigger}}">
+      <positive-site-trigger class="message-block"></positive-site-trigger>
+    </template>
+    <template is="dom-if" if="{{show_rss_message}}">
+      <habitlab-rss-message class="message-block"></habitlab-rss-message>
+    </template>
+    <template is="dom-if" if="{{show_workpages_message}}">
+      <workpages-message class="message-block"></workpages-message>
+    </template>
+    <center><habitlab-logo id="logo"></habitlab-logo><center>
+    <center><close-tab-button id="calltoactionbutton"/></center>
 
-      <div class="contentContainer">
-        <center><paper-progress id="paperprogress"></paper-progress></center>
-        <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">OK</paper-button></center>
-      </div>
+    <div class="contentContainer">
+      <center><paper-progress id="paperprogress"></paper-progress></center>
+      <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">OK</paper-button></center>
     </div>
+  </div>
 
   </template>
   

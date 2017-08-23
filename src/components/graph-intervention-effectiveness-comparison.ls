@@ -65,7 +65,11 @@ polymer_ext {
       if minutes_saved < 0
         minutes_saved = 0
       intervention_info = all_interventions[intervention_name]
-      intervention_displayname = intervention_info.displayname
+
+      if intervention_info?
+        intervention_displayname = intervention_info.displayname
+      else
+        console.error 'unable to find info for ' + intervention_name
       intervention_minutes_saved_and_displayname.push {
         name: intervention_name
         displayname: intervention_displayname

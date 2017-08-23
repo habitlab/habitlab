@@ -5,7 +5,7 @@ const {
 } = require('libs_frontend/frontend_libs')
 
 require_component('habitlab-logo')
-require_component('close-tab-button')
+require_component('call-to-action-button')
 
 //Polymer button
 require_component('paper-button')
@@ -25,7 +25,7 @@ function removeComments() {
           $(item).css('display','block')
       })
       var habitlab_logo = $('<habitlab-logo style="margin-left: 5px; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px"></habitlab-logo>')
-      var close_tab_button = $('<close-tab-button style="height: 38px; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px"</close-tab-button>')
+      var close_tab_button = $('<call-to-action-button style="height: 38px; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px"</call-to-action-button>')
       var button_container = $('<div style="text-align: center; display: flex; justify-content: center;"></div>')
       button_container.append([
         show_comments_button,

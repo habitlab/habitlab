@@ -350,6 +350,8 @@ export get_goals = ->>
         continue
       for goal_name in intervention_info.goals
         goal_info = output[goal_name]
+        if not goal_info?
+          continue
         intervention_name_set = goal_name_to_intervention_name_set[goal_name]
         if not intervention_name_set?
           intervention_name_set = {[existing_intervention_name, true] for existing_intervention_name in goal_info.interventions}
@@ -365,6 +367,64 @@ export get_goals = ->>
       goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
   return output
 
+/**
+ * Gets the goal info for all goals where is_positive set to true, in the form of an object mapping goal names to goal info
+ * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info
+ */
+export get_positive_enabled_goals = ->>
+  goal-to-info-map = await get_goals!
+  enabled_goals = await get_enabled_goals!
+  output = {}
+  for goal, goal_info of goal-to-info-map
+    if enabled_goals[goal] and goal_info.is_positive
+      output[goal] = goal_info
+  return output
+
+/**
+ * Gets the goal info for all goals where is_positive set to true and that have not yet been completed
+ * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info
+ */
+export get_positive_enabled_uncompleted_goals = ->>
+  goals = await get_positive_enabled_goals!
+  output = {}
+  completed_promises_list = []
+  goal_list = Object.keys(goals)
+  for goal_name in goal_list
+    completed_promises_list.push goal_progress.get_whether_goal_achieved_today(goal_name)
+  completed_list = await Promise.all completed_promises_list
+  for goal_name,idx in goal_list
+    completed = completed_list[idx]
+    goal_info = goals[goal_name]
+    if not completed
+      output[goal_name] = goal_info
+  return output
+
+/**
+ * Gets the goal info for a random enabled positive goal
+ * @return {GoalInfo} The goal info
+ */
+export get_random_positive_goal = ->>
+  goal-name-to-goal-info = await get_positive_enabled_goals!
+  return get_random_value_from_object goal-name-to-goal-info
+
+/**
+ * Gets the goal info for a random enabled uncompleted positive goal
+ * @return {GoalInfo} The goal info
+ */
+export get_random_uncompleted_positive_goal = ->>
+  goal-name-to-goal-info = await get_positive_enabled_uncompleted_goals!
+  console.log goal-name-to-goal-info
+  return get_random_value_from_object goal-name-to-goal-info
+
+get_random_value_from_object = (obj) ->
+  keyList = Object.keys obj
+  if keyList.length == 0
+    return null
+  rand-index = Math.floor (Math.random! * keyList.length)
+  key = keyList[rand-index]
+  return obj[key]  
+
+/* TODO: Consolidate with get_positive_enabled_goals */
 export get_spend_more_time_goals = ->>
   goals = await get_goals()
   spend-more-time-goals = {}
@@ -411,24 +471,34 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   domain_printable = domain
   if domain_printable.startsWith('www.')
     domain_printable = domain_printable.substr(4)
-  custom_goal_name = "custom/spend_less_time_#{domain}"
-  generic_interventions = await intervention_utils.list_generic_interventions()
-  fix_names_generic = (x) ->
-    return x.replace('generic/', "generated_#{domain}/")
-  fix_names_video = (x) ->
-    return x.replace('video/', "generated_#{domain}/")
-  generated_interventions = generic_interventions.map(fix_names_generic)
-  default_interventions = [
-    'generic/toast_notifications'
-    'generic/show_timer_banner'
-  ].map(fix_names_generic)
-  if intervention_utils.is_video_domain(domain)
-    video_interventions = await intervention_utils.list_video_interventions()
-    generated_interventions = generated_interventions.concat(video_interventions.map(fix_names_video))
+  
+  if is-positive
+    custom_goal_name = "custom/spend_more_time_#{domain}"
+    description = "Spend more time on #{domain_printable}"
+    call_to_action = "Go to #{domain_printable}"
+  else
+    custom_goal_name = "custom/spend_less_time_#{domain}"
+    description = "Spend less time on #{domain_printable}"
+    call_to_action = "Close #{domain_printable}"
+    generic_interventions = await intervention_utils.list_generic_interventions()
+    fix_names_generic = (x) ->
+      return x.replace('generic/', "generated_#{domain}/")
+    fix_names_video = (x) ->
+      return x.replace('video/', "generated_#{domain}/")
+    generated_interventions = generic_interventions.map(fix_names_generic)
+    default_interventions = [
+      'generic/toast_notifications'
+      'generic/show_timer_banner'
+    ].map(fix_names_generic)
+    if intervention_utils.is_video_domain(domain)
+      video_interventions = await intervention_utils.list_video_interventions()
+      generated_interventions = generated_interventions.concat(video_interventions.map(fix_names_video))
+        
   goal_info = {
     name: custom_goal_name
     custom: true
-    description: "Spend less time on #{domain_printable}"
+    description: description
+    call_to_action: call_to_action
     homepage: "http://#{domain}/"
     progress_description: "Time spent on #{domain_printable}"
     sitename: domain
@@ -499,11 +569,12 @@ export get_interventions_to_goals = ->>
   output = {}
   goals = await get_goals()
   for goal_name,goal_info of goals
-    if goal_info.interventions?
-      for intervention_name in goal_info.interventions
-        if not output[intervention_name]?
-          output[intervention_name] = []
-        output[intervention_name].push goal_name
+    if not goal_info.interventions?
+      continue
+    for intervention_name in goal_info.interventions
+      if not output[intervention_name]?
+        output[intervention_name] = []
+      output[intervention_name].push goal_name
   return output
 
 export get_goals_for_intervention = (intervention_name) ->>
@@ -549,5 +620,6 @@ export list_goal_info_for_enabled_goals = ->>
 
 intervention_utils = require 'libs_backend/intervention_utils'
 log_utils = require 'libs_backend/log_utils'
+goal_progress = require 'libs_common/goal_progress'
 
 gexport_module 'goal_utils', -> eval(it)

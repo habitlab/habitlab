@@ -23,7 +23,7 @@ const {
 }  = require('libs_frontend/facebook_utils')
 
 require_component('habitlab-logo')
-require_component('close-tab-button')
+require_component('call-to-action-button')
 require_component('paper-button')
 
 var feedShown = false;
@@ -66,13 +66,13 @@ function attachButtons() {
     log_action({'negative': 'Remained on Facebook.'})
     showFeed()
   })
-  var closeButton = $(`<close-tab-button text="${msg('Close Facebook')}">`)
+  var callToActionButton = $(`<call-to-action-button style="height:38px">`)
   var habitlab_show_feed_div = $('<div>')
   .css({
     'text-align': 'center'
   })
   .append([
-    closeButton,
+    callToActionButton,
     '<br><br>',
     cheatButton,
     '<br><br>',

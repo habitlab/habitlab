@@ -1,5 +1,6 @@
 description: Spend less time on Twitter
 progress_description: Time spent on Twitter
+call_to_action: Close Twitter
 interventions:
   - twitter/remove_twitter_feed
   - generic/toast_notifications

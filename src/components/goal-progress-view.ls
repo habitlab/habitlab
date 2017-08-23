@@ -29,6 +29,10 @@ require! {
 polymer_ext {
   is: 'goal-progress-view'
   properties: {
+    loaded: {
+      type: Boolean
+      value: false
+    }
     goal: {
       type: String
       observer: 'goalChanged'
@@ -101,7 +105,7 @@ polymer_ext {
         }]        
       }
     }
-
+    this.loaded = true
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

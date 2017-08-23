@@ -132,6 +132,8 @@ script_deps = (tag, params) ->
   if not import_path?
     if filename_abs.endsWith('/src/popup.html') or filename_abs.endsWith('/src/index.html')
       return ''
+    if $(tag).attr('type') == 'text/markdown'
+      return ''
     console.log "script tag in #{filename_abs} is missing src attribute"
     return ''
   filename_abs = get_abs_path_script import_path, filepath_abs

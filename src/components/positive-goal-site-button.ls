@@ -22,14 +22,15 @@ Polymer {
       observer: 'goalChanged'
     }
     buttontext: String 
-    positiveSiteURL: String
   }
   goalChanged: ->
     this.buttontext = msg("#{this.goal.call_to_action}")
-    this.positiveSiteURL = this.goal.domain
   button_clicked: ->
     log_action {'positive': 'positive-goal-site-button clicked'}
-    this.$$('#reward_display').play()
+    domain = this.goal.domain
+    if domain.search("http") == -1
+      domain = 'https://' + domain
+    window.location.href = domain
   ready: ->>
     this.goal = await get_random_uncompleted_positive_goal!
 }

@@ -24,7 +24,6 @@ prelude = require 'prelude-ls'
   set_goal_target
   get_goal_target
   remove_custom_goal_and_generated_interventions
-  add_enable_custom_goal_reduce_time_on_domain
 } = require 'libs_backend/goal_utils'
 
 {

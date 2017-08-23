@@ -26,7 +26,7 @@
       <template is="dom-repeat" items="{{badges}}" as="badge">
         <badge-display-mini minutes_saved="{{badge.minutes_saved}}" style="display: inline-block; padding: 5px"></badge-display-mini>
       </template>
-      <template is="dom-if" if="{{no_badges_yet()}}">
+      <template is="dom-if" if="{{no_badges_yet(badges)}}">
         <h5>No badges earned yet — come back soon!</h5>
       </template>
     </div>

@@ -523,9 +523,14 @@ polymer_ext {
   {
     source: require 'libs_frontend/polymer_methods'
     methods: [
-      'on_resize'
       'once_available'
       'S'
+    ]
+  }
+  {
+    source: require 'libs_frontend/polymer_methods_resize'
+    methods: [
+      'on_resize'
     ]
   }
 ]

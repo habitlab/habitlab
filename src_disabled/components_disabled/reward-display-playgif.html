@@ -1,7 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<link rel="import" href="reward-display.html">
-<link rel="import" href="number-count-up.html">
 <link rel="import" href="star-display.html">
 
 <dom-module id="reward-display-playgif">
@@ -104,82 +102,14 @@
   </style>
   <template>
     <div id="timesaved_message">
-      <!--<span style="vertical-align: middle; font-size: 100px">+5⏲</span>-->
-      <span style="vertical-align: middle; font-size: 48px">You just saved <span>{{time_saved_message}}</span>!</span> <!-- <number-count-up start="70" end="75">70</number-count-up> minutes saved total</span> -->
+      <span style="vertical-align: middle; font-size: 48px">You just saved <span>{{time_saved_message}}</span>!</span>
     </div>
 
-<!--
-<div id="left_message_block">
-  <span style="font-size: 80px">640</span><br>minutes saved<br> with HabitLab
-</div>
-<div id="right_message_block">
-  <span style="font-size: 80px">80</span><br>minutes saved<br> with <span>{{intervention_name}}</span>
-</div>
--->
-
 <div id="unlock_features_message">
-<!--Master each intervention to unlock new features!<br>-->
-<!--
-<progress-bubble class="progress_bubble_blue" value="37" max="100" style="font-size: 18px; width: 100px; height: 100px; display: inline-block">
-  <strong style="text-align: center">Wait Screen</strong>
-</progress-bubble>
-
-<progress-bubble class="progress_bubble_blue" value="53" max="100" style="font-size: 18px; width: 100px; height: 100px; display: inline-block">
-  <strong style="text-align: center">Scroll<br>Lock</strong>
-</progress-bubble>
--->
-
 </div>
-
-
-
-<!--
-<progress-bubble value="75" max="100" style="width: 200px; height: 200px; position: fixed; top: 0px; left: 0%">
-  <strong style="text-align: center">80 minutes saved total</strong>
-</progress-bubble>
--->
-<!--
-<progress-bubble value="43" max="100" style="width: 200px; height: 200px; position: fixed; top: 0px; right: 0%">
-  <strong style="text-align: center">43 minutes saved with Feed Blocker</strong>
-</progress-bubble>
--->
     <div id="rewardvideocontainer">
       <video id="rewardvideo" on-ended="video_ended" src="{{video_url}}"></video>
     </div>
-    <!--
-    <img src="{{img_url}}"></img>
-    -->
-
-<!--
-<div id="below_gif_section">
-
-<template is="dom-if" if="{{is_not(is_intervention_mastered)}}">
-
-  <div>
-
-  <span style="font-size: 20px; vertical-align: middle">
-  <span>{{intervention_name}}</span>
-  </span>
-  <br>
-  <star-display style="vertical-align: middle" num_filled_stars="{{stars_to_display}}"></star-display>
-  <br>
-  <span style="font-size: 20px; vertical-align: middle">
-  <span>level up after <span>{{times_used_until_level_up}}</span> more uses</span>
-  </span>
-
-  </div>
-
-</template>
-
-<template is="dom-if" if="{{is_intervention_mastered}}">
-
-  <intervention-effectiveness-comparison intervention_name="{{intervention_name}}"></intervention-effectiveness-comparison>
-
-</template>
-
-</div>
--->
-
   </template>
   <script src="reward-display-playgif.js"></script>
 </dom-module>

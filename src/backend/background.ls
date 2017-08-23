@@ -720,6 +720,10 @@ do !->>
             #await load_intervention permanently_enabled_intervention, tabId
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
     await load_intervention_list interventions_to_load, tabId
+    if interventions_to_load.length > 0
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
+    else
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
     return
 
   /*
@@ -893,7 +897,7 @@ do !->>
         if loaded_interventions? and loaded_interventions.length > 0
           chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         else
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_cropped.svg')}
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
       else
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
   reward_display_base_code_cached = null
@@ -1102,8 +1106,6 @@ do !->>
       
 
   ensure_history_utils_data_cached()
-
-  chrome.browserAction.setIcon({path: chrome.extension.getURL('icons/icon_cropped.svg')})
 
   require('libs_backend/require_remote_utils')
 

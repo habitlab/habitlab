@@ -506,4 +506,10 @@ polymer_ext {
       'S'
     ]
   }
+  {
+    source: require 'libs_frontend/polymer_methods_resize'
+    methods: [
+      'on_resize'
+    ]
+  }
 ]

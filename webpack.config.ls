@@ -37,7 +37,7 @@ webpack_config = {
     loaders: [
         {
           test: /\.html$/
-          loader: 'html-loader?attrs=false'
+          loader: 'html-loader?attrs=false&minimize=true'
           exclude: [
             fromcwd('node_modules')
             #fromcwd('src/bower_components')
@@ -56,16 +56,6 @@ webpack_config = {
         }
         {
           # image loader
-          test: /\.(jpe?g|png|gif|svg)$/i,
-          loader:'file-loader?name=[path][name]'
-          exclude: [
-            fromcwd('node_modules')
-            fromcwd('src/bower_components')
-            fromcwd('src/jspm_packages')
-          ]
-        }
-        {
-          # html loader
           test: /\.(jpe?g|png|gif|svg)$/i,
           loader:'file-loader?name=[path][name]'
           exclude: [

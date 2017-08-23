@@ -33,7 +33,7 @@ polymer_ext {
   isdemo_changed: (isdemo) ->
     if isdemo
       this.minutes_saved = 300
-  no_badges_yet: ->
-    return !this.badges? || this.badges.length == 0
+  no_badges_yet: (badges) ->
+    return badges.length == 0
 }
 

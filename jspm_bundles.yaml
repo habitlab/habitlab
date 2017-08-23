@@ -6,8 +6,6 @@
   - js-yaml
 - moment:
   - moment
-- css-element-queries:
-  - css-element-queries
 - promise-debounce:
   - promise-debounce
 - shuffled:

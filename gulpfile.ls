@@ -25,6 +25,9 @@ require! {
   'semver'
 }
 
+#UglifyJSPlugin = require 'uglifyjs-webpack-plugin'
+BabiliPlugin = require 'babel-minify-webpack-plugin'
+
 fse = require 'fs-extra'
 webpack-stream = require 'webpack2-stream-watch'
 
@@ -137,7 +140,6 @@ webpack_pattern = [
   'src/index_jspm.ls'
   'src/options.ls'
   'src/popup.ls'
-  'src/popup_loader.js'
   'src/index_loader.js'
 ]
 
@@ -276,14 +278,19 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.module.loaders.push {
-    test: /\.js$/
-    loader: 'uglify-loader'
-    exclude: [
-      fromcwd('src')
-      fromcwd('node_modules/webcomponentsjs-custom-element-v1')
-    ]
+  o.plugins.push new BabiliPlugin {}, {
+    comments: false
   }
+  # o.plugins.push new UglifyJSPlugin {
+  #   uglifyOptions: {
+  #     ie8: false
+  #     ecma: 8
+  #     output: {
+  #       comments: false
+  #       beautify: false
+  #     }
+  #   }
+  # }
 
 webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
@@ -291,14 +298,19 @@ webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.module.loaders.push {
-    test: /\.js$/
-    loader: 'uglify-loader'
-    exclude: [
-      fromcwd('src')
-      fromcwd('node_modules/webcomponentsjs-custom-element-v1')
-    ]
+  o.plugins.push new BabiliPlugin {}, {
+    comments: false
   }
+  # o.plugins.push new UglifyJSPlugin {
+  #   uglifyOptions: {
+  #     ie8: false
+  #     ecma: 8
+  #     output: {
+  #       comments: false
+  #       beautify: false
+  #     }
+  #   }
+  # }
 
 
 gulp.task 'webpack_vulcanize', ->

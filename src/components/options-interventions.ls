@@ -308,6 +308,7 @@ polymer_ext {
   rerender: ->>
     # this.$.privacy_options.rerender()
     await this.$.goal_selector.set_sites_and_goals()
+    await this.$.positive_goal_selector.set_sites_and_goals()
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

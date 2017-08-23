@@ -2,10 +2,6 @@
 <link rel="import" href="../bower_components/polymer-themes/ice.html">
 
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
@@ -146,17 +142,10 @@
 
         <template is="dom-if" if="{{!is_habitlab_disabled}}">
 
-        <paper-card style="display:none;" class="feedbackform">
-          <div class="feedbackcontents">
-              <paper-textarea id="feedback" cols="40" label="enter your thoughts here!" value="{{feedbackText}}"></paper-textarea>
-              <paper-button raised on-click="submitFeedback">Submit</paper-button>
-          </div>
-        </paper-card> 
-
         <paper-card>
           <paper-tabs selected="{{selected_tab_idx}}">
-            <paper-tab>Active Intervention</paper-tab>
-            <paper-tab>Available Goals and Interventions</paper-tab>
+            <paper-tab>Active Nudge</paper-tab>
+            <paper-tab>Available Goals and Nudges</paper-tab>
           </paper-tabs>
 
           <iron-pages selected="{{selected_tab_idx}}">
@@ -166,16 +155,7 @@
                   <div class="interventionContainer" id="enabledInterventions">
                     <span class="interventionName">{{get_intervention_description(intervention, intervention_name_to_info)}}</span>
                     
-                    <paper-menu-button vertical-offset="35">
-                      <paper-button class="dropdown-trigger" raised>
-                        <!-- <iron-icon icon="check"></iron-icon> -->
-                        <span>Turn Off Intervention &#x25BC;</span>
-                      </paper-button>
-                      <paper-listbox class="dropdown-content">
-                        <paper-item on-click="temp_disable_button_clicked" intervention="{{intervention}}">For the rest of this visit</paper-item>
-                        <paper-item on-click="perm_disable_button_clicked" intervention="{{intervention}}">Permanently</paper-item>
-                      </paper-listbox>
-                    </paper-menu-button>            
+                    <paper-button raised on-click="temp_disable_button_clicked" intervention="{{intervention}}">Turn Off Nudge</paper-button>
                   </div>
                 </template>
                 <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
@@ -199,7 +179,7 @@
                 <br>
                 <template is="dom-if" if="{{goal_and_interventions.enabled}}">
                   <div style="margin-left: 10px; margin-right: 10px; font-size: 14px">
-                    Each time you visit <span>{{goal_and_interventions.goal.sitename_printable}}</span>, HabitLab will choose one of the enabled interventions to deploy:
+                    Each time you visit <span>{{goal_and_interventions.goal.sitename_printable}}</span>, HabitLab will deploy one of the enabled nudges:
                     <iron-icon icon="help" style="color: #415D67; cursor: pointer; width: 20px; height: 20px" on-click="help_icon_clicked"></iron-icon>
                   </div>
                   <br>

@@ -501,7 +501,6 @@ polymer_ext {
     source: require 'libs_frontend/polymer_methods'
     methods: [
       'text_if'
-      'on_resize'
       'once_available'
       'S'
     ]

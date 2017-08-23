@@ -80,14 +80,15 @@ polymer_ext({
     let goal_name = this.goal.name
     console.log('set goal to ' + goal_name)
     this.streak = await get_streak(this.goal)
-
-     if (document.querySelectorAll('.habitlab_reward_display').length == 0) {
+    /*
+    if (document.querySelectorAll('.habitlab_reward_display').length == 0) {
       let reward_display = document.createElement('reward-display')
       reward_display.classList.add('habitlab_reward_display')
       reward_display.no_autoclose = this.goal.is_positive
       reward_display.url_of_next_page = this.goal.domain
       document.body.appendChild(reward_display)
     }
+    */
   }
 })
 

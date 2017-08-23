@@ -188,7 +188,7 @@
 
           <vaadin-combo-box on-value-changed = "valueChange" id="add_website_input"  change="change_called" custom-value-set="custom_value_set_called" selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" value-changed="value_changed_called" items = "{{minutes_spent_on_domains_all_days_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
             <template>
-                  <div on-click="div_clicked" domain="[[item]]">[[item]]</div>
+                  <div domain="[[item]]">[[item]]</div>
                   <!--
               <paper-icon-item on-click="paper_icon_item_clicked" domain="[[item]]">
                 <paper-item-body on-click="paper_item_body_clicked" domain="[[item]]">

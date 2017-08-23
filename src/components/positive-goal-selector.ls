@@ -421,12 +421,11 @@ polymer_ext {
     #console.log 'checkpoint 7'
     return
   repaint_due_to_resize_once_in_view: ->
-    console.log 'calling repaint_due_to_resize_once_in_view'
     self = this
     leftmost = null
     rightmost = null
     rightmost_without_width = null
-    for icon in $('.siteicon')
+    for icon in this.SM('.siteicon')
       width = $(icon).width()
       left = $(icon).offset().left
       right = left + width
@@ -444,10 +443,11 @@ polymer_ext {
     else
       self.repaint_due_to_resize()
   repaint_due_to_resize: ->
+    self = this
     leftmost = null
     rightmost = null
     rightmost_without_width = null
-    for icon in $('.siteicon')
+    for icon in this.SM('.siteicon')
       width = $(icon).width()
       left = $(icon).offset().left
       right = left + width
@@ -461,10 +461,9 @@ polymer_ext {
       # is not on screen
       return
     total_width = $(self).width()
-    margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
-    $('.flexcontainer').css('margin-left', margin_needed)
-    current_offset = this.S('.flexcontainer').offset()
-    this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
+    margin_needed = ((total_width - (rightmost - leftmost)) / 2) - 15
+    orig_offset = this.S('.flexcontainer').offset()
+    this.S('.flexcontainer').offset({left: margin_needed, top: orig_offset.top})
   attached: ->>
     self = this
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
@@ -503,6 +502,7 @@ polymer_ext {
       'text_if'
       'once_available'
       'S'
+      'SM'
     ]
   }
   {

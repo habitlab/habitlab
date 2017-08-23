@@ -689,7 +689,10 @@ export list_available_interventions_for_enabled_goals = ->>
 export list_available_interventions_for_goal = (goal_name) ->>
   # outputs a list of intervention names
   goal_info = await goal_utils.get_goal_info(goal_name)
-  return goal_info.interventions
+  if goal_info.interventions?
+    return goal_info.interventions
+  else
+    return []
 
 export list_enabled_interventions_for_goal = (goal_name) ->>
   # outputs a list of intervention names
@@ -903,7 +906,6 @@ export get_goals_and_interventions = ->>
 
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'
-goal_progress = require 'libs_backend/goal_progress'
 log_utils = require 'libs_backend/log_utils'
 
 gexport_module 'intervention_utils', -> eval(it)

@@ -1,0 +1,42 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="reward-display.html">
+
+<dom-module id="action-dropdown">
+  <template>
+    <style is="custom-style">
+    :host {
+      --paper-button-flat-keyboard-focus: {
+          font-weight: normal;
+        };
+
+        --paper-button-raised-keyboard-focus: {
+          font-weight: normal;
+        };
+    } 
+    .dropdown-trigger {
+      background-color: white;
+      @apply --paper-menu-button-dropdown
+    }
+    .dropdown-content {
+      /* min-width: 500px; */
+      @apply --paper-menu-button-content
+    }
+  </style> 
+ 
+  <paper-menu-button>
+    <paper-button class="dropdown-trigger" raised>
+      <span>{{defaultCallToAction}} &#x25BC;</span>
+    </paper-button>
+    <paper-listbox class="dropdown-content">
+      <template is="dom-repeat" items="{{goals}}" as="goal">
+        <paper-item on-click="call_to_action_clicked" goal="{{goal}}">{{goal.call_to_action}}</paper-item>
+      </template>
+    </paper-listbox>
+  </paper-menu-button>
+
+  </template>
+  <script src="action-dropdown.js"></script>
+</dom-module>

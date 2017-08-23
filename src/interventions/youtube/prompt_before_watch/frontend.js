@@ -21,8 +21,10 @@ const {
 } = require('libs_frontend/intervention_log_utils')
 
 require_component('habitlab-logo')
-require_component('close-tab-button')
+require_component('call-to-action-button')
+require_component('positive-goal-site-button')
 require_component('paper-button')
+
 
 //console.log('youtube prompt before watch loaded frontend')
 
@@ -233,9 +235,15 @@ function divOverVideo(status) {
   $contentContainer.append($text1);
   $contentContainer.append($('<br>'));
 
-  //Close tab button
-  const $button1 = $('<close-tab-button text="Close Youtube">');
-  $contentContainer.append($button1);
+  //Decide whether to show a close tab or a specific positive call-to-action button.
+  if (Math.random()<1) {
+    const $button1 = $('<call-to-action-button text="Close Youtube">');
+    $contentContainer.append($button1);
+
+  } else {
+    const $button1 = $('<positive-goal-site-button>');
+    $contentContainer.append($button1);
+  }
 
   //Continue watching video button
   const $button2 = $('<paper-button>');

@@ -9,6 +9,8 @@
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/l2t-context-menu/l2t-context-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 
 <dom-module id="positive-goal-selector">
   <style is="custom-style">
@@ -93,11 +95,6 @@
 
     }
     
-
-    .dailyLimitContainer {
-      margin-top: 2px;
-    }
-    
     .index_body{ 
       /*rgb(81, 167,249);rgb(147,199,232)*/
 
@@ -118,6 +115,10 @@
       padding-bottom:30px;
       font-size: 20px;
       /*text-shadow: 1px 1px 1px #346da3; */
+      /*min-height:calc(100vh - 60px); */
+    }
+
+    .full-height {
       min-height:calc(100vh - 60px);
     }
 
@@ -151,7 +152,7 @@
       border-radius:30px;
       padding: 8px;
       box-shadow: 0px 0px 15px #346da3;
-      background-color:white ;
+      background-color:white;
     }
     .siteicondisabled {
       opacity: 0.5;
@@ -169,7 +170,7 @@
 
     }
     .siteicon:hover {
-      opacity: 0.5;
+      box-shadow: 0px 0px 45px #346da3;
     }
 
   </style>
@@ -182,7 +183,7 @@
 
           <vaadin-combo-box on-value-changed = "valueChange" id="add_website_input"  change="change_called" custom-value-set="custom_value_set_called" selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" value-changed="value_changed_called" items = "{{baseline_time_on_domains_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
             <template>
-                  <div on-click="div_clicked" domain="[[item]]">[[item]]</div>
+                  <div domain="[[item]]">[[item]]</div>
                   <!--
               <paper-icon-item on-click="paper_icon_item_clicked" domain="[[item]]">
                 <paper-item-body on-click="paper_item_body_clicked" domain="[[item]]">
@@ -201,80 +202,90 @@
     <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
     <div id="outer_wrapper">
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
-      <div class="card-content">
-        <span><iron-icon icon="settings" style="width: 27px; height: 27px; margin:auto;margin-bottom: 9.5px;margin-right: 6px; color: white;"></span><span id= "title">{{title}}</span>  
+      <div class$="card-content [[text_if(is_onboarding, 'full-height')]]">
+        <span><iron-icon icon="settings" style="width: 27px; height: 27px; margin:auto;margin-bottom: 9.5px;margin-right: 6px; color: white;"/></span><span id= "title">{{title}}</span>  
         <div>
-        <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;margin: auto; font-size: 16px; text-align: center; padding-left:65px; padding-right:65px;'>{{title_text}}</div> 
-        <div style='font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;margin: auto; font-size: 16px; margin-bottom: 30px; text-align: center; padding-left:65px; padding-right:65px;'>{{title_text_bolded_portion}}</div>
+        <div style="font-family: 'Open Sans', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;margin: auto; font-size: 16px; text-align: center; padding-left:65px; padding-right:65px;">{{title_text}}</div> 
+        <div style="font-family: 'Open Sans', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;margin: auto; font-size: 16px; margin-bottom: 30px; text-align: center; padding-left:65px; padding-right:65px;">{{title_text_bolded_portion}}</div>
         </div>
         <div class="flexcontainer wrap row">
 
-            <div style = "margin-bottom:0px;">     
-              <div style= "position: relative; top:58px; left:58px;">
-                <div style ="position:absolute">
-                  <img style= "width:30px;cursor: pointer; padding-left:0px;margin-left:10px;margin-top:0px;" src="{{icon_add_url}}"></img>
+            <div style = "margin-bottom:0px;">
+                <div class="siteicon siteiconadd" on-click="openBy">
+                  <div style= "position: relative; top:48px; left:48px;">
+                    <div style ="cursor: pointer; position:absolute">
+                      <img style= "width:30px; padding-left:0px;margin-left:5px;margin-top:0px;" src="{{icon_add_url}}" />
+                    </div>
+                  </div>
                 </div>
+                <div>
+                  <span style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">Add Custom</span>
+                  <div><iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
+                </div> 
               </div>
-              <div class="siteicon siteiconadd" on-click="openBy"></div>
-              <div>
-                <span style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>Add Custom</span>
-                <div><iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
-              </div> 
-            </div>
 
 
 
 
 
 
-        <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals">
+        <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals" index-as="siteidx">
             <template is="dom-if" if="{{should_have_newline(index, num_per_line)}}">
               <br/>
             </template>
             <!-- <h3>{{site_and_goals.sitename}}</h3> -->
-            <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal">
+            <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal" index-as="goalidx">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
                 <template is="dom-if" if="{{goal.is_positive}}">
-                  <div style="display: inline-block; align-items: center; padding-bottom: 15px;" >
+                    <div class$="sitebutton-{{siteidx}}-{{goalidx}}" style="display: inline-block; align-items: center; padding-bottom: 15px;" >
 
-                    <div style="position: relative; top: 12.5px; left: 21px; ">
-                      <div style="position: absolute">
-
-                      <template is="dom-if" if="{{goal.enabled}}">
-                      <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
-                      <img style= "width:45px" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" src="{{icon_check_url}}"></img>
-                      </template>
+                    <div style="position: relative; top: 12.5px; left: 21px; pointer-events: none">
+                      <div style="position: absolute; pointer-events: none">
+                        <template is="dom-if" if="{{goal.enabled}}">
+                        <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
+                        <img style= "width:45px; pointer-events: none" src="{{icon_check_url}}" />
+                        </template>
                       </div>
                     </div>
                     <template is="dom-if" if="{{goal.enabled}}">
-                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular" src="{{goal.icon}}" />
+                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular" src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
                     </template>
                     <template is="dom-if" if="{{!goal.enabled}}">
-                    <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{goal.icon}}" />
+                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
                     </template>
-                    <div style='width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{goal.sitename_printable}}</div>
-                    <div style='text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;'>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</div>
+                    <div style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">{{goal.sitename_printable}}</div>
+                    <div style="height: 17px; position: relative; text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">
+                      <span>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</span>
+                      <template is="dom-if" if="{{is_onboarding}}">
+                        <template is="dom-if" if="{{goal.custom}}">
+                          <img src="{{delete_url}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
+                          <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
+                        </template>
+                      </template>
+                      <template is="dom-if" if="{{!is_onboarding}}">
+                        <template is="dom-if" if="{{goal.custom}}">
+                          <img src="{{delete_url}}" style="position: absolute; left: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
+                          <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
+                        </template>
+                        <template is="dom-if" if="{{goal.enabled}}">
+                          <img src="{{configure_url}}" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" goal="{{goal}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" />
+                        </template>
+                      </template>
+                    </div>
+                  </div>
+                  <l2t-context-menu parentclass="sitebutton-{{siteidx}}-{{goalidx}}" class="orange">
+                    <template is="dom-if" if="{{!is_onboarding}}">
+                      <paper-item style="text-align: left; font-weight: normal" on-click="configure_clicked" goal_name="{{goal.name}}" sitename_printable="{{goal.sitename_printable}}" is_enabled="{{goal.enabled}}" goal_description="{{goal.description}}">⚙️ Configure</paper-item>
                     </template>
-                  </template>
-                </div>
+                    <paper-item style="text-align: left; font-weight: normal" on-click="remove_clicked" goal_name="{{goal.name}}" is_custom="{{goal.custom}}" goal_description="{{goal.description}}">❌ Remove</paper-item>
+                  </l2t-context-menu>
+                </template>
               </template>
             </template>   
-
-
-
-              <!--<div>
-                <template is="dom-if" if="{{!goal.enabled}}">
-                <span style="font-family: monospace; font-size: 16px">Add custom goal.</span>
-                </template>
-                <template is="dom-if" if="{{goal.enabled}}">
-                <span style="font-family: monospace; font-size: 16px">[<span>{{goal.name}}</span>]</span>
-                </template>
-              </div>-->
-            <div>  
-            </div>
          </template>
       </div>  
     </div>
+  </div>
   </template>
   <script src="positive-goal-selector.js"></script>
 </dom-module>

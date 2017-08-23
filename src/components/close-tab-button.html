@@ -1,24 +1,27 @@
+<!DOCTYPE html>
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="close-tab-button">
   <style>
     :host {
-      display: inline-block;
-      height: 38px;
+      display: var(--call-to-action-button-display, inline-block);
+      height: var(--call-to-action-button-height, 38px);
+      width: var(--call-to-action-button-width);
+      margin: var(--call-to-action-button-margin, 0px 0px 0px 0px);
     }
     .close_tab_button {
-      color: white;
-      background-color: #415D67;
+      cursor: pointer;
+      color: var(--call-to-action-button-color, white);
+      font-size: var(--call-to-action-button-font-size, 14px);
+      background-color: var(--call-to-action-button-bg-color, #415D67);
       margin: 0 auto;
       width: 100%;
       height: 100%;
-      box-shadow: 2px 2px 2px #888888;
+      box-shadow: var(--call-to-action-button-shadow, 2px 2px 2px #888888);
     }
   </style>
   <template>
-    
     <paper-button class="close_tab_button" on-click="button_clicked">{{buttontext}}</paper-button>
-
   </template>
 
   <script src="close-tab-button.js"></script>

@@ -71,6 +71,7 @@ Polymer({
   },
   hideButton: function() {
     console.log('button hidden')
+    //$(this.$.okbutton).fadeOut("slow")
     this.$.okbutton.hidden = true
     //this.$.closetabbutton.hidden = true
     this.$.okbutton.style.display = 'none';
@@ -87,10 +88,11 @@ Polymer({
   },
   showButton: function() {
     console.log(this.$.okbutton)
+    $(this.$.okbutton).fadeIn("slow")
     this.$.okbutton.hidden = false
-    //this.$.closetabbutton.hidden = false
+    // this.$.closetabbutton.hidden = false
     this.$.okbutton.style.display = 'inline-flex';
-    this.$.closetabbutton.style.display = 'inline-flex';
+    // this.$.closetabbutton.style.display = 'inline-flex';
   },
   ready: function() {
     console.log('interstitial-polymer ready')
@@ -102,7 +104,19 @@ Polymer({
     this.addEventListener('show_button', function() {
       console.log('hi')
     })
+    
+    //this.$.titletext.hidden = true
+    // this.$.closetabbutton.hidden = true
+    // var self = this
+    // $(this.$.titletext).fadeIn().promise().then(function() {
+    //   console.log('faded in title-text!')
+    //   $(self.$.closetabbutton).fadeIn(5000, function() {
+    //     console.log('faded in close-tab')
+    //   })
+    // })
 
+    // this.$.paperprogress.hidden = true
+    // this.$.paperprogress.style.display = 'none';
   },
   disableIntervention: function() {
     console.log('interstitial got callback')

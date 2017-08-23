@@ -1,5 +1,6 @@
 description: Spend less time on Youku
 progress_description: Time spent on Youku
+call_to_action: Close Youku
 interventions:
   - generic/toast_notifications
   - generic/show_timer_banner

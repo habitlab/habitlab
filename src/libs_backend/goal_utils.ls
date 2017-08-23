@@ -350,6 +350,8 @@ export get_goals = ->>
         continue
       for goal_name in intervention_info.goals
         goal_info = output[goal_name]
+        if not goal_info?
+          continue
         intervention_name_set = goal_name_to_intervention_name_set[goal_name]
         if not intervention_name_set?
           intervention_name_set = {[existing_intervention_name, true] for existing_intervention_name in goal_info.interventions}

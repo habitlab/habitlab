@@ -105,6 +105,7 @@ copypattern = [
   'src/*.json'
   'src/*.js'
   'src/*.css'
+  'src/fonts/*.woff'
   'src/_locales/**/*'
   'src/bugmuncher/*'
   'src/bundles/*'

@@ -10,6 +10,10 @@ const {
   close_tab_with_id
 } = require('libs_common/tab_utils')
 
+const {
+  get_tab_id
+} = require ('libs_common/intervention_info')
+
 const {get_intervention_info} = require('libs_common/intervention_utils')
 
 polymer_ext({

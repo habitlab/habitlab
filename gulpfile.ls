@@ -25,6 +25,8 @@ require! {
   'semver'
 }
 
+UglifyJSPlugin = require 'uglifyjs-webpack-plugin'
+
 fse = require 'fs-extra'
 webpack-stream = require 'webpack2-stream-watch'
 
@@ -276,13 +278,15 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.module.loaders.push {
-    test: /\.js$/
-    loader: 'uglify-loader'
-    exclude: [
-      fromcwd('src')
-      fromcwd('node_modules/webcomponentsjs-custom-element-v1')
-    ]
+  o.plugins.push new UglifyJSPlugin {
+    uglifyOptions: {
+      ie8: false
+      ecma: 8
+      output: {
+        comments: false
+        beautify: false
+      }
+    }
   }
 
 webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
@@ -291,13 +295,15 @@ webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.module.loaders.push {
-    test: /\.js$/
-    loader: 'uglify-loader'
-    exclude: [
-      fromcwd('src')
-      fromcwd('node_modules/webcomponentsjs-custom-element-v1')
-    ]
+  o.plugins.push new UglifyJSPlugin {
+    uglifyOptions: {
+      ie8: false
+      ecma: 8
+      output: {
+        comments: false
+        beautify: false
+      }
+    }
   }
 
 

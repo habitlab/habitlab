@@ -65,16 +65,6 @@ webpack_config = {
           ]
         }
         {
-          # html loader
-          test: /\.(jpe?g|png|gif|svg)$/i,
-          loader:'file-loader?name=[path][name]'
-          exclude: [
-            fromcwd('node_modules')
-            fromcwd('src/bower_components')
-            fromcwd('src/jspm_packages')
-          ]
-        }
-        {
           # js loader
           test: /\.js$/
           loader: './webpack_habitlab_js_intervention_loader.js'

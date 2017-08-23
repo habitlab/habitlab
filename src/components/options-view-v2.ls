@@ -215,12 +215,7 @@ polymer_ext {
   ready: ->>
     ##self = this
     ##this.$$('#goal_selector').set_sites_and_goals()
-    console.log 'ready called at '
-    start_time = Date.now()
-    console.log start_time
     await this.rerender()
-    console.log 'rerender finished at'
-    console.log Date.now() - start_time
     if not this.have_options_page_hash and not this.selected_tab_idx?
       this.selected_tab_idx = 0
 

@@ -698,6 +698,7 @@ do !->>
             #await load_intervention permanently_enabled_intervention, tabId
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
     await load_intervention_list interventions_to_load, tabId
+    chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
     return
 
   /*
@@ -1059,8 +1060,6 @@ do !->>
       
 
   ensure_history_utils_data_cached()
-
-  chrome.browserAction.setIcon({path: chrome.extension.getURL('icons/icon_cropped.svg')})
 
   require('libs_backend/require_remote_utils')
 

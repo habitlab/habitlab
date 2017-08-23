@@ -190,7 +190,10 @@ polymer_ext {
         return -1
       return 0
     self.enabled_goal_info_list = enabled_goal_info_list
-    self.$$('#settings_tab').rerender_privacy_options()
+    once_true ->
+      self.$$('#settings_tab')?rerender_privacy_options?
+    , ->
+      self.$$('#settings_tab').rerender_privacy_options()
     do !->>
       goal_name_to_icon_changed = false
       goal_name_to_new_icon_promises = {}
@@ -210,12 +213,41 @@ polymer_ext {
   ready: ->>
     ##self = this
     ##this.$$('#goal_selector').set_sites_and_goals()
+    console.log 'ready called at '
+    start_time = Date.now()
+    console.log start_time
     await this.rerender()
+    console.log 'rerender finished at'
+    console.log Date.now() - start_time
     if not this.have_options_page_hash and not this.selected_tab_idx?
       this.selected_tab_idx = 0
-    await SystemJS.import('cheerio')
-    #await SystemJS.import('jimp')
-    #await SystemJS.import('icojs')
+
+    require('components/sidebar-tabs.deps')
+
+    console.log 'sidebar-tabs finished at'
+    console.log Date.now() - start_time
+
+    if this.selected_tab_idx == 0
+      require('components/dashboard-view-v2.deps')
+    else if this.selected_tab_idx == 1
+      require('components/options-interventions.deps')
+    else if this.selected_tab_name == 'help'
+      require('components/help-faq.deps')
+    else
+      require('components/site-view.deps')
+
+    setTimeout ->>
+
+      require('components/options-interventions.deps')
+      require('components/site-view.deps')
+      require('components/dashboard-view-v2.deps')
+      require('components/habitlab-logo.deps')
+      require('components/help-faq.deps')
+
+      await SystemJS.import('cheerio')
+      #await SystemJS.import('jimp')
+      #await SystemJS.import('icojs')
+    , 1000
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

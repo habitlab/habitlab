@@ -2,9 +2,20 @@
 
 {load_css_file} = require 'libs_common/content_script_utils'
 {add_log_feedback} = require 'libs_backend/log_utils'
-screenshot_utils = require 'libs_common/screenshot_utils'
 
-swal = require 'sweetalert2'
+swal_cached = null
+get_swal = ->>
+  if swal_cached?
+    return swal_cached
+  swal_cached := await SystemJS.import('sweetalert2')
+  return swal_cached
+
+screenshot_utils_cached = null
+get_screenshot_utils = ->>
+  if screenshot_utils_cached?
+    return screenshot_utils_cached
+  screenshot_utils_cached := await SystemJS.import('libs_common/screenshot_utils')
+  return screenshot_utils_cached
 
 {
   get_active_tab_url
@@ -191,6 +202,7 @@ polymer_ext {
       this.$$('.feedbackform').style.display = "none"
       this.feedbackText = ""
       await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+      swal = await get_swal()
       swal "Thanks for the feedback!", "", "success"
 
   outside_work_hours: ->
@@ -274,6 +286,7 @@ polymer_ext {
 
   submit_feedback_clicked: ->>
     #screenshot_utils = await SystemJS.import('libs_common/screenshot_utils')
+    screenshot_utils = await get_screenshot_utils()
     screenshot = await screenshot_utils.get_screenshot_as_base64()
     data = await screenshot_utils.get_data_for_feedback()
     feedback_form = document.createElement('feedback-form')
@@ -284,6 +297,7 @@ polymer_ext {
 
   help_icon_clicked: ->>
     await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    swal = await get_swal()
     swal {
       title: 'How HabitLab Works'
       html: '''
@@ -324,48 +338,18 @@ polymer_ext {
       chrome.tabs.create {url: 'options.html#settings'}
     )
 
-    #MARK: Graphs on popup view
-
-    #Map from graph option names to graph polymer component
-    graphNamesToOptions = {
-      "Goal Website History Graph" : "graph-time-spent-on-goal-sites-daily",
-      "Daily Overview" : "site-goal-view",
-      "Donut Graph" : "graph-donut-top-sites",
-      "Nudges Deployed Graph" : "graph-num-times-interventions-deployed",
-      "Time Saved Due to HabitLab" : "graph-time-saved-daily"
-    }
-    self.graphNamesToOptions = graphNamesToOptions
-
-    #retrieves blacklist from localstorage; else, initializes default blacklist
-    blacklist = localstorage_getjson('popup_view_graph_blacklist')
-    if not blacklist?
-      blacklist = {
-        "graph-time-spent-on-goal-sites-daily" : true, 
-        "site-goal-view" : true, 
-        "graph-donut-top-sites" : false, 
-        "graph-num-times-interventions-deployed": true,      
-        "graph-time-saved-daily": true
-      }
-      localstorage_setjson('popup_view_graph_blacklist', blacklist)
-
-    self.blacklist = blacklist
-
-    #Graph options shown to user
-    graphOptions = ['Goal Website History Graph', 'Daily Overview', 
-                    'Donut Graph', 'Nudges Deployed Graph', 
-                    'Time Saved Due to HabitLab']
-    self.graphOptions = graphOptions 
-
-    shownGraphs = [
-      'graph-time-spent-on-goal-sites-daily'
-      'site-goal-view'
-      'graph-donut-top-sites'
-      'graph-num-times-interventions-deployed'
-      'graph-time-saved-daily'
-    ]
-    self.shownGraphs = shownGraphs
-
     localstorage_setbool('popup_view_has_been_opened', true)
+
+    setTimeout ->>
+      require('../bower_components/iron-icon/iron-icon.deps')
+      require('../bower_components/iron-icons/iron-icons.deps')
+      require('components/graph-donut-top-sites.deps')
+      require('components/intervention-view-single.deps')
+      require('components/feedback-form.deps')
+
+      await get_swal()
+      await get_screenshot_utils()
+    , 1
 
 }, {
   source: require 'libs_frontend/polymer_methods'

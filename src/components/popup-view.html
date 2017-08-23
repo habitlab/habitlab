@@ -1,30 +1,17 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymer-themes/ice.html">
+
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-
-<link rel="import" href="../bower_components/polymer-sortablejs/polymer-sortablejs.html">
-<link rel="import" href="../bower_components/html-echo/html-echo.html">
-
-<link rel="import" href="graph-time-spent-on-goal-sites-daily.html">
-<link rel="import" href="graph-time-saved-daily.html">
-<link rel="import" href="graph-daily-overview.html">
-<link rel="import" href="graph-num-times-interventions-deployed.html">
-<link rel="import" href="graph-donut-top-sites.html">
-<link rel="import" href="site-goal-view.html">
-<link rel="import" href="intervention-view-single.html">
-<link rel="import" href="feedback-form.html">
 
 <dom-module id="popup-view">
   <style is="custom-style">
@@ -229,11 +216,13 @@
         </paper-card>
         
         <paper-card>
-
+          <graph-donut-top-sites style="margin-bottom: 10px"></graph-donut-top-sites>
+          <!--
           <paper-tabs selected="{{selected_graph_tab}}">
             <paper-tab>Usage Statistics</paper-tab>
             <paper-tab>Select Graphs to Display</paper-tab>
           </paper-tabs>
+
 
           <iron-pages selected="{{selected_graph_tab}}">
             <iron-page>
@@ -253,6 +242,7 @@
                 </sortable-js> 
               </div> 
             </iron-page>
+          -->
         </paper-card>       
 
         

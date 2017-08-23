@@ -9,15 +9,6 @@
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 
-<link rel="import" href="habitlab-logo.html">
-<link rel="import" href="options-goals.html">
-<link rel="import" href="options-interventions.html">
-<link rel="import" href="sidebar-tabs.html">
-<link rel="import" href="dashboard-view-v2.html">
-<link rel="import" href="dash-settings.html">
-<link rel="import" href="site-view.html">
-<link rel="import" href="help-faq.html">
-
 <dom-module id="options-view-v2">
 <style is="custom-style">
 :host {
@@ -111,7 +102,7 @@ paper-button.fancy {
                         <dashboard-view-v2 id="overview_tab"></dashboard-view-v2>
                         <!--<goal-settings id="goal_selector"/>-->
                         <!--<goal-settings />-->
-                        <dash-settings id="settings_tab"></dash-settings>
+                        <options-interventions id="settings_tab"></options-interventions>
                         <template is="dom-repeat" items="{{enabled_goal_info_list}}" as="goal_info">
                           <site-view site="{{goal_info.sitename}}" id="siteview_{{string_to_id(goal_info.sitename_printable)}}"></site-view>
                         <!--

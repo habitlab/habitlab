@@ -278,7 +278,7 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.plugins.push new BabiliPlugin {
+  o.plugins.push new BabiliPlugin {}, {
     comments: false
   }
   # o.plugins.push new UglifyJSPlugin {
@@ -298,7 +298,7 @@ webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.plugins.push new BabiliPlugin {
+  o.plugins.push new BabiliPlugin {}, {
     comments: false
   }
   # o.plugins.push new UglifyJSPlugin {

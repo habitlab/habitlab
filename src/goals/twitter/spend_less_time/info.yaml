@@ -19,3 +19,4 @@ target:
   default: 20
   units: minutes
 icon: icon.svg
+preview: https://www.twitter.com

@@ -360,7 +360,7 @@ polymer_ext {
       if not localStorage.getItem('enable_debug_terminal')?
         localStorage.setItem('enable_debug_terminal', 'true')
     console.log('calling set_sites_and_goals')
-    this.$.goal_selector.repaint_due_to_resize_once_in_view()
+    this.$$('#goal_selector').repaint_due_to_resize_once_in_view()
     #this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
     this.insert_iframe_for_setting_userid()
     /*

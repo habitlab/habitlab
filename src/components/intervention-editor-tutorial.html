@@ -1,9 +1,13 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/marked-element/marked-element.html">
-<link rel="import" href="../bower_components/paper-tabs/paper-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="intervention-editor-tutorial">
   <style>
+    .editor {
+      width: 300px;
+      height: 300px;
+    }
   </style>
   <template>
 
@@ -19,21 +23,16 @@
       
       <p>This intervention will show an alert saying "Hello World" when you visit the website.</p>
 
-      <marked-element>
-          <div slot="markdown-html"></div>
-          <script type="text/markdown">
-            ```javascript
-            alert("Hello World");
-            ```
-          </script>
-        </marked-element>
+      <div class="editor" id="hello_world_editor"></div>
 
-      <paper-button raised>Demo</paper-button>
+      <paper-button raised on-click="demo_clicked" srcname="hello_world_editor">Demo</paper-button>
       
       <h3 id="flippageupsidedown">Flip page upside down</h3>
       
       <p>This intervention (tested on youtube and buzzfeed) will flip the page upside down.</p>
       
+      <div class="editor" id="flip_page_editor"></div>
+
       <pre><code class="javascript language-javascript">document.body.style.transform = 'rotate(180deg)';
       </code></pre>
       

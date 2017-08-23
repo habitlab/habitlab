@@ -6,6 +6,10 @@ const {
   get_positive_goal_info
 } = require('libs_common/intervention_info')
 
+const {
+  close_tab_with_id
+} = require('libs_common/tab_utils')
+
 const {get_intervention_info} = require('libs_common/intervention_utils')
 
 polymer_ext({

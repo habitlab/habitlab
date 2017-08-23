@@ -42,8 +42,8 @@ polymer_ext {
     this.templates_info_list=[all_interventions[x] for x in templates_list]
     this.custom_intervention_list=await list_custom_interventions()
     writing_interventions_text = await fetch("https://raw.githubusercontent.com/wiki/habitlab/habitlab/Writing-Interventions.md").then((.text!))
+    writing_interventions_text = writing_interventions_text.slice(writing_interventions_text.indexOf('#'))
     this.$.markdown_display.markdown = writing_interventions_text
-    #this.source="https://raw.githubusercontent.com/wiki/habitlab/habitlab/Writing-Interventions.md"
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

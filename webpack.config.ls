@@ -37,7 +37,7 @@ webpack_config = {
     loaders: [
         {
           test: /\.html$/
-          loader: 'html-loader?attrs=false'
+          loader: 'html-loader?attrs=false&minimize=true'
           exclude: [
             fromcwd('node_modules')
             #fromcwd('src/bower_components')

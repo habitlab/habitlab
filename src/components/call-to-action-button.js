@@ -20,13 +20,14 @@ polymer_ext({
       computed: 'computeButtonText(goal)'
     }
   },
-  ready: async function() {
+  usePositiveGoalIfPossible: async function() {
     this.goal = await get_positive_goal_info()
     if (this.goal == null) {
       this.goal = await get_goal_info()
     }
-   
-    console.log('selected goal: ' + this.goal)
+  },
+  ready: async function() {
+    this.goal = await get_goal_info()
     if (document.querySelectorAll('.habitlab_reward_display').length == 0) {
       let reward_display = document.createElement('reward-display')
       reward_display.classList.add('habitlab_reward_display')
@@ -36,7 +37,6 @@ polymer_ext({
     }
   },
   buttonClicked: function() {
-    console.log('buttonClicked called')
     if (this.goal.is_positive) {
       log_action({'positive': 'positive-goal-site-button clicked'})
     } else {

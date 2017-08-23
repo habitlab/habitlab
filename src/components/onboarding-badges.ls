@@ -62,26 +62,26 @@ polymer_ext {
       type: Number
     }
 
-    logo_glow_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/badges/habitlab_glow.svg')      
-    }
-    logo_glow_blend_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/badges/glow_blend.svg')      
-    }
-    logo_glow_black_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/badges/habitlab_glow_black.svg')     
-    }
+    #logo_glow_url: {
+    #  type: String,
+    #  value: chrome.extension.getURL('icons/badges/habitlab_glow.svg')      
+    #}
+    #logo_glow_blend_url: {
+    #  type: String,
+    #  value: chrome.extension.getURL('icons/badges/glow_blend.svg')      
+    #}
+    #logo_glow_black_url: {
+    #  type: String,
+    #  value: chrome.extension.getURL('icons/badges/habitlab_glow_black.svg')     
+    #}
     logo_glow_black_bubbles: {
       type: String,
       value: chrome.extension.getURL('icons/badges/habitlab_glow_black_bubbles.svg')     
     }
-    logo_offline_url: {
-      type: String,
-      value: chrome.extension.getURL('icons/badges/logo_offline.svg')     
-    }
+    #logo_offline_url: {
+    #  type: String,
+    #  value: chrome.extension.getURL('icons/badges/logo_offline.svg')     
+    #}
     # heart_white_url: {
     #   type: String,
     #   value: chrome.extension.getURL('icons/badges/heart_white.svg')     

@@ -15,8 +15,11 @@
       overflow-x: hidden;
       overflow-y: hidden;
     }
-    #outer_wrapper{ 
-      min-width: 100vw;
+    .outer-wrapper{
+      display: inline-block;
+    }
+    #container{ 
+      width: 50vw;
       min-height: 100vh;
       color: white;
       padding: 20px;
@@ -49,16 +52,6 @@
       word-wrap:break-word;
       top: 50%;
     }
-    .button {
-      color: white;
-      background-color: #50E3C2;
-      width:50px;
-      height: 30px;
-      box-shadow: 2px 2px 2px #888888;
-      font-weight: bold;
-      transition: opacity .35s ease;
-      margin:10px;
-    }
     #add_new_tab {
       cursor: pointer;
       width:130px;
@@ -77,36 +70,39 @@
       display:inline-block;
     }
     .template_tab{
-      overflow:hidden;
       width: 200px;
-      padding: 15px;
       display:inline-block;
       height: 250px;
-
     }
-    /* .screenshot{
-      cursor:pointer;
-      box-shadow: 0px 0px 15px #346da3;
-    } */
     .template_name{
       margin-top:15px;
       font-family: "Helvetica";
       font-size:24px;  
       margin-left: 10px;
     }
-    /* .screenshot:hover{
-      transform: scale(1.5);
-    } */
+    .marked-div {
+      display: inline-block;
+      width: 45vw;
+      position: fixed;
+      overflow-y: scroll;
+      right:0px;
+      height: 100vh;
+    }
   </style>
 
   <template>
-    <div id="outer_wrapper">
+    <div class="outer-wrapper">
+      <marked-element class="marked-div" id="markdown_display">
+        <div slot="markdown-html"></div>
+      </marked-element>
+
+    <div id="container">
       <div id="my_interventions_section">
-        <h1>Build your own interventions...</h1>
+        <h3>Build your own interventions...</h3>
         <div id="add_new_tab" on-click="add_new_clicked">
           <img src="icons/plus.png" style="width:100px; height:100px;margin:15px;">
         </div>
-        <div id="my_interventions" style="width:100vw;">
+        <div id="my_interventions">
           <template is="dom-repeat" items="{{custom_intervention_list}}" as="intervention_name">
             <paper-tab class="intervention_tab" on-click="open_custom_intervention">
               <div class="item_name">{{intervention_name}}</div>
@@ -117,12 +113,10 @@
       <br>
 
       <div class="template_section">
-        <h1>Or modify popular templates...</h1>
-        <div id="my_templates" style="width:100vw;">
-
+        <h3>Or modify popular templates...</h3>
+        <div id="my_templates">
           <template is="dom-repeat" items="{{templates_info_list}}" as="template_name">
             <div class="template_tab">
-              <!--<img class="screenshot" on-click="open_template" src="screenshots/{{template_name.name}}.png" alt="{{template_name.description}}" style="width:300px; height:180px;">-->
               <img class="intervention_tab" on-click="open_template" src="interventions/{{template_name.name}}/icon.svg" alt="{{template_name.description}}">
               <paper-tooltip position="top" offset="-10">{{template_name.description}}</paper-tooltip>
               <div class="template_name">
@@ -132,6 +126,7 @@
           </template>
         </div>
       </div> 
+    </div>
     </div>
   </template>
   <script src="intervention-editor-onboard.js"></script> 

@@ -5,6 +5,10 @@ const {
 } = require('libs_frontend/intervention_log_utils')
 
 const {
+  get_positive_goal_info
+} = require('libs_common/intervention_info')
+
+const {
   get_random_uncompleted_positive_goal
 } = require('libs_common/goal_utils')
 
@@ -35,6 +39,10 @@ polymer_ext({
       type: Number,
       value: 0
     },
+    in_facebook_news_feed: {
+      type: Boolean,
+      value: false
+    }
   },
   goClicked: function() {
     console.log('go button clicked!')
@@ -67,7 +75,8 @@ polymer_ext({
     }
   },
   ready: async function() {
-    this.goal = await get_random_uncompleted_positive_goal()
+    this.goal = await get_positive_goal_info()
+    // this.goal = await get_random_uncompleted_positive_goal()
     let goal_name = this.goal.name
     console.log('set goal to ' + goal_name)
     this.streak = await get_streak(this.goal)

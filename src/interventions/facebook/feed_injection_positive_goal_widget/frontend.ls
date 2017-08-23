@@ -15,10 +15,27 @@ require 'enable-webcomponents-in-content-scripts'
 require 'components/positive-site-trigger-v2.deps'
 
 component_generator = (numitems) ->
-  feed-item = $('<positive-site-trigger-v2>')
-  feed-item.get(0).style.setProperty('--trigger-border-style', '')
-  feed-item.get(0).style.setProperty('--trigger-font-family', "San Francisco")
-  feed-item.get(0).style.setProperty('--trigger-bg-color', '#ffffff')
+  feed-item = $('<positive-site-trigger-v2 >')
+  feed-item.attr('in_facebook_news_feed', true)
+  # feed-item.get(0).style.setProperty('--trigger-border-style', '')
+  # feed-item.get(0).style.setProperty('--trigger-font-family', "San Francisco")
+  # feed-item.get(0).style.setProperty('--trigger-bg-color', '#ffffff')
+
+  # shadow = $('<div>')
+  # shadow.css({
+  #   "height": "1px", 
+  #   "background-color": "\#1d2129", 
+  #   "opacity": 0.2
+  # })
+  # gray-space = $('<div>')
+  # gray-space.css({
+  #   "background-color": "\#e9ebee", 
+  #   "height": "12px", 
+  #   "margin-left": "-1px", 
+  #   "margin-right": "-1px"})
+
+  # feed-item.append(shadow)
+  # feed-item.append(gray-space)
 
   return wrap_in_shadow(feed-item)
 

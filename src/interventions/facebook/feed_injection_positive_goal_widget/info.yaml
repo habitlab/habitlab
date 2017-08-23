@@ -1,6 +1,9 @@
-description: Injects a call to action for another goal into the Facebook feed
-displayname: In-Feed Call to Action
+description: Periodically puts a call to action into the Facebook news feed
+displayname: Friendly Reminder
 matches:
   - www.facebook.com
+preview: https://www.facebook.com
 content_scripts:
   - frontend.js
+icon:
+  - icon.svg

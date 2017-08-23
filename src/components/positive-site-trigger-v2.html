@@ -53,10 +53,14 @@
         align-items: center;
         text-align: center;
         font-family: var(--trigger-font-family);
-        border-color: var(--trigger-border-color, #000000);
+         border-color: var(--trigger-border-color, #ffffff);
+        border-style: var(--trigger-border-style, none);
+        border-width: var(--trigger-border-width, 0px);
+        background-color: var(--trigger-bg-color, #ffffff);
+        /* border-color: var(--trigger-border-color, #000000);
         border-style: var(--trigger-border-style, solid);
         border-width: var(--trigger-border-width, 2px);
-        background-color: var(--trigger-bg-color, #95CBEE); /*or white, or rgb (0,155,55)
+        background-color: var(--trigger-bg-color, #95CBEE);  /* or white, or rgb (0,155,55) */
         /*box-shadow: 2px 2px 2px #888888;*/
       }
 
@@ -86,7 +90,9 @@
 
       #trigger-button-div {
         height: 50px;
-        display: table; 
+        display: flex; 
+        align-items: center;
+        justify-content: left;
         text-align: left; 
         height: 100%; 
         width: 100%
@@ -94,8 +100,7 @@
 
       #trigger-button-div .streak-img {
         height: 80%;
-        display: table-cell;
-        margin-top: 10%;
+        margin: 5px;
       }
 
       #streak-container {
@@ -109,7 +114,9 @@
       #streak-box {
         height: 40px;
         width: 60px;
-        display: table;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: left;
         /*font-size: 20px;*/
         /*box-shadow: 2px 2px 2px #888888;*/
@@ -119,9 +126,20 @@
 
       #streak-box .streak-img {
         height: 80%;
-        margin-top: 10%;
+        margin: 5px;
       }
-
+      
+      #grey-space {
+        background-color: #e9ebee;
+        height: 12px;
+        margin-left: -1px;
+        margin-right: -1px;
+      }
+      #shadow {
+        height: 1px;
+        background-color: #1d2129;
+        opacity: 0.2;
+      }
 
     </style>
     <div id="trigger-container">
@@ -135,16 +153,20 @@
         <div style="display: table-cell; vertical-align: middle; padding-right: 20px"> Streak </div>
         <div id="streak-box">
           <img class="streak-img" src="http://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png">
-          <div style="display: table-cell; vertical-align: middle;">{{streak}}</div>
+          <div style="margin: 5px">{{streak}}</div>
         </div>
       </div>
       <paper-button id="trigger-button">
         <div id="trigger-button-div">
           <img class="streak-img" src="http://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png">
-          <div style="display: table-cell; vertical-align: middle;" on-click="goClicked">Go</div>
+          <div style="margin: 5px; width: 80px; text-align:center;" on-click="goClicked">Go</div>
         </div>
       </paper-button>
     </div>
+    <template is="dom-if" if="{{in_facebook_news_feed}}">
+      <div id="shadow"></div>
+      <div id="grey-space"></div>
+    </template>
   </template>
   <script src="positive-site-trigger-v2.js"></script>
 </dom-module>

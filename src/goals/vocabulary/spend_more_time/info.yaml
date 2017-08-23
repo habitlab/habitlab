@@ -1,8 +1,8 @@
 description: Spend more time on Vocabulary.com
 progress_description: Time spent on Vocabulary.com
-call_to_action: Yo, go learn a new word
+call_to_action: Go learn a new word
 interventions:
-  - generic/close_tab_timer
+  - facebook/feed_injection_positive_goal_widget
 measurement: time_spent_on_domain
 domain: www.vocabulary.com
 target:

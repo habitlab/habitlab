@@ -33,13 +33,12 @@
     "sortablejs": "^1.5.0-rc1",
     "sweetalert2": "^6.3.2",
     "systemjs": "github:gkovacs/systemjs",
-    "uglify-es": "3.0.28",
-    "uglifyjs-webpack-plugin": "v1.0.0-beta.2",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1",
     "webpack2-stream-watch": "^3.2.2"
   },
   "devDependencies": {
+    "babel-minify-webpack-plugin": "^0.2.0",
     "bestzip": "^1.1.3",
     "chai": "^3.5.0",
     "cheerio": "^0.22.0",

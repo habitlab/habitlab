@@ -25,7 +25,8 @@ require! {
   'semver'
 }
 
-UglifyJSPlugin = require 'uglifyjs-webpack-plugin'
+#UglifyJSPlugin = require 'uglifyjs-webpack-plugin'
+BabiliPlugin = require 'babel-minify-webpack-plugin'
 
 fse = require 'fs-extra'
 webpack-stream = require 'webpack2-stream-watch'
@@ -139,7 +140,6 @@ webpack_pattern = [
   'src/index_jspm.ls'
   'src/options.ls'
   'src/popup.ls'
-  'src/popup_loader.js'
   'src/index_loader.js'
 ]
 
@@ -278,16 +278,19 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.plugins.push new UglifyJSPlugin {
-    uglifyOptions: {
-      ie8: false
-      ecma: 8
-      output: {
-        comments: false
-        beautify: false
-      }
-    }
+  o.plugins.push new BabiliPlugin {
+    comments: false
   }
+  # o.plugins.push new UglifyJSPlugin {
+  #   uglifyOptions: {
+  #     ie8: false
+  #     ecma: 8
+  #     output: {
+  #       comments: false
+  #       beautify: false
+  #     }
+  #   }
+  # }
 
 webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
@@ -295,16 +298,19 @@ webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.plugins.push new UglifyJSPlugin {
-    uglifyOptions: {
-      ie8: false
-      ecma: 8
-      output: {
-        comments: false
-        beautify: false
-      }
-    }
+  o.plugins.push new BabiliPlugin {
+    comments: false
   }
+  # o.plugins.push new UglifyJSPlugin {
+  #   uglifyOptions: {
+  #     ie8: false
+  #     ecma: 8
+  #     output: {
+  #       comments: false
+  #       beautify: false
+  #     }
+  #   }
+  # }
 
 
 gulp.task 'webpack_vulcanize', ->

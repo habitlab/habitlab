@@ -5,7 +5,7 @@
 <link rel="import" href="pill-button-group.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
-<dom-module id="intervention-view-single-v2">
+<dom-module id="intervention-view-single-compact">
   <style>
     :host {
       display: block;
@@ -45,22 +45,22 @@
           <div style = 'display: flex;justify-content: space-between; align-items:center; align-content: space-around; font-family:"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 8px'>
             <!-- <div style = "display: table-row;"> -->
             <!-- <div style= 'display:flex; align-items:center; align-content:space-around;font-family:"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 8px'> -->
-              <div style = "display: flex;width: 200px;justify-content: flex-start; align-items:center;align-content:space-around">
+              <div id="displayiconandname" style = "display: flex;width: 200px;justify-content: flex-start; align-items:center;align-content:space-around">
                 <img style = "align-self: auto; width:50px; border: transparent;" class="interventions" src = "{{get_intervention_icon_url(intervention)}}" />
                 <div style = "align-self:auto; width:150px;border: transparent;">{{intervention.displayname}} </div> 
               </div>
-              <div style = "align-self:auto; border:transparent; padding: 0px 10px 0px 10px;">{{intervention.description}} </div> 
+              <paper-tooltip fit-to-visible-bounds for="displayiconandname" animation-delay="0">{{intervention.description}}</paper-tooltip>
               <!-- <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
                 <span style="font-family: monospace">[<span>{{intervention.displayname}}</span>]</span>
               </template> -->
             <!-- </div> -->
 
             <!-- <div style = "display: table-cell; border:transparent;" class = "buttons" style = "margin-left:auto"> -->
-            <div style = "margin-right: 5px; display: flex;width: 225px;justify-content: flex-start; align-items:center;align-content:space-around"> 
+            <div style = "margin-right: 10px; display: flex;width: 225px;justify-content: flex-start; align-items:center;align-content:space-around"> 
               <div style = "align-self:auto; width:150px;border:transparent;">
                 
                 <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
-                <paper-tooltip for="pill_selector" animation-delay="0">Each time you visit <span>{{sitename}}</span>,<br>HabitLab will show one of the<br>nudges turned 'On'.</paper-tooltip>
+                <paper-tooltip fit-to-visible-bounds for="pill_selector" animation-delay="0">Each time you visit <span>{{sitename}}</span>,<br>HabitLab will show one of the<br>nudges turned 'On'.</paper-tooltip>
               </div>
               <template is="dom-if" if="{{custom}}">
                 <div style = "align-self:auto; vertical-align:middle; width:75px; margin-right: 10px; border: transparent;">    
@@ -130,5 +130,5 @@
       </template>
     </div>
   </template>
-  <script src="intervention-view-single-v2.js"></script>
+  <script src="intervention-view-single-compact.js"></script>
 </dom-module>

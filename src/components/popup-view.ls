@@ -334,7 +334,7 @@ polymer_ext {
       require('../bower_components/iron-icon/iron-icon.deps')
       require('../bower_components/iron-icons/iron-icons.deps')
       require('components/graph-donut-top-sites.deps')
-      require('components/intervention-view-single.deps')
+      require('components/intervention-view-single-compact.deps')
       require('components/feedback-form.deps')
 
       await get_screenshot_utils()

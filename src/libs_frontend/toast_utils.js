@@ -25,7 +25,7 @@ function show_toast(options) {
     'margin': '12px',
     'padding': '16px 24px',
     'box-sizing': 'content-box',
-    'font-family': '"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
+    'font-family': 'Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
     'font-size': '14px',
     'line-height': 1,
     //'opacity': 1,

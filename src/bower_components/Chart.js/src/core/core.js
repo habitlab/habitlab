@@ -76,7 +76,7 @@ module.exports = function() {
 			onClick: null,
 			defaultColor: 'rgba(0,0,0,0.1)',
 			defaultFontColor: '#666',
-			defaultFontFamily: "'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+			defaultFontFamily: "Verdana, Geneva, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 			defaultFontSize: 12,
 			defaultFontStyle: 'normal',
 			showLines: true,

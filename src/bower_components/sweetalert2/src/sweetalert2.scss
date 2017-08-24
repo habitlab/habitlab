@@ -65,7 +65,7 @@ body {
 
 .swal2-modal {
   background-color: $white;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: Verdana, Geneva, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   border-radius: 5px;
   box-sizing: border-box;
   text-align: center;
@@ -405,7 +405,7 @@ body {
   }
 
   &.swal2-warning {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Verdana, Geneva, 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: $warning;
     border-color: lighten($warning, 7);
     font-size: 60px;
@@ -414,7 +414,7 @@ body {
   }
 
   &.swal2-info {
-    font-family: 'Open Sans', sans-serif;
+    font-family: Verdana, Geneva, sans-serif;
     color: $info;
     border-color: lighten($info, 20);
     font-size: 60px;
@@ -423,7 +423,7 @@ body {
   }
 
   &.swal2-question {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Verdana, Geneva, 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: $question;
     border-color: lighten($question, 20);
     font-size: 60px;

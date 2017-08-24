@@ -80,7 +80,8 @@ if window.location.pathname == '/options.html'
       onboarding_view.parentNode.removeChild(onboarding_view)
       options_view = add_options_view(false)
       options_view.style.display = 'block'
-      options_view.rerender()
+      options_view.rerender().then ->
+        options_view.onboarding_completed()
       window.location.hash = 'settings'
     #options_view.style.display = 'none'
     document.getElementById('index_body').appendChild(onboarding_view)

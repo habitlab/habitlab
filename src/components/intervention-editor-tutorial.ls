@@ -34,10 +34,10 @@ Polymer({
         #   }
         # '''
         flip_page_jquery_editor: '''
-          window.onload = function() {
-            var $ = require('jquery');      
-            $('body').css('transform', 'rotate(180deg)');       
-          }   
+          var $=require('jquery');
+          $(document).ready(function(){
+            $('body').css('transform', 'rotate(180deg)');
+          });  
         '''
         change_opacity_editor:'''
           var $ = require('jquery');      
@@ -218,10 +218,16 @@ Polymer({
         '''
       }
     }
+    js_editors: {
+      type: Object
+      value: {}
+    }
   }
   demo_clicked: (evt) ->>
     editor_name = evt.target.getAttribute('srcname')
-    temp_code = this.default_code[editor_name]
+    # temp_code=this.$$('#' + editor_name).getSession().getValue().trim()
+    temp_code=this.js_editors[editor_name].getSession().getValue().trim()
+    # temp_code = this.default_code[editor_name]
     temp_goal_info=await get_goal_info("youtube/spend_less_time")
     temp_intervention_info = {
       code:temp_code
@@ -250,6 +256,7 @@ Polymer({
     editor_list = Object.keys(this.default_code)
     for editor_name in editor_list
       js_editor = brace.edit(self.$$('#' + editor_name))
+      self.js_editors[editor_name]=js_editor
       js_editor.setOptions({
         enableBasicAutocompletion: true
         enableSnippets: true

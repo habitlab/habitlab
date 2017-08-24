@@ -332,7 +332,7 @@ do !->>
     # log_impression_internal(name)
 
     goal_info = await get_goal_info(intervention_info.goals[0])
-    positive_goal_info = await get_random_uncompleted_positive_goal()
+    positive_goal_info = {} # await get_random_uncompleted_positive_goal()
 
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
     parameter_values = await get_intervention_parameters(intervention_info.name)

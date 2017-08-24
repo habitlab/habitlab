@@ -63,13 +63,13 @@
               </div>
               <template is="dom-if" if="{{custom}}">
                 <div style = "align-self:auto; vertical-align:middle; width:75px; margin-right: 10px; border: transparent;">    
-                  <paper-button class="edit-button" style="height: 30px" on-click="edit_custom_intervention">Edit</paper-button>
-                  <paper-button class="try-now-button" style="height: 30px" on-click="preview_intervention">Try now</paper-button>
+                  <paper-button class="edit-button" style="height: 30px; min-width: 5.2em; font-weight: 400" on-click="edit_custom_intervention">Edit</paper-button>
+                  <paper-button class="try-now-button" style="height: 30px; min-width: 5.2em; font-weight: 400" on-click="preview_intervention">Try now</paper-button>
                 </div>
               </template>
               <template is="dom-if" if="{{!custom}}">
                 <div style = "align-self:auto; vertical-align:middle; width:75px; margin-right: 10px; border: transparent;">    
-                  <paper-button class="try-now-button" on-click="preview_intervention">Try now</paper-button>
+                  <paper-button class="try-now-button" style="min-width: 5.2em; font-weight: 400" on-click="preview_intervention">Try now</paper-button>
                 </div>
               </template>
             </div>

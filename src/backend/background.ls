@@ -64,7 +64,7 @@ do !->>
     get_goal_intervention_info
     set_goals_enabled
     set_default_goals_enabled
-    get_random_uncompleted_positive_goal
+    get_random_positive_goal
   } = require 'libs_backend/goal_utils'
 
   {
@@ -333,7 +333,7 @@ do !->>
     # log_impression_internal(name)
 
     goal_info = await get_goal_info(intervention_info.goals[0])
-    positive_goal_info = await get_random_uncompleted_positive_goal()
+    positive_goal_info = await get_random_positive_goal()
 
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
     parameter_values = await get_intervention_parameters(intervention_info.name)

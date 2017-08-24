@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="positive-site-trigger.html">
+<link rel="import" href="positive-site-trigger-v2.html">
 
 
 <dom-module id="interstitial-screen-positive-trigger">
@@ -17,12 +17,20 @@
           text-overflow: ellipsis;
         };
         --paper-item-min-height: 36px;
+        --trigger-bg-color: #f2fcff;
+        --trigger-border-style: solid;
+        --trigger-border-width: 2px;
+        --trigger-border-color: #000000;
+        --trigger-streak-border-style: solid;
+        --trigger-streak-border-width: 1px;
+        --trigger-streak-border-color: #aaaaaa;
       }
 
       .white-div {
         position: fixed;
         display: flex;
         flex-direction: column;
+        justify-content: center;
         text-align: center;
         align-items: center;
         top: 0%;
@@ -49,7 +57,7 @@
 
     </style>
     <div class="white-div text-div">
-      <positive-site-trigger/>
+      <positive-site-trigger-v2/>
       <center><habitlab-logo id="logo"></habitlab-logo></center>
       <div class="contentContainer">
         <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">{{continueButtonText}}</paper-button></center>

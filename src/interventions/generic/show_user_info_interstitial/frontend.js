@@ -24,7 +24,6 @@ var shadow_div;
   var domain = url_to_domain(window.location.href)
   var numMins = await get_minutes_spent_on_domain_today(domain)
   var numVisits = await get_visits_to_domain_today(domain)
-  var titleString = 'You have visited ' + url_to_domain(window.location.href) +' ' + numVisits + ' times and spent '+ numMins + ' minutes there today.'
   var sitename_printable = get_intervention().sitename_printable
   var buttonText = `Click to continue to ${sitename_printable}`
   var buttonText2 = `Close ${sitename_printable}`
@@ -34,7 +33,6 @@ var shadow_div;
   interst_screen.attr('intervention', intervention.name)
   interst_screen.attr('btn-txt', buttonText)
   interst_screen.attr('btn-txt2', buttonText2)
-  interst_screen.attr('title-text', titleString)
   interst_screen.attr('minutes', numMins);
   interst_screen.attr('visits', numVisits);
   interst_screen.attr('seconds', 0);

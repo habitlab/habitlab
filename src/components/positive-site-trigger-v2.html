@@ -52,7 +52,7 @@
         align-items: center;
         text-align: center;
         font-family: var(--trigger-font-family);
-         border-color: var(--trigger-border-color, #ffffff);
+        border-color: var(--trigger-border-color, #ffffff);
         border-style: var(--trigger-border-style, none);
         border-width: var(--trigger-border-width, 0px);
         background-color: var(--trigger-bg-color, #ffffff);
@@ -121,6 +121,10 @@
         /*box-shadow: 2px 2px 2px #888888;*/
         padding: 5px;
         background-color: white;
+        border-color: var(--trigger-streak-border-color, #ffffff);
+        border-style: var(--trigger-streak-border-style, none);
+        border-width: var(--trigger-streak-border-width, 0px);
+        background-color: var(--trigger-streak-bg-color, #ffffff);
       }
 
       #streak-box .streak-img {
@@ -151,13 +155,13 @@
       <div id="streak-container">
         <div style="display: table-cell; vertical-align: middle; padding-right: 20px"> Streak </div>
         <div id="streak-box">
-          <img class="streak-img" src="http://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png">
+          <img class="streak-img" src="{{streakIconURL}}">
           <div style="margin: 5px">{{streak}}</div>
         </div>
       </div>
       <paper-button id="trigger-button">
         <div id="trigger-button-div">
-          <img class="streak-img" src="http://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png">
+          <img class="streak-img" src="{{streakIconURL}}">
           <div style="margin: 5px; width: 80px; text-align:center;" on-click="goClicked">Go</div>
         </div>
       </paper-button>

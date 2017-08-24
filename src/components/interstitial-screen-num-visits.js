@@ -27,9 +27,6 @@ Polymer({
     minutes: {
       type: Number
     },
-    titleText: {
-      type: String, 
-    },
     visits: {
       type: Number
     },
@@ -94,9 +91,12 @@ Polymer({
   },
   /// Show positive site trigger if there's an enabled goal
   compute_show_positive_site_trigger: async function() {
-    let positive_goals = await get_positive_enabled_uncompleted_goals()
-    console.log(positive_goals)
-    return (Object.keys(positive_goals).length > 0)
+    let randomizer = Math.floor(Math.random()*2) == 0
+    return randomizer
+    
+    // let positive_goals = await get_positive_enabled_uncompleted_goals()
+    // console.log(positive_goals)
+    // return (Object.keys(positive_goals).length > 0)
   },
   showProgress: function() {
     this.$.paperprogress.style.display = 'block';
@@ -115,14 +115,9 @@ Polymer({
     console.log('interstitial-polymer ready')
     this.$.okbutton.textContent = this.btnTxt
     this.$.calltoactionbutton.text = this.btnTxt2
-    //this.$.titletext.textContent = this.titleText
-    //this.$.messagetext.textContent = this.messageText
-    //console.log(this.$.titletext.textContent)
     
     this.show_positive_site_trigger = await this.compute_show_positive_site_trigger()
-    console.log(this.show_positive_site_trigger)
     this.show_quote_message = !this.show_positive_site_trigger
-    console.log(this.show_quote_message)
 
     this.addEventListener('show_button', function() {
       console.log('hi')
@@ -141,7 +136,6 @@ Polymer({
     this.$.okbutton.textContent = this.btnTxt 
     this.$.calltoactionbutton.closeTabText = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
-    this.$.titletext.textContent = this.titleText
     console.log('attribute changed called')
   }
 });

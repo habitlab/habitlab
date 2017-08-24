@@ -228,7 +228,7 @@ polymer_ext {
       result = await self.run_eval_debug(command)
       term.echo result
     terminal_handler = (command, term, callback) ->
-      terminal_handler_real().then(callback)
+      terminal_handler_real(command, term).then(callback)
       return
     messages = []
     if not localstorage_getbool('debug_terminal_livescript')

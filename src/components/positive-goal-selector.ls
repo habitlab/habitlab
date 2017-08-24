@@ -421,12 +421,11 @@ polymer_ext {
     #console.log 'checkpoint 7'
     return
   repaint_due_to_resize_once_in_view: ->
-    console.log 'calling repaint_due_to_resize_once_in_view'
     self = this
     leftmost = null
     rightmost = null
     rightmost_without_width = null
-    for icon in $('.siteicon')
+    for icon in this.SM('.siteicon')
       width = $(icon).width()
       left = $(icon).offset().left
       right = left + width
@@ -444,10 +443,11 @@ polymer_ext {
     else
       self.repaint_due_to_resize()
   repaint_due_to_resize: ->
+    self = this
     leftmost = null
     rightmost = null
     rightmost_without_width = null
-    for icon in $('.siteicon')
+    for icon in this.SM('.siteicon')
       width = $(icon).width()
       left = $(icon).offset().left
       right = left + width
@@ -461,16 +461,15 @@ polymer_ext {
       # is not on screen
       return
     total_width = $(self).width()
-    margin_needed = ((total_width - (rightmost - leftmost)) / 2)-15
-    $('.flexcontainer').css('margin-left', margin_needed)
-    current_offset = this.S('.flexcontainer').offset()
-    this.S('.flexcontainer').offset({left: margin_needed, top: current_offset.top})
+    margin_needed = ((total_width - (rightmost - leftmost)) / 2) - 15
+    parent_offset = $(self).offset()
+    orig_offset = this.S('.flexcontainer').offset()
+    this.S('.flexcontainer').offset({left: margin_needed + parent_offset.left, top: orig_offset.top})
   attached: ->>
     self = this
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-    if self.is_onboarding
-      self.on_resize '#outer_wrapper', ->
-        self.repaint_due_to_resize()
+    self.on_resize '#outer_wrapper', ->
+      self.repaint_due_to_resize()
     #fetch history for suggested sites in intervention settings 
     this.baseline_time_on_domains = await get_baseline_time_on_domains()
     baseline_time_on_domains_array = []
@@ -486,9 +485,8 @@ polymer_ext {
     #console.log('finished fetching favicons')
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
     this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
-    if self.is_onboarding
-      self.once_available '.siteiconregular' ->
-        self.repaint_due_to_resize()
+    self.once_available '.siteiconregular' ->
+      self.repaint_due_to_resize()
 
 }, [
   {
@@ -503,6 +501,7 @@ polymer_ext {
       'text_if'
       'once_available'
       'S'
+      'SM'
     ]
   }
   {

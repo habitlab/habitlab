@@ -152,8 +152,12 @@ polymer_ext {
       self.$$('#siteview_' + goal_sitename).rerender()
     return
   onboarding_completed: ->
-    swal("Onboarding Complete!", "Habitlab has directed you to the Settings page. You will be able to manage your Nudges and track your progress here.", "success")
-  
+    swal({
+      title: "Onboarding Complete!",
+      text: "Habitlab has directed you to the Settings page. You will be able to manage your Nudges and track your progress here.",
+      confirmButtonColor: "#3C5A96"
+    });
+
   on_goal_changed: (evt) ->
     console.log 'goal changed'
     this.rerender()

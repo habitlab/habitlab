@@ -1,3 +1,5 @@
+console.log('running youtube sidebar intervention')
+
 const {
   once_available_fast,
   on_url_change,
@@ -11,6 +13,7 @@ const {
 } = require('libs_common/common_libs')
 
 const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
+  console.log('removeSidebar called')
   if (window.intervention_disabled) {
     return
   }
@@ -22,6 +25,7 @@ const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
 
 //Nukes links on the sidebar
 function removeSidebar() {
+  console.log('removeSidebar running')
   if (window.intervention_disabled) {
     return
   }

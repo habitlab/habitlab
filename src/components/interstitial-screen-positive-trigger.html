@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="positive-site-trigger.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="positive-site-trigger-v2.html">
+<link rel="import" href="habitlab-logo.html">
 
 
 <dom-module id="interstitial-screen-positive-trigger">
@@ -8,7 +9,7 @@
     <style is="custom-style">
       :host {
         --paper-item: {
-          font-family: "Open Sans";
+          font-family: Verdana, Geneva, sans-serif;
           font-size: 20px;
           font-color: #526FAB;
           overflow: hidden;
@@ -16,13 +17,21 @@
           display: block;
           text-overflow: ellipsis;
         };
-        --paper-item-min-height: 36px;
+        --paper-item-min-height: 36px; */
+        --trigger-bg-color: #f2fcff;
+        --trigger-border-style: solid;
+        --trigger-border-width: 2px;
+        --trigger-border-color: #000000;
+        --trigger-streak-border-style: solid;
+        --trigger-streak-border-width: 1px;
+        --trigger-streak-border-color: #aaaaaa;
       }
 
       .white-div {
         position: fixed;
         display: flex;
         flex-direction: column;
+        justify-content: center;
         text-align: center;
         align-items: center;
         top: 0%;
@@ -39,21 +48,29 @@
       }
 
       .text-div {
-        font-family: "Open Sans";
+        font-family: Verdana, Geneva, sans-serif;
         text-align:center;
         color: #415D67; 
         line-height: 150%;
         font-size: 15px;
       }
+
+      #okbutton {
+        margin: 10px;
+      }
+
+      #logo {
+        margin: 10px;
+      }
       
 
     </style>
     <div class="white-div text-div">
-      <positive-site-trigger/>
-      <center><habitlab-logo id="logo"></habitlab-logo></center>
+      <positive-site-trigger-v2></positive-site-trigger-v2>
       <div class="contentContainer">
         <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">{{continueButtonText}}</paper-button></center>
       </div>
+      <center><habitlab-logo id="logo"></habitlab-logo></center>      
     </div>
   </template>
   <script src="interstitial-screen-positive-trigger.js"></script>

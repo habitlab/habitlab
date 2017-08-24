@@ -91,6 +91,8 @@ lib_name_to_func_names_and_signatures =
     get_duolingo_username: []
     get_duolingo_info: []
     get_duolingo_info_for_user: 'username'
+  streak_utils:
+    get_streak: 'goal_info'
   intervention_vars_backend:
     getvar_intervention_synced_backend: ['intervention_name', 'key']
     setvar_intervention_synced_backend: ['intervention_name', 'key', 'val']

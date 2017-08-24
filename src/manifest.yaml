@@ -38,6 +38,9 @@ web_accessible_resources:
   - components/*
   - components/**/*
   - interventions/**/*.png
+  - interventions/**/*.svg
+  - goals/**/*.png
+  - goals/**/*.svg
   - bower_components/**/*
   - node_modules_custom/**/*
   - jspm_packages/**/*

@@ -5,12 +5,12 @@ const {
 } = require('libs_frontend/intervention_log_utils')
 
 const {
-  get_random_uncompleted_positive_goal
-} = require('libs_common/goal_utils')
+  get_streak
+} = require('libs_common/streak_utils')
 
 const {
-  get_streak
-} = require('libs_backend/streak_utils')
+  get_positive_goal_info
+} = require('libs_common/intervention_info')
 
 polymer_ext({
   is: 'positive-site-trigger',
@@ -29,6 +29,10 @@ polymer_ext({
     positiveGoalDescription: {
       type: String,
       computed: 'compute_description(goal)'
+    },
+    streakIconURL:{
+      type: String,
+      value: chrome.extension.getURL('icons/streak.svg') 
     },
     streak: {
       type: Number,
@@ -53,7 +57,7 @@ polymer_ext({
     return goal.description
   },
   ready: async function() {
-    this.goal = await get_random_uncompleted_positive_goal()
+    this.goal = await get_positive_goal_info()
     let goal_name = this.goal.name
     this.streak = await get_streak(this.goal)
   }

@@ -14,21 +14,29 @@ const {
 
 const {
   get_streak
-} = require('libs_backend/streak_utils')
+} = require('libs_common/streak_utils')
+
+const {
+  get_favicon_data_for_domain
+} = require ('libs_common/favicon_utils')
 
 polymer_ext({
   is: 'positive-site-trigger-v2',
   properties: {
     goal: {
-      type: Object
+      type: Object,
+      observer: 'goal_changed'
     },
     positiveSite: {
       type: String,
       computed: 'compute_sitename(goal)'
     },
     positiveSiteIcon: {
+      type: String
+    },
+    streakIconURL:{
       type: String,
-      computed: 'compute_icon(goal)'
+      value: chrome.extension.getURL('icons/streak.svg') 
     },
     positiveGoalDescription: {
       type: String,
@@ -54,8 +62,16 @@ polymer_ext({
   compute_sitename: function(goal) {
     return goal.sitename_printable
   },
-  compute_icon: function(goal) {
-    return goal.icon
+  goal_changed: async function(goal) {
+    this.positiveSiteIcon = await this.compute_icon(goal)
+  },
+  compute_icon: async function(goal) {
+    if (goal.icon != null) {
+      return goal.icon
+    } else {
+      let icon = await get_favicon_data_for_domain(goal.domain)
+      return icon
+    }
   },
   compute_description: function(goal) {
     return goal.description

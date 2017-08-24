@@ -120,7 +120,7 @@ export create_shadow_div = (options) ->
     shadow_div = document.createElement('div')
   options = to_camelcase_dict(options)
   default_options = {
-    fontFamily: '"Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
+    fontFamily: 'Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
     position: 'static'
     zIndex: Number.MAX_SAFE_INTEGER
     fontSize: '14px'

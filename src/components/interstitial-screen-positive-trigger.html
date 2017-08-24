@@ -1,13 +1,14 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="positive-site-trigger-v2.html">
+<link rel="import" href="habitlab-logo.html">
 
 
 <dom-module id="interstitial-screen-positive-trigger">
   <template>
     <style is="custom-style">
       :host {
-        --paper-item: {
+        /* --paper-item: {
           font-family: "Open Sans";
           font-size: 20px;
           font-color: #526FAB;
@@ -16,7 +17,7 @@
           display: block;
           text-overflow: ellipsis;
         };
-        --paper-item-min-height: 36px;
+        --paper-item-min-height: 36px; */
         --trigger-bg-color: #f2fcff;
         --trigger-border-style: solid;
         --trigger-border-width: 2px;
@@ -53,15 +54,23 @@
         line-height: 150%;
         font-size: 15px;
       }
+
+      #okbutton {
+        margin: 10px;
+      }
+
+      #logo {
+        margin: 10px;
+      }
       
 
     </style>
     <div class="white-div text-div">
-      <positive-site-trigger-v2/>
-      <center><habitlab-logo id="logo"></habitlab-logo></center>
+      <positive-site-trigger-v2></positive-site-trigger-v2>
       <div class="contentContainer">
         <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">{{continueButtonText}}</paper-button></center>
       </div>
+      <center><habitlab-logo id="logo"></habitlab-logo></center>      
     </div>
   </template>
   <script src="interstitial-screen-positive-trigger.js"></script>

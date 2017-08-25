@@ -498,8 +498,8 @@ polymer_ext {
       open_template_name=JSON.parse open_template_name
       localStorage.removeItem('intervention_editor_open_template_name')
       self.display_template_by_name(open_template_name)
-    if (not new_intervention_info?) and (not open_intervention_name?) and (not open_template_name?) and localStorage['last_opened_intervention']? and self.opened_intervention_list.length==0
-      self.display_intervention_by_name(localStorage['last_opened_intervention'])
+    if (not new_intervention_info?) and (not open_intervention_name?) and (not open_template_name?) and localStorage.last_opened_intervention? and self.opened_intervention_list.length==0
+      self.display_intervention_by_name(localStorage.last_opened_intervention)
     window.onbeforeunload = ->
       have_modifed_interventions = false
       for intervention_name,js_editor of self.js_editors
@@ -507,7 +507,9 @@ polymer_ext {
         localStorage['autosaved_intervention_' + intervention_name] = intervention_text
         if intervention_text != localStorage['saved_intervention_' + intervention_name]
           have_modifed_interventions = true
-      localStorage['last_opened_intervention'] = self.get_intervention_name()
+      last_opened_intervention = self.get_intervention_name()
+      if last_opened_intervention?
+        localStorage.last_opened_intervention = last_opened_intervention
       if have_modifed_interventions
         return true
       return

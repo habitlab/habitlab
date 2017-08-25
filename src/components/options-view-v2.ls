@@ -180,8 +180,6 @@ polymer_ext {
     self.is_habitlab_disabled = not (await is_habitlab_enabled())
     #is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
     goals = await get_goals()
-    console.log 'goals:'
-    console.log goals
     enabled_goals = await get_enabled_goals()
     goals_list = await list_all_goals()
     enabled_goal_info_list = []

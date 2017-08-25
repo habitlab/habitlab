@@ -261,48 +261,24 @@ polymer_ext {
         return 2
     return 0
   */
-  preview_intervention: ->
+  preview_intervention: ->>
     intervention_name = this.dialog_intervention.name
-    set_override_enabled_interventions_once intervention_name
-    facebook_enabled = false
-    reddit_enabled = false
-    console.log(this.dialog_goal)
-    console.log(this.dialog_intervention)
-    console.log('enabled_goals_info_list')
-    console.log(this.enabled_goals_info_list)
-    if this.dialog_intervention.preview? 
-      preview_page = this.dialog_intervention.preview
-    else
-      if this.dialog_goal.preview?
-        preview_page = this.dialog_goal.preview
+    enabled_goal_names =  this.enabled_goals_info_list.map (.name)
+    facebook_enabled = enabled_goal_names.includes('facebook/spend_less_time')
+    reddit_enabled = enabled_goal_names.includes('reddit/spend_less_time')
+    preview_page = this.dialog_goal.preview ? this.dialog_intervention.preview ? 'https://' + this.dialog_intervention.domain
+    if intervention_name.startsWith('generic/')
+      if facebook_enabled and (not reddit_enabled)
+        intervention_name = intervention_name.replace('generic/', 'facebook/')
       else
-        for enabled_goal in this.enabled_goals_info_list
-          if enabled_goal.sitename == "facebook"
-            facebook_enabled = true
-            console.log('facebook_is_enabled')
-          if enabled_goal.sitename == "reddit"
-            reddit_enabled = true
-            console.log('reddit_is_enabled')
-        if reddit_enabled == true
-          preview_page = "https://www.reddit.com"
-        else
-          if facebook_enabled == true
-            preview_page = "https://www.facebook.com"
-          else
-            preview_page = this.enabled_goals_info_list[0].preview
-
-      
-    # if this.dialog_intervention.preview == null
-    #   preview_page = "https://www.facebook.com/"
-    # if this.dialog_goal.preview == null
-    #   preview_page = "https://www.facebook.com/"
-    # else
-    #   preview_page = this.dialog_intervention.preview ? this.dialog_goal.preview ? this.dialog_goal.homepage
-    # preview_page = this.dialog_intervention.preview ? this.dialog_goal.preview ? this.dialog_goal.homepage
+        intervention_name = intervention_name.replace('generic/', 'reddit/')
+      intervention_info = await get_intervention_info(intervention_name)
+      goal_info = await get_goal_info(intervention_info.goals[0])
+      set_override_enabled_interventions_once intervention_name
+      preview_page = goal_info.preview ? 'https://' + goal_info.domain
+    else
+      set_override_enabled_interventions_once intervention_name
     chrome.tabs.create {url: preview_page}
-    console.log('preview_page')
-    console.log(preview_page)
-
   rerender: ->>
     [enabled_goals_info_list, generic_interventions, all_interventions, enabled_interventions] = await Promise.all [
       list_goal_info_for_enabled_goals()

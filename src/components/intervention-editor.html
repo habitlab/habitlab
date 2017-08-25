@@ -47,9 +47,6 @@
       background-color: black;
       height:50px;
     }
-    .intervention_tab:hover {
-
-    }
     #topbar_buttons {
       float: right;
       z-index:9999;
@@ -117,9 +114,18 @@
       overflow-y:scroll;
     }
     .close_tab_button{
-      position:absolute;
       width:20px;
       height:20px;
+    }
+    .icon_container{
+      display:block;
+    }
+    .icon_text{
+      text-align: center;
+    }
+    #bottom_buttons_container{
+      float: right;
+      margin-right:10px;
     }
   </style>
   <template>
@@ -138,44 +144,68 @@
     </div>
 
     <paper-card id="topbar">
-      <paper-tabs id="intervention-tabs" selected="{{selected_tab_idx}}" autoselect style="position: fixed; left: 0px; top: 0px; z-index:999;height:50px; float:left;">
-          <paper-tab class="intervention_tab">Tutorial</paper-tab>
+      <paper-tabs id="intervention-tabs" selected="{{selected_tab_idx}}" autoselect style="position: fixed; left: 0px; top: 0px; height:50px; float:left;">
+        <paper-tab class="intervention_tab">Tutorial
+          <paper-icon-button icon="close" class="close_tab_button" on-click="close_tutorial_clicked"></paper-icon-button>
+        </paper-tab>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
           <paper-tab intervention_tab_name="{{intervention_tab_name}}" class="intervention_tab">
             {{intervention_tab_name}}
-            <paper-icon-button icon="close" class="close_tab_button"></paper-icon-button>
+            <paper-icon-button icon="close" class="close_tab_button" tab_name="{{intervention_tab_name}}" on-click="close_tab_clicked" id="tab_{{intervention_tab_name}}"></paper-icon-button>
           </paper-tab>
-
         </template>
       </paper-tabs>
 
       <div id = "topbar_buttons">
-        <paper-icon-button icon="folder-open" id="open_button" style="color:#4279BD;" on-click="open_custom_intervention_clicked"></paper-icon-button>
+        <paper-button class="button" on-click="add_new_intervention_clicked" style="z-index:10;">Create a new nudge</paper-button>
+        <!-- <paper-icon-button icon="folder-open" id="open_button" style="color:#4279BD;" on-click="open_custom_intervention_clicked"></paper-icon-button>
         <paper-tooltip position="bottom" for="open_button">Open an existing custom nudge.</paper-tooltip>
         <paper-icon-button id ="add_button" style="color:#4279BD;" icon="add-circle-outline" on-click="add_new_intervention_clicked"></paper-icon-button>
-        <paper-tooltip for="add_button" position="bottom">Add a new nudge</paper-tooltip>
-        <!-- <paper-icon-button icon="menu" style="color:#4279BD;" on-click="hide_or_show_sidebar"></paper-icon-button> -->
-        <paper-icon-button icon="help-outline" style="color:#4279BD; " on-click="help_clicked"></paper-icon-button>
+        <paper-tooltip for="add_button" position="bottom">Add a new nudge</paper-tooltip> -->
       </div>
     </paper-card>
 
-    <paper-card id="sidebar">   
-      <paper-icon-button id="save_button" icon="save" on-click="save_intervention"></paper-icon-button>
-      <paper-tooltip position="left" for ="save_button">Save and turn on this nudge in HabitLab settings to implement this right away!</paper-tooltip>
-      <paper-icon-button icon="info" id="info_button" on-click="info_clicked"></paper-icon-button>
-      <paper-tooltip position="left" for ="info_button">View or edit current nudge's goal, description, preview_url or name.</paper-tooltip>
-      <paper-icon-button icon="delete" id="delete_button" on-click="delete_intervention"></paper-icon-button>
-      <paper-tooltip position="left" for="delete_button">Delete current nudge</paper-tooltip>
-      <paper-icon-button icon="cloud" id="share_button" on-click="share_clicked"></paper-icon-button>
-     <paper-tooltip position="left" for="share_button">Share your nudge with the HabitLab community!</paper-tooltip>
+    <paper-card id="sidebar">
+
+      <div class="icon_container">
+        <paper-icon-button icon="folder" id="open_button" on-click="open_custom_intervention_clicked"></paper-icon-button>
+        <paper-tooltip position="left" for="open_button">Open an existing custom nudge.</paper-tooltip>
+        <div class="icon_text">OPEN</div>
+      </div>
+      <div class="icon_container">
+        <paper-icon-button icon="info" id="info_button" on-click="info_clicked"></paper-icon-button>
+        <div class="icon_text">INFO/<br>MODIFY</div>
+        <paper-tooltip position="left" for ="info_button">View or edit current nudge's goal, description, preview_url or name.</paper-tooltip>
+      </div>
+      <div class="icon_container"> 
+          <paper-icon-button id="save_button" icon="save" on-click="save_intervention"></paper-icon-button>
+          <!-- <paper-tooltip position="left" for ="save_button">Save and turn on this nudge in HabitLab settings to implement this right away!</paper-tooltip> -->
+          <div class="icon_text">SAVE</div>
+      </div>
+      <div class="icon_container">
+        <paper-icon-button icon="delete" id="delete_button" on-click="delete_intervention"></paper-icon-button>
+        <div class="icon_text">DELETE</div>
+      <!-- <paper-tooltip position="left" for="delete_button">Delete current nudge</paper-tooltip> -->
+      </div>
+      <div class="icon_container">
+        <paper-icon-button icon="cloud" id="share_button" on-click="share_clicked"></paper-icon-button>
+        <div class="icon_text">SHARE</div>
+     <!-- <paper-tooltip position="left" for="share_button">Share your nudge with the HabitLab community!</paper-tooltip> -->
+      </div>
+      <div class="icon_container">
+          <paper-icon-button icon="help" on-click="help_clicked"></paper-icon-button>          
+          <div class="icon_text">TUTORIAL</div>
+      </div>  
     </paper-card>
 
      <paper-card id = "bottombar">
+       <div id="bottom_buttons_container">
       <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
       <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
       <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
       <paper-tooltip position="top" for="pill_selector">Click to enable/disable your custom nudge.</paper-tooltip>
-      <paper-button class="button" on-click="add_new_intervention_clicked" style="float:right;">Back</paper-button>
+      <!-- <paper-button class="button" on-click="add_new_intervention_clicked" style="float:right;">Back</paper-button> -->
+       </div>
     </paper-card>
 
   </template>

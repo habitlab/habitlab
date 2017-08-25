@@ -5,6 +5,7 @@ do !->>
   localStorage.removeItem 'cached_list_all_goals'
   localStorage.removeItem 'cached_list_all_interventions'
   localStorage.removeItem 'cached_list_generic_interventions'
+  localStorage.removeItem 'cached_list_generic_positive_interventions'
   localStorage.removeItem 'cached_list_video_interventions'
   localStorage.removeItem 'cached_get_goals'
   localStorage.removeItem 'cached_get_interventions'
@@ -331,21 +332,39 @@ do !->>
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
 
-    goal_info = await get_goal_info(intervention_info.goals[0])
-    positive_goal_info = await get_random_positive_goal()
+    content_script_codes_promises = []
+    for content_script_option in content_script_options
+      if content_script_option.code?
+        content_script_codes_promises.push Promise.resolve(content_script_option.code)
+      else
+        content_script_codes_promises.push localget(content_script_option.path)
 
+    if cached_systemjs_code != null
+      systemjs_content_script_code_promise = Promise.resolve cached_systemjs_code
+    else
+      systemjs_content_script_code_promise = localget('/intervention_utils/systemjs.js')
+
+    [
+      goal_info
+      positive_goal_info
+      parameter_values
+      systemjs_content_script_code
+      ...content_script_codes
+    ] = await Promise.all [
+      get_goal_info(intervention_info.goals[0])
+      get_random_positive_goal()
+      get_intervention_parameters(intervention_info.name)
+      systemjs_content_script_code_promise
+      ...content_script_codes_promises
+    ]
+
+    if not cached_systemjs_code?
+      cached_systemjs_code := systemjs_content_script_code
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
-    parameter_values = await get_intervention_parameters(intervention_info.name)
     for i in [0 til intervention_info_copy.parameters.length]
       parameter = intervention_info_copy.parameters[i]
       parameter.value = parameter_values[parameter.name]
       intervention_info_copy.params[parameter.name].value = parameter_values[parameter.name]
-
-    if cached_systemjs_code != null
-      systemjs_content_script_code = cached_systemjs_code
-    else
-      systemjs_content_script_code = await localget('/intervention_utils/systemjs.js')
-      cached_systemjs_code := systemjs_content_script_code
 
     debug_content_script_code = """
     content_script_debug.listen_for_eval(function(command_to_evaluate) {
@@ -441,11 +460,8 @@ do !->>
         intervention_debug_console.open_debug_page()
       })
       """
-    for options in content_script_options
-      if options.code?
-        content_script_code = options.code
-      else
-        content_script_code = await localget(options.path)
+    for options,idx in content_script_options
+      content_script_code = content_script_codes[idx]
       if options.jspm_require
         content_script_code_prequel = """
         const intervention = #{JSON.stringify(intervention_info_copy)};
@@ -831,8 +847,26 @@ do !->>
     for tab_id,domain_to_session_id of tab_id_to_domain_to_session_id
       dlog domain_to_session_id
 
+  {
+    get_last_duolingo_progress_update_time
+    update_duolingo_progress
+  } = require 'libs_backend/duolingo_utils'
+
+  # If they have a Duolingo goal, periodically check the site for progress updates in case it was used on another device.
+  setInterval (->>
+    enabled_goals = await get_enabled_goals()
+    if enabled_goals['duolingo/complete_lesson_each_day']
+      last_duolingo_progress_check = get_last_duolingo_progress_update_time()
+      if moment().diff(last_duolingo_progress_check, 'hours') > 1
+        update_duolingo_progress()
+  ), 5min * 60s_per_min * 1000ms_per_s
+
   navigation_occurred = (url, tabId) ->
     new_domain = url_to_domain(url)
+
+    if prev_domain == "www.duolingo.com"
+      update_duolingo_progress()
+
     if new_domain != prev_domain
       domain_changed(new_domain)
       iframed_domain_to_track = null

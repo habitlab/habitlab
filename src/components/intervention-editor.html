@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="pill-button-group.html">
+<link rel="import" href="intervention-editor-tutorial.html">
 
 <dom-module id="intervention-editor">
   <style>
@@ -45,6 +46,9 @@
       color: white;
       background-color: black;
       height:50px;
+    }
+    .intervention_tab:hover {
+
     }
     #topbar_buttons {
       float: right;
@@ -100,6 +104,23 @@
     #pill_selector{
       margin-left:10px;
     }
+    #tutorial_tab {
+      display: inline-block;
+      width: calc(100vw - 360px);
+      height: calc(100vh - 100px);
+      position: fixed;
+      top: 50px;
+      left: 0px;
+      bottom: 50px;
+      margin: 0;
+      padding: 0;
+      overflow-y:scroll;
+    }
+    .close_tab_button{
+      position:absolute;
+      width:20px;
+      height:20px;
+    }
   </style>
   <template>
 
@@ -109,6 +130,7 @@
 
     <div>
       <iron-pages selected="{{selected_tab_idx}}">
+        <intervention-editor-tutorial id="tutorial_tab"></intervention-editor-tutorial>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
           <div id="editor_{{intervention_tab_name}}" intervention_tab_name="{{intervention_tab_name}}" class="javascript_editor_div"></div>
         </template>
@@ -117,10 +139,13 @@
 
     <paper-card id="topbar">
       <paper-tabs id="intervention-tabs" selected="{{selected_tab_idx}}" autoselect style="position: fixed; left: 0px; top: 0px; z-index:999;height:50px; float:left;">
+          <paper-tab class="intervention_tab">Tutorial</paper-tab>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
           <paper-tab intervention_tab_name="{{intervention_tab_name}}" class="intervention_tab">
             {{intervention_tab_name}}
+            <paper-icon-button icon="close" class="close_tab_button"></paper-icon-button>
           </paper-tab>
+
         </template>
       </paper-tabs>
 

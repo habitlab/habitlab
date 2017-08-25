@@ -119,7 +119,7 @@ polymer_ext {
     this.pill_button_idx=this.pill_button_idxes[this.get_intervention_name()]
   get_intervention_name: ->
     if this.opened_intervention_list?
-      return this.opened_intervention_list[this.selected_tab_idx]
+      return this.opened_intervention_list[this.selected_tab_idx - 1]
   # download_code: ->
   #   edit_mode = this.get_edit_mode()
   #   if edit_mode == 'ls' or edit_mode == 'ls_and_js'
@@ -267,7 +267,7 @@ polymer_ext {
         self.js_editors[intervention_name]?
       , ->
         self.js_editors[intervention_name].setValue(intervention_info.code)
-      this.selected_tab_idx=this.opened_intervention_list.length-1
+      this.selected_tab_idx=this.opened_intervention_list.length
   display_intervention: (intervention_data) ->
     intervention_name = intervention_data.intervention_name
     this.display_intervention_by_name(intervention_name)
@@ -498,8 +498,8 @@ polymer_ext {
       open_template_name=JSON.parse open_template_name
       localStorage.removeItem('intervention_editor_open_template_name')
       self.display_template_by_name(open_template_name)
-    if (not new_intervention_info?) and (not open_intervention_name?) and (not open_template_name?) and localStorage['last_opened_intervention']? and self.opened_intervention_list.length==0
-      self.display_intervention_by_name(localStorage['last_opened_intervention'])
+    if (not new_intervention_info?) and (not open_intervention_name?) and (not open_template_name?) and localStorage.last_opened_intervention? and self.opened_intervention_list.length==0
+      self.display_intervention_by_name(localStorage.last_opened_intervention)
     window.onbeforeunload = ->
       have_modifed_interventions = false
       for intervention_name,js_editor of self.js_editors
@@ -507,7 +507,9 @@ polymer_ext {
         localStorage['autosaved_intervention_' + intervention_name] = intervention_text
         if intervention_text != localStorage['saved_intervention_' + intervention_name]
           have_modifed_interventions = true
-      localStorage['last_opened_intervention'] = self.get_intervention_name()
+      last_opened_intervention = self.get_intervention_name()
+      if last_opened_intervention?
+        localStorage.last_opened_intervention = last_opened_intervention
       if have_modifed_interventions
         return true
       return

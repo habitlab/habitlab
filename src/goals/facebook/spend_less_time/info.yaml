@@ -4,7 +4,7 @@ call_to_action: Close Facebook
 interventions:
   #- facebook/pause_videos
   - facebook/feed_injection_timer
-  #- facebook/feed_injection_positive_goal_widget
+  #- generic_positive/feed_injection_positive_goal_widget
   #- facebook/notification_hijacker
   - facebook/remove_news_feed
   - facebook/rich_notifications

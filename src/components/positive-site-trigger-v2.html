@@ -20,6 +20,8 @@
 
       #site-icon {
         width: 40px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #888888;
       }
 
       .hdr {
@@ -107,6 +109,10 @@
         font-size: 20px;
         margin: 10px;
         padding: 5px 10px 5px 10px;
+        background-color:rgb(60,90,150);
+        border-radius: 5px;
+        color:white;
+        box-shadow: 2px 2px 2px #888888;
         /*background-color: white;*/
       }
 
@@ -120,11 +126,12 @@
         /*font-size: 20px;*/
         /*box-shadow: 2px 2px 2px #888888;*/
         padding: 5px;
-        background-color: white;
+        background-color:rgb(60,90,150);
+        color:white; 
         border-color: var(--trigger-streak-border-color, #ffffff);
         border-style: var(--trigger-streak-border-style, none);
         border-width: var(--trigger-streak-border-width, 0px);
-        background-color: var(--trigger-streak-bg-color, #ffffff);
+        /* background-color: var(--trigger-streak-bg-color, #ffffff); */
       }
 
       #streak-box .streak-img {
@@ -153,16 +160,16 @@
       </div>
 
       <div id="streak-container">
-        <div style="display: table-cell; vertical-align: middle; padding-right: 20px"> Streak </div>
+        <div style="display: table-cell; vertical-align: middle; padding-right: 0px; padding-left:5px;"> STREAK </div>
         <div id="streak-box">
           <img class="streak-img" src="{{streakIconURL}}">
-          <div style="margin: 5px">{{streak}}</div>
+          <div style="margin: 0px">{{streak}}</div>
         </div>
       </div>
       <paper-button id="trigger-button">
         <div id="trigger-button-div">
           <img class="streak-img" src="{{streakIconURL}}">
-          <div style="margin: 5px; width: 80px; text-align:center;" on-click="goClicked">Go</div>
+          <div style="margin: 5px; width:75px; text-align:left;" on-click="goClicked">Go</div>
         </div>
       </paper-button>
     </div>

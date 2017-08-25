@@ -13,4 +13,4 @@ target:
   default: 1
   units: lessons
 is_positive: true
-icon: icon.png
+icon: icon.svg

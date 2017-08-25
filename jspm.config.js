@@ -29,7 +29,7 @@ SystemJS.config({
     "js-yaml": "github:nodeca/js-yaml@master",
     "jsbn": "npm:jsbn@0.1.1",
     "jspm-nodelibs-process": "npm:jspm-nodelibs-process@0.2.0",
-    "list_requires_multi": "npm:list_requires_multi@1.0.1",
+    "list_requires_multi": "npm:list_requires_multi@1.0.2",
     "livescript15": "npm:livescript15@1.5.6",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
     "buffer": "npm:jspm-nodelibs-buffer@0.2.1",
@@ -887,21 +887,21 @@ SystemJS.config({
         "prelude-ls": "npm:prelude-ls@1.1.2"
       }
     },
-    "npm:list_requires_multi@1.0.1": {
-      "map": {
-        "espree": "npm:espree@3.4.1",
-        "esprima-walk": "npm:esprima-walk@0.1.0"
-      }
-    },
-    "npm:espree@3.4.1": {
-      "map": {
-        "acorn-jsx": "npm:acorn-jsx@3.0.1",
-        "acorn": "npm:acorn@5.0.3"
-      }
-    },
     "npm:acorn-jsx@3.0.1": {
       "map": {
         "acorn": "npm:acorn@3.3.0"
+      }
+    },
+    "npm:list_requires_multi@1.0.2": {
+      "map": {
+        "espree": "npm:espree@3.5.0",
+        "esprima-walk": "npm:esprima-walk@0.1.0"
+      }
+    },
+    "npm:espree@3.5.0": {
+      "map": {
+        "acorn-jsx": "npm:acorn-jsx@3.0.1",
+        "acorn": "npm:acorn@5.1.1"
       }
     }
   }

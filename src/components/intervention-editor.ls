@@ -159,6 +159,8 @@ polymer_ext {
     await add_new_intervention(new_intervention_info)
     localStorage['saved_intervention_' + intervention_name] = new_intervention_info.code
     return true
+  close_tab_clicked: ->
+    console.log "close_tab_Clicked"
   delete_current_intervention: ->>
     intervention_name = this.get_intervention_name()
     this.opened_intervention_list.splice this.selected_tab_idx, 1

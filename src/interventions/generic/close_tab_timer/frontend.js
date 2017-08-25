@@ -9,7 +9,7 @@ const {
   once_body_available
 } = require('libs_frontend/frontend_libs')
 
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 require_component('time-until-tab-autoclose-view')
 
 //Polymer button

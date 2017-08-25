@@ -1,7 +1,7 @@
 var $ = require('jquery');
 const {wrap_in_shadow} = require('libs_frontend/frontend_libs')
 
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 require_component('call-to-action-button')
 require_component('paper-button')
 
@@ -14,7 +14,7 @@ function removeSidebar() {
   }
 $('#player_sidebar').css('opacity', 0)
 let habitlab_inserted_div = $('<div style="width: 100%; text-align: center">')
-  habitlab_inserted_div.append($('<habitlab-logo>'))
+  habitlab_inserted_div.append($('<habitlab-logo-v2>'))
   habitlab_inserted_div.append($('<br>'))
   let show_sidebar_button = $('<paper-button style="background-color: #415D67; color: white; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888; margin-top: 10px">Show Sidebar</paper-button>')
   show_sidebar_button.click(function() {

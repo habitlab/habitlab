@@ -167,7 +167,7 @@ Polymer({
           $('body').append(custom_component);
         '''
         display_time_spent_logo_close_editor:'''
-          require_component('habitlab-logo');
+          require_component('habitlab-logo-v2');
           require_component('close-tab-button');
           
           var $ = require('jquery');
@@ -188,7 +188,7 @@ Polymer({
             <template>
               <div class="white_on_black">
                 <div>Hello you've been here for  seconds</div>
-                <habitlab-logo></habitlab-logo>
+                <habitlab-logo-v2></habitlab-logo-v2>
                 <br>
                 <close-tab-button></close-tab-button>
               </div>

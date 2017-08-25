@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<link rel="import" href="habitlab-options-popup.html">
+<link rel="import" href="habitlab-options-popup-v2.html">
 
 <dom-module id="habitlab-logo-v2">
   <style>
@@ -35,8 +35,9 @@
     }
 
     #habitlab_button {
-      height: 120px;
+      height: 40px;
       width: 100%;
+
       background-color: #415D67;
       color: white;
       margin: 0 auto;
@@ -44,23 +45,26 @@
     }
 
     .intervention-icon {
-      height: 50px;
-      width: 50px;
+      height: 40px;
+      width: 40px;
+      margin-right:8px;
+      margin-left:-9px;
+      padding-left:0px;
     }
   </style>
   <template>
 
     <!--<img id="habitlab_button" src="{{get_url()}}" alt="icon" on-click="habitlab_button_clicked" />-->
     <paper-button id="habitlab_button" on-click="habitlab_button_clicked">
-      <div style="display: block; text-align: center; height: 100%; width: 100%;">
+      <div style="display: flex;align-items:center; justify-content:center;align-content:flex-start;text-align: center; height: 100%; width: 100%;">
         <!-- <img src="{{get_url()}}" class="habitlab_logo_img" /> -->
-        <div style="display:block;vertical-align: middle;text-align: center;padding-bottom:3px; ">{{msg("Turn off")}}</div>
         <img src="{{intervention_icon}}" class="intervention-icon" />
-        <div>{{intervention_name}}</div>
+        <div style="display:block;vertical-align: middle;text-align: center;">{{msg("Turn off")}}</div>
+        <!-- <div>{{intervention_name}}</div> -->
       </div>
     </paper-button>
 
-    <habitlab-options-popup id="habitlab_options_popup"></habitlab-options-popup>
+    <habitlab-options-popup-v2 id="habitlab_options_popup"></habitlab-options-popup-v2>
 
   </template>
   <script src="habitlab-logo-v2.js"></script>

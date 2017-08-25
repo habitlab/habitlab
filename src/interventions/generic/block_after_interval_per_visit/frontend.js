@@ -19,7 +19,7 @@ require_component('paper-button')
 
 require_component('interstitial-screen')
 require_component('timespent-view')
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 
 const {
   once_body_available,
@@ -79,7 +79,7 @@ var shadow_div;
     });
     $timeText.html(message)
 
-    const $logo = $('<center><habitlab-logo></habitlab-logo></center>').css({
+    const $logo = $('<center><habitlab-logo-v2></habitlab-logo-v2></center>').css({
       'margin-bottom': '80px'
     });
     $contentContainer.append($logo);

@@ -171,7 +171,7 @@ polymer_ext {
 
 
   #         <b>Privacy: </b>In order to optimize your interventions, HabitLab needs to <u>modify your webpages</u> and <u>send data to our server</u> about where and when you see interventions.\n
-  #         \n<b>Icons: </b>A <habitlab-logo style='zoom: 0.5;  padding-left: 5px; padding-right: 5px; display: inline-block'></habitlab-logo> is placed on every intervention, so you can easily identify which elements are from HabitLab. Click the gear to get more information or disable the intervention.\n
+  #         \n<b>Icons: </b>A <habitlab-logo-v2 style='zoom: 0.5;  padding-left: 5px; padding-right: 5px; display: inline-block'></habitlab-logo-v2> is placed on every intervention, so you can easily identify which elements are from HabitLab. Click the gear to get more information or disable the intervention.\n
   #         Click the <iron-icon icon='info-outline' style='margin-top: -3px; padding-left: 5px; padding-right: 5px'></iron-icon> in the top right to see this window again.
   #         \n\nClick OK to begin selecting your goals!
   #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
@@ -249,7 +249,7 @@ polymer_ext {
       require('components/options-interventions.deps')
       require('components/site-view.deps')
       require('components/dashboard-view-v2.deps')
-      require('components/habitlab-logo.deps')
+      require('components/habitlab-logo-v2.deps')
       require('components/help-faq.deps')
 
       await SystemJS.import('cheerio')

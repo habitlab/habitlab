@@ -31,7 +31,7 @@ function hide_comments() {
     'text-align': 'center'
   })
   show_comments_div.append([
-    $('<habitlab-logo id="hb_logo" style="display: inline-block; margin: 10px auto 0px auto;">'),
+    $('<habitlab-logo-v2 id="hb_logo" style="display: inline-block; margin: 10px auto 0px auto;">'),
     '<br>',
     $show_comments,
   ])
@@ -55,7 +55,7 @@ on_url_change(() => {
 })
 
 require_component('paper-button')
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 
 function show_comments() {
   $('#habitlab_show_comments').remove();

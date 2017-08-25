@@ -483,6 +483,7 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
     default_interventions = [
       'generic_positive/feed_injection_positive_goal_widget'
     ].map(fix_names_generic_positive)
+    target_default = 5
   else
     custom_goal_name = "custom/spend_less_time_#{domain}"
     description = "Spend less time on #{domain_printable}"
@@ -500,6 +501,7 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
     if intervention_utils.is_video_domain(domain)
       video_interventions = await intervention_utils.list_video_interventions()
       generated_interventions = generated_interventions.concat(video_interventions.map(fix_names_video))
+    target_default = 20
         
   goal_info = {
     name: custom_goal_name
@@ -516,7 +518,7 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
     domain: domain
     is_positive: is-positive
     target: {
-      default: 20
+      default: target_default
       units: 'minutes'
     }
   }

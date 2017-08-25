@@ -853,7 +853,7 @@ do !->>
   } = require 'libs_backend/duolingo_utils'
 
   # If they have a Duolingo goal, periodically check the site for progress updates in case it was used on another device.
-  setInterval (->
+  setInterval (->>
     enabled_goals = await get_enabled_goals()
     if enabled_goals['duolingo/complete_lesson_each_day']
       last_duolingo_progress_check = get_last_duolingo_progress_update_time()

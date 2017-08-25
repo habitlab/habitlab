@@ -113,8 +113,8 @@ async function update_duolingo_progress() {
     }
     lesson_update_counts[lesson_days_ago]++
   }
-  for (days_ago in lesson_count_for_days_ago) {
-    let count = lesson_count_for_days_ago[days_ago]
+  for (let days_ago in lesson_update_counts) {
+    let count = lesson_update_counts[days_ago]
     await add_to_measurement_days_before_today('duolingo_lessons_completed', days_ago, count)
   }
   setvar_intervention_unsynced_backend('duolingo/complete_lesson_each_day', 'last_progress_update_time', moment().format())  

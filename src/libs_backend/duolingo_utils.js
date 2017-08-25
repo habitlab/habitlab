@@ -126,5 +126,7 @@ module.exports = {
   get_duolingo_info_for_user,
   get_duolingo_info,
   get_duolingo_streak,
-  get_duolingo_is_logged_in
+  get_duolingo_is_logged_in,
+  update_duolingo_progress,
+  get_last_duolingo_progress_update_time
 }

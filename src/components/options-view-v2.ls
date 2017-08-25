@@ -177,8 +177,8 @@ polymer_ext {
   #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
   rerender: ->>
     self = this
-    self.is_habitlab_disabled = not (await is_habitlab_enabled())
-    #is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
+    #self.is_habitlab_disabled = not (await is_habitlab_enabled())
+    is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
     [
       goals
       enabled_goals

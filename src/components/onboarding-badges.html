@@ -94,7 +94,7 @@
       margin-top: 30px;
       margin-left: 20px;
       margin-bottom: 10px;
-      margin-right: 20px;
+      margin-right: 0px;
       background-color: none; 
       padding: 10px;
       padding-top: 15px;
@@ -219,7 +219,6 @@
 
             <div class="interventionsContainer">
               <template is="dom-repeat" items="{{generic_interventions_info}}" as="intervention">
-                    
                 <div style="display:block;">
                   <div>
                     <img class="interventions" intervention_info="{{intervention}}" goal_info = "{{goal}}" src="{{get_intervention_icon_url(intervention)}}" on-click = "openBy" />

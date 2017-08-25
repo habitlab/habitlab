@@ -5,6 +5,7 @@ do !->>
   localStorage.removeItem 'cached_list_all_goals'
   localStorage.removeItem 'cached_list_all_interventions'
   localStorage.removeItem 'cached_list_generic_interventions'
+  localStorage.removeItem 'cached_list_generic_positive_interventions'
   localStorage.removeItem 'cached_list_video_interventions'
   localStorage.removeItem 'cached_get_goals'
   localStorage.removeItem 'cached_get_interventions'
@@ -846,8 +847,26 @@ do !->>
     for tab_id,domain_to_session_id of tab_id_to_domain_to_session_id
       dlog domain_to_session_id
 
+  {
+    get_last_duolingo_progress_update_time
+    update_duolingo_progress
+  } = require 'libs_backend/duolingo_utils'
+
+  # If they have a Duolingo goal, periodically check the site for progress updates in case it was used on another device.
+  setInterval (->>
+    enabled_goals = await get_enabled_goals()
+    if enabled_goals['duolingo/complete_lesson_each_day']
+      last_duolingo_progress_check = get_last_duolingo_progress_update_time()
+      if moment().diff(last_duolingo_progress_check, 'hours') > 1
+        update_duolingo_progress()
+  ), 5min * 60s_per_min * 1000ms_per_s
+
   navigation_occurred = (url, tabId) ->
     new_domain = url_to_domain(url)
+
+    if prev_domain == "www.duolingo.com"
+      update_duolingo_progress()
+
     if new_domain != prev_domain
       domain_changed(new_domain)
       iframed_domain_to_track = null

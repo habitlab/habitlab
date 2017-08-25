@@ -3,6 +3,23 @@ const {
   setvar,
 } = require('libs_backend/db_utils')
 
+
+const {
+  get_measurement_for_days_before_today,
+  add_to_measurement_days_before_today
+} = require('libs_common/measurement_utils')
+
+const {
+  getvar_intervention_unsynced_backend,
+  setvar_intervention_unsynced_backend
+} = require('libs_backend/intervention_vars_backend')
+
+const {
+  promise_all_object
+} = require ('libs_common/promise_utils')
+
+const moment = require('moment')
+
 async function get_duolingo_username_uncached() {
   let duolingo_text = await fetch('https://www.duolingo.com/info', {credentials: 'include'}).then(x => x.text())
   let username_text_query = "'username': "
@@ -63,6 +80,44 @@ async function get_duolingo_is_logged_in() {
 async function get_duolingo_streak() {
   let info = await get_duolingo_info()
   return info.site_streak
+}
+
+async function get_last_duolingo_progress_update_time() {
+  return await getvar_intervention_unsynced_backend('duolingo/complete_lesson_each_day', 'last_progress_update_time')
+}
+
+async function update_duolingo_progress() {
+  // Use intervention_vars_backend
+  let logged_in = await get_duolingo_is_logged_in()
+  if (!logged_in) {
+    console.error("not logged in to duolingo, can't update duolingo progress")
+    return
+  }
+
+  let [last_progress_update, duolingo_info] = await Promise.all([
+    get_last_duolingo_progress_update_time(),
+    get_duolingo_info()
+  ])
+
+  // Iterate through the lesson events backward in time until last_progress_update, incrementing the lesson completed counts along the way
+  let lesson_update_counts = {}
+  for (let i = duolingo_info.calendar.length - 1; i >= 0; i++) {
+    let lesson = duolingo_info.calendar[i]
+    let lesson_moment = moment().year(1970).month(0).date(1).hours(0).minutes(0).seconds(0).milliseconds(lesson.datetime)
+    if (lesson_moment.isBefore(last_progress_update)) {
+      break
+    }
+    let lesson_days_ago = moment().diff(lesson_moment, 'days')
+    if (!(lesson_days_ago in lesson_update_counts)) {
+      lesson_update_counts[lesson_days_ago] = 0
+    }
+    lesson_update_counts[lesson_days_ago]++
+  }
+  for (let days_ago in lesson_update_counts) {
+    let count = lesson_update_counts[days_ago]
+    await add_to_measurement_days_before_today('duolingo_lessons_completed', days_ago, count)
+  }
+  setvar_intervention_unsynced_backend('duolingo/complete_lesson_each_day', 'last_progress_update_time', moment().format())  
 }
 
 module.exports = {

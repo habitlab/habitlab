@@ -125,8 +125,8 @@ polymer_ext({
   },
   rerender: async function() {
     let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
-    this.intervention_name_to_info_map = intervention_name_to_info_map;
     this.goal_info = goal_info_list[0];
+    this.intervention_name_to_info_map = intervention_name_to_info_map;
   },
   site_changed: async function(site) {
     /*

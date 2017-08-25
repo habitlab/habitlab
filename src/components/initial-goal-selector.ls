@@ -228,7 +228,7 @@ polymer_ext {
   settings_goal_clicked: (evt) ->
     evt.preventDefault()
     evt.stopPropagation()
-    newtab = evt.target.sitename
+    newtab = evt.target.sitename.toLowerCase!
     this.fire 'need_tab_change', {newtab: newtab}
   get_icon_for_goal: (goal, goal_name_to_icon) ->
     if goal.icon?
@@ -315,13 +315,6 @@ polymer_ext {
     
     await self.set_sites_and_goals()
     self.fire 'goal_changed', {goal_name: goal_name}
-
-  
-
-
-
-
-
   should_have_newline: (index, num_per_line) ->
     return (index % num_per_line) == 0 
   sort_custom_sites_after_and_limit_to_eight: (sites_and_goals) ->
@@ -465,7 +458,7 @@ polymer_ext {
       #favicon_data = domain_to_favicon[domain] #await get_favicon_data_for_domain(domain)
       #baseline_time_on_domains_array.push({
       #  domain: domain
-      #  #time: time
+      #  #time: time 
       #  #favicon: favicon_data
       #})
     #console.log('finished fetching favicons')

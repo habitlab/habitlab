@@ -159,15 +159,20 @@ polymer_ext {
     await add_new_intervention(new_intervention_info)
     localStorage['saved_intervention_' + intervention_name] = new_intervention_info.code
     return true
-  close_tab_clicked: ->
-    console.log "close_tab_Clicked"
+  close_tab_clicked: (evt)->
+    # close_tab_name evt.path[1].id.substring(4)
+    this.opened_intervention_list.splice this.selected_tab_idx-1, 1
+    this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
+  close_tutorial_clicked :(evt)->
+    console.log evt
   delete_current_intervention: ->>
     intervention_name = this.get_intervention_name()
-    this.opened_intervention_list.splice this.selected_tab_idx, 1
-    this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
-    remove_custom_intervention(intervention_name)
-    delete this.js_editors[intervention_name]
-    await this.refresh_intervention_list()
+    if intervention_name?
+      this.opened_intervention_list.splice this.selected_tab_idx-1, 1
+      this.opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
+      remove_custom_intervention(intervention_name)
+      delete this.js_editors[intervention_name]
+      await this.refresh_intervention_list()
   delete_intervention: ->>
     intervention_name = this.get_intervention_name()
     if not intervention_name
@@ -186,16 +191,16 @@ polymer_ext {
       return
     this.delete_current_intervention()
     if this.opened_intervention_list.length>0
-      this.selected_tab_idx=this.opened_intervention_list.length-1
+      this.selected_tab_idx=this.opened_intervention_list.length
   add_new_intervention_clicked: ->
-    # self = this
-    # create_intervention_dialog = document.createElement('create-intervention-dialog')
-    # document.body.appendChild(create_intervention_dialog)
-    # create_intervention_dialog.goal_info_list = this.goal_info_list
-    # create_intervention_dialog.open_create_new_intervention_dialog()
-    # create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
-    #   self.display_new_intervention(evt.detail)
-    chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
+    self = this
+    create_intervention_dialog = document.createElement('create-intervention-dialog')
+    document.body.appendChild(create_intervention_dialog)
+    create_intervention_dialog.goal_info_list = this.goal_info_list
+    create_intervention_dialog.open_create_new_intervention_dialog()
+    create_intervention_dialog.addEventListener 'display_new_intervention', (evt) ->
+      self.display_new_intervention(evt.detail)
+    # chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
   open_custom_intervention_clicked: ->
     self=this
     create_intervention_dialog = document.createElement('create-intervention-dialog')

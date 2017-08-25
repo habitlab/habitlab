@@ -23,7 +23,7 @@ Polymer({
     window.location.reload();
   },
   open_intervention_editor: function() {
-    // chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});
-    chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
+    chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});
+    // chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
   }
 })

@@ -100,7 +100,7 @@ async function update_duolingo_progress() {
   ])
 
   // Iterate through the lesson events backward in time until last_progress_update, incrementing the lesson completed counts along the way
-  let lesson_update_counts = {}
+  let lesson_update_counts = new Map()
   for (let i = duolingo_info.calendar.length - 1; i >= 0; i++) {
     let lesson = duolingo_info.calendar[i]
     let lesson_moment = moment().year(1970).month(0).date(1).hours(0).minutes(0).seconds(0).milliseconds(lesson.datetime)
@@ -109,12 +109,12 @@ async function update_duolingo_progress() {
     }
     let lesson_days_ago = moment().diff(lesson_moment, 'days')
     if (!(lesson_days_ago in lesson_update_counts)) {
-      lesson_update_counts[lesson_days_ago] = 0
+      lesson_update_counts.set(lesson_days_ago, 0)
     }
-    lesson_update_counts[lesson_days_ago]++
+    let old_count = lesson_update_counts.get(lesson_days_ago)
+    lesson_update_counts.set(lesson_days_ago, old_count + 1)
   }
-  for (let days_ago in lesson_update_counts) {
-    let count = lesson_update_counts[days_ago]
+  for (let [days_ago, count] of lesson_update_counts.entries()) {
     await add_to_measurement_days_before_today('duolingo_lessons_completed', days_ago, count)
   }
   setvar_intervention_unsynced_backend('duolingo/complete_lesson_each_day', 'last_progress_update_time', moment().format())  

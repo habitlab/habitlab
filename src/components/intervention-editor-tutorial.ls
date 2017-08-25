@@ -223,6 +223,8 @@ Polymer({
       value: {}
     }
   }
+  create_new_nudge: ->
+    console.log 'create_new_nudge'
   demo_clicked: (evt) ->>
     editor_name = evt.target.getAttribute('srcname')
     # temp_code=this.$$('#' + editor_name).getSession().getValue().trim()

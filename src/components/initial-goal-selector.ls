@@ -228,7 +228,7 @@ polymer_ext {
   settings_goal_clicked: (evt) ->
     evt.preventDefault()
     evt.stopPropagation()
-    newtab = evt.target.sitename
+    newtab = evt.target.sitename.toLowerCase!
     this.fire 'need_tab_change', {newtab: newtab}
   get_icon_for_goal: (goal, goal_name_to_icon) ->
     if goal.icon?

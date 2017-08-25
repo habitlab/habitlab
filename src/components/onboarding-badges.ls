@@ -143,7 +143,7 @@ polymer_ext {
 
   get_intervention_icon_url: (intervention) ->
     if intervention.generic_intervention?
-      url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
+      url_path = 'interventions/'+ intervention.generic_intervention + '/icon.svg'
     else
       if intervention.custom == true
         url_path = 'icons/custom_intervention_icon.svg'

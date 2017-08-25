@@ -20,7 +20,7 @@ const {
   log_action,
 } = require('libs_frontend/intervention_log_utils')
 
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 require_component('call-to-action-button')
 require_component('positive-goal-site-button')
 require_component('paper-button')
@@ -227,7 +227,7 @@ function divOverVideo(status) {
     'vertical-align': 'middle'
   });
   
-  $contentContainer.append('<habitlab-logo>')
+  $contentContainer.append('<habitlab-logo-v2>')
   $contentContainer.append('<br><br>')
 
   //Message to user

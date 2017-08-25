@@ -6,18 +6,30 @@
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="feedback-form.html">
 
-<dom-module id="habitlab-options-popup">
+
+<dom-module id="habitlab-options-popup-v2">
   <style>
+  .intervention-icon{
+    align: center;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    }
+
   </style>
   <template>
     <paper-dialog id="intervention_info_dialog" with-backdrop style="z-index: 9007199254740991;">
-    <h2>HabitLab Intervention Info</h2>
-    <img src="{{intervention_icon}}" class="intervention-icon"/>
+    <!-- <h2>HabitLab Nudge Info</h2> -->
+    <div style = "display: flex; align-items: center; align-content:center;justify-content: center;">
+    <img class="intervention-icon" src="{{get_intervention_icon_url()}}"/>
+    <h2 style = "margin-right:25px;">{{intervention_name}}</h2>
+    </div>
+    <!-- <div>{{intervention_name}}</div> -->
     <div style="text-align: left">
-      <p>Intervention name: <span>{{intervention_description}}</span></p>
-      <p>Goal: <span>{{goal_descriptions}}</span></p>
+      <p>{{intervention_description}}</p>
+      <!-- <p>Goal: <span>{{goal_descriptions}}</span></p> -->
       <div>
-        <span>Turn Off Intervention:</span>
+        <span>Turn Off Nudge:</span>
         <paper-button on-click="disable_temp_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of this visit</paper-button>
         <paper-button on-click="disable_perm_callback" style="color: white; background-color: #3687D3; text-transform: none;">Permanently</paper-button>
       </div>
@@ -34,5 +46,5 @@
     </div>
   </paper-dialog>
   </template>
-  <script src="habitlab-options-popup.js"></script>
+  <script src="habitlab-options-popup-v2.js"></script>
 </dom-module>

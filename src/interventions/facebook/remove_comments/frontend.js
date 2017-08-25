@@ -4,7 +4,7 @@ const {
   wrap_in_shadow
 } = require('libs_frontend/frontend_libs')
 
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 require_component('call-to-action-button')
 
 //Polymer button
@@ -24,7 +24,7 @@ function removeComments() {
           $(item).siblings('.habitlab_button_container').remove()
           $(item).css('display','block')
       })
-      var habitlab_logo = $('<habitlab-logo style="margin-left: 5px; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px"></habitlab-logo>')
+      var habitlab_logo = $('<habitlab-logo-v2 style="margin-left: 5px; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px"></habitlab-logo-v2>')
       var close_tab_button = $('<call-to-action-button style="height: 38px; font-size: 12px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px"</call-to-action-button>')
       var button_container = $('<div style="text-align: center; display: flex; justify-content: center;"></div>')
       button_container.append([

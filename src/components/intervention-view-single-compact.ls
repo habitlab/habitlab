@@ -87,8 +87,10 @@ polymer_ext {
   compute_sitename: (goal) ->
     return goal.sitename_printable
   intervention_property_changed: (intervention, old_intervention) ->
+    if not intervention?
+      return
     #this.automatic = this.intervention.automatic
-    this.enabled = this.intervention.enabled
+    this.enabled = intervention.enabled
 
   get_intervention_icon_url: (intervention) ->
     if intervention.generic_intervention?

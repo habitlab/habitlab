@@ -119,7 +119,7 @@ polymer_ext {
     this.pill_button_idx=this.pill_button_idxes[this.get_intervention_name()]
   get_intervention_name: ->
     if this.opened_intervention_list?
-      return this.opened_intervention_list[this.selected_tab_idx]
+      return this.opened_intervention_list[this.selected_tab_idx - 1]
   # download_code: ->
   #   edit_mode = this.get_edit_mode()
   #   if edit_mode == 'ls' or edit_mode == 'ls_and_js'
@@ -267,7 +267,7 @@ polymer_ext {
         self.js_editors[intervention_name]?
       , ->
         self.js_editors[intervention_name].setValue(intervention_info.code)
-      this.selected_tab_idx=this.opened_intervention_list.length-1
+      this.selected_tab_idx=this.opened_intervention_list.length
   display_intervention: (intervention_data) ->
     intervention_name = intervention_data.intervention_name
     this.display_intervention_by_name(intervention_name)

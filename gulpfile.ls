@@ -476,7 +476,7 @@ gulp.task 'generate_goal_intervention_info', (done) ->
     if not goal_info.interventions?
       console.log 'goal is missing interventions: ' + goal_name
       continue
-    generic_intervention_categories = ['generic', 'video']
+    generic_intervention_categories = ['generic', 'generic_positive', 'video']
     generic_intervention_name_to_specific_name = {}
     for intervention_name in goal_info.interventions
       generic_intervention_name_to_specific_name[intervention_name] = intervention_name

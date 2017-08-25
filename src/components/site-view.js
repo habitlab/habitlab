@@ -151,7 +151,8 @@ polymer_ext({
   //   });
   // }
   code_custom_nudge_clicked: function(){
-    chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
+    // chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
+    chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});
   }
 }, {
   source: require('libs_frontend/polymer_methods'),

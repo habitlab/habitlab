@@ -5,7 +5,7 @@ const {
   once_available,
 } = require('libs_frontend/frontend_libs')
 
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 
 //Polymer button
 require_component('paper-button')
@@ -33,7 +33,7 @@ function showFeed() {
 }
 
 var container = $('<div style="text-align: center;" id="habitlab_container"></div>')
-var habitlab_logo = $('<habitlab-logo></habitlab-logo>')
+var habitlab_logo = $('<habitlab-logo-v2></habitlab-logo-v2>')
 var cheatButton = $('<paper-button style="color: white; background-color: #415D67; box-shadow: 2px 2px 2px #888888;" raised>Show My Feed This One Time</paper-button></center>')
 container.append([cheatButton, '<br><br>', habitlab_logo])
 cheatButton.click(function() {

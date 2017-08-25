@@ -241,6 +241,48 @@ export generate_interventions_for_domain = (domain) ->>
   await add_new_interventions new_intervention_info_list
   return
 
+export generate_interventions_for_positive_domain = (domain) ->>
+  goal_name = "custom/spend_more_time_#{domain}"
+  goal_info = await goal_utils.get_goal_info(goal_name)
+  default_interventions = goal_info.default_interventions ? []
+  generic_interventions = await list_generic_positive_interventions()
+  all_intervention_info = await get_interventions()
+  new_intervention_info_list = []
+  for generic_intervention in generic_interventions
+    intervention_info = all_intervention_info[generic_intervention]
+    if not intervention_info?
+      continue
+    intervention_info = JSON.parse JSON.stringify intervention_info
+    fixed_intervention_name = generic_intervention
+    fixed_intervention_name = fixed_intervention_name.split('generic_positive/').join("generated_#{domain}/")
+    intervention_info.name = fixed_intervention_name
+    intervention_info.matches = [domain]
+    make_absolute_path = (content_script) ->
+      if content_script.path?
+        if content_script.path[0] == '/'
+          return content_script
+        content_script.path = '/interventions/' + generic_intervention + '/' + content_script.path
+        return content_script
+      if content_script[0] == '/'
+        return content_script
+      return '/interventions/' + generic_intervention + '/' + content_script
+    if intervention_info.content_scripts?
+      intervention_info.content_scripts = intervention_info.content_scripts.map make_absolute_path
+    if intervention_info.background_scripts?
+      intervention_info.background_scripts = intervention_info.background_scripts.map make_absolute_path
+    intervention_info.sitename = domain
+    intervention_info.sitename_printable = domain
+    if intervention_info.sitename_printable.startsWith('www.')
+      intervention_info.sitename_printable = intervention_info.sitename_printable.substr(4)
+    intervention_info.generated = true
+    intervention_info.generic_intervention = generic_intervention
+    intervention_info.goals = [goal_name]
+    intervention_info.is_default = default_interventions.includes(intervention_info.name)
+    #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
+    new_intervention_info_list.push intervention_info
+  await add_new_interventions new_intervention_info_list
+  return
+
 export add_new_intervention = (intervention_info) ->>
   await add_new_interventions [intervention_info]
   /*
@@ -314,6 +356,15 @@ export list_generic_interventions = memoizeSingleAsync ->>
   generic_interventions_list = interventions_list.filter -> it.startsWith('generic/')
   localStorage.setItem 'cached_list_generic_interventions', JSON.stringify(generic_interventions_list)
   return generic_interventions_list
+
+export list_generic_positive_interventions = memoizeSingleAsync ->>
+  cached_generic_positive_interventions = localStorage.getItem 'cached_list_generic_positive_interventions'
+  if cached_generic_positive_interventions?
+    return JSON.parse cached_generic_positive_interventions
+  interventions_list = (await goal_utils.get_goal_intervention_info()).interventions.map((.name))
+  generic_positive_interventions_list = interventions_list.filter -> it.startsWith('generic_positive/')
+  localStorage.setItem 'cached_list_generic_positive_interventions', JSON.stringify(generic_positive_interventions_list)
+  return generic_positive_interventions_list
 
 export list_video_interventions = memoizeSingleAsync ->>
   cached_video_interventions = localStorage.getItem 'cached_list_video_interventions'

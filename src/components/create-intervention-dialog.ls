@@ -70,7 +70,7 @@ polymer_ext {
         new_preview: self.$.preview_url.value
       })
       self.current_intervention=''
-      self.goToTab()  
+      # self.goToTab()  
     else
       if all_interventions.indexOf(proposed_intervention_name) != -1
         self.$$('#hint').innerHTML = 'An intervention with this name already exists'
@@ -83,9 +83,9 @@ polymer_ext {
         preview_url: self.$.preview_url.value
       })
       # self.goToTab()
-      chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+      # chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
     self.$$('#create_new_intervention_dialog').close()
-    window.close()
+    # window.close()
   goToTab: ->
     chrome.tabs.getAllInWindow undefined, (tabs) ->
       for i from 0 to tabs.length-1

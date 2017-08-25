@@ -22,7 +22,7 @@ const {
   get_news_feed
 }  = require('libs_frontend/facebook_utils')
 
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 require_component('call-to-action-button')
 require_component('paper-button')
 
@@ -60,7 +60,7 @@ function showFeed() {
 
 //Attaches habitlab button and show news feed button
 function attachButtons() {
-  var habitlab_logo = $('<habitlab-logo style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo>')
+  var habitlab_logo = $('<habitlab-logo-v2 style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo-v2>')
   var cheatButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #415D67; color: white; -webkit-font-smoothing: antialiased; height: 38px" raised>Show my News Feed</paper-button>')
   cheatButton.click(function(evt) {
     log_action({'negative': 'Remained on Facebook.'})

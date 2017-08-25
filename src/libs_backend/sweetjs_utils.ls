@@ -23,17 +23,13 @@ function require_css(css_file) {
   return require_css_cache[css_file];
 }
 
-let require_style_cache = {};
-
 async function require_style_async(css_code) {
   let content_script_utils = await SystemJS.import('libs_common/content_script_utils');
   let output = await content_script_utils.load_css_code(css_code);
-  require_style_cache[css_file] = output;
   return output;
 }
 
 function require_style(css_code) {
-  return require_style_cache[css_code];
 }
 
 let require_package_cache = {};

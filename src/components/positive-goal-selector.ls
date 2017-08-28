@@ -245,6 +245,8 @@ polymer_ext {
     for goal_name,goal_info of goal_name_to_info
       if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
         continue
+      if not goal_info.is_positive
+        continue
       sitename = goal_info.sitename_printable
       if not sitename_to_goals[sitename]?
         sitename_to_goals[sitename] = []

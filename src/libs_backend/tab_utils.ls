@@ -25,7 +25,7 @@ export open_url_in_new_tab = (url) ->>
 
 /**
  * Gets the tab id for the selected tab
- * @return {Promise<.number>} The id of the selected tab
+ * @return {Promise.<number>} The id of the selected tab
  */
 export get_selected_tab_id = ->>
   tabs = await new Promise -> chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, it)

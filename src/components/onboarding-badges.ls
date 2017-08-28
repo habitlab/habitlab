@@ -179,17 +179,11 @@ polymer_ext {
     return goal.sitename_printable
 
   openBy: (evt) ->
-    console.log(evt)
-    console.log(evt.target)
     dialog_intervention = evt.target.intervention_info
     if evt.target.goal_info?
       dialog_goal = evt.target.goal_info
     else
       dialog_goal = 0
-    console.log('dialog_intervention')
-    console.log(dialog_intervention)
-    console.log('dialog_goal')
-    console.log(dialog_goal)
     this.dialog_intervention = dialog_intervention
     this.dialog_goal = dialog_goal
     # console.log(this.$$('#alignedDialog').dialog_intervention)
@@ -266,7 +260,7 @@ polymer_ext {
     enabled_goal_names =  this.enabled_goals_info_list.map (.name)
     facebook_enabled = enabled_goal_names.includes('facebook/spend_less_time')
     reddit_enabled = enabled_goal_names.includes('reddit/spend_less_time')
-    preview_page = this.dialog_goal.preview ? this.dialog_intervention.preview ? 'https://' + this.dialog_intervention.domain
+    preview_page = this.dialog_goal.preview ? this.dialog_intervention.preview ? 'https://' + this.dialog_goal.domain
     if intervention_name.startsWith('generic/')
       if facebook_enabled and (not reddit_enabled)
         intervention_name = intervention_name.replace('generic/', 'facebook/')

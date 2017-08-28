@@ -625,9 +625,11 @@ do !->>
   page_was_just_refreshed = false
 
   load_intervention_for_location = promise-debounce (location, tabId) ->>
-    if is_it_outside_work_hours()
+    if is_it_outside_work_hours() and (not localStorage.getItem('override_enabled_interventions_once')?)
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
     if !is_habitlab_enabled_sync()
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
 
     domain = url_to_domain(location)
@@ -717,7 +719,7 @@ do !->>
     if interventions_to_load.length > 0
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
     else
-      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
     return
 
   /*
@@ -870,7 +872,15 @@ do !->>
     #  chrome.pageAction.hide(tabId)
     #send_pageupdate_to_tab(tabId)
     #dlog "navigation_occurred to #{url}"
-    load_intervention_for_location url, tabId
+    load_intervention_for_location(url, tabId).then ->
+      loaded_interventions = tab_id_to_loaded_interventions[tabId]
+      if loaded_interventions? and loaded_interventions.length > 0
+        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
+      else
+        if is_habitlab_enabled_sync() and !is_it_outside_work_hours()
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+        else
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
 
   # A bit naive and over-conservative, but a start
   chrome.windows.onFocusChanged.addListener (windowId) ->
@@ -903,15 +913,6 @@ do !->>
         tabId: tabId
       }
       navigation_occurred tab.url, tabId
-
-      loaded_interventions = tab_id_to_loaded_interventions[tabId]
-      if is_habitlab_enabled_sync()
-        if loaded_interventions? and loaded_interventions.length > 0
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
-        else
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
-      else
-        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
   reward_display_base_code_cached = null
 
   chrome.tabs.onRemoved.addListener (tabId, info) ->>
@@ -919,6 +920,8 @@ do !->>
     if not url?
       return
     domain = url_to_domain(url)
+    if not tab_id_to_domain_to_session_id[tabId]?
+      return
     session_id = tab_id_to_domain_to_session_id[tabId][domain]
     if not session_id?
       return

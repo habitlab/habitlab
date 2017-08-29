@@ -4,11 +4,12 @@ const {
 
 const {
   get_duolingo_info,
-  get_duolingo_is_logged_in
+  get_duolingo_is_logged_in,
+  wait_until_user_is_logged_in
 } = require('libs_common/duolingo_utils')
 
 const {
-  set_alternative_url_to_track
+  set_alternative_url_to_track  
 } = require('libs_frontend/content_script_utils')
 
 let noStreakMessages = [
@@ -74,7 +75,6 @@ polymer_ext({
   },
   ready: async function() {
     let [isLoggedIn, info] = await Promise.all([get_duolingo_is_logged_in(), get_duolingo_info()])
-    console.log(info)
     this.isLoggedIn = isLoggedIn    
     if (!isLoggedIn) {
       this.callToAction = "This HabitLab nudge needs you to be signed in to Duolingo to work." //This nudge injects language practice from Duolingo into the news feed. Why not pick a language (or sign in if you have an account) and get started now?"
@@ -118,13 +118,51 @@ polymer_ext({
   onHovered: function(evt) {
     this.hovered = true;
     set_alternative_url_to_track(this.iframeURL)
-    console.log('Hovered!')
   },
   onUnhovered: function(evt) {
     this.hovered = false;
     set_alternative_url_to_track(null)
   },
   signinClicked: function(evt) {
+    let login_timeout = 120 
+    wait_until_user_is_logged_in(login_timeout).then(async function(did_log_in) {
+      if (did_log_in) {
+        let info = await get_duolingo_info()
+        if (info != null && Object.keys(info).length > 0) {
+          this.streak = info.site_streak
+          let learningLanguage = info.learning_language
+          let languageData = info.language_data[learningLanguage]
+          this.initializeWithLanguageData(languageData)
+          this.isLoggedIn = true
+        }
+      }
+    }.bind(this))
+
+    // The below version only makes the Duolingo network request to check if the user logged in 
+    // when the tab is activated, to save data for users who are tethering.
+
+    // register_listener_for_tab_focus()
+    // chrome.runtime.onMessage.addListener(
+    //   async function(message, sender, sendResponse) {
+    //     console.log('Got response...')
+    //     if (message.type == 'tab_activated') {
+    //       console.log('Tab activated!')          
+    //       if (await get_duolingo_is_logged_in()) {
+    //         remove_listener_for_tab_focus()            
+    //         console.log('And user is logged in now!')
+    //         let info = await get_duolingo_info()
+    //         if (info != null && Object.keys(info).length > 0) {
+    //           this.streak = info.site_streak
+    //           let learningLanguage = info.learning_language
+    //           let languageData = info.language_data[learningLanguage]
+    //           this.initializeWithLanguageData(languageData)
+    //           this.isLoggedIn = true
+    //         }
+    //       }
+    //     }
+    //   }.bind(this)
+    // )
+
     window.open("https://www.duolingo.com")
   }
 }, {

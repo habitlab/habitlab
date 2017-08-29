@@ -18,3 +18,11 @@ export load_css_code = (css_code) ->>
 export set_alternative_url_to_track = (url) ->>
   await send_message_to_background 'set_alternative_url_to_track', {url: url}
   return
+
+export register_listener_for_tab_focus = ->>
+  await send_message_to_background 'register_listener_for_tab_focus', {}
+  return
+
+export remove_listener_for_tab_focus = ->>
+  await send_message_to_background 'remove_listener_for_tab_focus', {}
+  return

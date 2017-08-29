@@ -756,6 +756,7 @@ do !->>
     return output
 
   iframed_domain_to_track = null
+  tabs_to_listen_for_focus = new Set()
 
   css_packages = require('libs_common/css_packages')
   css_files_cached = require('libs_common/css_files_cached')
@@ -812,6 +813,16 @@ do !->>
         iframed_domain_to_track := url_to_domain(url)
       else
         iframed_domain_to_track := null
+      return
+    'register_listener_for_tab_focus': (data, sender) ->>
+      {tab} = data
+      tabs_to_listen_for_focus.add(tab.id)
+      return
+    'remove_listener_for_tab_focus': (data, sender) ->>
+      {tab} = data  
+      if tabs_to_listen_for_focus.has(tab.id)
+        tabs_to_listen_for_focus.delete(tab.id)
+      return
   }
 
   #tabid_to_current_location = {}
@@ -919,7 +930,15 @@ do !->>
       navigation_occurred tab.url, tabId
   reward_display_base_code_cached = null
 
+  chrome.tabs.onActivated.addListener (activeInfo) ->>
+    tabId = activeInfo.tabId
+    if tabs_to_listen_for_focus.has tabId
+      send_message_to_tabid tabId, 'tab_activated', {}
+
   chrome.tabs.onRemoved.addListener (tabId, info) ->>
+    if tabs_to_listen_for_focus.has tabId
+      tabs_to_listen_for_focus.delete tabId
+
     url = tab_id_to_url[tabId]
     if not url?
       return
@@ -976,6 +995,8 @@ do !->>
   message_handlers_requiring_tab = {
     'load_css_file': true
     'load_css_code': true
+    'register_listener_for_tab_focus': true
+    'remove_listener_for_tab_focus': true
   }
 
   chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->

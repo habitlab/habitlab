@@ -637,7 +637,11 @@ export list_all_enabled_interventions_for_location = (location) ->>
   #if override_enabled_interventions?
   #  return as_array(JSON.parse(override_enabled_interventions))
   available_interventions = await list_available_interventions_for_location(location)
+  console.log('Available:')
+  console.log(available_interventions)
   enabled_interventions = await intervention_manager.get_currently_enabled_interventions()
+  console.log('Enabled:')
+  console.log(enabled_interventions)
   return available_interventions.filter((x) -> enabled_interventions[x])
 
 export list_enabled_nonconflicting_interventions_for_location = (location) ->>

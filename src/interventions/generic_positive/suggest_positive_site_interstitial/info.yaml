@@ -1,4 +1,4 @@
-description: Before visiting the site, prompts if you want to go to a site that you said you want to spend more time on.
+description: Before visiting a site you want to spend less time on, prompts if you want to go to a site you want to spend more time on.
 displayname: Why Not Bot
 content_scripts:
   - path: frontend.js

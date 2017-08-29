@@ -2,6 +2,8 @@
   set_override_enabled_interventions_once
   add_new_intervention
   remove_custom_intervention
+  get_intervention_info
+  get_interventions
 } = require 'libs_backend/intervention_utils'
 
 {get_goal_info} = require 'libs_common/goal_utils'
@@ -24,15 +26,15 @@ Polymer({
           document.body.style.transform = 'rotate(180deg)';
         }
         '''
-        # flip_page_css_editor: '''
-        #   window.onload=function(){
-        #     require_style(`
-        #       body {
-        #         transform: rotate(180deg);
-        #       }
-        #     `)
-        #   }
-        # '''
+        flip_page_css_editor: '''
+          window.onload=function(){
+            require_style(`
+              body {
+                transform: rotate(180deg);
+              }
+            `)
+          }
+        '''
         flip_page_jquery_editor: '''
           var $=require('jquery');
           $(document).ready(function(){
@@ -222,9 +224,10 @@ Polymer({
       type: Object
       value: {}
     }
+    templates_info_list: {
+      type:Array
+    }
   }
-  create_new_nudge: ->
-    console.log 'create_new_nudge'
   demo_clicked: (evt) ->>
     editor_name = evt.target.getAttribute('srcname')
     # temp_code=this.$$('#' + editor_name).getSession().getValue().trim()
@@ -249,6 +252,19 @@ Polymer({
     await add_new_intervention(temp_intervention_info)
     set_override_enabled_interventions_once temp_intervention_info.name
     chrome.tabs.create {url: temp_intervention_info.preview}
+  advanced_demo_clicked: (evt) ->>
+    intervention_name= evt.target.id.substring 5
+    set_override_enabled_interventions_once intervention_name
+    intervention_info=await get_intervention_info(intervention_name)
+    if intervention_info.preview?
+      preview_page=intervention_info.preview
+      console.log preview_page
+    else if intervention_info.sitename=='generic'
+      preview_page='https://www.reddit.com/'
+    else
+      goal_info=await get_goal_info(intervention_info.goals[0])
+      preview_page=goal_info.preview ? ('https://' + goal_info.domain + '/')     
+    chrome.tabs.create {url: preview_page}
   ready: ->>
     self = this
     brace = await SystemJS.import('brace')
@@ -270,4 +286,7 @@ Polymer({
       js_editor.getSession().setTabSize(2)
       js_editor.getSession().setUseSoftTabs(true)
       js_editor.setValue(this.default_code[editor_name].trim())
+    all_interventions=await get_interventions()
+    templates_list=['generic/make_user_wait',"generic/toast_notifications","iqiyi/prompt_before_watch","iqiyi/remove_sidebar_links","netflix/infinite_alarm","netflix/link_articles","facebook/remove_news_feed","facebook/rich_notifications"]
+    this.templates_info_list=[all_interventions[x] for x in templates_list]    
 })

@@ -5,8 +5,7 @@
 <dom-module id="intervention-editor-tutorial">
   <style>
     #outer-wrapper{
-      margin-top:10px;
-      margin-left:20px;
+      margin:20px;
     }
     .editor {
       width: 400px;
@@ -34,27 +33,18 @@
       box-shadow: 2px 2px 2px #888888;
       font-weight: bold;
     }
-    /* p {
-      font-size:medium;
-    } */
     h2 {
       color: black;
     }
     code {
       color:blue;
-      /* font-size:large; */
     }
-    /* #new_nudge_button {
-      float:right;
-    } */
   </style>
   <template>
     <div id="outer-wrapper">      
-      <!-- <paper-button on-click="create_new_nudge" id="new_nudge_button">Create a new nudge</paper-button>
-      <h1>Tutorials</h1>   -->
       <p>You can find the code for built-in interventions at <a href="https://github.com/habitlab/habitlab/tree/master/src/interventions/">src/interventions</a> and see interventions others have shared <a href="https://www.dropbox.com/sh/l1kfqfqdrwhowhz/AAAaelBVB29fxdvxpG3Jj7cca?dl=0">here</a></p>    
       <p>Interventions are written in JavaScript. You can find tutorials which teach you JavaScript and web development <a href="Technologies">here</a>.</p>    
-      <p>You can also view built-in API <a href="https://github.com/habitlab/habitlab/wiki/API">here</a>.</p>
+      <p>You can also view built-in API on the right.</p>
       <h3 id="showanalert">Show an alert</h3>     
       <p>This intervention will show an alert saying "Hello World" when you visit the website.</p>
       <div class="editor" id="hello_world_editor"></div>
@@ -66,11 +56,11 @@
       <div class="editor" id="flip_page_editor"></div>
       <paper-button raised on-click="demo_clicked" srcname="flip_page_editor">Demo</paper-button>
       
-      <!-- <h3 id="flippageupsidedownusingastylesheet">Flip page upside down using a stylesheet</h3>     
+      <h3 id="flippageupsidedownusingastylesheet">Flip page upside down using a stylesheet</h3>     
       <p>This is the same as the intervention above, but implemented by injecting CSS code into the page.</p>
       <div class="editor" id="flip_page_css_editor"></div>
       <paper-button raised on-click="demo_clicked" srcname="flip_page_css_editor">Demo</paper-button>           
-      <p>Here, <a href="require_style"><code>require_style</code></a> allows you to inject CSS code into the page.</p> -->
+      <p>Here, <a href="require_style"><code>require_style</code></a> allows you to inject CSS code into the page.</p>
       
       <h3 id="flippageupsidedownusingjquery">Flip page upside down using jquery</h3>      
       <p>This is the same as the intervention above, but implemented with <a href="http://api.jquery.com/">jquery</a>.</p>
@@ -104,7 +94,7 @@
       <p>This intervention uses a <a href="https://www.polymer-project.org/1.0/">Polymer</a> component (<a href="https://www.webcomponents.org/element/PolymerElements/paper-button"><code>paper-button</code></a>) to show a button in the top-left corner of the page. When clicked, the button will show an alert.</p>
       <div class="editor" id="show_paper_button_editor"></div>
       <paper-button raised on-click="demo_clicked" srcname="show_paper_button_editor">Demo</paper-button> 
-      <p>Here, <a href="https://github.com/habitlab/habitlab/wiki/require_component"><code>require_component</code></a> allows us to use Polymer [[components]] (which are essentially custom HTML tags). The list of available components is at [[components]].</p>
+      <p>Here, <a href="https://github.com/habitlab/habitlab/wiki/require_component"><code>require_component</code></a> allows us to use Polymer [[components]] (which are essentially custom HTML tags). The list of available components is at <a href="https://github.com/habitlab/habitlab/wiki/components">[[components]]</a>.</p>
       <!-- <marked-element>
           <div slot="markdown-html"></div>
           <script type="text/markdown">
@@ -156,7 +146,12 @@
       <paper-button raised on-click="demo_clicked" srcname="use_external_library_editor">Demo</paper-button> 
 
       <h2 id="advanced_templates">Advanced templates</h2>
-      
+      <p>Below are some built-in nudges.</p>
+      <template is="dom-repeat" items="{{templates_info_list}}" as="template_info">
+        <span><a href="https://github.com/habitlab/habitlab/blob/master/src/interventions/{{template_info.name}}/frontend.js" style="font-size:large">{{template_info.displayname}}</a></span>
+        <paper-button raised on-click="advanced_demo_clicked" id="demo_{{template_info.name}}">Demo</paper-button>
+        <p>{{template_info.description}}</p>
+      </template>
     </div>
   </template>
   <script src="intervention-editor-tutorial.js"></script>

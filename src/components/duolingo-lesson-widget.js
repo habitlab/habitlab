@@ -75,31 +75,31 @@ polymer_ext({
   },
   ready: async function() {
     let [isLoggedIn, info] = await Promise.all([get_duolingo_is_logged_in(), get_duolingo_info()])
-    this.isLoggedIn = isLoggedIn    
-    if (!isLoggedIn) {
-      this.callToAction = "This HabitLab nudge needs you to be signed in to Duolingo to work." //This nudge injects language practice from Duolingo into the news feed. Why not pick a language (or sign in if you have an account) and get started now?"
-      this.lessonTitle = "Sign in to Activate"
-      this.isLoggedIn = false
-      this.iframeURL = "https://www.duolingo.com"
-    } else if (info != null && Object.keys(info).length > 0) {
+    if (info != null && Object.keys(info).length > 0) {
       this.streak = info.site_streak
       let learningLanguage = info.learning_language
       let languageData = info.language_data[learningLanguage]
       this.initializeWithLanguageData(languageData)
+    } else {
+      this.callToAction = "This HabitLab nudge needs you to be signed in to Duolingo to work." //This nudge injects language practice from Duolingo into the news feed. Why not pick a language (or sign in if you have an account) and get started now?"
+      this.lessonTitle = "Sign in to Activate"
+      this.isLoggedIn = false
+      this.iframeURL = "https://www.duolingo.com/skill/en/introduction"
     }
   },
   // Sets the properties to those matching the user's next lesson 
   initializeWithLanguageData: function(languageData) {
     this.languageInitials = languageData.language
-    this.skillTitle = languageData.next_lesson.skill_title
-    this.skillURL = languageData.next_lesson.skill_url
-    this.lessonNumber = languageData.next_lesson.lesson_number
-    // this.streak = languageData.streak <- if we want to use the language-specific streak
-    this.lessonTitle = this.skillTitle + ", Lesson " + this.lessonNumber
-    this.iframeURL = "https://www.duolingo.com/skill/"+this.languageInitials+"/"+this.skillURL+"/"+this.lessonNumber
+    console.log(languageData)
+    if ("next_lesson" in languageData) {
+      this.setUpForNextLesson(languageData)
+    } else {
+      this.setUpForPractice(languageData)
+    }
 
     // Pick a random encouraging message based on user's streak and whether it's been extended today yet.
     let callToActionMessageTemplate = ""
+    // this.streak = languageData.streak <- if we want to use the language-specific streak
     if (this.streak == 0) {
       callToActionMessageTemplate = noStreakMessages[Math.floor(Math.random() * noStreakMessages.length)]
     } 
@@ -114,6 +114,17 @@ polymer_ext({
     }
     callToActionMessageTemplate = callToActionMessageTemplate.replace(streakPlaceholder, this.streak)
     this.callToAction = callToActionMessageTemplate.replace(languagePlaceholder, languageData.language_string)
+  },
+  setUpForNextLesson: function(languageData) {
+    this.skillTitle = languageData.next_lesson.skill_title
+    this.skillURL = languageData.next_lesson.skill_url
+    this.lessonNumber = languageData.next_lesson.lesson_number
+    this.lessonTitle = this.skillTitle + ", Lesson " + this.lessonNumber
+    this.iframeURL = "https://www.duolingo.com/skill/"+this.languageInitials+"/"+this.skillURL+"/"+this.lessonNumber
+  },
+  setUpForPractice: function(languageData) {
+    this.lessonTitle = languageData.language_string + " Practice"
+    this.iframeURL = "https://www.duolingo.com/practice"
   },
   onHovered: function(evt) {
     this.hovered = true;

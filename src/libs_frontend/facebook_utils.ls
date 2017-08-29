@@ -14,10 +14,14 @@ export get_news_feed = ->
   return $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]')
 
 /**
- * Inject an HTMLElement into facebook news feeds
+ * Inject an HTMLElement into facebook news feeds. 
+ * Which spot it goes in the feed is calculated using position + n * spacing for n >= 0.
+ * Eg. if position = 4 and spacing = 8, it's injected as the 4th, 12th, and 20th post and so on.
  * @param {HTMLElement} component_generator - the created div in the shadow dom
+ * @param {HTMLElement} position - an optional parameter of where to insert it (default 4)
+ * @param {HTMLElement} position - an optional parameter for how many posts to have between them (default 8)
  */
-export inject_into_feed = (component_generator) ->
+export inject_into_feed = (component_generator, position = 4, spacing = 8) ->
   window.numitems = 0
 
   window.mostrecentmousemove = Date.now()
@@ -64,7 +68,7 @@ export inject_into_feed = (component_generator) ->
         $feeditem.feedlearninserted = true
         window.numitems += 1
       
-        if window.numitems % 10 == 1
+        if window.numitems % spacing == position
           if window.feed_injection_active
             insertBeforeItem $($feeditem)
     return

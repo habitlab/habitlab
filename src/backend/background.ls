@@ -860,8 +860,12 @@ do !->>
 
     if new_domain != prev_domain
       domain_changed(new_domain)
-      iframed_domain_to_track = null
-    
+      iframed_domain_to_track := null
+
+    if not (url.startsWith('http://') or url.startsWith('https://'))
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+      return
+
     #if tabid_to_current_location[tabId] == url
     #  return
     #tabid_to_current_location[tabId] = url
@@ -884,16 +888,16 @@ do !->>
 
   # A bit naive and over-conservative, but a start
   chrome.windows.onFocusChanged.addListener (windowId) ->
-    iframed_domain_to_track = null
+    iframed_domain_to_track := null
   
   chrome.windows.onRemoved.addListener (windowId) ->
-    iframed_domain_to_track = null
+    iframed_domain_to_track := null
 
   chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
     if changeInfo.status == 'loading' and not changeInfo.url?
       # user refreshed the page
       page_was_just_refreshed := true
-      iframed_domain_to_track = null
+      iframed_domain_to_track := null
     if tab.url
       tab_id_to_url[tabId] = tab.url
       #dlog 'tabs updated!'
@@ -945,7 +949,7 @@ do !->>
       return
     reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
     chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
-    iframed_domain_to_track = null
+    iframed_domain_to_track := null
 
   /*
   setInterval ->>
@@ -1041,7 +1045,7 @@ do !->>
     active_tab = await get_active_tab_info()
     if not active_tab?
       return
-    if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
+    if not (active_tab.url.startsWith('http://') or active_tab.url.startsWith('https://'))
       return
     if iframed_domain_to_track?
       current_domain = iframed_domain_to_track

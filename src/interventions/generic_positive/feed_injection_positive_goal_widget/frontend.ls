@@ -15,11 +15,11 @@ require 'enable-webcomponents-in-content-scripts'
 require 'components/positive-site-trigger-v2.deps'
 
 component_generator = (numitems) ->
-  feed-item = $('<positive-site-trigger-v2 >')
+  feed-item = $('<positive-site-trigger-v2>')
   feed-item.attr('in_facebook_news_feed', true)
-  # feed-item.get(0).style.setProperty('--trigger-border-style', '')
-  # feed-item.get(0).style.setProperty('--trigger-font-family', "San Francisco")
-  # feed-item.get(0).style.setProperty('--trigger-bg-color', '#ffffff')
+  # feed-item.get(0).customStyle['--trigger-border-style'] = ''
+  # feed-item.get(0).customStyle['--trigger-font-family'] = "San Francisco"
+  # feed-item.get(0).customStyle['--trigger-bg-color'] = '#ffffff'
 
   # shadow = $('<div>')
   # shadow.css({

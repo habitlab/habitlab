@@ -3,7 +3,8 @@ const {
 } = require('libs_frontend/polymer_utils');
 
 const {
-  get_duolingo_info
+  get_duolingo_info,
+  get_duolingo_is_logged_in
 } = require('libs_common/duolingo_utils')
 
 const {
@@ -62,7 +63,7 @@ polymer_ext({
     },
     duolingoIconURL:{
       type: String,
-      value: chrome.extension.getURL('goals/duolingo/complete_lesson_each_day/icon.png') // TODO: change to .svg post-merge
+      value: chrome.extension.getURL('goals/duolingo/complete_lesson_each_day/icon.svg')
     },
     streak: Number,
     streakExtendedToday: Boolean,
@@ -72,13 +73,15 @@ polymer_ext({
     }
   },
   ready: async function() {
-    let info = await get_duolingo_info()
+    let [isLoggedIn, info] = await Promise.all([get_duolingo_is_logged_in(), get_duolingo_info()])
     console.log(info)
-    if (info == null || Object.keys(info).length === 0) {
-      this.callToAction = "This HabitLab nudge brings Duolingo lessons right into the page. Once you're signed in, it will load your next lesson automatically each time the nudge runs." //This nudge injects language practice from Duolingo into the news feed. Why not pick a language (or sign in if you have an account) and get started now?"
-      this.lessonTitle = "Sign in to Start Lesson"
+    this.isLoggedIn = isLoggedIn    
+    if (!isLoggedIn) {
+      this.callToAction = "This HabitLab nudge needs you to be signed in to Duolingo to work." //This nudge injects language practice from Duolingo into the news feed. Why not pick a language (or sign in if you have an account) and get started now?"
+      this.lessonTitle = "Sign in to Activate"
       this.isLoggedIn = false
-    } else {
+      this.iframeURL = "https://www.duolingo.com"
+    } else if (info != null && Object.keys(info).length > 0) {
       this.streak = info.site_streak
       let learningLanguage = info.learning_language
       let languageData = info.language_data[learningLanguage]
@@ -122,6 +125,11 @@ polymer_ext({
     set_alternative_url_to_track(null)
   },
   signinClicked: function(evt) {
-    window.open({url: "https://www.duolingo.com"})
+    window.open("https://www.duolingo.com")
   }
+}, {
+  source: require('libs_common/localization_utils'),
+  methods: [
+    'msg'
+  ]
 })

@@ -1,6 +1,6 @@
 <html><head><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-media-query/iron-media-query.html">
-<link rel="import" href="../iron-resizable/iron-resizable-behavior.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../paper-styles/typography.html">
@@ -46,6 +46,10 @@ If you include this element as part of `paper-dialog`, use the class
 @demo demo/index.html
 -->
 
+<style is="custom-style" include="paper-time-picker-dialog-style">
+  /* include dialog style at document-level for backward compatibility */
+</style>
+
 </head><body><dom-module id="paper-time-picker">
   <template>
     <style>
@@ -79,6 +83,9 @@ If you include this element as part of `paper-dialog`, use the class
         @apply(--layout-vertical);
         @apply(--paper-time-picker-heading);
       }
+      :host([enable-seconds]) #heading {
+        width: 200px;
+      }
       #clockArea {
         padding: 20px;
       }
@@ -95,6 +102,9 @@ If you include this element as part of `paper-dialog`, use the class
         padding: 0 48px;
         @apply(--layout-horizontal);
         @apply(--layout-end-justified);
+      }
+      :host([enable-seconds][narrow]) #heading {
+        padding: 0 16px;
       }
       :host([narrow]) #heading .time {
         margin-top: 6px;
@@ -117,7 +127,7 @@ If you include this element as part of `paper-dialog`, use the class
       /** Heading ********************/
       #heading {
         box-sizing: border-box;
-        color: var(--light-primary-color);
+        color: var(--light-primary-color); 
         background: var(--default-primary-color);
         @apply(--layout-vertical);
         @apply(--layout-center-center);
@@ -131,6 +141,10 @@ If you include this element as part of `paper-dialog`, use the class
         @apply(--layout-end-justified);
         width: 5.34ex;
         letter-spacing: .13ex !important;
+      }
+      :host([enable-seconds]) #heading .time{
+        width: 8.5ex;
+        font-size: 40px;
       }
       #heading .iron-selected {
         color: var(--text-primary-color);
@@ -146,14 +160,14 @@ If you include this element as part of `paper-dialog`, use the class
 
       /** Clock *********************/
       #clockArea {
-        flex: 1;
         background: var(--default-background-color);
         overflow: hidden;
+        @apply(--layout-flex);
         @apply(--paper-time-picker-clock);
         @apply(--layout-vertical);
       }
       #clockArea > div {
-        flex: 1;
+        @apply(--layout-flex);
         position: relative;
       }
       .clock {
@@ -170,6 +184,10 @@ If you include this element as part of `paper-dialog`, use the class
           <div name="hours" class="hour">{{hour12}}</div>
           <div class="sep">:</div>
           <div name="minutes" class="minute">{{_zeroPad(minute, 2)}}</div>
+          <template is="dom-if" if="[[ enableSeconds ]]">
+            <div class="sep">:</div>
+            <div name="seconds" class="second">{{_zeroPad(second, 2)}}</div>
+          </template>
         </iron-selector>
         <iron-selector class="period" attr-for-selected="name" selected="{{period}}">
           <div name="AM">AM</div>
@@ -180,11 +198,16 @@ If you include this element as part of `paper-dialog`, use the class
         <div>
           <neon-animated-pages id="pages" class="clock-animatable" attr-for-selected="name" selected="{{view}}" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
             <neon-animatable class="clock-animatable" name="hours">
-              <paper-clock-selector class="clock" id="hourClock" count="12" step="1" animated="[[animated]]" selected="{{hour12}}"></paper-clock-selector>
+              <paper-clock-selector class="clock" id="hourClock" count="12" step="1" animated="[[animated]]" selected="{{hour12}}"></paper-clock-selector> 
             </neon-animatable>
             <neon-animatable class="clock-animatable" name="minutes">
-              <paper-clock-selector class="clock" id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero="" zero-pad="" selected="{{minute}}"></paper-clock-selector>
+              <paper-clock-selector class="clock" id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero="" zero-pad="" selected="{{minute}}"></paper-clock-selector> 
             </neon-animatable>
+            <template is="dom-if" if="[[ enableSeconds ]]">
+              <neon-animatable class="clock-animatable" name="seconds">
+                <paper-clock-selector class="clock" id="secondClock" count="60" step="5" animated="[[animated]]" use-zero="" zero-pad="" selected="{{second}}"></paper-clock-selector> 
+              </neon-animatable>
+            </template>
           </neon-animated-pages>
         </div>
       </div>

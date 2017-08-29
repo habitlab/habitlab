@@ -93,7 +93,7 @@ polymer_ext {
     }
     title: {
       type: String
-      value: msg("Let's set some goals.")
+      value: msg("What do you want to spend less time on?")
     }
     num_per_line: {
       type: Number

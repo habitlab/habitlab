@@ -56,6 +56,14 @@ polymer_ext({
       type: String,
       value: ""
     },
+    isLoggedIn: {
+      type: Boolean,
+      value: true
+    },
+    duolingoIconURL:{
+      type: String,
+      value: chrome.extension.getURL('goals/duolingo/complete_lesson_each_day/icon.png') // TODO: change to .svg post-merge
+    },
     streak: Number,
     streakExtendedToday: Boolean,
     hovered: {
@@ -67,14 +75,15 @@ polymer_ext({
     let info = await get_duolingo_info()
     console.log(info)
     if (info == null || Object.keys(info).length === 0) {
-      this.callToAction = "This nudge injects language practice from Duolingo into the news feed once you make an account and sign in. Why not pick a language (or sign in if you have an account) and get started now?"
-      this.lessonTitle = ""
-      this.iframeURL = "https://www.duolingo.com/register"
+      this.callToAction = "This HabitLab nudge brings Duolingo lessons right into the page. Once you're signed in, it will load your next lesson automatically each time the nudge runs." //This nudge injects language practice from Duolingo into the news feed. Why not pick a language (or sign in if you have an account) and get started now?"
+      this.lessonTitle = "Sign in to Start Lesson"
+      this.isLoggedIn = false
+    } else {
+      this.streak = info.site_streak
+      let learningLanguage = info.learning_language
+      let languageData = info.language_data[learningLanguage]
+      this.initializeWithLanguageData(languageData)
     }
-    this.streak = info.site_streak
-    let learningLanguage = info.learning_language
-    let languageData = info.language_data[learningLanguage]
-    this.initializeWithLanguageData(languageData)
   },
   // Sets the properties to those matching the user's next lesson 
   initializeWithLanguageData: function(languageData) {
@@ -111,5 +120,8 @@ polymer_ext({
   onUnhovered: function(evt) {
     this.hovered = false;
     set_alternative_url_to_track(null)
+  },
+  signinClicked: function(evt) {
+    window.open({url: "https://www.duolingo.com"})
   }
 })

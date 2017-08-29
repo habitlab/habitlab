@@ -443,6 +443,7 @@ polymer_ext {
   help_clicked: ->
     # chrome.tabs.create {url: 'https://habitlab.github.io/devdocs'}
     this.is_tutorial_shown=true
+    this.selected_tab_idx=0
   share_clicked: ->>
     # self=this
     # chrome.permissions.request {

@@ -108,9 +108,14 @@ polymer_ext {
     is_tutorial_shown: {
       type: Boolean
       value: true
-      observer: 'tutorial_status_changed'
+    }
+    is_on_tutorial_tab: {
+      type: Boolean
+      computed: 'compute_is_on_tutorial_tab(is_tutorial_shown, selected_tab_idx)'
     }
   }
+  compute_is_on_tutorial_tab: (is_tutorial_shown, selected_tab_idx) ->
+    return is_tutorial_shown and (selected_tab_idx == 0)
   pill_button_selected: (evt) ->
     if evt.detail.buttonidx == 0 
       set_intervention_disabled(this.get_intervention_name())

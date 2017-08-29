@@ -25,4 +25,4 @@ preview: https://www.youtube.com/watch?v=7maJOI3QMu0
 target:
   default: 20
   units: minutes
-icon: icon.png
+icon: icon.svg

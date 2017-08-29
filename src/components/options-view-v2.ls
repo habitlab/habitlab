@@ -177,11 +177,17 @@ polymer_ext {
   #         ", 'animation': false, 'allowOutsideClick': false, 'allowEscapeKey': true}
   rerender: ->>
     self = this
-    self.is_habitlab_disabled = not (await is_habitlab_enabled())
-    #is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
-    goals = await get_goals()
-    enabled_goals = await get_enabled_goals()
-    goals_list = await list_all_goals()
+    #self.is_habitlab_disabled = not (await is_habitlab_enabled())
+    is_habitlab_enabled().then (is_enabled) -> self.is_habitlab_disabled = !is_enabled
+    [
+      goals
+      enabled_goals
+      goals_list
+    ] = [
+      await get_goals()
+      await get_enabled_goals()
+      await list_all_goals()
+    ]
     enabled_goal_info_list = []
     for goal_name in goals_list
       goal_info = goals[goal_name]

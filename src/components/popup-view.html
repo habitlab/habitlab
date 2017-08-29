@@ -136,8 +136,8 @@
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="debugButton" style="display: none" on-click="debug_button_clicked">Debug</paper-button>
           <paper-button class="paperbuttons" raised id="feedbackButton" on-click="submit_feedback_clicked">Feedback</paper-button> 
-          <paper-button class="paperbuttons" raised id="resultsButton">Results</paper-button>
-          <paper-button class="paperbuttons" raised id="goalsButton">Settings</paper-button>
+          <paper-button class="paperbuttons" raised on-click="results_button_clicked">Results</paper-button>
+          <paper-button class="paperbuttons" raised on-click="settings_button_clicked">Settings</paper-button>
         </div>
 
         <template is="dom-if" if="{{!is_habitlab_disabled}}">
@@ -152,21 +152,21 @@
             <iron-page id="currentInterventionPage">
               <div class="interventioninfo">
                 <template is="dom-repeat" items="{{enabledInterventions}}" as="intervention">
-                  <div class="interventionContainer" id="enabledInterventions">
+                  <div class="interventionContainer">
                     <span class="interventionName">{{get_intervention_description(intervention, intervention_name_to_info)}}</span>
-                    
                     <paper-button raised on-click="temp_disable_button_clicked" intervention="{{intervention}}">Turn Off Nudge</paper-button>
                   </div>
                 </template>
                 <template is="dom-if" if="{{isEmpty(enabledInterventions)}}">
                   <template is="dom-if" if="{{outside_work_hours()}}">
-                    <div class="interventionContainer" id="enabledInterventions">
-                      <h4>No interventions being shown outside work hours</h4>
+                    <div class="interventionContainer">
+                      <h4>No nudges being shown outside work hours</h4>
+                      <paper-button class="paperbuttons" raised on-click="settings_button_clicked">Change Work Hours</paper-button>
                     </div>
                   </template>
                   <template is="dom-if" if="{{!outside_work_hours()}}">
-                    <div class="interventionContainer" id="enabledInterventions">
-                      <h4>No interventions enabled, please enable some goals</h4>
+                    <div class="interventionContainer">
+                      <h4>No nudges enabled, please enable some goals</h4>
                     </div>
                   </template>
                 </template>        

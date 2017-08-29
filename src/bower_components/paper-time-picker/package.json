@@ -1,6 +1,6 @@
 {
   "name": "paper-time-picker",
-  "version": "1.1.2",
+  "version": "1.1.5",
   "description": "Provides a responsive time picker based on the material design spec",
   "main": "index.html",
   "devDependencies": {

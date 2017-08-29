@@ -625,9 +625,11 @@ do !->>
   page_was_just_refreshed = false
 
   load_intervention_for_location = promise-debounce (location, tabId) ->>
-    if is_it_outside_work_hours()
+    if is_it_outside_work_hours() and (not localStorage.getItem('override_enabled_interventions_once')?)
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
     if !is_habitlab_enabled_sync()
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
 
     domain = url_to_domain(location)
@@ -717,7 +719,7 @@ do !->>
     if interventions_to_load.length > 0
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
     else
-      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
     return
 
   /*
@@ -858,8 +860,12 @@ do !->>
 
     if new_domain != prev_domain
       domain_changed(new_domain)
-      iframed_domain_to_track = null
-    
+      iframed_domain_to_track := null
+
+    if not (url.startsWith('http://') or url.startsWith('https://'))
+      chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+      return
+
     #if tabid_to_current_location[tabId] == url
     #  return
     #tabid_to_current_location[tabId] = url
@@ -870,20 +876,28 @@ do !->>
     #  chrome.pageAction.hide(tabId)
     #send_pageupdate_to_tab(tabId)
     #dlog "navigation_occurred to #{url}"
-    load_intervention_for_location url, tabId
+    load_intervention_for_location(url, tabId).then ->
+      loaded_interventions = tab_id_to_loaded_interventions[tabId]
+      if loaded_interventions? and loaded_interventions.length > 0
+        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
+      else
+        if is_habitlab_enabled_sync() and !is_it_outside_work_hours()
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+        else
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
 
   # A bit naive and over-conservative, but a start
   chrome.windows.onFocusChanged.addListener (windowId) ->
-    iframed_domain_to_track = null
+    iframed_domain_to_track := null
   
   chrome.windows.onRemoved.addListener (windowId) ->
-    iframed_domain_to_track = null
+    iframed_domain_to_track := null
 
   chrome.tabs.onUpdated.addListener (tabId, changeInfo, tab) ->
     if changeInfo.status == 'loading' and not changeInfo.url?
       # user refreshed the page
       page_was_just_refreshed := true
-      iframed_domain_to_track = null
+      iframed_domain_to_track := null
     if tab.url
       tab_id_to_url[tabId] = tab.url
       #dlog 'tabs updated!'
@@ -903,15 +917,6 @@ do !->>
         tabId: tabId
       }
       navigation_occurred tab.url, tabId
-
-      loaded_interventions = tab_id_to_loaded_interventions[tabId]
-      if is_habitlab_enabled_sync()
-        if loaded_interventions? and loaded_interventions.length > 0
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
-        else
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
-      else
-        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
   reward_display_base_code_cached = null
 
   chrome.tabs.onRemoved.addListener (tabId, info) ->>
@@ -919,6 +924,8 @@ do !->>
     if not url?
       return
     domain = url_to_domain(url)
+    if not tab_id_to_domain_to_session_id[tabId]?
+      return
     session_id = tab_id_to_domain_to_session_id[tabId][domain]
     if not session_id?
       return
@@ -942,7 +949,7 @@ do !->>
       return
     reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
     chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
-    iframed_domain_to_track = null
+    iframed_domain_to_track := null
 
   /*
   setInterval ->>
@@ -1038,7 +1045,7 @@ do !->>
     active_tab = await get_active_tab_info()
     if not active_tab?
       return
-    if active_tab.url.startsWith('chrome://') or active_tab.url.startsWith('chrome-extension://') # ignore time spent on extension pages
+    if not (active_tab.url.startsWith('http://') or active_tab.url.startsWith('https://'))
       return
     if iframed_domain_to_track?
       current_domain = iframed_domain_to_track

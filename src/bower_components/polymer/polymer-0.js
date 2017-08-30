@@ -513,7 +513,7 @@ node.removeEventListener(eventName, handler);
 });(function () {
 'use strict';
 var wrap = Polymer.DomApi.wrap;
-var HAS_NATIVE_TA = typeof document.head.style.touchAction === 'string';
+var HAS_NATIVE_TA = true;
 var GESTURE_KEY = '__polymerGestures';
 var HANDLED_OBJ = '__polymerGesturesHandled';
 var TOUCH_ACTION = '__polymerGesturesTouchAction';

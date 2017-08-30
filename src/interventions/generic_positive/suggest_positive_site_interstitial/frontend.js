@@ -22,12 +22,12 @@ const {
 
 var shadow_div;
 
-var domain = url_to_domain(window.location.href)
-var sitename_printable = get_intervention().sitename_printable
-var buttonText = `Click to continue to ${sitename_printable}`
+var current_domain = url_to_domain(window.location.href)
+var goal = get_intervention().goals[0]
+var buttonText = `Click to continue to ${current_domain}`
 var interst_screen = $('<interstitial-screen-positive-trigger>')
-interst_screen.attr('sitename-printable', sitename_printable)
-interst_screen.attr('continue-button-text', buttonText)
+interst_screen.attr('positive_goal', goal)
+interst_screen.attr('continue_button_text', buttonText)
 once_body_available().then(function() {
   shadow_div = append_to_body_shadow(interst_screen);
 })

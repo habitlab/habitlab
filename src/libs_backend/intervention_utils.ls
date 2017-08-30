@@ -256,7 +256,6 @@ export generate_interventions_for_positive_domain = (domain) ->>
     fixed_intervention_name = generic_intervention
     fixed_intervention_name = fixed_intervention_name.split('generic_positive/').join("generated_#{domain}/")
     intervention_info.name = fixed_intervention_name
-    intervention_info.matches = [domain]
     make_absolute_path = (content_script) ->
       if content_script.path?
         if content_script.path[0] == '/'
@@ -670,10 +669,13 @@ export list_available_interventions_for_location = (location) ->>
     if blacklisted
       continue
     matches = false
-    for func in intervention_info.match_functions
-      if func(location)
-        matches = true
-        break
+    if intervention_info.matches_all?
+      matches = true
+    else
+      for func in intervention_info.match_functions
+        if func(location)
+          matches = true
+          break
     if matches
       possible_interventions.push intervention_name
   return possible_interventions

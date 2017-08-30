@@ -1,5 +1,6 @@
 <html><head><link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-resizable/iron-resizable-behavior.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="classlist-shim.html">
 
 <!--
 @element paper-clock-selector
@@ -72,20 +73,15 @@
       .number text.clipped {
         z-index: 4;
         fill: var(--text-primary-color);
-        clip-path: url('#handClip');
       }
       .select-area {
         cursor: pointer;
         fill-opacity: 0;
       }
-      #clock.animating #clockHand,
-      #clock.animating #clipCircle {
-        transition: transform 150ms ease-in;
-      }
     </style>
     <svg version="1.1" id="clock">
       <defs>
-        <clipPath id="handClip">
+        <clipPath id="handClip[[_instanceId]]">
           <circle id="clipCircle" r$="{{_selectorSize}}" cx$="{{_handX}}" cy$="{{_handY}}"></circle>
         </clipPath>
       </defs>

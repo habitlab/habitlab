@@ -1,4 +1,103 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="classlist-shim.html">
 
+<!--
+@element paper-clock-selector
+@blurb Only intended for use by paper-time-picker
+-->
+
+<dom-module id="paper-clock-selector">
+  <template>
+    <style>
+      :host * {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+      }
+
+      :host {
+        display: block;
+        @apply(--paper-font-body1);
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        pointer-events: none;
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+      }
+      #clock {
+        display: block;
+        overflow: visible;
+      }
+      #clock * {
+        pointer-events: fill;
+      }
+      #face {
+        fill: var(--divider-color);
+        cursor: default;
+      }
+      .line {
+        stroke-width: 2;
+      }
+      .dot {
+        fill: var(--default-primary-color);
+      }
+      .line {
+        stroke: var(--default-primary-color);
+      }
+      .clock-hand {
+        z-index: 1;
+      }
+      .disc-large {
+        z-index: 2;
+        fill: var(--default-primary-color);
+      }
+      .disc-small {
+        fill: var(--text-primary-color);
+      }
+      .clock-hand.no-dot .disc-small {
+        fill: none;
+        stroke: none;
+      }
+      .number text {
+        z-index: 3;
+        fill: var(--primary-text-color);
+        @apply(--paper-font-subhead);
+        pointer-events: none;
+        dominant-baseline: middle;
+        text-align: center;
+        text-anchor: middle;
+      }
+      .number text.clipped {
+        z-index: 4;
+        fill: var(--text-primary-color);
+      }
+      .select-area {
+        cursor: pointer;
+        fill-opacity: 0;
+      }
+    </style>
+    <svg version="1.1" id="clock">
+      <defs>
+        <clipPath id="handClip[[_instanceId]]">
+          <circle id="clipCircle" r$="{{_selectorSize}}" cx$="{{_handX}}" cy$="{{_handY}}"></circle>
+        </clipPath>
+      </defs>
+      <circle id="face" class="bg" r$="{{_radius}}" cx$="{{_radius}}" cy$="{{_radius}}"></circle>
+      <g id="clockHand" class="clock-hand">
+        <circle class="dot" r="2" cx$="{{_radius}}" cy$="{{_radius}}"></circle>
+        <line class="line" x1$="{{_radius}}" y1$="{{_radius}}" x2$="{{_handX}}" y2$="{{_handY}}"></line>
+        <circle class="disc-large" r$="{{_selectorSize}}" cx$="{{_handX}}" cy$="{{_handY}}"></circle>
+        <circle class="disc-small" r$="{{_selectorDotSize}}" cx$="{{_handX}}" cy$="{{_handY}}"></circle>
+      </g>
+      <g id="numbers"></g>
+      <path class="select-area" on-tap="_onTouch" on-track="_onTouch"
+        d$="{{_getSelectArea(_radius, _selectorInner, _selectorOuter)}}"></path>
+    </svg>
+  </template>
+  <script>
     (function(){
       var SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -404,4 +503,5 @@
 
       });
     })();
-  
+  </script>
+</dom-module>

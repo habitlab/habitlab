@@ -55,7 +55,6 @@ component_generator = (numitems) ->
   feed-item.append(view-trigger-top)
   view-trigger-top.on('inview', (event, isInView) ->
     $placeholder = $(this).parent()
-    console.log 'In view: ' + isInView
     if isInView && window.feed_injection_active
       offset = $placeholder.offset()
       duolingo-lesson-div.offset(offset)
@@ -69,7 +68,6 @@ component_generator = (numitems) ->
   feed-item.append(view-trigger-bottom)
   view-trigger-bottom.on('inview', (event, isInView) ->
     $placeholder = $(this).parent()
-    console.log 'In view: ' + isInView
     if isInView && window.feed_injection_active
       offset = $placeholder.offset()
       duolingo-lesson-div.offset(offset)
@@ -85,7 +83,9 @@ component_generator = (numitems) ->
   return feed-item
   #return wrap_in_shadow(feed-item)
 
-inject_into_feed(component_generator)
+inject-position = 4
+spacing = 8
+inject_into_feed(component_generator, inject-position, spacing)
 
 window.on_intervention_disabled = ->
   $('duolingo-lesson-widget').remove()

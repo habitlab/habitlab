@@ -303,7 +303,10 @@ polymer_ext {
       #confirmButtonText: 'Visit Facebook to see an intervention in action'
       #cancelButtonText: 'Close'
     }
-
+  results_button_clicked: ->
+    chrome.tabs.create {url: 'options.html#overview'}
+  settings_button_clicked: ->
+    chrome.tabs.create {url: 'options.html#settings'}
   ready: ->>
     #chrome.browserAction.setBadgeText {text: ''}
     #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
@@ -319,14 +322,6 @@ polymer_ext {
 
     if self.enabledInterventions.length == 0
       self.selected_tab_idx = 1
-
-    self.S('#resultsButton').click(->
-      chrome.tabs.create {url: 'options.html#overview'}
-    )
-
-    self.S('#goalsButton').click(->
-      chrome.tabs.create {url: 'options.html#settings'}
-    )
 
     localstorage_setbool('popup_view_has_been_opened', true)
 

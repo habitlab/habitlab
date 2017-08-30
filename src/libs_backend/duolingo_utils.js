@@ -18,6 +18,10 @@ const {
   promise_all_object
 } = require ('libs_common/promise_utils')
 
+const {
+  sleep
+} = require('libs_common/common_libs')
+
 const moment = require('moment')
 
 async function get_duolingo_username_uncached() {
@@ -51,8 +55,21 @@ async function get_duolingo_username() {
   return duolingo_username
 }
 
+async function wait_until_user_is_logged_in(timeout) {
+  let wait_start_time = moment()
+  while (moment().diff(wait_start_time, 'seconds') < timeout) {
+    let is_logged_in = await get_duolingo_is_logged_in()
+    if (is_logged_in) {
+      return true
+    }
+    await sleep(200)
+  }
+  return false
+}
+
 async function get_duolingo_info_for_user(username) {
   if (username == null || username.length == 0) {
+    console.log('null username')    
     return {}
   }
   return await fetch('https://www.duolingo.com/users/' + username, {credentials: 'include'}).then(x => x.json())
@@ -128,5 +145,6 @@ module.exports = {
   get_duolingo_streak,
   get_duolingo_is_logged_in,
   update_duolingo_progress,
-  get_last_duolingo_progress_update_time
+  get_last_duolingo_progress_update_time,
+  wait_until_user_is_logged_in
 }

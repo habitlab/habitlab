@@ -95,7 +95,7 @@ polymer_ext {
     }
     title: {
       type: String
-      value: msg("Now for some positive goals!")
+      value: msg("What do you want to do more of?")
     }
     num_per_line: {
       type: Number
@@ -244,6 +244,8 @@ polymer_ext {
     sitename_to_goals = {}
     for goal_name,goal_info of goal_name_to_info
       if goal_name == 'debug/all_interventions' and localStorage.getItem('intervention_view_show_debug_all_interventions_goal') != 'true'
+        continue
+      if not goal_info.is_positive
         continue
       sitename = goal_info.sitename_printable
       if not sitename_to_goals[sitename]?

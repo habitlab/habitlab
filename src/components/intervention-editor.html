@@ -47,6 +47,9 @@
       background-color: black;
       height:50px;
     }
+    .intervention_tab_hidden {
+      display: none;
+    }
     #topbar_buttons {
       text-align: right;
       z-index:9999;
@@ -129,7 +132,7 @@
     </marked-element>
 
     <div>
-      <iron-pages selected="{{selected_tab_idx_adjusted_for_tutorial}}">
+      <iron-pages selected="{{selected_tab_idx}}">
         <intervention-editor-tutorial id="tutorial_tab"></intervention-editor-tutorial>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
           <div id="editor_{{intervention_tab_name}}" intervention_tab_name="{{intervention_tab_name}}" class="javascript_editor_div"></div>
@@ -139,7 +142,7 @@
 
     <paper-card id="topbar">
       <paper-tabs id="intervention-tabs" selected="{{selected_tab_idx}}" autoselect style="position: fixed; left: 0px; top: 0px; height:50px; float:left;">
-        <paper-tab class="intervention_tab">Tutorial
+        <paper-tab class$="{{text_if_else(is_tutorial_shown, 'intervention_tab', 'intervention_tab_hidden')}}">Tutorial
           <paper-icon-button icon="close" class="close_tab_button" on-click="close_tutorial_clicked"></paper-icon-button>
         </paper-tab>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">

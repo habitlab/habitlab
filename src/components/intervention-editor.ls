@@ -198,7 +198,7 @@ polymer_ext {
     intervention_name = this.opened_intervention_list[intervention_idx]
     console.log 'intervention closed: ' + intervention_name
     if this.js_editors[intervention_name]?
-      delete basetag.js_editors[intervention_name]
+      delete this.js_editors[intervention_name]
     opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
     opened_intervention_list.splice intervention_idx - 1, 1
     console.log 'new opened_intervention_list is:'

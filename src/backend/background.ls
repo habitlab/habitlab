@@ -632,9 +632,6 @@ do !->>
     if !is_habitlab_enabled_sync()
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
-    if not await site_has_enabled_spend_less_time_goal(location)
-      # chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
-      return
 
     domain = url_to_domain(location)
     if not domain_to_prev_enabled_interventions[domain]?
@@ -654,6 +651,9 @@ do !->>
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
+        if not await site_has_enabled_spend_less_time_goal(location)
+          # chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
+          return
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
       intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
       if intervention?

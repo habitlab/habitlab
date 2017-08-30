@@ -265,7 +265,7 @@ Polymer({
       goal_info=await get_goal_info(intervention_info.goals[0])
       preview_page=goal_info.preview ? ('https://' + goal_info.domain + '/')     
     chrome.tabs.create {url: preview_page}
-  ready: ->>
+  rerender: ->>
     self = this
     brace = await SystemJS.import('brace')
     await SystemJS.import('brace/mode/javascript')
@@ -288,5 +288,7 @@ Polymer({
       js_editor.setValue(this.default_code[editor_name].trim())
     all_interventions=await get_interventions()
     templates_list=['generic/make_user_wait',"generic/toast_notifications","iqiyi/prompt_before_watch","iqiyi/remove_sidebar_links","netflix/infinite_alarm","netflix/link_articles","facebook/remove_news_feed","facebook/rich_notifications"]
-    this.templates_info_list=[all_interventions[x] for x in templates_list]    
+    this.templates_info_list=[all_interventions[x] for x in templates_list]
+  ready: ->
+    this.rerender()
 })

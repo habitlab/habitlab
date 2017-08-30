@@ -7,7 +7,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="pill-button-group.html">
+<!--<link rel="import" href="pill-button-group.html">-->
 <link rel="import" href="intervention-editor-tutorial.html">
 
 <dom-module id="intervention-editor">
@@ -76,7 +76,7 @@
       display: inline-block;
       color: white;
       background-color: #4279BD;
-      margin-left: 10px;
+      margin-left: 0px;
       margin-right: 10px;
       margin-top: 10px;
       margin-bottom: 10px;
@@ -163,13 +163,13 @@
 
       <div id = "topbar_buttons">
         <template is="dom-if" if="{{!is_on_tutorial_tab}}">
-          <div id="bottom_buttons_container">
-            <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
-            <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
+          <paper-button class="button" on-click="preview_intervention">Run This Nudge</paper-button>
+          <!--<paper-button class="button" on-click="debug_intervention">Debug</paper-button>-->
+            <!--
             <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
             <paper-tooltip position="top" for="pill_selector">Click to enable/disable your custom nudge.</paper-tooltip>
+            -->
             <!-- <paper-button class="button" on-click="add_new_intervention_clicked" style="float:right;">Back</paper-button> -->
-          </div>
         </template>
 
         <template is="dom-if" if="{{is_on_tutorial_tab}}">

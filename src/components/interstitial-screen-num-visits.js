@@ -79,7 +79,7 @@ Polymer({
   //},
   buttonclicked: function() {
     console.log('ok button clicked in polymer during loading')
-    log_action({'negative': 'Continuted to site.'})
+    log_action({'negative': 'Continued to site.'})
     $(this).hide()
   },
   hideButton: function() {

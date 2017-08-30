@@ -3,7 +3,6 @@
 <link rel="import" href="positive-site-trigger-v2.html">
 <link rel="import" href="habitlab-logo-v2.html">
 
-
 <dom-module id="interstitial-screen-positive-trigger">
   <template>
     <style is="custom-style">
@@ -22,9 +21,6 @@
         --trigger-border-style: solid;
         --trigger-border-width: 2px;
         --trigger-border-color: #000000;
-        --trigger-streak-border-style: solid;
-        --trigger-streak-border-width: 1px;
-        --trigger-streak-border-color: #aaaaaa;
       }
 
       .white-div {
@@ -55,8 +51,14 @@
         font-size: 15px;
       }
 
-      #okbutton {
+      .okButton {
+        cursor: pointer;
         margin: 10px;
+        background-color: #415D67;      
+        color: white;
+        font-size: 14px;
+        height: 38px;
+        box-shadow: 2px 2px 2px #888888;
       }
 
       #logo {
@@ -66,9 +68,9 @@
 
     </style>
     <div class="white-div text-div">
-      <positive-site-trigger-v2></positive-site-trigger-v2>
+      <positive-site-trigger-v2 goal="{{positiveGoal}}"></positive-site-trigger-v2>
       <div class="contentContainer">
-        <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">{{continueButtonText}}</paper-button></center>
+        <center><paper-button id="okbutton" class="okButton" on-click="continueclicked">{{continue_button_text}}</paper-button></center>
       </div>
       <center><habitlab-logo-v2 id="logo"></habitlab-logo-v2></center>      
     </div>

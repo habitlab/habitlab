@@ -14,3 +14,4 @@ target:
   units: lessons
 is_positive: true
 icon: icon.svg
+color: '#4db8ec'

@@ -18,31 +18,32 @@
       background-color: #5E9CD3;
       display: inline-block;
       padding: 10px;
-      border-radius: 10px;
+      border-radius: 5px;
       color: white;
-      border-color: #43729A;
-      border-width: 1px;
-      border-style: solid;
-      text-shadow: 1px 1px black;
+      /* border-color: #43729A; */
+      /* border-width: 1px; */
+      /* border-style: solid; */
+      /* text-shadow: 1px 1px black; */
     }
     .badge_unlocked_bottom_text {
+      margin-top:10px;
       background-color: #5E9CD3;
       display: inline-block;
-      padding: 10px;
-      border-radius: 10px;
+      padding: 5px;
+      border-radius: 5px;
       color: white;
-      border-color: #43729A;
-      border-width: 1px;
+      /* border-color: #43729A; */
+      /* border-width: 1px;
       border-style: solid;
-      text-shadow: 1px 1px black;
+      text-shadow: 1px 1px black; */
       width: 116px;
     }
     .center_badge_display {
       width: 100px;
       height: 100px;
-      border-radius: 100px;
+      border-radius: 10px;
       border-color: green;
-      border-width: 2px;
+      border-width: 0px;
       border-style: solid;
       background-color: #70AD47;
       display: inline-block;
@@ -56,8 +57,9 @@
       <div style="width: 100%; text-align: center">
         <div class="badge_unlocked_bottom_text">
           <div><span>{{badge_details.name}}</span></div>
-          <div><span>{{badge_details.time_message}}</span></div>
+          <!-- <div><span>{{badge_details.time_message}}</span></div> -->
         </div>
+        <div style = "color:gray; font-size:15px;margin-top:5px;"><span>{{badge_details.time_message}}</span></div>
       </div>
     </div>
   </template>

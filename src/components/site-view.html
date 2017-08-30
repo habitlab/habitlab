@@ -28,6 +28,11 @@
         margin-top: 10px;
       };
     }
+    .title-text{
+      font-size: 22px;
+      color:#2b2b2b;
+      margin-top:10px;
+    }
 
     .container {
       text-align: center;
@@ -38,8 +43,9 @@
     }
 
     .title {
-      font-size: 48px;
+      font-size: 38px;
       margin-top: 0.3em;
+      margin-bottom: 20px;
       /*font-weight: 200;*/
     }
 
@@ -60,23 +66,25 @@
     }
 
     .paper-card {
-      width: calc(100% - 40px);
-      margin-left: 20px;
-      margin-right: 20px;
+      width: 100%;
+      margin-top:0px;
     }
 
     .card-content {
-      font-size: 20px;
+      font-size: 16px;
+      margin-top:0px;
     }
   </style>
   <template>
     <div class="container">
       <!-- <div id="encouragement" class="title">Good job so far!</div>
       <div class="title">HabitLab Analytics</div> -->
-
-      <div class="title" style="color: white">　{{goal_info.sitename_printable}}　</div>
-
-      <paper-card heading="{{goal_info.sitename_printable}} Nudges" class="paper-card">
+      <div style =" width:100%; background-color:{{goal_info.color}};">
+        <div class="title" style="color: white">　{{goal_info.sitename_printable}}　</div>
+      </div>
+      <paper-card class="paper-card">
+        <div class="title-text"> Nudges </div>
+      <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudges" class="paper-card"> -->
         <div class="card-content">Nudges turned on will only be shown some of the time
           <iron-icon icon="help" on-click="help_icon_clicked" style="width: 25px; height: 25px; color: #415D67; cursor: pointer; margin-bottom: 5px"></iron-icon>
         </div>
@@ -86,14 +94,17 @@
         </template>
         <paper-button class="button" on-click="code_custom_nudge_clicked">Code your custom nudge</paper-button>
       </paper-card>
-
-      <paper-card heading="{{goal_info.sitename_printable}} Progress" class="paper-card">
+      <paper-card class="paper-card" style ="font-size: 22px; color:#5a5a5a;">
+        <div class="title-text"> Progress </div>
+      <!-- <paper-card heading="{{goal_info.sitename_printable}} Progress" class="paper-card"> -->
         <div class="card-content">
           <site-goal-view-v2 site="{{goal_info.sitename}}"></site-goal-view-v2>
         </div>
       </paper-card>
 
-      <paper-card heading="{{goal_info.sitename_printable}} Nudge Effectiveness" class="paper-card">
+      <paper-card class="paper-card" style = "font-size: 22px; color:#5a5a5a;">
+        <div class="title-text"> Nudge Effectiveness </div>
+      <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudge Effectiveness" class="paper-card"> -->
         <div class="card-content">
           <graph-intervention-effectiveness-comparison goal_info="{{goal_info}}"></graph-intervention-effectiveness-comparison>
         </div>

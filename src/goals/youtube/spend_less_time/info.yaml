@@ -26,3 +26,4 @@ target:
   default: 20
   units: minutes
 icon: icon.svg
+color: '#e44441'

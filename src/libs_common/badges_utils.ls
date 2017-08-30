@@ -15,9 +15,9 @@ export list_all_badge_info = ->
     }
     {
       minutes_saved: 20
-      name: 'Tea Time'
-      message: 'That is enough time to have a relaxing cup of tea!'
-      icon: 'coffee.svg'
+      name: 'Nap Time'
+      message: 'That is enough time to fit in a quick nap!'
+      icon: 'nap.svg'
     }
     {
       minutes_saved: 40

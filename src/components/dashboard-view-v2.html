@@ -103,7 +103,7 @@
           <iron-pages selected="{{selected_intervention_effectiveness_idx}}">
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
               <div>
-                <h4>{{site_info.sitename_printable}} Nudge Effectiveness</h4>
+                <div style = "font-size: 22px; color:#5a5a5a; margin-bottom:10px;">{{site_info.sitename_printable}} Nudge Effectiveness</div>
                 <br>
                 <graph-intervention-effectiveness-comparison goal_info="{{first_elem(site_info.goals)}}"></graph-intervention-effectiveness-comparison>
               </div>

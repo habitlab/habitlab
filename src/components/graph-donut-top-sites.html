@@ -35,7 +35,7 @@
     }
   </style>
   <template>
-    <h4>Today's five most visited sites by minutes spent</h4>
+    <div style = "font-size: 22px; color:#5a5a5a; margin-bottom: 10px;">Today's five most visited sites by minutes spent</div>
     <template is="dom-if" if="{{graph_has_data}}">
       <chart-doughnut data="[[donutdata]]" style="width: 100%"></chart-doughnut>
     </template>

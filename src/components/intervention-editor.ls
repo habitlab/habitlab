@@ -201,6 +201,8 @@ polymer_ext {
       delete this.js_editors[intervention_name]
     opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
     opened_intervention_list.splice intervention_idx - 1, 1
+    if opened_intervention_list.length == 0
+      this.is_tutorial_shown = true
     this.opened_intervention_list = opened_intervention_list
     this.selected_tab_idx=this.opened_intervention_list.length
   close_tutorial_clicked :(evt)->

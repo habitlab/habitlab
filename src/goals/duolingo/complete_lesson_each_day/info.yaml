@@ -2,7 +2,6 @@ description: Complete a lesson on Duolingo each day
 progress_description: Lessons completed
 call_to_action: Start a Duolingo lesson
 interventions:
-# - duolingo/facebook_feed_link_injection
   - duolingo/facebook_replace_ads_with_lesson
   - duolingo/facebook_feed_lesson_injection
   - duolingo/youtube_sidebar_lesson

@@ -13,7 +13,7 @@ const {
 } = require('libs_frontend/frontend_libs')
 
 const {
-  get_intervention
+  get_goal_info
 } = require('libs_common/intervention_info');
 
 const {
@@ -23,7 +23,7 @@ const {
 var shadow_div;
 
 var current_domain = url_to_domain(window.location.href)
-var goal = get_intervention().goals[0]
+var goal = get_goal_info()
 var buttonText = `Click to continue to ${current_domain}`
 var interst_screen = $('<interstitial-screen-positive-trigger>')
 interst_screen.attr('positive_goal', goal)

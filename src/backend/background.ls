@@ -347,13 +347,11 @@ do !->>
 
     [
       goal_info
-      positive_goal_info
       parameter_values
       systemjs_content_script_code
       ...content_script_codes
     ] = await Promise.all [
       get_goal_info(intervention_info.goals[0])
-      get_random_positive_goal()
       get_intervention_parameters(intervention_info.name)
       systemjs_content_script_code_promise
       ...content_script_codes_promises
@@ -484,7 +482,6 @@ do !->>
         SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
           intervention_info_setter_lib.set_goal_info(#{JSON.stringify(goal_info)});
-          intervention_info_setter_lib.set_positive_goal_info(#{JSON.stringify(positive_goal_info)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
           SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_code)))}');
         })
@@ -530,7 +527,6 @@ do !->>
       window.loaded_content_scripts['#{options.path}'] = true;
       const intervention = #{JSON.stringify(intervention_info_copy)};
       const goal_info = #{JSON.stringify(goal_info)};
-      const positive_goal_info = #{JSON.stringify(positive_goal_info)}
       const parameters = #{JSON.stringify(parameter_values)};
       const tab_id = #{tabId};
       const dlog = function(...args) { console.log(...args); };
@@ -551,7 +547,6 @@ do !->>
       SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
         intervention_info_setter_lib.set_intervention(intervention);
         intervention_info_setter_lib.set_goal_info(goal_info);
-        intervention_info_setter_lib.set_positive_goal_info(positive_goal_info);
         intervention_info_setter_lib.set_tab_id(tab_id);
         log_utils.log_impression();
         document.body.addEventListener('disable_intervention', function() {
@@ -1005,6 +1000,9 @@ do !->>
 
   chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
     {type, data} = request
+    # console.log 'onMessage'
+    # console.log type
+    # console.log data
     #dlog 'onmessage'
     #dlog type
     #dlog data

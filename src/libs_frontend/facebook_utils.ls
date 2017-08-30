@@ -64,12 +64,16 @@ export inject_into_feed = (component_generator, position = 4, spacing = 8) ->
       #     if window.itemsseen % 10 == 5
       #       console.log \injected
       #       insertBeforeItem $($feeditem)
+      # console.log('valid! yay!')
       if not $feeditem.feedlearninserted
         $feeditem.feedlearninserted = true
         window.numitems += 1
-      
+        # console.log("numitems: #{window.numitems}")
+        # console.log("#{window.numitems} % #spacing == #position")
         if window.numitems % spacing == position
+          # console.log('good time to insert')
           if window.feed_injection_active
+            # console.log('inserting')
             insertBeforeItem $($feeditem)
     return
 

@@ -5,12 +5,8 @@ const {
 } = require('libs_frontend/intervention_log_utils')
 
 const {
-  get_positive_goal_info
+  get_goal_info
 } = require('libs_common/intervention_info')
-
-const {
-  get_random_uncompleted_positive_goal
-} = require('libs_common/goal_utils')
 
 const {
   get_streak
@@ -60,27 +56,36 @@ polymer_ext({
     window.location.href = domain
   },
   compute_sitename: function(goal) {
+    if (goal == null)
+      return ""
     return goal.sitename_printable
   },
   goal_changed: async function(goal) {
     this.positiveSiteIcon = await this.compute_icon(goal)
+    this.streak = await get_streak(goal)    
+    console.log('set goal to ' + goal.name)    
   },
   compute_icon: async function(goal) {
-    if (goal.icon != null) {
+    if (goal == null) {
+      return ""
+    } else if (goal.icon != null) {
       return goal.icon
-    } else {
+    } else if (goal.domain != null) {
       let icon = await get_favicon_data_for_domain(goal.domain)
       return icon
+    } else {
+      console.error("couldn't compute icon for goal " + goal.name)
+      return ""
     }
   },
   compute_description: function(goal) {
+    if (goal == null) {
+      return ""
+    }
     return goal.description
   },
   ready: async function() {
-    this.goal = await get_positive_goal_info()
-    let goal_name = this.goal.name
-    console.log('set goal to ' + goal_name)
-    this.streak = await get_streak(this.goal)
+    this.goal = get_goal_info()
   }
 })
 

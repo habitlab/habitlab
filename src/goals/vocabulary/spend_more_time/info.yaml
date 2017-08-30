@@ -3,6 +3,9 @@ progress_description: Time spent on Vocabulary.com
 call_to_action: Go learn a new word
 interventions:
   - generic_positive/feed_injection_positive_goal_widget
+  - generic_positive/suggest_positive_site_interstitial
+default_interventions:
+  - generic_positive/feed_injection_positive_goal_widget
 measurement: time_spent_on_domain
 domain: www.vocabulary.com
 target:

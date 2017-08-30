@@ -3,6 +3,9 @@ progress_description: Visited TED
 call_to_action: Watch a TED talk
 interventions:
   - generic_positive/feed_injection_positive_goal_widget
+  - generic_positive/suggest_positive_site_interstitial
+default_interventions:
+  - generic_positive/feed_injection_positive_goal_widget
 measurement: whether_visited_domain
 domain: www.ted.com
 sitename_printable: TED

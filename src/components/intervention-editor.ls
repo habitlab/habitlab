@@ -109,6 +109,11 @@ polymer_ext {
       type: Boolean
       value: true
     }
+    is_apidoc_shown: {
+      type: Boolean
+      value: false
+      observer: 'is_apidoc_shown_changed'
+    }
     is_on_tutorial_tab: {
       type: Boolean
       computed: 'compute_is_on_tutorial_tab(is_tutorial_shown, selected_tab_idx)'
@@ -117,6 +122,15 @@ polymer_ext {
       type: String
     }
   }
+  is_apidoc_shown_changed: (is_apidoc_shown) ->
+    if is_apidoc_shown
+      this.SM('.resizable_editor_div').removeClass('editor_div_wide').addClass('editor_div_narrow')
+    else
+      this.SM('.resizable_editor_div').removeClass('editor_div_narrow').addClass('editor_div_wide')
+  hide_docs_clicked: ->
+    this.is_apidoc_shown = false
+  show_docs_clicked: ->
+    this.is_apidoc_shown = true
   compute_is_on_tutorial_tab: (is_tutorial_shown, selected_tab_idx) ->
     return is_tutorial_shown and (selected_tab_idx == 0)
   pill_button_selected: (evt) ->
@@ -497,6 +511,7 @@ polymer_ext {
         enableBasicAutocompletion: true
         enableSnippets: true
         enableLiveAutocompletion: true
+        #autoScrollEditorIntoView: true
       });
       js_editor.getSession().setMode('ace/mode/javascript')
       js_editor.getSession().setTabSize(2)

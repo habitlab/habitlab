@@ -8,7 +8,7 @@
       margin:20px;
     }
     .editor {
-      width: 400px;
+      width: 100%;
       height: 300px;
     }
     paper-button {
@@ -48,52 +48,52 @@
       <h3 id="showanalert">Show an alert</h3>     
       <p>This intervention will show an alert saying "Hello World" when you visit the website.</p>
       <div class="editor" id="hello_world_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="hello_world_editor">Demo</paper-button>
+      <paper-button raised on-click="demo_clicked" srcname="hello_world_editor">Preview</paper-button>
       <!-- <paper-button raised on-click="save_as_new_nudge_clicked" srcname="hello_world_editor">Code with this template</paper-button> -->
 
       <h3 id="flippageupsidedown">Flip page upside down</h3>     
       <p>This intervention (tested on youtube and buzzfeed) will flip the page upside down.</p>      
       <div class="editor" id="flip_page_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="flip_page_editor">Demo</paper-button>
+      <paper-button raised on-click="demo_clicked" srcname="flip_page_editor">Preview</paper-button>
       
       <h3 id="flippageupsidedownusingastylesheet">Flip page upside down using a stylesheet</h3>     
       <p>This is the same as the intervention above, but implemented by injecting CSS code into the page.</p>
       <div class="editor" id="flip_page_css_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="flip_page_css_editor">Demo</paper-button>           
+      <paper-button raised on-click="demo_clicked" srcname="flip_page_css_editor">Preview</paper-button>           
       <p>Here, <a href="require_style"><code>require_style</code></a> allows you to inject CSS code into the page.</p>
       
       <h3 id="flippageupsidedownusingjquery">Flip page upside down using jquery</h3>      
       <p>This is the same as the intervention above, but implemented with <a href="http://api.jquery.com/">jquery</a>.</p>
       <div class="editor" id="flip_page_jquery_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="flip_page_jquery_editor">Demo</paper-button>             
+      <paper-button raised on-click="demo_clicked" srcname="flip_page_jquery_editor">Preview</paper-button>             
       <p>Here, <a href="https://github.com/habitlab/habitlab/wiki/require"><code>require</code></a> allows you to use <a href="https://github.com/habitlab/habitlab/wiki/Libraries">libraries</a> (such as <a href="http://api.jquery.com/">jquery</a>) that are included in HabitLab to make it easier to write interventions.</p>
       
       <h3 id="changeopacityeverysecondusingjquery">Change opacity every second using jquery</h3>      
       <p>This intervention changes the opacity of the page to a random value every second.</p>
       <div class="editor" id="change_opacity_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="change_opacity_editor">Demo</paper-button> 
+      <paper-button raised on-click="demo_clicked" srcname="change_opacity_editor">Preview</paper-button> 
       
       <h3 id="showadialogusingsweetalert2">Show a Dialog using sweetalert2</h3>   
       <p>Here is another example intervention (tested on youtube and buzzfeed) that shows a <a href="https://limonte.github.io/sweetalert2/">sweetalert2</a> dialog</p>
       <div class="editor" id="show_sw_dialog_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="show_sw_dialog_editor">Demo</paper-button>            
+      <paper-button raised on-click="demo_clicked" srcname="show_sw_dialog_editor">Preview</paper-button>            
       <p>Here, <a href="https://github.com/habitlab/habitlab/wiki/require_packagee"><code>require_package</code></a> is a shorthand that ensures the necessary css is injected, and uses <a href="https://github.com/habitlab/habitlab/wiki/require"><code>require</code></a> to use <a href="https://limonte.github.io/sweetalert2/">sweetalert2</a>, which is one of the [[libraries]] included in HabitLab.</p>
       
       <h3 id="displayinginformationabouttimespentonsitetoday">Displaying information about time spent on site today</h3>      
       <p>This intervention will show an alert displaying how much time you spent on a site today.</p>
       <div class="editor" id="display_time_spent_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="display_time_spent_editor">Demo</paper-button>      
+      <paper-button raised on-click="demo_clicked" srcname="display_time_spent_editor">Preview</paper-button>      
       <p>Here, <code>get_seconds_spent_on_current_domain_today</code> is a function provided by <a href="https://github.com/habitlab/habitlab/blob/master/src/libs_common/time_spent_utils.ls"><code>libs_common/time_spent_utils</code></a>, which is one of the internal [[libraries]] that HabitLab provides. Because it is an <a href="https://github.com/habitlab/habitlab/wiki/async-functions">asynchronous function</a> that returns a <code>Promise</code>, we need to use <code>await</code> when calling it.</p>
       
       <h3 id="insertamessageintothepageusingjquery">Insert a message into the page using jquery</h3>      
       <p>This example uses jquery to insert a message "Hello world" into the page. The inserted message will be shown on the top-left corner of the page and will have a red background. Clicking on the message will show an alert.</p>
       <div class="editor" id="insert_msg_jquery_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="insert_msg_jquery_editor">Demo</paper-button>  
+      <paper-button raised on-click="demo_clicked" srcname="insert_msg_jquery_editor">Preview</paper-button>  
       
       <h3 id="showabuttonusingpaperbutton">Show a Button using paper-button</h3>      
       <p>This intervention uses a <a href="https://www.polymer-project.org/1.0/">Polymer</a> component (<a href="https://www.webcomponents.org/element/PolymerElements/paper-button"><code>paper-button</code></a>) to show a button in the top-left corner of the page. When clicked, the button will show an alert.</p>
       <div class="editor" id="show_paper_button_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="show_paper_button_editor">Demo</paper-button> 
+      <paper-button raised on-click="demo_clicked" srcname="show_paper_button_editor">Preview</paper-button> 
       <p>Here, <a href="https://github.com/habitlab/habitlab/wiki/require_component"><code>require_component</code></a> allows us to use Polymer [[components]] (which are essentially custom HTML tags). The list of available components is at <a href="https://github.com/habitlab/habitlab/wiki/components">[[components]]</a>.</p>
       <!-- <marked-element>
           <div slot="markdown-html"></div>
@@ -127,29 +127,29 @@
       <h3 id="showabuttonbydefiningyourownpolymercomponent">Show a Button by defining your own Polymer component</h3>      
       <p>This intervention is the same as the previous one. But this time we will implement it by defining a custom <a href="https://www.polymer-project.org/1.0/">Polymer</a> component titled <code>my-button</code> and using it within the intervention.</p>
       <div class="editor" id="show_custom_polymer_button_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="show_custom_polymer_button_editor">Demo</paper-button>             
+      <paper-button raised on-click="demo_clicked" srcname="show_custom_polymer_button_editor">Preview</paper-button>             
       <p>Here, <a href="https://github.com/habitlab/habitlab/wiki/define_component"><code>define_component</code></a> is used for defining a custom Polymer component. It takes as first argument a string that describes the HTML (style and template) that the component should contain, and the second argument is an object with fields that define its name, properties, methods, and events.</p>
       
       <h3 id="acustompolymercomponentthatdisplayssecondselapsed">A Custom Polymer Component that Displays Seconds Elapsed</h3>      
       <p>This is another example of defining a custom Polymer component, this one named <code>time-spent-counter-banner</code>. This intervention will display a counter displaying the number of seconds spent on the page with white text on a black background in the top-left corner:</p>
       <div class="editor" id="display_time_spent_custom_polymer_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="display_time_spent_custom_polymer_editor">Demo</paper-button>  
+      <paper-button raised on-click="demo_clicked" srcname="display_time_spent_custom_polymer_editor">Preview</paper-button>  
       
       <h3 id="acustompolymercomponentthatdisplayssecondselapsedandshowsthehabitlablogoandaclosebutton">A Custom Polymer Component that Displays Seconds Elapsed and shows the HabitLab logo and a close button</h3>
       <p>This is an enhancement of the previous intervention which displays the components <a href="https://github.com/habitlab/habitlab/blob/master/src/components/habitlab-logo-v2.html"><code>habitlab-logo</code></a> and <a href="https://github.com/habitlab/habitlab/blob/master/src/components/close-tab-button.html"><code>close-tab-button</code></a> which are both <a href="components">custom components built-in to HabitLab</a></p>
       <div class="editor" id="display_time_spent_logo_close_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="display_time_spent_logo_close_editor">Demo</paper-button>   
+      <paper-button raised on-click="demo_clicked" srcname="display_time_spent_logo_close_editor">Preview</paper-button>   
       
       <h2 id="usingexternallibraries">Using external libraries</h2>     
-      <p>You can use external libraries using <a href="https://github.com/habitlab/habitlab/wiki/require_remote"><code>require_remote</code></a> [supported only in HabitLab version 1.0.85 and higher]</p>
+      <p>You can use external libraries using <a href="https://github.com/habitlab/habitlab/wiki/require_remote"><code>require_remote</code></a></p>
       <div class="editor" id="use_external_library_editor"></div>
-      <paper-button raised on-click="demo_clicked" srcname="use_external_library_editor">Demo</paper-button> 
+      <paper-button raised on-click="demo_clicked" srcname="use_external_library_editor">Preview</paper-button> 
 
       <h2 id="advanced_templates">Advanced templates</h2>
       <p>Below are some built-in nudges.</p>
       <template is="dom-repeat" items="{{templates_info_list}}" as="template_info">
         <span><a href="https://github.com/habitlab/habitlab/blob/master/src/interventions/{{template_info.name}}/frontend.js" style="font-size:large">{{template_info.displayname}}</a></span>
-        <paper-button raised on-click="advanced_demo_clicked" id="demo_{{template_info.name}}">Demo</paper-button>
+        <paper-button raised on-click="advanced_demo_clicked" id="demo_{{template_info.name}}">Preview</paper-button>
         <p>{{template_info.description}}</p>
       </template>
     </div>

@@ -24,7 +24,7 @@
     .javascript_editor_div {
       display: inline-block;
       width: calc(100vw - 360px);
-      height: calc(100vh - 100px);
+      height: calc(100vh - 50px);
       position: fixed;
       top: 50px;
       left: 0px;
@@ -48,7 +48,7 @@
       height:50px;
     }
     #topbar_buttons {
-      float: right;
+      text-align: right;
       z-index:9999;
     }
     paper-icon-button{     
@@ -65,20 +65,13 @@
       right: 0px; 
       top: 50px; 
       z-index: 999; 
-      height: calc(100vh - 100px);
+      height: calc(100vh - 50px);
       background-color: #4279BD;
       display:inline-grid;
       width:60px;
     }
-    #bottombar {
-      position:fixed;
-      bottom:0px;
-      height:50px;
-      width:100vw;
-      z-index: 998;
-      background-color:#122438
-    }
     .button {
+      display: inline-block;
       color: white;
       background-color: #4279BD;
       margin-left: 10px;
@@ -96,7 +89,7 @@
       overflow-y: scroll;
       top: 50px;
       right:60px;
-      bottom: 50px;
+      bottom: 0px;
     }
     #pill_selector{
       margin-left:10px;
@@ -104,7 +97,7 @@
     #tutorial_tab {
       display: inline-block;
       width: calc(100vw - 360px);
-      height: calc(100vh - 100px);
+      height: calc(100vh - 50px);
       position: fixed;
       top: 50px;
       left: 0px;
@@ -119,26 +112,25 @@
     }
     .icon_container{
       display:block;
+      color: white;
     }
     .icon_text{
       text-align: center;
     }
     #bottom_buttons_container{
-      float: right;
+      display: inline-block;
+      text-align: right;
       margin-right:10px;
     }
   </style>
   <template>
-
-    <marked-element class="marked-div" id="markdown_display">
+    <marked-element class="marked-div" id="markdown_display" markdown="{{api_markdown_text}}">
       <div slot="markdown-html"></div>
     </marked-element>
 
     <div>
-      <iron-pages selected="{{selected_tab_idx}}">
-        <template is="dom-if" if="{{is_tutorial_shown}}">
-          <intervention-editor-tutorial id="tutorial_tab"></intervention-editor-tutorial>
-        </template>
+      <iron-pages selected="{{selected_tab_idx_adjusted_for_tutorial}}">
+        <intervention-editor-tutorial id="tutorial_tab"></intervention-editor-tutorial>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
           <div id="editor_{{intervention_tab_name}}" intervention_tab_name="{{intervention_tab_name}}" class="javascript_editor_div"></div>
         </template>
@@ -147,11 +139,9 @@
 
     <paper-card id="topbar">
       <paper-tabs id="intervention-tabs" selected="{{selected_tab_idx}}" autoselect style="position: fixed; left: 0px; top: 0px; height:50px; float:left;">
-        <template is="dom-if" if="{{is_tutorial_shown}}">
-          <paper-tab class="intervention_tab">Tutorial
-            <paper-icon-button icon="close" class="close_tab_button" on-click="close_tutorial_clicked"></paper-icon-button>
-          </paper-tab>
-        </template>
+        <paper-tab class="intervention_tab">Tutorial
+          <paper-icon-button icon="close" class="close_tab_button" on-click="close_tutorial_clicked"></paper-icon-button>
+        </paper-tab>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
           <paper-tab intervention_tab_name="{{intervention_tab_name}}" class="intervention_tab">
             {{intervention_tab_name}}
@@ -161,6 +151,16 @@
       </paper-tabs>
 
       <div id = "topbar_buttons">
+          <template is="dom-if" if="{{!is_on_tutorial_tab}}">
+            <div id="bottom_buttons_container">
+              <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
+              <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
+              <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
+              <paper-tooltip position="top" for="pill_selector">Click to enable/disable your custom nudge.</paper-tooltip>
+              <!-- <paper-button class="button" on-click="add_new_intervention_clicked" style="float:right;">Back</paper-button> -->
+            </div>
+        </template>
+
         <paper-button class="button" on-click="add_new_intervention_clicked" style="z-index:10;">Create a new nudge</paper-button>
         <!-- <paper-icon-button icon="folder-open" id="open_button" style="color:#4279BD;" on-click="open_custom_intervention_clicked"></paper-icon-button>
         <paper-tooltip position="bottom" for="open_button">Open an existing custom nudge.</paper-tooltip>
@@ -203,18 +203,6 @@
         </div>
       </template>
     </paper-card>
-
-     <paper-card id = "bottombar">
-      <template is="dom-if" if="{{!is_on_tutorial_tab}}">
-        <div id="bottom_buttons_container">
-          <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
-          <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
-          <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
-          <paper-tooltip position="top" for="pill_selector">Click to enable/disable your custom nudge.</paper-tooltip>
-          <!-- <paper-button class="button" on-click="add_new_intervention_clicked" style="float:right;">Back</paper-button> -->
-         </div>
-      </template>
-      </paper-card>
 
   </template>
   <script src="intervention-editor.js"></script>

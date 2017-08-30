@@ -7,7 +7,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="pill-button-group.html">
+<!--<link rel="import" href="pill-button-group.html">-->
 <link rel="import" href="intervention-editor-tutorial.html">
 
 <dom-module id="intervention-editor">
@@ -23,7 +23,6 @@
     }
     .javascript_editor_div {
       display: inline-block;
-      width: calc(100vw - 360px);
       height: calc(100vh - 50px);
       position: fixed;
       top: 50px;
@@ -46,6 +45,9 @@
       color: white;
       background-color: black;
       height:50px;
+    }
+    .intervention_tab_hidden {
+      display: none;
     }
     #topbar_buttons {
       text-align: right;
@@ -74,7 +76,7 @@
       display: inline-block;
       color: white;
       background-color: #4279BD;
-      margin-left: 10px;
+      margin-left: 0px;
       margin-right: 10px;
       margin-top: 10px;
       margin-bottom: 10px;
@@ -94,9 +96,14 @@
     #pill_selector{
       margin-left:10px;
     }
+    .editor_div_narrow {
+      width: calc(100vw - 360px);
+    }
+    .editor_div_wide {
+      width: calc(100vw - 60px);
+    }
     #tutorial_tab {
       display: inline-block;
-      width: calc(100vw - 360px);
       height: calc(100vh - 50px);
       position: fixed;
       top: 50px;
@@ -113,6 +120,7 @@
     .icon_container{
       display:block;
       color: white;
+      cursor: pointer;
     }
     .icon_text{
       text-align: center;
@@ -124,22 +132,25 @@
     }
   </style>
   <template>
-    <marked-element class="marked-div" id="markdown_display" markdown="{{api_markdown_text}}">
-      <div slot="markdown-html"></div>
-    </marked-element>
+    <template is="dom-if" if="{{is_apidoc_shown}}">
+      <paper-icon-button on-click="hide_docs_clicked" icon="close" style="position: fixed; top: 50px; right: 65px; width: 40px; height: 40px; z-index: 100"></paper-icon-button>
+      <marked-element class="marked-div" id="markdown_display" markdown="{{api_markdown_text}}">
+        <div slot="markdown-html"></div>
+      </marked-element>
+    </template>
 
     <div>
-      <iron-pages selected="{{selected_tab_idx_adjusted_for_tutorial}}">
-        <intervention-editor-tutorial id="tutorial_tab"></intervention-editor-tutorial>
+      <iron-pages selected="{{selected_tab_idx}}">
+        <intervention-editor-tutorial id="tutorial_tab" class="resizable_editor_div editor_div_wide"></intervention-editor-tutorial>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
-          <div id="editor_{{intervention_tab_name}}" intervention_tab_name="{{intervention_tab_name}}" class="javascript_editor_div"></div>
+          <div id="editor_{{intervention_tab_name}}" intervention_tab_name="{{intervention_tab_name}}" class="javascript_editor_div resizable_editor_div editor_div_wide"></div>
         </template>
       </iron-pages>
     </div>
 
     <paper-card id="topbar">
       <paper-tabs id="intervention-tabs" selected="{{selected_tab_idx}}" autoselect style="position: fixed; left: 0px; top: 0px; height:50px; float:left;">
-        <paper-tab class="intervention_tab">Tutorial
+        <paper-tab class$="{{text_if_else(is_tutorial_shown, 'intervention_tab', 'intervention_tab_hidden')}}">Tutorial
           <paper-icon-button icon="close" class="close_tab_button" on-click="close_tutorial_clicked"></paper-icon-button>
         </paper-tab>
         <template is="dom-repeat" items="{{opened_intervention_list}}" as="intervention_tab_name">
@@ -151,17 +162,19 @@
       </paper-tabs>
 
       <div id = "topbar_buttons">
-          <template is="dom-if" if="{{!is_on_tutorial_tab}}">
-            <div id="bottom_buttons_container">
-              <paper-button class="button" on-click="preview_intervention">Preview</paper-button>
-              <paper-button class="button" on-click="debug_intervention">Debug</paper-button>
-              <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
-              <paper-tooltip position="top" for="pill_selector">Click to enable/disable your custom nudge.</paper-tooltip>
-              <!-- <paper-button class="button" on-click="add_new_intervention_clicked" style="float:right;">Back</paper-button> -->
-            </div>
+        <template is="dom-if" if="{{!is_on_tutorial_tab}}">
+          <paper-button class="button" on-click="preview_intervention">Run This Nudge</paper-button>
+          <!--<paper-button class="button" on-click="debug_intervention">Debug</paper-button>-->
+            <!--
+            <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
+            <paper-tooltip position="top" for="pill_selector">Click to enable/disable your custom nudge.</paper-tooltip>
+            -->
+            <!-- <paper-button class="button" on-click="add_new_intervention_clicked" style="float:right;">Back</paper-button> -->
         </template>
 
-        <paper-button class="button" on-click="add_new_intervention_clicked" style="z-index:10;">Create a new nudge</paper-button>
+        <template is="dom-if" if="{{is_on_tutorial_tab}}">
+          <paper-button class="button" on-click="add_new_intervention_clicked" style="z-index:10;">Create a new nudge</paper-button>
+        </template>
         <!-- <paper-icon-button icon="folder-open" id="open_button" style="color:#4279BD;" on-click="open_custom_intervention_clicked"></paper-icon-button>
         <paper-tooltip position="bottom" for="open_button">Open an existing custom nudge.</paper-tooltip>
         <paper-icon-button id ="add_button" style="color:#4279BD;" icon="add-circle-outline" on-click="add_new_intervention_clicked"></paper-icon-button>
@@ -171,35 +184,48 @@
 
     <paper-card id="sidebar">
 
-      <div class="icon_container">
-        <paper-icon-button icon="folder" id="open_button" on-click="open_custom_intervention_clicked"></paper-icon-button>
+      <div class="icon_container" on-click="add_new_intervention_clicked">
+        <paper-icon-button icon="add-box" id="create_button"></paper-icon-button>
+        <paper-tooltip position="left" for="create_button">Create a new nudge.</paper-tooltip>
+        <div class="icon_text">CREATE</div>
+      </div>
+      <div class="icon_container" on-click="open_custom_intervention_clicked">
+        <paper-icon-button icon="folder" id="open_button"></paper-icon-button>
         <paper-tooltip position="left" for="open_button">Open an existing custom nudge.</paper-tooltip>
         <div class="icon_text">OPEN</div>
       </div>
       <template is="dom-if" if="{{!is_on_tutorial_tab}}">
-        <div class="icon_container">
-          <paper-icon-button icon="info" id="info_button" on-click="info_clicked"></paper-icon-button>
-          <div class="icon_text">INFO/<br>MODIFY</div>
+        <div class="icon_container" on-click="info_clicked">
+          <paper-icon-button icon="info" id="info_button"></paper-icon-button>
+          <div class="icon_text">EDIT<br>INFO</div>
           <paper-tooltip position="left" for ="info_button">View or edit current nudge's goal, description, preview_url or name.</paper-tooltip>
         </div>
-        <div class="icon_container"> 
-          <paper-icon-button id="save_button" icon="save" on-click="save_intervention"></paper-icon-button>
+        <div class="icon_container" on-click="save_intervention">
+          <paper-icon-button id="save_button" icon="save"></paper-icon-button>
           <!-- <paper-tooltip position="left" for ="save_button">Save and turn on this nudge in HabitLab settings to implement this right away!</paper-tooltip> -->
           <div class="icon_text">SAVE</div>
         </div>
-        <div class="icon_container">
-          <paper-icon-button icon="delete" id="delete_button" on-click="delete_intervention"></paper-icon-button>
+        <div class="icon_container" on-click="delete_intervention">
+          <paper-icon-button icon="delete" id="delete_button"></paper-icon-button>
           <div class="icon_text">DELETE</div>
         <!-- <paper-tooltip position="left" for="delete_button">Delete current nudge</paper-tooltip> -->
         </div>
-        <div class="icon_container">
-          <paper-icon-button icon="cloud" id="share_button" on-click="share_clicked"></paper-icon-button>
+        <div class="icon_container" on-click="share_clicked">
+          <paper-icon-button icon="cloud" id="share_button"></paper-icon-button>
           <div class="icon_text">SHARE</div>
       <!-- <paper-tooltip position="left" for="share_button">Share your nudge with the HabitLab community!</paper-tooltip> -->
         </div>
-        <div class="icon_container">
-            <paper-icon-button icon="help" on-click="help_clicked"></paper-icon-button>          
-            <div class="icon_text">TUTORIAL</div>
+      </template>
+      <template is="dom-if" if="{{!is_apidoc_shown}}">
+        <div class="icon_container" on-click="show_docs_clicked">
+          <paper-icon-button icon="description"></paper-icon-button>          
+          <div class="icon_text">DOCS</div>
+        </div>
+      </template>
+      <template is="dom-if" if="{{!is_tutorial_shown}}">
+        <div class="icon_container" on-click="help_clicked">
+          <paper-icon-button icon="help"></paper-icon-button>          
+          <div class="icon_text">TUTORIAL</div>
         </div>
       </template>
     </paper-card>

@@ -50,6 +50,12 @@ export text_if_not = (cond, text) ->
     return text
   return ''
 
+export text_if_else = (cond, text_if_true, text_if_false) ->
+  if cond
+    return text_if_true
+  else
+    return text_if_false
+
 export text_if_equal = (val1, val2, text) ->
   if val1 == val2
     return text

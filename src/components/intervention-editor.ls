@@ -108,7 +108,11 @@ polymer_ext {
     is_tutorial_shown: {
       type: Boolean
       value: true
-      observer: 'is_tutorial_shown_changed'
+    }
+    is_apidoc_shown: {
+      type: Boolean
+      value: false
+      observer: 'is_apidoc_shown_changed'
     }
     is_on_tutorial_tab: {
       type: Boolean
@@ -117,17 +121,16 @@ polymer_ext {
     api_markdown_text: {
       type: String
     }
-    selected_tab_idx_adjusted_for_tutorial: {
-      type: Number
-      computed: 'compute_selected_tab_idx_adjusted_for_tutorial(selected_tab_idx, is_tutorial_shown)'
-    }
   }
-  compute_selected_tab_idx_adjusted_for_tutorial: (selected_tab_idx, is_tutorial_shown) ->
-    return selected_tab_idx
-    #if is_tutorial_shown
-    #  return selected_tab_idx
-    #else
-    #  return selected_tab_idx + 1
+  is_apidoc_shown_changed: (is_apidoc_shown) ->
+    if is_apidoc_shown
+      this.SM('.resizable_editor_div').removeClass('editor_div_wide').addClass('editor_div_narrow')
+    else
+      this.SM('.resizable_editor_div').removeClass('editor_div_narrow').addClass('editor_div_wide')
+  hide_docs_clicked: ->
+    this.is_apidoc_shown = false
+  show_docs_clicked: ->
+    this.is_apidoc_shown = true
   compute_is_on_tutorial_tab: (is_tutorial_shown, selected_tab_idx) ->
     return is_tutorial_shown and (selected_tab_idx == 0)
   pill_button_selected: (evt) ->
@@ -146,7 +149,7 @@ polymer_ext {
       # if this.is_tutorial_shown
       #   return this.opened_intervention_list[this.selected_tab_idx - 1]
       # return this.opened_intervention_list[this.selected_tab_idx]
-      return this.opened_intervention_list[this.selected_tab_idx_adjusted_for_tutorial - 1]
+      return this.opened_intervention_list[this.selected_tab_idx - 1]
   # download_code: ->
   #   edit_mode = this.get_edit_mode()
   #   if edit_mode == 'ls' or edit_mode == 'ls_and_js'
@@ -192,35 +195,23 @@ polymer_ext {
     #   this.opened_intervention_list.splice this.selected_tab_idx-1, 1
     # else
     #   this.opened_intervention_list.splice this.selected_tab_idx, 1
-    intervention_idx = this.selected_tab_idx_adjusted_for_tutorial - 1
-    console.log this.opened_intervention_list
-    console.log intervention_idx
+    intervention_idx = this.selected_tab_idx - 1
     intervention_name = this.opened_intervention_list[intervention_idx]
-    console.log 'intervention closed: ' + intervention_name
     if this.js_editors[intervention_name]?
-      delete basetag.js_editors[intervention_name]
+      delete this.js_editors[intervention_name]
     opened_intervention_list = JSON.parse JSON.stringify this.opened_intervention_list
     opened_intervention_list.splice intervention_idx - 1, 1
-    console.log 'new opened_intervention_list is:'
-    console.log opened_intervention_list
+    if opened_intervention_list.length == 0
+      this.is_tutorial_shown = true
     this.opened_intervention_list = opened_intervention_list
-    this.selected_tab_idx = 0
-    #if this.is_tutorial_shown
-    #  this.selected_tab_idx=this.opened_intervention_list.length
-    #else
-    #  this.selected_tab_idx=this.opened_intervention_list.length
+    this.selected_tab_idx=this.opened_intervention_list.length
   close_tutorial_clicked :(evt)->
     self = this
-    console.log 'close_tutorial_clicked'
-    #if this.is_tutorial_shown and this.selected_tab_idx == 0
-    #  if this.opened_intervention_list.length == 0
-    #    return
-    console.log 'is_tutorial_shown ' + self.is_tutorial_shown
-    console.log 'opened_intervention_list ' + JSON.stringify(self.opened_intervention_list)
-    console.log 'selected_tab_idx ' + self.selected_tab_idx
+    if self.opened_intervention_list.length == 0
+      return
     self.is_tutorial_shown=false
-    self.opened_intervention_list = JSON.parse JSON.stringify self.opened_intervention_list
-    self.selected_tab_idx=0
+    if self.selected_tab_idx == 0
+      self.selected_tab_idx = 1
   delete_current_intervention: ->>
     intervention_name = this.get_intervention_name()
     if intervention_name?
@@ -233,6 +224,7 @@ polymer_ext {
       remove_custom_intervention(intervention_name)
       delete this.js_editors[intervention_name]
       await this.refresh_intervention_list()
+    return
   delete_intervention: ->>
     intervention_name = this.get_intervention_name()
     if not intervention_name
@@ -249,13 +241,10 @@ polymer_ext {
       }
     catch
       return
-    this.delete_current_intervention()
-    if this.opened_intervention_list.length>0
-      # if is_tutorial_shown
-      #   this.selected_tab_idx=this.opened_intervention_list.length
-      # else
-      #   this.selected_tab_idx=this.opened_intervention_list.length-1
-      this.selected_tab_idx=this.opened_intervention_list.length
+    await this.delete_current_intervention()
+    if this.opened_intervention_list.length == 0
+      this.is_tutorial_shown = true
+    this.selected_tab_idx=this.opened_intervention_list.length
   add_new_intervention_clicked: ->
     self = this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
@@ -309,7 +298,10 @@ polymer_ext {
   display_intervention_by_name: (intervention_name) ->>
     self=this
     if not this.opened_intervention_list.includes intervention_name
-      this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
+      intervention_info = await get_intervention_info(intervention_name)
+      if not intervention_info?
+        return
+      this.intervention_info = intervention_info
       localStorage['saved_interventions_' + intervention_name] = this.intervention_info.code
       autosaved_code = localStorage['autosaved_intervention_' + intervention_name]
       if autosaved_code? and (autosaved_code != intervention_info.code)
@@ -522,6 +514,7 @@ polymer_ext {
         enableBasicAutocompletion: true
         enableSnippets: true
         enableLiveAutocompletion: true
+        #autoScrollEditorIntoView: true
       });
       js_editor.getSession().setMode('ace/mode/javascript')
       js_editor.getSession().setTabSize(2)
@@ -529,19 +522,8 @@ polymer_ext {
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
       js_editor.setValue(intervention_info.code)
-  is_tutorial_shown_changed: (is_tutorial_shown) ->
-    if not is_tutorial_shown
-      if this.opened_intervention_list.length == 0
-        this.is_tutorial_shown = true
-        this.selected_tab_idx = 0
-        return
-    this.selected_tab_idx = 0
   opened_intervention_list_changed: ->>
     self = this
-    if self.opened_intervention_list.length == 0
-      self.is_tutorial_shown = true
-      self.selected_tab_idx = 0
-      return
     while true
       rendered_interventions = []
       editor_div_list = self.SM('.javascript_editor_div')
@@ -614,5 +596,6 @@ polymer_ext {
     'SM'
     'once_available'
     'once_available_multiselect'
+    'text_if_else'
   ]
 }

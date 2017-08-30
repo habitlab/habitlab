@@ -222,6 +222,7 @@ polymer_ext {
       remove_custom_intervention(intervention_name)
       delete this.js_editors[intervention_name]
       await this.refresh_intervention_list()
+    return
   delete_intervention: ->>
     intervention_name = this.get_intervention_name()
     if not intervention_name
@@ -238,13 +239,10 @@ polymer_ext {
       }
     catch
       return
-    this.delete_current_intervention()
-    if this.opened_intervention_list.length>0
-      # if is_tutorial_shown
-      #   this.selected_tab_idx=this.opened_intervention_list.length
-      # else
-      #   this.selected_tab_idx=this.opened_intervention_list.length-1
-      this.selected_tab_idx=this.opened_intervention_list.length
+    await this.delete_current_intervention()
+    if this.opened_intervention_list.length == 0
+      this.is_tutorial_shown = true
+    this.selected_tab_idx=this.opened_intervention_list.length
   add_new_intervention_clicked: ->
     self = this
     create_intervention_dialog = document.createElement('create-intervention-dialog')
@@ -298,7 +296,10 @@ polymer_ext {
   display_intervention_by_name: (intervention_name) ->>
     self=this
     if not this.opened_intervention_list.includes intervention_name
-      this.intervention_info = intervention_info = await get_intervention_info(intervention_name)
+      intervention_info = await get_intervention_info(intervention_name)
+      if not intervention_info?
+        return
+      this.intervention_info = intervention_info
       localStorage['saved_interventions_' + intervention_name] = this.intervention_info.code
       autosaved_code = localStorage['autosaved_intervention_' + intervention_name]
       if autosaved_code? and (autosaved_code != intervention_info.code)

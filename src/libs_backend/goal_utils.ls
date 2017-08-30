@@ -14,6 +14,10 @@
 } = require 'libs_backend/db_utils'
 
 {
+  url_to_domain
+} = require 'libs_common/domain_utils'
+
+{
   as_array
   remove_key_from_localstorage_dict
   remove_item_from_localstorage_list
@@ -181,7 +185,6 @@ export set_goals_disabled = (goal_list) ->>
     prev_enabled_goals: prev_enabled_goals
   }
 
-
 export set_goal_disabled = (goal_name) ->>
   enabled_goals = await get_enabled_goals()
   prev_enabled_goals = {} <<< enabled_goals
@@ -199,6 +202,14 @@ export set_goal_disabled = (goal_name) ->>
 export is_goal_enabled = (goal_name) ->>
   enabled_goals = await get_enabled_goals()
   return enabled_goals[goal_name]?
+
+export site_has_enabled_spend_less_time_goal = (url) ->>
+  domain = url_to_domain(url)
+  goals = await get_goals()
+  for goal_name,goal_info of goals
+    if domain == goal_info.domain and not goal_info.is_positive?
+      return await is_goal_enabled(goal_name)
+  return false
 
 export get_goal_intervention_info = memoizeSingleAsync ->>
   await localget_json '/goal_intervention_info.json'

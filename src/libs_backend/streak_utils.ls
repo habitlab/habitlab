@@ -26,12 +26,10 @@ get_streak = (goal_info) ->>
     streak_continuing = true
     while streak_continuing
       progress_info = await get_progress_on_goal_days_before_today goal_name, streak
-      console.log progress_info
       if goal_info.is_positive == (progress_info.progress >= target)
         streak += 1
       else
         streak_continuing = false
-    console.log "Streak: #{streak}"
     return streak
   
 module.exports = {

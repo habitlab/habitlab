@@ -256,7 +256,6 @@ export generate_interventions_for_positive_domain = (domain) ->>
     fixed_intervention_name = generic_intervention
     fixed_intervention_name = fixed_intervention_name.split('generic_positive/').join("generated_#{domain}/")
     intervention_info.name = fixed_intervention_name
-    intervention_info.matches = [domain]
     make_absolute_path = (content_script) ->
       if content_script.path?
         if content_script.path[0] == '/'
@@ -637,11 +636,7 @@ export list_all_enabled_interventions_for_location = (location) ->>
   #if override_enabled_interventions?
   #  return as_array(JSON.parse(override_enabled_interventions))
   available_interventions = await list_available_interventions_for_location(location)
-  # console.log('Available:')
-  # console.log(available_interventions)
   enabled_interventions = await intervention_manager.get_currently_enabled_interventions()
-  # console.log('Enabled:')
-  # console.log(enabled_interventions)
   return available_interventions.filter((x) -> enabled_interventions[x])
 
 export list_enabled_nonconflicting_interventions_for_location = (location) ->>
@@ -674,10 +669,13 @@ export list_available_interventions_for_location = (location) ->>
     if blacklisted
       continue
     matches = false
-    for func in intervention_info.match_functions
-      if func(location)
-        matches = true
-        break
+    if intervention_info.matches_all?
+      matches = true
+    else
+      for func in intervention_info.match_functions
+        if func(location)
+          matches = true
+          break
     if matches
       possible_interventions.push intervention_name
   return possible_interventions

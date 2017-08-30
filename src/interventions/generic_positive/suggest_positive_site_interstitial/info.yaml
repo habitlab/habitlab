@@ -3,6 +3,8 @@ displayname: Why Not Bot
 content_scripts:
   - path: frontend.js
     run_at: document_start
+preview: https://www.reddit.com
+matches_all: true
 categories:
   - interstitial
   - positive-site-trigger

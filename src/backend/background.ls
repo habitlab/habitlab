@@ -65,6 +65,7 @@ do !->>
     set_goals_enabled
     set_default_goals_enabled
     get_random_positive_goal
+    site_has_enabled_spend_less_time_goal
   } = require 'libs_backend/goal_utils'
 
   {
@@ -630,6 +631,9 @@ do !->>
       return
     if !is_habitlab_enabled_sync()
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
+      return
+    if not await site_has_enabled_spend_less_time_goal(location)
+      # chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
 
     domain = url_to_domain(location)

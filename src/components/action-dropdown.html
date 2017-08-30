@@ -1,11 +1,12 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="action-dropdown">
-  <template>
-    <style is="custom-style">
+  <style is="custom-style">
     :host {
       --paper-button-flat-keyboard-focus: {
           font-weight: normal;
@@ -24,10 +25,11 @@
       @apply --paper-menu-button-content
     }
   </style> 
+  <template>
  
   <paper-menu-button>
     <paper-button class="dropdown-trigger" raised>
-      <span>{{defaultCallToAction}} &#x25BC;</span>
+      <span>{{default_call_to_action}}</span> <span> &#x25BC;</span>
     </paper-button>
     <paper-listbox class="dropdown-content">
       <template is="dom-repeat" items="{{goals}}" as="goal">

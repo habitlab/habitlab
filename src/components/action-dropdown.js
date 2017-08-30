@@ -19,12 +19,16 @@ const {
 Polymer({
   is: 'action-dropdown',
   properties: {
-    goals: Array,
+    goals: {
+      type: Array
+    },
     label: {
       type: String,
       observer: 'label_changed'
     },
-    defaultCallToAction: String
+    defaultCallToAction: {
+      type: String
+    }
   },
   label_changed: function(newLabel, oldLabel) {
     if (newLabel != null && newLabel.length > 0) {

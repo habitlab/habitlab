@@ -71,7 +71,6 @@ Polymer({
     $(this).hide()
   },
   hideButton: function() {
-    console.log('button hidden')
     this.$.okbutton.hidden = true
     //this.$.closetabbutton.hidden = true
     this.$.okbutton.style.display = 'none';
@@ -91,19 +90,15 @@ Polymer({
     this.$.closetabbutton.style.display = 'inline-flex';
   },
   ready: function() {
-    console.log('interstitial-polymer ready')
     this.$.okbutton.textContent = this.btnTxt
     this.$.closetabbutton.text = this.btnTxt2
     this.$.titletext.textContent = this.titleText
     this.$.messagetext.textContent = this.messageText
-    console.log(this.$.titletext.textContent)
     this.addEventListener('show_button', function() {
-      console.log('hi')
     })
 
   },
   disableIntervention: function() {
-    console.log('interstitial got callback')
     $(this).hide()
   },
   
@@ -112,7 +107,6 @@ Polymer({
     this.$.closetabbutton.text = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
     this.$.titletext.textContent = this.titleText
-    console.log('attribute changed called')
   }
 });
 

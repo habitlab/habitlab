@@ -92,7 +92,6 @@ Polymer({
     $(this).hide()
   },
   hideButton: function() {
-    console.log('button hidden')
     this.$.okbutton.hidden = true
     //this.$.closetabbutton.hidden = true
     this.$.okbutton.style.display = 'none';
@@ -132,7 +131,6 @@ Polymer({
     this.$.closetabbutton.text = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
     this.$.titletext.textContent = this.titleText
-    console.log('attribute changed called')
   }
 });
 

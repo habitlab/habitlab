@@ -110,7 +110,6 @@ Polymer({
     // document.querySelector('video').play()
   },
   hideButton: function() {
-    console.log('button hidden')
     this.$.okbutton.hidden = true
     //this.$.closetabbutton.hidden = true
     this.$.okbutton.style.display = 'none';
@@ -123,14 +122,12 @@ Polymer({
     this.$.paperprogress.value += 1;
   },
   showButton: function() {
-    console.log(this.$.okbutton)
     this.$.okbutton.hidden = false
     //this.$.closetabbutton.hidden = false
     this.$.okbutton.style.display = 'inline-flex';
     this.$.closetabbutton.style.display = 'inline-flex';
   },
   ready: async function() {
-    console.log('interstitial-polymer ready')
     this.$.closetabbutton.text = this.btnTxt2
     //this.$.time_selector.value = moment().format('HH:mm')
     this.$.time_display.innerText = moment().format('hh:mm A')
@@ -149,7 +146,6 @@ Polymer({
     this.playings = get_num_episodes_watched()
   },
   disableIntervention: function() {
-    console.log('interstitial got callback')
     $(this).remove()
   },
   
@@ -158,7 +154,6 @@ Polymer({
     this.$.closetabbutton.text = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
     this.$.titletext.textContent = this.titleText
-    console.log('attribute changed called')
   }
 });
 

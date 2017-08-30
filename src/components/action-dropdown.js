@@ -26,7 +26,7 @@ Polymer({
       type: String,
       observer: 'label_changed'
     },
-    defaultCallToAction: {
+    default_call_to_action: {
       type: String
     }
   },
@@ -49,9 +49,9 @@ Polymer({
       goal = await get_goal_info()
     }
     if (goal == null) {
-      this.defaultCallToAction = "Close Tab"
+      this.default_call_to_action = "Close Tab"
     } else {
-      this.defaultCallToAction = goal.call_to_action
+      this.default_call_to_action = goal.call_to_action
     }
   },
   call_to_action_clicked: async function(evt) {

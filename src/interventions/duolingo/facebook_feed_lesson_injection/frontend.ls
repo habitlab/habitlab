@@ -83,7 +83,7 @@ component_generator = (numitems) ->
   return feed-item
   #return wrap_in_shadow(feed-item)
 
-inject-position = 4
+inject-position = 0
 spacing = 8
 inject_into_feed(component_generator, inject-position, spacing)
 

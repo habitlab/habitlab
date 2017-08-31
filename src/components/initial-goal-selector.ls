@@ -81,19 +81,19 @@ polymer_ext {
     },
     title_text: {
       type: String
-      value: msg("HabitLab has come up with suggested sites that you spend the most time on, on average per day.")
+      value: msg("Below are some popular options, along with how much time you spend on them per day (on average).")
     }
-    title_text_bolded_portion: {
-      type: String
-      value: msg("Which sites would you like to spend less time on?")
-    }
+    # title_text_bolded_portion: {
+    #   type: String
+    #   value: msg("") #To add other sites, use \"Add Custom\".")
+    # }
     isdemo: {
       type: Boolean
       observer: 'isdemo_changed'
     }
     title: {
       type: String
-      value: msg("What do you want to spend less time on?")
+      value: msg("Which sites would you like to spend less time on?")
     }
     num_per_line: {
       type: Number

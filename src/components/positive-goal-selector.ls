@@ -81,21 +81,21 @@ polymer_ext {
       type: Object
       value: {}
     },
-    title_text: {
-      type: String
-      value: msg("Here are some sites other users made into habits that you might like, based on your browsing history.")
-    }
-    title_text_bolded_portion: {
-      type: String
-      value: msg("What sites would you like to spend more time on?")
-    }
+    # title_text: {
+    #   type: String
+    #   value: msg("We will only nudge when you are on sites you want to spend less time on.")
+    # }
+    # title_text_bolded_portion: {
+    #   type: String
+    #   value: msg("What sites would you like to spend more time on?")
+    # }
     isdemo: {
       type: Boolean
       observer: 'isdemo_changed'
     }
     title: {
       type: String
-      value: msg("What do you want to do more of?")
+      value: msg("What sites would you like to use more?")
     }
     num_per_line: {
       type: Number
@@ -186,8 +186,8 @@ polymer_ext {
     return localStorage.getItem('intervention_view_show_internal_names') == 'true'
   daily_goal_help_clicked: ->
     swal {
-      title: 'How will HabitLab help me achieve these goals?'
-      text: 'HabitLab will help you achieve these goals by showing you a different nudge, like a news feed blocker or a delayed page loader, each time you visit your goal sites. (It will not block the site.)'
+      title: 'How will HabitLab help me use these more?'
+      text: 'With variety of different nudges and helpers, such as putting your next Duolingo lesson in the YouTube sidebar when an ad is running, or putting a friendly reminder in the Facebook news feed to go to the site of your choice.'
     }
 
   openBy: (evt) ->

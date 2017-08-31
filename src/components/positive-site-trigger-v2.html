@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="habitlab-logo-v2.html">
 
 <dom-module id="positive-site-trigger-v2">
   <template>
@@ -19,24 +20,22 @@
       }
 
       #site-icon {
-        width: 40px;
+        width: 20px;
         border-radius: 5px;
         box-shadow: 2px 2px 2px #888888;
       }
 
       .hdr {
-        padding-top: 15px;
-        margin-bottom: 15px;
+        padding: 10px;
         font-size: 20px;
         /*font-style: italic;*/
-        padding-left: 10px;
-        padding-right: 10px;
         display: flex;
       }
       
       #goal {
+        padding: 10px;
         display: table;
-        font-size: 20px;
+        font-size: 14px;
       }
 
       #goal-description {
@@ -79,22 +78,24 @@
       
       #trigger-button {
         cursor: pointer;
+        margin: 10px;
         padding: 10px;
         background-color: green;
         color: white;
-        font-size: 30px;
+        font-size: 14px;
         box-shadow: 2px 2px 2px #888888;
-        height: 70px;
-        width: 140px;
+        height: 40px;
+        /* width: 140px; */
         vertical-align: middle;
       }
 
       #trigger-button-div {
+        margin: 10px;
         height: 50px;
         display: flex; 
         align-items: center;
-        justify-content: left;
-        text-align: left; 
+        justify-content: center;
+        text-align: center; 
         height: 100%; 
         width: 100%
       }
@@ -153,25 +154,28 @@
 
     </style>
     <div id="trigger-container">
-      <div class="hdr">Remember your goal?</div>
-      <div id="goal">
+      <div class="hdr">Remember your goal to {{positiveGoalDescription}}?</div>
+      <!-- <div id="goal">
         <img id="site-icon" src="{{positiveSiteIcon}}">
         <div id="goal-description"> {{positiveGoalDescription}}.</div>
-      </div>
+      </div> -->
 
-      <div id="streak-container">
+      <!-- <div id="streak-container">
         <div style="display: table-cell; vertical-align: middle; padding-right: 0px; padding-left:5px;"> STREAK </div>
         <div id="streak-box">
           <img class="streak-img" src="{{streakIconURL}}">
           <div style="margin: 0px">{{streak}}</div>
         </div>
-      </div>
+      </div> -->
       <paper-button id="trigger-button">
         <div id="trigger-button-div">
-          <img class="streak-img" src="{{streakIconURL}}">
-          <div style="margin: 5px; width:75px; text-align:left;" on-click="goClicked">Go</div>
+          <!-- <img class="streak-img" src="{{streakIconURL}}"> -->
+          <div on-click="goClicked">{{callToAction}}</div>
         </div>
       </paper-button>
+      <template is="dom-if" if="{{in_facebook_news_feed}}">
+        <habitlab-logo-v2></habitlab-logo-v2>
+      </template>        
     </div>
     <template is="dom-if" if="{{in_facebook_news_feed}}">
       <div id="shadow"></div>

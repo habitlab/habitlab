@@ -38,10 +38,14 @@ polymer_ext({
       type: String,
       computed: 'compute_description(goal)'
     },
-    streak: {
-      type: Number,
-      value: 0
+    callToAction: {
+      type: String,
+      computed: 'compute_call_to_action(goal)'
     },
+    // streak: {
+    //   type: Number,
+    //   value: 0
+    // },
     in_facebook_news_feed: {
       type: Boolean,
       value: false
@@ -82,7 +86,18 @@ polymer_ext({
     if (goal == null) {
       return ""
     }
-    return goal.description
+    let description = goal.description
+    description = description.substring(0, 1).toLowerCase() + description.substring(1)
+    if (description.endsWith("."))
+      description = description.substring(0, description.length-1)
+    return description
+  },
+  compute_call_to_action: function(goal) {
+    if (goal == null) {
+      return ""
+    } else {
+      return goal.call_to_action
+    }
   },
   ready: async function() {
     this.goal = get_goal_info()

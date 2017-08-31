@@ -897,7 +897,7 @@ gulp.task 'watch', ['build'], (done) ->
 
 gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip'
 
-gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch'))
+gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch', 'make_docs_markdown'))
 
 gulp.task 'livereload', ->
   livereload_server = livereload.createServer({

@@ -21,7 +21,7 @@ export get_news_feed = ->
  * @param {HTMLElement} position - an optional parameter of where to insert it (default 4)
  * @param {HTMLElement} position - an optional parameter for how many posts to have between them (default 8)
  */
-export inject_into_feed = (component_generator, position = 4, spacing = 8) ->
+export inject_into_feed = (component_generator, position = 0, spacing = 8) ->
   window.numitems = 0
 
   window.mostrecentmousemove = Date.now()
@@ -64,17 +64,12 @@ export inject_into_feed = (component_generator, position = 4, spacing = 8) ->
       #     if window.itemsseen % 10 == 5
       #       console.log \injected
       #       insertBeforeItem $($feeditem)
-      # console.log('valid! yay!')
       if not $feeditem.feedlearninserted
         $feeditem.feedlearninserted = true
-        window.numitems += 1
-        # console.log("numitems: #{window.numitems}")
-        # console.log("#{window.numitems} % #spacing == #position")
         if window.numitems % spacing == position
-          # console.log('good time to insert')
           if window.feed_injection_active
-            # console.log('inserting')
             insertBeforeItem $($feeditem)
+        window.numitems += 1
     return
 
   idArraysEqual = (a1, a2) ->

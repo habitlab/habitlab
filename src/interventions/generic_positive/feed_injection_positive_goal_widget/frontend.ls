@@ -38,7 +38,7 @@ component_generator = (numitems) ->
 
   return wrap_in_shadow(feed-item)
 
-inject_into_feed(component_generator, 4, 8)
+inject_into_feed(component_generator, 0, 8)
 
 window.on_intervention_disabled = ->
   $('positive-site-trigger-v2').remove()

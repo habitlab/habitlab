@@ -2,8 +2,7 @@ const {polymer_ext} = require('libs_frontend/polymer_utils');
 const {log_action} = require('libs_frontend/intervention_log_utils')
 const {
   get_intervention, 
-  get_goal_info,
-  get_positive_goal_info
+  get_goal_info
 } = require('libs_common/intervention_info')
 
 const {
@@ -27,14 +26,8 @@ polymer_ext({
       computed: 'computeButtonText(goal)'
     }
   },
-  usePositiveGoalIfPossible: async function() {
-    this.goal = await get_positive_goal_info()
-    if (this.goal == null) {
-      this.goal = await get_goal_info()
-    }
-  },
-  ready: async function() {
-    this.goal = await get_goal_info()
+  ready: function() {
+    this.goal = get_goal_info()
   },
   buttonClicked: function() {
     if (this.goal.is_positive) {

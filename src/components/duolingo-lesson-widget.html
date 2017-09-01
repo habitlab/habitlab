@@ -1,10 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="habitlab-logo-v2.html">
 
 <dom-module id="duolingo-lesson-widget">
-  <template>  
-    <style is="custom-style">
+  <style is="custom-style">
       .lesson-container {
         /* min-height: 600px; */
         width: var(--lesson-container-width, 100%);
@@ -69,6 +67,7 @@
         opacity: 0.2;
       }
     </style>
+  <template>
     <div class="lesson-container" on-mouseover="onHovered" on-mouseout="onUnhovered">
       <div class="call-to-action">{{callToAction}}</div>
       <div class="lesson-hdr">{{lessonTitle}}</div>

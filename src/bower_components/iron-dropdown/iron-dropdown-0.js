@@ -208,10 +208,16 @@
           if (document.scrollingElement) {
             this._scrollTop = document.scrollingElement.scrollTop;
             this._scrollLeft = document.scrollingElement.scrollLeft;
-          } else {
+          } else if (document.documentElement && document.body) {
             // Since we don't know if is the body or html, get max.
             this._scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
             this._scrollLeft = Math.max(document.documentElement.scrollLeft, document.body.scrollLeft);
+          } else if (document.documentElement) {
+            this._scrollTop = document.documentElement.scrollTop;
+            this._scrollLeft = document.documentElement.scrollLeft;
+          } else if (document.body) {
+            this._scrollTop = document.body.scrollTop;
+            this._scrollLeft = document.body.scrollLeft;
           }
         },
 

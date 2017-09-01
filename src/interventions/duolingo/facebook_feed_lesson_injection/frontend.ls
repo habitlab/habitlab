@@ -8,6 +8,7 @@ window.feed_injection_active = true
 
 {
   wrap_in_shadow,
+  on_url_change_not_from_history,
   append_to_body_shadow
 } = require 'libs_frontend/frontend_libs'
 
@@ -23,6 +24,7 @@ duolingo-lesson-div = $(append_to_body_shadow(duolingo-lesson, {
   position: 'absolute',
   width: '500px'
 }))
+$(duolingo-lesson-div[0].shadow_host).attr('id', 'duolingo_lesson_widget')
 duolingo-lesson.css('visibility', 'hidden')
 duolingo-lesson.css('width', '100%')
 duolingo-lesson[0].style.setProperty('--lesson-container-width', '500px')
@@ -63,7 +65,6 @@ component_generator = (numitems) ->
     # else
     #   duolingo-lesson.css('visibility', 'hidden')
   )
-
   view-trigger-bottom = $('<div style="width: 1px; height: 1px; position: absolute; top: 99%">')
   feed-item.append(view-trigger-bottom)
   view-trigger-bottom.on('inview', (event, isInView) ->
@@ -83,12 +84,18 @@ component_generator = (numitems) ->
   return feed-item
   #return wrap_in_shadow(feed-item)
 
-inject-position = 4
+inject-position = 0
 spacing = 8
 inject_into_feed(component_generator, inject-position, spacing)
 
+on_url_change_not_from_history ->
+  stop_intervention!
+
 window.on_intervention_disabled = ->
-  $('duolingo-lesson-widget').remove()
+  stop_intervention!
+
+stop_intervention = ->
+  $('#duolingo_lesson_widget').remove()
   window.feed_injection_active = false
   clearInterval(window.firststartprocess)
 

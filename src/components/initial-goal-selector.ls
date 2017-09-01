@@ -81,19 +81,19 @@ polymer_ext {
     },
     title_text: {
       type: String
-      value: msg("HabitLab has come up with suggested sites that you spend the most time on, on average per day.")
+      value: msg("Below are some popular options, along with how much time you spend on them per day (on average).")
     }
-    title_text_bolded_portion: {
-      type: String
-      value: msg("Which sites would you like to spend less time on?")
-    }
+    # title_text_bolded_portion: {
+    #   type: String
+    #   value: msg("") #To add other sites, use \"Add Custom\".")
+    # }
     isdemo: {
       type: Boolean
       observer: 'isdemo_changed'
     }
     title: {
       type: String
-      value: msg("What do you want to spend less time on?")
+      value: msg("Which sites would you like to spend less time on?")
     }
     num_per_line: {
       type: Number
@@ -277,6 +277,8 @@ polymer_ext {
       if goal_name_to_icon_changed
         goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
         for goal_name,icon of goal_name_to_new_icons
+          if not icon?
+            icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII='
           self.goal_name_to_icon[goal_name] = icon
         self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
     return

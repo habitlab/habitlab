@@ -93,7 +93,24 @@ export on_url_change = (func) ->
     {type, data} = msg
     if type == 'navigation_occurred'
       if data.url != prev_url
-        prev_url = data.url
+        prev_url := data.url
+        func()
+
+/**
+* Execute a particular function when curren url changes
+* @param {function} func - function to get executed
+*/
+export on_url_change_not_from_history = (func) ->
+  prev_url = window.location.href
+  chrome.runtime.onMessage.addListener (msg, sender, sendResponse) ->
+    {type, data} = msg
+    if type == 'navigation_occurred'
+      if data.is_from_history
+        return
+      if data.url != prev_url
+        console.log 'data.url is: ' + data.url
+        console.log 'prev_url in loc 2 is: ' + prev_url
+        prev_url := data.url
         func()
 
 to_camelcase_string = (myString) ->

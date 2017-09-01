@@ -4,8 +4,7 @@ const {
 } = require('libs_common/goal_utils')
 
 const {
-  get_goal_info,
-  get_positive_goal_info
+  get_goal_info
 } = require('libs_common/intervention_info')
 
 const {
@@ -19,12 +18,16 @@ const {
 Polymer({
   is: 'action-dropdown',
   properties: {
-    goals: Array,
+    goals: {
+      type: Array
+    },
     label: {
       type: String,
       observer: 'label_changed'
     },
-    defaultCallToAction: String
+    default_call_to_action: {
+      type: String
+    }
   },
   label_changed: function(newLabel, oldLabel) {
     if (newLabel != null && newLabel.length > 0) {
@@ -40,14 +43,11 @@ Polymer({
     this.goals = goalsList
 
     // Pick default option
-    var goal = await get_positive_goal_info()
+    let goal = get_goal_info()
     if (goal == null) {
-      goal = await get_goal_info()
-    }
-    if (goal == null) {
-      this.defaultCallToAction = "Close Tab"
+      this.default_call_to_action = "Close Tab"
     } else {
-      this.defaultCallToAction = goal.call_to_action
+      this.default_call_to_action = goal.call_to_action
     }
   },
   call_to_action_clicked: async function(evt) {

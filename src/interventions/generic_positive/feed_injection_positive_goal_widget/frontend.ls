@@ -11,8 +11,7 @@ window.Polymer.dom = 'shadow'
 
 $ = require 'jquery'
 
-require 'enable-webcomponents-in-content-scripts'
-require 'components/positive-site-trigger-v2.deps'
+require_component('positive-site-trigger-v2')
 
 component_generator = (numitems) ->
   feed-item = $('<positive-site-trigger-v2>')
@@ -39,10 +38,10 @@ component_generator = (numitems) ->
 
   return wrap_in_shadow(feed-item)
 
-inject_into_feed(component_generator, 4, 8)
+inject_into_feed(component_generator, 0, 8)
 
 window.on_intervention_disabled = ->
-  $('positive-goal-trigger-v2').remove()
+  $('positive-site-trigger-v2').remove()
   window.feed_injection_active = false
   clearInterval(window.firststartprocess)
 

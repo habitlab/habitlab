@@ -78,12 +78,10 @@ Polymer({
   //  return false
   //},
   buttonclicked: function() {
-    console.log('ok button clicked in polymer during loading')
     log_action({'negative': 'Continued to site.'})
     $(this).hide()
   },
   hideButton: function() {
-    console.log('button hidden')
     this.$.okbutton.hidden = true
     //this.$.calltoactionbutton.hidden = true
     this.$.okbutton.style.display = 'none';
@@ -120,7 +118,6 @@ Polymer({
     this.show_quote_message = !this.show_positive_site_trigger
 
     this.addEventListener('show_button', function() {
-      console.log('hi')
     })
     //this.visits = 5;
     //this.minutes = 8;
@@ -128,7 +125,6 @@ Polymer({
 
   },
   disableIntervention: function() {
-    console.log('interstitial got callback')
     $(this).hide()
   },
   
@@ -136,7 +132,6 @@ Polymer({
     this.$.okbutton.textContent = this.btnTxt 
     this.$.calltoactionbutton.closeTabText = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
-    console.log('attribute changed called')
   }
 });
 

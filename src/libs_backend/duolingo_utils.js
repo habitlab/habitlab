@@ -118,8 +118,13 @@ async function update_duolingo_progress() {
 
   // Iterate through the lesson events backward in time until last_progress_update, incrementing the lesson completed counts along the way
   let lesson_update_counts = new Map()
-  for (let i = duolingo_info.calendar.length - 1; i >= 0; i++) {
+  for (let i = duolingo_info.calendar.length - 1; i >= 0; i--) {
     let lesson = duolingo_info.calendar[i]
+    if (lesson == null) {
+      console.error("Lesson is undefined! Calendar is:")
+      console.error(duolingo_info.calendar)      
+      continue
+    }
     let lesson_moment = moment().year(1970).month(0).date(1).hours(0).minutes(0).seconds(0).milliseconds(lesson.datetime)
     if (lesson_moment.isBefore(last_progress_update)) {
       break

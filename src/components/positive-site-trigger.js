@@ -9,7 +9,7 @@ const {
 } = require('libs_common/streak_utils')
 
 const {
-  get_positive_goal_info
+  get_goal_info
 } = require('libs_common/intervention_info')
 
 polymer_ext({
@@ -57,7 +57,7 @@ polymer_ext({
     return goal.description
   },
   ready: async function() {
-    this.goal = await get_positive_goal_info()
+    this.goal = await get_goal_info()
     let goal_name = this.goal.name
     this.streak = await get_streak(this.goal)
   }

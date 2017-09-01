@@ -81,6 +81,7 @@
       <div class="title">HabitLab Analytics</div> -->
       <div style =" width:100%; background-color:{{goal_info.color}};">
         <div class="title" style="color: white">　{{goal_info.sitename_printable}}　</div>
+        <!-- <div class="card-content" style="color: white; margin-bottom: 10px">Goal: {{goal_info.description}}</div>          -->
       </div>
       <paper-card class="paper-card">
         <div class="title-text"> Nudges </div>
@@ -101,14 +102,15 @@
           <site-goal-view-v2 site="{{goal_info.sitename}}"></site-goal-view-v2>
         </div>
       </paper-card>
-
-      <paper-card class="paper-card" style = "font-size: 22px; color:#5a5a5a;">
-        <div class="title-text"> Nudge Effectiveness </div>
-      <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudge Effectiveness" class="paper-card"> -->
-        <div class="card-content">
-          <graph-intervention-effectiveness-comparison goal_info="{{goal_info}}"></graph-intervention-effectiveness-comparison>
-        </div>
-      </paper-card>
+      <template is="dom-if" if="{{!goal_info.is_positive}}">
+        <paper-card class="paper-card" style = "font-size: 22px; color:#5a5a5a;">
+          <div class="title-text"> Nudge Effectiveness </div>
+        <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudge Effectiveness" class="paper-card"> -->
+          <div class="card-content">
+            <graph-intervention-effectiveness-comparison goal_info="{{goal_info}}"></graph-intervention-effectiveness-comparison>
+          </div>
+        </paper-card>
+      </template>
 
       <!-- <div style="margin-bottom: 20px"></div> -->
     </div>

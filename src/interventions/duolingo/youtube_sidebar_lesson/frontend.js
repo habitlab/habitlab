@@ -52,7 +52,7 @@ on_url_change(() => {
   removeSidebarOnceAvailable()
 })
 
-require_component('habitlab-logo')
+require_component('habitlab-logo-v2')
 require_component('paper-button')
 require_component('duolingo-lesson-widget')
 

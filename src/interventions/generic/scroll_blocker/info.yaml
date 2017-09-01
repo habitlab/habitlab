@@ -1,4 +1,4 @@
-description: Freezes scrolling after a certain amount of scrolls.
+description: Freezes scrolling after a certain amount of scrolls
 displayname: Scroll Freezer
 content_scripts:
   - path: frontend.js

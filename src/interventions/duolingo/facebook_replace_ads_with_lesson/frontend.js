@@ -30,6 +30,8 @@ function removeSidebar() {
   if ($('.habitlab_inserted_div').length > 0) {
     return
   }
+  let rightCol = $('#rightCol').children().get(0)
+  $(rightCol).css('width', '450px')
 	//remove the links on the sidebar
 	/*
   const sidebarLink = document.querySelectorAll('.watch-sidebar-section');

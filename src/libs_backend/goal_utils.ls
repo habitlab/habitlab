@@ -79,7 +79,10 @@ export list_enabled_goals = ->>
   enabled_goals = await get_enabled_goals()
   return as_array(enabled_goals)
 
-default_goals_list = ['facebook/spend_less_time', 'youtube/spend_less_time']
+default_goals_list = [
+  'facebook/spend_less_time'
+  #'youtube/spend_less_time'
+]
 
 /**
  * Returns a object with with names of enabled goals as keys, and whether they are enabled as values

@@ -246,7 +246,8 @@ export get_favicon_data_for_domain_cached = (domain) ->>
   if res?
     return res
   res = await get_favicon_data_for_domain(domain)
-  await store.setItem(domain, res)
+  if res?
+    await store.setItem(domain, res)
   return res
 
 export get_favicon_data_for_domain = (domain) ->>

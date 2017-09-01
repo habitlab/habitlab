@@ -66,7 +66,8 @@ export localget = (url) ->>
     return res
   request = await fetch(url)
   res = await request.text()
-  await store.setItem(url, res)
+  if res?
+    await store.setItem(url, res)
   return res
 
 /**
@@ -98,7 +99,8 @@ export remoteget = (url) ->>
     return res
   request = await fetch(url)
   res = await request.text()
-  await store.setItem(url, res)
+  if res?
+    await store.setItem(url, res)
   return res
 
 /**
@@ -129,7 +131,8 @@ export systemjsget = (url) ->>
     return res
   request = await fetch('https://habitlab-dist-' + habitlab_version + '.netlify.com/' + url)
   res = await request.text()
-  await store.setItem(url, res)
+  if res?
+    await store.setItem(url, res)
   return res
 
 gexport_module 'cacheget_utils', -> eval(it)

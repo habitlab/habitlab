@@ -93,7 +93,7 @@ export on_url_change = (func) ->
     {type, data} = msg
     if type == 'navigation_occurred'
       if data.url != prev_url
-        prev_url = data.url
+        prev_url := data.url
         func()
 
 to_camelcase_string = (myString) ->

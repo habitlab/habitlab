@@ -224,6 +224,8 @@ polymer_ext {
       if goal_name_to_icon_changed
         goal_name_to_new_icons = await promise_all_object goal_name_to_new_icon_promises
         for goal_name,icon of goal_name_to_new_icons
+          if not icon?
+            icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII='
           self.goal_name_to_icon[goal_name] = icon
         self.goal_name_to_icon = JSON.parse JSON.stringify self.goal_name_to_icon
     #self.$$('#overview_tab').rerender()

@@ -478,6 +478,14 @@ export add_custom_goal_reduce_time_on_domain = (domain) ->>
   await add_custom_goal_involving_time_on_domain(domain, false)
   return
 
+export get_goal_statement = (goal_info) ->>
+  if goal_info.goal_statement_to_fill_in?
+    ad_lib = goal_info.goal_statement_to_fill_in
+    target = await get_goal_target(goal_info.name)
+    return ad_lib.replace("TARGET", target)
+  else
+    return goal_info.description
+
 export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   domain_printable = domain
   if domain_printable.startsWith('www.')

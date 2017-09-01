@@ -1,26 +1,28 @@
 description: Spend less time on YouTube
 progress_description: Time spent on YouTube
 call_to_action: Close Youtube
-interventions:
-  - generic/toast_notifications
-  - generic/show_timer_banner
-  - youtube/remove_sidebar_links
-  - youtube/prompt_before_watch
-  - youtube/remove_comment_section
-  #- generic/make_user_wait
+interventions: []
+  #- generic/toast_notifications
+  #- generic/show_timer_banner
   #- generic/block_after_interval_per_visit
+  #- youtube/remove_sidebar_links
+  #- youtube/prompt_before_watch
+  #- youtube/remove_comment_section
+  #- generic/make_user_wait
   #- generic/close_tab_timer
   #- generic/scroll_blocker
   #- generic/show_user_info_interstitial
   #- video/link_articles
-default_interventions:
-  - generic/toast_notifications
-  - generic/show_timer_banner
-  - youtube/remove_sidebar_links
-  - youtube/prompt_before_watch
-  - youtube/remove_comment_section
+default_interventions: []
+  #- generic/toast_notifications
+  #- generic/show_timer_banner
+  #- generic/block_after_interval_per_visit
+  #- youtube/remove_sidebar_links
+  #- youtube/prompt_before_watch
+  #- youtube/remove_comment_section
 measurement: time_spent_on_domain
 domain: www.youtube.com
+disabled: true
 preview: https://www.youtube.com/watch?v=7maJOI3QMu0
 target:
   default: 20

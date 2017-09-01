@@ -862,7 +862,7 @@ do !->>
         update_duolingo_progress()
   ), 5min * 60s_per_min * 1000ms_per_s
 
-  navigation_occurred = (url, tabId) ->
+  navigation_occurred = (url, tabId, is_from_history) ->
     new_domain = url_to_domain(url)
 
     if prev_domain == "www.duolingo.com"
@@ -925,8 +925,9 @@ do !->>
       send_message_to_tabid tabId, 'navigation_occurred', {
         url: tab.url
         tabId: tabId
+        is_from_history: false
       }
-      navigation_occurred tab.url, tabId
+      navigation_occurred tab.url, tabId, false
   reward_display_base_code_cached = null
 
   chrome.tabs.onActivated.addListener (activeInfo) ->>
@@ -988,8 +989,9 @@ do !->>
     send_message_to_tabid info.tabId, 'navigation_occurred', {
       url: info.url
       tabId: info.tabId
+      is_from_history: true
     }
-    navigation_occurred info.url, info.tabId
+    navigation_occurred info.url, info.tabId, true
 
   message_handlers_requiring_tab = {
     'load_css_file': true

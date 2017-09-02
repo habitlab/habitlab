@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
+<dom-module id="goal-target-input">
+<style>
+  paper-dropdown-menu {
+    display: inline-block;
+    padding-left: 5px;
+    max-width: 130px;
+    width: 130px;
+    text-align: center;
+  }
+</style>
+<template>
+  <span>{{prefix}} 
+    <paper-dropdown-menu no-label-float>
+      <paper-listbox class="dropdown-content" attr-for-selected="value" selected="[[goal_target]]" on-iron-select="target_updated">
+        <template is="dom-repeat" items="{{daily_goal_values}}" as="value">
+          <paper-item value="{{value}}">{{value}} {{compute_unit_for(value)}}</paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
+    {{suffix}}
+    </span>
+</template>
+
+<script src="goal-target-input.js"></script>
+</dom-module>

@@ -1,3 +1,4 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
 <link rel="import" href="../bower_components/chart-elements/chart-bar.html">
 <link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
@@ -15,6 +16,7 @@
 <link rel="import" href="all-badges-earned-display.html">
 <link rel="import" href="graph-intervention-effectiveness-comparison.html">
 <link rel="import" href="create-intervention-dialog.html">
+<link rel="import" href="goal-target-input.html">
 
 <dom-module id="site-view">
   <style>
@@ -83,6 +85,14 @@
         <div class="title" style="color: white">　{{goal_info.sitename_printable}}　</div>
         <!-- <div class="card-content" style="color: white; margin-bottom: 10px">Goal: {{goal_info.description}}</div>          -->
       </div>
+
+      <paper-card class="paper-card" style ="font-size: 22px; color:#5a5a5a;">
+          <div class="title-text">Goal</div> 
+          <div class="card-content">
+            <goal-target-input goal="{{goal_info}}"></goal-target-input>
+          </div>
+      </paper-card>   
+
       <paper-card class="paper-card">
         <div class="title-text"> Nudges </div>
       <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudges" class="paper-card"> -->
@@ -94,7 +104,8 @@
           <br> <br>
         </template>
         <paper-button class="button" on-click="code_custom_nudge_clicked">Code your custom nudge</paper-button>
-      </paper-card>
+      </paper-card>    
+
       <paper-card class="paper-card" style ="font-size: 22px; color:#5a5a5a;">
         <div class="title-text"> Progress </div>
       <!-- <paper-card heading="{{goal_info.sitename_printable}} Progress" class="paper-card"> -->

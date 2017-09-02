@@ -9,6 +9,10 @@ const {
 } = require('libs_common/intervention_info')
 
 const {
+  get_goal_statement
+} = require('libs_common/goal_utils')
+
+const {
   get_streak
 } = require('libs_common/streak_utils')
 
@@ -34,9 +38,8 @@ polymer_ext({
       type: String,
       value: chrome.extension.getURL('icons/streak.svg') 
     },
-    positiveGoalDescription: {
-      type: String,
-      computed: 'compute_description(goal)'
+    positiveGoalStatement: {
+      type: String
     },
     callToAction: {
       type: String,
@@ -67,7 +70,8 @@ polymer_ext({
   goal_changed: async function(goal) {
     this.positiveSiteIcon = await this.compute_icon(goal)
     this.streak = await get_streak(goal)    
-    console.log('set goal to ' + goal.name)    
+    console.log('set goal to ' + goal.name)
+    this.update_goal_statement(goal)
   },
   compute_icon: async function(goal) {
     if (goal == null) {
@@ -82,15 +86,12 @@ polymer_ext({
       return ""
     }
   },
-  compute_description: function(goal) {
-    if (goal == null) {
-      return ""
-    }
-    let description = goal.description
-    description = description.substring(0, 1).toLowerCase() + description.substring(1)
-    if (description.endsWith("."))
-      description = description.substring(0, description.length-1)
-    return description
+  update_goal_statement: async function(goal) {
+    let statement = await get_goal_statement(goal)
+    statement = statement.substring(0, 1).toLowerCase() + statement.substring(1)
+    if (statement.endsWith("."))
+      statement = statement.substring(0, statement.length-1)
+    this.positiveGoalStatement = statement
   },
   compute_call_to_action: function(goal) {
     if (goal == null) {

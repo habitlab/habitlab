@@ -4,6 +4,9 @@ const {
   wrap_in_shadow,
 } = require('libs_frontend/frontend_libs')
 
+require_component('habitlab-logo-v2')
+require_component('paper-button')
+
 const $ = require('jquery')
 
 const {
@@ -15,13 +18,17 @@ const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
     return
   }
   once_available_fast('.watch-sidebar-section', () => {
-    removeSidebar()
+    removeSidebar('#watch7-sidebar-contents')
+    callback()
+  })
+  once_available_fast('#items', () => {
+    removeSidebar('#items')
     callback()
   })
 })
 
 //Nukes links on the sidebar
-function removeSidebar() {
+function removeSidebar(sidebar_selector) {
   if (window.intervention_disabled) {
     return
   }
@@ -35,7 +42,7 @@ function removeSidebar() {
 		link.parentNode.removeChild(link)
 	}
   */
-  for (let sidebar of $('#watch7-sidebar-contents')) {
+  for (let sidebar of $(sidebar_selector)) {
     for (let child of $(sidebar).children()) {
       $(child).css({display: 'none', opacity: 0})
     }
@@ -49,7 +56,7 @@ function removeSidebar() {
   })
   show_sidebar_button.appendTo(habitlab_inserted_div)
   let habitlab_inserted_div_wrapper = $(wrap_in_shadow(habitlab_inserted_div)).addClass('habitlab_inserted_div')
-  $('#watch7-sidebar-contents').prepend(habitlab_inserted_div_wrapper)
+  $(sidebar_selector).prepend(habitlab_inserted_div_wrapper)
 }
 
 removeSidebarOnceAvailable()
@@ -57,9 +64,6 @@ removeSidebarOnceAvailable()
 on_url_change(() => {
   removeSidebarOnceAvailable()
 })
-
-require_component('habitlab-logo-v2')
-require_component('paper-button')
 
 function disable_intervention() {
   $('.habitlab_inserted_div').remove()

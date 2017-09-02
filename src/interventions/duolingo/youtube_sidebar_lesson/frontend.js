@@ -1,5 +1,3 @@
-console.log('running youtube sidebar intervention')
-
 const {
   once_available_fast,
   on_url_change,
@@ -13,11 +11,10 @@ const {
 } = require('libs_common/common_libs')
 
 const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
-  console.log('removeSidebar called')
   if (window.intervention_disabled) {
     return
   }
-  once_available_fast('.watch-sidebar-section', () => {
+  once_available_fast('#related', () => {
     removeSidebar()
     callback()
   })
@@ -39,14 +36,14 @@ function removeSidebar() {
 		link.parentNode.removeChild(link)
 	}
   */
-  for (let sidebar of $('#watch7-sidebar-contents')) {
+  for (let sidebar of $('#related')) {
     for (let child of $(sidebar).children()) {
       $(child).css({display: 'none', opacity: 0})
     }
   }
   let lesson_component = $('<duolingo-lesson-widget></duolingo-lesson-widget>')
   let lesson_wrapper = $(wrap_in_shadow(lesson_component)).addClass('habitlab_inserted_div')
-  $('#watch7-sidebar-contents').prepend(lesson_wrapper)
+  $('body').prepend(lesson_wrapper)
 }
 
 removeSidebarOnceAvailable()

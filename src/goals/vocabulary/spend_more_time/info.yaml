@@ -4,14 +4,13 @@ call_to_action: Go learn a new word
 interventions:
   - generic_positive/feed_injection_positive_goal_widget
   - generic_positive/suggest_positive_site_interstitial
-default_interventions:
-  - generic_positive/feed_injection_positive_goal_widget
 measurement: time_spent_on_domain
 domain: www.vocabulary.com
 target:
   default: 2
   units: minutes
 is_positive: true
+disabled: true
 sitename_printable: Vocabulary.com
 icon: icon.png
 color: '#7fc570'

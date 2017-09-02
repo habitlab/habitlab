@@ -26,12 +26,16 @@ require_component('habitlab-logo-v2')
 require_component('call-to-action-button')
 require_component('paper-button')
 
+var button_attacher;
 var feedShown = false;
 removeFeed()
 var intervalID = window.setInterval(removeFeed, 30);
 
 //Removes new feed (modified from 'kill news feed' src code)
 function removeFeed() {
+  if (window.intervention_disabled) {
+    return
+  }
   var feed = get_news_feed();
   hide(feed.children());
   hide($(selectorsToHide));
@@ -51,6 +55,7 @@ function show(query) {
 //Shows the news feed
 function showFeed() {
   clearInterval(intervalID) //stop refreshing the page to hide elements
+  clearInterval(button_attacher)
   $('#habitlab_show_feed_div').remove()
   var feed = get_news_feed();
   show(feed.children());
@@ -60,6 +65,16 @@ function showFeed() {
 
 //Attaches habitlab button and show news feed button
 function attachButtons() {
+  if (window.intervention_disabled) {
+    return
+  }
+  if (feedShown) {
+    return
+  }
+  if ($('#habitlab_show_feed_div').length > 0) {
+    return
+  }
+  console.log('attachButtons called')
   var habitlab_logo = $('<habitlab-logo-v2 style="text-align: center; margin: 0 auto; position: relative"></habitlab-logo-v2>')
   var cheatButton = $('<paper-button style="text-align: center; margin: 0 auto; position: relative; background-color: #415D67; color: white; -webkit-font-smoothing: antialiased; height: 38px" raised>Show my News Feed</paper-button>')
   cheatButton.click(function(evt) {
@@ -90,7 +105,7 @@ on_url_change(() => {
   }
 })
 
-attachButtons();
+button_attacher = setInterval(attachButtons, 100);
 
 window.on_intervention_disabled = () => {
   showFeed();

@@ -27,32 +27,34 @@
     }
     .badge_unlocked_bottom_text {
       margin-top:10px;
-      background-color: #5E9CD3;
+      background-color: rgb(108,180,220);
+      box-shadow: 2px 2px 2px #888888;
       display: inline-block;
       padding: 5px;
-      border-radius: 5px;
+      border-radius: 10px;
       color: white;
       /* border-color: #43729A; */
       /* border-width: 1px;
       border-style: solid;
       text-shadow: 1px 1px black; */
-      width: 116px;
+      width: 130px;
     }
     .center_badge_display {
-      width: 100px;
-      height: 100px;
+      width: 130px;
+      height: 130px;
       border-radius: 10px;
       border-color: green;
       border-width: 0px;
       border-style: solid;
-      background-color: #70AD47;
+      background-color: rgba(55,210,115,1);
       display: inline-block;
+      box-shadow: 2px 2px 2px #888888;
     }
   </style>
   <template>
     <div class="badge_mini_wrapper">
       <div class="center_badge_display">
-        <img src="{{badge_details.img_url}}" style="margin-top: 15px; height: 70px"></img>
+        <img src="{{badge_details.img_url}}" style="margin-top:15px; height: 100px"></img>
       </div>
       <div style="width: 100%; text-align: center">
         <div class="badge_unlocked_bottom_text">

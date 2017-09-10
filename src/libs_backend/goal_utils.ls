@@ -485,7 +485,14 @@ export get_goal_statement = (goal_info) ->>
   if goal_info.goal_statement_to_fill_in?
     ad_lib = goal_info.goal_statement_to_fill_in
     target = await get_goal_target(goal_info.name)
-    return ad_lib.replace("TARGET", target)
+    ad_lib = ad_lib.replace("TARGET", target)
+
+    unit = goal_info.target.units
+    if goal_info.goal_statement_units?
+      unit = goal_info.goal_statement_units
+    if target == 1
+      unit = unit.substring(0, unit.length-1)
+    return ad_lib.replace("UNITS", unit)
   else
     return goal_info.description
 
@@ -497,6 +504,8 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   if is-positive
     custom_goal_name = "custom/spend_more_time_#{domain}"
     description = "Spend more time on #{domain_printable}"
+    goal_statement_to_fill_in = "Spend at least TARGET UNITS on #domain_printable each day"
+
     call_to_action = "Go to #{domain_printable}"
     generic_positive_interventions = await intervention_utils.list_generic_positive_interventions()
     fix_names_generic_positive = (x) ->
@@ -509,6 +518,7 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   else
     custom_goal_name = "custom/spend_less_time_#{domain}"
     description = "Spend less time on #{domain_printable}"
+    goal_statement_to_fill_in = "Spend less than TARGET UNITS on #domain_printable each day"
     call_to_action = "Close #{domain_printable}"
     generic_interventions = await intervention_utils.list_generic_interventions()
     fix_names_generic = (x) ->

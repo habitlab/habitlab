@@ -1,15 +1,17 @@
-description: Open TED every day
-progress_description: Visited TED
+description: Open TED more often
+goal_statement_to_fill_in: Open TED at least TARGET UNITS each day
+progress_description: Visits to TED
 call_to_action: Watch a TED talk
 interventions:
   - generic_positive/feed_injection_positive_goal_widget
   - generic_positive/suggest_positive_site_interstitial
-measurement: whether_visited_domain
+measurement: visits_to_domain
 domain: www.ted.com
 sitename_printable: TED
+goal_statement_units: times
 target:
   default: 1
-  units: visit
+  units: visits
 is_positive: true
-icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAklEQVR4AewaftIAAAIrSURBVM3Bz0sUYRzA4c/7nXfHHXd0l0TboIgI7CdtaNAhqCilH1hiEF08RESH6pCHLAOpQ1SHiuriIesgefbiQTAqAiEiDKF/IDpUeGhZHVo3dqbWWFumkY1Y8H0eFfyCwQTDCYYTDCcYTjCcYDjBcILhBMMJhhMMJxhOMJwmxJ/LMT/0kGrq9uxlYeo11cQPdJJ/MclfLAu9dh11+zuxVqdZjiYk8Dy8kWGqUa6LNzJMNVZ6Dd7IMMtR9++QvHoDp+ckUYQVFnjzZK9foTAzTRRNiCRTpG4/4LeA7EAfZYneM8S27aDESqeZ5w/37Hn0xlYQBUpY8qNApdTNuwTFIguvJsm/fM4iv4j3ZAj70WPCNCHKcXCO9VCWHeijzN61m3jHYUqKXz5TSZIppLmFMH/2K5XiR7tRtk39iVN8u3yR/MQ4JYXptwT576i4QyVNjeTu3SJKY/8gkZTCOdRFfmKcEj+Xw5/LYcUdKgkrSNk2S4IA/IAwTY3Un+pFr9/AoiAA36dEuQ0sp/D+HWUqkUASCcI0NWJn2rF3thNW+DBDpeKnj2BZFN5M4T17Sllsy3aU20CYpkay1/qI0tg/SKXZ7g6iuKfPEUWzwlTMxr1wibp9B4miqcLOtFEmyRRlyraxM21UI80t2Jk2wpTrEtu0FaerB926meVoqmgaHSOKrGqiaXSMf+EcOc7/EgwnGE4wnGA4wXCC4QTDCYYTDCcYTjCcYDjBcD8B6ZSBWJUBF18AAAAASUVORK5CYII=
+icon: icon.svg
 color: '#f18982'

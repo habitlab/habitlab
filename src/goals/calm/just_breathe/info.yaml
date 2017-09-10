@@ -1,4 +1,5 @@
-description: Spend at least two minutes meditating with Calm each day
+description: Meditate with Calm each day
+goal_statement_to_fill_in: Spend at least TARGET UNITS meditating with Calm each day
 progress_description: Minutes spent meditating
 call_to_action: Clear your mind
 interventions:
@@ -13,4 +14,5 @@ target:
   units: minutes
 is_positive: true
 sitename_printable: Calm
-color: '#3333ff'
+icon: icon.svg
+color: 'rgb(80, 115, 230)'

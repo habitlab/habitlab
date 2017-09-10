@@ -1,17 +1,17 @@
 description: Check the New York Times each day
+goal_statement_to_fill_in: Visit the New York Times page at least TARGET UNITS per day
 progress_description: Visits to the New York Times site
 call_to_action: Check the New York Times
 interventions:
   - generic_positive/feed_injection_positive_goal_widget
   - generic_positive/suggest_positive_site_interstitial
-default_interventions:
-  - generic_positive/feed_injection_positive_goal_widget
 measurement: visits_to_domain
 domain: www.nytimes.com
+goal_statement_units: times
 target:
   default: 1
   units: visits
 is_positive: true
 sitename_printable: New York Times
 icon: icon.png
-color: '#000000'
+color: 'rgb(41,41,41)'

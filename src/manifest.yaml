@@ -32,14 +32,17 @@ web_accessible_resources:
   - index_jspm.html
   - logs.html
   - icons/*.png
+  - icons/*.jpg
   - icons/*.svg
   - node_modules_custom/**/*
   - bundles/*
   - components/*
   - components/**/*
   - interventions/**/*.png
+  - interventions/**/*.jpg
   - interventions/**/*.svg
   - goals/**/*.png
+  - goals/**/*.jpg
   - goals/**/*.svg
   - bower_components/**/*
   - node_modules_custom/**/*

@@ -13,5 +13,5 @@ target:
   default: 1
   units: visits
 is_positive: true
-icon: icon.svg
+icon: icon.png
 color: '#f18982'

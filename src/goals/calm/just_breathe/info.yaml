@@ -14,5 +14,5 @@ target:
   units: minutes
 is_positive: true
 sitename_printable: Calm
-icon: icon.svg
+icon: icon.jpg
 color: 'rgb(80, 115, 230)'

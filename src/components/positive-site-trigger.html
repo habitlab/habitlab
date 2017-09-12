@@ -3,122 +3,127 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="positive-site-trigger">
+
   <template>
-    <style is="custom-style">
-      :host {
-        --paper-item: {
-          font-family: Verdana, Geneva, sans-serif;
+    <custom-style>
+      <style is="custom-style">
+         :host {
+          --paper-item: {
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 20px;
+            font-color: #526FAB;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+            text-overflow: ellipsis;
+          }
+          ;
+          --paper-item-min-height: 36px;
+        }
+
+        #site-icon {
+          width: 40px;
+        }
+
+        #site-title {
+          padding-top: 15px;
+          margin-bottom: 15px;
           font-size: 20px;
-          font-color: #526FAB;
-          overflow: hidden;
-          white-space: nowrap;
-          display: block;
-          text-overflow: ellipsis;
-        };
-        --paper-item-min-height: 36px;
-      }
+          padding-left: 10px;
+          padding-right: 10px;
+          display: flex;
+        }
 
-      #site-icon {
-        width: 40px;
-      }
+        #trigger-container {
+          max-width: 519px;
+          min-width: 400px;
+          max-height: 280px;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          border-color: #000000;
+          border-style: solid;
+          border-width: 2px;
+          background-color: #95CBEE;
+          /* or white, or rgb (0,155,55) */
+          /*box-shadow: 2px 2px 2px #888888;*/
+        }
 
-      #site-title {
-        padding-top: 15px;
-        margin-bottom: 15px;
-        font-size: 20px;
-        padding-left: 10px;
-        padding-right: 10px;
-        display: flex;
-      }
+        #intro-text {
+          font-size: 20px;
+          padding-bottom: 10px;
+        }
 
-      #trigger-container {
-        max-width: 519px;
-        min-width: 400px;
-        max-height: 280px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        border-color: #000000;
-        border-style: solid;
-        border-width: 2px;
-        background-color: #95CBEE; /* or white, or rgb (0,155,55) */
-        /*box-shadow: 2px 2px 2px #888888;*/
-      }
+        .text-div {
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          text-align: center;
+          color: #415D67;
+          line-height: 150%;
+          font-size: 15px;
+        }
 
-      #intro-text {
-        font-size: 20px;
-        padding-bottom: 10px;
-      }
-      .text-div {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        text-align:center;
-        color: #415D67; 
-        line-height: 150%;
-        font-size: 15px;
-      }
-      
-      #completing-time {
-        margin-bottom: 10px;
-      }
+        #completing-time {
+          margin-bottom: 10px;
+        }
 
-      #trigger-button {
-        cursor: pointer;
-        padding: 10px;
-        background-color: green;
-        color: white;
-        font-size: 30px;
-        box-shadow: 2px 2px 2px #888888;
-        height: 70px;
-        width: 140px;
-        vertical-align: middle;
-      }
+        #trigger-button {
+          cursor: pointer;
+          padding: 10px;
+          background-color: green;
+          color: white;
+          font-size: 30px;
+          box-shadow: 2px 2px 2px #888888;
+          height: 70px;
+          width: 140px;
+          vertical-align: middle;
+        }
 
-      #trigger-button-div {
-        height: 50px;
-        display: flex;
-        text-align: left;
-        align-items: center;
-        justify-content: left;
-        height: 100%; 
-        width: 100%
-      }
+        #trigger-button-div {
+          height: 50px;
+          display: flex;
+          text-align: left;
+          align-items: center;
+          justify-content: left;
+          height: 100%;
+          width: 100%
+        }
 
-      #trigger-button-div .streak-img {
-        height: 80%;
-        margin: 5px;
-      }
+        #trigger-button-div .streak-img {
+          height: 80%;
+          margin: 5px;
+        }
 
-      #streak-container {
-        display: table;
-        font-size: 20px;
-        margin: 10px;
-        padding: 5px 10px 5px 10px;
-        /*background-color: white;*/
-      }
+        #streak-container {
+          display: table;
+          font-size: 20px;
+          margin: 10px;
+          padding: 5px 10px 5px 10px;
+          /*background-color: white;*/
+        }
 
-      #streak-box {
-        height: 40px;
-        width: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: left;
-        /*font-size: 20px;*/
-        /*box-shadow: 2px 2px 2px #888888;*/
-        padding: 5px;
-        background-color: white;
-      }
+        #streak-box {
+          height: 40px;
+          width: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: left;
+          /*font-size: 20px;*/
+          /*box-shadow: 2px 2px 2px #888888;*/
+          padding: 5px;
+          background-color: white;
+        }
 
-      #streak-box .streak-img {
-        height: 80%;
-        margin: 5px;
-      }
+        #streak-box .streak-img {
+          height: 80%;
+          margin: 5px;
+        }
+      </style>
+    </custom-style>
 
-
-    </style>
     <div id="trigger-container">
       <img id="site-icon" src="{{positiveSiteIcon}}">
       <div id="site-title">{{positiveSite}}</div>

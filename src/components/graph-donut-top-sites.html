@@ -2,40 +2,42 @@
 <link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
 
 <dom-module id="graph-donut-top-sites">
-  <style>
-
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    h4 {
-      
-      margin-bottom: 20px;
-    }
-    .buttons {
-      text-align: center;
-      padding-top: 3em;
-      padding-bottom: 3em;
-    }
-    button {
-      position: absolute;
-      left: 50%;
-      cursor: pointer;
-      transform: translateX(-50%) translateY(-50%);
-      font-size: 1em;
-    }    
-    h5 {
-      font-size: 15px
-    }
-  </style>
   <template>
-    <div style = "font-size: 22px; color:#5a5a5a; margin-bottom: 10px;">Today's five most visited sites by minutes spent</div>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      h4 {
+
+        margin-bottom: 20px;
+      }
+
+      .buttons {
+        text-align: center;
+        padding-top: 3em;
+        padding-bottom: 3em;
+      }
+
+      button {
+        position: absolute;
+        left: 50%;
+        cursor: pointer;
+        transform: translateX(-50%) translateY(-50%);
+        font-size: 1em;
+      }
+
+      h5 {
+        font-size: 15px
+      }
+    </style>
+    <div style="font-size: 22px; color:#5a5a5a; margin-bottom: 10px;">Today's five most visited sites by minutes spent</div>
     <template is="dom-if" if="{{graph_has_data}}">
       <chart-doughnut data="[[donutdata]]" style="width: 100%"></chart-doughnut>
     </template>

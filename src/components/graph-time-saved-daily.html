@@ -3,23 +3,23 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="graph-time-saved-daily">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    h4 {
-     
-      margin-bottom: 20px;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      h4 {
+
+        margin-bottom: 20px;
+      }
+    </style>
     <h4>Time saved due to interventions</h4>
     <chart-horizontal-bar data="[[timeSavedData]]" options="[[timeSavedOptions]]" style="width: 600px"></chart-horizontal-bar>
   </template>

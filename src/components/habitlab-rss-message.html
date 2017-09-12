@@ -3,60 +3,62 @@
 
 <dom-module id="habitlab-rss-message">
   <template>
-    <style is="custom-style">
-      :host {
-        --paper-item: {
+    <custom-style>
+      <style is="custom-style">
+        :host {
+          --paper-item: {
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-size: 20px;
+            font-color: #526FAB;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+            text-overflow: ellipsis;
+          };
+          --paper-item-min-height: 36px;
+        }
+        
+
+        #rsscontainer {
+          width: 519px;
+          height: 280px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: #95CBEE;
+        }
+
+        #rsstitle {
+          padding-top: 15px;
+          margin-bottom: 15px;
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           font-size: 20px;
-          font-color: #526FAB;
+          color: #415D67;
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+
+        .linktext {
+          
           overflow: hidden;
           white-space: nowrap;
-          display: block;
           text-overflow: ellipsis;
-        };
-        --paper-item-min-height: 36px;
-      }
-      
 
-      #rsscontainer {
-        width: 519px;
-        height: 280px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #95CBEE;
-      }
+          width: 350px;
+          display: block;
+        }
 
-      #rsstitle {
-        padding-top: 15px;
-        margin-bottom: 15px;
-        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        font-size: 20px;
-        color: #415D67;
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-
-      .linktext {
-        
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-
-        width: 350px;
-        display: block;
-      }
-
-      a {
-        overflow: hidden;
-        white-space: nowrap;
-        width: 350px;
-        text-overflow: ellipsis;
-        display: block;
-      }
+        a {
+          overflow: hidden;
+          white-space: nowrap;
+          width: 350px;
+          text-overflow: ellipsis;
+          display: block;
+        }
 
 
-    </style>
+      </style>
+    </custom-style>
     <div id="rsscontainer">
       <div id="rsstitle">Why not read the New York Times instead?</div>
 

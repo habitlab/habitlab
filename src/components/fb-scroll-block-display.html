@@ -4,52 +4,55 @@
 <link rel="import" href="call-to-action-button.html">
 
 <dom-module id="fb-scroll-block-display">
-  <style>
-    :host {
-      
-      /*display: table-cell;*/
-      
-    }
-    #container {
-      height: 50px;
-      background-color: #95CBEE;
-      position: fixed;
-      color: white;
-      width: 100%;
-      top: 0px;
-      right: 0px;
-      z-index: 99999;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #habitlab_logo {
-      position: absolute;
-      left: 10px;
-      top: -5px;
-      z-index: 999999;
-      margin-top: 10px;
-    }
-
-    .text_display {
-      font-size: 14px;
-      align-content: center;
-      text-align: center;
-    }
-    #call-to-action {
-      position: static;
-      height: 34px;
-    }
-    #continue_scrolling {
-      position: static;
-      background-color: #415D67;
-      color: white;
-      height: 34px;
-      box-shadow: 2px 2px 2px #888888;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+
+        /*display: table-cell;*/
+      }
+
+      #container {
+        height: 50px;
+        background-color: #95CBEE;
+        position: fixed;
+        color: white;
+        width: 100%;
+        top: 0px;
+        right: 0px;
+        z-index: 99999;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #habitlab_logo {
+        position: absolute;
+        left: 10px;
+        top: -5px;
+        z-index: 999999;
+        margin-top: 10px;
+      }
+
+      .text_display {
+        font-size: 14px;
+        align-content: center;
+        text-align: center;
+      }
+
+      #call-to-action {
+        position: static;
+        height: 34px;
+      }
+
+      #continue_scrolling {
+        position: static;
+        background-color: #415D67;
+        color: white;
+        height: 34px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+    </style>
 
     <!--git
     <img style="width: 38px; height: 38px" id="habitlab_logo" class="tooltip" src="{{get_url()}}" alt="icon" />
@@ -57,7 +60,7 @@
     -->
     <div id="container">
       <div class="text_display" style="color: #415D67; font-size: 20px">You have spent </div>
-        <div style="color: #415D67">
+      <div style="color: #415D67">
         <div style="display: inline-block; margin-left: 20px; margin-right: 20px">
           <div style="font-size: 28px; margin-bottom: -4px">{{minutes}}</div>
           <div>min</div>

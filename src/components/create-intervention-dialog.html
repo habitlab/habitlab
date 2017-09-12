@@ -7,20 +7,20 @@
 <link rel="import" href="feedback-button.html">
 
 <dom-module id="create-intervention-dialog">
-  <style>
-      .button {
-      color: white;
-      background-color: #50E3C2;
-      margin-left: 10px;
-      margin-right: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      height: 30px;
-      box-shadow: 2px 2px 2px #888888;
-      font-weight: bold;
-    }
-  </style>
   <template>
+    <style>
+      .button {
+        color: white;
+        background-color: #50E3C2;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 30px;
+        box-shadow: 2px 2px 2px #888888;
+        font-weight: bold;
+      }
+    </style>
 
     <paper-dialog id="create_new_intervention_dialog" with-backdrop style="z-index: 9007199254740991;">
       <paper-dropdown-menu style="width: 300px" label="Goal">
@@ -49,7 +49,7 @@
       </paper-dropdown-menu>
       <paper-button id="open_button" on-click="open_intervention_clicked" class="button">Open</paper-button>
     </paper-dialog>
-  
+
   </template>
   <script src="create-intervention-dialog.js"></script>
 </dom-module>

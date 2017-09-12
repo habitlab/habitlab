@@ -7,31 +7,32 @@
 <link rel="import" href="feedback-form.html">
 
 <dom-module id="habitlab-options-popup">
-  <style>
-  </style>
   <template>
+    <style>
+
+    </style>
     <paper-dialog id="intervention_info_dialog" with-backdrop style="z-index: 9007199254740991;">
-    <h2>HabitLab Intervention Info</h2>
-    <div style="text-align: left">
-      <p>Intervention name: <span>{{intervention_description}}</span></p>
-      <p>Goal: <span>{{goal_descriptions}}</span></p>
-      <div>
-        <span>Turn Off Intervention:</span>
-        <paper-button on-click="disable_temp_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of this visit</paper-button>
-        <paper-button on-click="disable_perm_callback" style="color: white; background-color: #3687D3; text-transform: none;">Permanently</paper-button>
+      <h2>HabitLab Intervention Info</h2>
+      <div style="text-align: left">
+        <p>Intervention name: <span>{{intervention_description}}</span></p>
+        <p>Goal: <span>{{goal_descriptions}}</span></p>
+        <div>
+          <span>Turn Off Intervention:</span>
+          <paper-button on-click="disable_temp_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of this visit</paper-button>
+          <paper-button on-click="disable_perm_callback" style="color: white; background-color: #3687D3; text-transform: none;">Permanently</paper-button>
+        </div>
+        <br>
+        <div>
+          <span>Turn Off HabitLab:</span>
+          <paper-button on-click="disable_habitlab_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of today</paper-button>
+        </div>
       </div>
-      <br>
-      <div>
-        <span>Turn Off HabitLab:</span>
-        <paper-button on-click="disable_habitlab_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of today</paper-button>
+      <div class="buttons">
+        <paper-button on-click="open_feedback_form">Submit Feedback</paper-button>
+        <paper-button on-click="open_interventions_page">HabitLab Options</paper-button>
+        <paper-button dialog-dismiss>Close</paper-button>
       </div>
-    </div>
-    <div class="buttons">
-      <paper-button on-click="open_feedback_form">Submit Feedback</paper-button>
-      <paper-button on-click="open_interventions_page">HabitLab Options</paper-button>
-      <paper-button dialog-dismiss>Close</paper-button>
-    </div>
-  </paper-dialog>
+    </paper-dialog>
   </template>
   <script src="habitlab-options-popup.js"></script>
 </dom-module>

@@ -13,223 +13,235 @@
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 
 <dom-module id="positive-goal-selector">
-  <style is="custom-style">
-    :host {
-      --paper-input-container-input: {
-        font-size: 16px;
-        text-indent: 5px;
-        padding:0px;
-        color: #415D67;
-        sfont-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        margin:auto;
-        width:100%;
-        min-width:200px;
-        margin-left: 0px;
-        margin-top: 0px;
-        padding-left: 0px;
-        padding-right: 0px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-      };
-      --paper-input-container-label: {
-        text-align: center;
-        color: white;
-        font-size: 16px
-        text-shadow:2px 2px 2px #346da3; 
-        sfont-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        font-weight: 400;
-        width:100%;
-        margin-left: 0px;
-        margin-top: 0px;
-        padding-left: 0px;
-        padding-right: 0px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-      };
-
-      --paper-icon-button: {
-        opacity:0.75;
-      };
-    
-      --paper-item: {
-        min-height: 36px;
-      };
-
-
-      --paper-input-container:{
-        padding-top: 0px;
-        padding-bottom: 0px;
-        margin: auto;
-        margin-top:0px;
-        width: calc(100%-100px);
-        margin-left: 0px;
-        margin-top: 0px;
-        padding-left: 0px;
-        padding-right: 0px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-
-      };
-
-      --paper-dialog:{
-        margin:auto;
-        margin-left:0px;
-        padding-left:0px;
-        padding-right:0px;
-        padding-top:10px;
-        padding-bottom:10px;
-        margin-top: 10px;
-      
-      }
-      
-      #alignedDialog {
-        margin: auto;
-        padding-left:0px;
-        padding-right:0px;
-        padding-top:10px; 
-        padding-bottom:0px;
-        margin-left:0px;
-        margin-top: 10px;
-        width:320px; 
-      }
-
-    }
-    
-    .index_body{ 
-      /*rgb(81, 167,249);rgb(147,199,232)*/
-
-      background-color:rgb(81, 167,249);
-    }
-
-    .card-content {
-      color:white;
-      background-color:rgb(81, 167,249);  
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-      font-size: 30px;
-      padding-bottom: 20px; 
-      text-align:center;
-      margin:auto;
-      padding-right: 30px;
-      padding-left: 30px;
-      padding-top:30px;
-      padding-bottom:30px;
-      font-size: 20px;
-      /*text-shadow: 1px 1px 1px #346da3; */
-      /*min-height:calc(100vh - 60px); */
-    }
-
-    .full-height {
-      min-height:calc(100vh - 60px);
-    }
-
-
-    #title{
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-      font-size: 30px;
-      padding-top: 30px;
-      padding-bottom: 20px; 
-      text-align:center;
-      font-weight:400;
-      /*text-shadow: 1px 1px 2px #346da3; */
-    }
-    .flexcontainer { 
-      display: flex;
-      flex-direction:row;
-      align-items: center;
-      justify-content:flex-start;
-      flex-wrap:wrap;
-      flex-flow:row wrap; 
-      align-content: center;
-      padding-bottom: 10px;
-    }
-    .siteicon{
-      cursor: pointer;
-      width:130px;
-      height:130px;
-      margin:auto;
-      margin-left:10px; 
-      margin-right:10px;
-      border-radius:30px;
-      padding: 8px;
-      box-shadow: 0px 0px 15px #346da3;
-      background-color:white;
-    }
-    .siteicondisabled {
-      opacity: 0.5;
-    }
-    .siteiconenabled{
-      opacity: 1;
-      box-shadow: 0px 0px 15px #346da3;
-    }
-    .siteiconadd {
-      color: rgba(255,255,255,0.35);
-      background-color: rgba(255,255,255,0.3);
-      margin:auto;
-      margin-left:10px;
-      margin-right:10px;
-
-    }
-    .siteicon:hover {
-      box-shadow: 0px 0px 45px #346da3;
-    }
-
-  </style>
-
   <template>
+    <custom-style>
+      <style is="custom-style">
+         :host {
+          --paper-input-container-input: {
+            font-size: 16px;
+            text-indent: 5px;
+            padding: 0px;
+            color: #415D67;
+            sfont-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            margin: auto;
+            width: 100%;
+            min-width: 200px;
+            margin-left: 0px;
+            margin-top: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+          }
+          ;
+          --paper-input-container-label: {
+            text-align: center;
+            color: white;
+            font-size: 16px text-shadow:2px 2px 2px #346da3;
+            sfont-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-weight: 400;
+            width: 100%;
+            margin-left: 0px;
+            margin-top: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+          }
+          ;
 
-    <paper-dialog id="alignedDialog" style = "background-color:rgba(255,255,255,0.85);" no-overlap horizontal-align="left" vertical-align="top">
-        <h2 style = " font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;color:#323f4b;">Add a new website to spend more time spent on (example: www.duolingo.com)</h2>
-        <div style = "display: flex; margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin-bottom:0px;padding-left:10px; padding-right:10px;padding-bottom:0px">
+          --paper-icon-button: {
+            opacity: 0.75;
+          }
+          ;
 
-          <vaadin-combo-box on-value-changed = "valueChange" id="add_website_input"  change="change_called" custom-value-set="custom_value_set_called" selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" value-changed="value_changed_called" items = "{{baseline_time_on_domains_array}}" style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed = "add_custom_website_from_input" allow-custom-value no-label-float >
-            <template>
-                  <div domain="[[item]]">[[item]]</div>
-                  <!--
+          --paper-item: {
+            min-height: 36px;
+          }
+          ;
+
+
+          --paper-input-container: {
+            padding-top: 0px;
+            padding-bottom: 0px;
+            margin: auto;
+            margin-top: 0px;
+            width: calc(100%-100px);
+            margin-left: 0px;
+            margin-top: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+          }
+          ;
+
+          --paper-dialog: {
+            margin: auto;
+            margin-left: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-top: 10px;
+          }
+
+          #alignedDialog {
+            margin: auto;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 10px;
+            padding-bottom: 0px;
+            margin-left: 0px;
+            margin-top: 10px;
+            width: 320px;
+          }
+        }
+
+        .index_body {
+          /*rgb(81, 167,249);rgb(147,199,232)*/
+          background-color: rgb(81, 167, 249);
+        }
+
+        .card-content {
+          color: white;
+          background-color: rgb(81, 167, 249);
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-size: 30px;
+          padding-bottom: 20px;
+          text-align: center;
+          margin: auto;
+          padding-right: 30px;
+          padding-left: 30px;
+          padding-top: 30px;
+          padding-bottom: 30px;
+          font-size: 20px;
+          /*text-shadow: 1px 1px 1px #346da3; */
+          /*min-height:calc(100vh - 60px); */
+        }
+
+        .full-height {
+          min-height: calc(100vh - 60px);
+        }
+
+
+        #title {
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-size: 30px;
+          padding-top: 30px;
+          padding-bottom: 20px;
+          text-align: center;
+          font-weight: 400;
+          /*text-shadow: 1px 1px 2px #346da3; */
+        }
+
+        .flexcontainer {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          flex-flow: row wrap;
+          align-content: center;
+          padding-bottom: 10px;
+        }
+
+        .siteicon {
+          cursor: pointer;
+          width: 130px;
+          height: 130px;
+          margin: auto;
+          margin-left: 10px;
+          margin-right: 10px;
+          border-radius: 30px;
+          padding: 8px;
+          box-shadow: 0px 0px 15px #346da3;
+          background-color: white;
+        }
+
+        .siteicondisabled {
+          opacity: 0.5;
+        }
+
+        .siteiconenabled {
+          opacity: 1;
+          box-shadow: 0px 0px 15px #346da3;
+        }
+
+        .siteiconadd {
+          color: rgba(255, 255, 255, 0.35);
+          background-color: rgba(255, 255, 255, 0.3);
+          margin: auto;
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+
+        .siteicon:hover {
+          box-shadow: 0px 0px 45px #346da3;
+        }
+      </style>
+    </custom-style>
+
+    <paper-dialog id="alignedDialog" style="background-color:rgba(255,255,255,0.85);" no-overlap horizontal-align="left" vertical-align="top">
+      <h2 style=" font-size:12px;padding-top:5px;margin:auto;margin-top:0px;margin-bottom:5px;color:#323f4b;">Add a new website to spend more time spent on (example: www.duolingo.com)</h2>
+      <div style="display: flex; margin:auto; margin-top:0px;margin-left:0px; margin-right:0px; margin-bottom:0px;padding-left:10px; padding-right:10px;padding-bottom:0px">
+
+        <vaadin-combo-box on-value-changed="valueChange" id="add_website_input" change="change_called" custom-value-set="custom_value_set_called"
+          selected-item-changed="selected_item_changed_called" vaadin-dropdown-closed="vaadin_dropdown_closed_called" items="{{baseline_time_on_domains_array}}"
+          style="display: inline-block; width:calc(100% - 78px);" item-value-path="sites" item-label-path="sites" value-changed="add_custom_website_from_input"
+          allow-custom-value no-label-float>
+          <template>
+            <div domain="[[item]]">[[item]]</div>
+            <!--
               <paper-icon-item on-click="paper_icon_item_clicked" domain="[[item]]">
                 <paper-item-body on-click="paper_item_body_clicked" domain="[[item]]">
                 </paper-item-body> 
               </paper-icon-item>
 -->
-            </template>
-          </vaadin-combo-box>
-          <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px;margin-bottom:7px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto" on-click="add_goal_clicked">Add Goal</paper-button>
-       
-        </div>
+          </template>
+        </vaadin-combo-box>
+        <paper-button style="display: inline-block; color: white; background-color: #346da3; padding:0px; font-size: 14px; text-align: center; margin-right: 0px;margin-bottom:7px; text-transform: none; -webkit-font-smoothing: subpixel-antialiased; align-self: flex-end; margin-left: auto"
+          on-click="add_goal_clicked">Add Goal</paper-button>
+
+      </div>
 
     </paper-dialog>
-    
+
 
     <!-- <p>HabitLab has suggested these goals based on the websites you regularly use.</p> -->
     <div id="outer_wrapper">
       <!-- <p>If you have a goal that is not specified below, please <a href="#">send us a suggestion</a> </p> -->
       <div class$="card-content [[text_if(is_onboarding, 'full-height')]]">
-        <span><iron-icon icon="settings" style="width: 27px; height: 27px; margin:auto;margin-bottom: 9.5px;margin-right: 6px; color: white;"/></span><span id= "title">{{title}}</span>  
+        <span><iron-icon icon="settings" style="width: 27px; height: 27px; margin:auto;margin-bottom: 9.5px;margin-right: 6px; color: white;"/></span>
+        <span id="title">{{title}}</span>
         <div style="margin-bottom: 30px">
-        <!-- <div style="font-family: Verdana, Geneva, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;margin: auto; font-size: 16px; text-align: center; padding-left:65px; padding-right:65px;">{{title_text}}</div>  -->
-        <!-- <div style="font-family: Verdana, Geneva, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;margin: auto; font-size: 16px; text-align: center; padding-left:65px; padding-right:65px;">{{title_text_bolded_portion}}</div> -->
+          <!-- <div style="font-family: Verdana, Geneva, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;margin: auto; font-size: 16px; text-align: center; padding-left:65px; padding-right:65px;">{{title_text}}</div>  -->
+          <!-- <div style="font-family: Verdana, Geneva, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;margin: auto; font-size: 16px; text-align: center; padding-left:65px; padding-right:65px;">{{title_text_bolded_portion}}</div> -->
         </div>
         <div class="flexcontainer wrap row">
 
-            <div style = "margin-bottom:0px;">
-                <div class="siteicon siteiconadd" on-click="openBy">
-                  <div style= "position: relative; top:48px; left:48px;">
-                    <div style ="cursor: pointer; position:absolute">
-                      <img style= "width:30px; padding-left:0px;margin-left:5px;margin-top:0px;" src="{{icon_add_url}}" />
-                    </div>
-                  </div>
+          <div style="margin-bottom:0px;">
+            <div class="siteicon siteiconadd" on-click="openBy">
+              <div style="position: relative; top:48px; left:48px;">
+                <div style="cursor: pointer; position:absolute">
+                  <img style="width:30px; padding-left:0px;margin-left:5px;margin-top:0px;" src="{{icon_add_url}}" />
                 </div>
-                <div>
-                  <span style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">Add Site</span>
-                  <div><iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon></div>        
-                </div> 
               </div>
+            </div>
+            <div>
+              <span style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">Add Site</span>
+              <div>
+                <iron-icon icon="help" style="width: 20px; height: 25px;padding-bottom:10px; color: white; cursor: pointer" on-click="daily_goal_help_clicked"></iron-icon>
+              </div>
+            </div>
+          </div>
 
 
 
 
 
 
-        <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals" index-as="siteidx">
+          <template is="dom-repeat" items="{{sites_and_goals}}" as="site_and_goals" index-as="siteidx">
             <template is="dom-if" if="{{should_have_newline(index, num_per_line)}}">
               <br/>
             </template>
@@ -237,55 +249,62 @@
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal" index-as="goalidx">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
                 <template is="dom-if" if="{{goal.is_positive}}">
-                    <div class$="sitebutton-{{siteidx}}-{{goalidx}}" style="display: inline-block; align-items: center; padding-bottom: 15px;" >
+                  <div class$="sitebutton-{{siteidx}}-{{goalidx}}" style="display: inline-block; align-items: center; padding-bottom: 15px;">
 
                     <div style="position: relative; top: 12.5px; left: 21px; pointer-events: none">
                       <div style="position: absolute; pointer-events: none">
                         <template is="dom-if" if="{{goal.enabled}}">
-                        <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
-                        <img style= "width:45px; pointer-events: none" src="{{icon_check_url}}" />
+                          <!--<iron-icon icon="check" style="width:100px; height: 100px; margin-left: 10px; color: black; cursor: pointer" on-click="settings_goal_clicked" sitename="{{goal.sitename}}"></iron-icon>-->
+                          <img style="width:45px; pointer-events: none" src="{{icon_check_url}}" />
                         </template>
                       </div>
                     </div>
                     <template is="dom-if" if="{{goal.enabled}}">
-                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular" src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
+                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteiconenabled siteiconregular"
+                        src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
                     </template>
                     <template is="dom-if" if="{{!goal.enabled}}">
-                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular" src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
+                      <img checked="{{goal.enabled}}" goalname="{{goal.name}}" on-click="image_clicked" class="siteicon siteicondisabled siteiconregular"
+                        src="{{get_icon_for_goal(goal, goal_name_to_icon)}}" />
                     </template>
                     <div style="width:145px; white-space:nowrap;font-size:16px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">{{goal.sitename_printable}}</div>
                     <div style="height: 17px; position: relative; text-shadow:none;width:145px; white-space:nowrap;font-size:12px;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;">
                       <span>{{get_time_spent_for_domain(goal.domain, baseline_time_on_domains)}}</span>
                       <template is="dom-if" if="{{is_onboarding}}">
                         <template is="dom-if" if="{{goal.custom}}">
-                          <img src="{{delete_url}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
+                          <img src="{{delete_url}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer"
+                            on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
                           <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
                         </template>
                       </template>
                       <template is="dom-if" if="{{!is_onboarding}}">
                         <template is="dom-if" if="{{goal.custom}}">
-                          <img src="{{delete_url}}" style="position: absolute; left: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
+                          <img src="{{delete_url}}" style="position: absolute; left: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer"
+                            on-click="delete_goal_clicked" goal_name="{{goal.name}}" />
                           <!--<img src="{{delete_url}}" style="width: 10px; height:10px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" on-click="delete_goal_clicked" goal_name="{{goal.name}}"></iron-icon>-->
                         </template>
                         <template is="dom-if" if="{{goal.enabled}}">
-                          <img src="{{configure_url}}" on-click="settings_goal_clicked" sitename="{{goal.sitename_printable}}" goal="{{goal}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer" />
+                          <img src="{{configure_url}}" on-click="settings_goal_clicked" sitename="{{goal.sitename_printable}}" goal="{{goal}}" style="position: absolute; right: 15px; width: 15px; height:15px; margin:auto; margin-left:0px; color: #415D67; cursor: pointer"
+                          />
                         </template>
                       </template>
                     </div>
                   </div>
                   <l2t-context-menu parentclass="sitebutton-{{siteidx}}-{{goalidx}}" class="orange">
                     <template is="dom-if" if="{{!is_onboarding}}">
-                      <paper-item style="text-align: left; font-weight: normal" on-click="configure_clicked" goal_name="{{goal.name}}" sitename_printable="{{goal.sitename_printable}}" is_enabled="{{goal.enabled}}" goal_description="{{goal.description}}">⚙️ Configure</paper-item>
+                      <paper-item style="text-align: left; font-weight: normal" on-click="configure_clicked" goal_name="{{goal.name}}" sitename_printable="{{goal.sitename_printable}}"
+                        is_enabled="{{goal.enabled}}" goal_description="{{goal.description}}">⚙️ Configure</paper-item>
                     </template>
-                    <paper-item style="text-align: left; font-weight: normal" on-click="remove_clicked" goal_name="{{goal.name}}" is_custom="{{goal.custom}}" goal_description="{{goal.description}}">❌ Remove</paper-item>
+                    <paper-item style="text-align: left; font-weight: normal" on-click="remove_clicked" goal_name="{{goal.name}}" is_custom="{{goal.custom}}"
+                      goal_description="{{goal.description}}">❌ Remove</paper-item>
                   </l2t-context-menu>
                 </template>
               </template>
-            </template>   
-         </template>
-      </div>  
+            </template>
+          </template>
+        </div>
+      </div>
     </div>
-  </div>
   </template>
   <script src="positive-goal-selector.js"></script>
 </dom-module>

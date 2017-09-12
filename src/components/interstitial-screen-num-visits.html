@@ -12,121 +12,132 @@
 
 <dom-module id="interstitial-screen-num-visits">
   <template>
-  <style>
-    :host {
-      position: fixed;
-      display: block;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-      background-color: #95CBEE;
-      z-index: 35000000;
+    <style>
+       :host {
+        position: fixed;
+        display: block;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #95CBEE;
+        z-index: 35000000;
 
-      --call-to-action-button-height: 38px;
-      /*--call-to-action-button-font-size: 14px;*/
-      --call-to-action-button-padding: 5px;
-      --call-to-action-button-margin: 0px 0px 10px 0px;
-    }
-
-
-    .contentContainer {
-      margin-top: 20x;
-    }
-
-    .titleText {
-     
-      font-size: 1.5em;
-      text-align: center;
-    }
-
-    #messagetext {
-      font-size: 1.3em;
-      text-align: center;
-    }
-
-    .whiteDiv {
-      position: fixed;
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-      background-color: #f2fcff;
-      opacity: 1;
-      z-index: 35000000;
-    }
-    .okButton {
-      cursor: pointer;
-      padding: 5px;
-      background-color: #415D67;      
-      color: white;
-      font-size: 14px;
-      height: 38px;
-      box-shadow: 2px 2px 2px #888888;
-    }
-
-    #logo {
-      margin-top: 10px;
-      padding-bottom: 10px;
-    }
-
-    .message-block {
-      padding-top: 20px;
-      align-self: center;
-
-    }
-
-    #paperprogress {
-      display: none;
-      margin-bottom: 10px;
-    }
-
-    #block_container
-  {
-    text-align:center;
-  }
-  #today, #visits, #spent, #min, #sec, #browsing
-  {
-    display:inline;
-  }
-
-  </style>
+        --call-to-action-button-height: 38px;
+        /*--call-to-action-button-font-size: 14px;*/
+        --call-to-action-button-padding: 5px;
+        --call-to-action-button-margin: 0px 0px 10px 0px;
+      }
 
 
-    
-  <div class="whiteDiv">   	
-    <div id="block_container" style="margin-top: 50px">
-        <div id = "today" class="timer-text" style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
-          <br>You have visited it <b>{{visits}}</b> times.   
+      .contentContainer {
+        margin-top: 20x;
+      }
+
+      .titleText {
+
+        font-size: 1.5em;
+        text-align: center;
+      }
+
+      #messagetext {
+        font-size: 1.3em;
+        text-align: center;
+      }
+
+      .whiteDiv {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #f2fcff;
+        opacity: 1;
+        z-index: 35000000;
+      }
+
+      .okButton {
+        cursor: pointer;
+        padding: 5px;
+        background-color: #415D67;
+        color: white;
+        font-size: 14px;
+        height: 38px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+
+      #logo {
+        margin-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .message-block {
+        padding-top: 20px;
+        align-self: center;
+      }
+
+      #paperprogress {
+        display: none;
+        margin-bottom: 10px;
+      }
+
+      #block_container {
+        text-align: center;
+      }
+
+      #today,
+      #visits,
+      #spent,
+      #min,
+      #sec,
+      #browsing {
+        display: inline;
+      }
+    </style>
+
+
+
+    <div class="whiteDiv">
+      <div id="block_container" style="margin-top: 50px">
+        <div id="today" class="timer-text" style="text-align:left; color: #415D67; font-size: 20px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
+          <br>You have visited it <b>{{visits}}</b> times.
         </div>
-    </div>
+      </div>
 
-    <template is="dom-if" if="{{show_quote_message}}">
-      <quote-message class="message-block"></quote-message>
-    </template>
-    <template is="dom-if" if="{{show_positive_site_trigger}}">
-      <positive-site-trigger class="message-block"></positive-site-trigger>
-    </template>
-    <template is="dom-if" if="{{show_rss_message}}">
-      <habitlab-rss-message class="message-block"></habitlab-rss-message>
-    </template>
-    <template is="dom-if" if="{{show_workpages_message}}">
-      <workpages-message class="message-block"></workpages-message>
-    </template>
-    <center><habitlab-logo-v2 id="logo"></habitlab-logo-v2><center>
-    <center><close-tab-button id="calltoactionbutton"/></center>
+      <template is="dom-if" if="{{show_quote_message}}">
+        <quote-message class="message-block"></quote-message>
+      </template>
+      <template is="dom-if" if="{{show_positive_site_trigger}}">
+        <positive-site-trigger class="message-block"></positive-site-trigger>
+      </template>
+      <template is="dom-if" if="{{show_rss_message}}">
+        <habitlab-rss-message class="message-block"></habitlab-rss-message>
+      </template>
+      <template is="dom-if" if="{{show_workpages_message}}">
+        <workpages-message class="message-block"></workpages-message>
+      </template>
+      <center>
+        <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
+        <center>
+          <center>
+            <close-tab-button id="calltoactionbutton" />
+          </center>
 
-    <div class="contentContainer">
-      <center><paper-progress id="paperprogress"></paper-progress></center>
-      <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">OK</paper-button></center>
+          <div class="contentContainer">
+            <center>
+              <paper-progress id="paperprogress"></paper-progress>
+            </center>
+            <center>
+              <paper-button id="okbutton" class="okButton" on-click="buttonclicked">OK</paper-button>
+            </center>
+          </div>
     </div>
-  </div>
 
   </template>
-  
+
   <script src="interstitial-screen-num-visits.js"></script>
 
 </dom-module>

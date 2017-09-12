@@ -4,155 +4,162 @@
 <link rel="import" href="habitlab-logo-v2.html">
 
 <dom-module id="positive-site-trigger-v2">
+
   <template>
-    <style is="custom-style">
-      :host {
-        --paper-item: {
-          font-family: Verdana, Geneva, sans-serif;
+
+    <custom-style>
+      <style is="custom-style">
+         :host {
+          --paper-item: {
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 20px;
+            font-color: #526FAB;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+            text-overflow: ellipsis;
+          }
+          ;
+          --paper-item-min-height: 36px;
+        }
+
+        #site-icon {
+          width: 20px;
+          border-radius: 5px;
+          box-shadow: 2px 2px 2px #888888;
+        }
+
+        .hdr {
+          padding: 10px;
           font-size: 20px;
-          font-color: #526FAB;
-          overflow: hidden;
-          white-space: nowrap;
-          display: block;
-          text-overflow: ellipsis;
-        };
-        --paper-item-min-height: 36px;
-      }
+          /*font-style: italic;*/
+          display: flex;
+        }
 
-      #site-icon {
-        width: 20px;
-        border-radius: 5px;
-        box-shadow: 2px 2px 2px #888888;
-      }
+        #goal {
+          padding: 10px;
+          display: table;
+          font-size: 14px;
+        }
 
-      .hdr {
-        padding: 10px;
-        font-size: 20px;
-        /*font-style: italic;*/
-        display: flex;
-      }
-      
-      #goal {
-        padding: 10px;
-        display: table;
-        font-size: 14px;
-      }
+        #goal-description {
+          display: table-cell;
+          vertical-align: middle;
+          padding-left: 10px;
+        }
 
-      #goal-description {
-        display: table-cell;
-        vertical-align: middle;
-        padding-left: 10px;
-      }
+        #trigger-container {
+          max-width: 519px;
+          min-width: 400px;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          font-family: var(--trigger-font-family);
+          border-color: var(--trigger-border-color, #ffffff);
+          border-style: var(--trigger-border-style, none);
+          border-width: var(--trigger-border-width, 0px);
+          background-color: var(--trigger-bg-color, #ffffff);
+          /* border-color: var(--trigger-border-color, #000000);
+                border-style: var(--trigger-border-style, solid);
+                border-width: var(--trigger-border-width, 2px);
+                background-color: var(--trigger-bg-color, #95CBEE);  /* or white, or rgb (0,155,55) */
+          /*box-shadow: 2px 2px 2px #888888;*/
+        }
 
-      #trigger-container {
-        max-width: 519px;
-        min-width: 400px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        font-family: var(--trigger-font-family);
-        border-color: var(--trigger-border-color, #ffffff);
-        border-style: var(--trigger-border-style, none);
-        border-width: var(--trigger-border-width, 0px);
-        background-color: var(--trigger-bg-color, #ffffff);
-        /* border-color: var(--trigger-border-color, #000000);
-        border-style: var(--trigger-border-style, solid);
-        border-width: var(--trigger-border-width, 2px);
-        background-color: var(--trigger-bg-color, #95CBEE);  /* or white, or rgb (0,155,55) */
-        /*box-shadow: 2px 2px 2px #888888;*/
-      }
+        #intro-text {
+          font-size: 20px;
+          padding-bottom: 10px;
+        }
 
-      #intro-text {
-        font-size: 20px;
-        padding-bottom: 10px;
-      }
-      .text-div {
-        font-family: Verdana, Geneva, sans-serif;
-        text-align:center;
-        color: #415D67; 
-        line-height: 150%;
-        font-size: 15px;
-      }
-      
-      #trigger-button {
-        cursor: pointer;
-        margin: 10px;
-        padding: 10px;
-        background-color: green;
-        color: white;
-        font-size: 14px;
-        box-shadow: 2px 2px 2px #888888;
-        height: 40px;
-        /* width: 140px; */
-        vertical-align: middle;
-      }
+        .text-div {
+          font-family: Verdana, Geneva, sans-serif;
+          text-align: center;
+          color: #415D67;
+          line-height: 150%;
+          font-size: 15px;
+        }
 
-      #trigger-button-div {
-        margin: 10px;
-        height: 50px;
-        display: flex; 
-        align-items: center;
-        justify-content: center;
-        text-align: center; 
-        height: 100%; 
-        width: 100%
-      }
+        #trigger-button {
+          cursor: pointer;
+          margin: 10px;
+          padding: 10px;
+          background-color: green;
+          color: white;
+          font-size: 14px;
+          box-shadow: 2px 2px 2px #888888;
+          height: 40px;
+          /* width: 140px; */
+          vertical-align: middle;
+        }
 
-      #trigger-button-div .streak-img {
-        height: 80%;
-        margin: 5px;
-      }
+        #trigger-button-div {
+          margin: 10px;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          height: 100%;
+          width: 100%
+        }
 
-      #streak-container {
-        display: table;
-        font-size: 20px;
-        margin: 10px;
-        padding: 5px 10px 5px 10px;
-        background-color:rgb(60,90,150);
-        border-radius: 5px;
-        color:white;
-        box-shadow: 2px 2px 2px #888888;
-        /*background-color: white;*/
-      }
+        #trigger-button-div .streak-img {
+          height: 80%;
+          margin: 5px;
+        }
 
-      #streak-box {
-        height: 40px;
-        width: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: left;
-        /*font-size: 20px;*/
-        /*box-shadow: 2px 2px 2px #888888;*/
-        padding: 5px;
-        background-color:rgb(60,90,150);
-        color:white; 
-        border-color: var(--trigger-streak-border-color, #ffffff);
-        border-style: var(--trigger-streak-border-style, none);
-        border-width: var(--trigger-streak-border-width, 0px);
-        /* background-color: var(--trigger-streak-bg-color, #ffffff); */
-      }
+        #streak-container {
+          display: table;
+          font-size: 20px;
+          margin: 10px;
+          padding: 5px 10px 5px 10px;
+          background-color: rgb(60, 90, 150);
+          border-radius: 5px;
+          color: white;
+          box-shadow: 2px 2px 2px #888888;
+          /*background-color: white;*/
+        }
 
-      #streak-box .streak-img {
-        height: 80%;
-        margin: 5px;
-      }
-      
-      #grey-space {
-        background-color: #e9ebee;
-        height: 12px;
-        margin-left: -1px;
-        margin-right: -1px;
-      }
-      #shadow {
-        height: 1px;
-        background-color: #1d2129;
-        opacity: 0.2;
-      }
+        #streak-box {
+          height: 40px;
+          width: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: left;
+          /*font-size: 20px;*/
+          /*box-shadow: 2px 2px 2px #888888;*/
+          padding: 5px;
+          background-color: rgb(60, 90, 150);
+          color: white;
+          border-color: var(--trigger-streak-border-color, #ffffff);
+          border-style: var(--trigger-streak-border-style, none);
+          border-width: var(--trigger-streak-border-width, 0px);
+          /* background-color: var(--trigger-streak-bg-color, #ffffff); */
+        }
 
-    </style>
+        #streak-box .streak-img {
+          height: 80%;
+          margin: 5px;
+        }
+
+        #grey-space {
+          background-color: #e9ebee;
+          height: 12px;
+          margin-left: -1px;
+          margin-right: -1px;
+        }
+
+        #shadow {
+          height: 1px;
+          background-color: #1d2129;
+          opacity: 0.2;
+        }
+      </style>
+    </custom-style>
+
     <div id="trigger-container">
       <div class="hdr">Remember your goal to {{positiveGoalStatement}}?</div>
       <!-- <div id="goal">
@@ -175,7 +182,7 @@
       </paper-button>
       <template is="dom-if" if="{{in_facebook_news_feed}}">
         <habitlab-logo-v2></habitlab-logo-v2>
-      </template>        
+      </template>
     </div>
     <template is="dom-if" if="{{in_facebook_news_feed}}">
       <div id="shadow"></div>

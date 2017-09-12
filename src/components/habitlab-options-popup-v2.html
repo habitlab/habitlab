@@ -8,45 +8,44 @@
 
 
 <dom-module id="habitlab-options-popup-v2">
-  <style>
-  .intervention-icon{
-    align: center;
-    height: 50px;
-    width: 50px;
-    margin-right: 10px;
-    border-radius:5px;
-    box-shadow: 2px 2px 2px #888888;
-    }
-
-  </style>
   <template>
+    <style>
+      .intervention-icon {
+        align: center;
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+    </style>
     <paper-dialog id="intervention_info_dialog" with-backdrop style="z-index: 9007199254740991;">
-    <!-- <h2>HabitLab Nudge Info</h2> -->
-    <div style = "display: flex; align-items: center; align-content:center;justify-content: center;">
-    <img class="intervention-icon" src="{{get_intervention_icon_url()}}"/>
-    <h2 style = "margin-right:25px;">{{intervention_name}}</h2>
-    </div>
-    <!-- <div>{{intervention_name}}</div> -->
-    <div style="text-align: left">
-      <p style= "text-align:center;">{{intervention_description}}</p>
-      <!-- <p>Goal: <span>{{goal_descriptions}}</span></p> -->
-      <div>
-        <span>Turn Off Nudge:</span>
-        <paper-button on-click="disable_temp_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of this visit</paper-button>
-        <paper-button on-click="disable_perm_callback" style="color: white; background-color: #3687D3; text-transform: none;">Permanently</paper-button>
+      <!-- <h2>HabitLab Nudge Info</h2> -->
+      <div style="display: flex; align-items: center; align-content:center;justify-content: center;">
+        <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
+        <h2 style="margin-right:25px;">{{intervention_name}}</h2>
       </div>
-      <br>
-      <div>
-        <span>Turn Off HabitLab:</span>
-        <paper-button on-click="disable_habitlab_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of today</paper-button>
+      <!-- <div>{{intervention_name}}</div> -->
+      <div style="text-align: left">
+        <p style="text-align:center;">{{intervention_description}}</p>
+        <!-- <p>Goal: <span>{{goal_descriptions}}</span></p> -->
+        <div>
+          <span>Turn Off Nudge:</span>
+          <paper-button on-click="disable_temp_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of this visit</paper-button>
+          <paper-button on-click="disable_perm_callback" style="color: white; background-color: #3687D3; text-transform: none;">Permanently</paper-button>
+        </div>
+        <br>
+        <div>
+          <span>Turn Off HabitLab:</span>
+          <paper-button on-click="disable_habitlab_callback" style="color: white; background-color: #3687D3; text-transform: none;">For the rest of today</paper-button>
+        </div>
       </div>
-    </div>
-    <div class="buttons">
-      <paper-button on-click="open_feedback_form">Submit Feedback</paper-button>
-      <paper-button on-click="open_interventions_page">HabitLab Options</paper-button>
-      <paper-button dialog-dismiss>Close</paper-button>
-    </div>
-  </paper-dialog>
+      <div class="buttons">
+        <paper-button on-click="open_feedback_form">Submit Feedback</paper-button>
+        <paper-button on-click="open_interventions_page">HabitLab Options</paper-button>
+        <paper-button dialog-dismiss>Close</paper-button>
+      </div>
+    </paper-dialog>
   </template>
   <script src="habitlab-options-popup-v2.js"></script>
 </dom-module>

@@ -8,132 +8,145 @@
 <link rel="import" href="call-to-action-button.html">
 
 <dom-module id="netflix-screen">
-  <style>
-    :host {
-      position: fixed;
-      display: block;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-      background-color: #f2fcff;
-      opacity: 1;
-      z-index: 35000000;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    }
-
-    .contentContainer {
-      margin-top: 20px;
-    }
-
-    .titleText {
-     
-      font-size: 1.5em;
-      text-align: center;
-    }
-
-    #messagetext {
-      font-size: 1.3em;
-      text-align: center;
-    }
-
-    .whiteDiv {
-      position: fixed;
-      display: flex;
-      flex-direction: column;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-      background-color: #f2fcff;
-      opacity: 1;
-      z-index: 35000000;
-    }
-    .okButton {
-      cursor: pointer;
-      padding: 5px;
-      background-color: red;      
-      color: white;
-      font-size: 14px;
-    }
-    .closeTabButton {
-      cursor: pointer;
-      padding: 5px;
-      margin-top: 10px;
-      margin-bottom: 10px; 
-      font-size: 14px;
-    }    
-    #logo {
-      
-      padding-bottom: 40px;
-    }
-
-    .message-block {
-      padding-top: 40px;
-      align-self: center;
-
-    }
-
-    #paperprogress {
-      display: none;
-      margin-bottom: 10px;
-    }
-
-    #question{
-      color: black;
-      font-size: 20px;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      /*font-weight: 250;*/
-    }
-
-    #fact{
-      color: black;
-      font-size:12px;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    }
-
-    #fact-box{
-      background-color: #E6E6FA;
-      margin-right: 300px;
-      margin-left: 300px;
-      padding: 2px;
-    }
-
-    #link{
-      font-size:12px;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    }
-
-  </style>
-
   <template>
+    <style>
+       :host {
+        position: fixed;
+        display: block;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #f2fcff;
+        opacity: 1;
+        z-index: 35000000;
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      }
+
+      .contentContainer {
+        margin-top: 20px;
+      }
+
+      .titleText {
+
+        font-size: 1.5em;
+        text-align: center;
+      }
+
+      #messagetext {
+        font-size: 1.3em;
+        text-align: center;
+      }
+
+      .whiteDiv {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #f2fcff;
+        opacity: 1;
+        z-index: 35000000;
+      }
+
+      .okButton {
+        cursor: pointer;
+        padding: 5px;
+        background-color: red;
+        color: white;
+        font-size: 14px;
+      }
+
+      .closeTabButton {
+        cursor: pointer;
+        padding: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      #logo {
+
+        padding-bottom: 40px;
+      }
+
+      .message-block {
+        padding-top: 40px;
+        align-self: center;
+      }
+
+      #paperprogress {
+        display: none;
+        margin-bottom: 10px;
+      }
+
+      #question {
+        color: black;
+        font-size: 20px;
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        /*font-weight: 250;*/
+      }
+
+      #fact {
+        color: black;
+        font-size: 12px;
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      }
+
+      #fact-box {
+        background-color: #E6E6FA;
+        margin-right: 300px;
+        margin-left: 300px;
+        padding: 2px;
+      }
+
+      #link {
+        font-size: 12px;
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      }
+    </style>
     <div class="whiteDiv">
-      
+
       <template is="dom-if" if="{{show_netflix_message}}">
         <netflix-articles class="message-block"></netflix-articles>
       </template>
 
       <div class="contentContainer">
-        <div id = "fact-box">
-          <center><p id = "question"> Did you Know? </p> </center>
-          <center><p id = "fact"> {{fact_info.text}} </p> </center>
-          <center><a href= "{{fact_info.link}}" id = "link"> Read the full article here! </a> </center>
+        <div id="fact-box">
+          <center>
+            <p id="question"> Did you Know? </p>
+          </center>
+          <center>
+            <p id="fact"> {{fact_info.text}} </p>
+          </center>
+          <center><a href="{{fact_info.link}}" id="link"> Read the full article here! </a> </center>
           <p></p>
         </div>
         <p></p>
 
-        <center><habitlab-logo-v2 id="logo"></habitlab-logo-v2><center>
-        <div id="titletext" class="titleText"></div>
-        <div id="messagetext"></div>
-        <p><p>
-        <center><paper-progress id="paperprogress"></paper-progress></center>
-        <center><call-to-action-button id="closetabbutton" class="closeTabButton"></call-to-action-button></center>
-        <center><paper-button id="okbutton" class="okButton" on-click="buttonclicked">default</paper-button></center>
+        <center>
+          <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
+          <center>
+            <div id="titletext" class="titleText"></div>
+            <div id="messagetext"></div>
+            <p>
+              <p>
+                <center>
+                  <paper-progress id="paperprogress"></paper-progress>
+                </center>
+                <center>
+                  <call-to-action-button id="closetabbutton" class="closeTabButton"></call-to-action-button>
+                </center>
+                <center>
+                  <paper-button id="okbutton" class="okButton" on-click="buttonclicked">default</paper-button>
+                </center>
       </div>
     </div>
 
   </template>
-  
+
   <script src="netflix-screen.js"></script>
 
 </dom-module>

@@ -2,23 +2,23 @@
 <link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
 
 <dom-module id="graph-daily-overview">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    h4 {
-
-      margin-bottom: 20px;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      h4 {
+
+        margin-bottom: 20px;
+      }
+    </style>
     <chart-horizontal-bar data="[[goalOverviewData]]" options="[[goalOverviewOptions]]" style="width: 500px"></chart-horizontal-bar>
   </template>
   <script src="graph-daily-overview.js"></script>

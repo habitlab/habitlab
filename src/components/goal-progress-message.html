@@ -1,105 +1,106 @@
-<head>
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-</head>
+
 <dom-module id="goal-progress-message">
   <template>
-    <style is="custom-style">
-      :host {
-        --paper-item: {
+    <custom-style>
+      <style is="custom-style">
+        :host {
+          --paper-item: {
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-size: 13px;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+            text-overflow: ellipsis;
+          };
+          --paper-item-min-height: 36px;
+        }
+        
+  
+        #rsscontainer {
+          width: 380px;
+          height: 240px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: #e6e6ff;
+        }
+  
+        #goalprogresstitle {
+          padding-top: 15px;
+          margin-bottom: 15px;
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          font-size: 13px;
+          font-size: 16px;
+        }
+  
+        .linktext {
+          
           overflow: hidden;
           white-space: nowrap;
-          display: block;
           text-overflow: ellipsis;
-        };
-        --paper-item-min-height: 36px;
-      }
-      
-
-      #rsscontainer {
-        width: 380px;
-        height: 240px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #e6e6ff;
-      }
-
-      #goalprogresstitle {
-        padding-top: 15px;
-        margin-bottom: 15px;
-        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        font-size: 16px;
-      }
-
-      .linktext {
-        
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-
-        width: 350px;
-        display: block;
-      }
-
-      a {
-        overflow: hidden;
-        white-space: nowrap;
-        width: 350px;
-        text-overflow: ellipsis;
-        display: block;
-      }
-
-      /*
-      .goalcol {
-        display: table-cell;
-        width: 100px;
-        border-spacing: 10px 10px;
-      }
-
-      .daycol {
-        display: table-cell;
-        width: 100px;
-        border-spacing: 10px 10px;
-      }
-
-      .trow {
-        display: table-row;
-        border-collapse: separate;
-      }
-      */
-
-      .table-row {
-        display: flex;
-        flex-direction: row;
-        flex-grow: 0;
-        flex-wrap: wrap;
-        width: 100%;
-        padding-left: 15px;
-        padding-right: 15px;
-      }
-
-      .goalname {
-        flex-grow: 1;
-        overflow: hidden;
-        padding-right: 20px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        width: 100px;
-      }
-
-      .showprogress {
-        flex-grow: 1;
-        overflow: hidden;
-        padding-right: 20px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        width: 100px;
-      }
-
-    </style>
+  
+          width: 350px;
+          display: block;
+        }
+  
+        a {
+          overflow: hidden;
+          white-space: nowrap;
+          width: 350px;
+          text-overflow: ellipsis;
+          display: block;
+        }
+  
+        /*
+        .goalcol {
+          display: table-cell;
+          width: 100px;
+          border-spacing: 10px 10px;
+        }
+  
+        .daycol {
+          display: table-cell;
+          width: 100px;
+          border-spacing: 10px 10px;
+        }
+  
+        .trow {
+          display: table-row;
+          border-collapse: separate;
+        }
+        */
+  
+        .table-row {
+          display: flex;
+          flex-direction: row;
+          flex-grow: 0;
+          flex-wrap: wrap;
+          width: 100%;
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+  
+        .goalname {
+          flex-grow: 1;
+          overflow: hidden;
+          padding-right: 20px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          width: 100px;
+        }
+  
+        .showprogress {
+          flex-grow: 1;
+          overflow: hidden;
+          padding-right: 20px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          width: 100px;
+        }
+  
+      </style>
+    </custom-style>
     <div id="rsscontainer">
       <div id="goalprogresstitle">Progress on your goals</div>
 

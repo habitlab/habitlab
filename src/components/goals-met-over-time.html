@@ -1,39 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
 <dom-module id="goals-met-over-time">
 
-  <style>
-    :host {
-      display: block;
-      height: 100%;
-      background: white;
-    };
-    ul {
-      list-style-type: none;
-      text-align: left;
-    }
-    .update {
-      font-size: 25px;
-      font-family:Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", 
-      "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    }
-    .date_inactive {
-      color: grey;
-    }
-    .date_active {
-      color: red;
-    }
-    .outer_wrapper {
-      text-align: center;
-    }
-    .calendar_entry {
-      display: inline-block;
-      padding: 10px;
-      border: 1px solid black;
-    }
-    .selected {
-      border: 5px solid black;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        display: block;
+        height: 100%;
+        background: white;
+      }
+
+      ;
+      ul {
+        list-style-type: none;
+        text-align: left;
+      }
+
+      .update {
+        font-size: 25px;
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light",
+        "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      }
+
+      .date_inactive {
+        color: grey;
+      }
+
+      .date_active {
+        color: red;
+      }
+
+      .outer_wrapper {
+        text-align: center;
+      }
+
+      .calendar_entry {
+        display: inline-block;
+        padding: 10px;
+        border: 1px solid black;
+      }
+
+      .selected {
+        border: 5px solid black;
+      }
+    </style>
+
     <h4> Weekly update </h4>
     <ul id="goals">
     </ul>
@@ -63,9 +74,7 @@
       <!--<template is="dom-if" if="{{is_first_day(day_idx)}}">
         This is the first day
       </template>-->
-      <div>On <b><span>{{get_day_name(day_idx)}}</span></b>,
-        you met <span>{{success_object.num_met}}</span>
-        of your <span>{{success_object.num_goals}}</span> goals.</div>
+      <div>On <b><span>{{get_day_name(day_idx)}}</span></b>, you met <span>{{success_object.num_met}}</span> of your <span>{{success_object.num_goals}}</span>        goals.</div>
 
       <template is="dom-repeat" items="{{list_of_goals}}" as="goal_info">
         <img style="width: 100px" src="{{goal_info.icon}}" />

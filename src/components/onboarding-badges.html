@@ -17,173 +17,171 @@
 <!--<link rel="import" href="badge-display-mini.html">-->
 
 <dom-module id="onboarding-badges">
-  <style>
-     :host {
-      width: 100%;      
-      text-align: center;
-
-      paper-dialog.size-position{
-        position: fixed;
-        top: 16px;
-        right: 16px;
-        width: 300px;
-        height: 300px;
-        overflow: auto;
-      }
-
-      --paper-dialog:{
-        margin:auto;
-        margin-left:0px;
-        padding-left:0px;
-        padding-right:0px;
-        padding-top:10px;
-        padding-bottom:10px;
-        margin-top: 10px;
-        /* max-height:300px;
-        max-width:600px; */
-      }
-      
-      #alignedDialog {
-        padding-left:0px;
-        padding-right:0px;
-        padding-top:10px; 
-        padding-bottom:0px;
-        margin-left:0px;
-        margin-top: 10px;
-        margin-right:0px;
-        width:230px;
-        align-content: center;
-        align-items: center;
-      }
-
-    }
-
-
-    .tooltip {
-      --paper-tooltip-opacity: 1;
-      /* --paper-tooltip-background: black; */
-      --paper-tooltip-text-color: white;
-      font-size: 16px;
-    }
-
-    .badgesContainer {
-      width: 600px;
-      margin: auto;
-      margin-top: 0px;
-      /*background-color:rgb(255,145,182);*/
-      /*border-radius:30px;*/
-      padding: 0px;
-      /*background-color:white;*/
-    }
-
-    .outerContainer {
-      display: block;
-      width: 950px;
-      margin: auto;
-      margin-top: 0px;
-      margin-bottom: 100px;
-      padding: 0px;
-      padding-bottom: 20px;
-    }
-
-    .interventionsContainer {
-      display: flex;
-      flex-wrap: wrap;
-      width: 660px;
-      margin: auto;
-      margin-top: 30px;
-      margin-left: 20px;
-      margin-bottom: 10px;
-      margin-right: 0px;
-      background-color: none; 
-      padding: 10px;
-      padding-top: 15px;
-      padding-left: 15px;
-      padding-right: 5px;
-      padding-bottom: 0px;
-      font-weight: 400;
-      font-size: 16px;
-    }
-
-    .heartsContainer {
-      display: inline-flex;
-      width: 600px;
-      margin: auto;
-      margin-left: 60px;
-      margin-top: 0px;
-      /*background-color:rgb(255,145,182);*/
-      /*border-radius:30px;*/
-      padding: 0px;
-      /*background-color:white;*/
-    }
-
-    .badges {
-      width: 130px;
-      cursor: pointer;
-      padding: 10px;
-      margin-left: 15px;
-      margin-right: 15px;
-      margin-top: 0px;
-      background-color: white;
-      border-radius: 15px;
-      box-shadow: 0px 0px 15px #346da3;
-    }
-
-    .interventions {
-      width: 100px;
-      margin-right: 10px;
-      cursor: pointer;
-      border-radius: 10px;
-      /* box-shadow: 0px 0px 20px #346da3; */
-    }
-
-    .siteicons {
-      width: 130px;
-      margin: auto;
-      margin-top: 30px;
-      margin-right: 0px;
-      cursor: pointer;
-    }
-
-    .hearts {
-      width: 80px;
-      cursor: pointer;
-      padding: 0px;
-      margin: auto;
-      margin-left: 50px;
-      margin-right: 50px;
-      margin-top: 10px;
-      /*background-color:white;*/
-      /*border-radius:15px;
-    box-shadow: 0px 0px 15px #346da3*/
-    }
-
-    .buttons{
-      margin:auto;
-      align-items: center;
-      width:225px;
-    }
-    .badges:hover {
-      opacity: 0.5;
-    }
-  </style>
-
-
-
   <template>
+    <style>
+       :host {
+        width: 100%;
+        text-align: center;
 
-    <paper-dialog class = "size-position" id="alignedDialog" style = "background-color:rgba(255,255,255,1); display: block">
+        paper-dialog.size-position {
+          position: fixed;
+          top: 16px;
+          right: 16px;
+          width: 300px;
+          height: 300px;
+          overflow: auto;
+        }
+
+        --paper-dialog: {
+          margin: auto;
+          margin-left: 0px;
+          padding-left: 0px;
+          padding-right: 0px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          margin-top: 10px;
+          /* max-height:300px;
+             max-width:600px; */
+        }
+
+        #alignedDialog {
+          padding-left: 0px;
+          padding-right: 0px;
+          padding-top: 10px;
+          padding-bottom: 0px;
+          margin-left: 0px;
+          margin-top: 10px;
+          margin-right: 0px;
+          width: 230px;
+          align-content: center;
+          align-items: center;
+        }
+      }
+
+
+      .tooltip {
+        --paper-tooltip-opacity: 1;
+        /* --paper-tooltip-background: black; */
+        --paper-tooltip-text-color: white;
+        font-size: 16px;
+      }
+
+      .badgesContainer {
+        width: 600px;
+        margin: auto;
+        margin-top: 0px;
+        /*background-color:rgb(255,145,182);*/
+        /*border-radius:30px;*/
+        padding: 0px;
+        /*background-color:white;*/
+      }
+
+      .outerContainer {
+        display: block;
+        width: 950px;
+        margin: auto;
+        margin-top: 0px;
+        margin-bottom: 100px;
+        padding: 0px;
+        padding-bottom: 20px;
+      }
+
+      .interventionsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        width: 660px;
+        margin: auto;
+        margin-top: 30px;
+        margin-left: 20px;
+        margin-bottom: 10px;
+        margin-right: 0px;
+        background-color: none;
+        padding: 10px;
+        padding-top: 15px;
+        padding-left: 15px;
+        padding-right: 5px;
+        padding-bottom: 0px;
+        font-weight: 400;
+        font-size: 16px;
+      }
+
+      .heartsContainer {
+        display: inline-flex;
+        width: 600px;
+        margin: auto;
+        margin-left: 60px;
+        margin-top: 0px;
+        /*background-color:rgb(255,145,182);*/
+        /*border-radius:30px;*/
+        padding: 0px;
+        /*background-color:white;*/
+      }
+
+      .badges {
+        width: 130px;
+        cursor: pointer;
+        padding: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-top: 0px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 0px 15px #346da3;
+      }
+
+      .interventions {
+        width: 100px;
+        margin-right: 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        /* box-shadow: 0px 0px 20px #346da3; */
+      }
+
+      .siteicons {
+        width: 130px;
+        margin: auto;
+        margin-top: 30px;
+        margin-right: 0px;
+        cursor: pointer;
+      }
+
+      .hearts {
+        width: 80px;
+        cursor: pointer;
+        padding: 0px;
+        margin: auto;
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 10px;
+        /*background-color:white;*/
+        /*border-radius:15px;
+         box-shadow: 0px 0px 15px #346da3*/
+      }
+
+      .buttons {
+        margin: auto;
+        align-items: center;
+        width: 225px;
+      }
+
+      .badges:hover {
+        opacity: 0.5;
+      }
+    </style>
+
+    <paper-dialog class="size-position" id="alignedDialog" style="background-color:rgba(255,255,255,1); display: block">
       <img class="interventions" src="{{get_intervention_icon_url(dialog_intervention)}}" />
       <h2>{{dialog_intervention.displayname}}</h2>
       <p>{{dialog_intervention.displayname}} {{dialog_intervention.description}}</p>
-      
-      <div class="buttons" >
-        <div style = "align-self:center; width:150px;border:transparent;">
+
+      <div class="buttons">
+        <div style="align-self:center; width:150px;border:transparent;">
           <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
-          <paper-tooltip for="pill_selector" animation-delay="0">Each time you visit <span>{{dialog_intervention.sitename}}</span>,<br>HabitLab will show one of the<br>nudges turned 'On'.</paper-tooltip>
+          <paper-tooltip for="pill_selector" animation-delay="0">Each time you visit <span>{{dialog_intervention.sitename}}</span>,<br>HabitLab will show one of the<br>nudges turned
+            'On'.</paper-tooltip>
         </div>
-        <div style = "align-self:center; vertical-align:middle; width:75px; margin-right: 0px; border: transparent;">    
-        <paper-button class="try-now-button" on-click="preview_intervention" >Try now</paper-button>
+        <div style="align-self:center; vertical-align:middle; width:75px; margin-right: 0px; border: transparent;">
+          <paper-button class="try-now-button" on-click="preview_intervention">Try now</paper-button>
         </div>
       </div>
 
@@ -207,7 +205,7 @@
     </div> -->
       <div>
 
-        <div class="outerContainer" >
+        <div class="outerContainer">
 
           <div style="display:inline-flex; padding-bottom: 0px;">
 
@@ -221,7 +219,8 @@
               <template is="dom-repeat" items="{{generic_interventions_info}}" as="intervention">
                 <div style="display:block;">
                   <div>
-                    <img class="interventions" intervention_info="{{intervention}}" goal_info = "{{goal}}" src="{{get_intervention_icon_url(intervention)}}" on-click = "openBy" />
+                    <img class="interventions" intervention_info="{{intervention}}" goal_info="{{goal}}" src="{{get_intervention_icon_url(intervention)}}"
+                      on-click="openBy" />
                     <div style="position:relative; left:0px; top:8px; color: white;max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
                   </div>
                   <paper-tooltip class="tooltip" offset="10px" animation-delay="0">{{intervention.description}}</paper-tooltip>
@@ -231,8 +230,10 @@
 
               <div style="display:block;">
                 <div style="width: 100px; height: 100px; position: relative">
-                  <img class="interventions" style="width: 100px; height: 100px; position: absolute; top: 0; left: 0; opacity: 0.3; filter: brightness(30%)" src="{{generic_url}}" />
-                  <img class="interventions" style="width: 100px; height: 100px; position: absolute; top: 0; left: 0; opacity: 1.0" src="{{unlock_icon_url}}" />
+                  <img class="interventions" style="width: 100px; height: 100px; position: absolute; top: 0; left: 0; opacity: 0.3; filter: brightness(30%)"
+                    src="{{generic_url}}" />
+                  <img class="interventions" style="width: 100px; height: 100px; position: absolute; top: 0; left: 0; opacity: 1.0" src="{{unlock_icon_url}}"
+                  />
                 </div>
                 <img class="interventions" src="{{generic_unlock_icon_url}}" />
                 <div style="display: flex; flex-wrap:nowrap; justify-content:center;align-content:flex-start;align-items:flex-start;">
@@ -254,7 +255,7 @@
                   <div>
                     <img class="siteicons" src="{{goal.icon}}" style="box-shadow: 0px 0px 20px #346da3; border-radius: 10px" />
                     <div style="position:relative;left:0px; top:0px;color: white; width:110px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; margin:auto;text-align:center;font-size:22px;">
-                    {{goal.sitename_printable}} </div>
+                      {{goal.sitename_printable}} </div>
                   </div>
                   <paper-tooltip class="tooltip" offset="10px" animation-delay="0">These are some Nudges you can use on {{goal.sitename_printable}}!</paper-tooltip>
                 </div>
@@ -264,7 +265,8 @@
                     as="intervention">
                     <div style="display:block">
                       <div>
-                        <img class="interventions" intervention_info="{{intervention}}" goal_info = "{{goal}}" src="{{get_intervention_icon_url(intervention)}}" on-click = "openBy" />
+                        <img class="interventions" intervention_info="{{intervention}}" goal_info="{{goal}}" src="{{get_intervention_icon_url(intervention)}}"
+                          on-click="openBy" />
                         <div style="position:relative; left:0px; top:8px; color: white;max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
                       </div>
                       <paper-tooltip class="tooltip" offset="10px" animation-delay="0">{{intervention.description}}</paper-tooltip>
@@ -273,8 +275,10 @@
 
                   <div style="display:block;">
                     <div style="width: 100px; height: 100px; position: relative">
-                      <img class="interventions" style="width: 100px; height: 100px; position: absolute; top: 0; left: 0; opacity: 0.3; filter: brightness(30%);" src="{{goal.icon}}" />
-                      <img class="interventions" style="width: 100px; height: 100px; position: absolute; top: 0; left: 0; opacity: 1.0" src="{{unlock_icon_url}}" />
+                      <img class="interventions" style="width: 100px; height: 100px; position: absolute; top: 0; left: 0; opacity: 0.3; filter: brightness(30%);"
+                        src="{{goal.icon}}" />
+                      <img class="interventions" style="width: 100px; height: 100px; position: absolute; top: 0; left: 0; opacity: 1.0" src="{{unlock_icon_url}}"
+                      />
                     </div>
                     <div style="display: flex; flex-wrap:nowrap; justify-content:center;align-content:flex-start;align-items:flex-start;">
                       <img style="width:28px;height:28px;" src="{{heart_empty_url}}" />

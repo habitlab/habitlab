@@ -7,14 +7,14 @@
 -->
 
 <dom-module id="intervention-parameter-view">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
     <template is="dom-if" if="{{is_parameter_type_bool(parameter)}}">
       <paper-checkbox id="parameter_checkbox_input" on-change="parameter_checkbox_value_changed">{{parameter.description}}</paper-checkbox>
     </template>
@@ -27,7 +27,8 @@
       <paper-textarea style="font-family: monospace" id="parameter_textarea_input" label="{{parameter.description}}" on-input="parameter_textarea_value_changed"></paper-textarea>
     </template>
     <template is="dom-if" if="{{is_parameter_singleline(parameter)}}">
-      <paper-input style="font-family: monospace" id="parameter_input" auto-validate error-message="{{get_error_message(parameter)}}" pattern="{{get_validation_pattern(parameter)}}" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
+      <paper-input style="font-family: monospace" id="parameter_input" auto-validate error-message="{{get_error_message(parameter)}}"
+        pattern="{{get_validation_pattern(parameter)}}" label="{{parameter.description}}" on-input="parameter_value_changed"></paper-input>
     </template>
   </template>
   <script src="intervention-parameter-view.js"></script>

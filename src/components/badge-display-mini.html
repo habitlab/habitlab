@@ -1,57 +1,61 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <dom-module id="badge-display-mini">
-  <style>
-    :host {
-      opacity: 1;
-      background-color: white;
-      color: black;
-    }
-    .badge_mini_wrapper {
-      background-color: white;
-      color: black;
-      text-align: center;
-      font-size: 20px;
-      display: inline-block;
-    }
-    .badge_unlocked_header_text {
-      background-color: #5E9CD3;
-      display: inline-block;
-      padding: 10px;
-      border-radius: 5px;
-      color: white;
-      /* border-color: #43729A; */
-      /* border-width: 1px; */
-      /* border-style: solid; */
-      /* text-shadow: 1px 1px black; */
-    }
-    .badge_unlocked_bottom_text {
-      margin-top:10px;
-      background-color: rgb(108,180,220);
-      box-shadow: 2px 2px 2px #888888;
-      display: inline-block;
-      padding: 5px;
-      border-radius: 10px;
-      color: white;
-      /* border-color: #43729A; */
-      /* border-width: 1px;
-      border-style: solid;
-      text-shadow: 1px 1px black; */
-      width: 130px;
-    }
-    .center_badge_display {
-      width: 130px;
-      height: 130px;
-      border-radius: 10px;
-      border-color: green;
-      border-width: 0px;
-      border-style: solid;
-      background-color: rgba(55,210,115,1);
-      display: inline-block;
-      box-shadow: 2px 2px 2px #888888;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        opacity: 1;
+        background-color: white;
+        color: black;
+      }
+
+      .badge_mini_wrapper {
+        background-color: white;
+        color: black;
+        text-align: center;
+        font-size: 20px;
+        display: inline-block;
+      }
+
+      .badge_unlocked_header_text {
+        background-color: #5E9CD3;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+        color: white;
+        /* border-color: #43729A; */
+        /* border-width: 1px; */
+        /* border-style: solid; */
+        /* text-shadow: 1px 1px black; */
+      }
+
+      .badge_unlocked_bottom_text {
+        margin-top: 10px;
+        background-color: rgb(108, 180, 220);
+        box-shadow: 2px 2px 2px #888888;
+        display: inline-block;
+        padding: 5px;
+        border-radius: 10px;
+        color: white;
+        /* border-color: #43729A; */
+        /* border-width: 1px;
+            border-style: solid;
+            text-shadow: 1px 1px black; */
+        width: 130px;
+      }
+
+      .center_badge_display {
+        width: 130px;
+        height: 130px;
+        border-radius: 10px;
+        border-color: green;
+        border-width: 0px;
+        border-style: solid;
+        background-color: rgba(55, 210, 115, 1);
+        display: inline-block;
+        box-shadow: 2px 2px 2px #888888;
+      }
+    </style>
     <div class="badge_mini_wrapper">
       <div class="center_badge_display">
         <img src="{{badge_details.img_url}}" style="margin-top:15px; height: 100px"></img>
@@ -61,7 +65,7 @@
           <div><span>{{badge_details.name}}</span></div>
           <!-- <div><span>{{badge_details.time_message}}</span></div> -->
         </div>
-        <div style = "color:gray; font-size:15px;margin-top:5px;"><span>{{badge_details.time_message}}</span></div>
+        <div style="color:gray; font-size:15px;margin-top:5px;"><span>{{badge_details.time_message}}</span></div>
       </div>
     </div>
   </template>

@@ -15,50 +15,57 @@
 <link rel="import" href="graph-intervention-effectiveness-comparison.html">
 
 <dom-module id="dashboard-view-v2">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      --paper-card: {
-        width: 100%;
-        padding: 20px 20px;
-        margin-top: 0px;
-      };
-    }
-    .container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .title {
-      font-size: 38px;
-      margin-top: 0.3em;
-      margin-bottom: 20px;
-    }
-    .description {
-      font-size: 2.2em;
-      margin-top: 0.8em;
-    }
-    .buttons {
-      text-align: center;
-      padding-top: 3em;
-      padding-bottom: 3em;
-    }
-    button {
-      position: absolute;
-      left: 50%;
-      cursor: pointer;
-      transform: translateX(-50%) translateY(-50%);
-      font-size: 1em;
-    }
-    hr {
-      margin-top: 2em;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        --paper-card: {
+          width: 100%;
+          padding: 20px 20px;
+          margin-top: 0px;
+        }
+        ;
+      }
+
+      .container {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .title {
+        font-size: 38px;
+        margin-top: 0.3em;
+        margin-bottom: 20px;
+      }
+
+      .description {
+        font-size: 2.2em;
+        margin-top: 0.8em;
+      }
+
+      .buttons {
+        text-align: center;
+        padding-top: 3em;
+        padding-bottom: 3em;
+      }
+
+      button {
+        position: absolute;
+        left: 50%;
+        cursor: pointer;
+        transform: translateX(-50%) translateY(-50%);
+        font-size: 1em;
+      }
+
+      hr {
+        margin-top: 2em;
+      }
+    </style>
     <div class="container">
       <div class="title" style="color: white ">HabitLab Overview</div>
 
@@ -84,7 +91,9 @@
 
           <iron-pages selected="{{selected_goal_view}}">
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
-              <div><site-goal-view-v2 site="{{site_info.sitename}}"></site-goal-view-v2></div>
+              <div>
+                <site-goal-view-v2 site="{{site_info.sitename}}"></site-goal-view-v2>
+              </div>
             </template>
           </iron-pages>
         </div>
@@ -92,7 +101,8 @@
 
       <paper-card>
         <div class="card-content">
-          <paper-tabs id="graphsOfInterventionEffectivenessTab" style="width: 100%;" selected="{{selected_intervention_effectiveness_idx}}" scrollable>
+          <paper-tabs id="graphsOfInterventionEffectivenessTab" style="width: 100%;" selected="{{selected_intervention_effectiveness_idx}}"
+            scrollable>
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
               <paper-tab>{{site_info.sitename_printable}}</paper-tab>
             </template>
@@ -102,7 +112,7 @@
           <iron-pages selected="{{selected_intervention_effectiveness_idx}}">
             <template is="dom-repeat" items="{{site_info_list}}" as="site_info">
               <div>
-                <div style = "font-size: 22px; color:#5a5a5a; margin-bottom:10px;">{{site_info.sitename_printable}} Nudge Effectiveness</div>
+                <div style="font-size: 22px; color:#5a5a5a; margin-bottom:10px;">{{site_info.sitename_printable}} Nudge Effectiveness</div>
                 <br>
                 <graph-intervention-effectiveness-comparison goal_info="{{first_elem(site_info.goals)}}"></graph-intervention-effectiveness-comparison>
               </div>

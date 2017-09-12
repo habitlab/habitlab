@@ -10,111 +10,112 @@
 <link rel="import" href="time-selector-dialog.html">
 
 <dom-module id="netflix-alarm-screen">
-  <style is="custom-style">
-    :host {
-      position: fixed;
-      display: block;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-      background-color:rgba(0,0,0,0.5) /* #f2fcff*/;
-      z-index: 35000000;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      font-size: 12px;
-      --paper-input-container-input: {
-        font-size: 28px;
-        text-indent: 20px;
-      }
-    }
-
-    .contentContainer {
-      margin-top: 30px;
-    }
-
-    .titleText {
-
-      font-size: 1.5em;
-      text-align: center;
-    }
-
-    #messagetext {
-      font-size: 1.3em;
-      text-align: center;
-    }
-
-    .whiteDiv {
-      position: fixed;
-      display: flex;
-      flex-direction: column;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0);
-      opacity: 1;
-      z-index: 35000000;
-    }
-
-    .closeTabButton {
-      cursor: pointer;
-      padding: 5px;
-      margin-top: 10px;
-      margin-bottom: 10px; 
-      font-size: 14px;
-    }
-
-    
-        
-    #logo {
-      
-    }
-
-    .message-block {
-      padding-top: 30px;
-      align-self: center;
-    }
-
-    #paperprogress {
-      display: none;
-      margin-bottom: 10px;
-    }
-    #title{
-      padding-top: 0px;
-      padding-bottom: 0px;
-      margin: auto;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      color: white;
-      font-size: 30px;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      /*font-weight: 250;*/
-    }
-
-    #time{
-      padding-top: 0px;
-      padding-bottom: 0px;
-      color: black; 
-      font-size: 40px;
-      font-family: "Lucidia Grande","HelveticaNeue-Light",sans-serif; 
-    }
-
-    #fact-box{
-      background-color:rgba(149, 203, 238, 0.95);/* #95CBEE;*/
-      opacity:1;
-      margin-right: 350px;
-      margin-left: 350px;
-      padding: 2px;
-    }
-
-    #link{
-      font-size:12px;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    }
-
-  </style>
-
   <template>
+    <custom-style>
+      <style is="custom-style">
+        :host {
+          position: fixed;
+          display: block;
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          background-color:rgba(0,0,0,0.5) /* #f2fcff*/;
+          z-index: 35000000;
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-size: 12px;
+          --paper-input-container-input: {
+            font-size: 28px;
+            text-indent: 20px;
+          }
+        }
+  
+        .contentContainer {
+          margin-top: 30px;
+        }
+  
+        .titleText {
+  
+          font-size: 1.5em;
+          text-align: center;
+        }
+  
+        #messagetext {
+          font-size: 1.3em;
+          text-align: center;
+        }
+  
+        .whiteDiv {
+          position: fixed;
+          display: flex;
+          flex-direction: column;
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0,0,0,0);
+          opacity: 1;
+          z-index: 35000000;
+        }
+  
+        .closeTabButton {
+          cursor: pointer;
+          padding: 5px;
+          margin-top: 10px;
+          margin-bottom: 10px; 
+          font-size: 14px;
+        }
+  
+        
+            
+        #logo {
+          
+        }
+  
+        .message-block {
+          padding-top: 30px;
+          align-self: center;
+        }
+  
+        #paperprogress {
+          display: none;
+          margin-bottom: 10px;
+        }
+        #title{
+          padding-top: 0px;
+          padding-bottom: 0px;
+          margin: auto;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          color: white;
+          font-size: 30px;
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          /*font-weight: 250;*/
+        }
+  
+        #time{
+          padding-top: 0px;
+          padding-bottom: 0px;
+          color: black; 
+          font-size: 40px;
+          font-family: "Lucidia Grande","HelveticaNeue-Light",sans-serif; 
+        }
+  
+        #fact-box{
+          background-color:rgba(149, 203, 238, 0.95);/* #95CBEE;*/
+          opacity:1;
+          margin-right: 350px;
+          margin-left: 350px;
+          padding: 2px;
+        }
+  
+        #link{
+          font-size:12px;
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        }
+  
+      </style>
+    </custom-style>
     
     <div class="whiteDiv">
       

@@ -5,68 +5,70 @@
 
 <dom-module id="interstitial-screen-positive-trigger">
   <template>
-    <style is="custom-style">
-      :host {
-        --paper-item: {
-          font-family: Verdana, Geneva, sans-serif;
-          font-size: 20px;
-          font-color: #526FAB;
-          overflow: hidden;
-          white-space: nowrap;
-          display: block;
-          text-overflow: ellipsis;
-        };
-        --paper-item-min-height: 36px;
-        --trigger-bg-color: #f2fcff;
-        --trigger-border-style: solid;
-        --trigger-border-width: 2px;
-        --trigger-border-color: #000000;
-      }
-
-      .white-div {
-        position: fixed;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        align-items: center;
-        top: 0%;
-        left: 0%;
-        width: 100%;
-        height: 100%;
-        background-color: #f2fcff;
-        opacity: 1;
-        z-index: 35000000;
-      }
-
-      #intro-text {
-        font-size: 20px;
-      }
-
-      .text-div {
-        font-family: Verdana, Geneva, sans-serif;
-        text-align:center;
-        color: #415D67; 
-        line-height: 150%;
-        font-size: 15px;
-      }
-
-      .okButton {
-        cursor: pointer;
-        margin: 10px;
-        background-color: #415D67;      
-        color: white;
-        font-size: 14px;
-        height: 38px;
-        box-shadow: 2px 2px 2px #888888;
-      }
-
-      #logo {
-        margin: 10px;
-      }
-      
-
-    </style>
+    <custom-style>
+      <style is="custom-style">
+          :host {
+            --paper-item: {
+              font-family: Verdana, Geneva, sans-serif;
+              font-size: 20px;
+              font-color: #526FAB;
+              overflow: hidden;
+              white-space: nowrap;
+              display: block;
+              text-overflow: ellipsis;
+            };
+            --paper-item-min-height: 36px;
+            --trigger-bg-color: #f2fcff;
+            --trigger-border-style: solid;
+            --trigger-border-width: 2px;
+            --trigger-border-color: #000000;
+          }
+  
+          .white-div {
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: #f2fcff;
+            opacity: 1;
+            z-index: 35000000;
+          }
+  
+          #intro-text {
+            font-size: 20px;
+          }
+  
+          .text-div {
+            font-family: Verdana, Geneva, sans-serif;
+            text-align:center;
+            color: #415D67; 
+            line-height: 150%;
+            font-size: 15px;
+          }
+  
+          .okButton {
+            cursor: pointer;
+            margin: 10px;
+            background-color: #415D67;      
+            color: white;
+            font-size: 14px;
+            height: 38px;
+            box-shadow: 2px 2px 2px #888888;
+          }
+  
+          #logo {
+            margin: 10px;
+          }
+          
+  
+        </style>
+    </custom-style>
     <div class="white-div text-div">
       <positive-site-trigger-v2 goal="{{positiveGoal}}"></positive-site-trigger-v2>
       <div class="contentContainer">

@@ -2,21 +2,22 @@
 <link rel="import" href="feedback-form.html">
 
 <dom-module id="feedback-button">
-  <style>
-    :host {
-      display: inline-block;
-      height: 38px;
-    }
-    .feedback_button {
-      color: white;
-      background-color: #415D67;
-      margin: 0 auto;
-      width: 100%;
-      height: 100%;
-      box-shadow: 2px 2px 2px #888888;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        display: inline-block;
+        height: 38px;
+      }
+
+      .feedback_button {
+        color: white;
+        background-color: #415D67;
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+        box-shadow: 2px 2px 2px #888888;
+      }
+    </style>
 
     <paper-button class="feedback_button" on-click="feedback_button_clicked">{{text}}</paper-button>
 

@@ -2,23 +2,22 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="update-check">
-  
+
   <template>
 
     <style>
-    .card-content {
-      font-size: 20px;
-    }
+      .card-content {
+        font-size: 20px;
+      }
 
-    .button {
-      color: white;
-      background-color: #415D67;
-      padding: 5px;
-      font-size: 16px;
-      text-transform: none;
-      -webkit-font-smoothing: subpixel-antialiased;
-    }
-
+      .button {
+        color: white;
+        background-color: #415D67;
+        padding: 5px;
+        font-size: 16px;
+        text-transform: none;
+        -webkit-font-smoothing: subpixel-antialiased;
+      }
     </style>
 
     <div class="card-content">
@@ -35,27 +34,29 @@
         <div>You are running an unofficial release.</div>
         <div>To get updates, uninstall HabitLab and <a href="https://habitlab.github.io/chrome">install the stable release</a></div>
       </template>
-        <template is="dom-if" if="{{is_update_available_or_installable}}">
-          <div>A new version of HabitLab is available ({{available_update_version}})</div>
-          <template is="dom-if" if="{{is_update_installable}}">
-            <div style="height: 10px"></div>
-            <paper-button class="button" on-click="install_update_now">Install Update Now</paper-button>
-          </template>
-          <template is="dom-if" if="{{!is_update_installable}}">
-            <div>Chrome will automatically install the update within a few hours. Or you can force an update by going to <span style="font-family: Courier New, Courier, monospace">chrome://extensions</span> checking <span style="font-family: Courier New, Courier, monospace">Developer Mode</span> and clicking <span style="font-family: Courier New, Courier, monospace">Update Extensions Now</span>.</div>
-          </template>
-        </template>
-        <template is="dom-if" if="{{!is_update_available_or_installable}}">
-          <template is="dom-if" if="{{have_checked_for_updates}}">
-            <template is="dom-if" if="{{!is_update_available}}">
-              <div>You are running the latest version of HabitLab</div>
-            </template>
-          </template>
+      <template is="dom-if" if="{{is_update_available_or_installable}}">
+        <div>A new version of HabitLab is available ({{available_update_version}})</div>
+        <template is="dom-if" if="{{is_update_installable}}">
           <div style="height: 10px"></div>
-          <paper-button class="button" on-click="check_for_updates_now">{{check_for_updates_button_text}}</paper-button>
+          <paper-button class="button" on-click="install_update_now">Install Update Now</paper-button>
+        </template>
+        <template is="dom-if" if="{{!is_update_installable}}">
+          <div>Chrome will automatically install the update within a few hours. Or you can force an update by going to <span style="font-family: Courier New, Courier, monospace">chrome://extensions</span>            checking <span style="font-family: Courier New, Courier, monospace">Developer Mode</span> and clicking
+            <span
+              style="font-family: Courier New, Courier, monospace">Update Extensions Now</span>.</div>
         </template>
       </template>
-    </div>
+      <template is="dom-if" if="{{!is_update_available_or_installable}}">
+        <template is="dom-if" if="{{have_checked_for_updates}}">
+          <template is="dom-if" if="{{!is_update_available}}">
+            <div>You are running the latest version of HabitLab</div>
+          </template>
+        </template>
+        <div style="height: 10px"></div>
+        <paper-button class="button" on-click="check_for_updates_now">{{check_for_updates_button_text}}</paper-button>
+      </template>
+  </template>
+  </div>
   </template>
   <script src="update-check.js"></script>
 </dom-module>

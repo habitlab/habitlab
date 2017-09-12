@@ -1,67 +1,66 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="pill-button-group">
-  <style>
-    :host {
-      display: inline-block;
-    }
-
-    .paperpillbutton {
-      font-size: 12px;
-      display: inline-block;
-      margin: 0;
-      -webkit-font-smoothing: subpixel-antialiased;
-      text-align: center;
-      text-transform: none;
-      border: 1px solid #d4d4d4;
-    }
-
-    .paperpillbutton:not(.paperpillbuttonselected) {
-      background-color: #ececec;
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
-      background-image: -moz-linear-gradient(#f4f4f4, #ececec);
-      background-image: -ms-linear-gradient(#f4f4f4, #ececec);
-      background-image: -o-linear-gradient(#f4f4f4, #ececec);
-      background-image: linear-gradient(#f4f4f4, #ececec);
-      -moz-background-clip: padding;
-      background-clip: padding-box;
-    }
-
-    .paperpillbutton.paperpillbuttonselected {
-      border-color: #3072b3;
-      border-bottom-color: #2a65a0;
-      text-decoration: none;
-      text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
-      color: #fff;
-      background-color: #3c8dde;
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
-      background-image: -moz-linear-gradient(#599bdc, #3072b3);
-      background-image: -o-linear-gradient(#599bdc, #3072b3);
-      background-image: linear-gradient(#599bdc, #3072b3);
-    }
-
-    .paperpillbutton.paperpillbuttonfirst {
-      border-top-left-radius: 50em;
-      border-bottom-left-radius: 50em;
-      border-top-right-radius: 0em;
-      border-bottom-right-radius: 0em;
-    }
-
-    .paperpillbutton.paperpillbuttonmiddle {
-      border-radius: 0em;
-      margin-left: -1px;
-    }
-
-    .paperpillbutton.paperpillbuttonlast {
-      margin-left: -1px;
-      border-top-right-radius: 50em;
-      border-bottom-right-radius: 50em;
-      border-top-left-radius: 0em;
-      border-bottom-left-radius: 0em;
-    }
-
-  </style>
   <template>
+    <style>
+       :host {
+        display: inline-block;
+      }
+
+      .paperpillbutton {
+        font-size: 12px;
+        display: inline-block;
+        margin: 0;
+        -webkit-font-smoothing: subpixel-antialiased;
+        text-align: center;
+        text-transform: none;
+        border: 1px solid #d4d4d4;
+      }
+
+      .paperpillbutton:not(.paperpillbuttonselected) {
+        background-color: #ececec;
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
+        background-image: -moz-linear-gradient(#f4f4f4, #ececec);
+        background-image: -ms-linear-gradient(#f4f4f4, #ececec);
+        background-image: -o-linear-gradient(#f4f4f4, #ececec);
+        background-image: linear-gradient(#f4f4f4, #ececec);
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+      }
+
+      .paperpillbutton.paperpillbuttonselected {
+        border-color: #3072b3;
+        border-bottom-color: #2a65a0;
+        text-decoration: none;
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+        color: #fff;
+        background-color: #3c8dde;
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
+        background-image: -moz-linear-gradient(#599bdc, #3072b3);
+        background-image: -o-linear-gradient(#599bdc, #3072b3);
+        background-image: linear-gradient(#599bdc, #3072b3);
+      }
+
+      .paperpillbutton.paperpillbuttonfirst {
+        border-top-left-radius: 50em;
+        border-bottom-left-radius: 50em;
+        border-top-right-radius: 0em;
+        border-bottom-right-radius: 0em;
+      }
+
+      .paperpillbutton.paperpillbuttonmiddle {
+        border-radius: 0em;
+        margin-left: -1px;
+      }
+
+      .paperpillbutton.paperpillbuttonlast {
+        margin-left: -1px;
+        border-top-right-radius: 50em;
+        border-bottom-right-radius: 50em;
+        border-top-left-radius: 0em;
+        border-bottom-left-radius: 0em;
+      }
+    </style>
 
     <div style="font-size: 0">
       <template is="dom-repeat" items="{{buttons}}" as="button">

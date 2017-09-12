@@ -8,9 +8,10 @@
 <link rel="import" href="call-to-action-button.html">
 
 <dom-module id="time-selector-dialog">
-  <style>
-  </style>
   <template>
+    <style>
+
+    </style>
 
     <paper-dialog id="start-dialog" class="paper-time-picker-dialog" modal on-iron-overlay-closed="dismiss_dialog">
       <paper-time-picker id="start-picker" time="9:00 AM"></paper-time-picker>
@@ -19,7 +20,7 @@
         <paper-button dialog-confirm>OK</paper-button>
       </div>
     </paper-dialog>
-  
+
   </template>
   <script src="time-selector-dialog.js"></script>
 

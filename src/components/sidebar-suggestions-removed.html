@@ -4,39 +4,41 @@
 
 
 <dom-module id="sidebar-suggestions-removed">
-  <style>
-    :host {
-      /*display: flex;*/
-    }
-    #outerdiv {
-      background-color: rgb(31,31,31);
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      display:table
-    }
-    #button_container {
-      display: table-cell;
-      vertical-align: middle;
-    }
-    #show_sidebar_button{
-      background-color: #415D67;
-      color: white;
-      -webkit-font-smoothing: antialiased;
-      font-size: 14px;
-      box-shadow: 2px 2px 2px #888888;
-      margin-top: 10px;
-    }
-
-  </style>
   <template>
+    <style>
+       :host {
+        /*display: flex;*/
+      }
+
+      #outerdiv {
+        background-color: rgb(31, 31, 31);
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        display: table
+      }
+
+      #button_container {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      #show_sidebar_button {
+        background-color: #415D67;
+        color: white;
+        -webkit-font-smoothing: antialiased;
+        font-size: 14px;
+        box-shadow: 2px 2px 2px #888888;
+        margin-top: 10px;
+      }
+    </style>
     <div id="outerdiv">
       <div id="button_container">
-    <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
-    <br></br>
-    <paper-button on-click="show_sidebar_button_clicked" id="show_sidebar_button">Show Sidebar</paper-button>
-  </div>
-</div>
+        <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
+        <br></br>
+        <paper-button on-click="show_sidebar_button_clicked" id="show_sidebar_button">Show Sidebar</paper-button>
+      </div>
+    </div>
   </template>
   <script src="sidebar-suggestions-removed.js"></script>
 </dom-module>

@@ -4,20 +4,21 @@
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <dom-module id="options-dev">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
     <div style="margin: 10px">
       <paper-card style="padding: 10px">
         <template is="dom-repeat" items="{{categories_and_option_info}}" as="category_and_option_info">
           <h3>{{category_and_option_info.category}}</h3>
           <template is="dom-repeat" items="{{category_and_option_info.options}}" as="option">
-            <paper-toggle-button checked="{{option.value}}" option_name="{{option.name}}" on-change="option_changed"><span>{{option.description}}</span> <span style="font-family: monospace">[<span>{{option.name}}</span>]</span></paper-toggle-button>
+            <paper-toggle-button checked="{{option.value}}" option_name="{{option.name}}" on-change="option_changed"><span>{{option.description}}</span> <span style="font-family: monospace">[<span>{{option.name}}</span>]</span>
+            </paper-toggle-button>
             <br>
           </template>
         </template>

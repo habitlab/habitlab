@@ -2,26 +2,29 @@
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 <dom-module id="reward-display-toast">
-  <style>
-    :host {
-      z-index: 9007199254740991;
-    }
-    #reward_display_toast_real  {
-      width: 350px;
-      height: 250px;
-      z-index: 9007199254740991;
-    }
-    #rewardvideocontainer {
-      text-align: center;
-    }
-    #rewardvideo {
-      display: inline-block;
-      margin-top: 10px;
-      max-width: calc(350px - 48px);
-      max-height: calc(250px - 70px);
-    }
-  </style>
   <template>
+    <style>
+       :host {
+        z-index: 9007199254740991;
+      }
+
+      #reward_display_toast_real {
+        width: 350px;
+        height: 250px;
+        z-index: 9007199254740991;
+      }
+
+      #rewardvideocontainer {
+        text-align: center;
+      }
+
+      #rewardvideo {
+        display: inline-block;
+        margin-top: 10px;
+        max-width: calc(350px - 48px);
+        max-height: calc(250px - 70px);
+      }
+    </style>
     <paper-toast id="reward_display_toast_real" vertical-align="top" horizontal-align="right" duration="0">
       <div style="text-align: center; font-size: 20px">You saved {{time_saved_message}}</div>
       <div id="rewardvideocontainer">

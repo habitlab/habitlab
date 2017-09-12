@@ -7,19 +7,18 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
 <dom-module id="goal-progress-view">
-  <style>
-    :host {
-      display: block;
-      height: 100%;
-      width: 100%;
-    }
-    
-  </style>
   <template>
-      <template is="dom-if" if="{{!loaded}}">
-        <paper-spinner id="loading-spinner" active></paper-spinner>
-      </template>
-      <chart-line data="[[data]]" options="[[options]]" style="width: 100%"></chart-line>
+    <style>
+       :host {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <template is="dom-if" if="{{!loaded}}">
+      <paper-spinner id="loading-spinner" active></paper-spinner>
+    </template>
+    <chart-line data="[[data]]" options="[[options]]" style="width: 100%"></chart-line>
   </template>
   <script src="goal-progress-view.js"></script>
 </dom-module>

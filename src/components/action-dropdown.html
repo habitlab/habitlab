@@ -6,26 +6,28 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="action-dropdown">
-  <style is="custom-style">
-    :host {
-      --paper-button-flat-keyboard-focus: {
-          font-weight: normal;
-        };
-
-        --paper-button-raised-keyboard-focus: {
-          font-weight: normal;
-        };
-    } 
-    .dropdown-trigger {
-      background-color: white;
-      @apply --paper-menu-button-dropdown
-    }
-    .dropdown-content {
-      /* min-width: 500px; */
-      @apply --paper-menu-button-content
-    }
-  </style>
   <template>
+    <custom-style>
+      <style is="custom-style">
+        :host {
+          --paper-button-flat-keyboard-focus: {
+              font-weight: normal;
+            };
+  
+            --paper-button-raised-keyboard-focus: {
+              font-weight: normal;
+            };
+        } 
+        .dropdown-trigger {
+          background-color: white;
+          @apply --paper-menu-button-dropdown
+        }
+        .dropdown-content {
+          /* min-width: 500px; */
+          @apply --paper-menu-button-content
+        }
+      </style>
+    </custom-style>
  
   <paper-menu-button>
     <paper-button class="dropdown-trigger" raised>

@@ -26,11 +26,15 @@ export import_dom_modules = (element_dom, options) !->
   for element_dom_parsed in element_dom_parsed_list
     if not element_dom_parsed?
       continue
-    if element_dom_parsed.nodeName.toLowerCase() == 'dom-module'
+    nodename = element_dom_parsed.nodeName.toLowerCase()
+    if nodename == 'dom-module'
       recreateDomModule(element_dom_parsed, options)
-    if element_dom_parsed.nodeName.toLowerCase() == 'style'
+    else if nodename == 'custom-style' and element_dom_parsed.firstChild?nodeName?toLowerCase?() == 'style'
+      'recreate on custom-style being called'
+      recreateCustomStyle(element_dom_parsed.firstChild)
+    else if nodename == 'style'
       recreateStyle(element_dom_parsed)
-    if element_dom_parsed.nodeName.toLowerCase() == 'iron-iconset-svg'
+    else if nodename == 'iron-iconset-svg'
       recreateIronIconset(element_dom_parsed)
 
 recreateIronIconset = (element_dom_parsed) !->

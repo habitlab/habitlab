@@ -23,213 +23,216 @@
 <link rel="import" href="advanced-features.html">
 
 <dom-module id="options-interventions">
-  <style is="custom-style">
-    :host {
-      display: block;
-      overflow-x: hidden;
-      width: 100%;
-      height: 100%;
-      min-height: 100vh;     
-      background-color: rgb(81, 167,249);
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      
-      --paper-item: {
-        min-height: 36px;
-      };
-      --paper-radio-button: {
-        color: rgb(35,70,110);
-        --paper-radio-button-checked-color:rgb(35,70,110);
-        --paper-radio-button-checked-ink-color: rgb(35,70,110);
-        --paper-radio-button-unchecked-color: rgb(35,70,110);
-        --paper-radio-button-unchecked-ink-color:rgb(35,70,110);
-        --paper-radio-button-label-color: rgb(35,70,110);
-      }
-
-      --paper-input-container: {
-        padding-top: 0px;
-        padding-bottom: 0px;
-      };
-      --paper-card: {
-        elevation: 5;
-        padding: 10px;
-        margin-bottom:1px;
-        width: 100%;
-        font-weight: 400;
-        padding:0px;
-        
-      };
-      --paper-card-content: {
-        font-size: 16px;
-      }
-       --paper-radio-group: {
-        padding-top: 0px;
-        padding-left: 0px;
-      };
-
-    }
-
-
-
-    #goals-button {
-      display: none;
-    }
-   
-    .next-button {
-      color: white;
-      background-color: #415D67;
-      margin-left: 16px;
-      margin-bottom: 8px;
-      padding: 5px;
-      font-size: 16px;
-      text-transform: none;
-      -webkit-font-smoothing: subpixel-antialiased;
-    }
-      
-    .works-button {
-      color: white;
-      background-color: #415D67;
-      margin-left: 16px;
-      margin-bottom: 8px;
-      padding: 5px;
-      font-size: 16px;
-      text-transform: none;
-      -webkit-font-smoothing: subpixel-antialiased;
-    }
-
-    #timepicker {
-      margin-bottom: 16px;
-    }
-
-    #intro1 {
-      display: none;
-    }
-
-    .time-string {
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      font-size: 14px;
-    }
-    .timebox {
-      border: 1px solid white;
-      padding: 4px;
-      margin: 3px;
-      cursor: pointer;
-      color: #777777;
-    }
-   
-    .card-container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background-color: rgb(81, 167,249);
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-      color: white;
-      padding-top: 10px;
-    }
-
-    .card-content {
-      color:white;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-      font-size: 20px;
-    }
-
-    .radio-button {
-      color:rgb(35,70,110);
-      --paper-radio-button-label-color: rgb(35,70,110);
-    }
-
-    .radio-group {
-      padding-left: 0px;
-      color:white;
-    }
-
-    #title{
-      color:white;
-      font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-      font-size: 30px;
-      padding-top: 30px;
-      padding-bottom: 20px; 
-      text-align:center;
-      font-weight:400;
-      /*text-shadow: 1px 1px 2px #346da3; */
-    }
-
-    #iconimg {
-      padding-left: 1px;
-      padding-right: 4px;
-      top: 3px;
-      position: relative;
-    }
-    
-    habitlab-logo {
-      display: inline-block;
-      position: relative;
-      top: 15px;
-      padding-left: 3px;
-      padding-right: 3px;
-    }
-    #pointer-div {
-      background: red;
-      color: white;
-      font-size: 20px;
-      margin: 5px;
-      padding: 15px;
-      right: 3px;
-      position: fixed; 
-      top: 0px;
-      border-radius: 5px
-    }
-    .papercard {
-      width: 100%;
-      /* margin-left: 20px;
-      margin-right: 20px; */
-      background-color: rgb(81, 167,249);
-      color: white;
-    }
-    .intro {
-      width: 100%;
-    }
-    .days-container{
-      display: block;
-    }
-
-    .dayicon{
-      cursor: pointer;
-      width:40px;
-      height:40px;
-      margin:auto;
-      margin-top:10px;
-      margin-left:5px; 
-      margin-right:5px;
-      margin-bottom:10px;
-      border-radius:10px;
-      padding: 8px;
-      box-shadow: 0px 0px 5px #346da3;
-      padding:5px;
-      cursor:pointer;
-    }
-
-    .dayiconactive {
-      background-color: rgb(35,70,110);
-    }
-
-    .dayiconinactive {
-      background-color: transparent;
-    }
-
-    #disabled {
-      background-color: transparent;
-    }
-    #enabled{
-      background-color: rgb(35,70,110); 
-    }
-    #day{
-      background-color: rgb(35,70,110);
-    }
-
-  </style>
   <template>
+    <custom-style>
+      <style is="custom-style">
+        :host {
+          display: block;
+          overflow-x: hidden;
+          width: 100%;
+          height: 100%;
+          min-height: 100vh;     
+          background-color: rgb(81, 167,249);
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          
+          --paper-item: {
+            min-height: 36px;
+          };
+          --paper-radio-button: {
+            color: rgb(35,70,110);
+            --paper-radio-button-checked-color:rgb(35,70,110);
+            --paper-radio-button-checked-ink-color: rgb(35,70,110);
+            --paper-radio-button-unchecked-color: rgb(35,70,110);
+            --paper-radio-button-unchecked-ink-color:rgb(35,70,110);
+            --paper-radio-button-label-color: rgb(35,70,110);
+          }
+  
+          --paper-input-container: {
+            padding-top: 0px;
+            padding-bottom: 0px;
+          };
+          --paper-card: {
+            elevation: 5;
+            padding: 10px;
+            margin-bottom:1px;
+            width: 100%;
+            font-weight: 400;
+            padding:0px;
+            
+          };
+          --paper-card-content: {
+            font-size: 16px;
+          }
+            --paper-radio-group: {
+            padding-top: 0px;
+            padding-left: 0px;
+          };
+  
+        }
+  
+  
+  
+        #goals-button {
+          display: none;
+        }
+        
+        .next-button {
+          color: white;
+          background-color: #415D67;
+          margin-left: 16px;
+          margin-bottom: 8px;
+          padding: 5px;
+          font-size: 16px;
+          text-transform: none;
+          -webkit-font-smoothing: subpixel-antialiased;
+        }
+          
+        .works-button {
+          color: white;
+          background-color: #415D67;
+          margin-left: 16px;
+          margin-bottom: 8px;
+          padding: 5px;
+          font-size: 16px;
+          text-transform: none;
+          -webkit-font-smoothing: subpixel-antialiased;
+        }
+  
+        #timepicker {
+          margin-bottom: 16px;
+        }
+  
+        #intro1 {
+          display: none;
+        }
+  
+        .time-string {
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-size: 14px;
+        }
+        .timebox {
+          border: 1px solid white;
+          padding: 4px;
+          margin: 3px;
+          cursor: pointer;
+          color: #777777;
+        }
+        
+        .card-container {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: rgb(81, 167,249);
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+          color: white;
+          padding-top: 10px;
+        }
+  
+        .card-content {
+          color:white;
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+          font-size: 20px;
+        }
+  
+        .radio-button {
+          color:rgb(35,70,110);
+          --paper-radio-button-label-color: rgb(35,70,110);
+        }
+  
+        .radio-group {
+          padding-left: 0px;
+          color:white;
+        }
+  
+        #title{
+          color:white;
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+          font-size: 30px;
+          padding-top: 30px;
+          padding-bottom: 20px; 
+          text-align:center;
+          font-weight:400;
+          /*text-shadow: 1px 1px 2px #346da3; */
+        }
+  
+        #iconimg {
+          padding-left: 1px;
+          padding-right: 4px;
+          top: 3px;
+          position: relative;
+        }
+        
+        habitlab-logo {
+          display: inline-block;
+          position: relative;
+          top: 15px;
+          padding-left: 3px;
+          padding-right: 3px;
+        }
+        #pointer-div {
+          background: red;
+          color: white;
+          font-size: 20px;
+          margin: 5px;
+          padding: 15px;
+          right: 3px;
+          position: fixed; 
+          top: 0px;
+          border-radius: 5px
+        }
+        .papercard {
+          width: 100%;
+          /* margin-left: 20px;
+          margin-right: 20px; */
+          background-color: rgb(81, 167,249);
+          color: white;
+        }
+        .intro {
+          width: 100%;
+        }
+        .days-container{
+          display: block;
+        }
+  
+        .dayicon{
+          cursor: pointer;
+          width:40px;
+          height:40px;
+          margin:auto;
+          margin-top:10px;
+          margin-left:5px; 
+          margin-right:5px;
+          margin-bottom:10px;
+          border-radius:10px;
+          padding: 8px;
+          box-shadow: 0px 0px 5px #346da3;
+          padding:5px;
+          cursor:pointer;
+        }
+  
+        .dayiconactive {
+          background-color: rgb(35,70,110);
+        }
+  
+        .dayiconinactive {
+          background-color: transparent;
+        }
+  
+        #disabled {
+          background-color: transparent;
+        }
+        #enabled{
+          background-color: rgb(35,70,110); 
+        }
+        #day{
+          background-color: rgb(35,70,110);
+        }
+  
+      </style>
+    </custom-style>
+    
     <div class="card-container">
       <div id="intro1" class="intro" style="display: none;">
         <paper-card id = "title" style = "color:white" class="papercard">

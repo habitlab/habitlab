@@ -2,13 +2,15 @@
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 
 <dom-module id="privacy-options">
-  <style>
-    .card-content {
-      font-size: 20px;
-    }
-  </style>
   <template>
-    <div class="card-content"> HabitLab is a research project from the <a href="http://hci.stanford.edu/" target="_blank" style="color: black; text-decoration: underline;">Stanford HCI Group</a>, and we need data to continue improving the product - <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: black; text-decoration: underline;">see what gets logged</a>.<br><br>
+    <style>
+      .card-content {
+        font-size: 20px;
+      }
+    </style>
+    <div class="card-content"> HabitLab is a research project from the <a href="http://hci.stanford.edu/" target="_blank" style="color: black; text-decoration: underline;">Stanford HCI Group</a>,
+      and we need data to continue improving the product - <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank"
+        style="color: black; text-decoration: underline;">see what gets logged</a>.<br><br>
       <paper-checkbox checked="{{allow_logging}}">
         <span class="checkbox_span">Let HabitLab send anonymized data to Stanford's servers</span>
       </paper-checkbox>

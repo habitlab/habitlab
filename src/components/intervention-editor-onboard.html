@@ -9,97 +9,108 @@
 <link rel="import" href="../bower_components/marked-element/marked-element.html">
 
 <dom-module id="intervention-editor-onboard">
-  <style>
-    :host {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      overflow-y: hidden;
-    }
-    .outer-wrapper{
-      display: inline-block;
-      background-color:#1E8CD2;
-    }
-    #container{ 
-      width: 50vw;
-      min-height: 100vh;
-      color: white;
-      padding: 20px;
-      display:block;
-      background-color:#1E8CD2;
-    }
-    #my_interventions_section{
-      display: inline-block;
-      width: 50vw;
-    }
-    .intervention_tab{
-      cursor: pointer;
-      width:130px;
-      height:130px;
-      margin:10px auto;
-      margin-left:10px; 
-      margin-right:10px;
-      border-radius:30px;
-      padding: 8px;
-      box-shadow: 0px 0px 15px #346da3;
-      background-color:#7EAFEA ;
-      position: relative;
-      display: inline-block;
-    }
-    .item_name{
-      font-weight: 100;
-      font-size: 24px;
-      color: white;
-      z-index: 1;
-      max-width:100%;
-      word-wrap:break-word;
-      top: 50%;
-    }
-    #add_new_tab {
-      cursor: pointer;
-      width:130px;
-      height:130px;
-      margin:10px auto;
-      margin-left:10px; 
-      margin-right:10px;
-      border-radius:30px;
-      padding: 8px;
-      box-shadow: 0px 0px 15px #346da3;
-      background-color:#7EAFEA;
-      position: relative;
-      float:left;     
-    }
-    .template_section{
-      display:inline-block;
-    }
-    .template_tab{
-      width: 200px;
-      display:inline-block;
-      height: 250px;
-    }
-    .template_name{
-      margin-top:15px;
-      font-family: "Helvetica";
-      font-size:24px;  
-      margin-left: 10px;
-    }
-    .marked-div {
-      display: inline-block;
-      width: 45vw;
-      position: fixed;
-      overflow-y: scroll;
-      right:0px;
-      height: 100vh;
-    }
-    [slot="markdown-html"] p {
-      color: white;
-    }
-    [slot="markdown-html"] {
-      color:black;
-    }
-  </style>
-
   <template>
+    <style>
+       :host {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: hidden;
+      }
+
+      .outer-wrapper {
+        display: inline-block;
+        background-color: #1E8CD2;
+      }
+
+      #container {
+        width: 50vw;
+        min-height: 100vh;
+        color: white;
+        padding: 20px;
+        display: block;
+        background-color: #1E8CD2;
+      }
+
+      #my_interventions_section {
+        display: inline-block;
+        width: 50vw;
+      }
+
+      .intervention_tab {
+        cursor: pointer;
+        width: 130px;
+        height: 130px;
+        margin: 10px auto;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 30px;
+        padding: 8px;
+        box-shadow: 0px 0px 15px #346da3;
+        background-color: #7EAFEA;
+        position: relative;
+        display: inline-block;
+      }
+
+      .item_name {
+        font-weight: 100;
+        font-size: 24px;
+        color: white;
+        z-index: 1;
+        max-width: 100%;
+        word-wrap: break-word;
+        top: 50%;
+      }
+
+      #add_new_tab {
+        cursor: pointer;
+        width: 130px;
+        height: 130px;
+        margin: 10px auto;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 30px;
+        padding: 8px;
+        box-shadow: 0px 0px 15px #346da3;
+        background-color: #7EAFEA;
+        position: relative;
+        float: left;
+      }
+
+      .template_section {
+        display: inline-block;
+      }
+
+      .template_tab {
+        width: 200px;
+        display: inline-block;
+        height: 250px;
+      }
+
+      .template_name {
+        margin-top: 15px;
+        font-family: "Helvetica";
+        font-size: 24px;
+        margin-left: 10px;
+      }
+
+      .marked-div {
+        display: inline-block;
+        width: 45vw;
+        position: fixed;
+        overflow-y: scroll;
+        right: 0px;
+        height: 100vh;
+      }
+
+      [slot="markdown-html"] p {
+        color: white;
+      }
+
+      [slot="markdown-html"] {
+        color: black;
+      }
+    </style>
     <div class="outer-wrapper">
       <!--
       <marked-element class="marked-div" id="markdown_display">
@@ -107,38 +118,38 @@
       </marked-element>
       -->
 
-    <div id="container">
-      <div id="my_interventions_section">
-        <h3>Build your own interventions...</h3>
-        <div id="add_new_tab" on-click="add_new_clicked">
-          <img src="icons/plus.png" style="width:100px; height:100px;margin:15px;">
+      <div id="container">
+        <div id="my_interventions_section">
+          <h3>Build your own interventions...</h3>
+          <div id="add_new_tab" on-click="add_new_clicked">
+            <img src="icons/plus.png" style="width:100px; height:100px;margin:15px;">
+          </div>
+          <div id="my_interventions">
+            <template is="dom-repeat" items="{{custom_intervention_list}}" as="intervention_name">
+              <paper-tab class="intervention_tab" on-click="open_custom_intervention">
+                <div class="item_name">{{intervention_name}}</div>
+              </paper-tab>
+            </template>
+          </div>
         </div>
-        <div id="my_interventions">
-          <template is="dom-repeat" items="{{custom_intervention_list}}" as="intervention_name">
-            <paper-tab class="intervention_tab" on-click="open_custom_intervention">
-              <div class="item_name">{{intervention_name}}</div>
-            </paper-tab>
-          </template>
+        <br>
+
+        <div class="template_section">
+          <h3>Or modify popular templates...</h3>
+          <div id="my_templates">
+            <template is="dom-repeat" items="{{templates_info_list}}" as="template_name">
+              <div class="template_tab">
+                <img class="intervention_tab" on-click="open_template" src="interventions/{{template_name.name}}/icon.svg" alt="{{template_name.description}}">
+                <paper-tooltip position="top" offset="-10">{{template_name.description}}</paper-tooltip>
+                <div class="template_name">
+                  {{template_name.displayname}}
+                </div>
+              </div>
+            </template>
+          </div>
         </div>
       </div>
-      <br>
-
-      <div class="template_section">
-        <h3>Or modify popular templates...</h3>
-        <div id="my_templates">
-          <template is="dom-repeat" items="{{templates_info_list}}" as="template_name">
-            <div class="template_tab">
-              <img class="intervention_tab" on-click="open_template" src="interventions/{{template_name.name}}/icon.svg" alt="{{template_name.description}}">
-              <paper-tooltip position="top" offset="-10">{{template_name.description}}</paper-tooltip>
-              <div class="template_name">
-                {{template_name.displayname}}
-              </div>
-            </div>
-          </template>
-        </div>
-      </div> 
-    </div>
     </div>
   </template>
-  <script src="intervention-editor-onboard.js"></script> 
+  <script src="intervention-editor-onboard.js"></script>
 </dom-module>

@@ -2,23 +2,23 @@
 <link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
 
 <dom-module id="graph-time-spent-on-goal-sites-daily">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    h4 {
-      margin-bottom: 20px;
-    }
-  </style>
   <template>
-    <div style = "font-size: 22px; color:#5a5a5a; margin-bottom:10px;">Time spent on my goal sites</div>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      h4 {
+        margin-bottom: 20px;
+      }
+    </style>
+    <div style="font-size: 22px; color:#5a5a5a; margin-bottom:10px;">Time spent on my goal sites</div>
     <chart-horizontal-bar data="[[chromeHistoryData]]" options="[[chromeHistoryOptions]]" style="width: 100%"></chart-horizontal-bar>
   </template>
   <script src="graph-time-spent-on-goal-sites-daily.js"></script>

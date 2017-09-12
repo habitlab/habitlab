@@ -4,12 +4,9 @@
 <link rel="import" href="call-to-action-button.html">
 
 <dom-module id="feed-item-timer-polymer">
-  
-
   <template>
-
     <style>
-      .call-to-action{
+      .call-to-action {
         margin-top: 30px;
         background-color: #415D67;
         box-shadow: 5px 5px 5px #888888;
@@ -24,13 +21,12 @@
         height: 300px;
         color: white;
         font-size: 1.5em;
-        text-align: center;    
-        
-        
+        text-align: center;
+
+
         display: flex;
         flex-direction: column;
         align-items: center;
-        
       }
 
       .habitlab-logo {
@@ -39,12 +35,12 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        
+
         flex-shrink: 0;
       }
 
       .timer-text {
-        
+
         padding-top: 20px;
       }
 
@@ -53,20 +49,16 @@
         height: 12px;
         margin-left: -1px;
         margin-right: -1px;
-
       }
+
       #shadow {
         height: 1px;
         background-color: #1d2129;
         opacity: 0.2;
       }
     </style>
-
-
-
-    
     <div class="container">
-      <div class="timer-text" style= "color: #415D67">Today you have been here for:</div>
+      <div class="timer-text" style="color: #415D67">Today you have been here for:</div>
       <div style="color: white; margin-top: 20px">
         <div style="display: inline-block; margin-right: 10px">
           <div style="font-size: 40px">{{minutes}}</div>
@@ -82,8 +74,8 @@
     </div>
     <div id="shadow"></div>
     <div id="grey-space"></div>
-   
-    
+
+
   </template>
   <script src="feed-item-timer-polymer.js"></script>
 </dom-module>

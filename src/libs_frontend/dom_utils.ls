@@ -49,11 +49,20 @@ recreateIronIconset = (element_dom_parsed) !->
 
 recreateDomModule = (element_dom_parsed, options) !->
   DOM_MODULE = document.createElement('dom-module')
+  template_child = null
+  for child in element_dom_parsed.children
+    if child.nodeName.toLowerCase() == 'template'
+      template_child = child
+  custom_style_text_list = []
   for style_parsed in window.all_imported_custom_styles.concat(window.file_local_styles)
-    if element_dom_parsed.firstChild
-      element_dom_parsed.insertBefore(style_parsed, element_dom_parsed.firstChild)
+    custom_style_text_list.push style_parsed.innerHTML
+  if custom_style_text_list.length > 0
+    style_parsed_new = document.createElement('style')
+    style_parsed_new.innerHTML = custom_style_text_list.join('\n\n')
+    if template_child?
+      template_child.content.insertBefore(style_parsed_new, template_child.content.firstChild)
     else
-      element_dom_parsed.appendChild(style_parsed)
+      element_dom_parsed.appendChild(style_parsed_new)
   DOM_MODULE.innerHTML = element_dom_parsed.innerHTML
   if options.tagname?
     DOM_MODULE.id = options.tagname

@@ -132,7 +132,7 @@ polymer_ext {
       this.set_sites_and_goals()
       document.body.style.backgroundColor = 'white'
   get_time_spent_for_domain: (domain, baseline_time_on_domains) ->
-    if baseline_time_on_domains? and baseline_time_on_domains[domain]?
+    if baseline_time_on_domains[domain]?
       minutes = baseline_time_on_domains[domain] / (1000*60)
       return (minutes).toPrecision(2) + ' mins'
     return '0 mins'

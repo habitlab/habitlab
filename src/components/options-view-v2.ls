@@ -76,8 +76,9 @@ polymer_ext {
   compute_sidebar_items: (enabled_goal_info_list, goal_name_to_icon) ->
     default_icon = chrome.extension.getURL('icons/loading.gif')
     output = [{name: msg('Overview'), icon: habitlab_icon}, {name: msg('Settings'), icon: gear_icon}]
-    for x in enabled_goal_info_list
-      output.push {name: x.sitename_printable, icon: x.icon ? goal_name_to_icon[x.name] ? default_icon}
+    if enabled_goal_info_list?
+      for x in enabled_goal_info_list
+        output.push {name: x.sitename_printable, icon: x.icon ? goal_name_to_icon[x.name] ? default_icon}
     output.push({name: msg('Help / FAQ'), icon: help_icon})
     return output
   enable_habitlab_button_clicked: ->

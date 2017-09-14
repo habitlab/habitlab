@@ -7,9 +7,19 @@
 
         properties: {
 
-          items: Array,
+          items: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          },
 
-          states: Array
+          states: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          }
 
         },
 
@@ -33,6 +43,7 @@
           }, {});
 
           this.states = states;
+          console.log('items', items);
           return items;
         },
 

@@ -15,29 +15,31 @@ thing! https://github.com/PolymerLabs/tedium/issues
 [![Build status](https://travis-ci.org/PolymerElements/marked-element.svg?branch=master)](https://travis-ci.org/PolymerElements/marked-element)
 
 
-##&lt;marked-element&gt;
+## &lt;marked-element&gt;
 
 Element wrapper for the [marked](https://github.com/chjj/marked) library.
 
 `<marked-element>` accepts Markdown source, and renders it to a child
-element with the class `markdown-html`. This child element can be styled
+element with the slot `markdown-html`. This child element can be styled
 as you would a normal DOM element. If you do not provide a child element
-with the `markdown-html` class, the Markdown source will still be rendered,
+with the `markdown-html` slot, the Markdown source will still be rendered,
 but to a shadow DOM child that cannot be styled.
 
-The Markdown source can be specified either via the `markdown` attribute:
+The Markdown source can be specified several ways:
+
+### Use the `markdown` attribute to bind markdown
 
 ```html
 <marked-element markdown="`Markdown` is _awesome_!">
-  <div class="markdown-html"></div>
+  <div slot="markdown-html"></div>
 </marked-element>
 ```
 
-Or, you can provide it via a `<script type="text/markdown">` element child:
+### Use `<script type="text/markdown">` element child to inline markdown
 
 ```html
 <marked-element>
-  <div class="markdown-html"></div>
+  <div slot="markdown-html"></div>
   <script type="text/markdown">
     Check out my markdown!
 
@@ -53,22 +55,43 @@ Or, you can provide it via a `<script type="text/markdown">` element child:
 </marked-element>
 ```
 
+### Use `<script type="text/markdown" src="URL">` element child to specify remote markdown
+
+```html
+<marked-element>
+  <div slot="markdown-html"></div>
+  <script type="text/markdown" src="../guidelines.md"></script>
+</marked-element>
+```
+
 Note that the `<script type="text/markdown">` approach is *static*. Changes to
 the script content will *not* update the rendered markdown!
 
+Though, you can data bind to the `src` attribute to change the markdown.
+
+```html
+<marked-element>
+  <div slot="markdown-html"></div>
+  <script type="text/markdown" src$="[[source]]"></script>
+</marked-element>
+...
+<script>
+  ...
+  this.source = '../guidelines.md';
+</script>
+```
+
 ### Styling
 
-If you are using a child with the `markdown-html` class, you can style it
+If you are using a child with the `markdown-html` slot, you can style it
 as you would a regular DOM element:
 
 ```css
-.markdown-html p {
+[slot="markdown-html"] p {
   color: red;
 }
 
-.markdown-html td:first-child {
+[slot="markdown-html"] td:first-child {
   padding-left: 24px;
 }
 ```
-
-

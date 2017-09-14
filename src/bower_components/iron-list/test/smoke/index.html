@@ -32,11 +32,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         :host {
           display: block;
           font-family: sans-serif;
-          @apply(--layout-horizontal);
+          @apply --layout-horizontal;
         }
 
         iron-list {
-          @apply(--layout-flex);
+          @apply --layout-flex;
           height: 100%;
         }
 
@@ -44,7 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           display: block;
           padding: 8px;
           border-bottom: 1px solid gray;
-          @apply(--layout-horizontal);
+          @apply --layout-horizontal;
         }
 
         .item img {
@@ -53,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         .picture {
-          @apply(--layout-vertical);
+          @apply --layout-vertical;
         }
 
         #about {
@@ -68,7 +68,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         .padded {
-          @apply(--layout-flex);
+          @apply --layout-flex;
         }
 
         .padded > * {
@@ -103,7 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <template>
           <div class="item">
             <div class="picture">
-              <img src="{{pictureForItem(item)}}">
+              <img src="[[pictureForItem(item, index)]]">
               <div>{{item.index}}</div>
             </div>
             <div class="padded">
@@ -126,18 +126,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </template>
       </iron-list>
+     
 
       <iron-list id="list2" items="{{data}}">
         <template>
           <div class="item">
             <div class="picture">
-              <img src="{{pictureForItem(item)}}">
+              <img src="[[pictureForItem(item, index)]]">
               <div>{{item.index}}</div>
             </div>
             <div class="padded">
               <div>
                 <input placeholder="name.last" value="{{item.name.last::input}}">
-                <span>{{separator}}</span>
+                <span><input value="{{separator::input}}" size="1"></span>
                 <input placeholder="name.first" value="{{item.name.first::input}}">
               </div>
               <div>{{item.about}}</div>
@@ -168,16 +169,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         properties: {
           data: {
+            type: Array,
             value: window.dummyData
           },
           separator: {
+            type: String,
             value: '|'
           },
           showing: {
+            type: Boolean,
             value: false
           }
         },
-        pictureForItem: function(item) {
+        pictureForItem: function(item, index) {
+          if (item == null || index == null) {
+            console.log('bad');
+            return '';
+          }
           return item.picture + '/' + item.guid.slice(0,6);
         },
         iconForItem: function(item) {
@@ -189,14 +197,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </script>
 
-  <style is="custom-style">
-    body, x-app {
-      @apply(--layout-fit);
-    }
-  </style>
-
+  <custom-style>
+    <style is="custom-style">
+      body, x-app {
+        @apply --layout-fit;
+      }
+    </style>
+  </custom-style>
 </head>
-<body unresolved>
+<body>
 
   <x-app></x-app>
 

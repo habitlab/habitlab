@@ -4,12 +4,12 @@
     var comboBox;
 
     function getInput() {
-      return comboBox.$.input;
+      return comboBox.inputElement;
     }
 
     function filter(value) {
-      getInput().bindValue = value;
-      getInput().fire('input');
+      comboBox._bindableInput.bindValue = value;
+      getInput().dispatchEvent(new CustomEvent('input'));
     }
 
     function getFocusedIndex() {
@@ -158,13 +158,6 @@
         expect(comboBox.value).to.eql('');
       });
 
-      it('should clear the selection with enter when input is undefined', function() {
-        filter(undefined);
-        enter();
-
-        expect(comboBox.value).to.eql('');
-      });
-
       it('should close the overlay with enter when custom values are allowed', function() {
         comboBox.allowCustomValue = true;
         filter('foobar');
@@ -189,9 +182,9 @@
         comboBox.value = 'foobar';
         filter('bar');
         esc();
-        expect(getInput().bindValue).to.eql('bar');
+        expect(getInput().value).to.eql('bar');
         esc();
-        expect(getInput().bindValue).to.equal('foobar');
+        expect(getInput().value).to.equal('foobar');
       });
 
       it('should revert a non-listed value to the custom value after filtering', function() {
@@ -199,7 +192,7 @@
         comboBox.value = 'foobar';
         filter('barbaz');
         esc();
-        expect(getInput().bindValue).to.equal('foobar');
+        expect(getInput().value).to.equal('foobar');
       });
 
       it('should revert to the custom value after keyboar navigation', function() {
@@ -207,9 +200,9 @@
         comboBox.value = 'foobar';
         arrowDown();
         esc();
-        expect(getInput().bindValue).to.eql('foobar');
+        expect(getInput().value).to.eql('foobar');
         esc();
-        expect(getInput().bindValue).to.equal('foobar');
+        expect(getInput().value).to.equal('foobar');
       });
 
       it('should close the overlay with enter', function() {
@@ -254,14 +247,14 @@
       it('should reset the input value synchronously when keyboard navigating', function() {
         arrowDown();
 
-        expect(getInput().bindValue).to.eql('');
+        expect(getInput().value).to.eql('');
       });
 
       it('should prefill the input field when navigating down', function(done) {
         arrowDown();
 
         comboBox.async(function() {
-          expect(getInput().bindValue).to.eql('baz');
+          expect(getInput().value).to.eql('baz');
           done();
         }, 1);
       });
@@ -280,7 +273,7 @@
         arrowUp();
 
         comboBox.async(function() {
-          expect(getInput().bindValue).to.eql('foo');
+          expect(getInput().value).to.eql('foo');
           done();
         }, 1);
       });
@@ -291,7 +284,7 @@
         arrowDown();
 
         comboBox.async(function() {
-          expect(getInput().bindValue).to.eql('invalid filter');
+          expect(getInput().value).to.eql('invalid filter');
           done();
         }, 1);
       });
@@ -312,11 +305,11 @@
         arrowDown();
 
         comboBox.async(function() {
-          expect(getInput().bindValue).to.eql('bar');
+          expect(getInput().value).to.eql('bar');
 
           esc();
 
-          expect(getInput().bindValue).to.eql('b');
+          expect(getInput().value).to.eql('b');
           done();
         }, 1);
 
@@ -335,18 +328,23 @@
 
         esc();
 
-        expect(getInput().bindValue).to.eql('bar');
+        expect(getInput().value).to.eql('bar');
       });
 
-      it('should remove selection from the input value selecting value', function() {
+      it('should remove selection from the input value selecting value', function(done) {
         arrowDown();
 
-        enter();
 
         comboBox.async(function() {
-          expect(getInput().selectionStart).to.eql(3);
-          expect(getInput().selectionEnd).to.eql(3);
-        });
+          // selection range is only cleared when the input is focused, which is not the case
+          // in all environments running the tests, especially on safari. So we need to use the next best thing.
+          comboBox._clearSelectionRange = sinon.spy();
+
+          enter();
+
+          expect(comboBox._clearSelectionRange.callCount).to.eql(1);
+          done();
+        }, 1);
       });
     });
 

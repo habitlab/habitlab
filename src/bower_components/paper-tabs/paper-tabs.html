@@ -59,8 +59,8 @@ Example:
 <pre><code>
 &lt;style is="custom-style">
   .link {
-    &#64;apply(--layout-horizontal);
-    &#64;apply(--layout-center-center);
+    &#64;apply --layout-horizontal;
+    &#64;apply --layout-center-center;
   }
 &lt;/style>
 
@@ -86,6 +86,8 @@ Custom property | Description | Default
 `--paper-tabs-selection-bar-color` | Color for the selection bar | `--paper-yellow-a100`
 `--paper-tabs-selection-bar` | Mixin applied to the selection bar | `{}`
 `--paper-tabs` | Mixin applied to the tabs | `{}`
+`--paper-tabs-content` | Mixin applied to the content container of tabs | `{}`
+`--paper-tabs-container` | Mixin applied to the layout container of tabs | `{}`
 
 @hero hero.svg
 @demo demo/index.html
@@ -95,8 +97,8 @@ Custom property | Description | Default
   <template>
     <style>
       :host {
-        @apply(--layout);
-        @apply(--layout-center);
+        @apply --layout;
+        @apply --layout-center;
 
         height: 48px;
         font-size: 14px;
@@ -111,11 +113,11 @@ Custom property | Description | Default
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         -webkit-tap-highlight-color: transparent;
 
-        @apply(--paper-tabs);
+        @apply --paper-tabs;
       }
 
       :host-context([dir=rtl]) {
-        @apply(--layout-horizontal-reverse);
+        @apply --layout-horizontal-reverse;
       }
 
       #tabsContainer {
@@ -123,7 +125,8 @@ Custom property | Description | Default
         height: 100%;
         white-space: nowrap;
         overflow: hidden;
-        @apply(--layout-flex-auto);
+        @apply --layout-flex-auto;
+        @apply --paper-tabs-container;
       }
 
       #tabsContent {
@@ -131,6 +134,7 @@ Custom property | Description | Default
         -moz-flex-basis: auto;
         -ms-flex-basis: auto;
         flex-basis: auto;
+        @apply --paper-tabs-content;
       }
 
       #tabsContent.scrollable {
@@ -140,14 +144,14 @@ Custom property | Description | Default
 
       #tabsContent:not(.scrollable),
       #tabsContent.scrollable.fit-container {
-        @apply(--layout-horizontal);
+        @apply --layout-horizontal;
       }
 
       #tabsContent.scrollable.fit-container {
         min-width: 100%;
       }
 
-      #tabsContent.scrollable.fit-container > ::content > * {
+      #tabsContent.scrollable.fit-container > ::slotted(*) {
         /* IE - prevent tabs from compressing when they should scroll. */
         -ms-flex: 1 0 auto;
         -webkit-flex: 1 0 auto;
@@ -172,11 +176,11 @@ Custom property | Description | Default
 
       #selectionBar {
         position: absolute;
-        height: 2px;
+        height: 0;
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: var(--paper-tabs-selection-bar-color, --paper-yellow-a100);
+        border-bottom: 2px solid var(--paper-tabs-selection-bar-color, var(--paper-yellow-a100));
           -webkit-transform: scale(0);
         transform: scale(0);
           -webkit-transform-origin: left center;
@@ -184,7 +188,7 @@ Custom property | Description | Default
           transition: -webkit-transform;
         transition: transform;
 
-        @apply(--paper-tabs-selection-bar);
+        @apply --paper-tabs-selection-bar;
       }
 
       #selectionBar.align-bottom {
@@ -202,7 +206,7 @@ Custom property | Description | Default
         transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
       }
 
-      #tabsContent > ::content > *:not(#selectionBar) {
+      #tabsContent > ::slotted(:not(#selectionBar)) {
         height: 100%;
       }
     </style>
@@ -212,7 +216,7 @@ Custom property | Description | Default
     <div id="tabsContainer" on-track="_scroll" on-down="_down">
       <div id="tabsContent" class$="[[_computeTabsContentClass(scrollable, fitContainer)]]">
         <div id="selectionBar" class$="[[_computeSelectionBarClass(noBar, alignBottom)]]" on-transitionend="_onBarTransitionEnd"></div>
-        <content select="*"></content>
+        <slot></slot>
       </div>
     </div>
 

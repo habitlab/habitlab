@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        @apply(--paper-font-common-base);
+        @apply --paper-font-common-base;
       }
 
       app-toolbar {
@@ -79,7 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .item {
-        @apply(--layout-horizontal);
+        @apply --layout-horizontal;
         padding: 20px;
         background-color: white;
         border: 1px solid #ddd;
@@ -97,8 +97,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .pad {
         padding: 0 16px;
-        @apply(--layout-flex);
-        @apply(--layout-vertical);
+        @apply --layout-flex;
+        @apply --layout-vertical);
       }
 
       .primary {
@@ -133,7 +133,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .spacer {
-        @apply(--layout-flex);
+        @apply --layout-flex;
       }
 
       @media (max-width: 460px) {
@@ -179,7 +179,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         properties: {
 
           items: {
-            type: Array
+            type: Array,
+            value: function() {
+              return [];
+            }
           }
 
         },

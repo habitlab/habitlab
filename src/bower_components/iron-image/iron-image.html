@@ -1,13 +1,12 @@
 <!--
 @license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 --><html><head><link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
 <!--
 `iron-image` is an element for displaying an image that provides useful sizing and
@@ -76,8 +75,16 @@ Custom property | Description | Default
         position: relative;
       }
 
+      #baseURIAnchor {
+        display: none;
+      }
+
       #sizedImgDiv {
-        @apply(--layout-fit);
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
 
         display: none;
       }
@@ -97,12 +104,16 @@ Custom property | Description | Default
       }
 
       #placeholder {
-        @apply(--layout-fit);
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
 
         background-color: inherit;
         opacity: 1;
 
-        @apply(--iron-image-placeholder);
+        @apply --iron-image-placeholder;
       }
 
       #placeholder.faded-out {
@@ -111,8 +122,9 @@ Custom property | Description | Default
       }
     </style>
 
+    <a id="baseURIAnchor" href="#"></a>
     <div id="sizedImgDiv" role="img" hidden$="[[_computeImgDivHidden(sizing)]]" aria-hidden$="[[_computeImgDivARIAHidden(alt)]]" aria-label$="[[_computeImgDivARIALabel(alt, src)]]"></div>
-    <img id="img" alt$="[[alt]]" hidden$="[[_computeImgHidden(sizing)]]">
+    <img id="img" alt$="[[alt]]" hidden$="[[_computeImgHidden(sizing)]]" crossorigin$="[[crossorigin]]" on-load="_imgOnLoad" on-error="_imgOnError">
     <div id="placeholder" hidden$="[[_computePlaceholderHidden(preload, fade, loading, loaded)]]" class$="[[_computePlaceholderClassName(preload, fade, loading, loaded)]]"></div>
   </template>
 

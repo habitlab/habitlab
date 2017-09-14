@@ -77,6 +77,29 @@
       if (this.$.selector._scroller !== undefined) {
         this.$.selector._scroller = this._getScroller();
       }
+
+      // Stamping with an empty object instead of null
+      // will resolve templatizer issues in P2 that previously
+      // required calling _flushProperties/_enableProperties.
+      this._patchIronListStamping();
+
+      // IE11: when scrolling with mouse, the focus goes to the scroller.
+      // This causes the overlay closing due to defocusing the input field.
+      // Prevent focusing the scroller by setting `unselectable="on"`.
+      if (/Trident/.test(navigator.userAgent)) {
+        this.$.scroller.setAttribute('unselectable', 'on');
+      }
+    },
+
+    _patchIronListStamping: function() {
+      var stamp = this.$.selector.stamp;
+      this.$.selector.stamp = function(value) {
+        if (value === null) {
+          value = {};
+        }
+
+        return stamp.call(this, value);
+      };
     },
 
     _getFocusedItem: function(focusedIndex) {
@@ -176,9 +199,7 @@
       this.$.selector.scrollToIndex(Math.max(0, targetIndex));
 
       // Sometimes the item is partly below the bottom edge, detect and adjust.
-      var item = this._items[index];
-      if (item === undefined) return;
-      var pidx = this.$.selector._getPhysicalIndex(item),
+      var pidx = this.$.selector._getPhysicalIndex(index),
         physicalItem = this.$.selector._physicalItems[pidx];
       if (!physicalItem) return;
       var physicalItemRect = physicalItem.getBoundingClientRect(),
@@ -190,7 +211,7 @@
     },
 
     ensureItemsRendered: function() {
-      this.$.selector.flushDebouncer('_debounceTemplate');
+      this.$.selector._render();
     },
 
     adjustScrollPosition: function() {

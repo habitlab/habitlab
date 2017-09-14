@@ -35,7 +35,7 @@
           combobox.$.overlay.fire('down');
           var focusedInput = Polymer.dom(combobox.root).querySelector('input:focus');
 
-          expect(focusedInput).not.to.equal(combobox.$.input);
+          expect(focusedInput).not.to.equal(combobox.inputElement);
         });
       });
 
@@ -45,6 +45,13 @@
 
           var scroller = combobox.$.overlay._unwrapIfNeeded(combobox.$.overlay.$.scroller);
           expect(getComputedStyle(scroller).WebkitOverflowScrolling).to.equal('touch');
+        });
+      });
+
+      describeIf(/Trident/.test(navigator.userAgent), 'IE11', function() {
+        it('should have unselectable="on" for the scroller', function() {
+          var scroller = combobox.$.overlay.$.scroller;
+          expect(scroller.getAttribute('unselectable')).to.equal('on');
         });
       });
 

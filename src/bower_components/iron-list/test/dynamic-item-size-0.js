@@ -1,4 +1,4 @@
-
+void(0)
 
     suite('Dynamic item size', function() {
       var list, container;
@@ -18,11 +18,9 @@
           list.set('items.0.index', '1\n2\n3\n4');
           list.updateSizeForItem(0);
           assert.isAbove(firstItem.offsetHeight, initHeight*3);
-
           list.set('items.0.index', '1');
           list.updateSizeForItem(0);
           assert.equal(firstItem.offsetHeight, initHeight);
-
           done();
         });
       });
@@ -37,11 +35,9 @@
           list.set('items.0.index', '1\n2\n3\n4');
           list.updateSizeForItem(list.items[0]);
           assert.isAbove(firstItem.offsetHeight, initHeight*3);
-
           list.set('items.0.index', '1');
           list.updateSizeForItem(list.items[0]);
           assert.equal(firstItem.offsetHeight, initHeight);
-
           done();
         });
       });
@@ -51,32 +47,6 @@
 
         flush(function() {
           list.updateSizeForItem(list.items[list.items.length - 1]);
-          done();
-        });
-      });
-
-
-      test('throw if the item is invalid', function(done) {
-        list.items = buildDataSet(100);
-
-        flush(function() {
-          var firstItem = getFirstItemFromList(list);
-          var initHeight = firstItem.offsetHeight;
-          var throws = 0;
-
-          try {
-            list.updateSizeForItem(100);
-          } catch (error) {
-            throws++;
-          }
-
-          try {
-            list.updateSizeForItem({});
-          } catch (error) {
-            throws++;
-          }
-
-          assert.equal(throws, 2);
           done();
         });
       });

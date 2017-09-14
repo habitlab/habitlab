@@ -5,21 +5,29 @@
     is: 'iron-autogrow-textarea',
 
     behaviors: [
-      Polymer.IronFormElementBehavior,
       Polymer.IronValidatableBehavior,
       Polymer.IronControlState
     ],
 
     properties: {
+      /**
+       * Use this property instead of `bind-value` for two-way data binding.
+       * @type {string|number}
+       */
+      value: {
+        observer: '_valueChanged',
+        type: String,
+        notify: true
+      },
 
       /**
-       * Use this property instead of `value` for two-way data binding.
-       * This property will be deprecated in the future. Use `value` instead.
+       * This property is deprecated, and just mirrors `value`. Use `value` instead.
        * @type {string|number}
        */
       bindValue: {
         observer: '_bindValueChanged',
-        type: String
+        type: String,
+        notify: true
       },
 
       /**
@@ -94,10 +102,24 @@
       },
 
       /**
+       * The minimum length of the input value.
+       */
+      minlength: {
+        type: Number
+      },
+
+      /**
        * The maximum length of the input value.
        */
       maxlength: {
         type: Number
+      },
+
+      /**
+       * Bound to the textarea's `aria-label` attribute.
+       */
+      label: {
+        type: String
       }
 
     },
@@ -105,10 +127,6 @@
     listeners: {
       'input': '_onInput'
     },
-
-    observers: [
-      '_onValueChanged(value)'
-    ],
 
     /**
      * Returns the underlying textarea.
@@ -148,6 +166,18 @@
       this.$.textarea.selectionEnd = value;
     },
 
+    attached: function() {
+      /* iOS has an arbitrary left margin of 3px that isn't present
+       * in any other browser, and means that the paper-textarea's cursor
+       * overlaps the label.
+       * See https://github.com/PolymerElements/paper-input/issues/468.
+       */
+      var IS_IOS = navigator.userAgent.match(/iP(?:[oa]d|hone)/);
+      if (IS_IOS) {
+        this.$.textarea.style.marginLeft = '-3px';
+      }
+    },
+
     /**
      * Returns true if `value` is valid. The validator provided in `validator`
      * will be used first, if it exists; otherwise, the `textarea`'s validity
@@ -155,24 +185,29 @@
      * @return {boolean} True if the value is valid.
      */
     validate: function() {
-      // Empty, non-required input is valid.
-      if (!this.required && this.value == '') {
-        this.invalid = false;
-        return true;
+      // Use the nested input's native validity.
+      var valid =  this.$.textarea.validity.valid;
+
+      // Only do extra checking if the browser thought this was valid.
+      if (valid) {
+        // Empty, required input is invalid
+        if (this.required && this.value === '') {
+          valid = false;
+        } else if (this.hasValidator()) {
+          valid = Polymer.IronValidatableBehavior.validate.call(this, this.value);
+        }
       }
 
-      var valid;
-      if (this.hasValidator()) {
-        valid = Polymer.IronValidatableBehavior.validate.call(this, this.value);
-      } else {
-        valid = this.$.textarea.validity.valid;
-        this.invalid = !valid;
-      }
+      this.invalid = !valid;
       this.fire('iron-input-validate');
       return valid;
     },
 
-    _bindValueChanged: function() {
+    _bindValueChanged: function(bindValue) {
+      this.value = bindValue;
+    },
+
+    _valueChanged: function(value) {
       var textarea = this.textarea;
       if (!textarea) {
         return;
@@ -182,18 +217,22 @@
       // the underlying textarea's value. Otherwise this change was probably
       // generated from the _onInput handler, and the two values are already
       // the same.
-      if (textarea.value !== this.bindValue) {
-        textarea.value = !(this.bindValue || this.bindValue === 0) ? '' : this.bindValue;
+      if (textarea.value !== value) {
+        textarea.value = !(value || value === 0) ? '' : value;
       }
 
-      this.value = this.bindValue;
+      this.bindValue = value;
       this.$.mirror.innerHTML = this._valueForMirror();
-      // manually notify because we don't want to notify until after setting value
-      this.fire('bind-value-changed', {value: this.bindValue});
+
+      // This code is from early 1.0, when this element was a type extension.
+      // It's unclear if it's still needed, but leaving in in case it is.
+      // manually notify because we don't want to notify until after setting value.
+      // this.fire('bind-value-changed', {value: this.bindValue});
     },
 
     _onInput: function(event) {
-      this.bindValue = event.path ? event.path[0].value : event.target.value;
+      var eventPath = Polymer.dom(event).path;
+      this.value = eventPath ? eventPath[0].value : event.target.value;
     },
 
     _constrain: function(tokens) {
@@ -224,8 +263,4 @@
     _updateCached: function() {
       this.$.mirror.innerHTML = this._constrain(this.tokens);
     },
-
-    _onValueChanged: function() {
-      this.bindValue = this.value;
-    }
   });

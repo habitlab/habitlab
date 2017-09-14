@@ -1,14 +1,35 @@
 
   (function() {
     'use strict';
-    // Used to calculate the scroll direction during touch events.
-    var LAST_TOUCH_POSITION = {
+    /**
+     * Used to calculate the scroll direction during touch events.
+     * @type {!Object}
+     */
+    var lastTouchPosition = {
       pageX: 0,
       pageY: 0
     };
-    // Used to avoid computing event.path and filter scrollable nodes (better perf).
-    var ROOT_TARGET = null;
-    var SCROLLABLE_NODES = [];
+    /**
+     * Used to avoid computing event.path and filter scrollable nodes (better perf).
+     * @type {?EventTarget}
+     */
+    var lastRootTarget = null;
+    /**
+     * @type {!Array<Node>}
+     */
+    var lastScrollableNodes = [];
+
+    var scrollEvents = [
+      // Modern `wheel` event for mouse wheel scrolling:
+      'wheel',
+      // Older, non-standard `mousewheel` event for some FF:
+      'mousewheel',
+      // IE:
+      'DOMMouseScroll',
+      // Touch enabled devices
+      'touchstart',
+      'touchmove'
+    ];
 
     /**
      * The IronDropdownScrollManager is intended to provide a central source
@@ -120,11 +141,6 @@
 
       _unlockedElementCache: null,
 
-      _isScrollingKeypress: function(event) {
-        return Polymer.IronA11yKeysBehavior.keyboardEventMatchesKeys(
-          event, 'pageup pagedown home end up left down right');
-      },
-
       _hasCachedLockedElement: function(element) {
         return this._lockedElementCache.indexOf(element) > -1;
       },
@@ -149,13 +165,15 @@
           return true;
         }
 
-        contentElements = Polymer.dom(element).querySelectorAll('content');
+        contentElements = Polymer.dom(element).querySelectorAll('content,slot');
 
         for (contentIndex = 0; contentIndex < contentElements.length; ++contentIndex) {
 
           distributedNodes = Polymer.dom(contentElements[contentIndex]).getDistributedNodes();
 
           for (nodeIndex = 0; nodeIndex < distributedNodes.length; ++nodeIndex) {
+            // Polymer 2.x returns slot.assignedNodes which can contain text nodes.
+            if (distributedNodes[nodeIndex].nodeType !== Node.ELEMENT_NODE) continue;
 
             if (this._composedTreeContains(distributedNodes[nodeIndex], child)) {
               return true;
@@ -175,35 +193,33 @@
         // If event has targetTouches (touch event), update last touch position.
         if (event.targetTouches) {
           var touch = event.targetTouches[0];
-          LAST_TOUCH_POSITION.pageX = touch.pageX;
-          LAST_TOUCH_POSITION.pageY = touch.pageY;
+          lastTouchPosition.pageX = touch.pageX;
+          lastTouchPosition.pageY = touch.pageY;
         }
       },
 
       _lockScrollInteractions: function() {
         this._boundScrollHandler = this._boundScrollHandler ||
           this._scrollInteractionHandler.bind(this);
-        // Modern `wheel` event for mouse wheel scrolling:
-        document.addEventListener('wheel', this._boundScrollHandler, true);
-        // Older, non-standard `mousewheel` event for some FF:
-        document.addEventListener('mousewheel', this._boundScrollHandler, true);
-        // IE:
-        document.addEventListener('DOMMouseScroll', this._boundScrollHandler, true);
-        // Save the SCROLLABLE_NODES on touchstart, to be used on touchmove.
-        document.addEventListener('touchstart', this._boundScrollHandler, true);
-        // Mobile devices can scroll on touch move:
-        document.addEventListener('touchmove', this._boundScrollHandler, true);
-        // Capture keydown to prevent scrolling keys (pageup, pagedown etc.)
-        document.addEventListener('keydown', this._boundScrollHandler, true);
+        for (var i = 0, l = scrollEvents.length; i < l; i++) {
+          // NOTE: browsers that don't support objects as third arg will
+          // interpret it as boolean, hence useCapture = true in this case. 
+          document.addEventListener(scrollEvents[i], this._boundScrollHandler, {
+            capture: true,
+            passive: false
+          });
+        }
       },
 
       _unlockScrollInteractions: function() {
-        document.removeEventListener('wheel', this._boundScrollHandler, true);
-        document.removeEventListener('mousewheel', this._boundScrollHandler, true);
-        document.removeEventListener('DOMMouseScroll', this._boundScrollHandler, true);
-        document.removeEventListener('touchstart', this._boundScrollHandler, true);
-        document.removeEventListener('touchmove', this._boundScrollHandler, true);
-        document.removeEventListener('keydown', this._boundScrollHandler, true);
+        for (var i = 0, l = scrollEvents.length; i < l; i++) {
+          // NOTE: browsers that don't support objects as third arg will
+          // interpret it as boolean, hence useCapture = true in this case.
+          document.removeEventListener(scrollEvents[i], this._boundScrollHandler, {
+            capture: true,
+            passive: false
+          });
+        }
       },
 
       /**
@@ -215,22 +231,17 @@
        * @private
        */
       _shouldPreventScrolling: function(event) {
-        // Avoid expensive checks if the event is not one of the observed keys.
-        if (event.type === 'keydown') {
-          // Prevent event if it is one of the scrolling keys.
-          return this._isScrollingKeypress(event);
-        }
 
         // Update if root target changed. For touch events, ensure we don't
         // update during touchmove.
         var target = Polymer.dom(event).rootTarget;
-        if (event.type !== 'touchmove' && ROOT_TARGET !== target) {
-          ROOT_TARGET = target;
-          SCROLLABLE_NODES = this._getScrollableNodes(Polymer.dom(event).path);
+        if (event.type !== 'touchmove' && lastRootTarget !== target) {
+          lastRootTarget = target;
+          lastScrollableNodes = this._getScrollableNodes(Polymer.dom(event).path);
         }
 
         // Prevent event if no scrollable nodes.
-        if (!SCROLLABLE_NODES.length) {
+        if (!lastScrollableNodes.length) {
           return true;
         }
         // Don't prevent touchstart event inside the locking element when it has
@@ -241,7 +252,7 @@
         // Get deltaX/Y.
         var info = this._getScrollInfo(event);
         // Prevent if there is no child that can scroll.
-        return !this._getScrollingNode(SCROLLABLE_NODES, info.deltaX, info.deltaY);
+        return !this._getScrollingNode(lastScrollableNodes, info.deltaX, info.deltaY);
       },
 
       /**
@@ -256,11 +267,11 @@
         var lockingIndex = nodes.indexOf(this.currentLockingElement);
         // Loop from root target to locking element (included).
         for (var i = 0; i <= lockingIndex; i++) {
-          var node = nodes[i];
-          // Skip document fragments.
-          if (node.nodeType === 11) {
+          // Skip non-Element nodes.
+          if (nodes[i].nodeType !== Node.ELEMENT_NODE) {
             continue;
           }
+          var node = /** @type {!Element} */ (nodes[i]);
           // Check inline style before checking computed style.
           var style = node.style;
           if (style.overflow !== 'scroll' && style.overflow !== 'auto') {
@@ -311,12 +322,10 @@
       /**
        * Returns scroll `deltaX` and `deltaY`.
        * @param {!Event} event The scroll event
-       * @return {{
-       *  deltaX: number The x-axis scroll delta (positive: scroll right,
-       *                 negative: scroll left, 0: no scroll),
-       *  deltaY: number The y-axis scroll delta (positive: scroll down,
-       *                 negative: scroll up, 0: no scroll)
-       * }} info
+       * @return {{deltaX: number, deltaY: number}} Object containing the
+       * x-axis scroll delta (positive: scroll right, negative: scroll left,
+       * 0: no scroll), and the y-axis scroll delta (positive: scroll down,
+       * negative: scroll up, 0: no scroll).
        * @private
        */
       _getScrollInfo: function(event) {
@@ -342,9 +351,9 @@
         else if (event.targetTouches) {
           var touch = event.targetTouches[0];
           // Touch moves from right to left => scrolling goes right.
-          info.deltaX = LAST_TOUCH_POSITION.pageX - touch.pageX;
+          info.deltaX = lastTouchPosition.pageX - touch.pageX;
           // Touch moves from down to up => scrolling goes down.
-          info.deltaY = LAST_TOUCH_POSITION.pageY - touch.pageY;
+          info.deltaY = lastTouchPosition.pageY - touch.pageY;
         }
         return info;
       }

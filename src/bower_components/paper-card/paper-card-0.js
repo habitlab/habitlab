@@ -84,16 +84,25 @@
         }
       },
 
+      /**
+       * Format function for aria-hidden. Use the ! operator results in the
+       * empty string when given a falsy value.
+       */
+      _isHidden: function(image) {
+        return image ? 'false' : 'true';
+      },
+
       _headingChanged: function(heading) {
-        var label = this.getAttribute('aria-label');
-        this.setAttribute('aria-label', heading);
+        var currentHeading = this.getAttribute('heading'),
+            currentLabel = this.getAttribute('aria-label');
+
+        if (typeof currentLabel !== 'string' || currentLabel === currentHeading) {
+          this.setAttribute('aria-label', heading);
+        }
       },
 
       _computeHeadingClass: function(image) {
-        var cls = 'title-text';
-        if (image)
-          cls += ' over-image';
-        return cls;
+        return image ? ' over-image' : '';
       },
 
       _computeAnimated: function(animatedShadow) {

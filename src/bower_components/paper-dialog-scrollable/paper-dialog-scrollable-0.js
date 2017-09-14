@@ -16,10 +16,6 @@
 
     },
 
-    listeners: {
-      'scrollable.scroll': '_scroll'
-    },
-
     /**
      * Returns the scrolling element.
      */
@@ -29,15 +25,15 @@
 
     ready: function () {
       this._ensureTarget();
+      this.classList.add('no-padding');
     },
 
     attached: function() {
-      this.classList.add('no-padding');
       this._ensureTarget();
-      requestAnimationFrame(this._scroll.bind(this));
+      requestAnimationFrame(this.updateScrollState.bind(this));
     },
 
-    _scroll: function() {
+    updateScrollState: function() {
       this.toggleClass('is-scrolled', this.scrollTarget.scrollTop > 0);
       this.toggleClass('can-scroll', this.scrollTarget.offsetHeight < this.scrollTarget.scrollHeight);
       this.toggleClass('scrolled-to-bottom',
@@ -45,10 +41,9 @@
     },
 
     _ensureTarget: function () {
-      // read parentNode on attached because if dynamically created,
-      // parentNode will be null on creation.
-      this.dialogElement = this.dialogElement || Polymer.dom(this).parentNode;
-      // Check if parent implements paper-dialog-behavior. If not, fit scrollTarget to host.
+      // Read parentElement instead of parentNode in order to skip shadowRoots.
+      this.dialogElement = this.dialogElement || this.parentElement;
+      // Check if dialog implements paper-dialog-behavior. If not, fit scrollTarget to host.
       if (this.dialogElement && this.dialogElement.behaviors &&
           this.dialogElement.behaviors.indexOf(Polymer.PaperDialogBehaviorImpl) >= 0) {
         this.dialogElement.sizingTarget = this.scrollTarget;

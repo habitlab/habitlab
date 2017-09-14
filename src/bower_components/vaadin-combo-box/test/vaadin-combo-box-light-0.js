@@ -5,7 +5,7 @@
       beforeEach(function() {
         comboBox = fixture('combobox-light');
         comboBox.items = ['foo', 'bar', 'baz'];
-        ironInput = comboBox.querySelector('input[is="iron-input"]');
+        ironInput = comboBox.querySelector('iron-input');
       });
 
       describe('using iron-input', function() {
@@ -48,10 +48,10 @@
       });
 
       it('should toggle overlay by tapping toggle element', function() {
-        MockInteractions.tap(comboBox._toggleElement);
+        comboBox._toggleElement.dispatchEvent(new CustomEvent('tap', {bubbles: true}));
         expect(comboBox.opened).to.be.true;
 
-        MockInteractions.tap(comboBox._toggleElement);
+        comboBox._toggleElement.dispatchEvent(new CustomEvent('tap', {bubbles: true}));
         expect(comboBox.opened).to.be.false;
       });
 

@@ -6,11 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<!doctype html>
-<html>
-<head>
+--><!DOCTYPE html><html><head>
 
   <title>iron-list demo</title>
 
@@ -22,60 +18,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
   <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
   <link rel="import" href="../../iron-ajax/iron-ajax.html">
   <link rel="import" href="../iron-list.html">
-
-  <style>
-
-    body {
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    header {
-      background-color: #ddd;
-      height: 200px;
-      padding: 0 10px;
-    }
-
-     h1 {
-      margin: 0;
-      line-height: 100px;
-    }
-
-    iron-list {
-      flex: 1;
-    }
-
-    .item {
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
-    }
-
-  </style>
-
 </head>
 <body>
 
-  <header>
-    <h1>Header</h1>
-  </header>
+  <dom-module id="x-list">
+    <template>
+      <style>
+        iron-list {
+          @apply --layout-fit;
+        }
+        .item {
+          padding: 10px;
+          border-bottom: 1px solid #ccc;
+        }
+      </style>
+      <iron-ajax url="data/contacts.json" last-response="{{items}}" auto=""></iron-ajax>
+      <iron-list items="[[items]]" as="item">
+        <template>
+          <div class="item">
+            <b>#[[index]] - [[item.index]] - [[item.name]]</b>
+            <p>[[item.longText]]</p>
+          </div>
+        </template>
+      </iron-list> 
+    </template>
+    <script src="basic-0.js"></script>
+  </dom-module>
 
-  <template is="dom-bind">
-    <iron-ajax url="data/contacts.json" last-response="{{data}}" auto></iron-ajax>
+  <x-list></x-list>
 
-    <iron-list items="[[data]]" as="item">
-      <template>
-        <div class="item">
-        <b>#[[index]] - [[item.name]]</b>
-        <p>[[item.longText]]</p>
-        </div>
-      </template>
-    </iron-list>
 
-  </template>
 
-</body>
-</html>
+</body></html>

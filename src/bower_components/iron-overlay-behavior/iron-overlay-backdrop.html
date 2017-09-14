@@ -38,17 +38,17 @@ Custom property | Description | Default
         opacity: 0;
         transition: opacity 0.2s;
         pointer-events: none;
-        @apply(--iron-overlay-backdrop);
+        @apply --iron-overlay-backdrop;
       }
 
       :host(.opened) {
         opacity: var(--iron-overlay-backdrop-opacity, 0.6);
         pointer-events: auto;
-        @apply(--iron-overlay-backdrop-opened);
+        @apply --iron-overlay-backdrop-opened;
       }
     </style>
 
-    <content></content>
+    <slot></slot>
   </template>
 
 </dom-module>

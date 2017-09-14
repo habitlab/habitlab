@@ -16,7 +16,9 @@ using an `<input>` element extended with `iron-input`.
 
 ```html
 <vaadin-combo-box-light>
-  <input is="iron-input">
+  <iron-input>
+    <input>
+  </iron-input>
 </vaadin-combo-box-light>
 ```
 
@@ -51,7 +53,7 @@ two `<paper-button>`s to act as the clear and toggle controls.
       }
     </style>
 
-    <content></content>
+    <slot></slot>
 
     <vaadin-combo-box-overlay id="overlay" opened$="[[opened]]" position-target="[[inputElement]]" _focused-index="[[_focusedIndex]]" _item-label-path="[[itemLabelPath]]" loading="[[loading]]" on-down="_onOverlayDown" on-mousedown="_preventDefault" vertical-offset="[[overlayVerticalOffset]]">
     </vaadin-combo-box-overlay>

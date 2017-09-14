@@ -18,7 +18,7 @@
          */
         for: {
           type: String,
-          observer: '_forChanged'
+          observer: '_findTarget'
         },
 
         /**
@@ -27,7 +27,8 @@
          */
         manualMode: {
           type: Boolean,
-          value: false
+          value: false,
+          observer: '_manualModeChanged'
         },
 
         /**
@@ -105,7 +106,6 @@
 
       listeners: {
         'neon-animation-finish': '_onAnimationFinish',
-        'mouseenter': 'hide'
       },
 
       /**
@@ -130,26 +130,12 @@
       },
 
       attached: function() {
-        this._target = this.target;
-
-        if (this.manualMode)
-          return;
-
-        this.listen(this._target, 'mouseenter', 'show');
-        this.listen(this._target, 'focus', 'show');
-        this.listen(this._target, 'mouseleave', 'hide');
-        this.listen(this._target, 'blur', 'hide');
-        this.listen(this._target, 'tap', 'hide');
+        this._findTarget();
       },
 
       detached: function() {
-        if (this._target && !this.manualMode) {
-          this.unlisten(this._target, 'mouseenter', 'show');
-          this.unlisten(this._target, 'focus', 'show');
-          this.unlisten(this._target, 'mouseleave', 'hide');
-          this.unlisten(this._target, 'blur', 'hide');
-          this.unlisten(this._target, 'tap', 'hide');
-        }
+        if (!this.manualMode)
+          this._removeListeners();
       },
 
       show: function() {
@@ -157,8 +143,20 @@
         if (this._showing)
           return;
 
-        if (Polymer.dom(this).textContent.trim() === '')
-          return;
+        if (Polymer.dom(this).textContent.trim() === ''){
+          // Check if effective children are also empty
+          var allChildrenEmpty = true;
+          var effectiveChildren = Polymer.dom(this).getEffectiveChildNodes();
+          for (var i = 0; i < effectiveChildren.length; i++) {
+            if (effectiveChildren[i].textContent.trim() !== '') {
+              allChildrenEmpty = false;
+              break;
+            }
+          }
+          if (allChildrenEmpty) {
+            return;
+          }
+        }
 
 
         this.cancelAnimation();
@@ -166,7 +164,8 @@
         this.toggleClass('hidden', false, this.$.tooltip);
         this.updatePosition();
 
-        this.animationConfig.entry[0].timing.delay = this.animationDelay;
+        this.animationConfig['entry'][0].timing = this.animationConfig['entry'][0].timing || {};
+        this.animationConfig['entry'][0].timing.delay = this.animationDelay;
         this._animationPlaying = true;
         this.playAnimation('entry');
       },
@@ -189,10 +188,6 @@
         this._showing = false;
         this._animationPlaying = true;
         this.playAnimation('exit');
-      },
-
-      _forChanged: function() {
-        this._target = this.target;
       },
 
       updatePosition: function() {
@@ -237,8 +232,8 @@
 
         // TODO(noms): This should use IronFitBehavior if possible.
         if (this.fitToVisibleBounds) {
-          // Clip the left/right side.
-          if (tooltipLeft + thisRect.width > window.innerWidth) {
+          // Clip the left/right side
+          if (parentRect.left + tooltipLeft + thisRect.width > window.innerWidth) {
             this.style.right = '0px';
             this.style.left = 'auto';
           } else {
@@ -247,11 +242,11 @@
           }
 
           // Clip the top/bottom side.
-          if (tooltipTop + thisRect.height > window.innerHeight) {
-            this.style.bottom = '0px';
+          if (parentRect.top + tooltipTop + thisRect.height > window.innerHeight) {
+            this.style.bottom = parentRect.height + 'px';
             this.style.top = 'auto';
           } else {
-            this.style.top = Math.max(0, tooltipTop) + 'px';
+            this.style.top = Math.max(-parentRect.top, tooltipTop) + 'px';
             this.style.bottom = 'auto';
           }
         } else {
@@ -261,11 +256,50 @@
 
       },
 
+      _addListeners: function() {
+        if (this._target) {
+          this.listen(this._target, 'mouseenter', 'show');
+          this.listen(this._target, 'focus', 'show');
+          this.listen(this._target, 'mouseleave', 'hide');
+          this.listen(this._target, 'blur', 'hide');
+          this.listen(this._target, 'tap', 'hide');
+        }
+        this.listen(this, 'mouseenter', 'hide');
+      },
+
+      _findTarget: function() {
+        if (!this.manualMode)
+          this._removeListeners();
+
+        this._target = this.target;
+
+        if (!this.manualMode)
+          this._addListeners();
+      },
+
+      _manualModeChanged: function() {
+        if (this.manualMode)
+          this._removeListeners();
+        else
+          this._addListeners();
+      },
+
       _onAnimationFinish: function() {
         this._animationPlaying = false;
         if (!this._showing) {
           this.toggleClass('hidden', true, this.$.tooltip);
         }
       },
+
+      _removeListeners: function() {
+        if (this._target) {
+          this.unlisten(this._target, 'mouseenter', 'show');
+          this.unlisten(this._target, 'focus', 'show');
+          this.unlisten(this._target, 'mouseleave', 'hide');
+          this.unlisten(this._target, 'blur', 'hide');
+          this.unlisten(this._target, 'tap', 'hide');
+        }
+        this.unlisten(this, 'mouseenter', 'hide');
+      }
     });
   

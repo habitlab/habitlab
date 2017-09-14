@@ -26,7 +26,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 200%;
       }
     </style>
-
     <template is="dom-repeat" items="[[_getItems(itemCount)]]">
       <div class="item">[[index]]</div>
     </template>

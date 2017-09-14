@@ -1,0 +1,145 @@
+<!DOCTYPE html><!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><html><head>
+
+    <title>paper-dialog-behavior tests</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="../../iron-icons/iron-icons.html">
+    <link rel="import" href="../../iron-test-helpers/iron-test-helpers.html">
+    <link rel="import" href="test-dialog.html">
+    <link rel="import" href="test-buttons.html">
+
+  </head>
+
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <test-dialog>
+          <p>Dialog</p>
+          <div class="buttons">
+            <button extra="">extra</button>
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="buttons">
+      <template>
+        <test-dialog>
+          <p>Dialog with test-buttons</p>
+          <test-buttons class="buttons"></test-buttons>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="custom-element-button">
+      <template>
+        <test-dialog>
+          <p>Dialog</p>
+          <div class="buttons">
+            <paper-icon-button icon="cancel" dialog-dismiss=""></paper-icon-button>
+            <paper-icon-button icon="add-circle" dialog-confirm=""></paper-icon-button>
+            <paper-icon-button icon="favorite"></paper-icon-button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="modal">
+      <template>
+        <test-dialog modal="">
+          <p>Dialog</p>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="" autofocus="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="like-modal">
+      <template>
+        <test-dialog no-cancel-on-esc-key="" no-cancel-on-outside-click="" with-backdrop="">
+          <p>Dialog</p>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="header">
+      <template>
+        <test-dialog>
+          <h2>Dialog</h2>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="" autofocus="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="header-with-id">
+      <template>
+        <test-dialog>
+          <h2 id="header">Dialog</h2>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="" autofocus="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="multiple">
+      <template>
+        <test-dialog modal="" id="dialog1">
+          <p>Dialog 1</p>
+        </test-dialog>
+        <test-dialog modal="" id="dialog2">
+          <p>Dialog 2</p>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="nestedmodals">
+      <template>
+        <test-dialog modal="" opened="">
+          <p>Dialog 1</p>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="" autofocus="">confirm</button>
+          </div>
+
+          <test-dialog modal="" opened="">
+            <p>Dialog 2</p>
+            <div class="buttons">
+              <button dialog-dismiss="">dismiss</button>
+              <button dialog-confirm="" autofocus="">confirm</button>
+            </div>
+          </test-dialog>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <script src="paper-dialog-behavior-0.js"></script>
+
+  
+
+
+</body></html>

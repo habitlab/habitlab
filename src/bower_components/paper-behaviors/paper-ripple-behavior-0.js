@@ -1,5 +1,4 @@
 
-
   /**
    * `Polymer.PaperRippleBehavior` dynamically implements a ripple
    * when the element has focus via pointer or keyboard.
@@ -10,7 +9,6 @@
    * @polymerBehavior Polymer.PaperRippleBehavior
    */
   Polymer.PaperRippleBehavior = {
-
     properties: {
       /**
        * If true, the element will not produce a ripple effect when interacted
@@ -111,6 +109,4 @@
         this._ripple.noink = noink;
       }
     }
-
   };
-

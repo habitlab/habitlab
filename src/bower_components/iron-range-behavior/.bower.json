@@ -1,6 +1,6 @@
 {
   "name": "iron-range-behavior",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "license": "http://polymer.github.io/LICENSE.txt",
   "description": "Provides a behavior for something with a minimum and maximum value",
   "authors": "The Polymer Authors",
@@ -16,24 +16,40 @@
     "url": "git://github.com/PolymerElements/iron-range-behavior.git"
   },
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.0.0"
+    "polymer": "Polymer/polymer#1.9 - 2"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "iron-input": "PolymerElements/iron-input#^1.0.0",
-    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
-    "web-component-tester": "^4.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "web-component-tester": "^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "variants": {
+    "1.x": {
+      "dependencies": {
+        "polymer": "Polymer/polymer#^1.9"
+      },
+      "devDependencies": {
+        "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+        "web-component-tester": "^4.0.0",
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+      },
+      "resolutions": {
+        "webcomponentsjs": "^0.7"
+      }
+    }
   },
   "ignore": [],
+  "resolutions": {
+    "webcomponentsjs": "^1.0.0"
+  },
   "homepage": "https://github.com/PolymerElements/iron-range-behavior",
-  "_release": "1.0.5",
+  "_release": "2.0.0",
   "_resolution": {
     "type": "version",
-    "tag": "v1.0.5",
-    "commit": "645ffc6b39ae4fb0efd23b97016a9c4aac777978"
+    "tag": "v2.0.0",
+    "commit": "2f0c735c57e6e376ee498f6c3f1957a751b628fe"
   },
-  "_source": "git://github.com/PolymerElements/iron-range-behavior.git",
-  "_target": "^1.0.0",
+  "_source": "https://github.com/PolymerElements/iron-range-behavior.git",
+  "_target": "1 - 2",
   "_originalSource": "PolymerElements/iron-range-behavior"
 }

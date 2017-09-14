@@ -4,7 +4,7 @@
     var comboBox;
 
     function getInput() {
-      return comboBox.$.input;
+      return comboBox.inputElement;
     }
     function getToggleIcon() {
       return comboBox.$.toggleIcon;
@@ -26,6 +26,10 @@
     beforeEach(function() {
       comboBox = fixture('combobox');
       comboBox.items = ['foo', 'bar', 'baz'];
+    });
+
+    afterEach(function() {
+      comboBox.opened = false;
     });
 
     describe('when combo-box is attached', function() {
@@ -65,6 +69,14 @@
     describe('navigating the items', function() {
       beforeEach(function() {
         arrowDown();
+      });
+
+      afterEach(function(done) {
+        // IE11 randomly breaks during the teardown process when
+        // fixture.restore() is called, most likely because the arrowDown()
+        // functions are still partly running.
+        // Delaying the teardown by a micro task seems to help.
+        comboBox.async(done);
       });
 
       it('should set selection aria attributes when focusing an item', function() {

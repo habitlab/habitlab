@@ -1,4 +1,6 @@
 
+(function() {
+'use strict';
 
 /**
 Use `Polymer.PaperDialogBehavior` and `paper-dialog-shared-styles.html` to implement a Material Design
@@ -35,7 +37,6 @@ It will also ensure that focus remains in the dialog.
 @demo demo/index.html
 @polymerBehavior Polymer.PaperDialogBehavior
 */
-
   Polymer.PaperDialogBehaviorImpl = {
 
     hostAttributes: {
@@ -51,23 +52,29 @@ It will also ensure that focus remains in the dialog.
       modal: {
         type: Boolean,
         value: false
+      },
+
+      __readied: {
+        type: Boolean,
+        value: false
       }
 
     },
 
     observers: [
-      '_modalChanged(modal, _readied)'
+      '_modalChanged(modal, __readied)'
     ],
 
     listeners: {
       'tap': '_onDialogClick'
     },
 
-    ready: function () {
+    ready: function() {
       // Only now these properties can be read.
       this.__prevNoCancelOnOutsideClick = this.noCancelOnOutsideClick;
       this.__prevNoCancelOnEscKey = this.noCancelOnEscKey;
       this.__prevWithBackdrop = this.withBackdrop;
+      this.__readied = true;
     },
 
     _modalChanged: function(modal, readied) {
@@ -108,7 +115,7 @@ It will also ensure that focus remains in the dialog.
       // Search for the element with dialog-confirm or dialog-dismiss,
       // from the root target until this (excluded).
       var path = Polymer.dom(event).path;
-      for (var i = 0; i < path.indexOf(this); i++) {
+      for (var i = 0, l = path.indexOf(this); i < l; i++) {
         var target = path[i];
         if (target.hasAttribute && (target.hasAttribute('dialog-dismiss') || target.hasAttribute('dialog-confirm'))) {
           this._updateClosingReasonConfirmed(target.hasAttribute('dialog-confirm'));
@@ -124,3 +131,4 @@ It will also ensure that focus remains in the dialog.
   /** @polymerBehavior */
   Polymer.PaperDialogBehavior = [Polymer.IronOverlayBehavior, Polymer.PaperDialogBehaviorImpl];
 
+})();

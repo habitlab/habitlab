@@ -1,4 +1,4 @@
-
+void(0)
 
     suite('template overloading', function() {
       var list;
@@ -21,7 +21,7 @@
         list.items = buildDataSet(1);
 
         flush(function() {
-          assert.equal(list.$.list.$.items.querySelectorAll('.overloaded-template').length, 1);
+          assert.isNotNull(Polymer.dom(list).querySelector('.overloaded-template'));
           done();
         });
       });

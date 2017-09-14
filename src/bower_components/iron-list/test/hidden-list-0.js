@@ -1,4 +1,4 @@
-
+void(0)
 
     suite('hidden list', function() {
       var list, container;
@@ -20,10 +20,9 @@
       test('iron-resize', function(done) {
         list.items = buildDataSet(100);
         list.fire('iron-resize');
-
         assert.notEqual(getFirstItemFromList(list).textContent, '0');
-        Polymer.RenderStatus.whenReady(function() {
-          container.removeAttribute('hidden');
+        setTimeout(function() {
+          container.style.display = '';
           assert.notEqual(getFirstItemFromList(list).textContent, '0');
           list.fire('iron-resize');
           flush(function() {
@@ -31,7 +30,7 @@
             assert.equal(getFirstItemFromList(list).textContent, '0');
             done();
           });
-        });
+        }, 100);
       });
 
     });

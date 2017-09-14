@@ -11,8 +11,7 @@
          * `iconset_name:icon_name`.
          */
         icon: {
-          type: String,
-          observer: '_iconChanged'
+          type: String
         },
 
         /**
@@ -20,8 +19,7 @@
          * iconset.
          */
         theme: {
-          type: String,
-          observer: '_updateIcon'
+          type: String
         },
 
         /**
@@ -30,19 +28,24 @@
          * precedence over a given icon attribute.
          */
         src: {
-          type: String,
-          observer: '_srcChanged'
+          type: String
         },
 
         /**
          * @type {!Polymer.IronMeta}
          */
         _meta: {
-          value: Polymer.Base.create('iron-meta', {type: 'iconset'}),
-          observer: '_updateIcon'
+          value: Polymer.Base.create('iron-meta', {type: 'iconset'})
         }
 
       },
+
+      observers: [
+        '_updateIcon(_meta, isAttached)',
+        '_updateIcon(theme, isAttached)',
+        '_srcChanged(src, isAttached)',
+        '_iconChanged(icon, isAttached)'
+      ],
 
       _DEFAULT_ICONSET: 'icons',
 

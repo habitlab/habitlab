@@ -18,38 +18,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../../paper-styles/demo-pages.html">
   <link rel="import" href="../marked-element.html">
 
-  <style is="custom-style">
-
-    .centered {
-      max-width: 550px;
-      padding: 0;
-      overflow: auto;
-    }
-
-    h1 {
-      margin-left: 30px;
-    }
-
-    h3 {
-      color: var(--google-grey-700);
-      margin-left: 30px;
-    }
-
-    marked-element {
-      display: block;
-      background-color: var(--google-grey-100);
-      padding: 10px 30px;
-      margin-bottom: 10px;
-    }
-
-    .markdown-html.custom p {
-      padding-left: 24px;
-    }
-
-  </style>
 </head>
-
 <body unresolved>
+  <custom-style>
+    <style is="custom-style">
+      .centered {
+        max-width: 550px;
+        padding: 0;
+        overflow: auto;
+      }
+
+      h1 {
+        margin-left: 30px;
+      }
+
+      h3 {
+        color: var(--google-grey-700);
+        margin-left: 30px;
+      }
+
+      marked-element {
+        display: block;
+        background-color: var(--google-grey-100);
+        padding: 10px 30px;
+        margin-bottom: 10px;
+      }
+
+      .markdown-html.custom p {
+        padding-left: 24px;
+      }
+
+    </style>
+  </custom-style>
 
   <div class="vertical-section vertical-section-container centered">
     <h1>&lt;marked-element&gt;</h1>
@@ -57,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <section>
       <h3>Inline Text</h3>
       <marked-element>
-        <div class="markdown-html"></div>
+        <div slot="markdown-html"></div>
         <script type="text/markdown">
           ## Markdown Renderer
 
@@ -79,7 +79,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <section>
       <h3>Text via Attribute, with custom styling</h3>
       <marked-element markdown="***Bold and italic***">
-        <div class="markdown-html custom"></div>
+        <div slot="markdown-html" class="markdown-html custom"></div>
+      </marked-element>
+    </section>
+
+    <section>
+      <h3>Remote content</h3>
+      <marked-element id="remoteContent">
+        <div class="markdown-html"></div>
+        <script type="text/markdown" src="./example.md">
+          Loading markdown...
+        </script>
       </marked-element>
     </section>
 

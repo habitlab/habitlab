@@ -1,4 +1,5 @@
 <!--
+@license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -16,9 +17,13 @@ Material design: [Tooltips](https://www.google.com/design/spec/components/toolti
 `<paper-tooltip>` is a label that appears on hover and focus when the user
 hovers over an element with the cursor or with the keyboard. It will be centered
 to an anchor element specified in the `for` attribute, or, if that doesn't exist,
-centered to the parent node containing it.
+centered to the parent node containing it. Note that as of `paper-tooltip#2.0.0`,
+you must explicitely include the `web-animations` polyfill if you want this
+element to work on browsers not implementing the WebAnimations spec.
 
 Example:
+    // polyfill 
+    <link rel="import" href="../../neon-animation/web-animations.html">
 
     <div style="display:inline-block">
       <button>Click me!</button>
@@ -70,7 +75,7 @@ Custom property | Description | Default
       #tooltip {
         display: block;
         outline: none;
-        @apply(--paper-font-common-base);
+        @apply --paper-font-common-base;
         font-size: 10px;
         line-height: 1;
 
@@ -81,7 +86,7 @@ Custom property | Description | Default
         padding: 8px;
         border-radius: 2px;
 
-        @apply(--paper-tooltip);
+        @apply --paper-tooltip;
       }
 
       /* Thanks IE 10. */
@@ -91,7 +96,7 @@ Custom property | Description | Default
     </style>
 
     <div id="tooltip" class="hidden">
-      <content></content>
+      <slot></slot>
     </div>
   </template>
 

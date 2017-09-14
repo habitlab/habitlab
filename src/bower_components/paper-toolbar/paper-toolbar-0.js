@@ -38,6 +38,10 @@
 
       },
 
+      ready: function() {
+        console.warn(this.is, 'is deprecated. Please use app-layout instead!');
+      },
+
       attached: function() {
         this._observer = this._observe(this);
         this._updateAriaLabelledBy();
@@ -61,8 +65,12 @@
       },
 
       _updateAriaLabelledBy: function() {
+        Polymer.dom.flush();
         var labelledBy = [];
-        var contents = Polymer.dom(this.root).querySelectorAll('content');
+        var contents = Array.prototype.slice
+            .call(Polymer.dom(this.root).querySelectorAll('slot'))
+            .concat(Array.prototype.slice.call(Polymer.dom(this.root).querySelectorAll('content')));
+
         for (var content, index = 0; content = contents[index]; index++) {
           var nodes = Polymer.dom(content).getDistributedNodes();
           for (var node, jndex = 0; node = nodes[jndex]; jndex++) {
@@ -84,7 +92,6 @@
 
       _computeBarExtraClasses: function(barJustify) {
         if (!barJustify) return '';
-
         return barJustify + (barJustify === 'justified' ? '' : '-justified');
       }
     });

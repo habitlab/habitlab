@@ -13,7 +13,9 @@
   <test-fixture id="combobox-light">
     <template>
       <vaadin-combo-box-light>
-        <input is="iron-input">
+        <iron-input>
+          <input>
+        </iron-input>
       </vaadin-combo-box-light>
     </template>
   </test-fixture>
@@ -22,8 +24,9 @@
     <template>
       <vaadin-combo-box-light>
         <paper-input>
-          <paper-button suffix="" class="clear-button">Clear</paper-button>
-          <paper-button suffix="" class="toggle-button">Toggle</paper-button>
+          <!-- slot="suffix" for 2.0, suffix for 1.x -->
+          <paper-button slot="suffix" suffix="" class="clear-button">Clear</paper-button>
+          <paper-button slot="suffix" suffix="" class="toggle-button">Toggle</paper-button>
         </paper-input>
       </vaadin-combo-box-light>
     </template>

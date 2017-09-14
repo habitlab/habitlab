@@ -3,6 +3,8 @@
   Polymer.IronFormElementBehavior enables a custom element to be included
   in an `iron-form`.
 
+  Events `iron-form-element-register` and `iron-form-element-unregister` are not fired on Polymer 2.0.
+
   @demo demo/index.html
   @polymerBehavior
   */
@@ -20,7 +22,7 @@
        *
        * @event iron-form-element-unregister
        */
-
+       
       /**
        * The name of this element.
        */
@@ -57,13 +59,13 @@
       }
     },
 
-    attached: function() {
+    attached: Polymer.Element ? null : function() {
       // Note: the iron-form that this element belongs to will set this
       // element's _parentForm property when handling this event.
       this.fire('iron-form-element-register');
     },
 
-    detached: function() {
+    detached: Polymer.Element ? null : function() {
       if (this._parentForm) {
         this._parentForm.fire('iron-form-element-unregister', {target: this});
       }

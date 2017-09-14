@@ -21,10 +21,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </head>
 <body>
 
+  <test-fixture id="NoContent">
+    <template>
+      <marked-element>
+        <div id="output" slot="markdown-html"></div>
+        <script type="text/markdown">
+
+        </script>
+      </marked-element>
+    </template>
+  </test-fixture>
+
   <test-fixture id="SmartyPants">
     <template>
       <marked-element smartypants="">
-        <div id="output" class="markdown-html"></div>
+        <div id="output" slot="markdown-html"></div>
         <script type="text/markdown">
         # foo
         ...
@@ -36,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <test-fixture id="CamelCaseHTML">
     <template>
       <marked-element>
-        <div id="output" class="markdown-html"></div>
+        <div id="output" slot="markdown-html"></div>
         <script type="text/markdown">
 ```html
 <div camelCase></div>
@@ -49,7 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <test-fixture id="BadHTML">
     <template>
       <marked-element>
-        <div id="output" class="markdown-html"></div>
+        <div id="output" slot="markdown-html"></div>
         <script type="text/markdown">
 ```html
 <p><div></p></div>
@@ -83,13 +94,96 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
+  <test-fixture id="Renderer">
+    <template>
+      <marked-element>
+        <div id="output" slot="markdown-html"></div>
+        <script type="text/markdown">
+          [Link](http://url.com)
+        </script>
+      </marked-element>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="Sanitizer">
+    <template>
+      <marked-element sanitize="">
+        <div id="output" slot="markdown-html"></div>
+        <script type="text/markdown">
+[Link](http://url.com" onclick="alert(1)")
+<a href="http://url.com" onclick="alert(1)">Link</a>
+```html
+<a href="http://url.com" onclick="alert(1)">Link</a>
+```
+        </script>
+      </marked-element>
+    </template>
+  </test-fixture>
+
   <test-fixture id="CustomCallbackFunction">
     <template>
       <marked-element>
-        <div id="output" class="markdown-html"></div>
+        <div id="output" slot="markdown-html"></div>
         <script type="text/markdown">
           Some content
         </script>
+      </marked-element>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="RemoteContent">
+    <template>
+      <marked-element>
+        <div id="output" slot="markdown-html"></div>
+        <script type="text/markdown" src="test.md">
+          # Loading
+
+          Please wait...
+        </script>
+      </marked-element>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="BadRemoteContent">
+    <template>
+      <marked-element>
+        <div id="output" slot="markdown-html"></div>
+        <script type="text/markdown" src="test3.md"></script>
+      </marked-element>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ChangingRemoteContent">
+    <template>
+      <dom-bind>
+        <template is="dom-bind">
+          <marked-element id="markedElement">
+            <div id="output" slot="markdown-html"></div>
+            <script type="text/markdown" src$="[[source]]">
+              # Loading
+
+              Please wait...
+            </script>
+          </marked-element>
+        </template>
+      </dom-bind>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="SanitizedRemoteContent">
+    <template>
+      <marked-element>
+        <div id="output" slot="markdown-html"></div>
+        <script type="text/markdown" src="remoteSanitization.md"></script>
+      </marked-element>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="UnsanitizedRemoteContent">
+    <template>
+      <marked-element disable-remote-sanitization="">
+        <div id="output" slot="markdown-html"></div>
+        <script type="text/markdown" src="remoteSanitization.md"></script>
       </marked-element>
     </template>
   </test-fixture>

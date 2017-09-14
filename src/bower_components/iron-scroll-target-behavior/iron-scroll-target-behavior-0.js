@@ -47,10 +47,11 @@
        * appHeader.scrollTarget = document.querySelector('#scrollable-element');
        *```
        *
-       * @type {Element}
+       * @type {HTMLElement}
+       * @default document
        */
       scrollTarget: {
-        type: Object,
+        type: HTMLElement,
         value: function() {
           return this._defaultScrollTarget;
         }
@@ -83,12 +84,13 @@
 
       } else if (typeof scrollTarget === 'string') {
 
-        this.scrollTarget = this.domHost ? this.domHost.$[scrollTarget] :
+        var domHost = this.domHost;
+
+        this.scrollTarget = domHost && domHost.$ ? domHost.$[scrollTarget] :
             Polymer.dom(this.ownerDocument).querySelector('#' + scrollTarget);
 
       } else if (this._isValidScrollTarget()) {
 
-        this._boundScrollHandler = this._boundScrollHandler || this._scrollHandler.bind(this);
         this._oldScrollTarget = scrollTarget;
         this._toggleScrollListener(this._shouldHaveListener, scrollTarget);
 
@@ -221,15 +223,17 @@
     },
 
     _toggleScrollListener: function(yes, scrollTarget) {
-      if (!this._boundScrollHandler) {
-        return;
-      }
       var eventTarget = scrollTarget === this._doc ? window : scrollTarget;
-
       if (yes) {
-        eventTarget.addEventListener('scroll', this._boundScrollHandler);
+        if (!this._boundScrollHandler) {
+          this._boundScrollHandler = this._scrollHandler.bind(this);
+          eventTarget.addEventListener('scroll', this._boundScrollHandler);
+        }
       } else {
-        eventTarget.removeEventListener('scroll', this._boundScrollHandler);
+        if (this._boundScrollHandler) {
+          eventTarget.removeEventListener('scroll', this._boundScrollHandler);
+          this._boundScrollHandler = null;
+        }
       }
     },
 

@@ -96,12 +96,12 @@ Custom property                                  | Description                  
         overflow: hidden;
       }
 
-      :host([hidden]) {
+      :host([hidden]), [hidden] {
         display: none !important;
       }
 
       #progressContainer {
-        @apply(--paper-progress-container);
+        @apply --paper-progress-container;
         position: relative;
       }
 
@@ -114,12 +114,12 @@ Custom property                                  | Description                  
       #primaryProgress,
       #secondaryProgress,
       .indeterminate::after {
-        @apply(--layout-fit);
+        @apply --layout-fit;
       }
 
       #progressContainer,
       .indeterminate::after {
-        background: var(--paper-progress-container-color, --google-grey-300);
+        background: var(--paper-progress-container-color, var(--google-grey-300));
       }
 
       :host(.transiting) #primaryProgress,
@@ -142,7 +142,7 @@ Custom property                                  | Description                  
 
       #primaryProgress,
       #secondaryProgress {
-        @apply(--layout-fit);
+        @apply --layout-fit;
         -webkit-transform-origin: left center;
         transform-origin: left center;
         -webkit-transform: scaleX(0);
@@ -151,19 +151,19 @@ Custom property                                  | Description                  
       }
 
       #primaryProgress {
-        background: var(--paper-progress-active-color, --google-green-500);
+        background: var(--paper-progress-active-color, var(--google-green-500));
       }
 
       #secondaryProgress {
-        background: var(--paper-progress-secondary-color, --google-green-100);
+        background: var(--paper-progress-secondary-color, var(--google-green-100));
       }
 
       :host([disabled]) #primaryProgress {
-        background: var(--paper-progress-disabled-active-color, --google-grey-500);
+        background: var(--paper-progress-disabled-active-color, var(--google-grey-500));
       }
 
       :host([disabled]) #secondaryProgress {
-        background: var(--paper-progress-disabled-secondary-color, --google-grey-300);
+        background: var(--paper-progress-disabled-secondary-color, var(--google-grey-300));
       }
 
       :host(:not([disabled])) #primaryProgress.indeterminate {

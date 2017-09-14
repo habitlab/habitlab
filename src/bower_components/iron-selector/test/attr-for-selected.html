@@ -1,0 +1,85 @@
+<!DOCTYPE html><!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><html><head>
+
+  <title>iron-selector attr-for-selected</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../../iron-test-helpers/iron-test-helpers.html">
+
+  <link rel="import" href="../iron-selector.html">
+  <link rel="import" href="attr-for-selected-elements.html">
+
+  <style>
+    .iron-selected {
+      background: #ccc;
+    }
+
+    .my-selected {
+      background: red;
+    }
+  </style>
+
+</head>
+<body>
+
+  <test-fixture id="inlineAttributes">
+    <template>
+      <iron-selector attr-for-selected="some-attr">
+        <div some-attr="value0">Item 0</div>
+        <div some-attr="value1">Item 1</div>
+        <div some-attr="value2">Item 2</div>
+      </iron-selector>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="reflectedProperties">
+    <template>
+      <iron-selector attr-for-selected="some-attr">
+        <attr-reflector>Item 0</attr-reflector>
+        <attr-reflector>Item 1</attr-reflector>
+        <attr-reflector>Item 2</attr-reflector>
+      </iron-selector>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="mixedPropertiesAndAttributes">
+    <template>
+      <iron-selector attr-for-selected="some-attr">
+        <attr-reflector>Item 0</attr-reflector>
+        <attr-reflector>Item 1</attr-reflector>
+        <div some-attr="value2">Item 2</div>
+        <div some-attr="value3">Item 3</div>
+        <attr-reflector>Item 4</attr-reflector>
+        <div some-attr="value5">Item 5</div>
+      </iron-selector>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="defaultAttribute">
+    <template>
+      <iron-selector attr-for-selected="some-attr" fallback-selection="default">
+        <div some-attr="value0">Item 0</div>
+        <div some-attr="value1">Item 1</div>
+        <div some-attr="default">Item 2</div>
+      </iron-selector>
+    </template>
+  </test-fixture>
+
+  <script src="attr-for-selected-0.js"></script>
+
+
+
+</body></html>

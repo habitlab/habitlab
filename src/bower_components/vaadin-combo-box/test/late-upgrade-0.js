@@ -11,13 +11,12 @@
         combobox.items = ['foo', 'bar'];
         combobox.value = 'bar';
 
-        expect(Polymer.isInstance(combobox)).to.be.false;
+        expect(combobox.is).to.be.undefined;
 
         Polymer.Base.importHref('../vaadin-combo-box.html', function() {
           expect(combobox.value).to.equal('bar');
           done();
         });
       });
-
     });
   

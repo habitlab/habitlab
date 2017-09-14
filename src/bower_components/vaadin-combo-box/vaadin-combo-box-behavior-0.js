@@ -46,8 +46,10 @@
       value: {
         type: String,
         observer: '_valueChanged',
-        // notify: true already set in IronFormBehavior, setting this to true will make two value-changed events(?)
-        notify: false
+        // notify: true already set in IronFormBehavior in Polymer 1.x
+        // hence setting it to false to avoid two value-changed events.
+        // In 2.0 we need to set to true though.
+        notify: !!Polymer.Element
       },
 
       /**
@@ -93,10 +95,7 @@
        */
       selectedItem: {
         type: Object,
-        notify: true,
-        value: function() {
-          return null;
-        }
+        notify: true
       },
 
       /**
@@ -129,7 +128,8 @@
       },
 
       /**
-       * Returns a reference to the input element.
+       * Returns a reference to the native input element.
+       * @deprecated will be dropped in 3.0
        */
       inputElement: {
         type: HTMLElement,
@@ -160,8 +160,7 @@
       'vaadin-dropdown-opened': '_onOpened',
       'vaadin-dropdown-closed': '_onClosed',
       'keydown': '_onKeyDown',
-      'tap': '_onTap',
-      'overlay.selection-changed': '_overlaySelectedItemChanged'
+      'tap': '_onTap'
     },
 
     ready: function() {
@@ -172,6 +171,9 @@
       }
       this._lastCommittedValue = this.value;
       Polymer.IronA11yAnnouncer.requestAvailability();
+
+      // 2.0 does not support 'overlay.selection-changed' syntax in listeners
+      this.$.overlay.addEventListener('selection-changed', this._overlaySelectedItemChanged.bind(this));
     },
 
     _onBlur: function() {
@@ -366,6 +368,11 @@
     },
 
     _onOpened: function() {
+      // Pre P2 iron-list used a debouncer to render. Now that we syncronously render items,
+      // we need to flush the DOM to make sure it doesn't get flushed in the middle of _render call
+      // because that will cause problems to say the least.
+      Polymer.flush && Polymer.flush();
+
       this.$.overlay.hidden = !this._hasItems(this.$.overlay._items) && !this.loading;
 
       // With iron-list v1.3.9, calling `notifyResize()` no longer renders
@@ -425,33 +432,42 @@
     _inputValueChanged: function(e) {
       // Handle only input events from our inputElement.
       if (Polymer.dom(e).path.indexOf(this.inputElement) !== -1) {
-        if (this.filter === this._inputElementValue) {
-          // Filter and input value might get out of sync, while keyboard navigating for example.
-          // Afterwards, input value might be changed to the same value as used in filtering.
-          // In situation like these, we need to make sure all the filter changes handlers are run.
-          this._filterChanged(this.filter);
-        } else {
-          this._userDefinedFilter = true;
-          this.filter = this._inputElementValue;
-          this._userDefinedFilter = false;
-        }
+        this._inputElementValue = this.inputElement.value;
+        this._filterFromInput();
+      }
+    },
 
-        if (!this.opened) {
-          this.open();
-        }
+    _filterFromInput: function(e) {
+      if (this.filter === this._inputElementValue) {
+        // Filter and input value might get out of sync, while keyboard navigating for example.
+        // Afterwards, input value might be changed to the same value as used in filtering.
+        // In situation like these, we need to make sure all the filter changes handlers are run.
+        this._filterChanged(this.filter, this.itemValuePath, this.itemLabelPath);
+      } else {
+        this._userDefinedFilter = true;
+        this.filter = this._inputElementValue;
+        this._userDefinedFilter = false;
+      }
+      if (!this.opened) {
+        this.open();
       }
     },
 
     _clearSelectionRange: function() {
       // Setting selection range focuses and/or moves the caret in some browsers,
       // and there's no need to modify the selection range if the input isn't focused anyway.
-      if (document.activeElement === this.inputElement && this.inputElement.setSelectionRange) {
+      if ((document.activeElement === this.inputElement ||
+           document.activeElement === this)
+           && this.inputElement.setSelectionRange) {
         var caretIndex = this._inputElementValue ? this._inputElementValue.length : 0;
         this.inputElement.setSelectionRange(caretIndex, caretIndex);
       }
     },
 
-    _filterChanged: function(filter) {
+    _filterChanged: function(filter, itemValuePath, itemLabelPath) {
+      if (filter === undefined || itemValuePath === undefined || itemLabelPath === undefined) {
+        return;
+      }
       if (this.items) {
         this.filteredItems = this._filterItems(this.items, filter);
       }
@@ -486,7 +502,7 @@
         return;
       }
 
-      if (selectedItem === null) {
+      if (selectedItem === null || selectedItem === undefined) {
         if (!this.allowCustomValue) {
           this.value = '';
         }
@@ -501,6 +517,11 @@
 
         this._setHasValue(true);
         this._inputElementValue = this._getItemLabel(selectedItem);
+
+        // Could not be defined in 1.x because ready is called after all prop-setters
+        if (this.inputElement) {
+          this.inputElement.value = this._inputElementValue;
+        }
       }
 
       this.$.overlay._selectedItem = selectedItem;
@@ -535,7 +556,10 @@
       }
     },
 
-    _itemsChanged: function(e) {
+    _itemsChanged: function(e, itemValuePath, itemLabelPath) {
+      if (e === undefined || itemValuePath === undefined || itemLabelPath === undefined) {
+        return;
+      }
       if (e.path === 'items' || e.path === 'items.splices') {
         this.filteredItems = this.items ? this.items.slice(0) : this.items;
 
@@ -549,7 +573,10 @@
       }
     },
 
-    _filteredItemsChanged: function(e) {
+    _filteredItemsChanged: function(e, itemValuePath, itemLabelPath) {
+      if (e === undefined || itemValuePath === undefined || itemLabelPath === undefined) {
+        return;
+      }
       if (e.path === 'filteredItems' || e.path === 'filteredItems.splices') {
         this._setOverlayItems(this.filteredItems);
 
@@ -615,9 +642,9 @@
       return value !== undefined && value !== null;
     },
 
-    _overlaySelectedItemChanged: function(event, detail) {
-      if (this.selectedItem !== detail.item) {
-        this.selectedItem = detail.item;
+    _overlaySelectedItemChanged: function(e) {
+      if (this.selectedItem !== e.detail.item) {
+        this.selectedItem = e.detail.item;
       }
 
       if (this.opened) {
@@ -625,7 +652,7 @@
       }
 
       // stop this private event from leaking outside.
-      event.stopPropagation();
+      e.stopPropagation();
     },
 
     /**
@@ -634,8 +661,8 @@
      * @return {boolean}
      */
     _getValidity: function() {
-      if (this.inputElement.validate) {
-        return this.inputElement.validate();
+      if (this._bindableInput.validate) {
+        return this._bindableInput.validate();
       }
     },
 
@@ -658,17 +685,31 @@
       }
     },
 
+    created: function() {
+      // needed for V2 to enable event.model on declarative event listeners.
+      this._parentModel = true;
+    },
+
+    _forwardHostPropV2: function(prop, value) {
+      this._forwardParentProp(prop, value);
+      this._forwardParentPath(prop, value);
+    },
+
     _forwardParentProp: function(prop, value) {
       var items = this.$.overlay.$.selector.querySelectorAll('vaadin-combo-box-item');
       Array.prototype.forEach.call(items, function(item) {
-        item._itemTemplateInstance[prop] = value;
+        if (item._itemTemplateInstance) {
+          item._itemTemplateInstance.set(prop, value);
+        }
       });
     },
 
     _forwardParentPath: function(path, value) {
       var items = this.$.overlay.$.selector.querySelectorAll('vaadin-combo-box-item');
       Array.prototype.forEach.call(items, function(item) {
-        item._itemTemplateInstance.notifyPath(path, value, true);
+        if (item._itemTemplateInstance) {
+          item._itemTemplateInstance.notifyPath(path, value, true);
+        }
       });
     },
 

@@ -38,8 +38,12 @@ Custom property | Description | Default
 `--paper-radio-button-checked-color` | Radio button color when the input is checked | `--primary-color`
 `--paper-radio-button-checked-ink-color` | Selected/focus ripple color when the input is checked | `--primary-color`
 `--paper-radio-button-size` | Size of the radio button | `16px`
+`--paper-radio-button-ink-size` | Size of the ripple | `48px`
 `--paper-radio-button-label-color` | Label color | `--primary-text-color`
 `--paper-radio-button-label-spacing` | Spacing between the label and the button | `10px`
+`--paper-radio-button-radio-container` | A mixin applied to the internal radio container | `{}`
+`--paper-radio-button-label` | A mixin applied to the internal label | `{}`
+`--paper-radio-button-label-checked` | A mixin applied to the internal label when the radio button is checked | `{}`
 
 This element applies the mixin `--paper-font-common-base` but does not import `paper-styles/typography.html`.
 In order to apply the `Roboto` font to this element, make sure you've imported `paper-styles/typography.html`.
@@ -58,8 +62,10 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
         line-height: 0;
         white-space: nowrap;
         cursor: pointer;
-        @apply(--paper-font-common-base);
+        @apply --paper-font-common-base;
         --calculated-paper-radio-button-size: var(--paper-radio-button-size, 16px);
+        /* -1px is a sentinel for the default and is replace in `attached`. */
+        --calculated-paper-radio-button-ink-size: var(--paper-radio-button-ink-size, -1px);
       }
 
       :host(:focus) {
@@ -67,12 +73,14 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
       }
 
       #radioContainer {
-        @apply(--layout-inline);
-        @apply(--layout-center-center);
+        @apply --layout-inline;
+        @apply --layout-center-center;
         position: relative;
         width: var(--calculated-paper-radio-button-size);
         height: var(--calculated-paper-radio-button-size);
         vertical-align: middle;
+        
+        @apply --paper-radio-button-radio-container;
       }
 
       #ink {
@@ -80,9 +88,9 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
         top: 50%;
         left: 50%;
         right: auto;
-        width: calc(3 * var(--calculated-paper-radio-button-size));
-        height: calc(3 * var(--calculated-paper-radio-button-size));
-        color: var(--paper-radio-button-unchecked-ink-color, --primary-text-color);
+        width: var(--calculated-paper-radio-button-ink-size);
+        height: var(--calculated-paper-radio-button-ink-size);
+        color: var(--paper-radio-button-unchecked-ink-color, var(--primary-text-color));
         opacity: 0.6;
         pointer-events: none;
         -webkit-transform: translate(-50%, -50%);
@@ -90,7 +98,7 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
       }
 
       #ink[checked] {
-        color: var(--paper-radio-button-checked-ink-color, --primary-color);
+        color: var(--paper-radio-button-checked-ink-color, var(--primary-color));
       }
 
       #offRadio, #onRadio {
@@ -104,13 +112,13 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
       }
 
       #offRadio {
-        border: 2px solid var(--paper-radio-button-unchecked-color, --primary-text-color);
+        border: 2px solid var(--paper-radio-button-unchecked-color, var(--primary-text-color));
         background-color: var(--paper-radio-button-unchecked-background-color, transparent);
         transition: border-color 0.28s;
       }
 
       #onRadio {
-        background-color: var(--paper-radio-button-checked-color, --primary-color);
+        background-color: var(--paper-radio-button-checked-color, var(--primary-color));
         -webkit-transform: scale(0);
         transform: scale(0);
         transition: -webkit-transform ease 0.28s;
@@ -119,7 +127,7 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
       }
 
       :host([checked]) #offRadio {
-        border-color: var(--paper-radio-button-checked-color, --primary-color);
+        border-color: var(--paper-radio-button-checked-color, var(--primary-color));
       }
 
       :host([checked]) #onRadio {
@@ -134,7 +142,13 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
         vertical-align: middle;
         margin-left: var(--paper-radio-button-label-spacing, 10px);
         white-space: normal;
-        color: var(--paper-radio-button-label-color, --primary-text-color);
+        color: var(--paper-radio-button-label-color, var(--primary-text-color));
+
+        @apply --paper-radio-button-label;
+      }
+
+      :host([checked]) #radioLabel {
+        @apply --paper-radio-button-label-checked;
       }
 
       :host-context([dir="rtl"]) #radioLabel {
@@ -149,12 +163,12 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
       /* disabled state */
 
       :host([disabled]) #offRadio {
-        border-color: var(--paper-radio-button-unchecked-color, --primary-text-color);
+        border-color: var(--paper-radio-button-unchecked-color, var(--primary-text-color));
         opacity: 0.5;
       }
 
       :host([disabled][checked]) #onRadio {
-        background-color: var(--paper-radio-button-unchecked-color, --primary-text-color);
+        background-color: var(--paper-radio-button-unchecked-color, var(--primary-text-color));
         opacity: 0.5;
       }
 
@@ -169,7 +183,7 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
       <div id="onRadio"></div>
     </div>
 
-    <div id="radioLabel"><content></content></div>
+    <div id="radioLabel"><slot></slot></div>
   </template>
 
   <script src="paper-radio-button-0.js"></script>

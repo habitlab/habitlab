@@ -24,7 +24,7 @@
         is: 'paper-header-panel',
 
         /**
-         * Fired when the content has been scrolled.  `event.detail.target` returns
+         * Fired when the content has been scrolled. `event.detail.target` returns
          * the scrollable element which you can use to access scroll info such as
          * `scrollTop`.
          *
@@ -67,10 +67,10 @@
            * partially covering the header.
            *
            *     <paper-header-panel mode="cover">
-           *       <paper-toolbar class="tall">
+           *       <paper-toolbar slot="header" class="tall">
            *         <paper-icon-button icon="menu"></paper-icon-button>
            *       </paper-toolbar>
-           *       <div class="content"></div>
+           *       <div></div>
            *     </paper-header-panel>
            */
           mode: {
@@ -113,10 +113,6 @@
           '_computeDropShadowHidden(atTop, mode, shadow)'
         ],
 
-        ready: function() {
-          this.scrollHandler = this._scroll.bind(this);
-        },
-
         attached: function() {
           this._addListener();
           // Run `scroll` logic once to initialize class names, etc.
@@ -127,6 +123,11 @@
           this._removeListener();
         },
 
+        ready: function() {
+          this.scrollHandler = this._scroll.bind(this);
+          console.warn(this.is, 'is deprecated. Please use app-layout instead!');
+        },
+
         /**
          * Returns the header element
          *
@@ -134,7 +135,7 @@
          * @type Object
          */
         get header() {
-          return Polymer.dom(this.$.headerContent).getDistributedNodes()[0];
+          return Polymer.dom(this.$.headerSlot).getDistributedNodes()[0];
         },
 
         /**
@@ -186,7 +187,7 @@
         },
 
         _addListener: function() {
-          this.scroller.addEventListener('scroll', this.scrollHandler, false);
+          this.scroller.addEventListener('scroll', this.scrollHandler);
         },
 
         _removeListener: function() {

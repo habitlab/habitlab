@@ -5,13 +5,13 @@
    * size or hidden state of their children) and "resizables" (elements that need to be
    * notified when they are resized or un-hidden by their parents in order to take
    * action on their new measurements).
-   * 
+   *
    * Elements that perform measurement should add the `IronResizableBehavior` behavior to
    * their element definition and listen for the `iron-resize` event on themselves.
    * This event will be fired when they become showing after having been hidden,
    * when they are resized explicitly by another resizable, or when the window has been
    * resized.
-   * 
+   *
    * Note, the `iron-resize` event is non-bubbling.
    *
    * @polymerBehavior Polymer.IronResizableBehavior
@@ -28,7 +28,7 @@
       },
 
       /**
-       * True if this element is currently notifying its descedant elements of
+       * True if this element is currently notifying its descendant elements of
        * resize.
        */
       _notifyingDescendant: {
@@ -49,16 +49,7 @@
     },
 
     attached: function() {
-      this.fire('iron-request-resize-notifications', null, {
-        node: this,
-        bubbles: true,
-        cancelable: true
-      });
-
-      if (!this._parentResizable) {
-        window.addEventListener('resize', this._boundNotifyResize);
-        this.notifyResize();
-      }
+      this._requestResizeNotifications();
     },
 
     detached: function() {
@@ -127,7 +118,7 @@
         return;
       }
 
-      // NOTE(cdata): In ShadowDOM, event retargetting makes echoing of the
+      // NOTE(cdata): In ShadowDOM, event retargeting makes echoing of the
       // otherwise non-bubbling event "just work." We do it manually here for
       // the case where Polymer is not using shadow roots for whatever reason:
       if (!Polymer.Settings.useShadow) {
@@ -143,8 +134,7 @@
     },
 
     _onIronRequestResizeNotifications: function(event) {
-      var target = event.path ? event.path[0] : event.target;
-
+      var target = /** @type {!EventTarget} */ (Polymer.dom(event).rootTarget);
       if (target === this) {
         return;
       }
@@ -177,5 +167,35 @@
       this._notifyingDescendant = true;
       descendant.notifyResize();
       this._notifyingDescendant = false;
+    },
+    
+    _requestResizeNotifications: function() {
+      if (!this.isAttached)
+        return;
+      
+      // NOTE(valdrin) In CustomElements v1 with native HTMLImports, the order
+      // of imports affects the order of `attached` callbacks (see webcomponents/custom-elements#15).
+      // This might cause a child to notify parents too early (as the parent
+      // still has to be upgraded), resulting in a parent not able to keep track
+      // of the `_interestedResizables`. To solve this, we wait for the document
+      // to be done loading before firing the event.
+      if (document.readyState === 'loading') {
+        var _requestResizeNotifications = this._requestResizeNotifications.bind(this);
+        document.addEventListener('readystatechange', function readystatechanged() {
+          document.removeEventListener('readystatechange', readystatechanged);
+          _requestResizeNotifications();
+        });
+      } else {
+        this.fire('iron-request-resize-notifications', null, {
+          node: this,
+          bubbles: true,
+          cancelable: true
+        });
+
+        if (!this._parentResizable) {
+          window.addEventListener('resize', this._boundNotifyResize);
+          this.notifyResize();
+        } 
+      }
     }
   };

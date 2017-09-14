@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+	<head>
+		<title>html-echo</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../../test-fixture/test-fixture-mocha.js"></script>
+		
+		<link rel="import" href="../html-echo.html">
+		<link rel="import" href="../../test-fixture/test-fixture.html">
+	</head>
+	<body>
+	
+		<test-fixture id="TrivialElement">
+			<template>
+				<html-echo html="<b>Test</b>"></html-echo>
+			</template>
+		</test-fixture>
+	
+		<script>
+			suite('<html-echo>', function() {
+				suite('basic behavior', function() {
+					var element;
+	
+					setup(function() {
+						element = fixture('TrivialElement');
+					});
+					
+					test('sets element inner HTML based on html attribute', function() {
+						expect(element.innerHTML).to.be.eql("<b>Test</b>");
+					});
+					
+					test('changes element inner HTML when html attribute changes', function() {
+						// Pre-condition
+						expect(element.innerHTML).to.be.eql("<b>Test</b>");
+
+						element.html = '<i>Changed</i>';
+
+						expect(element.innerHTML).to.be.eql("<i>Changed</i>");
+					});
+				});
+			});
+		</script>
+	
+	</body>
+</html>

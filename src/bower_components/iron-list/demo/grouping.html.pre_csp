@@ -51,7 +51,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        @apply(--paper-font-common-base);
+        @apply --paper-font-common-base;
       }
 
       app-toolbar {
@@ -88,7 +88,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .group-item {
-        @apply(--layout-horizontal);
+        @apply --layout-horizontal;
         cursor: pointer;
         border-left: 1px solid #ddd;
         border-right: 1px solid #ddd;
@@ -175,9 +175,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         properties: {
 
-          items: Array,
+          items: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          },
 
-          states: Array
+          states: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          }
 
         },
 
@@ -201,6 +211,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }, {});
 
           this.states = states;
+          console.log('items', items);
           return items;
         },
 

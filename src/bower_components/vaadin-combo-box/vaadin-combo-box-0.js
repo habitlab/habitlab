@@ -126,16 +126,30 @@
       }
     },
 
-    listeners: {
-      'inputContainer.focused-changed': '_onInputContainerFocusedChanged'
+    attributeChanged: function(name, type) {
+      // Safari has an issue with repainting shadow root element styles when a host attribute changes.
+      // Need this workaround (toggle any inline css property on and off) until the issue gets fixed.
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      if (isSafari && this.root) {
+        Array.prototype.forEach.call(this.root.querySelectorAll('*'), function(el) {
+          el.style['-webkit-backface-visibility'] = 'visible';
+          el.style['-webkit-backface-visibility'] = '';
+        });
+      }
+    },
+
+    ready: function() {
+      // 2.0 does not support nested syntax for listeners
+      this.$.inputContainer.addEventListener('focused-changed', this._onInputContainerFocusedChanged.bind(this));
+
+      this._setInputElement(this.$.input);
+      this._bindableInput = this.$.ironinput;
     },
 
     attached: function() {
-      this._setInputElement(this.$.input);
-
       // Use the default toggle/clear or one replaced in light DOM.
-      this._toggleElement = Polymer.dom(this).querySelector('.toggle-button') || this.$.toggleIcon;
-      this._clearElement = Polymer.dom(this).querySelector('.clear-button') || this.$.clearIcon;
+      this._toggleElement = Polymer.dom(this).querySelector('[slot=toggle-button]') || this.$.toggleIcon;
+      this._clearElement = Polymer.dom(this).querySelector('[slot=clear-button]') || this.$.clearIcon;
       this._preventInputBlur();
     },
 
@@ -159,14 +173,14 @@
      * Sets focus on the input field.
      */
     focus: function() {
-      this.$.input.focus();
+      this.inputElement.focus();
     },
 
     /**
      * Removes focus from the input field.
      */
     blur: function() {
-      this.$.input.blur();
+      this.inputElement.blur();
     },
 
     _onInputContainerFocusedChanged: function(e) {

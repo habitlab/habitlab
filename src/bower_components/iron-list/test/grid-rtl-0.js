@@ -1,4 +1,4 @@
-
+void(0)
 
   suite('basic features', function() {
     var list, container;
@@ -26,6 +26,42 @@
           assert.equal(actualVisualIndex, expectedVisualIndex);
         }
         done();
+      });
+    });
+
+    test('rtl grid focus change with right arrow', function(done) {
+      container.useTabIndex = true;
+      container.data = buildDataSet(100);
+
+      flush(function() {
+        var initialItem = getNthItemFromRTLGrid(list, 0);
+        var itemToFocus = getNthItemFromRTLGrid(list, 1);
+        initialItem.focus();
+        flush(function() {
+          MockInteractions.pressAndReleaseKeyOn(list, 37); // left
+          flush(function() {
+            assert.notEqual(itemToFocus.tabIndex, -1);
+            done();
+          });
+        });
+      });
+    });
+
+    test('rtl grid focus change with left arrow', function(done) {
+      container.useTabIndex = true;
+      container.data = buildDataSet(100);
+
+      flush(function() {
+        var initialItem = getNthItemFromRTLGrid(list, 1);
+        var itemToFocus = getNthItemFromRTLGrid(list, 0);
+        initialItem.focus();
+        flush(function() {
+          MockInteractions.pressAndReleaseKeyOn(list, 39); // right
+          flush(function() {
+            assert.notEqual(itemToFocus.tabIndex, -1);
+            done();
+          });
+        });
       });
     });
 

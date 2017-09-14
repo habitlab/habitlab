@@ -6,7 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!DOCTYPE html><html id="html"><head>
+--><!DOCTYPE html><html><head>
   <title>Load data using iron-scroll-threshold</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no">
@@ -26,134 +26,141 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../../iron-ajax/iron-ajax.html">
   <link rel="import" href="../iron-list.html">
 
-  <style is="custom-style">
+  </head><body unresolved=""><custom-style>
+    <style is="custom-style">
 
-    body {
-      @apply(--paper-font-common-base);
-      margin: 0;
-      padding: 0;
-      background-color: #eee;
-    }
+      html, body {
+        @apply --paper-font-common-base;
+        margin: 0;
+        padding: 0;
+        background-color: #eee;
+      }
 
-    app-toolbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: #F57C00;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
-      color: white;
-      z-index: 1;
-      font-weight: bold;
-      font-size: 18px;
-    }
+    </style>
+  </custom-style>
 
-    .loadingIndicator {
-      text-align: center;
-      height: 40px;
-    }
 
-    .loadingIndicator paper-spinner {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-    }
 
-    iron-list {
-      padding-top: 64px;
-      padding-bottom: 16px;
-      --iron-list-items-container: {
-        max-width: 800px;
-        margin: auto;
-        margin-top: 60px;
-        margin-bottom: 10px;
-      };
-    }
 
-    .personItem {
-      @apply(--layout-horizontal);
+  <dom-module id="x-app">
+    <template>
+      <style>
+        :host {
+          display: block;
+        }
 
-      margin: 16px 16px 0 16px;
-      padding: 20px;
-      border-radius: 8px;
-      background-color: white;
-      border: 1px solid #ddd;
-    }
+        app-toolbar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          background: #F57C00;
+          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+          color: white;
+          z-index: 1;
+          font-weight: bold;
+          font-size: 18px;
+        }
 
-    .avatar {
-      height: 40px;
-      width: 40px;
-      border-radius: 20px;
-      box-sizing: border-box;
-      background-color: #DDD;
-    }
+        .loadingIndicator {
+          text-align: center;
+          height: 40px;
+        }
 
-    .pad {
-      padding: 0 16px;
-      @apply(--layout-flex);
-      @apply(--layout-vertical);
-    }
+        paper-spinner {
+          width: 20px;
+          height: 20px;
+          margin-right: 10px;
+        }
 
-    .primary {
-      font-size: 16px;
-      font-weight: bold;
-    }
+        iron-list {
+          padding-top: 64px;
+          padding-bottom: 16px;
+          --iron-list-items-container: {
+            max-width: 800px;
+            margin: auto;
+            margin-top: 60px;
+            margin-bottom: 10px;
+          };
+        }
 
-    address {
-      font-size: 14px;
-      margin: 10px 0;
-    }
+        .personItem {
+          @apply --layout-horizontal;
 
-    .spacer {
-      @apply(--layout-flex);
-    }
+          margin: 16px 16px 0 16px;
+          padding: 20px;
+          border-radius: 8px;
+          background-color: white;
+          border: 1px solid #ddd;
+        }
 
-    .index {
-      width: 30px;
-    }
+        .avatar {
+          height: 40px;
+          width: 40px;
+          border-radius: 20px;
+          box-sizing: border-box;
+          background-color: #DDD;
+        }
 
-  </style>
+        .pad {
+          padding: 0 16px;
+          @apply --layout-flex;
+          @apply --layout-vertical;
+        }
 
-</head>
-<body unresolved="">
+        .primary {
+          font-size: 16px;
+          font-weight: bold;
+        }
 
-  <template is="dom-bind" id="app">
+        address {
+          font-size: 14px;
+          margin: 10px 0;
+        }
 
-    <iron-ajax id="ajax" url="//randomuser.me/api/" params="{&quot;results&quot;: 20}" handle-as="json" loading="{{loadingPeople}}" on-response="_didRespond">
-    </iron-ajax>
+        .spacer {
+          @apply --layout-flex;
+        }
 
-    <app-toolbar>
-      <div main-title="">Load data using iron-scroll-threshold</div>
-    </app-toolbar>
+        .index {
+          width: 30px;
+        }
 
-    <iron-list id="list" items="[]" as="person" scroll-target="html">
-      <template>
-        <div>
-          <div class="personItem" tabindex$="[[tabIndex]]">
-            <iron-image class="avatar" sizing="contain" src="[[person.picture.medium]]"></iron-image>
-            <div class="pad">
-              <div class="primary">[[person.name.first]] [[person.name.last]]</div>
-              <address>
-                [[person.location.street]] [[person.city]] <br>
-                [[person.location.city]], [[person.location.state]] [[person.location.postcode]]
-              </address>
+      </style>
+      <iron-ajax id="ajax" url="https://randomuser.me/api/" params="{&quot;results&quot;: 20}" handle-as="json" loading="{{loadingPeople}}" on-response="_didRespond"></iron-ajax>
+
+      <app-toolbar>
+        <div main-title="">Load data using iron-scroll-threshold</div>
+      </app-toolbar>
+
+      <iron-list id="list" items="[]" as="person" scroll-target="document">
+        <template>
+          <div>
+            <div class="personItem" tabindex$="[[tabIndex]]">
+              <iron-image class="avatar" sizing="contain" src="[[person.picture.medium]]"></iron-image>
+              <div class="pad">
+                <div class="primary">[[person.name.first]] [[person.name.last]]</div>
+                <address>
+                  [[person.location.street]] [[person.city]] <br>
+                  [[person.location.city]], [[person.location.state]] [[person.location.postcode]]
+                </address>
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-    </iron-list>
+        </template>
+      </iron-list>
 
-    <div class="loadingIndicator">
-      <paper-spinner active="{{loadingPeople}}"></paper-spinner> Fetching data
-    </div>
+      <div class="loadingIndicator">
+        <paper-spinner active="{{loadingPeople}}"></paper-spinner> Fetching data
+      </div>
 
-    <!-- this element will load more data when the user scrolls down and reached the lower threshold -->
-    <iron-scroll-threshold id="scrollTheshold" lower-threshold="500" on-lower-threshold="_loadMoreData" scroll-target="html">
-    </iron-scroll-threshold>
+      <!-- this element will load more data when the user scrolls down and reached the lower threshold -->
+      <iron-scroll-threshold id="scrollTheshold" lower-threshold="500" on-lower-threshold="_load" scroll-target="document"></iron-scroll-threshold>
+    </template>
+    <script src="scroll-threshold-0.js"></script>
+  </dom-module>
 
-  </template>
-
-  <script src="scroll-threshold-0.js"></script>
+  <x-app></x-app>
 
 
 

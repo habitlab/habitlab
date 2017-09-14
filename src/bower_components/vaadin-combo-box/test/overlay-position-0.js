@@ -1,5 +1,5 @@
 
-    HTMLImports.whenReady(function() {
+    window.addEventListener('WebComponentsReady', function() {
       Polymer({
         is: 'x-fixed'
       });
@@ -158,8 +158,8 @@
       it('should reposition after filtering', function(done) {
         moveComboBox(horiCenter, vertBottom, 300);
 
-        comboBox.$.input.bindValue = 'item 1';
-        comboBox.$.input.fire('input');
+        comboBox.inputElement.value = 'item 1';
+        comboBox.inputElement.dispatchEvent(new CustomEvent('input'));
 
         Polymer.Base.async(function() {
           expect(dropContentRect().bottom).to.closeTo(inputContentRect().top, 1);

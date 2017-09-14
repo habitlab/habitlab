@@ -6,11 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<!doctype html>
-<html id="html">
-<head>
+--><!DOCTYPE html><html><head>
 
   <title>iron-list demo</title>
 
@@ -23,139 +19,148 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <link rel="import" href="../../polymer/polymer.html">
   <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" href="../../app-layout/app-scroll-effects/app-scroll-effects.html">
   <link rel="import" href="../../app-layout/app-header/app-header.html">
   <link rel="import" href="../../app-layout/app-toolbar/app-toolbar.html">
-  <link rel="import" href="../../app-layout/app-scroll-effects/app-scroll-effects.html">
   <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
   <link rel="import" href="../../iron-ajax/iron-ajax.html">
   <link rel="import" href="../../iron-icons/iron-icons.html">
   <link rel="import" href="../../iron-image/iron-image.html">
   <link rel="import" href="../iron-list.html">
 
-  <style is="custom-style">
-    body {
-      @apply(--layout-fullbleed);
-      font-family: 'Roboto', 'Noto', sans-serif;
-      background-color: #eee;
-    }
+  </head><body unresolved=""><custom-style>
+    <style is="custom-style">
+      body {
+        @apply --layout-fullbleed;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        background-color: #eee;
+      }
+    </style>
+  </custom-style>
 
-    app-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1;
-      background-color: #0b8043;
-      color: white;
-      --app-header-background-front-layer: {
-        background-color: #4285f4;
-      };
-    }
 
-    app-header paper-icon-button {
-      --paper-icon-button-ink-color: white;
-    }
 
-    [main-title] {
-      font-weight: 400;
-      margin: 0 0 0 50px;
-    }
 
-    [condensed-title] {
-      font-size: 18px;
-      font-weight: 400;
-      margin-left: 30px;
-    }
+  <dom-module id="x-list">
+    <template>
+      <style>
+        :host {
+          display: block;
+        }
 
-    [condensed-title] i {
-      font-style: normal;
-      font-weight: 100;
-    }
+        app-header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 1;
+          background-color: #0b8043;
+          color: white;
+          --app-header-background-front-layer: {
+            background-color: #4285f4;
+          };
+        }
 
-    app-toolbar.tall {
-      height: 148px;
-    }
+        app-header paper-icon-button {
+          --paper-icon-button-ink-color: white;
+        }
 
-    iron-list {
-      padding-top: 148px;
-      margin-top: 64px;
-      padding-bottom: 16px;
-    }
+        [main-title] {
+          font-weight: 400;
+          margin: 0 0 0 50px;
+        }
 
-    .item {
-      @apply(--layout-horizontal);
-      padding: 20px;
-      border-radius: 8px;
-      background-color: white;
-      border: 1px solid #ddd;
-      max-width: 800px;
-      margin: 16px auto 0 auto;
-    }
+        [condensed-title] {
+          font-size: 18px;
+          font-weight: 400;
+          margin-left: 30px;
+        }
 
-    .item:focus {
-      outline: 0;
-      border-color: #333;
-    }
+        [condensed-title] i {
+          font-style: normal;
+          font-weight: 100;
+        }
 
-    .avatar {
-      height: 40px;
-      width: 40px;
-      border-radius: 20px;
-      box-sizing: border-box;
-      background-color: #DDD;
-    }
+        app-toolbar.tall {
+          height: 148px;
+        }
 
-    .pad {
-      padding: 0 16px;
-      @apply(--layout-flex);
-      @apply(--layout-vertical);
-    }
+        iron-list {
+          padding-top: 148px;
+          margin-top: 64px;
+          padding-bottom: 16px;
+        }
 
-    .primary {
-      font-size: 16px;
-      font-weight: bold;
-    }
+        .item {
+          @apply --layout-horizontal;
+          padding: 20px;
+          border-radius: 8px;
+          background-color: white;
+          border: 1px solid #ddd;
+          max-width: 800px;
+          margin: 16px auto 0 auto;
+        }
 
-    .secondary {
-      font-size: 14px;
-    }
+        .item:focus {
+          outline: 0;
+          border-color: #333;
+        }
 
-    .dim {
-      color: gray;
-    }
+        .avatar {
+          height: 40px;
+          width: 40px;
+          border-radius: 20px;
+          box-sizing: border-box;
+          background-color: #DDD;
+        }
 
-    .spacer {
-      @apply(--layout-flex);
-    }
+        .pad {
+          padding: 0 16px;
+          @apply --layout-flex;
+          @apply --layout-vertical;
+        }
 
-  </style>
+        .primary {
+          font-size: 16px;
+          font-weight: bold;
+        }
 
-</head>
-<body unresolved>
+        .secondary {
+          font-size: 14px;
+        }
 
-  <template is="dom-bind">
-    <iron-ajax url="data/contacts.json" last-response="{{data}}" auto></iron-ajax>
+        .dim {
+          color: gray;
+        }
 
-      <app-header condenses fixed effects="resize-title blend-background waterfall">
+        .spacer {
+          @apply --layout-flex;
+        }
+      </style>
+      <iron-ajax url="data/contacts.json" last-response="{{data}}" auto=""></iron-ajax>
+
+      <app-header condenses="" fixed="" effects="resize-title blend-background waterfall">
         <app-toolbar>
-          <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-          <h4 condensed-title>iron-list <i>&mdash; Demo</i></h4>
+          <paper-icon-button icon="menu" drawer-toggle=""></paper-icon-button>
+          <h4 condensed-title="">iron-list <i>— Demo</i></h4>
           <paper-icon-button icon="search"></paper-icon-button>
           <paper-icon-button icon="more-vert"></paper-icon-button>
         </app-toolbar>
         <app-toolbar class="tall">
-          <h1 main-title>iron-list</h1>
+          <h1 main-title="">iron-list</h1>
         </app-toolbar>
       </app-header>
 
       <!-- iron-list using the document scroll -->
-      <iron-list items="[[data]]" as="item" scroll-target="html">
+      <iron-list items="[[data]]" as="item" scroll-target="document">
         <template>
           <div>
             <div class="item" tabindex$="[[tabIndex]]">
               <iron-image class="avatar" sizing="contain" src="[[item.image]]"></iron-image>
               <div class="pad">
+                <input type="text" name="value">
                 <div class="primary">[[item.name]] [[index]]</div>
+                <div> <a href="#">Link 1</a> <a href="#">Link 2</a> <a href="#">Link 3</a> <a href="#">Link 4</a> </div>
                 <div class="secondary">[[item.shortText]]</div>
                 <div class="secondary dim">[[item.longText]]</div>
               </div>
@@ -163,8 +168,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </template>
       </iron-list>
+    </template>
+    <script src="cards-0.js"></script>
+  </dom-module>
+  
+  <x-list></x-list>
 
-  </template>
 
-</body>
-</html>
+
+</body></html>

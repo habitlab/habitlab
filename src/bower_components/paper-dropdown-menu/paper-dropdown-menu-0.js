@@ -26,7 +26,7 @@
 
           /**
            * The last selected item. An item is selected if the dropdown menu has
-           * a child with class `dropdown-content`, and that child triggers an
+           * a child with slot `dropdown-content`, and that child triggers an
            * `iron-select` event with the selected `item` in the `detail`.
            *
            * @type {?Object}
@@ -134,7 +134,25 @@
           verticalAlign: {
             type: String,
             value: 'top'
-          }
+          },
+
+          /**
+           * If true, the `horizontalAlign` and `verticalAlign` properties will
+           * be considered preferences instead of strict requirements when
+           * positioning the dropdown and may be changed if doing so reduces
+           * the area of the dropdown falling outside of `fitInto`.
+           */
+          dynamicAlign: {
+            type: Boolean
+          },
+            
+          /**
+           * Whether focus should be restored to the dropdown when the menu closes.
+           */
+          restoreFocusOnClose: {
+            type: Boolean,
+            value: true
+          },
         },
 
         listeners: {
@@ -171,7 +189,13 @@
          * The content element that is contained by the dropdown menu, if any.
          */
         get contentElement() {
-          return Polymer.dom(this.$.content).getDistributedNodes()[0];
+          // Polymer 2.x returns slot.assignedNodes which can contain text nodes.
+          var nodes = Polymer.dom(this.$.content).getDistributedNodes();
+          for (var i = 0, l = nodes.length; i < l; i++) {
+            if (nodes[i].nodeType === Node.ELEMENT_NODE) {
+              return nodes[i];
+            }
+          }
         },
 
         /**

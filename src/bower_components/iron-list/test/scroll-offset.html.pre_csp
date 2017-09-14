@@ -17,7 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
 
-  <link rel="import" href="helpers.html">
+  <link rel="import" href="fixtures/helpers.html">
   <link rel="import" href="../iron-list.html">
 
   <style>
@@ -47,6 +47,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </style>
 </head>
 <body>
+  <!-- Issue: web-component-tester/issues/505 -->
+  <script>void(0)</script>
 
   <test-fixture id="trivialList">
     <template>

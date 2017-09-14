@@ -34,7 +34,19 @@
       },
 
       /**
-       * Set noAnimation to true to disable animations
+       * When true, the element is transitioning its opened state. When false,
+       * the element has finished opening/closing.
+       *
+       * @attribute transitioning
+       */
+      transitioning: {
+        type: Boolean,
+        notify: true,
+        readOnly: true
+      },
+
+      /**
+       * Set noAnimation to true to disable animations.
        *
        * @attribute noAnimation
        */
@@ -42,6 +54,14 @@
         type: Boolean
       },
 
+      /**
+       * Stores the desired size of the collapse body.
+       * @private
+       */
+      _desiredSize: {
+        type: String,
+        value: ''
+      }
     },
 
     get dimension() {
@@ -71,12 +91,7 @@
     },
 
     listeners: {
-      transitionend: '_transitionEnd'
-    },
-
-    attached: function() {
-      // It will take care of setting correct classes and styles.
-      this._transitionEnd();
+      transitionend: '_onTransitionEnd'
     },
 
     /**
@@ -102,20 +117,22 @@
      * @param {boolean=} animated if `true` updates the size with an animation, otherwise without.
      */
     updateSize: function(size, animated) {
-      // No change!
-      var curSize = this.style[this._dimensionMax];
-      if (curSize === size || (size === 'auto' && !curSize)) {
-        return;
-      }
+      // Consider 'auto' as '', to take full size.
+      size = size === 'auto' ? '' : size;
+
+      var willAnimate = animated && !this.noAnimation &&
+                        this.isAttached && this._desiredSize !== size;
+
+      this._desiredSize = size;
 
       this._updateTransition(false);
       // If we can animate, must do some prep work.
-      if (animated && !this.noAnimation && this._isDisplayed) {
+      if (willAnimate) {
         // Animation will start at the current size.
         var startSize = this._calcSize();
         // For `auto` we must calculate what is the final size for the animation.
         // After the transition is done, _transitionEnd will set the size back to `auto`.
-        if (size === 'auto') {
+        if (size === '') {
           this.style[this._dimensionMax] = '';
           size = this._calcSize();
         }
@@ -126,12 +143,14 @@
         this.scrollTop = this.scrollTop;
         // Enable animation.
         this._updateTransition(true);
+        // If final size is the same as startSize it will not animate.
+        willAnimate = (size !== startSize);
       }
       // Set the final size.
-      if (size === 'auto') {
-        this.style[this._dimensionMax] = '';
-      } else {
-        this.style[this._dimensionMax] = size;
+      this.style[this._dimensionMax] = size;
+      // If it won't animate, call transitionEnd to set correct classes.
+      if (!willAnimate) {
+        this._transitionEnd();
       }
     },
 
@@ -162,6 +181,7 @@
       this.setAttribute('aria-expanded', this.opened);
       this.setAttribute('aria-hidden', !this.opened);
 
+      this._setTransitioning(true);
       this.toggleClass('iron-collapse-closed', false);
       this.toggleClass('iron-collapse-opened', false);
       this.updateSize(this.opened ? 'auto' : '0px', true);
@@ -170,32 +190,21 @@
       if (this.opened) {
         this.focus();
       }
-      if (this.noAnimation) {
-        this._transitionEnd();
-      }
     },
 
     _transitionEnd: function() {
-      if (this.opened) {
-        this.style[this._dimensionMax] = '';
-      }
+      this.style[this._dimensionMax] = this._desiredSize;
       this.toggleClass('iron-collapse-closed', !this.opened);
       this.toggleClass('iron-collapse-opened', this.opened);
       this._updateTransition(false);
       this.notifyResize();
+      this._setTransitioning(false);
     },
 
-    /**
-     * Simplistic heuristic to detect if element has a parent with display: none
-     *
-     * @private
-     */
-    get _isDisplayed() {
-      var rect = this.getBoundingClientRect();
-      for (var prop in rect) {
-        if (rect[prop] !== 0) return true;
+    _onTransitionEnd: function(event) {
+      if (Polymer.dom(event).rootTarget === this) {
+        this._transitionEnd();
       }
-      return false;
     },
 
     _calcSize: function() {

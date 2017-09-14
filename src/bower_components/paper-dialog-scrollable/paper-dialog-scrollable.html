@@ -74,7 +74,7 @@ Custom property | Description | Default
 
       :host {
         display: block;
-        @apply --layout-relative;
+        @apply(--layout-relative);
       }
 
       :host(.is-scrolled:not(:first-child))::before {
@@ -100,17 +100,17 @@ Custom property | Description | Default
       .scrollable {
         padding: 0 24px;
 
-        @apply --layout-scroll;
-        @apply --paper-dialog-scrollable;
+        @apply(--layout-scroll);
+        @apply(--paper-dialog-scrollable);
       }
 
       .fit {
-        @apply --layout-fit;
+        @apply(--layout-fit);
       }
     </style>
 
-    <div id="scrollable" class="scrollable" on-scroll="updateScrollState">
-      <slot></slot>
+    <div id="scrollable" class="scrollable">
+      <content></content>
     </div>
   </template>
 

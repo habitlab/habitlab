@@ -26,11 +26,8 @@
     this._backdropElement = null;
 
     // Enable document-wide tap recognizer.
-    // NOTE: Use useCapture=true to avoid accidentally prevention of the closing
-    // of an overlay via event.stopPropagation(). The only way to prevent
-    // closing of an overlay should be through its APIs.
-    // NOTE: enable tap on <html> to workaround Polymer/polymer#4459
-    Polymer.Gestures.add(document.documentElement, 'tap', null);
+    Polymer.Gestures.add(document, 'tap', null);
+    // Need to have useCapture=true, Polymer.Gestures doesn't offer that.
     document.addEventListener('tap', this._onCaptureClick.bind(this), true);
     document.addEventListener('focus', this._onCaptureFocus.bind(this), true);
     document.addEventListener('keydown', this._onCaptureKeyDown.bind(this), true);
@@ -146,6 +143,9 @@
       }
       this._overlays.splice(insertionIndex, 0, overlay);
 
+      // Get focused node.
+      var element = this.deepActiveElement;
+      overlay.restoreFocusNode = this._overlayParent(element) ? null : element;
       this.trackBackdrop();
     },
 
@@ -159,6 +159,12 @@
       }
       this._overlays.splice(i, 1);
 
+      var node = overlay.restoreFocusOnClose ? overlay.restoreFocusNode : null;
+      overlay.restoreFocusNode = null;
+      // Focus back only if still contained in document.body
+      if (node && Polymer.dom(document.body).deepContains(node)) {
+        node.focus();
+      }
       this.trackBackdrop();
     },
 
@@ -190,7 +196,15 @@
 
     focusOverlay: function() {
       var current = /** @type {?} */ (this.currentOverlay());
-      if (current) {
+      // We have to be careful to focus the next overlay _after_ any current
+      // transitions are complete (due to the state being toggled prior to the
+      // transition). Otherwise, we risk infinite recursion when a transitioning
+      // (closed) overlay becomes the current overlay.
+      //
+      // NOTE: We make the assumption that any overlay that completes a transition
+      // will call into focusOverlay to kick the process back off. Currently:
+      // transitionend -> _applyFocus -> focusOverlay.
+      if (current && !current.transitioning) {
         current._applyFocus();
       }
     },
@@ -206,10 +220,6 @@
       }
       this.backdropElement.style.zIndex = this._getZ(overlay) - 1;
       this.backdropElement.opened = !!overlay;
-      // Property observers are not fired until element is attached
-      // in Polymer 2.x, so we ensure element is attached if needed.
-      // https://github.com/Polymer/polymer/issues/4526
-      this.backdropElement.prepare();
     },
 
     /**
@@ -280,6 +290,24 @@
      */
     _applyOverlayZ: function(overlay, aboveZ) {
       this._setZ(overlay, aboveZ + 2);
+    },
+
+    /**
+     * Returns the overlay containing the provided node. If the node is an overlay,
+     * it returns the node.
+     * @param {Element=} node
+     * @return {Element|undefined}
+     * @private
+     */
+    _overlayParent: function(node) {
+      while (node && node !== document.body) {
+        // Check if it is an overlay.
+        if (node._manager === this) {
+          return node;
+        }
+        // Use logical parentNode, or native ShadowRoot host.
+        node = Polymer.dom(node).parentNode || node.host;
+      }
     },
 
     /**

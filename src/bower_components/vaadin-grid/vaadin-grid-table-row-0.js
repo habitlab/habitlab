@@ -1,0 +1,251 @@
+
+  (function() {
+
+    /**
+     * @polymerBehavior vaadinGridTableRowBehavior
+     */
+    var vaadinGridTableRowBehavior = {
+
+      extends: 'tr',
+
+      properties: {
+        active: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false
+        },
+        columns: Array,
+        index: Number,
+        cells: {
+          value: []
+        },
+        target: Object,
+
+        expanded: {
+          value: false
+        },
+
+        focused: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+
+        item: Object,
+
+        selected: {
+          reflectToAttribute: true
+        },
+
+        _rowDetailsCell: Object,
+
+        rowDetailsTemplate: Object
+      },
+
+      observers: [
+        '_columnsChanged(columns, target)',
+        '_indexChanged(index, cells)',
+        '_itemChanged(item, cells)',
+        '_itemChangedForDetails(item, _rowDetailsCell)',
+        '_rowDetailsChanged(expanded, rowDetailsTemplate, target)',
+        '_rowDetailsCellIndexChanged(_rowDetailsCell, index)',
+        '_rowDetailsCellChanged(_rowDetailsCell, target)',
+        '_selectedChanged(selected, cells)',
+        '_selectedChangedForDetails(selected, _rowDetailsCell)',
+      ],
+
+      iterateCells: function(callback) {
+        this.cells.forEach(callback);
+        if (this._rowDetailsCell) {
+          callback(this._rowDetailsCell);
+        }
+      },
+
+      _rowDetailsChanged: function(expanded, rowDetailsTemplate, target) {
+        if (expanded) {
+          // TODO: template instance for each detail cell is pushed to the template.instances
+          // but never cleaned up. Maybe consider just hiding details instead of removing.
+          var rowDetailsCell = document.createElement('td', 'vaadin-grid-table-cell');
+          rowDetailsCell.setAttribute('detailscell', true);
+          // Using a frozen cell as the details cell works as a handy way of
+          // making it float in place
+          rowDetailsCell.frozen = true;
+          rowDetailsCell.target = target;
+          rowDetailsCell.template = rowDetailsTemplate;
+          rowDetailsCell.toggleAttribute('lastcolumn', true);
+          Polymer.dom(this.root).appendChild(rowDetailsCell);
+          Polymer.dom.flush();
+          this._rowDetailsCell = rowDetailsCell;
+
+        } else {
+          if (this._rowDetailsCell) {
+            Polymer.dom(this.root).removeChild(this._rowDetailsCell);
+            this._rowDetailsCell = null;
+          }
+        }
+
+        this.iterateCells(function(cell) {
+          cell.expanded = expanded;
+        });
+
+        // Row details uses a frozen cell to need to invoke this to update cache
+        this.target.$.scroller._frozenCellsChanged();
+      },
+
+      _updateRowVisibility: function() {
+        this.hidden = this.cells.every(function(cell) {
+          return cell._isEmpty;
+        });
+      },
+
+      _rowDetailsCellChanged: function(_rowDetailsCell, target) {
+        // paddingBottom must be set before update() is called!
+        // make sure observers are in the correct order!
+        target.$.scroller._update();
+      },
+
+      _rowDetailsCellIndexChanged: function(_rowDetailsCell, index, target) {
+        if (_rowDetailsCell) {
+          _rowDetailsCell.index = index;
+
+          Polymer.dom.flush();
+          this.updateRowDetailsCellMetrics();
+        } else {
+          this.style.paddingBottom = '';
+        }
+      },
+
+      updateRowDetailsCellMetrics: function() {
+        if (this._rowDetailsCell) {
+          this._rowDetailsCell.style.height = ''; // Reset previous height
+          this.style.paddingBottom = this._rowDetailsCell.style.height = this._rowDetailsCell.clientHeight + 'px';
+        }
+      },
+
+
+      _columnsChanged: function(columns, target) {
+        Polymer.dom(this).innerHTML = '';
+
+        var cells = [];
+
+        columns.forEach(function(column, columnIndex) {
+          // Get a cached cell instance if one is available
+          var cacheName = '_' + this.is.replace(/-/g, '_') + '_cells';
+          var cache = column[cacheName] = column[cacheName] || [];
+          var cell = cache.filter(function(cell) {
+            return !Polymer.dom(cell).parentNode;
+          })[0];
+          if (!cell) {
+            cell = this._createCell();
+            cache.push(cell);
+          }
+
+          cell.index = this.index;
+          cell.target = this.target;
+          cell._isColumnRow = this._isColumnRow;
+          cell.column = column;
+
+          Polymer.dom(this).appendChild(cell);
+          cells.push(cell);
+
+        }.bind(this));
+
+        this.cells = cells;
+      },
+
+      _indexChanged: function(index, cells, _rowDetailsCell) {
+        cells.forEach(function(cell) {
+          cell.index = index;
+        });
+      },
+
+      _itemChanged: function(item, cells) {
+        cells.forEach(function(cell) {
+          // use assignment here instead of notifyPath to avoid triggering
+          // forwardInstancePath for path "item" on cells unnecessarily.
+          cell.item = item;
+        });
+      },
+
+      _itemChangedForDetails: function(item, rowDetails) {
+        if (rowDetails) {
+          rowDetails.item = item;
+        }
+      },
+
+      _selectedChanged: function(selected, cells) {
+        cells.forEach(function(cell) {
+          cell.selected = selected;
+        });
+      },
+
+      _selectedChangedForDetails: function(selected, rowDetails) {
+        if (rowDetails) {
+          rowDetails.selected = selected;
+        }
+      },
+
+      updateLastColumn: function() {
+        this.cells.slice(0).sort(function(a, b) {
+          return a.column._order - b.column._order;
+        }).forEach(function(cell, cellIndex, children) {
+          cell.toggleAttribute('lastcolumn', cellIndex === children.length - 1);
+        });
+      }
+
+    };
+
+    Polymer({
+      is: 'vaadin-grid-table-row',
+
+      behaviors: [
+        vaadinGridTableRowBehavior
+      ],
+
+      _createCell: function() {
+        return document.createElement('td', 'vaadin-grid-table-cell');
+      }
+    });
+
+    Polymer({
+      is: 'vaadin-grid-table-header-row',
+
+      behaviors: [
+        vaadinGridTableRowBehavior
+      ],
+
+      observers: [
+        '_updateRowVisibility(columns)'
+      ],
+
+      listeners: {
+        'cell-empty-changed': '_updateRowVisibility'
+      },
+
+      _createCell: function() {
+        return document.createElement('th', 'vaadin-grid-table-header-cell');
+      }
+
+    });
+
+    Polymer({
+      is: 'vaadin-grid-table-footer-row',
+
+      behaviors: [
+        vaadinGridTableRowBehavior
+      ],
+
+      observers: [
+        '_updateRowVisibility(columns)'
+      ],
+
+      listeners: {
+        'cell-empty-changed': '_updateRowVisibility'
+      },
+
+      _createCell: function() {
+        return document.createElement('td', 'vaadin-grid-table-footer-cell');
+      }
+
+    });
+
+  })();

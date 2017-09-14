@@ -14,18 +14,28 @@
   <div class="vertical-section-container centered">
     <demo-navigation></demo-navigation>
 
+    <dom-module id="iron-ajax">
+      <template>
+        <style>
+           :host {
+            display: block;
+          }
+        </style>
+
+      </template>
+      <script src="filtering-0.js"></script>
+    </dom-module>
+
     <h3>Remote Data Source</h3>
     <demo-snippet>
       <template>
-        <dom-bind>
-          <template is="dom-bind">
-            <iron-ajax url="http://example.org/?filter=[[filter]]" handle-as="json" last-response="{{response}}" loading="{{loading}}" debounce-duration="500" auto="">
-            </iron-ajax>
+        <template is="dom-bind">
+          <iron-ajax url="http://example.org/?filter=[[filter]]" handle-as="json" last-response="{{response}}" loading="{{loading}}" debounce-duration="500" auto="">
+          </iron-ajax>
 
-            <vaadin-combo-box filtered-items="[[response]]" filter="{{filter}}" loading="[[loading]]">
-            </vaadin-combo-box>
-          </template>
-        </dom-bind>
+          <vaadin-combo-box filtered-items="[[response]]" filter="{{filter}}" loading="[[loading]]">
+          </vaadin-combo-box>
+        </template>
       </template>
     </demo-snippet>
 
@@ -40,21 +50,19 @@
             </vaadin-combo-box>
           </template>
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              Polymer({
-                is: 'custom-filter',
+            Polymer({
+              is: 'custom-filter',
 
-                properties: {
-                  items: Array,
-                },
+              properties: {
+                items: Array,
+              },
 
-                _filterChanged: function(e) {
-                  // case-sensitive starts-with filtering
-                  this.items = elements.filter(function(el) {
-                    return el.indexOf(e.detail.value) === 0;
-                  });
-                }
-              });
+              _filterChanged: function(e) {
+                // case-sensitive filtering
+                this.items = elements.filter(function(el) {
+                  return el.indexOf(e.detail.value) !== -1;
+                });
+              }
             });
           </script>
         </dom-module>
@@ -62,16 +70,6 @@
     </demo-snippet>
   </div>
 
-<dom-module id="iron-ajax">
-  <template>
-    <style>
-       :host {
-        display: block;
-      }
-    </style>
 
-  </template>
-  <script src="filtering-0.js"></script>
-</dom-module>
 
 </body></html>

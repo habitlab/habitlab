@@ -7,30 +7,28 @@
    */
   Polymer.NeonAnimationRunnerBehaviorImpl = {
 
-    _configureAnimations: function(configs) {
-      var results = [];
-      if (configs.length > 0) {
-        for (var config, index = 0; config = configs[index]; index++) {
-          var neonAnimation = document.createElement(config.name);
+    properties: {
+
+      /** @type {?Object} */
+      _player: {
+        type: Object
+      }
+
+    },
+
+    _configureAnimationEffects: function(allConfigs) {
+      var allAnimations = [];
+      if (allConfigs.length > 0) {
+        for (var config, index = 0; config = allConfigs[index]; index++) {
+          var animation = document.createElement(config.name);
           // is this element actually a neon animation?
-          if (neonAnimation.isNeonAnimation) {
-            var result = null;
-            // configuration or play could fail if polyfills aren't loaded
-            try {
-              result = neonAnimation.configure(config);
-              // Check if we have an Effect rather than an Animation
-              if (typeof result.cancel != 'function') { 
-                result = document.timeline.play(result);
-              }
-            } catch (e) {
-              result = null;
-              console.warn('Couldnt play', '(', config.name, ').', e);
-            }
-            if (result) {
-              results.push({
-                neonAnimation: neonAnimation,
+          if (animation.isNeonAnimation) {
+            var effect = animation.configure(config);
+            if (effect) {
+              allAnimations.push({
+                animation: animation,
                 config: config,
-                animation: result,
+                effect: effect
               });
             }
           } else {
@@ -38,26 +36,16 @@
           }
         }
       }
-      return results;
+      return allAnimations;
     },
 
-    _shouldComplete: function(activeEntries) {
-      var finished = true;
-      for (var i = 0; i < activeEntries.length; i++) {
-        if (activeEntries[i].animation.playState != 'finished') {
-          finished = false;
-          break;
-        }
-      }
-      return finished;
+    _runAnimationEffects: function(allEffects) {
+      return document.timeline.play(new GroupEffect(allEffects));
     },
 
-    _complete: function(activeEntries) {
-      for (var i = 0; i < activeEntries.length; i++) {
-        activeEntries[i].neonAnimation.complete(activeEntries[i].config);
-      }
-      for (var i = 0; i < activeEntries.length; i++) {
-        activeEntries[i].animation.cancel();
+    _completeAnimations: function(allAnimations) {
+      for (var animation, index = 0; animation = allAnimations[index]; index++) {
+        animation.animation.complete(animation.config);
       }
     },
 
@@ -67,44 +55,43 @@
      * @param {!Object=} cookie
      */
     playAnimation: function(type, cookie) {
-      var configs = this.getAnimationConfig(type);
-      if (!configs) {
+      var allConfigs = this.getAnimationConfig(type);
+      if (!allConfigs) {
         return;
       }
-      this._active = this._active || {};
-      if (this._active[type]) {
-        this._complete(this._active[type]);
-        delete this._active[type];
-      }
+      try {
+        var allAnimations = this._configureAnimationEffects(allConfigs);
+        var allEffects = allAnimations.map(function(animation) {
+          return animation.effect;
+        });
 
-      var activeEntries = this._configureAnimations(configs);
+        if (allEffects.length > 0) {
+          this._player = this._runAnimationEffects(allEffects);
+          this._player.onfinish = function() {
+            this._completeAnimations(allAnimations);
 
-      if (activeEntries.length == 0) {
-        this.fire('neon-animation-finish', cookie, {bubbles: false});
-        return;
-      }
+            if (this._player) {
+              this._player.cancel();
+              this._player = null;
+            }
 
-      this._active[type] = activeEntries;
-
-      for (var i = 0; i < activeEntries.length; i++) {
-        activeEntries[i].animation.onfinish = function() {
-          if (this._shouldComplete(activeEntries)) {
-            this._complete(activeEntries);
-            delete this._active[type];
             this.fire('neon-animation-finish', cookie, {bubbles: false});
-          }
-        }.bind(this);
+          }.bind(this);
+          return;
+        }
+      } catch (e) {
+        console.warn('Couldnt play', '(', type, allConfigs, ').', e);
       }
+      this.fire('neon-animation-finish', cookie, {bubbles: false});
     },
 
     /**
-     * Cancels the currently running animations.
+     * Cancels the currently running animation.
      */
     cancelAnimation: function() {
-      for (var k in this._animations) {
-        this._animations[k].cancel();
+      if (this._player) {
+        this._player.cancel();
       }
-      this._animations = {};
     }
   };
 

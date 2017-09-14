@@ -7,9 +7,12 @@
    * @polymerBehavior
    */
   Polymer.PaperInputAddonBehavior = {
+
+    hostAttributes: {
+      'add-on': ''
+    },
+
     attached: function() {
-      // Workaround for https://github.com/webcomponents/shadydom/issues/96
-      Polymer.dom.flush();
       this.fire('addon-attached');
     },
 

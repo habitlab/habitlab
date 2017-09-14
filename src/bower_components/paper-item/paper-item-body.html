@@ -42,9 +42,9 @@ Custom property | Description | Default
     <style>
       :host {
         overflow: hidden; /* needed for text-overflow: ellipsis to work on ff */
-        @apply --layout-vertical;
-        @apply --layout-center-justified;
-        @apply --layout-flex;
+        @apply(--layout-vertical);
+        @apply(--layout-center-justified);
+        @apply(--layout-flex);
       }
 
       :host([two-line]) {
@@ -55,22 +55,22 @@ Custom property | Description | Default
         min-height: var(--paper-item-body-three-line-min-height, 88px);
       }
 
-      :host > ::slotted(*) {
+      :host > ::content > * {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      :host > ::slotted([secondary]) {
-        @apply --paper-font-body1;
+      :host > ::content [secondary] {
+        @apply(--paper-font-body1);
 
-        color: var(--paper-item-body-secondary-color, var(--secondary-text-color));
+        color: var(--paper-item-body-secondary-color, --secondary-text-color);
 
-        @apply --paper-item-body-secondary;
+        @apply(--paper-item-body-secondary);
       }
     </style>
 
-    <slot></slot>
+    <content></content>
   </template>
 
   <script src="paper-item-body-0.js"></script>

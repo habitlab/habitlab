@@ -15,9 +15,7 @@
   <test-fixture id="combobox-light">
     <template>
       <vaadin-combo-box-light>
-        <iron-input>
-          <input>
-        </iron-input>
+        <input is="iron-input">
       </vaadin-combo-box-light>
     </template>
   </test-fixture>
@@ -26,9 +24,8 @@
     <template>
       <vaadin-combo-box-light>
         <paper-input>
-          <!-- slot="suffix" for 2.0, suffix for 1.x -->
-          <paper-button slot="suffix" suffix class="clear-button">Clear</paper-button>
-          <paper-button slot="suffix" suffix class="toggle-button">Toggle</paper-button>
+          <paper-button suffix class="clear-button">Clear</paper-button>
+          <paper-button suffix class="toggle-button">Toggle</paper-button>
         </paper-input>
       </vaadin-combo-box-light>
     </template>
@@ -41,7 +38,7 @@
       beforeEach(function() {
         comboBox = fixture('combobox-light');
         comboBox.items = ['foo', 'bar', 'baz'];
-        ironInput = comboBox.querySelector('iron-input');
+        ironInput = comboBox.querySelector('input[is="iron-input"]');
       });
 
       describe('using iron-input', function() {
@@ -84,10 +81,10 @@
       });
 
       it('should toggle overlay by tapping toggle element', function() {
-        comboBox._toggleElement.dispatchEvent(new CustomEvent('tap', {bubbles: true}));
+        MockInteractions.tap(comboBox._toggleElement);
         expect(comboBox.opened).to.be.true;
 
-        comboBox._toggleElement.dispatchEvent(new CustomEvent('tap', {bubbles: true}));
+        MockInteractions.tap(comboBox._toggleElement);
         expect(comboBox.opened).to.be.false;
       });
 

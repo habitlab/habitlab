@@ -1,0 +1,346 @@
+<!--
+@license
+Copyright (c) 2016 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+-->
+
+<!--
+`<vaadin-date-picker>` is a date selection field which includes a scrollable
+month calendar view.
+```html
+<vaadin-date-picker label="Birthday"></vaadin-date-picker>
+```
+```js
+datePicker.value = '2016-03-02';
+```
+When the selected `value` is changed, a `value-changed` event is triggered.
+
+This element is also extended with the `IronFormElementBehavior` to
+enable usage within an `iron-form`.
+
+### Styling
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--vaadin-date-picker-overlay` | Mixin applied to the overlay | `{}`
+`--vaadin-date-picker-yearscroller` | Mixin applied to the year scroller | `{}`
+`--vaadin-date-picker-yearscroller-indicator` | Mixin applied to the year scroller indicator | `{}`
+`--vaadin-date-picker-calendar-icon` | Mixin applied to the calendar icon | `{}`
+`--vaadin-date-picker-clear-icon` | Mixin applied to the clear icon | `{}`
+`--vaadin-date-picker-scrollers-fade` | Mixin applied to the scrollers fade element | `{}`
+`--vaadin-date-picker-header` | Mixin applied to the picker header | `{}`
+`--vaadin-date-picker-toolbar` | Mixin applied to the picker toolbar | `{}`
+`--vaadin-date-picker-toolbar-icon` | Mixin applied to the picker toolbar icon | `{}`
+`--vaadin-date-picker-footer` | Mixin applied to the picker footer | `{}`
+`--vaadin-date-picker-calendar` | Mixin applied to a month calendar element | `{}`
+`--vaadin-date-picker-calendar-title` | Mixin applied to a month calendar title | `{}`
+`--vaadin-date-picker-calendar-cell` | Mixin applied to a month calendar cell | `{}`
+`--vaadin-date-picker-calendar-date-cell` | Mixin applied to a month calendar date cell | `{}`
+`--vaadin-date-picker-calendar-weekday-cell` | Mixin applied to a month calendar weekday cell | `{}`
+`--vaadin-date-picker-calendar-cell-today` | Mixin applied to a month calendar today cell | `{}`
+`--vaadin-date-picker-calendar-cell-selected` | Mixin applied to a month calendar selected cell | `{}`
+`--vaadin-date-picker-calendar-cell-focused` | Mixin applied to a month calendar focused cell | `{}`
+`--vaadin-date-picker-calendar-cell-today-selected` | Mixin applied to a month calendar selected today cell | `{}`
+`--vaadin-date-picker-calendar-cell-disabled` | Mixin applied to a month calendar disabled cell | `{}`
+`--vaadin-date-picker-calendar-weeknumber-cell` | Mixin applied to a month calendar weeknumber cell | `{}`
+`--vaadin-date-picker-calendar-focused-cell-focused` | Mixin applied to a focused month calendar focused cell | `{}`
+
+
+See paper-input-container documentation for styling the included input fields
+
+If you want to replace the default input field with a custom implementation, you should use the
+[`<vaadin-date-picker-light>`](#vaadin-date-picker-light) element.
+
+@element vaadin-date-picker
+@demo demo/index.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../paper-input/paper-input-container.html">
+<link rel="import" href="../paper-input/paper-input-error.html">
+<link rel="import" href="../iron-input/iron-input.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
+<link rel="import" href="../iron-media-query/iron-media-query.html">
+<link rel="import" href="vaadin-date-picker-overlay.html">
+<link rel="import" href="vaadin-date-picker-behavior.html">
+<link rel="import" href="vaadin-date-picker-helper.html">
+<link rel="import" href="vaadin-date-picker-icons.html">
+
+<dom-module id="vaadin-date-picker">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host([opened]) {
+        pointer-events: auto;
+      }
+
+      #overlay {
+        height: 100vh;
+        width: 420px;
+      }
+
+      #inputcontainer {
+        padding-bottom: 0;
+      }
+
+      #inputcontainer,
+      #inputcontainer input {
+        cursor: pointer;
+      }
+
+      #inputcontainer:focus {
+        outline: none;
+      }
+
+      paper-input-container div[suffix] {
+        box-sizing: content-box;
+        position: absolute;
+        right: -4px;
+        bottom: -4px;
+        width: 24px;
+        height: 24px;
+        padding: 4px;
+        text-align: center;
+      }
+
+      paper-input-container iron-icon {
+        fill: rgba(0, 0, 0, .26);
+        cursor: pointer;
+        --iron-icon-width: 20px;
+        --iron-icon-height: 20px;
+        margin-top: -1px;
+        transition: fill 0.2s;
+      }
+
+      paper-input-container paper-ripple {
+        color: rgba(0, 0, 0, .54);
+      }
+
+      :host([opened]) paper-input-container {
+        --paper-input-container-underline-focus: {
+          -webkit-transform: none;
+          transform: none;
+        }
+      }
+
+      paper-input-container iron-icon:hover,
+      :host([opened]) paper-input-container iron-icon {
+        fill: rgba(0, 0, 0, .54);
+      }
+
+      :host([opened]) paper-input-container iron-icon:hover {
+        fill: rgba(0, 0, 0, .86);
+      }
+
+      #input[no-input] {
+        pointer-events: none;
+      }
+
+      #clear {
+        right: 28px;
+      }
+
+      #clear iron-icon {
+        @apply(--vaadin-date-picker-clear-icon);
+      }
+
+      #calendar iron-icon {
+        @apply(--vaadin-date-picker-calendar-icon);
+      }
+
+      :host([disabled]) #calendar,
+      :host([readonly]) #calendar,
+      :host(:not([has-value])) #clear,
+      :host([readonly]) #clear,
+      :host([disabled]) #clear {
+        display: none;
+      }
+
+      #input {
+        box-sizing: border-box;
+        padding-right: 28px;
+      }
+
+      #input::-ms-clear {
+        display: none;
+      }
+
+      :host([opened][has-value]) #input {
+        padding-right: 60px;
+        margin-right: -32px;
+      }
+    </style>
+
+    <paper-input-container id="inputcontainer"
+        auto-validate$="[[autoValidate]]"
+        invalid$="[[invalid]]"
+        disabled$="[[disabled]]"
+        role="application"
+        always-float-label="[[_computeAlwaysFloatLabel(placeholder)]]">
+      <label id="label" aria-hidden="true">[[label]]</label>
+      <input id="input"
+          is="iron-input"
+          autocomplete="off"
+          type="text"
+          on-focus="_focus"
+          value="{{_userInputValue::input}}"
+          name$="[[name]]"
+          placeholder$="[[placeholder]]"
+          aria-label$="[[label]]"
+          invalid="{{invalid}}"
+          required$="[[required]]"
+          validator="[[validator]]"
+          disabled$="[[disabled]]"
+          readonly$="[[readonly]]"
+          no-input$="[[_noInput]]" />
+      <div suffix id="clear" on-tap="_clear" role="button" aria-label$="[[i18n.clear]]">
+        <iron-icon icon="vaadin-date-picker:clear"></iron-icon>
+        <paper-ripple class="circle" center></paper-ripple>
+      </div>
+      <div suffix id="calendar" on-tap="_toggle" role="button" aria-label$="[[i18n.calendar]]" aria-expanded$="[[_getAriaExpanded(opened)]]">
+        <iron-icon icon="vaadin-date-picker:event"></iron-icon>
+        <paper-ripple class="circle" center></paper-ripple>
+      </div>
+      <template is="dom-if" if="[[errorMessage]]">
+        <paper-input-error aria-live="assertive">[[errorMessage]]</paper-input-error>
+      </template>
+    </paper-input-container>
+
+    <iron-dropdown
+        id="dropdown"
+        fullscreen$=[[_fullscreen]]
+        allow-outside-scroll
+        on-iron-overlay-opened="_onOverlayOpened"
+        on-iron-overlay-closed="_onOverlayClosed"
+        on-iron-overlay-canceled="_preventCancelOnComponentAccess"
+        opened="{{opened}}"
+        no-auto-focus>
+      <vaadin-date-picker-overlay
+          id="overlay" i18n="[[i18n]]"
+          fullscreen$="[[_fullscreen]]"
+          label="[[label]]"
+          selected-date="{{_selectedDate}}"
+          class="dropdown-content"
+          focused-date="{{_focusedDate}}"
+          show-week-numbers="[[showWeekNumbers]]"
+          min-date="[[_minDate]]"
+          max-date="[[_maxDate]]"
+          role="dialog">
+      </vaadin-date-picker-overlay>
+    </iron-dropdown>
+
+    <iron-media-query
+        query="[[_fullscreenMediaQuery]]"
+        query-matches="{{_fullscreen}}">
+    </iron-media-query>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'vaadin-date-picker',
+
+      behaviors: [
+        vaadin.elements.datepicker.DatePickerBehavior
+      ],
+
+      properties: {
+        /**
+         * Set to true to auto-validate the input value.
+         */
+        autoValidate: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * Set to true to disable this element.
+         */
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        /**
+         * Set to true to make this element read-only.
+         */
+        readonly: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        /**
+         * A placeholder string in addition to the label. If this is set, the label will always float.
+         */
+        placeholder: String,
+
+        /**
+         * The error message to display when the input is invalid.
+         */
+        errorMessage: String,
+
+        _userInputValue: String
+      },
+
+      observers: [
+        '_userInputValueChanged(_userInputValue)'
+      ],
+
+      // TODO: revisit this in order to use validatable-behavior for both the full and
+      // the light component. Consider auto-validate, and validate(value) signature.
+      /**
+       * Override the IronValidatableBehavior._getValidity implementation, replacing
+       * it with the iron-input validation.
+       */
+      _getValidity: function() {
+        var inputValid = !this._inputValue || (this._selectedDate && this._inputValue === this.i18n.formatDate(this._selectedDate));
+        var minMaxValid = !this._selectedDate ||
+            vaadin.elements.datepicker.DatePickerHelper._dateAllowed(this._selectedDate, this._minDate, this._maxDate);
+        return this.inputElement.validate() && inputValid && minMaxValid;
+      },
+
+      _clear: function(e) {
+        e.stopPropagation();
+        this.value = '';
+        this.close();
+      },
+
+      _toggle: function(e) {
+        e.stopPropagation();
+        this[this.$.dropdown.opened ? 'close' : 'open']();
+      },
+
+      _input: function() {
+        return this.$.input;
+      },
+
+      /**
+       * label and placeholder will go on top of each other if always-float-label isn't set
+       * This is the similar behavior as paper-input has:
+       * PolymerElements/paper-input/blob/d248dad17af3ee46a0701a664e0f304c1619770d/paper-input-behavior.html#L502
+       */
+      _computeAlwaysFloatLabel: function(placeholder) {
+        return Boolean(placeholder);
+      },
+
+      set _inputValue(value) {
+        this.inputElement.bindValue = value;
+      },
+
+      get _inputValue() {
+        return this.inputElement.bindValue;
+      },
+
+      _getAriaExpanded: function(opened) {
+        return Boolean(opened).toString();
+      }
+    });
+  </script>
+</dom-module>

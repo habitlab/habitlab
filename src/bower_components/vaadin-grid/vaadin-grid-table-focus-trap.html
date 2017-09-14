@@ -1,0 +1,29 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+</head><body><dom-module id="vaadin-grid-table-focus-trap">
+  <template>
+    <style>
+     :host {
+       position: absolute;
+       z-index: -3;
+       height: 0;
+     }
+
+     :host(:focus),
+     .primary:focus,
+     ::content .primary:focus,
+     .secondary:focus,
+     ::content .secondary:focus {
+       outline: none;
+     }
+    </style>
+
+    <!-- trap needs to have content in order for Safari to scroll the page when focused -->
+    <div class="primary" tabindex="0" role="gridcell" on-focus="_onBaitFocus" on-blur="_onBaitBlur"><div aria-hidden="true">&nbsp;</div></div>
+    <div class="secondary" tabindex="-1" role="gridcell" on-focus="_onBaitFocus" on-blur="_onBaitBlur"><div aria-hidden="true">&nbsp;</div></div>
+
+    <slot></slot>
+  </template>
+  <script src="vaadin-grid-table-focus-trap-0.js"></script>
+</dom-module>
+</body></html>

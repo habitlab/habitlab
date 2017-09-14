@@ -27,7 +27,7 @@
       </vaadin-combo-box>
     </template>
     <script>
-      document.addEventListener('WebComponentsReady', function() {
+      HTMLImports.whenReady(function() {
         Polymer({
           is: 'x-scope',
           parentMethod: function() {
@@ -49,14 +49,12 @@
     describe('item template', function() {
       var scope, combobox, firstItem;
 
-      beforeEach(function() {
-        scope = fixture('scope');
+      beforeEach(function(done) {
+        scope = fixture('scope', {items: ['foo', 'bar']});
         combobox = scope.$.combobox;
-        combobox.items = ['foo', 'bar'];
         combobox.open();
-
-        Polymer.dom.flush();
-        firstItem = Polymer.dom(combobox.$.overlay.$.selector).querySelector('vaadin-combo-box-item');
+        firstItem = combobox.$.overlay.$.selector.querySelector('vaadin-combo-box-item');
+        combobox.async(done, 1);
       });
 
       it('should render items using template', function() {
@@ -81,7 +79,7 @@
       });
 
       it('should update focused property', function() {
-        MockInteractions.keyDownOn(combobox.inputElement, 40); // Press arrow down key
+        MockInteractions.keyDownOn(combobox.$.input, 40); // Press arrow down key
         expect(Polymer.dom(firstItem.root).innerHTML).to.contain('focused: true');
       });
 

@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 --><html><head><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-image/iron-image.html">
-<link rel="import" href="../paper-styles/element-styles/paper-material-styles.html">
+<link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="../paper-styles/default-theme.html">
 
 <!--
@@ -59,16 +59,16 @@ Custom property | Description | Default
 
 </head><body><dom-module id="paper-card">
   <template>
-    <style include="paper-material-styles">
+    <style include="paper-material">
       :host {
         display: inline-block;
         position: relative;
         box-sizing: border-box;
-        background-color: var(--paper-card-background-color, var(--primary-background-color));
+        background-color: var(--paper-card-background-color, --primary-background-color);
         border-radius: 2px;
 
-        @apply --paper-font-common-base;
-        @apply --paper-card;
+        @apply(--paper-font-common-base);
+        @apply(--paper-card);
       }
 
       /* IE 10 support for HTML5 hidden attr */
@@ -82,7 +82,7 @@ Custom property | Description | Default
         border-top-right-radius: inherit;
         overflow: hidden;
 
-        @apply --paper-card-header;
+        @apply(--paper-card-header);
       }
 
       .header iron-image {
@@ -91,7 +91,7 @@ Custom property | Description | Default
         --iron-image-width: 100%;
         pointer-events: none;
 
-        @apply --paper-card-header-image;
+        @apply(--paper-card-header-image);
       }
 
       .header .title-text {
@@ -100,58 +100,38 @@ Custom property | Description | Default
         font-weight: 400;
         color: var(--paper-card-header-color, #000);
 
-        @apply --paper-card-header-text;
+        @apply(--paper-card-header-text);
       }
 
       .header .title-text.over-image {
         position: absolute;
         bottom: 0px;
 
-        @apply --paper-card-header-image-text;
+        @apply(--paper-card-header-image-text);
       }
 
-      :host ::slotted(.card-content) {
+      :host ::content .card-content {
         padding: 16px;
         position:relative;
 
-        @apply --paper-card-content;
+        @apply(--paper-card-content);
       }
 
-      :host ::slotted(.card-actions) {
+      :host ::content .card-actions {
         border-top: 1px solid #e8e8e8;
         padding: 5px 16px;
         position:relative;
 
-        @apply --paper-card-actions;
-      }
-
-      :host([elevation="1"]) {
-        @apply --paper-material-elevation-1;
-      }
-
-      :host([elevation="2"]) {
-        @apply --paper-material-elevation-2;
-      }
-
-      :host([elevation="3"]) {
-        @apply --paper-material-elevation-3;
-      }
-
-      :host([elevation="4"]) {
-        @apply --paper-material-elevation-4;
-      }
-
-      :host([elevation="5"]) {
-        @apply --paper-material-elevation-5;
+        @apply(--paper-card-actions);
       }
     </style>
 
     <div class="header">
-      <iron-image hidden$="[[!image]]" aria-hidden$="[[_isHidden(image)]]" src="[[image]]" alt="[[alt]]" placeholder="[[placeholderImage]]" preload="[[preloadImage]]" fade="[[fadeImage]]"></iron-image>
-      <div hidden$="[[!heading]]" class$="title-text [[_computeHeadingClass(image)]]">[[heading]]</div>
+      <iron-image hidden$="[[!image]]" src="[[image]]" alt="[[alt]]" placeholder="[[placeholderImage]]" preload="[[preloadImage]]" fade="[[fadeImage]]"></iron-image>
+      <div hidden$="[[!heading]]" class$="[[_computeHeadingClass(image)]]">[[heading]]</div>
     </div>
 
-    <slot></slot>
+    <content></content>
   </template>
 
   <script src="paper-card-0.js"></script>

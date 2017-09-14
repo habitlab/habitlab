@@ -38,7 +38,7 @@
       /**
        * The value for this input. If you're using PaperInputBehavior to
        * implement your own paper-input-like element, bind this to
-       * the `<iron-input>`'s `bindValue`
+       * the `<input is="iron-input">`'s `bindValue`
        * property, or the value property of your input that is `notify:true`.
        */
       value: {
@@ -71,6 +71,15 @@
       },
 
       /**
+       * Set to true to prevent the user from entering invalid input. If you're
+       * using PaperInputBehavior to  implement your own paper-input-like element,
+       * bind this to `<input is="iron-input">`'s `preventInvalidInput` property.
+       */
+      preventInvalidInput: {
+        type: Boolean
+      },
+
+      /**
        * Set this to specify the pattern allowed by `preventInvalidInput`. If
        * you're using PaperInputBehavior to implement your own paper-input-like
        * element, bind this to the `<input is="iron-input">`'s `allowedPattern`
@@ -81,11 +90,9 @@
       },
 
       /**
-       * The type of the input. The supported types are the
-       * [native input's types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types).
+       * The type of the input. The supported types are `text`, `number` and `password`.
        * If you're using PaperInputBehavior to implement your own paper-input-like element,
-       * bind this to the (Polymer 1) `<input is="iron-input">`'s or (Polymer 2)
-       * `<iron-input>`'s `type` property.
+       * bind this to the `<input is="iron-input">`'s `type` property.
        */
       type: {
         type: String
@@ -191,8 +198,7 @@
        * element, bind this to the `<input is="iron-input">`'s `autofocus` property.
        */
       autofocus: {
-        type: Boolean,
-        observer: '_autofocusChanged'
+        type: Boolean
       },
 
       /**
@@ -232,7 +238,7 @@
 
       /**
        * The maximum (numeric or date-time) input value.
-       * Can be a String (e.g. `"2000-01-01"`) or a Number (e.g. `2`).
+       * Can be a String (e.g. `"2000-1-1"`) or a Number (e.g. `2`).
        * If you're using PaperInputBehavior to implement your own paper-input-like
        * element, bind this to the `<input is="iron-input">`'s `max` property.
        */
@@ -377,7 +383,7 @@
       return this.inputElement;
     },
 
-    created: function() {
+    registered: function() {
       // These types have some default placeholder text; overlapping
       // the label on top of it looks terrible. Auto-float the label in this case.
       this._typesThatHaveText = ["date", "datetime", "datetime-local", "month",
@@ -387,10 +393,7 @@
     attached: function() {
       this._updateAriaLabelledBy();
 
-      // In the 2.0 version of the element, this is handled in `onIronInputReady`,
-      // i.e. after the native input has finished distributing. In the 1.0 version,
-      // the input is in the shadow tree, so it's already available.
-      if (!Polymer.Element && this.inputElement &&
+      if (this.inputElement &&
           this._typesThatHaveText.indexOf(this.inputElement.type) !== -1) {
         this.alwaysFloatLabel = true;
       }
@@ -406,7 +409,7 @@
     },
 
     _onAddonAttached: function(event) {
-      var target = Polymer.dom(event).rootTarget;
+      var target = event.path ? event.path[0] : event.target;
       if (target.id) {
         this._ariaDescribedBy = this._appendStringWithSpace(this._ariaDescribedBy, target.id);
       } else {
@@ -432,9 +435,8 @@
       Polymer.IronControlState._focusBlurHandler.call(this, event);
 
       // Forward the focus to the nested input.
-      if (this.focused && !this._shiftTabPressed && this._focusableElement) {
+      if (this.focused && !this._shiftTabPressed)
         this._focusableElement.focus();
-      }
     },
 
     /**
@@ -513,35 +515,8 @@
           cancelable: event.cancelable
         });
       }
-    },
-
-    _autofocusChanged: function() {
-      // Firefox doesn't respect the autofocus attribute if it's applied after
-      // the page is loaded (Chrome/WebKit do respect it), preventing an
-      // autofocus attribute specified in markup from taking effect when the
-      // element is upgraded. As a workaround, if the autofocus property is set,
-      // and the focus hasn't already been moved elsewhere, we take focus.
-      if (this.autofocus && this._focusableElement) {
-
-        // In IE 11, the default document.activeElement can be the page's
-        // outermost html element, but there are also cases (under the
-        // polyfill?) in which the activeElement is not a real HTMLElement, but
-        // just a plain object. We identify the latter case as having no valid
-        // activeElement.
-        var activeElement = document.activeElement;
-        var isActiveElementValid = activeElement instanceof HTMLElement;
-
-        // Has some other element has already taken the focus?
-        var isSomeElementActive = isActiveElementValid &&
-            activeElement !== document.body &&
-            activeElement !== document.documentElement; /* IE 11 */
-        if (!isSomeElementActive) {
-          // No specific element has taken the focus yet, so we can take it.
-          this._focusableElement.focus();
-        }
-      }
     }
-  };
+  }
 
   /** @polymerBehavior */
   Polymer.PaperInputBehavior = [

@@ -39,7 +39,7 @@ const moduleTasks = modules.map((m) => {
     return rollup({
       entry: `tests/module/${m}.js`,
       format: 'iife',
-      moduleName: m.replace(/-/g, '_')
+      moduleName: m
     })
     .pipe(source(`${m}.js`, 'tests/module'))
     .pipe(gulp.dest('./tests/module/generated'))
@@ -83,7 +83,7 @@ function debugify(entry) {
     return rollup({
       entry: `entrypoints/${entry}.js`,
       format: 'iife',
-      moduleName: `${entry}`.replace(/-/g, '_'),
+      moduleName: '${entry}',
     })
     .pipe(source(`${entry}.js`, 'entrypoints'))
     .pipe(buffer())

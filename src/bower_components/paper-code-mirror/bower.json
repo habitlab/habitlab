@@ -1,0 +1,24 @@
+{
+  "name": "paper-code-mirror",
+  "homepage": "https://github.com/AKHXtern/paper-code-mirror",
+  "authors": [
+    "Arshak Khachatrian <akhxtern@gmail.com>"
+  ],
+  "description": "Polymer 1.0 component to show code blocks with Code Mirror",
+  "main": "",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "code-mirror",
+    "code",
+    "block"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

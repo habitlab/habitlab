@@ -6,30 +6,21 @@
     is: 'iron-ajax',
 
     /**
-     * Fired before a request is sent.
-     *
-     * @event iron-ajax-presend
-     */
-
-    /**
      * Fired when a request is sent.
      *
      * @event request
-     * @event iron-ajax-request
      */
 
     /**
      * Fired when a response is received.
      *
      * @event response
-     * @event iron-ajax-response
      */
 
     /**
      * Fired when an error is received.
      *
      * @event error
-     * @event iron-ajax-error
      */
 
     hostAttributes: {
@@ -272,27 +263,11 @@
       },
 
       /**
-       * By default, iron-ajax's events do not bubble. Setting this attribute will cause its
-       * request and response events as well as its iron-ajax-request, -response,  and -error
-       * events to bubble to the window object. The vanilla error event never bubbles when
-       * using shadow dom even if this.bubbles is true because a scoped flag is not passed with
-       * it (first link) and because the shadow dom spec did not used to allow certain events,
-       * including events named error, to leak outside of shadow trees (second link).
-       * https://www.w3.org/TR/shadow-dom/#scoped-flag
-       * https://www.w3.org/TR/2015/WD-shadow-dom-20151215/#events-that-are-not-leaked-into-ancestor-trees
+       * By default, these events do not bubble largely because the `error` event has special
+       * meaning in the window object. Setting this attribute will cause iron-ajax's request,
+       * response, and error events to bubble to the window object.
        */
       bubbles: {
-        type: Boolean,
-        value: false
-      },
-
-      /**
-       * Changes the [`completes`](iron-request#property-completes) promise chain 
-       * from `generateRequest` to reject with an object
-       * containing the original request, as well an error message.
-       * If false (default), the promise rejects with an error message only.
-       */
-      rejectWithRequest: {
         type: Boolean,
         value: false
       },
@@ -347,14 +322,13 @@
      */
     get requestUrl() {
       var queryString = this.queryString;
-      var url = this.url || '';
 
       if (queryString) {
-        var bindingChar = url.indexOf('?') >= 0 ? '&' : '?';
-        return url + bindingChar + queryString;
+        var bindingChar = this.url.indexOf('?') >= 0 ? '&' : '?';
+        return this.url + bindingChar + queryString;
       }
 
-      return url;
+      return this.url;
     },
 
     /**
@@ -375,7 +349,7 @@
       }
       var header;
 
-      if (typeof this.headers === 'object') {
+      if (this.headers instanceof Object) {
         for (header in this.headers) {
           headers[header] = this.headers[header].toString();
         }
@@ -408,8 +382,7 @@
         handleAs: this.handleAs,
         jsonPrefix: this.jsonPrefix,
         withCredentials: this.withCredentials,
-        timeout: this.timeout,
-        rejectWithRequest: this.rejectWithRequest,
+        timeout: this.timeout
       };
     },
 
@@ -422,7 +395,7 @@
       var request = /** @type {!IronRequestElement} */ (document.createElement('iron-request'));
       var requestOptions = this.toRequestOptions();
 
-      this.push('activeRequests', request);
+      this.activeRequests.push(request);
 
       request.completes.then(
         this._boundHandleResponse
@@ -432,17 +405,6 @@
         this._discardRequest.bind(this, request)
       );
 
-      var evt = this.fire('iron-ajax-presend', {
-        request: request,
-        options: requestOptions
-      }, {bubbles: this.bubbles, cancelable: true});
-
-      if (evt.defaultPrevented) {
-        request.abort();
-        request.rejectCompletes(request);
-        return request;
-      }
-
       request.send(requestOptions);
 
       this._setLastRequest(request);
@@ -451,18 +413,7 @@
       this.fire('request', {
         request: request,
         options: requestOptions
-      }, {
-        bubbles: this.bubbles,
-        composed: true
-      });
-
-      this.fire('iron-ajax-request', {
-        request: request,
-        options: requestOptions
-      }, {
-        bubbles: this.bubbles,
-        composed: true
-      });
+      }, {bubbles: this.bubbles});
 
       return request;
     },
@@ -473,56 +424,33 @@
         this._setLastError(null);
         this._setLoading(false);
       }
-      this.fire('response', request, {
-        bubbles: this.bubbles,
-        composed: true
-      });
-      this.fire('iron-ajax-response', request, {
-        bubbles: this.bubbles,
-        composed: true
-      });
+      this.fire('response', request, {bubbles: this.bubbles});
     },
 
     _handleError: function(request, error) {
       if (this.verbose) {
-        Polymer.Base._error(error);
+        console.error(error);
       }
 
       if (request === this.lastRequest) {
         this._setLastError({
           request: request,
-          error: error,
-          status: request.xhr.status,
-          statusText: request.xhr.statusText,
-          response: request.xhr.response
+          error: error
         });
         this._setLastResponse(null);
         this._setLoading(false);
       }
-
-      // Tests fail if this goes after the normal this.fire('error', ...)
-      this.fire('iron-ajax-error', {
-        request: request,
-        error: error
-      }, {
-        bubbles: this.bubbles,
-        composed: true
-      });
-
       this.fire('error', {
         request: request,
         error: error
-      }, {
-        bubbles: this.bubbles,
-        composed: true
-      });
+      }, {bubbles: this.bubbles});
     },
 
     _discardRequest: function(request) {
       var requestIndex = this.activeRequests.indexOf(request);
 
       if (requestIndex > -1) {
-        this.splice('activeRequests', requestIndex, 1);
+        this.activeRequests.splice(requestIndex, 1);
       }
     },
 

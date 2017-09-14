@@ -1,5 +1,4 @@
 <!--
-@license
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -36,7 +35,7 @@ Example:
     <paper-ripple id="ripple" style="pointer-events: none;"></paper-ripple>
     ...
     downAction: function(e) {
-      this.$.ripple.downAction(e.detail);
+      this.$.ripple.downAction({x: e.x, y: e.y});
     },
     upAction: function(e) {
       this.$.ripple.upAction();
@@ -73,6 +72,15 @@ Apply `circle` class to make the rippling effect within a circle.
 -->
 
 </head><body><dom-module id="paper-ripple">
+
+  <!--
+  Fired when the animation finishes. This is useful if you want to wait until the ripple
+  animation finishes to perform some action.
+
+  @event transitionend
+  @param {Object} detail
+  @param {Object} detail.node The animated node
+  -->
 
   <template>
     <style>

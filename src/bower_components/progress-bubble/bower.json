@@ -1,0 +1,23 @@
+{
+  "name": "progress-bubble",
+  "version": "1.3.0",
+  "authors": [
+    "Teemu Pöntelin"
+  ],
+  "keywords": [
+    "Polymer",
+    "web-components"
+  ],
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0"
+  }
+}

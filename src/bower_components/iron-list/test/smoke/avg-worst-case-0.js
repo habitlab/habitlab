@@ -1,21 +1,15 @@
 
-    window.addEventListener('WebComponentsReady', function() {
-      Polymer({
-        is: 'x-demo',
+    HTMLImports.whenReady(function() {
+      document.querySelector('template[is=dom-bind]')._getStyle = function(item) {
+        return 'height:' + item + 'px; ';
+      };
 
-        _getStyle: function(item) {
-          return 'height:' + item + 'px; ';
-        },
+      setTimeout(function() {
+        document.querySelector('#list').push('items', 251, 191, 151, 191, 51, 51, 51);
+      }, 100);
 
-        attached: function() {
-          this.async(function() {
-            this.$.list.push('items', 251, 191, 151, 191, 51, 51, 51);
-          }, 100);
-
-          this.async(function() {
-            this.$.list2.push('items', 251, 191, 151, 191, 51, 51, 51);
-          }, 300);
-        }
-      });
+       setTimeout(function() {
+        document.querySelector('#list2').push('items', 251, 191, 151, 191, 51, 51, 51);
+      }, 300);
     });
-    
+  

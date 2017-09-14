@@ -77,7 +77,7 @@
     },
 
     observers: [
-      '_focusChanged(focused)',
+      '_detectKeyboardFocus(focused)',
       '_activeChanged(active, ariaActiveAttribute)'
     ],
 
@@ -95,14 +95,6 @@
         this._userActivate(!this.active);
       } else {
         this.active = false;
-      }
-    },
-
-    _focusChanged: function(focused) {
-      this._detectKeyboardFocus(focused);
-
-      if (!focused) {
-        this._setPressed(false);
       }
     },
 

@@ -42,7 +42,6 @@
           setTimeout(function() {
             assert.isTrue(xScroll._scrollHandler.called, '_scrollHandler should be called');
             xScroll._scrollHandler.reset();
-            assert.isFalse(xScroll._scrollHandler.called);
             xScroll.toggleScrollListener(false);
             xScroll.scroll(0, 200);
             setTimeout(function() {

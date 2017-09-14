@@ -1,6 +1,6 @@
 {
   "name": "iron-meta",
-  "version": "1.1.3",
+  "version": "1.1.1",
   "keywords": [
     "web-components",
     "polymer"
@@ -22,19 +22,18 @@
     "paper-styles": "polymerelements/paper-styles#^1.0.4",
     "iron-component-page": "polymerelements/iron-component-page#^1.0.0",
     "test-fixture": "polymerelements/test-fixture#^1.0.0",
-    "web-component-tester": "^4.0.0",
+    "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "main": "iron-meta.html",
-  "ignore": [],
-  "homepage": "https://github.com/PolymerElements/iron-meta",
-  "_release": "1.1.3",
+  "homepage": "https://github.com/polymerelements/iron-meta",
+  "_release": "1.1.1",
   "_resolution": {
     "type": "version",
-    "tag": "v1.1.3",
-    "commit": "ec0afd727a0af36509264a78b691484123dc7bf6"
+    "tag": "v1.1.1",
+    "commit": "e171ee234b482219c9514e6f9551df48ef48bd9f"
   },
-  "_source": "https://github.com/PolymerElements/iron-meta.git",
+  "_source": "git://github.com/polymerelements/iron-meta.git",
   "_target": "^1.0.0",
-  "_originalSource": "PolymerElements/iron-meta"
+  "_originalSource": "polymerelements/iron-meta"
 }

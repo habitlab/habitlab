@@ -1,38 +1,40 @@
 
-    Polymer({
-      is: 'iron-ajax',
+        document.addEventListener('WebComponentsReady', function() {
+          Polymer({
+            is: 'iron-ajax',
 
-      properties: {
-        url: {
-          type: String,
-          observer: '_urlChanged'
-        },
+            properties: {
+              url: {
+                type: String,
+                observer: '_urlChanged'
+              },
 
-        lastResponse: {
-          type: Object,
-          notify: true
-        },
+              lastResponse: {
+                type: Object,
+                notify: true
+              },
 
-        loading: {
-          type: Boolean,
-          notify: true
-        },
+              loading: {
+                type: Boolean,
+                notify: true
+              },
 
-        debounceDuration: Number
-      },
+              debounceDuration: Number
+            },
 
-      _urlChanged: function(url) {
-        var urlParts = url.split('?filter=');
-        var filter = urlParts[1];
+            _urlChanged: function(url) {
+              var urlParts = url.split('?filter=');
+              var filter = urlParts[1];
 
-        this.loading = true;
+              this.loading = true;
 
-        this.debounce('loading', function() {
-          this.loading = false;
-          this.lastResponse = elements.filter(function(el) {
-            return el.toLowerCase().indexOf(filter.toLowerCase()) > -1;
+              this.debounce('loading', function() {
+                this.loading = false;
+                this.lastResponse = elements.filter(function(el) {
+                  return el.toLowerCase().indexOf(filter.toLowerCase()) > -1;
+                });
+              }, this.debounceDuration);
+            }
           });
-        }, this.debounceDuration);
-      }
-    });
-  
+        });
+      

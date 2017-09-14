@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="61px" height="65px" viewBox="0 0 61 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8053) - http://www.bohemiancoding.com/sketch -->
+    <title>progress-bubble 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="8.99580286%" y1="26.2385442%" x2="86.2356632%" y2="73.9905724%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <path d="M6.12060568,64.1523423 C4.66162123,63.2387681 -10.0659173,56.4438466 12.1748052,30.158204 C34.4155276,3.87256133 56.7670156,-1.48528195 60.1816418,0.663086153 C62.9941427,2.43261726 51.7377941,33.6489244 33.0097668,51.3251939 C14.2817394,69.0014634 8.00715627,65.3336462 6.12060568,64.1523423 Z" id="Path-3" fill-opacity="0.5" fill="url(#linearGradient-1)" sketch:type="MSShapeGroup"></path>
+    </g>
+</svg>

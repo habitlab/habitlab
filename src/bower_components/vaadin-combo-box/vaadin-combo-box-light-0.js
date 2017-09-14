@@ -28,8 +28,7 @@
     },
 
     attached: function() {
-      var cssSelector = 'iron-input,paper-input,.paper-input-input,.input';
-      this._setInputElement(Polymer.dom(this).querySelector(cssSelector));
+      this._setInputElement(Polymer.dom(this).querySelector('input[is="iron-input"],paper-input,.paper-input-input,.input'));
       this._toggleElement = Polymer.dom(this).querySelector('.toggle-button');
       this._clearElement = Polymer.dom(this).querySelector('.clear-button');
 

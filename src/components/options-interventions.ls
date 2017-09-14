@@ -202,7 +202,6 @@ polymer_ext {
     for elem in Polymer.dom(this.root).querySelectorAll('.intro')
       elem.style.display = 'inline-flex';
   ready: ->
-    console.log 'ready called'
     this.rerender()
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 

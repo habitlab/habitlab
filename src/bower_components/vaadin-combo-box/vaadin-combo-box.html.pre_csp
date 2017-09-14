@@ -96,8 +96,12 @@ Custom property | Description | Default
 
       paper-icon-button.clear-button,
       paper-icon-button.toggle-button,
-      :host ::slotted(paper-icon-button[slot="toggle-button"]),
-      :host ::slotted(paper-icon-button[slot="clear-button"]) {
+      :host ::content paper-icon-button.clear-button,
+      :host ::content paper-icon-button.toggle-button {
+        position: absolute;
+        bottom: -4px;
+        right: -4px;
+
         line-height: 18px !important;
         width: 32px;
         height: 32px;
@@ -110,44 +114,20 @@ Custom property | Description | Default
         --paper-icon-button-ink-color: rgba(0, 0, 0, .54);
       }
 
-      /*
-       * Hacky selector to apply when using P2 Shady.
-       * Invalid when using P2 Shadow so need to be kept in a separate block.
-       */
-      :host ::slotted(paper-input-container) paper-icon-button[slot="toggle-button"],
-      :host ::slotted(paper-input-container) paper-icon-button[slot="clear-button"] {
-        line-height: 18px !important;
-        width: 32px;
-        height: 32px;
-        padding: 4px;
-        text-align: center;
-
-        color: rgba(0, 0, 0, .38);
-        cursor: pointer;
-        margin-top: -1px;
-        --paper-icon-button-ink-color: rgba(0, 0, 0, .54);
+      paper-input-container paper-icon-button.clear-button,
+      paper-input-container ::content paper-icon-button.clear-button {
+        right: 28px;
       }
 
       paper-input-container paper-icon-button:hover,
-      paper-input-container ::slotted(paper-icon-button:hover),
+      paper-input-container ::content paper-icon-button:hover,
       :host([opened]) paper-input-container paper-icon-button,
-      :host([opened]) paper-input-container ::slotted(paper-icon-button) {
+      :host([opened]) paper-input-container ::content paper-icon-button {
         color: rgba(0, 0, 0, .54);
       }
 
-      /* P2 Shady */
-      :host ::slotted(paper-input-container) paper-icon-button:hover,
-      :host([opened]) ::slotted(paper-input-container) paper-icon-button {
-        color: rgba(0, 0, 0, .54);
-      }
-
-      :host([opened]) paper-input-container ::slotted(paper-icon-button:hover),
+      :host([opened]) paper-input-container ::content paper-icon-button:hover,
       :host([opened]) paper-input-container paper-icon-button:hover {
-        color: rgba(0, 0, 0, .86);
-      }
-
-      /* P2 Shady */
-      :host([opened]) ::slotted(paper-input-container) paper-icon-button:hover {
         color: rgba(0, 0, 0, .86);
       }
 
@@ -156,70 +136,48 @@ Custom property | Description | Default
         z-index: 20;
       }
 
-      :host [slot=suffix] {
-        display: flex;
-      }
-
-      input::-ms-clear {
+      #input::-ms-clear {
         display: none;
       }
 
-      /* The same code than paper-input */
-      input {
-        position: relative; /* to make a stacking context */
-        outline: none;
-        box-shadow: none;
-        padding: 0;
-        width: 100%;
-        max-width: 100%;
-        background: transparent;
-        border: none;
-        color: var(--paper-input-container-input-color, var(--primary-text-color));
-        -webkit-appearance: none;
-        text-align: inherit;
-        vertical-align: bottom;
-
-        /* Firefox sets a min-width on the input, which can cause layout issues */
-        min-width: 0;
-
-        @apply --paper-font-subhead;
-        @apply --paper-input-container-input;
+      #input {
+        box-sizing: border-box;
+        padding-right: 28px;
       }
+
+      :host([has-value]) #input {
+        padding-right: 60px;
+        margin-right: -32px;
+      }
+
     </style>
 
     <paper-input-container
-      id="inputContainer"
-      disabled$="[[disabled]]"
-      no-label-float="[[noLabelFloat]]"
-      always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]"
-      auto-validate$="[[autoValidate]]"
-      invalid="[[invalid]]">
+          id="inputContainer"
+          disabled$="[[disabled]]"
+          no-label-float="[[noLabelFloat]]"
+          always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]"
+          auto-validate$="[[autoValidate]]"
+          invalid="[[invalid]]">
+      <label on-down="_preventDefault" id="label" hidden$="[[!label]]" aria-hidden="true" on-tap="_openAsync">[[label]]</label>
 
-      <label id="label" slot="label"
-        on-down="_preventDefault"
-        hidden$="[[!label]]"
-        aria-hidden="true"
-        on-tap="_openAsync"
-        for="input">[[label]]</label>
+      <content select="[prefix]"></content>
 
-      <slot name="prefix" slot="prefix"></slot>
-
-      <iron-input slot="input" id="ironinput"
-        bind-value="{{_inputElementValue}}"
-        allowed-pattern="[[allowedPattern]]"
-        prevent-invalid-input="[[preventInvalidInput]]"
-        invalid="{{invalid}}"
-        on-change="_stopPropagation"
-        label="[[label]]">
-        <input id="input"
+      <input
+          is="iron-input"
+          id="input"
           type="text"
           role="combobox"
           autocomplete="off"
           autocapitalize="none"
+          bind-value="{{_inputElementValue}}"
           aria-label$="[[label]]"
           aria-expanded$="[[_getAriaExpanded(opened)]]"
           aria-autocomplete="list"
           disabled$="[[disabled]]"
+          invalid="{{invalid}}"
+          prevent-invalid-input="[[preventInvalidInput]]"
+          allowed-pattern="[[allowedPattern]]"
           pattern$="[[pattern]]"
           required$="[[required]]"
           autofocus$="[[autofocus]]"
@@ -232,49 +190,45 @@ Custom property | Description | Default
           on-blur="_onBlur"
           on-change="_stopPropagation"
           key-event-target>
-      </iron-input>
 
-      <slot name="suffix" slot="suffix"></slot>
+      <content select="[suffix]"></content>
 
-      <!-- TODO (web-padawan): remove "suffix" attributes for 2.0 -->
-      <div slot="suffix" suffix>
-        <span>
-          <slot name="clear-button">
-            <paper-icon-button id="clearIcon"
-              tabindex="-1"
-              aria-label="Clear"
-              icon="vaadin-combo-box:clear"
-              class="clear-button small">
-            </paper-icon-button>
-          </slot>
-        </span>
-        <span>
-          <slot name="toggle-button">
-            <paper-icon-button id="toggleIcon"
-              tabindex="-1"
-              icon="vaadin-combo-box:arrow-drop-down"
-              aria-label="Toggle"
-              aria-expanded$="[[_getAriaExpanded(opened)]]"
-              class="toggle-button rotate-on-open">
-            </paper-icon-button>
-          </slot>
-        </span>
-      </div>
+      <content select=".clear-button">
+        <paper-icon-button
+            id="clearIcon"
+            tabindex="-1"
+            aria-label="Clear"
+            icon="vaadin-combo-box:clear"
+            class="clear-button small">
+        </paper-icon-button>
+      </content>
+
+      <content select=".toggle-button">
+        <paper-icon-button
+            id="toggleIcon"
+            tabindex="-1"
+            icon="vaadin-combo-box:arrow-drop-down"
+            aria-label="Toggle"
+            aria-expanded$="[[_getAriaExpanded(opened)]]"
+            class="toggle-button rotate-on-open">
+        </paper-icon-button>
+      </content>
 
       <template is="dom-if" if="[[errorMessage]]">
         <paper-input-error>[[errorMessage]]</paper-input-error>
       </template>
     </paper-input-container>
 
-    <vaadin-combo-box-overlay id="overlay"
-      opened$=[[opened]]
-      position-target="[[_getPositionTarget()]]"
-      _focused-index="[[_focusedIndex]]"
-      _item-label-path="[[itemLabelPath]]"
-      on-down="_onOverlayDown"
-      loading="[[loading]]"
-      on-mousedown="_preventDefault"
-      vertical-offset="2">
+    <vaadin-combo-box-overlay
+        id="overlay"
+        opened$=[[opened]]
+        position-target="[[_getPositionTarget()]]"
+        _focused-index="[[_focusedIndex]]"
+        _item-label-path="[[itemLabelPath]]"
+        on-down="_onOverlayDown"
+        loading="[[loading]]"
+        on-mousedown="_preventDefault"
+        vertical-offset="2">
     </vaadin-combo-box-overlay>
   </template>
 </dom-module>
@@ -407,30 +361,16 @@ Custom property | Description | Default
       }
     },
 
-    attributeChanged: function(name, type) {
-      // Safari has an issue with repainting shadow root element styles when a host attribute changes.
-      // Need this workaround (toggle any inline css property on and off) until the issue gets fixed.
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-      if (isSafari && this.root) {
-        Array.prototype.forEach.call(this.root.querySelectorAll('*'), function(el) {
-          el.style['-webkit-backface-visibility'] = 'visible';
-          el.style['-webkit-backface-visibility'] = '';
-        });
-      }
-    },
-
-    ready: function() {
-      // 2.0 does not support nested syntax for listeners
-      this.$.inputContainer.addEventListener('focused-changed', this._onInputContainerFocusedChanged.bind(this));
-
-      this._setInputElement(this.$.input);
-      this._bindableInput = this.$.ironinput;
+    listeners: {
+      'inputContainer.focused-changed': '_onInputContainerFocusedChanged'
     },
 
     attached: function() {
+      this._setInputElement(this.$.input);
+
       // Use the default toggle/clear or one replaced in light DOM.
-      this._toggleElement = Polymer.dom(this).querySelector('[slot=toggle-button]') || this.$.toggleIcon;
-      this._clearElement = Polymer.dom(this).querySelector('[slot=clear-button]') || this.$.clearIcon;
+      this._toggleElement = Polymer.dom(this).querySelector('.toggle-button') || this.$.toggleIcon;
+      this._clearElement = Polymer.dom(this).querySelector('.clear-button') || this.$.clearIcon;
       this._preventInputBlur();
     },
 
@@ -454,14 +394,14 @@ Custom property | Description | Default
      * Sets focus on the input field.
      */
     focus: function() {
-      this.inputElement.focus();
+      this.$.input.focus();
     },
 
     /**
      * Removes focus from the input field.
      */
     blur: function() {
-      this.inputElement.blur();
+      this.$.input.blur();
     },
 
     _onInputContainerFocusedChanged: function(e) {

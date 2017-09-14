@@ -12,7 +12,7 @@
     <style>
       :host {
         position: absolute;
-        @apply --shadow-elevation-2dp;
+        @apply(--shadow-elevation-2dp);
         background: #fff;
         border-radius: 0 0 2px 2px;
         top: 0;
@@ -67,10 +67,6 @@
 
       #selector vaadin-combo-box-item[selected] {
         color: var(--primary-color);
-      }
-
-      #selector vaadin-combo-box-item[hidden] {
-        display: none;
       }
     </style>
 

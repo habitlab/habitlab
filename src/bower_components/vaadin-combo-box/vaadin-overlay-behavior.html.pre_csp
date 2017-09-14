@@ -46,7 +46,7 @@
     },
 
     _processPendingMutationObserversFor: function(node) {
-      if (window.CustomElements && !Polymer.Settings.useNativeCustomElements) {
+      if (!Polymer.Settings.useNativeCustomElements) {
         CustomElements.takeRecords(node);
       }
     },
@@ -59,16 +59,14 @@
 
       if (oldParentNode) {
         this._processPendingMutationObserversFor(oldParentNode);
-        // StyleTransformer does not exist in 2.0, v1 Shady polyfill takes care of this automatically.
-        if (oldParentNode.host && !Polymer.Element) {
+        if (oldParentNode.host) {
           // When moving from local DOM, ensure to remove the old style scope
           Polymer.StyleTransformer.dom(this, oldParentNode.host.is, this._scopeCssViaAttr, true);
         }
       }
 
       this._processPendingMutationObserversFor(this);
-      // StyleTransformer does not exist in 2.0, v1 Shady polyfill takes care of this automatically.
-      if (target.host && !Polymer.Element) {
+      if (target.host) {
         // When moving to local DOM, ensure to add the new style scope
         Polymer.StyleTransformer.dom(this, target.host.is, this._scopeCssViaAttr);
       }
@@ -91,24 +89,10 @@
     },
 
     _isPositionFixed: function(element) {
-      var offsetParent = this._getOffsetParent(element);
+      var offsetParent = element.offsetParent;
 
       return window.getComputedStyle(this._unwrapIfNeeded(element)).position === 'fixed' ||
         (offsetParent && this._isPositionFixed(offsetParent));
-    },
-
-    _getOffsetParent: function(element) {
-      if (element.assignedSlot) {
-        return element.assignedSlot.parentElement;
-      } else if (element.parentElement) {
-        return element.offsetParent;
-      }
-
-      var parent = Polymer.dom(element).parentNode;
-
-      if (parent && parent.nodeType === 11 && parent.host) {
-        return parent.host; // parent is #shadowRoot
-      }
     },
 
     _maxHeight: function(targetRect) {

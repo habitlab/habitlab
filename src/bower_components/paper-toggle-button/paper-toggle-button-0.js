@@ -29,12 +29,6 @@
         track: '_ontrack'
       },
 
-      attached: function() {
-        Polymer.RenderStatus.afterNextRender(this, function() {
-          Polymer.Gestures.setTouchAction(this, 'pan-y');
-        });
-      },
-
       _ontrack: function(event) {
         var track = event.detail;
         if (track.state === 'start') {

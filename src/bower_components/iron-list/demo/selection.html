@@ -43,12 +43,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         :host {
           display: block;
-          @apply --paper-font-common-base;
+          @apply(--paper-font-common-base);
           font-family: sans-serif;
         }
 
         .content {
-          @apply --layout-vertical;
+          @apply(--layout-vertical);
           height: 100%;
         }
 
@@ -94,11 +94,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         #itemsList,
         #selectedItemsList {
-          @apply --layout-flex;
+          @apply(--layout-flex);
         }
 
         .item {
-          @apply --layout-horizontal;
+          @apply(--layout-horizontal);
           cursor: pointer;
           padding: 16px 22px;
           border-bottom: 1px solid #DDD;
@@ -123,8 +123,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         .pad {
-          @apply --layout-flex;
-          @apply --layout-vertical;
+          @apply(--layout-flex);
+          @apply(--layout-vertical);
           padding: 0 16px;
         }
 
@@ -148,6 +148,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         paper-item {
           white-space: nowrap;
           cursor: pointer;
+          position: relative;
         }
 
         paper-item:hover::after {
@@ -175,7 +176,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         iron-list {
-          @apply --layout-flex;
+          @apply(--layout-flex);
         }
 
       </style>
@@ -209,7 +210,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </template>
           </iron-list>
         </div>
-        <app-drawer slot="drawer" align="right">
+        <app-drawer align="right">
           <div class="content">
             <app-toolbar class="white-toolbar">
               <div main-title="">[[_getFormattedCount(selectedItems.length)]] Selected contacts</div>

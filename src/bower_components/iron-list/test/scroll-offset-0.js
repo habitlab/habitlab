@@ -1,4 +1,4 @@
-void(0)
+
 
     suite('scrollOffset property', function() {
       var list, container;

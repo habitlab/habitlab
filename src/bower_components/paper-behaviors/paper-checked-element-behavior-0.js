@@ -1,4 +1,5 @@
 
+
   /**
    * Use `Polymer.PaperCheckedElementBehavior` to implement a custom element
    * that has a `checked` property similar to `Polymer.IronCheckedElementBehavior`
@@ -6,6 +7,7 @@
    * @polymerBehavior Polymer.PaperCheckedElementBehavior
    */
   Polymer.PaperCheckedElementBehaviorImpl = {
+
     /**
      * Synchronizes the element's checked state with its ripple effect.
      */
@@ -32,6 +34,7 @@
         this.checked = this.active;
       }
     }
+
   };
 
   /** @polymerBehavior Polymer.PaperCheckedElementBehavior */
@@ -40,3 +43,4 @@
     Polymer.IronCheckedElementBehavior,
     Polymer.PaperCheckedElementBehaviorImpl
   ];
+

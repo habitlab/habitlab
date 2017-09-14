@@ -37,9 +37,7 @@
 
           /**
            * An animation config. If provided, this will be used to animate the
-           * opening of the dropdown. Pass an Array for multiple animations.
-           * See `neon-animation` documentation for more animation configuration
-           * details.
+           * opening of the dropdown.
            */
           openAnimationConfig: {
             type: Object
@@ -47,9 +45,7 @@
 
           /**
            * An animation config. If provided, this will be used to animate the
-           * closing of the dropdown. Pass an Array for multiple animations.
-           * See `neon-animation` documentation for more animation configuration
-           * details.
+           * closing of the dropdown.
            */
           closeAnimationConfig: {
             type: Object
@@ -108,13 +104,15 @@
          * The element that is contained by the dropdown, if any.
          */
         get containedElement() {
-          // Polymer 2.x returns slot.assignedNodes which can contain text nodes.
-          var nodes = Polymer.dom(this.$.content).getDistributedNodes();
-          for (var i = 0, l = nodes.length; i < l; i++) {
-            if (nodes[i].nodeType === Node.ELEMENT_NODE) {
-              return nodes[i];
-            }
-          }
+          return Polymer.dom(this.$.content).getDistributedNodes()[0];
+        },
+
+        /**
+         * The element that should be focused when the dropdown opens.
+         * @deprecated
+         */
+        get _focusTarget() {
+          return this.focusTarget || this.containedElement;
         },
 
         ready: function() {
@@ -125,15 +123,8 @@
           this._refitOnScrollRAF = null;
         },
 
-        attached: function () {
-          if (!this.sizingTarget || this.sizingTarget === this) {
-            this.sizingTarget = this.containedElement || this;
-          }
-        },
-
         detached: function() {
           this.cancelAnimation();
-          document.removeEventListener('scroll', this._boundOnCaptureScroll);
           Polymer.IronDropdownScrollManager.removeScrollLock(this);
         },
 
@@ -146,6 +137,7 @@
             this.cancel();
           } else {
             this.cancelAnimation();
+            this.sizingTarget = this.containedElement || this.sizingTarget;
             this._updateAnimationConfig();
             this._saveScrollPosition();
             if (this.opened) {
@@ -175,6 +167,7 @@
          * Overridden from `IronOverlayBehavior`.
          */
         _renderClosed: function() {
+
           if (!this.noAnimations && this.animationConfig.close) {
             this.$.contentWrapper.classList.add('animating');
             this.playAnimation('close');
@@ -215,10 +208,16 @@
           if (document.scrollingElement) {
             this._scrollTop = document.scrollingElement.scrollTop;
             this._scrollLeft = document.scrollingElement.scrollLeft;
-          } else {
+          } else if (document.documentElement && document.body) {
             // Since we don't know if is the body or html, get max.
             this._scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
             this._scrollLeft = Math.max(document.documentElement.scrollLeft, document.body.scrollLeft);
+          } else if (document.documentElement) {
+            this._scrollTop = document.documentElement.scrollTop;
+            this._scrollLeft = document.documentElement.scrollLeft;
+          } else if (document.body) {
+            this._scrollTop = document.body.scrollTop;
+            this._scrollLeft = document.body.scrollLeft;
           }
         },
 
@@ -244,11 +243,9 @@
          * to configure specific parts of the opening and closing animations.
          */
         _updateAnimationConfig: function() {
-          // Update the animation node to be the containedElement.
-          var animationNode = this.containedElement;
-          var animations = [].concat(this.openAnimationConfig || []).concat(this.closeAnimationConfig || []);
+          var animations = (this.openAnimationConfig || []).concat(this.closeAnimationConfig || []);
           for (var i = 0; i < animations.length; i++) {
-            animations[i].node = animationNode;
+            animations[i].node = this.containedElement;
           }
           this.animationConfig = {
             open: this.openAnimationConfig,
@@ -270,7 +267,7 @@
         /**
          * Apply focus to focusTarget or containedElement
          */
-        _applyFocus: function() {
+        _applyFocus: function () {
           var focusTarget = this.focusTarget || this.containedElement;
           if (focusTarget && this.opened && !this.noAutoFocus) {
             focusTarget.focus();

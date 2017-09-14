@@ -224,8 +224,6 @@ polymer_ext {
       this.add_custom_website_from_input()
       return
   add_custom_website_from_input: ->>
-    if not this.$$('#add_website_input')?value?
-      return
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
     if domain.length == 0
       return

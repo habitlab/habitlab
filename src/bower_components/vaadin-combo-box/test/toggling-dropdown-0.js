@@ -3,23 +3,11 @@
     var combobox;
     var comboboxLight;
 
-    function fire(elm, type) {
-      Polymer.Base.fire(type, {}, {
-        bubbles: true,
-        node: elm
-      });
-    }
-
-    function tapLabel() {
-      fire(combobox.$.label, 'tap');
-    }
-
-    function tapInput() {
-      fire(combobox.inputElement, 'tap');
-    }
-
     function tapToggleIcon() {
-      fire(combobox.$$('paper-input-container #toggleIcon'), 'tap');
+      Polymer.Base.fire('tap', {}, {
+        bubbles: true,
+        node: combobox.$$('paper-input-container #toggleIcon')
+      });
     }
 
     beforeEach(function() {
@@ -29,9 +17,12 @@
 
     describe('opening', function() {
       it('should open asynchronously by tapping label', function(done) {
-        expect(combobox.opened).to.be.false;
-        tapLabel();
+        Polymer.Base.fire('tap', {}, {
+          bubbles: true,
+          node: combobox.$$('paper-input-container label')
+        });
 
+        expect(combobox.opened).to.be.false;
         Polymer.Base.async(function() {
           expect(combobox.opened).to.be.true;
           done();
@@ -39,7 +30,7 @@
       });
 
       it('should open asynchronously by clicking input', function(done) {
-        tapInput();
+        combobox.$$('paper-input-container input').fire('tap');
 
         expect(combobox.opened).to.be.false;
         Polymer.Base.async(function() {
@@ -105,11 +96,20 @@
         if (combobox.$.overlay.classList.contains('style-scope') &&
             combobox.$.overlay.classList.contains('vaadin-combo-box')) {
           combobox.open();
-          Polymer.dom.flush();
 
           expect(combobox.$.overlay.classList.contains('style-scope')).to.be.false;
           expect(combobox.$.overlay.classList.contains('vaadin-combo-box')).to.be.false;
         }
+      });
+
+      it('should not change combobox width', function() {
+        combobox.style.display = 'inline-block';
+        combobox.items = ['foo'];
+        combobox.value = 'foo';
+        var width = combobox.clientWidth;
+
+        combobox.open();
+        expect(combobox.clientWidth).to.equal(width);
       });
 
       describe('after opening', function() {
@@ -144,7 +144,7 @@
             var focusedInput = Polymer.dom(combobox.root).querySelector('input');
             var activeElement = combobox.root.activeElement || document.activeElement;
             expect(focusedInput.outerHTML).to.equal(activeElement.outerHTML);
-            expect(focusedInput).to.equal(combobox.inputElement);
+            expect(focusedInput).to.equal(combobox.$.input);
           });
 
           it('should refocus the input field when closed from icon', function() {
@@ -153,7 +153,7 @@
             var focusedInput = Polymer.dom(combobox.root).querySelector('input');
             var activeElement = combobox.root.activeElement || document.activeElement;
             expect(focusedInput.outerHTML).to.equal(activeElement.outerHTML);
-            expect(focusedInput).to.equal(combobox.inputElement);
+            expect(focusedInput).to.eql(combobox.$.input);
           });
         }
 
@@ -226,7 +226,7 @@
       it('should close the overlay when focus is lost', function() {
         combobox.open();
 
-        fire(combobox.inputElement, 'blur');
+        combobox.$.input.fire('blur');
 
         expect(combobox.opened).to.equal(false);
       });
@@ -243,7 +243,6 @@
 
           combobox.close();
 
-          Polymer.dom.flush();
           expect(combobox.$.overlay.classList.contains('style-scope')).to.be.true;
           expect(combobox.$.overlay.classList.contains('vaadin-combo-box')).to.be.true;
         }
@@ -266,7 +265,7 @@
       });
 
       it('dropdown should not be shown when disabled', function() {
-        combobox.inputElement.dispatchEvent(new CustomEvent('tap'));
+        combobox.$.input.fire('tap');
         expect(combobox.opened).to.be.false;
       });
     });
@@ -286,7 +285,7 @@
       });
 
       it('dropdown should not be shown when read-only', function() {
-        combobox.inputElement.dispatchEvent(new CustomEvent('tap'));
+        combobox.$.input.fire('tap');
         expect(combobox.opened).to.be.false;
       });
     });

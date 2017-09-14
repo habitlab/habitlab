@@ -22,124 +22,117 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <link rel="import" href="../../iron-list.html">
 
-  </head><body unresolved=""><custom-style>
-    <style is="custom-style">
-      body {
-        @apply --layout-fullbleed;
-      }
-    </style>
-  </custom-style>
+  <style is="custom-style">
+    body {
+      @apply(--layout-fullbleed);
+    }
 
+    .item {
+      background-color: green;
+      border-bottom: 1px solid white;
+      overflow:hidden;
+    }
 
+    .wrapper {
+      position: absolute;
+      top: calc(50vh - 150px);
+      left: calc(50vw - 150px);
+      width: 300px;
+      height: 300px;
+    }
 
+    #scroller {
+      width: 300px;
+      height: 300px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background-color: rgba(255, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+    }
 
-  <dom-module id="x-demo">
-    <template>
-      <style>
-        .item {
-          background-color: green;
-          border-bottom: 1px solid white;
-          overflow:hidden;
-        }
+    .header {
+      height: 100px;
+      background-color: blue;
+    }
 
-        .wrapper {
-          position: absolute;
-          top: calc(50vh - 150px);
-          left: calc(50vw - 150px);
-          width: 300px;
-          height: 300px;
-        }
+    .wrapper .count {
+      background-color: red;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 1;
+    }
+    .wrapper .stats {
+      background-color: red;
+      position: absolute;
+      top: 20px;
+      right: 0;
+      z-index: 1;
+    }
 
-        #scroller {
-          width: 300px;
-          height: 300px;
-          overflow-y: auto;
-          overflow-x: hidden;
-          background-color: rgba(255, 0, 0, 0.5);
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          z-index: 1;
-        }
+    .wrapper iron-list {
+      position: absolute;
+      top: 100px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
 
-        .header {
-          height: 100px;
-          background-color: blue;
-        }
+    iron-list::before {
+      position: absolute;
+      top: -100px;
+      left: 0px;
+      right: 0px;
+      background-color: blue;
+      height: 100px;
+      color: white;
+      content: 'HEADER';
+    }
 
-        .wrapper .count {
-          background-color: red;
-          position: absolute;
-          top: 0;
-          right: 0;
-          z-index: 1;
-        }
-        .wrapper .stats {
-          background-color: red;
-          position: absolute;
-          top: 20px;
-          right: 0;
-          z-index: 1;
-        }
+    .group {
+      float: left;
+    }
 
-        .wrapper iron-list {
-          position: absolute;
-          top: 100px;
-          left: 0;
-          right: 0;
-          bottom: 0;
-        }
+    .fake-content {
+      height: 1000vh;
+    }
 
-        iron-list::before {
-          position: absolute;
-          top: -100px;
-          left: 0px;
-          right: 0px;
-          background-color: blue;
-          height: 100px;
-          color: white;
-          content: 'HEADER';
-        }
+  </style>
 
-        .group {
-          float: left;
-        }
+</head>
+<body unresolved="">
 
-        .fake-content {
-          height: 1000vh;
-        }
-      </style>
+  <template is="dom-bind">
+    <h1>debuging</h1>
+    <div class="group">
+      <p>100 items, 50px tall</p>
+      <div class="wrapper">
+          <div id="scroller">
+            <div class="fake-content"></div>
+          </div>
+          <iron-list id="list1" as="item" items="[[items]]" scroll-target="scroller" scroll-offset="100">
+            <template>
+              <div class="item" style$="[[_getStyle(item)]]"><span>[[index]]</span> height: <span>[[item]]</span>
+              <div>
+                <paper-button raised="">Test</paper-button>
+                <paper-button raised="">Test</paper-button>
+                <paper-button raised="">Test</paper-button>
+                <paper-button raised="">Test</paper-button>
+              </div>
+              </div>
+            </template>
+          </iron-list>
 
-      <h1>debuging</h1>
-      <div class="group">
-        <p>100 items, 50px tall</p>
-        <div class="wrapper">
-            <div id="scroller">
-              <div class="fake-content"></div>
-            </div>
-            <iron-list id="list1" as="item" scroll-target="scroller" scroll-offset="100">
-              <template>
-                <div class="item" style$="[[_getStyle(item)]]"><span>[[index]]</span> height: <span>[[item]]</span>
-                <div>
-                  <paper-button raised="">Test</paper-button>
-                  <paper-button raised="">Test</paper-button>
-                  <paper-button raised="">Test</paper-button>
-                  <paper-button raised="">Test</paper-button>
-                </div>
-                </div>
-              </template>
-            </iron-list>
-        </div>
       </div>
-    </template>
+    </div>
+  </template>
 
-    <script src="debugging-0.js"></script>
-  </dom-module>
-
-  <x-demo></x-demo>
-
+  <script src="debugging-0.js"></script>
 
 
 </body></html>

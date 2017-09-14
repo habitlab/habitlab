@@ -17,21 +17,23 @@
       }
     }
 
-    window.addEventListener('WebComponentsReady', function() {
-      Polymer({
-        is: 'x-demo',
+    document.querySelector('template[is=dom-bind]')._getStyle = function(item) {
+      return 'height:' + item + 'px; ';
+    };
 
-        _getStyle: function(item) {
-          return 'height:' + item + 'px; ';
-        },
+    HTMLImports.whenReady(function() {
 
-        attached: function() {
-          this.$.list1.items = arrayFill(100, 50);
+      setTimeout(function() {
+        var list1 = document.querySelector('#list1');
+        console.log(list1)
+        var items = randomArrayFill(100, 1, 200);
+        list1.items = arrayFill(100, 50);
 
-          this.$.scroller.addEventListener('scroll', function() {
-            this.$.list1.style.top = (-this.$.scroller.scrollTop+100) + 'px';
-          }.bind(this));
-        }
+        var scroller = document.querySelector('#scroller');
+        scroller.addEventListener('scroll', function() {
+          list1.style.top = (-scroller.scrollTop+100) + 'px';
+        });
       });
+
     });
-    
+  

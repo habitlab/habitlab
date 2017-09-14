@@ -8,10 +8,7 @@
         properties: {
 
           items: {
-            type: Array,
-            value: function() {
-              return [];
-            }
+            type: Array
           }
 
         },

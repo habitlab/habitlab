@@ -184,7 +184,7 @@
               }];
             }
           },
-
+          
           /**
            * By default, the dropdown will constrain scrolling on the page
            * to itself when opened.
@@ -227,13 +227,7 @@
          * The content element that is contained by the menu button, if any.
          */
         get contentElement() {
-          // Polymer 2.x returns slot.assignedNodes which can contain text nodes.
-          var nodes = Polymer.dom(this.$.content).getDistributedNodes();
-          for (var i = 0, l = nodes.length; i < l; i++) {
-            if (nodes[i].nodeType === Node.ELEMENT_NODE) {
-              return nodes[i];
-            }
-          }
+          return Polymer.dom(this.$.content).getDistributedNodes()[0];
         },
 
         /**

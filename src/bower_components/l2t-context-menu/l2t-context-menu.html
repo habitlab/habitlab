@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<html><head><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-menu/paper-submenu.html">
 
@@ -41,12 +41,11 @@ Custom property | Description | Default
   @demo demo/index.html
 -->
 
-<dom-module id="l2t-context-menu">
-  <template>
+</head><body><dom-module id="l2t-context-menu">
   <style>
     .context-menu {
       display: none;
-      position: absolute;
+      position: fixed;
       z-index: 10;
       padding: 12px;
       background-color: var(--context-background-color, #fff);
@@ -92,9 +91,10 @@ Custom property | Description | Default
       background-color: var(--context-background-color, #fff);
     }                                       
   </style>
+  <template>
     <paper-menu id="context-menu" class="context-menu">
       <content></content>
     </paper-menu>
   </template>
-  <script src="l2t-context-menu-0.js"></script>
 </dom-module>
+<script src="l2t-context-menu-0.js"></script></body></html>

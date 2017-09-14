@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>&lt;progress-bubble&gt;</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../progress-bubble.html">
+
+    <style type="text/css">
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        background: #222;
+        background: radial-gradient(#333, #000);
+        font-family: Verdana, Geneva, Helvetica, sans-serif;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+      }
+      progress-bubble {
+        margin-right: 32px;
+      }
+    </style>
+    <style is="custom-style">
+      progress-bubble:nth-child(even) {
+        text-shadow: none;
+        --progress-bubble-stroke-color: rgba(255, 0, 0, 0.8);
+        --progress-bubble-stroke-linecap: butt;
+        --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+        --progress-bubble-background: transparent;
+        --progress-bubble-reflection-display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <progress-bubble stroke-width="2"></progress-bubble>
+    <progress-bubble stroke-width="4"></progress-bubble>
+    <progress-bubble stroke-width="6"></progress-bubble>
+    <progress-bubble stroke-width="8"></progress-bubble>
+    <progress-bubble stroke-width="10"></progress-bubble>
+    <progress-bubble stroke-width="12"></progress-bubble>
+
+    <script type="text/javascript">
+      Array.prototype.forEach.call(document.querySelectorAll("progress-bubble"), function(e, i) {
+        e.style.width = (50 + i * 15) + "px";
+        e.style.height = e.style.width;
+        e.style.fontSize = (i + 4) * 3 + "px";
+      });
+
+      var x = 0;
+      window.setInterval(function() {
+        Array.prototype.forEach.call(document.querySelectorAll("progress-bubble"), function(e) {
+          e.value = e.value + Math.ceil(Math.random() * 5);
+          if (e.value > 100) {
+            e.value = 0;
+          }
+
+          // The textContent must be changed with Polymer DOM API.
+          Polymer.dom(e).textContent = e.value + '%';
+        });
+      }, 100);
+    </script>
+
+  </body>
+</html>

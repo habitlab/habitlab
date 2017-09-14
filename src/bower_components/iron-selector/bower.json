@@ -1,15 +1,10 @@
 {
   "name": "iron-selector",
-  "version": "1.5.3",
+  "version": "1.5.2",
   "description": "Manages a set of elements that can be selected",
   "private": true,
   "license": "http://polymer.github.io/LICENSE.txt",
-  "main": [
-    "iron-selector.html",
-    "iron-multi-selectable.html",
-    "iron-selectable.html",
-    "iron-selection.html"
-  ],
+  "main": "iron-selector.html",
   "authors": [
     "The Polymer Authors"
   ],

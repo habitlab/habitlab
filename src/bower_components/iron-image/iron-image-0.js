@@ -7,6 +7,7 @@
          * The URL of an image.
          */
         src: {
+          observer: '_srcChanged',
           type: String,
           value: ''
         },
@@ -20,21 +21,14 @@
         },
 
         /**
-         * CORS enabled images support: https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
-         */
-        crossorigin: {
-          type: String,
-          value: null
-        },
-
-        /**
          * When true, the image is prevented from loading and any placeholder is
          * shown.  This may be useful when a binding to the src property is known to
          * be invalid, to prevent 404 requests.
          */
         preventLoad: {
           type: Boolean,
-          value: false
+          value: false,
+          observer: '_preventLoadChanged'
         },
 
         /**
@@ -143,35 +137,53 @@
       },
 
       observers: [
-        '_transformChanged(sizing, position)',
-        '_loadStateObserver(src, preventLoad)'
+        '_transformChanged(sizing, position)'
       ],
 
-      created: function() {
+      ready: function() {
+        var img = this.$.img;
+
+        img.onload = function() {
+          if (this.$.img.src !== this._resolveSrc(this.src)) return;
+
+          this._setLoading(false);
+          this._setLoaded(true);
+          this._setError(false);
+        }.bind(this);
+
+        img.onerror = function() {
+          if (this.$.img.src !== this._resolveSrc(this.src)) return;
+
+          this._reset();
+
+          this._setLoading(false);
+          this._setLoaded(false);
+          this._setError(true);
+        }.bind(this);
+
         this._resolvedSrc = '';
       },
 
-      _imgOnLoad: function() {
-        if (this.$.img.src !== this._resolveSrc(this.src)) {
-          return;
+      _load: function(src) {
+        if (src) {
+          this.$.img.src = src;
+        } else {
+          this.$.img.removeAttribute('src');
         }
+        this.$.sizedImgDiv.style.backgroundImage = src ? 'url("' + src + '")' : '';
 
-        this._setLoading(false);
-        this._setLoaded(true);
+        this._setLoading(!!src);
+        this._setLoaded(false);
         this._setError(false);
       },
 
-      _imgOnError: function() {
-        if (this.$.img.src !== this._resolveSrc(this.src)) {
-          return;
-        }
-
+      _reset: function() {
         this.$.img.removeAttribute('src');
         this.$.sizedImgDiv.style.backgroundImage = '';
 
         this._setLoading(false);
         this._setLoaded(false);
-        this._setError(true);
+        this._setError(false);
       },
 
       _computePlaceholderHidden: function() {
@@ -201,12 +213,8 @@
           return '';
         }
 
-        // NOTE: Use of `URL` was removed here because IE11 doesn't support
-        // constructing it. If this ends up being problematic, we should
-        // consider reverting and adding the URL polyfill as a dev dependency.
-        var resolved = this._resolveSrc(this.src);
-        // Remove query parts, get file name.
-        return resolved.replace(/[?|#].*/g, '').split('/').pop();
+        var pathComponents = (new URL(this._resolveSrc(this.src))).pathname.split("/");
+        return pathComponents[pathComponents.length - 1];
       },
 
       _computeImgHidden: function() {
@@ -221,28 +229,21 @@
         this.style.height = isNaN(this.height) ? this.height : this.height + 'px';
       },
 
-      _loadStateObserver: function(src, preventLoad) {
-        var newResolvedSrc = this._resolveSrc(src);
-        if (newResolvedSrc === this._resolvedSrc) {
-          return;
-        }
+      _preventLoadChanged: function() {
+        if (this.preventLoad || this.loaded) return;
 
-        this._resolvedSrc = '';
-        this.$.img.removeAttribute('src');
-        this.$.sizedImgDiv.style.backgroundImage = '';
+        this._reset();
+        this._load(this.src);
+      },
 
-        if (src === '' || preventLoad) {
-          this._setLoading(false);
-          this._setLoaded(false);
-          this._setError(false);
-        } else {
-          this._resolvedSrc = newResolvedSrc;
-          this.$.img.src = this._resolvedSrc;
-          this.$.sizedImgDiv.style.backgroundImage = 'url("' + this._resolvedSrc + '")';
+      _srcChanged: function(newSrc, oldSrc) {
+        var newResolvedSrc = this._resolveSrc(newSrc);
+        if (newResolvedSrc === this._resolvedSrc) return;
+        this._resolvedSrc = newResolvedSrc;
 
-          this._setLoading(true);
-          this._setLoaded(false);
-          this._setError(false);
+        this._reset();
+        if (!this.preventLoad) {
+          this._load(newSrc);
         }
       },
 
@@ -269,16 +270,7 @@
       },
 
       _resolveSrc: function(testSrc) {
-        var resolved = Polymer.ResolveUrl.resolveUrl(testSrc, this.$.baseURIAnchor.href);
-        // NOTE: Use of `URL` was removed here because IE11 doesn't support
-        // constructing it. If this ends up being problematic, we should
-        // consider reverting and adding the URL polyfill as a dev dependency.
-        if (resolved[0] === '/') {
-          // In IE location.origin might not work
-          // https://connect.microsoft.com/IE/feedback/details/1763802/location-origin-is-undefined-in-ie-11-on-windows-10-but-works-on-windows-7
-          resolved = (location.origin || location.protocol + '//' + location.host) + resolved;
-        }
-        return resolved;
+        return Polymer.ResolveUrl.resolveUrl(testSrc, this.ownerDocument.baseURI);
       }
     });
   

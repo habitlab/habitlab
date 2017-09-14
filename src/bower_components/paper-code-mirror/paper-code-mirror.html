@@ -1,0 +1,53 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+</head><body><dom-module id="paper-code-mirror">
+    <style>
+        :host #content {
+            display: none;
+        }
+        :host .title:empty {
+            display: none;
+        }
+
+        :host .title {
+            font-size: 14px;
+            margin-bottom: 0;
+            color: teal;
+            padding: 5px 10px;
+            background-color: #efefef;
+            text-transform : uppercase;
+            font-family: Verdana, Geneva, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        }
+    </style>
+    <template>
+        <link href="bower_components/paper-code-mirror/vendor/lib/codemirror.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/ambiance.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/ambiance-mobile.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/material.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/blackboard.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/cobalt.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/eclipse.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/elegant.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/erlang-dark.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/lesser-dark.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/midnight.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/monokai.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/neat.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/night.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/rubyblue.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/solarized.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/twilight.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/vibrant-ink.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/xq-dark.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/theme/xq-light.css" rel="stylesheet">
+        <link href="bower_components/paper-code-mirror/vendor/addon/fold/foldgutter.css" rel="stylesheet">
+        <p class="title">{{ title }}</p>
+        <div id="wrapper"></div>
+        <div id="content">
+            <content></content>
+        </div>
+    </template>
+    <script src="require.min.js"></script>
+    <script src="paper-code-mirror-0.js"></script>
+</dom-module>
+</body></html>

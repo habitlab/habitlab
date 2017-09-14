@@ -1,4 +1,4 @@
-void(0)
+
 
     suite('host property and sub-property bindings to list items', function() {
         var list, container,
@@ -48,7 +48,7 @@ void(0)
             list.scrollToItem(firstItem);
 
             assert.equal(getItemScopedBinding(),
-                     topItemMarker,"selected item became again visible");
+                    topItemMarker,"selected item became again visible");
 
             assert.equal(getHostScopedPropertyBinding(),anotherPropertyText);
             assert.equal(getHostScopedSubpropertyBinding(),anotherSubPropertyText);

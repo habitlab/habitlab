@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
@@ -20,7 +20,7 @@ The `items` property specifies an array of list item data.
 For performance reasons, not every item in the list is rendered at once;
 instead a small subset of actual template elements *(enough to fill the viewport)*
 are rendered and reused as the user scrolls. As such, it is important that all
-state of the list template is bound to the model driving it, since the view may
+state of the list template be bound to the model driving it, since the view may
 be reused with a new model at any time. Particularly, any state that may change
 as the result of a user interaction with the list item must be bound to the model
 to avoid view state inconsistency.
@@ -104,14 +104,16 @@ layout means (e.g. the `flex` or `fit` classes).
   </style>
 </head>
 <body>
-  <app-toolbar>App name</app-toolbar>
-  <iron-list scroll-target="document">
-    <template>
-      <div>
-        ...
-      </div>
-    </template>
-  </iron-list>
+  <template is="dom-bind">
+    <app-toolbar>App name</app-toolbar>
+    <iron-list scroll-target="document" items="[[items]]">
+      <template>
+        <div>
+          ...
+        </div>
+      </template>
+    </iron-list>
+  </template>
 </body>
 ```
 
@@ -147,18 +149,20 @@ For example, given the following `data` array:
 ]
 ```
 
-The following code would render the list (note the name property is bound from the model
-object provided to the template scope):
+The following code would render the list (note the name and checked properties are
+bound from the model object provided to the template scope):
 
 ```html
-<iron-ajax url="data.json" last-response="{{data}}" auto></iron-ajax>
-<iron-list items="[[data]]" as="item">
-  <template>
-    <div>
-      Name: [[item.name]]
-    </div>
-  </template>
-</iron-list>
+<template is="dom-bind">
+  <iron-ajax url="data.json" last-response="{{data}}" auto></iron-ajax>
+  <iron-list items="[[data]]" as="item">
+    <template>
+      <div>
+        Name: [[item.name]]
+      </div>
+    </template>
+  </iron-list>
+</template>
 ```
 
 ### Grid layout
@@ -243,15 +247,15 @@ will only render 20.
       }
 
       #items {
-        @apply --iron-list-items-container;
+        @apply(--iron-list-items-container);
         position: relative;
       }
 
-      :host(:not([grid])) #items > ::slotted(*) {
+      :host(:not([grid])) #items > ::content > * {
         width: 100%;
       }
 
-      #items > ::slotted(*) {
+      #items > ::content > * {
         box-sizing: border-box;
         margin: 0;
         position: absolute;
@@ -260,10 +264,11 @@ will only render 20.
       }
     </style>
 
-    <array-selector id="selector" items="{{items}}" selected="{{selectedItems}}" selected-item="{{selectedItem}}"></array-selector>
+    <array-selector id="selector" items="{{items}}" selected="{{selectedItems}}" selected-item="{{selectedItem}}">
+    </array-selector>
 
     <div id="items">
-      <slot></slot>
+      <content></content>
     </div>
 
   </template>

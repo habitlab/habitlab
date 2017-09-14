@@ -16,7 +16,7 @@
   <dom-module id="value-null">
     <script>
       // IE11 needs to wait for Polymer being loaded.
-      window.addEventListener('WebComponentsReady', function() {
+      HTMLImports.whenReady(function() {
         Polymer({
           is: 'value-null',
           properties: {
@@ -31,15 +31,13 @@
 
   <test-fixture id="fixturenull">
     <template>
-      <dom-bind>
+      <div>
         <template is="dom-bind">
-          <value-null id="valuenull" value="{{name}}"></value-null>
-          <vaadin-combo-box id="combobox" items="[[robots]]" value="{{name}}"></vaadin-combo-box>
-          <iron-input bind-value="{{name}}">
-            <input>
-          </iron-input>
+          <value-null value="{{name}}"></value-null>
+          <vaadin-combo-box items="[[robots]]" value="{{name}}"></vaadin-combo-box>
+          <input is="iron-input" bind-value="{{name}}">
         </template>
-      </dom-bind>
+      </div>
     </template>
   </test-fixture>
 
@@ -54,13 +52,8 @@
 
       beforeEach(function() {
         var root = fixture('fixturenull');
-        if (Polymer.Element) {
-          valueNull = root.$.valuenull;
-          comboBox = root.$.combobox;
-        } else {
-          valueNull = Polymer.dom(root.root).querySelector('value-null');
-          comboBox = Polymer.dom(root.root).querySelector('vaadin-combo-box');
-        }
+        valueNull = Polymer.dom(root).querySelector('value-null');
+        comboBox = Polymer.dom(root).querySelector('vaadin-combo-box');
       });
 
       // Setting value to null/undefined makes the component enter in a loop,

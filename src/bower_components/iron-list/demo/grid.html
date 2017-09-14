@@ -46,7 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         :host {
           display: block;
-          @apply --paper-font-common-base;
+          @apply(--paper-font-common-base);
         }
 
         app-header {
@@ -65,7 +65,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         .photoContent {
-          @apply --layout;
+          @apply(--layout);
           background-color: #ddd;
           position: relative;
           width: 300px;
@@ -78,7 +78,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         .photoContent > iron-image {
-          @apply --layout-flex;
+          @apply(--layout-flex);
         }
 
         .photoContent > .detail {
@@ -96,7 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         .searchInput {
-          @apply --layout-flex;
+          @apply(--layout-flex);
           font-size: 18px;
           padding: 10px 20px;
           border: none;

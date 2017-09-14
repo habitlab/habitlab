@@ -221,6 +221,7 @@ polymer_ext {
   #   console.log(domain)
 
   valueChange: (evt) ->
+    domain = this.$$('#add_website_input').value.trim()
     this.add_custom_website_from_input()
     return
   
@@ -370,8 +371,6 @@ polymer_ext {
     await this.set_sites_and_goals()
     this.fire 'need_rerender', {}
   add_custom_website_from_input: ->>
-    if not this.$$('#add_website_input')?value?
-      return
     domain = url_to_domain(this.$$('#add_website_input').value.trim())
     if domain.length == 0
       return

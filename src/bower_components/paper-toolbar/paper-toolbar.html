@@ -12,8 +12,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
 <!--
-**This element has been deprecated in favor of [app-layout](https://github.com/PolymerElements/app-layout).**
-
 Material design: [Toolbars](https://www.google.com/design/spec/components/toolbars.html)
 
 `paper-toolbar` is a horizontal bar containing items that can be used for
@@ -50,19 +48,19 @@ toolbar 2x the normal height.
 </paper-toolbar>
 ```
 
-When `tall`, items can pin to either the top (default), middle or bottom. Use
-`middle` slot for middle content and `bottom` slot for bottom content.
+When `tall`, items can pin to either the top (default), middle or bottom.  Use
+`middle` class for middle content and `bottom` class for bottom content.
 
 ```html
 <paper-toolbar class="tall">
   <paper-icon-button icon="menu"></paper-icon-button>
-  <div slot="middle" class="title">Middle Title</div>
-  <div slot="bottom" class="title">Bottom Title</div>
+  <div class="middle title">Middle Title</div>
+  <div class="bottom title">Bottom Title</div>
 </paper-toolbar>
 ```
 
 For `medium-tall` toolbar, the middle and bottom contents overlap and are
-pinned to the bottom. But `middleJustify` and `bottomJustify` attributes are
+pinned to the bottom.  But `middleJustify` and `bottomJustify` attributes are
 still honored separately.
 
 To make an element completely fit at the bottom of the toolbar, use `fit` along
@@ -70,12 +68,12 @@ with `bottom`.
 
 ```html
 <paper-toolbar class="tall">
-  <div id="progressBar" slot="bottom" class="fit"></div>
+  <div id="progressBar" class="bottom fit"></div>
 </paper-toolbar>
 ```
 
-When inside a `paper-header-panel` element with `mode="waterfall-tall"`,
-the class `.animate` is toggled to animate the height change in the toolbar.
+When inside a `paper-header-panel` element, the class `.animate` is toggled to animate
+the height change in the toolbar.
 
 ### Styling
 
@@ -99,12 +97,6 @@ Custom property | Description | Default
 `<paper-toolbar>` has `role="toolbar"` by default. Any elements with the class `title` will
 be used as the label of the toolbar via `aria-labelledby`.
 
-### Breaking change in 2.0
-
-* In Polymer 1.x, default content used to be distribuited automatically to the top toolbar.
-In v2, the you must set `slot="top"` on the default content to distribuite the content to
-the top toolbar.
-
 @demo demo/index.html
 -->
 
@@ -114,28 +106,35 @@ the top toolbar.
       :host {
         --calculated-paper-toolbar-height: var(--paper-toolbar-height, 64px);
         --calculated-paper-toolbar-sm-height: var(--paper-toolbar-sm-height, 56px);
+
+        /* technical */
         display: block;
         position: relative;
         box-sizing: border-box;
         -moz-box-sizing: border-box;
+
+        /* size */
         height: var(--calculated-paper-toolbar-height);
-        background: var(--paper-toolbar-background, var(--primary-color));
-        color: var(--paper-toolbar-color, var(--dark-theme-text-color));
-        @apply --paper-toolbar;
+
+        background: var(--paper-toolbar-background, --primary-color);
+        color: var(--paper-toolbar-color, --dark-theme-text-color);
+
+        @apply(--paper-toolbar);
       }
 
       :host(.animate) {
+        /* transition */
         transition: var(--paper-toolbar-transition, height 0.18s ease-in);
       }
 
       :host(.medium-tall) {
         height: calc(var(--calculated-paper-toolbar-height) * 2);
-        @apply --paper-toolbar-medium;
+        @apply(--paper-toolbar-medium);
       }
 
       :host(.tall) {
         height: calc(var(--calculated-paper-toolbar-height) * 3);
-        @apply --paper-toolbar-tall;
+        @apply(--paper-toolbar-tall);
       }
 
       .toolbar-tools {
@@ -143,9 +142,9 @@ the top toolbar.
         height: var(--calculated-paper-toolbar-height);
         padding: 0 16px;
         pointer-events: none;
-        @apply --layout-horizontal;
-        @apply --layout-center;
-        @apply --paper-toolbar-content;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--paper-toolbar-content);
       }
 
       /*
@@ -203,12 +202,13 @@ the top toolbar.
        * absorb events. All children must have pointer events re-enabled to work as
        * expected.
        */
-      .toolbar-tools > ::slotted(*:not([disabled])) {
+      .toolbar-tools > ::content > *:not([disabled]) {
         pointer-events: auto;
       }
 
-      .toolbar-tools > ::slotted(.title) {
-        @apply --paper-font-common-base;
+      .toolbar-tools > ::content .title {
+        @apply(--paper-font-common-base);
+
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -216,14 +216,15 @@ the top toolbar.
         font-weight: 400;
         line-height: 1;
         pointer-events: none;
-        @apply --layout-flex;
+
+        @apply(--layout-flex);
       }
 
-      .toolbar-tools > ::slotted(.title) {
+      .toolbar-tools > ::content > .title {
         margin-left: 56px;
       }
 
-      .toolbar-tools > ::slotted(paper-icon-button + .title) {
+      .toolbar-tools > ::content > paper-icon-button + .title {
         margin-left: 0;
       }
 
@@ -231,15 +232,15 @@ the top toolbar.
        * The --paper-toolbar-title mixin is applied here instead of above to
        * fix the issue with margin-left being ignored due to css ordering.
        */
-      .toolbar-tools > ::slotted(.title) {
-        @apply --paper-toolbar-title;
+      .toolbar-tools > ::content .title {
+        @apply(--paper-toolbar-title);
       }
 
-      .toolbar-tools > ::slotted(paper-icon-button[icon=menu]) {
+      .toolbar-tools > ::content paper-icon-button[icon=menu] {
         margin-right: 24px;
       }
 
-      .toolbar-tools > ::slotted(.fit) {
+      .toolbar-tools > ::content > .fit {
         position: absolute;
         top: auto;
         right: 0;
@@ -253,36 +254,36 @@ the top toolbar.
        * /deep/ create our own.
        */
       .start-justified {
-        @apply --layout-start-justified;
+        @apply(--layout-start-justified);
       }
 
       .center-justified {
-        @apply --layout-center-justified;
+        @apply(--layout-center-justified);
       }
 
       .end-justified {
-        @apply --layout-end-justified;
+        @apply(--layout-end-justified);
       }
 
       .around-justified {
-        @apply --layout-around-justified;
+        @apply(--layout-around-justified);
       }
 
       .justified {
-        @apply --layout-justified;
+        @apply(--layout-justified);
       }
     </style>
 
     <div id="topBar" class$="toolbar-tools [[_computeBarExtraClasses(justify)]]">
-      <slot name="top"></slot>
+      <content select=":not(.middle):not(.bottom)"></content>
     </div>
 
     <div id="middleBar" class$="toolbar-tools [[_computeBarExtraClasses(middleJustify)]]">
-      <slot name="middle"></slot>
+      <content select=".middle"></content>
     </div>
 
     <div id="bottomBar" class$="toolbar-tools [[_computeBarExtraClasses(bottomJustify)]]">
-      <slot name="bottom"></slot>
+      <content select=".bottom"></content>
     </div>
   </template>
 

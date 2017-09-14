@@ -31,20 +31,10 @@ Use `noOverlap` to position the element around another element without overlappi
         </iron-fit-impl>
       </div>
 
-Use `horizontalOffset, verticalOffset` to offset the element from its `positionTarget`;
-`Polymer.IronFitBehavior` will collapse these in order to keep the element
-within `fitInto` boundaries, while preserving the element's CSS margin values.
-
-      <div class="container">
-        <iron-fit-impl vertical-align="top" vertical-offset="20">
-          With vertical offset
-        </iron-fit-impl>
-      </div>
-
-
 @demo demo/index.html
 @polymerBehavior
 */
+
   Polymer.IronFitBehavior = {
 
     properties: {
@@ -111,18 +101,8 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
       },
 
       /**
-       * A pixel value that will be added to the position calculated for the
-       * given `horizontalAlign`, in the direction of alignment. You can think
-       * of it as increasing or decreasing the distance to the side of the
-       * screen given by `horizontalAlign`.
-       *
-       * If `horizontalAlign` is "left", this offset will increase or decrease
-       * the distance to the left side of the screen: a negative offset will
-       * move the dropdown to the left; a positive one, to the right.
-       *
-       * Conversely if `horizontalAlign` is "right", this offset will increase
-       * or decrease the distance to the right side of the screen: a negative
-       * offset will move the dropdown to the right; a positive one, to the left.
+       * The same as setting margin-left and margin-right css properties.
+       * @deprecated
        */
       horizontalOffset: {
         type: Number,
@@ -131,18 +111,8 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
       },
 
       /**
-       * A pixel value that will be added to the position calculated for the
-       * given `verticalAlign`, in the direction of alignment. You can think
-       * of it as increasing or decreasing the distance to the side of the
-       * screen given by `verticalAlign`.
-       *
-       * If `verticalAlign` is "top", this offset will increase or decrease
-       * the distance to the top side of the screen: a negative offset will
-       * move the dropdown upwards; a positive one, downwards.
-       *
-       * Conversely if `verticalAlign` is "bottom", this offset will increase
-       * or decrease the distance to the bottom side of the screen: a negative
-       * offset will move the dropdown downwards; a positive one, upwards.
+       * The same as setting margin-top and margin-bottom css properties.
+       * @deprecated
        */
       verticalOffset: {
         type: Number,
@@ -236,10 +206,7 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
 
     attached: function() {
       // Memoize this to avoid expensive calculations & relayouts.
-      // Make sure we do it only once
-      if (typeof this._isRTL === 'undefined') {
-        this._isRTL = window.getComputedStyle(this).direction == 'rtl';
-      }
+      this._isRTL = window.getComputedStyle(this).direction == 'rtl';
       this.positionTarget = this.positionTarget || this._defaultPositionTarget;
       if (this.autoFitOnAttach) {
         if (window.getComputedStyle(this).display === 'none') {
@@ -247,19 +214,8 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
             this.fit();
           }.bind(this));
         } else {
-          // NOTE: shadydom applies distribution asynchronously
-          // for performance reasons webcomponents/shadydom#120
-          // Flush to get correct layout info.
-          window.ShadyDOM && ShadyDOM.flush();
           this.fit();
         }
-      }
-    },
-
-    detached: function() {
-      if (this.__deferredFit) {
-        clearTimeout(this.__deferredFit);
-        this.__deferredFit = null;
       }
     },
 
@@ -313,6 +269,20 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
           left: parseInt(target.marginLeft, 10) || 0
         }
       };
+
+      // Support these properties until they are removed.
+      if (this.verticalOffset) {
+        this._fitInfo.margin.top = this._fitInfo.margin.bottom = this.verticalOffset;
+        this._fitInfo.inlineStyle.marginTop = this.style.marginTop || '';
+        this._fitInfo.inlineStyle.marginBottom = this.style.marginBottom || '';
+        this.style.marginTop = this.style.marginBottom = this.verticalOffset + 'px';
+      }
+      if (this.horizontalOffset) {
+        this._fitInfo.margin.left = this._fitInfo.margin.right = this.horizontalOffset;
+        this._fitInfo.inlineStyle.marginLeft = this.style.marginLeft || '';
+        this._fitInfo.inlineStyle.marginRight = this.style.marginRight || '';
+        this.style.marginLeft = this.style.marginRight = this.horizontalOffset + 'px';
+      }
     },
 
     /**
@@ -375,26 +345,32 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
         height: rect.height + margin.top + margin.bottom
       };
 
-      var position = this.__getPosition(this._localeHorizontalAlign, this.verticalAlign, size, positionRect,
-        fitRect);
+      var position = this.__getPosition(this._localeHorizontalAlign, this.verticalAlign, size, positionRect, fitRect);
 
       var left = position.left + margin.left;
       var top = position.top + margin.top;
 
-      // We first limit right/bottom within fitInto respecting the margin,
-      // then use those values to limit top/left.
+      // Use original size (without margin).
       var right = Math.min(fitRect.right - margin.right, left + rect.width);
       var bottom = Math.min(fitRect.bottom - margin.bottom, top + rect.height);
 
-      // Keep left/top within fitInto respecting the margin.
-      left = Math.max(fitRect.left + margin.left,
-        Math.min(left, right - this._fitInfo.sizedBy.minWidth));
-      top = Math.max(fitRect.top + margin.top,
-        Math.min(top, bottom - this._fitInfo.sizedBy.minHeight));
+      var minWidth = this._fitInfo.sizedBy.minWidth;
+      var minHeight = this._fitInfo.sizedBy.minHeight;
+      if (left < margin.left) {
+        left = margin.left;
+        if (right - left < minWidth) {
+          left = right - minWidth;
+        }
+      }
+      if (top < margin.top) {
+        top = margin.top;
+        if (bottom - top < minHeight) {
+          top = bottom - minHeight;
+        }
+      }
 
-      // Use right/bottom to set maxWidth/maxHeight, and respect minWidth/minHeight.
-      this.sizingTarget.style.maxWidth = Math.max(right - left, this._fitInfo.sizedBy.minWidth) + 'px';
-      this.sizingTarget.style.maxHeight = Math.max(bottom - top, this._fitInfo.sizedBy.minHeight) + 'px';
+      this.sizingTarget.style.maxWidth = (right - left) + 'px';
+      this.sizingTarget.style.maxHeight = (bottom - top) + 'px';
 
       // Remove the offset caused by any stacking context.
       this.style.left = (left - rect.left) + 'px';
@@ -523,23 +499,23 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
       var positions = [{
         verticalAlign: 'top',
         horizontalAlign: 'left',
-        top: positionRect.top + this.verticalOffset,
-        left: positionRect.left + this.horizontalOffset
+        top: positionRect.top,
+        left: positionRect.left
       }, {
         verticalAlign: 'top',
         horizontalAlign: 'right',
-        top: positionRect.top + this.verticalOffset,
-        left: positionRect.right - size.width - this.horizontalOffset
+        top: positionRect.top,
+        left: positionRect.right - size.width
       }, {
         verticalAlign: 'bottom',
         horizontalAlign: 'left',
-        top: positionRect.bottom - size.height - this.verticalOffset,
-        left: positionRect.left + this.horizontalOffset
+        top: positionRect.bottom - size.height,
+        left: positionRect.left
       }, {
         verticalAlign: 'bottom',
         horizontalAlign: 'right',
-        top: positionRect.bottom - size.height - this.verticalOffset,
-        left: positionRect.right - size.width - this.horizontalOffset
+        top: positionRect.bottom - size.height,
+        left: positionRect.right - size.width
       }];
 
       if (this.noOverlap) {
@@ -571,7 +547,7 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
         // For dynamicAlign and noOverlap we'll have more than one candidate, so
         // we'll have to check the croppedArea to make the best choice.
         if (!this.dynamicAlign && !this.noOverlap &&
-          pos.verticalAlign === vAlign && pos.horizontalAlign === hAlign) {
+            pos.verticalAlign === vAlign && pos.horizontalAlign === hAlign) {
           position = pos;
           break;
         }
@@ -579,7 +555,7 @@ within `fitInto` boundaries, while preserving the element's CSS margin values.
         // Align is ok if alignment preferences are respected. If no preferences,
         // it is considered ok.
         var alignOk = (!vAlign || pos.verticalAlign === vAlign) &&
-          (!hAlign || pos.horizontalAlign === hAlign);
+                      (!hAlign || pos.horizontalAlign === hAlign);
 
         // Filter out elements that don't match the alignment (if defined).
         // With dynamicAlign, we need to consider all the positions to find the

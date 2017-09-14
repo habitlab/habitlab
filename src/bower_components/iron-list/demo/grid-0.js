@@ -13,12 +13,7 @@
             value: 'c304f1096a06486d3c1e7ab271bf7f3f'
           },
 
-          photos: {
-            type: Array,
-            value: function() {
-              return [];
-            }
-          },
+          photos: Array,
 
           perPage: {
             type: Number,

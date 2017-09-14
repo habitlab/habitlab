@@ -1,0 +1,34 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+</head><body><dom-module id="vaadin-grid-table-outer-scroller">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        box-sizing: border-box;
+        overflow: auto;
+      }
+
+      :host([passthrough]) {
+        pointer-events: none;
+      }
+
+      :host([ios]) {
+        pointer-events: all;
+        z-index: -3;
+      }
+
+      :host([ios][scrolling]) {
+        z-index: 0;
+      }
+    </style>
+
+    <content></content>
+
+  </template>
+  <script src="vaadin-grid-table-outer-scroller-0.js"></script>
+</dom-module>
+</body></html>

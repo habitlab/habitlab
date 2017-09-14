@@ -96,9 +96,7 @@
         markers: {
           type: Array,
           readOnly: true,
-          value: function() {
-              return [];
-          }
+          value: []
         },
       },
 
@@ -115,10 +113,8 @@
       },
 
       keyBindings: {
-        'left': '_leftKey',
-        'right': '_rightKey',
-        'down pagedown home': '_decrementKey',
-        'up pageup end': '_incrementKey'
+        'left down pagedown home': '_decrementKey',
+        'right up pageup end': '_incrementKey'
       },
 
       /**
@@ -142,16 +138,16 @@
         this.setAttribute('aria-valuemax', max);
         this.setAttribute('aria-valuenow', value);
 
-        this._positionKnob(this._calcRatio(value) * 100);
+        this._positionKnob(this._calcRatio(value));
       },
 
       _valueChanged: function() {
-        this.fire('value-change', {composed: true});
+        this.fire('value-change');
       },
 
       _immediateValueChanged: function() {
         if (this.dragging) {
-          this.fire('immediate-value-change', {composed: true});
+          this.fire('immediate-value-change');
         } else {
           this.value = this.immediateValue;
         }
@@ -172,17 +168,17 @@
 
       _positionKnob: function(ratio) {
         this._setImmediateValue(this._calcStep(this._calcKnobPosition(ratio)));
-        this._setRatio(this._calcRatio(this.immediateValue) * 100);
+        this._setRatio(this._calcRatio(this.immediateValue));
 
-        this.$.sliderKnob.style.left = this.ratio + '%';
+        this.$.sliderKnob.style.left = (this.ratio * 100) + '%';
         if (this.dragging) {
-          this._knobstartx = (this.ratio * this._w) / 100;
+          this._knobstartx = this.ratio * this._w;
           this.translate3d(0, 0, 0, this.$.sliderKnob);
         }
       },
 
       _calcKnobPosition: function(ratio) {
-        return (this.max - this.min) * ratio / 100 + this.min;
+        return (this.max - this.min) * ratio + this.min;
       },
 
       _onTrack: function(event) {
@@ -201,9 +197,8 @@
       },
 
       _trackStart: function(event) {
-        this._setTransiting(false);
         this._w = this.$.sliderBar.offsetWidth;
-        this._x = this.ratio * this._w / 100;
+        this._x = this.ratio * this._w;
         this._startx = this._x;
         this._knobstartx = this._startx;
         this._minx = - this._startx;
@@ -212,17 +207,15 @@
         this._setDragging(true);
       },
 
-      _trackX: function(event) {
+      _trackX: function(e) {
         if (!this.dragging) {
-          this._trackStart(event);
+          this._trackStart(e);
         }
 
-        var direction = this._isRTL ? -1 : 1;
-        var dx = Math.min(
-            this._maxx, Math.max(this._minx, event.detail.dx * direction));
+        var dx = Math.min(this._maxx, Math.max(this._minx, e.detail.dx));
         this._x = this._startx + dx;
 
-        var immediateValue = this._calcStep(this._calcKnobPosition(this._x / this._w * 100));
+        var immediateValue = this._calcStep(this._calcKnobPosition(this._x / this._w));
         this._setImmediateValue(immediateValue);
 
         // update knob's position
@@ -240,7 +233,7 @@
 
         s.transform = s.webkitTransform = '';
 
-        this.fire('change', {composed: true});
+        this.fire('change');
       },
 
       _knobdown: function(event) {
@@ -256,10 +249,7 @@
       _bardown: function(event) {
         this._w = this.$.sliderBar.offsetWidth;
         var rect = this.$.sliderBar.getBoundingClientRect();
-        var ratio = (event.detail.x - rect.left) / this._w * 100;
-        if (this._isRTL) {
-          ratio = 100 - ratio;
-        }
+        var ratio = (event.detail.x - rect.left) / this._w;
         var prevRatio = this.ratio;
 
         this._setTransiting(true);
@@ -277,7 +267,7 @@
         }
 
         this.async(function() {
-          this.fire('change', {composed: true});
+          this.fire('change');
         });
 
         // cancel selection
@@ -300,9 +290,6 @@
         var steps = Math.round((max - min) / this.step);
         if (steps > maxMarkers) {
           steps = maxMarkers;
-        }
-        if (steps < 0 || !isFinite(steps)) {
-          steps = 0;
         }
         this._setMarkers(new Array(steps));
       },
@@ -327,27 +314,6 @@
         });
       },
 
-      get _isRTL() {
-        if (this.__isRTL === undefined) {
-          this.__isRTL = window.getComputedStyle(this)['direction'] === 'rtl';
-        }
-        return this.__isRTL;
-      },
-
-      _leftKey: function(event) {
-        if (this._isRTL)
-          this._incrementKey(event);
-        else
-          this._decrementKey(event);
-      },
-
-      _rightKey: function(event) {
-        if (this._isRTL)
-          this._decrementKey(event);
-        else
-          this._incrementKey(event);
-      },
-
       _incrementKey: function(event) {
         if (!this.disabled) {
           if (event.detail.key === 'end') {
@@ -356,7 +322,6 @@
             this.increment();
           }
           this.fire('change');
-          event.preventDefault();
         }
       },
 
@@ -368,13 +333,12 @@
             this.decrement();
           }
           this.fire('change');
-          event.preventDefault();
         }
       },
 
       _changeValue: function(event) {
         this.value = event.target.value;
-        this.fire('change', {composed: true});
+        this.fire('change');
       },
 
       _inputKeyDown: function(event) {
@@ -416,7 +380,7 @@
      * Fired when the slider's immediateValue changes. Only occurs while the
      * user is dragging.
      *
-     * To detect changes to immediateValue that happen for any input (i.e.
+     * To detect changes to immediateValue that happen for any input (i.e.                                                          
      * dragging, tapping, clicking, etc.) listen for immediate-value-changed
      * instead.
      *

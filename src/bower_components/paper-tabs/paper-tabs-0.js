@@ -213,7 +213,6 @@
       _onIronDeselect: function(event) {
         this.debounce('tab-changed', function() {
           this._tabChanged(null, this._previousTab);
-          this._previousTab = null;
         // See polymer/polymer#1305
         }, 1);
       },
@@ -336,9 +335,6 @@
 
       _tabChanged: function(tab, old) {
         if (!tab) {
-          // Remove the bar without animation.
-          this.$.selectionBar.classList.remove('expand');
-          this.$.selectionBar.classList.remove('contract');
           this._positionBar(0, 0);
           return;
         }
@@ -354,9 +350,7 @@
         };
 
         if (this.noSlide || old == null) {
-          // Position the bar without animation.
-          this.$.selectionBar.classList.remove('expand');
-          this.$.selectionBar.classList.remove('contract');
+          // position bar directly without animation
           this._positionBar(this._pos.width, this._pos.left);
           return;
         }
@@ -411,7 +405,7 @@
         this._width = width;
         this._left = left;
         this.transform(
-            'translateX(' + left + '%) scaleX(' + (width / 100) + ')',
+            'translate3d(' + left + '%, 0, 0) scaleX(' + (width / 100) + ')',
             this.$.selectionBar);
       },
 

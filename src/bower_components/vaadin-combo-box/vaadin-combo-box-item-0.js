@@ -52,21 +52,17 @@
 
     attached: function() {
       if (!this._itemTemplateInstance) {
-        // 2.0 has __dataHost
-        var comboBox = this.domHost.dataHost || this.domHost.__dataHost;
+        var comboBox = this.domHost.dataHost;
         comboBox._ensureTemplatized();
         if (comboBox._itemTemplate) {
-          this._itemTemplateInstance = comboBox.stamp({});
-          Polymer.dom(this.root).removeChild(this.$.content);
+          this._itemTemplateInstance = comboBox.stamp();
+          Polymer.dom(this.root).textContent = '';
           Polymer.dom(this.root).appendChild(this._itemTemplateInstance.root);
         }
       }
     },
 
     _updateTemplateInstanceVariable: function(variable, value, _itemTemplateInstance) {
-      if (variable === undefined || value === undefined || _itemTemplateInstance === undefined) {
-        return;
-      }
-      _itemTemplateInstance[variable] = value;
+      this._itemTemplateInstance[variable] = value;
     }
   });

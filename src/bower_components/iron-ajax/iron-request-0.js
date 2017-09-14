@@ -64,11 +64,6 @@
       /**
        * A promise that resolves when the `xhr` response comes back, or rejects
        * if there is an error before the `xhr` completes.
-       * The resolve callback is called with the original request as an argument.
-       * By default, the reject callback is called with an `Error` as an argument.
-       * If `rejectWithRequest` is true, the reject callback is called with an 
-       * object with two keys: `request`, the original request, and `error`, the 
-       * error object.
        *
        * @type {Promise}
        */
@@ -77,7 +72,7 @@
         readOnly: true,
         notify: true,
         value: function() {
-          return new Promise(function(resolve, reject) {
+          return new Promise(function (resolve, reject) {
             this.resolveCompletes = resolve;
             this.rejectCompletes = reject;
           }.bind(this));
@@ -154,11 +149,10 @@
     },
 
     /**
-     * Sends an HTTP request to the server and returns a promise (see the `completes`
-     * property for details).
+     * Sends an HTTP request to the server and returns the XHR object.
      *
      * The handling of the `body` parameter will vary based on the Content-Type
-     * header. See the docs for iron-ajax's `body` property for details.
+     * header. See the docs for iron-ajax's `body` param for details.
      *
      * @param {{
      *   url: string,
@@ -168,82 +162,61 @@
      *   headers: (Object|undefined),
      *   handleAs: (string|undefined),
      *   jsonPrefix: (string|undefined),
-     *   withCredentials: (boolean|undefined),
-     *   timeout: (Number|undefined),
-     *   rejectWithRequest: (boolean|undefined)}} options -
-     *   - url The url to which the request is sent.
-     *   - method The HTTP method to use, default is GET.
-     *   - async By default, all requests are sent asynchronously. To send synchronous requests,
-     *         set to false.
-     *   -  body The content for the request body for POST method.
-     *   -  headers HTTP request headers.
-     *   -  handleAs The response type. Default is 'text'.
-     *   -  withCredentials Whether or not to send credentials on the request. Default is false.
-     *   -  timeout - Timeout for request, in milliseconds.
-     *   -  rejectWithRequest Set to true to include the request object with promise rejections.
+     *   withCredentials: (boolean|undefined)}} options -
+     *     url The url to which the request is sent.
+     *     method The HTTP method to use, default is GET.
+     *     async By default, all requests are sent asynchronously. To send synchronous requests,
+     *         set to true.
+     *     body The content for the request body for POST method.
+     *     headers HTTP request headers.
+     *     handleAs The response type. Default is 'text'.
+     *     withCredentials Whether or not to send credentials on the request. Default is false.
+     *   timeout: (Number|undefined)
      * @return {Promise}
      */
-    send: function(options) {
+    send: function (options) {
       var xhr = this.xhr;
 
       if (xhr.readyState > 0) {
         return null;
       }
 
-      xhr.addEventListener('progress', function(progress) {
+      xhr.addEventListener('progress', function (progress) {
         this._setProgress({
           lengthComputable: progress.lengthComputable,
           loaded: progress.loaded,
           total: progress.total
         });
-      }.bind(this));
+      }.bind(this))
 
-      xhr.addEventListener('error', function(error) {
+      xhr.addEventListener('error', function (error) {
         this._setErrored(true);
         this._updateStatus();
-        var response = options.rejectWithRequest ? {
-          error: error,
-          request: this
-        } : error;
-        this.rejectCompletes(response);
+        this.rejectCompletes(error);
       }.bind(this));
 
-      xhr.addEventListener('timeout', function(error) {
+      xhr.addEventListener('timeout', function (error) {
         this._setTimedOut(true);
         this._updateStatus();
-        var response = options.rejectWithRequest ? {
-          error: error,
-          request: this
-        } : error;
-        this.rejectCompletes(response);
+        this.rejectCompletes(error);
       }.bind(this));
 
-      xhr.addEventListener('abort', function() {
-        this._setAborted(true);
+      xhr.addEventListener('abort', function () {
         this._updateStatus();
-        var error = new Error('Request aborted.');
-        var response = options.rejectWithRequest ? {
-          error: error,
-          request: this
-        } : error;
-        this.rejectCompletes(response);
+        this.rejectCompletes(new Error('Request aborted.'));
       }.bind(this));
+
 
       // Called after all of the above.
-      xhr.addEventListener('loadend', function() {
+      xhr.addEventListener('loadend', function () {
         this._updateStatus();
-        this._setResponse(this.parseResponse());
 
         if (!this.succeeded) {
-          var error = new Error('The request failed with status code: ' + this.xhr.status);
-          var response = options.rejectWithRequest ? {
-            error: error,
-            request: this
-          } : error;
-          this.rejectCompletes(response);
+          this.rejectCompletes(new Error('The request failed with status code: ' + this.xhr.status));
           return;
         }
 
+        this._setResponse(this.parseResponse());
         this.resolveCompletes(this);
       }.bind(this));
 
@@ -271,9 +244,9 @@
       if (acceptType && !headers['accept']) {
         headers['accept'] = acceptType;
       }
-      Object.keys(headers).forEach(function(requestHeader) {
+      Object.keys(headers).forEach(function (requestHeader) {
         if (/[A-Z]/.test(requestHeader)) {
-          Polymer.Base._error('Headers must be lower case, got', requestHeader);
+          console.error('Headers must be lower case, got', requestHeader);
         }
         xhr.setRequestHeader(
           requestHeader,
@@ -282,10 +255,6 @@
       }, this);
 
       if (options.async !== false) {
-        if (options.async) {
-          xhr.timeout = options.timeout;
-        }
-
         var handleAs = options.handleAs;
 
         // If a JSON prefix is present, the responseType must be 'text' or the
@@ -305,7 +274,7 @@
       }
 
       xhr.withCredentials = !!options.withCredentials;
-
+      xhr.timeout = options.timeout;
 
       var body = this._encodeBodyObject(options.body, headers['content-type']);
 
@@ -325,7 +294,7 @@
      * @return {*} The parsed response,
      * or undefined if there was an empty response or parsing failed.
      */
-    parseResponse: function() {
+    parseResponse: function () {
       var xhr = this.xhr;
       var responseType = xhr.responseType || xhr._responseType;
       var preferResponseText = !this.xhr.responseType;
@@ -381,7 +350,7 @@
     /**
      * Aborts the request.
      */
-    abort: function() {
+    abort: function () {
       this._setAborted(true);
       this.xhr.abort();
     },
@@ -433,12 +402,8 @@
     _wwwFormUrlEncodePiece: function(str) {
       // Spec says to normalize newlines to \r\n and replace %20 spaces with +.
       // jQuery does this as well, so this is likely to be widely compatible.
-      if (str === null || str === undefined || !str.toString) {
-        return '';
-      }
-
       return encodeURIComponent(str.toString().replace(/\r?\n/g, '\r\n'))
-        .replace(/%20/g, '+');
+          .replace(/%20/g, '+');
     },
 
     /**

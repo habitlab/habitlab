@@ -31,6 +31,7 @@
   Polymer.IronValidatableBehavior = {
 
     properties: {
+
       /**
        * Name of the validator to use.
        */
@@ -45,10 +46,36 @@
         notify: true,
         reflectToAttribute: true,
         type: Boolean,
-        value: false,
-        observer: '_invalidChanged'
+        value: false
       },
+
+      /**
+       * This property is deprecated and should not be used. Use the global
+       * validator meta singleton, `Polymer.IronValidatableBehaviorMeta` instead.
+       */
+      _validatorMeta: {
+        type: Object
+      },
+
+      /**
+       * Namespace for this validator. This property is deprecated and should
+       * not be used. For all intents and purposes, please consider it a
+       * read-only, config-time property.
+       */
+      validatorType: {
+        type: String,
+        value: 'validator'
+      },
+
+      _validator: {
+        type: Object,
+        computed: '__computeValidator(validator)'
+      }
     },
+
+    observers: [
+      '_invalidChanged(invalid)'
+    ],
 
     registered: function() {
       Polymer.IronValidatableBehaviorMeta = new Polymer.IronMeta({type: 'validator'});
@@ -60,13 +87,6 @@
       } else {
         this.removeAttribute('aria-invalid');
       }
-    },
-
-    /* Recompute this every time it's needed, because we don't know if the
-     * underlying IronValidatableBehaviorMeta has changed. */
-    get _validator() {
-      return Polymer.IronValidatableBehaviorMeta &&
-          Polymer.IronValidatableBehaviorMeta.byKey(this.validator);
     },
 
     /**
@@ -81,19 +101,12 @@
      * your element to have custom validation logic, do not override this method;
      * override `_getValidity(value)` instead.
 
-     * @param {Object} value Deprecated: The value to be validated. By default,
-     * it is passed to the validator's `validate()` function, if a validator is set.
-     * If this argument is not specified, then the element's `value` property
-     * is used, if it exists.
+     * @param {Object} value The value to be validated. By default, it is passed
+     * to the validator's `validate()` function, if a validator is set.
      * @return {boolean} True if `value` is valid.
      */
     validate: function(value) {
-      // If this is an element that also has a value property, and there was
-      // no explicit value argument passed, use the element's property instead.
-      if (value === undefined && this.value !== undefined)
-        this.invalid = !this._getValidity(this.value);
-      else
-        this.invalid = !this._getValidity(value);
+      this.invalid = !this._getValidity(value);
       return !this.invalid;
     },
 
@@ -112,6 +125,11 @@
         return this._validator.validate(value);
       }
       return true;
+    },
+
+    __computeValidator: function() {
+      return Polymer.IronValidatableBehaviorMeta &&
+          Polymer.IronValidatableBehaviorMeta.byKey(this.validator);
     }
   };
 

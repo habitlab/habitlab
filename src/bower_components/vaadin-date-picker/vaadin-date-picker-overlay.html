@@ -1,0 +1,300 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-styles/shadow.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-input/iron-input.html">
+<link rel="import" href="../paper-input/paper-input-container.html">
+<link rel="import" href="../iron-media-query/iron-media-query.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../iron-a11y-announcer/iron-a11y-announcer.html">
+<link rel="import" href="vaadin-month-calendar.html">
+<link rel="import" href="vaadin-infinite-scroller.html">
+<link rel="import" href="vaadin-date-picker-helper.html">
+<link rel="import" href="vaadin-date-picker-icons.html">
+
+</head><body><dom-module id="vaadin-date-picker-overlay">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        background: var(--primary-background-color);
+        font: inherit;
+        outline: none;
+        @apply(--paper-font-common-base);
+        @apply(--shadow-elevation-2dp);
+        @apply(--vaadin-date-picker-overlay);
+      }
+
+      #toolbar {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px;
+        background: var(--primary-background-color);
+        z-index: 2;
+        @apply(--paper-font-button);
+        @apply(--shadow-elevation-2dp);
+        flex-shrink: 0;
+        transform: translateZ(0);
+        color: var(--primary-color);
+        @apply(--vaadin-date-picker-toolbar);
+      }
+
+      #toolbar:not([desktop]) {
+        cursor: pointer;
+      }
+
+      #toolbar iron-icon {
+        fill: var(--primary-color);
+        padding: 0;
+        transition: transform 200ms;
+        will-change: transform;
+        --iron-icon-width: 20px;
+        --iron-icon-height: 20px;
+        @apply(--vaadin-date-picker-toolbar-icon);
+      }
+
+      #toolbar iron-icon[rotate] {
+        transform: rotate(180deg);
+      }
+
+      #toolbar iron-icon[hidden] {
+        display: none;
+      }
+
+      #scrollers {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #scrollers #fade {
+        pointer-events: none;
+        display: block;
+        background: linear-gradient(90deg, var(--primary-background-color), rgba(255, 255, 255, 0));
+        width: 50px;
+        position: absolute;
+        height: 100%;
+        z-index: 1;
+        transform: translateX(-100%);
+        @apply(--vaadin-date-picker-scrollers-fade);
+      }
+
+      #scrollers[desktop] #fade {
+        display: none;
+      }
+
+      #scroller,
+      #yearScroller {
+        height: 100%;
+      }
+
+      #scroller {
+        padding: 0 8px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      #scrollers[desktop] #scroller {
+        right: 50px;
+        transform: none !important;
+      }
+
+      #yearScroller {
+        text-align: center;
+        width: 50px;
+        background: var(--dark-theme-background-color);
+        color: var(--dark-theme-secondary-color);
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        transform: translateX(100%);
+        -webkit-tap-highlight-color: transparent;
+        @apply(--paper-font-menu);
+        @apply(--vaadin-date-picker-yearscroller);
+      }
+
+      #yearScroller div {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      #scrollers[desktop] #yearScroller {
+        position: absolute;
+        transform: none !important;
+      }
+
+      #yearScroller {
+        /* Center the year scroller position. */
+        --vaadin-infinite-scroller-buffer: {
+          top: 50%;
+          margin-top: -12px;
+          width: 90px;
+        }
+      }
+
+      #yearScroller::before {
+        content: '';
+        display: block;
+        background: transparent;
+        width: 0;
+        height: 0;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -6px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: transparent;
+        border-left-color: var(--primary-background-color);
+        @apply(--vaadin-date-picker-yearscroller-indicator);
+      }
+
+      :host(.animate) vaadin-infinite-scroller {
+        transition: all 200ms;
+      }
+
+      :host(:not([fullscreen])) #header {
+        display: none;
+      }
+
+      #toolbar[desktop] {
+        display: none;
+      }
+
+      #header {
+        background: var(--primary-color);
+        padding: 0 14px 14px;
+        display: flex;
+        flex-shrink: 0;
+        height: 64px; /* height set to 64px to match app-toolbar height */
+        box-sizing: border-box;
+
+        @apply(--paper-font-subhead);
+        @apply(--shadow-elevation-2dp);
+        @apply(--vaadin-date-picker-header);
+      }
+
+      #header label,
+      #header input {
+        color: var(--dark-theme-text-color);
+      }
+
+      #header iron-icon {
+        color: var(--dark-theme-text-color);
+        cursor: pointer;
+      }
+
+      #toggle {
+        align-self: flex-end;
+      }
+
+      #header paper-input-container {
+        flex: 1;
+        margin-right: 24px;
+        padding-bottom: 0;
+        --paper-input-container-underline: {
+          display: none;
+        };
+        --paper-input-container-underline-focus: {
+          display: block;
+          background: var(--dark-theme-text-color);
+          -webkit-transform: none;
+          transform: none;
+        };
+      }
+
+      #clear {
+        display: none;
+      }
+
+      #clear[showclear] {
+        display: flex;
+      }
+
+      #footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px;
+        @apply(--paper-font-body2);
+        background: var(--primary-background-color);
+        z-index: 2;
+        box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.5);
+        color: var(--primary-color);
+        flex-shrink: 0;
+        @apply(--vaadin-date-picker-footer);
+      }
+
+      paper-button.keyboard-focus {
+        color: var(--primary-background-color);
+        background: var(--primary-color);
+        outline: none;
+      }
+
+      #announcer {
+        display: inline-block;
+        position: fixed;
+        clip: rect(0, 0, 0, 0);
+        clip-path: inset(100%);
+      }
+    </style>
+
+    <div id="announcer" role="alert" aria-live="polite">
+      [[i18n.calendar]]
+    </div>
+
+    <div id="header" on-touchend="_preventDefault" aria-hidden="true">
+      <paper-input-container>
+        <label>[[label]]</label>
+        <input id="input" readonly="" is="iron-input" autocomplete="off" bind-value="[[_formatDisplayed(selectedDate, i18n.formatDate)]]">
+        <iron-icon id="clear" suffix="" on-tap="_clear" icon="vaadin-date-picker:clear" showclear$="[[_showClear(selectedDate)]]"></iron-icon>
+      </paper-input-container>
+      <iron-icon id="toggle" icon="vaadin-date-picker:event" on-tap="_cancel"></iron-icon>
+    </div>
+
+    <div id="toolbar" desktop$="[[_desktopMode]]" on-tap="_toggleYearScroller" aria-hidden="true">
+      [[_yearAfterXMonths(_visibleMonthIndex)]]
+      <iron-icon rotate$="[[_isYearScrollerVisible(_translateX)]]" icon="vaadin-date-picker:chevron-right"></iron-icon>
+    </div>
+
+    <div id="scrollers" desktop$="[[_desktopMode]]" on-track="_track">
+      <div id="fade"></div>
+      <vaadin-infinite-scroller id="scroller" on-custom-scroll="_onMonthScroll" on-touchstart="_onMonthScrollTouchStart" item-height="250" buffer-size="6" active="[[initialPosition]]">
+        <template>
+          <vaadin-month-calendar i18n="[[i18n]]" month="[[_dateAfterXMonths(index)]]" selected-date="{{selectedDate}}" focused-date="[[focusedDate]]" ignore-taps="[[_ignoreTaps]]" show-week-numbers="[[showWeekNumbers]]" min-date="[[minDate]]" max-date="[[maxDate]]" focused$="[[_focused]]">
+          </vaadin-month-calendar>
+        </template>
+      </vaadin-infinite-scroller>
+      <vaadin-infinite-scroller id="yearScroller" on-tap="_onYearTap" on-custom-scroll="_onYearScroll" on-touchstart="_onYearScrollTouchStart" item-height="80" buffer-size="25" active="[[initialPosition]]">
+        <template>
+          <div role="button">[[_yearAfterXYears(index)]]</div>
+          <div style="font-size: 18px; line-height: 56px; opacity: 0.3;" aria-hidden="true">•</div>
+        </template>
+      </vaadin-infinite-scroller>
+    </div>
+
+    <div id="footer" on-touchend="_preventDefault" role="toolbar">
+      <paper-button id="todayButton" disabled="[[!_isTodayAllowed(minDate, maxDate)]]" on-tap="_onTodayTap">
+        [[i18n.today]]
+      </paper-button>
+      <paper-button id="cancelButton" on-tap="_cancel">
+        [[i18n.cancel]]
+      </paper-button>
+    </div>
+
+    <iron-media-query query="(min-width: 375px)" query-matches="{{_desktopMode}}"></iron-media-query>
+  </template>
+  <script src="vaadin-date-picker-overlay-0.js"></script>
+</dom-module>
+</body></html>

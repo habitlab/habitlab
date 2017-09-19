@@ -27,6 +27,7 @@ require! {
 
 #UglifyJSPlugin = require 'uglifyjs-webpack-plugin'
 BabiliPlugin = require 'babel-minify-webpack-plugin'
+HabitLabComponentRenamePlugin = require './webpack_habitlab_component_rename_plugin'
 
 fse = require 'fs-extra'
 webpack-stream = require 'webpack2-stream-watch'
@@ -260,10 +261,12 @@ webpack_config_nowatch = with_created_object webpack_config_backend, (o) ->
 webpack_config_watch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = true
   o.devtool = false # comment out to generate source maps
+  o.plugins.push new HabitLabComponentRenamePlugin()
 
 webpack_config_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
   o.devtool = false # comment out to generate source maps
+  o.plugins.push new HabitLabComponentRenamePlugin()
 
 webpack_config_nosrcmap_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
@@ -279,6 +282,7 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
+  o.plugins.push new HabitLabComponentRenamePlugin()
   o.plugins.push new BabiliPlugin {}, {
     comments: false
   }
@@ -299,6 +303,7 @@ webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
+  o.plugins.push new HabitLabComponentRenamePlugin()
   o.plugins.push new BabiliPlugin {}, {
     comments: false
   }

@@ -56,17 +56,20 @@ add_habitlab_prefix_to_polymer_elements = (intervention_code) ->
   make_replacements = (input_text) ->
     i = 0
     output = []
+    ol = 0
     while i < input_text.length
       made_replacement = false
       for [to_replace,replacement] in replacements
         if input_text.substr(i, to_replace.length) == to_replace
-          output.push replacement
+          output[ol] = replacement
+          ol += 1
           made_replacement = true
           i += to_replace.length
           break
       if made_replacement
         continue
-      output.push input_text[i]
+      output[ol] = input_text[i]
+      ol += 1
       i += 1
     return output.join('')
 

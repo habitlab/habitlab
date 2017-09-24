@@ -514,9 +514,9 @@ node.removeEventListener(eventName, handler);
 'use strict';
 var wrap = Polymer.DomApi.wrap;
 var HAS_NATIVE_TA = true;
-var GESTURE_KEY = '__polymerGestures';
-var HANDLED_OBJ = '__polymerGesturesHandled';
-var TOUCH_ACTION = '__polymerGesturesTouchAction';
+var GESTURE_KEY = '__habitlabPolymerGestures';
+var HANDLED_OBJ = '__habitlabPolymerGesturesHandled';
+var TOUCH_ACTION = '__habitlabPolymerGesturesTouchAction';
 var TAP_DISTANCE = 25;
 var TRACK_DISTANCE = 5;
 var TRACK_LENGTH = 2;
@@ -781,12 +781,16 @@ if (!gd) {
 gobj[dep] = gd = { _count: 0 };
 }
 if (gd._count === 0) {
+if (!window.location.protocol.startsWith('http') || node.nodeName.startsWith('HABITLAB-') || node == window.document) {
 node.addEventListener(dep, this.handleNative);
+}
 }
 gd[name] = (gd[name] || 0) + 1;
 gd._count = (gd._count || 0) + 1;
 }
+if (!window.location.protocol.startsWith('http') || node.nodeName.startsWith('HABITLAB-')) {
 node.addEventListener(evType, handler);
+}
 if (recognizer.touchAction) {
 this.setTouchAction(node, recognizer.touchAction);
 }
@@ -1132,6 +1136,9 @@ forward: function (e, preventer) {
 var dx = Math.abs(e.clientX - this.info.x);
 var dy = Math.abs(e.clientY - this.info.y);
 var t = Gestures.findOriginalTarget(e);
+if (window.location.protocol.startsWith('http') && !t.nodeName.startsWith('HABITLAB-')) {
+  return;
+}
 if (isNaN(dx) || isNaN(dy) || dx <= TAP_DISTANCE && dy <= TAP_DISTANCE || isSyntheticClick(e)) {
 if (!this.info.prevent) {
 Gestures.fire(t, 'tap', {

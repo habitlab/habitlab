@@ -2,6 +2,7 @@
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "files.exclude": {
+    "**/*.svg": true,
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,

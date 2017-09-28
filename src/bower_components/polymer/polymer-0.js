@@ -781,14 +781,14 @@ if (!gd) {
 gobj[dep] = gd = { _count: 0 };
 }
 if (gd._count === 0) {
-if (!window.location.protocol.startsWith('http') || node.nodeName.startsWith('HABITLAB-') || node == window.document) {
+if (!window.habitlab_content_script || node.nodeName.startsWith('HABITLAB-') || node == window.document) {
 node.addEventListener(dep, this.handleNative);
 }
 }
 gd[name] = (gd[name] || 0) + 1;
 gd._count = (gd._count || 0) + 1;
 }
-if (!window.location.protocol.startsWith('http') || node.nodeName.startsWith('HABITLAB-')) {
+if (!window.habitlab_content_script || node.nodeName.startsWith('HABITLAB-')) {
 node.addEventListener(evType, handler);
 }
 if (recognizer.touchAction) {
@@ -1136,7 +1136,7 @@ forward: function (e, preventer) {
 var dx = Math.abs(e.clientX - this.info.x);
 var dy = Math.abs(e.clientY - this.info.y);
 var t = Gestures.findOriginalTarget(e);
-if (window.location.protocol.startsWith('http') && !t.nodeName.startsWith('HABITLAB-')) {
+if (window.habitlab_content_script && !t.nodeName.startsWith('HABITLAB-')) {
   return;
 }
 if (isNaN(dx) || isNaN(dy) || dx <= TAP_DISTANCE && dy <= TAP_DISTANCE || isSyntheticClick(e)) {

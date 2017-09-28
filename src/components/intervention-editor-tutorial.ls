@@ -233,7 +233,7 @@ Polymer({
     # temp_code=this.$$('#' + editor_name).getSession().getValue().trim()
     temp_code=this.js_editors[editor_name].getSession().getValue().trim()
     # temp_code = this.default_code[editor_name]
-    temp_goal_info=await get_goal_info("youtube/spend_less_time")
+    temp_goal_info = await get_goal_info("reddit/spend_less_time")
     temp_intervention_info = {
       code:temp_code
       name:"temp_intervention"
@@ -251,19 +251,21 @@ Polymer({
       return false
     await add_new_intervention(temp_intervention_info)
     set_override_enabled_interventions_once temp_intervention_info.name
-    chrome.tabs.create {url: temp_intervention_info.preview}
+    preview_page = temp_intervention_info.preview
+    if not preview_page?
+      preview_page = 'https://' + temp_goal_info.domain + '/'
+    chrome.tabs.create {url: preview_page}
   advanced_demo_clicked: (evt) ->>
     intervention_name= evt.target.id.substring 5
     set_override_enabled_interventions_once intervention_name
-    intervention_info=await get_intervention_info(intervention_name)
+    intervention_info = await get_intervention_info(intervention_name)
     if intervention_info.preview?
-      preview_page=intervention_info.preview
-      console.log preview_page
+      preview_page = intervention_info.preview
     else if intervention_info.sitename=='generic'
-      preview_page='https://www.reddit.com/'
+      preview_page = 'https://www.reddit.com/'
     else
-      goal_info=await get_goal_info(intervention_info.goals[0])
-      preview_page=goal_info.preview ? ('https://' + goal_info.domain + '/')     
+      goal_info = await get_goal_info(intervention_info.goals[0])
+      preview_page = goal_info.preview ? ('https://' + goal_info.domain + '/')
     chrome.tabs.create {url: preview_page}
   rerender: ->>
     self = this

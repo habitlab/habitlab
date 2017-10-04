@@ -81,7 +81,7 @@ export list_enabled_goals = ->>
 
 default_goals_list = [
   'facebook/spend_less_time'
-  #'youtube/spend_less_time'
+  'youtube/spend_less_time'
 ]
 
 /**

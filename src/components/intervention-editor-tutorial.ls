@@ -146,7 +146,7 @@ Polymer({
             </style>
             <template>
               <div class="white_on_black">
-                <div>Hello you've been here for  seconds</div>
+                <div>Hello you've been here for {{seconds_elapsed}} seconds</div>
               </div>
             </template>
           `, {
@@ -189,7 +189,7 @@ Polymer({
             </style>
             <template>
               <div class="white_on_black">
-                <div>Hello you've been here for  seconds</div>
+                <div>Hello you've been here for {{seconds_elapsed}} seconds</div>
                 <habitlab-logo-v2></habitlab-logo-v2>
                 <br>
                 <close-tab-button></close-tab-button>

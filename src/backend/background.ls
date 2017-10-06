@@ -549,22 +549,29 @@ do !->>
         intervention_info_setter_lib.set_goal_info(goal_info);
         intervention_info_setter_lib.set_tab_id(tab_id);
         log_utils.log_impression();
-        document.body.addEventListener('disable_intervention', function() {
-          window.intervention_disabled = true;
-          log_utils.log_disable();
-          if (typeof(window.on_intervention_disabled) == 'function') {
-            window.on_intervention_disabled();
-          } else {
-            SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
-              content_script_utils.load_css_file('sweetalert2').then(function() {
-                sweetalert({
-                  title: 'Reload page to turn off intervention',
-                  text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
+        (async function() {
+          while (document.body == null) {
+            await new Promise(function(cb) {
+              setTimeout(cb, 30);
+            });
+          }
+          document.body.addEventListener('disable_intervention', function() {
+            window.intervention_disabled = true;
+            log_utils.log_disable();
+            if (typeof(window.on_intervention_disabled) == 'function') {
+              window.on_intervention_disabled();
+            } else {
+              SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
+                content_script_utils.load_css_file('sweetalert2').then(function() {
+                  sweetalert({
+                    title: 'Reload page to turn off intervention',
+                    text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
+                  })
                 })
               })
-            })
-          }
-        })
+            }
+          })
+        })();
         #{open_debug_page_if_needed}
       })
     }

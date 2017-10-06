@@ -730,6 +730,9 @@ tasks_and_patterns = [
 */
 
 gulp.task 'make_docs_markdown', (done) ->
+  if process.platform == 'win32'
+    done()
+    return
   {exec} = require 'shelljs'
   if not fs.existsSync('doc')
     fs.mkdirSync('doc')

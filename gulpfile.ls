@@ -730,13 +730,10 @@ tasks_and_patterns = [
 */
 
 gulp.task 'make_docs_markdown', (done) ->
-  if process.platform == 'win32'
-    done()
-    return
   {exec} = require 'shelljs'
   if not fs.existsSync('doc')
     fs.mkdirSync('doc')
-  exec('./node_modules/documentation-habitlab/bin/documentation.js build src_gen/libs_frontend/*.js src_gen/libs_backend/*.js src_gen/libs_common/*.js src/flowtypes/*.js -f md -o doc/API.md --github')
+  exec('node ./node_modules/documentation-habitlab/bin/documentation.js build src_gen/libs_frontend/*.js src_gen/libs_backend/*.js src_gen/libs_common/*.js src/flowtypes/*.js -f md -o doc/API.md --github')
   fse.copySync 'doc/API.md', 'dist/API.md'
   done()
 

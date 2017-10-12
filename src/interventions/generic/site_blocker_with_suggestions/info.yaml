@@ -1,0 +1,5 @@
+description: Blocks site outright
+displayname: Blocker
+content_scripts:
+  - path: frontend.js
+    run_at: document_start

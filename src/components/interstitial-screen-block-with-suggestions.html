@@ -1,0 +1,128 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="habitlab-logo-v2.html">
+<link rel="import" href="close-tab-button.html">
+
+<dom-module id="interstitial-screen-block-with-suggestions">
+  <template>
+    <style>
+       :host {
+        position: fixed;
+        display: block;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #f2fcff;
+        opacity: 1;
+        z-index: 350000000000;
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      }
+
+      .contentContainer {
+        margin-top: 20px;
+      }
+
+      .titleText {
+
+        font-size: 1.5em;
+        text-align: center;
+      }
+
+      #messagetext {
+        font-size: 1.3em;
+        text-align: center;
+      }
+
+      .whiteDiv {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #f2fcff;
+        opacity: 1;
+        z-index: 35000000;
+      }
+
+      .okButton {
+        cursor: pointer;
+        padding: 5px;
+        background-color: #415D67;
+        color: white;
+        font-size: 14px;
+        height: 38px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+
+      .closeTabButton {
+        cursor: pointer;
+        padding: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        height: 38px;
+      }
+
+      #logo {
+        margin: 10px;
+      }
+
+      .message-block {
+        padding-top: 40px;
+        align-self: center;
+      }
+
+      #paperprogress {
+        display: none;
+        margin-bottom: 10px;
+      }
+
+      #closebutton {
+        
+      }
+      .goal-icon {
+        width: 64px;
+        height: 64px;
+      }
+    </style>
+    <div class="whiteDiv">
+      <div>
+        <template is="dom-repeat" items="{{positive_goals}}" as="goal_info">
+          <a href="{{goal_info.homepage}}">
+            <div>{{goal_info.description}}</div>
+            <img class="goal-icon" src="{{goal_info.icon}}">
+          </a>
+        </template>
+      </div>
+      Hello world
+      <close-tab-button id="closebutton"></close-tab-button>
+      <!--
+      <div class="contentContainer">
+        <div id="titletext" class="titleText"></div>
+        <div id="messagetext"></div>
+        <p>
+          <p>
+            <center>
+              <paper-progress id="paperprogress"></paper-progress>
+            </center>
+            <center>
+              <action-dropdown id="closetabbutton" class="closeTabButton"></action-dropdown>
+            </center>
+            <center>
+              <paper-button id="okbutton" class="okButton" on-click="buttonclicked">default</paper-button>
+            </center>
+            <center>
+              <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
+              <center>
+      </div>
+    -->
+    </div>
+
+  </template>
+
+  <script src="interstitial-screen-block-with-suggestions.js"></script>
+
+</dom-module>

@@ -29,6 +29,7 @@
     "percipio": "^0.1.2",
     "prelude-ls": "^1.1.2",
     "promise-debounce": "^1.0.1",
+    "shelljs": "^0.7.8",
     "shuffled": "^1.0.0",
     "sortablejs": "^1.5.0-rc1",
     "sweetalert2": "^6.3.2",

@@ -11,6 +11,7 @@
     "dexie": "^1.4.1",
     "documentation-habitlab": "^4.0.0-beta.19.4",
     "enable-webcomponents-in-content-scripts": "^1.0.7",
+    "eslint": "^4.8.0",
     "getsecret": "^1.0.2",
     "jquery": "^3.0.0",
     "js-yaml": "^3.6.1",

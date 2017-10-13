@@ -5,8 +5,7 @@ parserOptions:
   ecmaFeatures:
     'impliedStrict': true
     # 'jsx': true
-plugins:
-  #- 'jsx-control-statements'
+plugins: []
 extends:
   - 'eslint:recommended'
   #- 'plugin:jsx-control-statements/recommended'
@@ -35,9 +34,10 @@ globals:
   'parameters': true
   'set_default_parameters': true
 rules:
-  'no-console': 'off'
-  'no-unused-vars': 'off'
-  'require-yield': 'off'
+  'no-console': 0
+  'no-unused-vars': 0
+  'require-yield': 0
+  'no-undef': 1
   #'no-unused-vars': ['warn', {args: 'none', vars: 'local'}]
   'comma-dangle': ['warn', 'only-multiline']
   #'strict': 2

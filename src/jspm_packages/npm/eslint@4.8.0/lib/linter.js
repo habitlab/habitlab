@@ -535,7 +535,7 @@ function parse(text, providedParserOptions, parserName, filePath) {
     let parser;
 
     try {
-        parser = require(parserName);
+        parser = require("espree");
     } catch (ex) {
         return {
             success: false,

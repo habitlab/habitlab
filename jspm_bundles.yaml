@@ -39,3 +39,4 @@
   - brace/theme/monokai
   - brace/ext/language_tools
   - eslint
+  - espree

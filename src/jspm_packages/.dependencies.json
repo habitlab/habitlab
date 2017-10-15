@@ -1805,13 +1805,6 @@
       "util": "npm:jspm-nodelibs-util@^0.2.0"
     }
   },
-  "npm:espree@3.5.1": {
-    "deps": {
-      "acorn": "npm:acorn@^5.1.1",
-      "acorn-jsx": "npm:acorn-jsx@^3.0.0"
-    },
-    "peerDeps": {}
-  },
   "npm:lru-cache@4.1.1": {
     "deps": {
       "pseudomap": "npm:pseudomap@^1.0.2",
@@ -2237,12 +2230,6 @@
       "string_decoder": "npm:jspm-nodelibs-string_decoder@^0.2.0"
     }
   },
-  "npm:acorn-jsx@3.0.1": {
-    "deps": {
-      "acorn": "npm:acorn@^3.0.4"
-    },
-    "peerDeps": {}
-  },
   "npm:esprima@4.0.0": {
     "deps": {},
     "peerDeps": {}
@@ -2268,10 +2255,6 @@
     "peerDeps": {}
   },
   "npm:balanced-match@1.0.0": {
-    "deps": {},
-    "peerDeps": {}
-  },
-  "npm:acorn@5.1.2": {
     "deps": {},
     "peerDeps": {}
   },
@@ -2389,10 +2372,6 @@
     "peerDeps": {
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
-  },
-  "npm:acorn@3.3.0": {
-    "deps": {},
-    "peerDeps": {}
   },
   "npm:is-path-inside@1.0.0": {
     "deps": {
@@ -2922,6 +2901,27 @@
     }
   },
   "npm:jspm-nodelibs-readline@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:espree@3.5.1": {
+    "deps": {
+      "acorn": "npm:acorn@^5.1.1",
+      "acorn-jsx": "npm:acorn-jsx@^3.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:acorn-jsx@3.0.1": {
+    "deps": {
+      "acorn": "npm:acorn@^3.0.4"
+    },
+    "peerDeps": {}
+  },
+  "npm:acorn@5.1.2": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:acorn@3.3.0": {
     "deps": {},
     "peerDeps": {}
   }

@@ -81,6 +81,8 @@ class Rules {
      */
     load(rulesDir, cwd) {
         const newRules = loadRules(rulesDir, cwd);
+        console.log('newRules is')
+        console.log(newRules)
 
         Object.keys(newRules).forEach(ruleId => {
             this.define(ruleId, newRules[ruleId]);
@@ -115,7 +117,8 @@ class Rules {
             return createMissingRule(ruleId);
         }
         if (typeof this._rules[ruleId] === "string") {
-            return normalizeRule(require(this._rules[ruleId]));
+            //return normalizeRule(require(this._rules[ruleId]));
+            return require('./rules_all_requires')[ruleId]
         }
         return this._rules[ruleId];
 

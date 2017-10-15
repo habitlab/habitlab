@@ -22,6 +22,7 @@ SystemJS.config({
     "dns": "npm:jspm-nodelibs-dns@0.2.0",
     "ecc-jsbn": "npm:ecc-jsbn@0.1.1",
     "eslint": "npm:eslint@4.8.0",
+    "espree": "npm:espree@3.5.1",
     "esprima": "npm:esprima@3.1.3",
     "http": "npm:jspm-nodelibs-http@0.2.0",
     "https": "npm:jspm-nodelibs-https@0.2.1",

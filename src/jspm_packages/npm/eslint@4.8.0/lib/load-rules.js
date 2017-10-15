@@ -25,26 +25,10 @@ const rulesDirCache = {};
  * @returns {Object} Loaded rule modules by rule ids (file names).
  */
 module.exports = function(rulesDir, cwd) {
-    if (!rulesDir) {
-        rulesDir = path.join(__dirname, "rules");
-    } else {
-        rulesDir = path.resolve(cwd, rulesDir);
+    let rule_filenames = require("./rules_filenames")
+    let rules = {}
+    for (let rule_filename of rule_filenames) {
+        rules[rule_filename.slice(0, -3)] = rule_filename
     }
-
-    // cache will help performance as IO operation are expensive
-    if (rulesDirCache[rulesDir]) {
-        return rulesDirCache[rulesDir];
-    }
-
-    const rules = Object.create(null);
-
-    fs.readdirSync(rulesDir).forEach(file => {
-        if (path.extname(file) !== ".js") {
-            return;
-        }
-        rules[file.slice(0, -3)] = path.join(rulesDir, file);
-    });
-    rulesDirCache[rulesDir] = rules;
-
     return rules;
 };

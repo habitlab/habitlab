@@ -1,0 +1,25 @@
+{
+  "main": "src/init.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "dist/jschardet.js": {
+      "cjsRequireDetection": false
+    },
+    "dist/jschardet.min.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "src/init.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./src": "./src/index.js"
+  }
+}

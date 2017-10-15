@@ -1,0 +1,46 @@
+{
+  "main": "readable.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/_stream_readable.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/_stream_writable.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/internal/streams/BufferList.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./duplex.js": {
+      "browser": "./duplex-browser.js"
+    },
+    "./lib/internal/streams/stream.js": {
+      "browser": "./lib/internal/streams/stream-browser.js"
+    },
+    "./readable.js": {
+      "browser": "./readable-browser.js"
+    },
+    "./writable.js": {
+      "browser": "./writable-browser.js"
+    },
+    "util": {
+      "browser": "@empty"
+    }
+  }
+}

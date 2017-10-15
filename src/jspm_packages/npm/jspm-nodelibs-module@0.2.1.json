@@ -1,0 +1,9 @@
+{
+  "main": "./module.js",
+  "map": {
+    "./module.js": {
+      "node": "@node/module",
+      "browser": "@empty"
+    }
+  }
+}

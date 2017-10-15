@@ -1,0 +1,20 @@
+{
+  "main": "src/index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./src": "./src/index.js",
+    "./src/index.js": {
+      "browser": "./src/browser.js"
+    }
+  }
+}

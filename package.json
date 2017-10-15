@@ -105,6 +105,7 @@
       "css-element-queries": "npm:css-element-queries@^0.4.0",
       "dexie": "npm:dexie@^1.4.1",
       "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@^1.0.7",
+      "eslint": "npm:eslint@^4.8.0",
       "esprima": "npm:esprima@^3.1.3",
       "gkovacs/systemjs": "github:gkovacs/systemjs@^0.20.8",
       "icojs": "npm:icojs-min@^0.5.0",
@@ -132,6 +133,7 @@
     },
     "devDependencies": {},
     "peerDependencies": {
+      "ajv": "npm:ajv",
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
       "bcrypt-pbkdf": "npm:bcrypt-pbkdf@^1.0.0",
       "buffer": "npm:jspm-nodelibs-buffer@^0.2.0",
@@ -147,6 +149,7 @@
       "https": "npm:jspm-nodelibs-https@^0.2.0",
       "jodid25519": "npm:jodid25519@^1.0.0",
       "jsbn": "npm:jsbn@0.1",
+      "module": "npm:jspm-nodelibs-module@^0.2.0",
       "net": "npm:jspm-nodelibs-net@^0.2.0",
       "os": "npm:jspm-nodelibs-os@^0.2.0",
       "path": "npm:jspm-nodelibs-path@^0.2.0",
@@ -191,6 +194,12 @@
       },
       "npm:moment@2.17.1": {
         "jspmNodeConversion": false
+      },
+      "npm:pbkdf2@3.0.14": {
+        "main": "browser.js"
+      },
+      "npm:safe-buffer@5.1.1": {
+        "browser": "index.js"
       }
     }
   },

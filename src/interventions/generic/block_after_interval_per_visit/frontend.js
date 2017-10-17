@@ -53,6 +53,9 @@ var shadow_div;
 
   //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
   function addBeginDialog(message) {
+    if (window.intervention_disabled) {
+      return
+    }
     //Adds dialog that covers entire screen
     const $whiteDiv = $('<div class="beginBox">').css({
                 'position': 'fixed',
@@ -123,6 +126,9 @@ var shadow_div;
 
   //End message displayed after time spent
   function addEndDialog(message) {
+    if (window.intervention_disabled) {
+      return
+    }
     //White dialog box containing time's up messages
     const $dialogBox = $('<div class="dialogBox">').css({
                 'position': 'fixed',
@@ -181,10 +187,6 @@ var shadow_div;
 
     var cheatTimer = setInterval(() => {
       getTimeSpent((timeSpent) => {
-        console.log("Cheat start: " + localStorage.cheatStart)
-        console.log("Cheat Seconds Allowed: " + parameters.cheatseconds)
-        console.log("Time Cheating Up: " + timeCheatingUp)
-        console.log("Time Spent: " + timeSpent)
         if (timeSpent > timeCheatingUp) {
           clearInterval(cheatTimer)
           addEndDialog('Your Cheating Time is Up!')

@@ -1,6 +1,10 @@
 const $ = require('jquery')
 
-const {close_selected_tab} = require('libs_frontend/tab_utils')
+set_default_parameters({
+  seconds: 5 // Seconds that the user must wait before the page loads
+})
+
+const { close_selected_tab } = require('libs_frontend/tab_utils')
 
 const {
   once_available,
@@ -9,7 +13,8 @@ const {
 } = require('libs_frontend/frontend_libs')
 
 const {
-  run_only_one_at_a_time
+  run_only_one_at_a_time,
+  sleep
 } = require('libs_common/common_libs')
 
 const {
@@ -24,6 +29,7 @@ require_component('habitlab-logo-v2')
 require_component('call-to-action-button')
 require_component('positive-goal-site-button')
 require_component('paper-button')
+require_component('interstitial-screen')
 
 
 //console.log('youtube prompt before watch loaded frontend')
@@ -98,7 +104,7 @@ function set_overlay_position_over_video() {
   }
   $a.width(video_width);
   $a.height(video_height);
-  $a.css({'background-color': 'white'});
+  $a.css({ 'background-color': 'white' });
   $a.css('z-index', 30);
   const b = $a[0]
   b.style.left = video.offset().left + 'px';
@@ -113,7 +119,7 @@ function get_youtube_video_id_from_url() {
 }
 
 function get_youtube_video_id_from_page() {
-  if ($('ytd-watch').length > 0 ) {
+  if ($('ytd-watch').length > 0) {
     // new youtube
     return $('ytd-watch').attr('video-id')
   }
@@ -173,13 +179,13 @@ function start_video_duration_setter() {
 }
 
 function divOverVideoOnceAvailable(status) {
-  once_available('video:not(#rewardvideo)').then(function() {
+  once_available('video:not(#rewardvideo)').then(function () {
     divOverVideo(status);
   })
 }
-
+//_______________________________________________VISUAL_______________________________________________________
 //Places a white box over the video with a warning message
-function divOverVideo(status) {
+async function divOverVideo(status) {
   //Constructs white overlay box
   if (window.intervention_disabled) {
     return
@@ -203,88 +209,94 @@ function divOverVideo(status) {
   }
   $('#habitlab_video_overlay').remove()
   const $a = $('<div>')
-  //$a.text();
   $(document.body).append($(wrap_in_shadow($a)).attr('id', 'habitlab_video_overlay'));
-  $a.css({'position': 'absolute', 'display': 'table'})
-  //if (!set_overlay_position_over_video()) {
-  //  console.log('failed set_overlay_position_over_video')
-  //  $('#habitlab_video_overlay').remove()
-  //  return
-  //}
-  //if ($('#habitlab_video_overlay').width() == 0 || $('#habitlab_video_overlay').height() == 0) {
-  //  console.log('failed habitlab_video_overlay size check')
-  //  $('#habitlab_video_overlay').remove()
-  //  return
-  //}
-  //console.log('everything succeeded running as usual')
+  $a.css({ 'position': 'absolute', 'display': 'table' })
   $a.data('location', window.location.href).data('duration_set', false)
 
   //Centered container for text in the white box
   const $contentContainer = $('<div>')
-  .addClass('contentContainer')
-  .css({
-    //'position': 'absolute',
-    //'top': '50%',
-    //'left': '50%',
-    //'transform': 'translateX(-50%) translateY(-50%)',
-    'text-align': 'center',
-    'display': 'table-cell',
-    'vertical-align': 'middle'
-  });
-  
-  $contentContainer.append('<habitlab-logo-v2>')
-  $contentContainer.append('<br><br>')
+    .addClass('contentContainer')
+    .css({
+      //'position': 'absolute',
+      //'top': '50%',
+      //'left': '50%',
+      //'transform': 'translateX(-50%) translateY(-50%)',
+      'text-align': 'center',
+      'display': 'table-cell',
+      'vertical-align': 'middle'
+    });
+  $contentContainer.append('<br><br>');
+  const $innerDiv = $('<div>');
+  console.log('innerDiv created')
+  $innerDiv.text("Take a deep breath");
+  console.log('innerDiv.text called')
+
 
   //Message to user
   const $text1 = $('<h2>').attr('id', 'message_text').css('font-weight', 'normal');
-  $contentContainer.append($text1);
+  $contentContainer.append($innerDiv);
   $contentContainer.append($('<br>'));
 
-  //Decide whether to show a close tab or a specific positive call-to-action button.
-  if (Math.random()<1) {
-    const $button1 = $('<call-to-action-button text="Close Youtube">');
-    $contentContainer.append($button1);
-
-  } else {
-    const $button1 = $('<positive-goal-site-button>');
-    $contentContainer.append($button1);
-  }
-
-  //Continue watching video button
-  const $button2 = $('<paper-button>');
-  $button2.text("Watch Video");
-  $button2.css({
-    'cursor': 'pointer',
-    'background-color': '#415D67',
-    'color': 'white',
-    '-webkit-font-smoothing': 'antialiased',
-    'box-shadow': '2px 2px 2px #888888',
-    'height': '38px',
-    'margin-left': '10px'
-  });
-  $button2.click(() => {
-    log_action({'negative': 'remainedOnYoutube'})
-    removeDivAndPlay();
-    $button2.hide();
-  })
-  $contentContainer.append($button2);
 
   //Adds text into the white box
   $a.append($contentContainer);
+
+  var start_time = Date.now();
+  while (true) {
+    var seconds_elapsed = (Date.now() - start_time) / 1000
+    var progress_value = (seconds_elapsed / parameters.seconds) * 100
+    $innerDiv.text(seconds_elapsed.toPrecision(1) + " seconds elapsed");
+
+    // after 5 seconds, aka 50k milliseconds, will exceed 100
+    //interst_screen[0].setProgress(progress_value)
+    console.log(progress_value);
+    if (progress_value >= 100) {
+      console.log("progress value over 100")
+      console.log($innerDiv);
+      $innerDiv.text(intervention.sitename_printable + ' is available, if you really want to visit.');
+      //Continue watching video button
+      const $button2 = $('<paper-button>');
+      $button2.text("Watch Video");
+      $button2.css({
+        'cursor': 'pointer',
+        'background-color': '#415D67',
+        'color': 'white',
+        '-webkit-font-smoothing': 'antialiased',
+        'box-shadow': '2px 2px 2px #888888',
+        'height': '38px',
+        'margin-left': '10px'
+      });
+
+      const $button1 = $('<call-to-action-button text="Close Youtube">');
+      $contentContainer.append($button1);
+
+      $button2.click(() => {
+        log_action({ 'negative': 'remainedOnYoutube' })
+        removeDivAndPlay();
+        $button2.hide();
+      })
+      $contentContainer.append($button2);
+      console.log($contentContainer);
+      console.log($innerDiv);
+      console.log($button2);
+      break
+    }
+    await sleep(50)
+  }
 
   //Logs impression
 
   if (status === 'begin') {
     start_video_duration_setter()
   } else { //status === 'end'
-    get_seconds_spent_on_domain_today('www.youtube.com').then(function(secondsSpent) {
-      const mins = Math.floor(secondsSpent/60)
+    get_seconds_spent_on_domain_today('www.youtube.com').then(function (secondsSpent) {
+      const mins = Math.floor(secondsSpent / 60)
       const secs = secondsSpent % 60
       shadow_find('#message_text').html("You've spent " + mins + " minutes and " + secs + " seconds on Youtube today. <br>Are you sure you want to continue watching videos?");
     })
   }
 }
-
+//___________________________________________________________________________________________________________
 //Remove the white div
 function removeDivAndPlay() {
   play_video_clicked = true;
@@ -324,7 +336,7 @@ function main() {
   if (window.intervention_disabled) {
     return
   }
-  if (window.location.href == prev_location_href) {
+  if (window.location.href == prev_location_href) { // ----?BUG? wrong comparator
     return // duplicate call to main
   }
   prev_location_href = window.location.href
@@ -341,11 +353,6 @@ function main() {
 //Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
 function afterNavigate() {
   if ('/watch' === location.pathname) {
-    //if (video_pauser) {
-    //  clearInterval(video_pauser);
-    //  video_pauser = null;
-    //}
-    //$(document).ready(main);
     main();
   } else {
     removeDiv();
@@ -357,12 +364,9 @@ function afterNavigate() {
 (document.body || document.documentElement).addEventListener('transitionend',
   (event) => {
     if (event.propertyName === 'width' && event.target.id === 'progress') {
-        afterNavigate();
+      afterNavigate();
     }
-}, true);
-
-//$(document).ready(main);
-//main()
+  }, true);
 
 once_available('video:not(#rewardvideo)', () => {
   afterNavigate()
@@ -373,13 +377,12 @@ on_url_change(() => {
 })
 
 //Executed after page load
-//afterNavigate();
 
-window.addEventListener('popstate', function(evt) {
+window.addEventListener('popstate', function (evt) {
   afterNavigate()
 })
 
-window.addEventListener('resize', function(evt) {
+window.addEventListener('resize', function (evt) {
   set_overlay_position_over_video()
 })
 

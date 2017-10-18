@@ -1,7 +1,8 @@
-description: Prompt the user before watching a video
-displayname: Think Twice
+description: Make user wait before continuing to video
+displayname: Wait First
 matches:
   - www.youtube.com
 content_scripts:
   - path: frontend.js
     run_at: document_start
+

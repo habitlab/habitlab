@@ -113,7 +113,7 @@
       <template is="dom-if" if="{{is_equal(day_info.day_num, selected_day_idx)}}">
         <p></p>
         <div class="goal_progress_wrapper">
-        <div style="font-size: 2em">{{get_description_of_goal_progress(day_info.day_num)}}</div>
+        <div style="font-size: 2em">{{get_description_of_goal_progress(day_info)}}</div>
         <template is="dom-repeat" items="{{day_info.goal_progress}}" as="goal_info">
           <p></p>
           <img style="width: 20px" src="{{get_icon_for_goal_name(goal_info.goal_name, goal_name_to_info)}}" />

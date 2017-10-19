@@ -83,10 +83,8 @@ polymer_ext ({
     }
     return ''
   },
-  get_description_of_goal_progress: function(day_num) {
-    if (this.day_info_list[day_num]) {
-      return 'You met ' + this.day_info_list[day_num].goals_met + ' out of ' + this.day_info_list[day_num].goals_enabled + ' goals on this day.'
-    }
+  get_description_of_goal_progress: function(day_info) {
+    return 'You met ' + day_info.goals_met + ' out of ' + day_info.goals_enabled + ' goals on this day.'
   },
   ready: async function() {
     let self = this
@@ -119,7 +117,6 @@ polymer_ext ({
     }
     day_info_list.reverse()
     this.day_info_list = day_info_list
-    console.log(day_info_list)
 
     this.goal_name_to_info = await get_goals();
 

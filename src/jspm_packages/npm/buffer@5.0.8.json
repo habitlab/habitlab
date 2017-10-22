@@ -1,0 +1,19 @@
+{
+  "main": "index.js",
+  "map": {
+    "./index.js": {
+      "node": "@node/buffer"
+    }
+  },
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "test/node/*": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

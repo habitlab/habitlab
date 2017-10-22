@@ -1,0 +1,9 @@
+{
+  "main": "estraverse.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

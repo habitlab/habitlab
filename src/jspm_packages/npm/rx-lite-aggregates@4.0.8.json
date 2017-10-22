@@ -1,0 +1,14 @@
+{
+  "main": "rx.lite.aggregates.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "index.js": {
+      "browser": "rx.lite.aggregates.js"
+    }
+  }
+}

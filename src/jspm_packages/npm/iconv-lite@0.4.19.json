@@ -1,0 +1,64 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "encodings/dbcs-codec.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "encodings/internal.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "encodings/sbcs-codec.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "encodings/utf16.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "encodings/utf7.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/extend-node.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/index.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/streams.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./encodings": "./encodings/index.js",
+    "./extend-node": {
+      "browser": "@empty"
+    },
+    "./lib": "./lib/index.js",
+    "./streams": {
+      "browser": "@empty"
+    }
+  }
+}

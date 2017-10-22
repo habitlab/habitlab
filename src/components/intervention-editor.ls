@@ -121,6 +121,14 @@ polymer_ext {
     api_markdown_text: {
       type: String
     }
+    last_edited_times: {
+      type: Object
+      value: {}
+    }
+    previous_intervention_text: {
+      type: Object
+      value: {}
+    }
   }
   is_apidoc_shown_changed: (is_apidoc_shown) ->
     if is_apidoc_shown
@@ -188,6 +196,7 @@ polymer_ext {
     self.intervention_info = new_intervention_info
     await add_new_intervention(new_intervention_info)
     localStorage['saved_intervention_' + intervention_name] = new_intervention_info.code
+    localStorage['saved_intervention_time_' + intervention_name] = Date.now()
     return true
   close_tab_clicked: (evt)->
     # close_tab_name evt.path[1].id.substring(4)
@@ -522,6 +531,31 @@ polymer_ext {
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
       js_editor.setValue(intervention_info.code)
+      js_editor.getSession().on 'change', (e) ->
+        current_time = Date.now()
+        prev_text = self.previous_intervention_text[intervention_name]
+        current_text = js_editor.getValue()
+        if prev_text == current_text
+          return
+        self.last_edited_times[intervention_name] = current_time
+        self.previous_intervention_text[intervention_name] = current_text
+        localStorage['saved_intervention_' + intervention_name] = current_text
+        localStorage['saved_intervention_time_' + intervention_name] = current_time
+      setInterval ->
+        saved_time = localStorage['saved_intervention_time_' + intervention_name]
+        last_edited_time = self.last_edited_times[intervention_name]
+        new_intervention_text = localStorage['saved_intervention_' + intervention_name]
+        if saved_time? and new_intervention_text?
+          if (!last_edited_time?) or saved_time > last_edited_time
+            # time to update from remote tab
+            current_text = js_editor.getValue()
+            if current_text == new_intervention_text
+              return
+            self.previous_intervention_text[intervention_name] = new_intervention_text
+            js_editor.setValue(new_intervention_text)
+            self.previous_intervention_text[intervention_name] = new_intervention_text
+            self.last_edited_times[intervention_name] = saved_time
+      , 1000
   opened_intervention_list_changed: ->>
     self = this
     while true

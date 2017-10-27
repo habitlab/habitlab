@@ -1,0 +1,23 @@
+description: Do more wellness activities
+goal_statement_to_fill_in: Do wellness activity TARGET UNITS per day
+progress_description: Times wellness activity done
+call_to_action: Do a wellness acitivity
+interventions:
+  - generic_positive/feed_injection_positive_goal_widget
+  - generic_positive/suggest_positive_site_interstitial
+  # - wellness/go_for_a_swim
+  # - wellness/go_for_a_walk
+  # - wellness/have_a_cup_of_tea
+  # - wellness/listen_to_a_song
+  # - wellness/read_for_pleasure
+  # - wellness/visit_the_gym
+measurement: always_zero_progress
+domain: www.recursivedrawing.com
+goal_statement_units: times
+target:
+  default: 1
+  units: times
+is_positive: true
+sitename_printable: Wellness
+icon: icon.png
+color: 'rgb(41,41,41)'

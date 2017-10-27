@@ -95,7 +95,7 @@ polymer_ext {
     }
     title: {
       type: String
-      value: msg("What sites would you like to use more?")
+      value: msg("How would you rather use your time?")
     }
     num_per_line: {
       type: Number

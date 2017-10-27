@@ -8,7 +8,8 @@ interventions:
   - youtube/remove_sidebar_links
   - youtube/prompt_before_watch
   - youtube/remove_comment_section
-  - youtube/wait_before_watch
+  #- youtube/wait_before_watch
+  #- youtube/wellness_opportunities
   #- generic/make_user_wait
   - generic/block_after_interval_per_visit
   #- generic/close_tab_timer

@@ -1,0 +1,17 @@
+{
+  "main": "main/index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./main": "./main/index.js"
+  }
+}

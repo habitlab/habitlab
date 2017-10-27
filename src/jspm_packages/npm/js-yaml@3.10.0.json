@@ -1,0 +1,12 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "dist/js-yaml.js": {
+      "cjsRequireDetection": false
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "main": "index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/util/readShebang.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  }
+}

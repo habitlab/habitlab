@@ -1,0 +1,9 @@
+{
+  "main": "mute.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

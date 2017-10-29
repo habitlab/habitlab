@@ -5,12 +5,13 @@ call_to_action: Do a wellness acitivity
 interventions:
   - generic_positive/feed_injection_positive_goal_widget
   - generic_positive/suggest_positive_site_interstitial
-  # - wellness/go_for_a_swim
-  # - wellness/go_for_a_walk
-  # - wellness/have_a_cup_of_tea
-  # - wellness/listen_to_a_song
-  # - wellness/read_for_pleasure
-  # - wellness/visit_the_gym
+  - wellness/go_for_a_swim
+  - wellness/go_for_a_walk
+  - wellness/have_a_cup_of_tea
+  - wellness/listen_to_a_song
+  - wellness/read_for_pleasure
+  - wellness/visit_the_gym
+  - wellness/meditate
 measurement: always_zero_progress
 domain: www.recursivedrawing.com
 goal_statement_units: times

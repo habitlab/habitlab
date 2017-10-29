@@ -1,5 +1,5 @@
-description: Replaces side bar with exercise goals
-displayname: Wellness Opportunities
+description: Prompt the user before watching a video
+displayname: Think Twice
 matches:
   - www.youtube.com
 content_scripts:

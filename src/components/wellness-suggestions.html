@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="habitlab-logo-v2.html">
+
+
+<dom-module id="wellness-suggestions">
+  <template>
+    <style>
+       :host {
+        /*display: flex;*/
+      }
+
+      #outerdiv {
+        background-color: rgb(31, 31, 31);
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        display: table
+      }
+
+      #button_container {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      #show_sidebar_button {
+        background-color: #415D67;
+        color: white;
+        -webkit-font-smoothing: antialiased;
+        font-size: 14px;
+        box-shadow: 2px 2px 2px #888888;
+        margin-top: 10px;
+      }
+    </style>
+    <div id="outerdiv">
+      <div id="button_container">
+        <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
+        <br></br>
+        <paper-button on-click="show_sidebar_button_clicked" id="show_sidebar_button">Show Sidebar</paper-button>
+        <template is="dom-repeat" items="{{wellness_interventions}}" as="wellness_intervention">
+          <div>some element</div>
+          <img src="{{get_intervention_icon_url(wellness_intervention)}}" style="width: 50px; height: 50px" />
+          <div>{{wellness_intervention.description}}</div>
+        </template>
+      </div>
+    </div>
+  </template>
+  <script src="wellness-suggestions.js"></script>
+</dom-module>

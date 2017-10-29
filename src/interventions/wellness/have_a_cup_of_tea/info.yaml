@@ -1,0 +1,6 @@
+description: Have a cup of your favorite hot drink
+displayname: Tea Time
+matches:
+  - www.youtube.com
+content_scripts:
+  - frontend.js

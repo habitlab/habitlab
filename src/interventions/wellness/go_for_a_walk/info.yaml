@@ -1,0 +1,6 @@
+description: Walk
+displayname: Go for a Walk
+matches:
+  - www.youtube.com
+content_scripts:
+  - frontend.js

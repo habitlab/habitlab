@@ -5,6 +5,7 @@
   "dependencies": {
     "base64-js": "^1.2.0",
     "bounce.js": "^0.8.2",
+    "brace": "^0.10.0",
     "clean-css": "^4.1.7",
     "cloner": "^0.4.0",
     "css-element-queries": "^0.4.0",
@@ -98,7 +99,7 @@
       "jspm": "jspm.config.js"
     },
     "dependencies": {
-      "brace": "npm:brace@^0.9.1",
+      "brace": "npm:brace@^0.10.0",
       "cfy": "npm:cfy@^1.0.20",
       "cheerio": "npm:cheerio@^0.22.0",
       "co": "npm:co@^4.6.0",

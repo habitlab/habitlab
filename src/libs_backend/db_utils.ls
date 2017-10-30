@@ -68,6 +68,9 @@ current_schema_for_collections = {
   baseline_session_time_on_domains: 'key,synced'
   baseline_time_on_domains: 'key,synced'
   times_intervention_used: 'key,synced'
+  intervention_downvotes: 'key,synced'
+  intervention_upvotes: 'key,synced'
+  intervention_feedback: 'key,synced'
 }
 
 export get_current_collections = ->

@@ -973,7 +973,12 @@ do !->>
       return
     if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
       return
-    reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
+    reward_display_code_lines = []
+    reward_display_code_lines.push "window.reward_display_seconds_saved = " + seconds_saved + ";"
+    reward_display_code_lines.push "window.reward_display_baseline_seconds_spent = " + baseline_seconds_spent + ";"
+    reward_display_code_lines.push "window.reward_display_seconds_spent = " + seconds_spent + ";"
+    reward_display_code_lines.push reward_display_base_code_cached
+    reward_display_code = reward_display_code_lines.join('\n\n')
     chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
     iframed_domain_to_track := null
 

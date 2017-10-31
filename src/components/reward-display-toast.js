@@ -10,6 +10,14 @@ Polymer({
       type: Number,
       value: 0
     },
+    seconds_spent: {
+      type: Number,
+      value: 0
+    },
+    baseline_seconds_spent: {
+      type: Number,
+      value: 0
+    },
     time_saved_message: {
       type: String,
       computed: 'compute_time_saved_message(seconds_saved)'

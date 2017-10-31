@@ -1,3 +1,12 @@
+const {
+  upvote_intervention,
+  downvote_intervention,
+  add_feedback_for_intervention,
+  get_num_upvotes_for_intervention,
+  get_num_downvotes_for_intervention,
+  get_feedback_for_intervention,
+} = require('libs_common/intervention_feedback_utils')
+
 Polymer({
   is: 'reward-display-toast-voting',
   properties: {

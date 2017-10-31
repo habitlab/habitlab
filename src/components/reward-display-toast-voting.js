@@ -6,6 +6,12 @@ Polymer({
       value: 'good job',
       observer: 'query_changed'
     },
+    intervention_info: {
+      type: Object,
+    },
+    goal_info: {
+      type: Object,
+    },
     seconds_saved: {
       type: Number,
       value: 0

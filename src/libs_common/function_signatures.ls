@@ -113,6 +113,9 @@ lib_name_to_func_names_and_signatures =
     upvote_intervention: 'intervention_name'
     downvote_intervention: 'intervention_name'
     add_feedback_for_intervention: ['intervention_name', 'feedback_data']
+    get_num_upvotes_for_intervention: 'intervention_name'
+    get_num_downvotes_for_intervention: 'intervention_name'
+    get_feedback_for_intervention: 'intervention_name'
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

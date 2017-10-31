@@ -254,6 +254,33 @@ export log_action_internal = (name, data) ->>
   data.intervention = name
   await addtolog name, data
 
+export log_upvote_internal = (name, data) ->>
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'upvote'
+  data.intervention = name
+  await addtolog name, data
+
+export log_downvote_internal = (name, data) ->>
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'downvote'
+  data.intervention = name
+  await addtolog name, data
+
+export log_feedback_internal = (name, data) ->>
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'feedback'
+  data.intervention = name
+  await addtolog name, data
+
 intervention_utils = require 'libs_backend/intervention_utils'
 goal_utils = require 'libs_backend/goal_utils'
 

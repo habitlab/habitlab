@@ -6,6 +6,9 @@ lib_name_to_func_names_and_signatures =
     log_impression_internal: ['name', 'data']
     log_disable_internal: ['name', 'data']
     log_action_internal: ['name', 'data']
+    log_upvote_internal: ['name', 'data']
+    log_downvote_internal: ['name', 'data']
+    log_feedback_internal: ['name', 'data']
   db_utils:
     addtolist: ['name', 'data']
     getlist: 'name'
@@ -106,6 +109,10 @@ lib_name_to_func_names_and_signatures =
     setvar_goal_synced_backend: ['goal_name', 'key', 'val']
     getvar_goal_unsynced_backend: ['goal_name', 'key']
     setvar_goal_unsynced_backend: ['goal_name', 'key', 'val']
+  intervention_feedback_utils:
+    upvote_intervention: 'intervention_name'
+    downvote_intervention: 'intervention_name'
+    add_feedback_for_intervention: ['intervention_name', 'feedback_data']
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

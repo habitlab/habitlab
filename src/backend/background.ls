@@ -203,6 +203,7 @@ do !->>
 
   {
     get_interventions
+    get_intervention_info
     list_enabled_nonconflicting_interventions_for_location
     list_all_enabled_interventions_for_location
     list_available_interventions_for_location
@@ -973,7 +974,11 @@ do !->>
       return
     if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
       return
+    intervention_info = await get_intervention_info(JSON.parse(interventions_active)[0])
+    goal_info = await get_goal_info(intervention_info.goals[0])
     reward_display_code_lines = []
+    reward_display_code_lines.push "window.reward_display_intervention_info = " + JSON.stringify(intervention_info) + ";"
+    reward_display_code_lines.push "window.reward_display_goal_info = " + JSON.stringify(goal_info) + ";"
     reward_display_code_lines.push "window.reward_display_seconds_saved = " + seconds_saved + ";"
     reward_display_code_lines.push "window.reward_display_baseline_seconds_spent = " + baseline_seconds_spent + ";"
     reward_display_code_lines.push "window.reward_display_seconds_spent = " + seconds_spent + ";"

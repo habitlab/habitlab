@@ -1,7 +1,10 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 
-<dom-module id="reward-display-toast">
+<dom-module id="reward-display-toast-voting">
   <template>
     <style>
        :host {
@@ -10,7 +13,7 @@
 
       #reward_display_toast_real {
         width: 350px;
-        height: 250px;
+        height: 450px;
         z-index: 9007199254740991;
       }
 
@@ -30,7 +33,16 @@
       <div id="rewardvideocontainer">
         <img id="rewardvideo" src="{{image_url}}" />
       </div>
+      <div>
+        Did you like this intervention? 
+        <img src="icons/thumbs_up.svg" style="width: 50px" on-click="thumbs_up_clicked" />
+        <img src="icons/thumbs_up.svg" style="width: 50px" on-click="thumbs_down_clicked" />
+        <!--
+        <paper-icon-button icon="thumbs-down" on-click="thumbs_down_clicked"></paper-icon-button>
+        <paper-icon-button icon="thumbs-up" on-click="thumbs_up_clicked"></paper-icon-button>
+        -->
+      </div>
     </paper-toast>
   </template>
-  <script src="reward-display-toast.js"></script>
+  <script src="reward-display-toast-voting.js"></script>
 </dom-module>

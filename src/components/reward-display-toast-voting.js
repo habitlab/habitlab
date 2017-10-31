@@ -1,5 +1,5 @@
 Polymer({
-  is: 'reward-display-toast',
+  is: 'reward-display-toast-voting',
   properties: {
     query: {
       type: String,
@@ -19,6 +19,9 @@ Polymer({
       observer: 'isdemo_changed'
     },
     image_url: {
+      type: String
+    },
+    preference_message: {
       type: String
     }
   },
@@ -64,10 +67,16 @@ Polymer({
     */
     setTimeout(function() {
       self.hide()
-    }, 2000)
+    }, 10000)
   },
   video_ended: function() {
     this.hide()
+  },
+  thumbs_up_clicked: function() {
+    this.hide();
+  },
+  thumbs_down_clicked: function() {
+    this.hide();
   },
   query_changed: async function() {
     let results = await fetch('https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query).then(x => x.json())

@@ -68,9 +68,9 @@ current_schema_for_collections = {
   baseline_session_time_on_domains: 'key,synced'
   baseline_time_on_domains: 'key,synced'
   times_intervention_used: 'key,synced'
-  intervention_downvotes: 'key,synced'
-  intervention_upvotes: 'key,synced'
-  intervention_feedback: 'key,synced'
+  intervention_downvote_timestamps: '++,key,synced'
+  intervention_upvote_timestamps: '++,key,synced'
+  intervention_feedback: '++,key,synced'
 }
 
 export get_current_collections = ->
@@ -135,6 +135,18 @@ export getDb = ->>
   local_cache_db := await db.open()
   getdb_running := false
   return local_cache_db
+
+export deleteDbCollection = (collection_name) ->>
+  db = await getDb()
+  db.close()
+  dbver = get_current_dbver_db()
+  dbver += 1
+  schema = get_current_schema_db()
+  schema[collection_name] = null
+  db.version(dbver).stores(schema)
+  localStorage.setItem 'current_schema_db', JSON.stringify(schema)
+  localStorage.setItem 'current_dbver_db', dbver
+  local_cache_db := await db.open()
 
 export deleteDb = ->>
   console.log 'deleteDb called'
@@ -219,6 +231,31 @@ export getlist = (name) ->>
 export clearlist = (name) ->>
   data = await getCollection(name)
   num_deleted = await data.delete()
+  return
+
+export addtolist_for_key = (name, key, val) ->>
+  data = await getCollection(name)
+  newval = {
+    key: key
+    val: val
+  }
+  result = await data.add(newval)
+  return newval
+
+export getlist_for_key = (name, key) ->>
+  data = await getCollection(name)
+  result = await data
+  .where('key')
+  .equals(key)
+  .toArray()
+  return result.map((.val))
+
+export clearlist_for_key = (name, key) ->>
+  data = await getCollection(name)
+  num_deleted = await data
+  .where('key')
+  .equals(key)
+  .delete()
   return
 
 export setkey_dict = (name, key, val) ->>

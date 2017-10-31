@@ -95,10 +95,15 @@ Polymer({
   video_ended: function() {
     this.hide()
   },
+  submit_feedback: function() {
+    add_feedback_for_intervention(this.intervention_info.name, {user_feedback: 'some freeform text', reasons: {'Annoying': true, 'Ineffective': true}})
+  },
   thumbs_up_clicked: function() {
+    upvote_intervention(this.intervention_info.name);
     this.hide();
   },
   thumbs_down_clicked: function() {
+    downvote_intervention(this.intervention_info.name);
     this.hide();
   },
   query_changed: async function() {

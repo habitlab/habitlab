@@ -1,0 +1,12 @@
+{
+  "main": "esrecurse.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "gulpfile.babel.js": {
+      "format": "esm"
+    }
+  }
+}

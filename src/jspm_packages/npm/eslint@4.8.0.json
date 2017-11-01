@@ -1,0 +1,18 @@
+{
+  "main": "lib/api.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./conf/replacements": "./conf/replacements.json",
+    "./lib/token-store": "./lib/token-store/index.js"
+  }
+}

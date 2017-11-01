@@ -1,0 +1,19 @@
+{
+  "main": "rx.lite.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "index.js": {
+      "browser": "rx.lite.js"
+    }
+  }
+}

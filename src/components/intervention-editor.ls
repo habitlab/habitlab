@@ -212,6 +212,50 @@ polymer_ext {
     }
     if not (await compile_intervention_code(new_intervention_info))
       return false
+    debug_code = """
+    //alert('hello world! debug code version 2');
+
+    // This code will be injected to run in webpage context
+    function codeToInject() {
+        window.addEventListener('error', function(e) {
+            console.log('running in webpage context!')
+            console.log('error is:')
+            console.log(e)
+            let error = {
+              message: e.message
+            }
+            document.dispatchEvent(new CustomEvent('ReportError', {detail: error}));
+        });
+    }
+
+    document.addEventListener('ReportError', function(e) {
+        console.log('CONTENT SCRIPT', e.detail);
+        let error_banner = document.createElement('div');
+        error_banner.setAttribute('id', 'habitlab_error_banner')
+        error_banner.style.position = 'fixed'
+        error_banner.style.zIndex= 9007199254740991
+        error_banner.style.backgroundColor = 'red'
+        error_banner.style.color = 'white'
+        error_banner.innerText = e.detail.message
+        error_banner.style.top = '0px'
+        error_banner.style.left = '0px'
+        error_banner.style.padding = '5px'
+        error_banner.style.borderRadius = '5px'
+        //error_banner.style.width = '500px'
+        //error_banner.style.height = '500px'
+        document.body.appendChild(error_banner)
+        console.log('finished adding error_banner to body')
+    });
+
+    //Inject code
+    var script = document.createElement('script');
+    script.textContent = '(' + codeToInject + '())';
+    (document.head||document.documentElement).appendChild(script);
+    script.parentNode.removeChild(script);
+    """
+    localStorage.setItem('insert_debugging_code', true)
+    new_intervention_info.content_scripts[0].debug_code = debug_code
+    console.log(new_intervention_info)
     self.intervention_info = new_intervention_info
     await add_new_intervention(new_intervention_info)
     localStorage['saved_intervention_' + intervention_name] = new_intervention_info.code

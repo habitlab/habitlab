@@ -25,6 +25,8 @@ require! {
   'semver'
 }
 
+is_debug_build = false
+
 #UglifyJSPlugin = require 'uglifyjs-webpack-plugin'
 BabiliPlugin = require 'babel-minify-webpack-plugin'
 HabitLabComponentRenamePlugin = require './webpack_habitlab_component_rename_plugin'
@@ -57,12 +59,17 @@ lspattern_srcgen = [
   'src/**/*.ls'
 ]
 
-yamlpattern = [
+yamlpattern_manifest = [
   'src/manifest.yaml'
+]
+
+yamlpattern_base = [
   'src/goals/**/*.yaml'
   'src/interventions/**/*.yaml'
   'src/fields/**/*.yaml'
 ]
+
+yamlpattern = yamlpattern_manifest.concat(yamlpattern_base)
 
 eslintpattern = [
   'src/**/*.js'
@@ -337,13 +344,22 @@ gulp.task 'webpack_vulcanize_prod', ->
     src_base: 'src_vulcanize'
   }
 
-gulp.task 'yaml_build', ->
-  return gulp.src(yamlpattern, {base: 'src'})
+gulp.task 'yaml_build_base', ->
+  return gulp.src(yamlpattern_base, {base: 'src'})
   .pipe(gulp-changed('dist', {extension: '.json'}))
   .pipe(gulp-print( -> "yaml: #{it}" ))
   .pipe(gulp-yaml({space: 2}))
   .on('error', gulp-util.log)
   .pipe(gulp.dest('dist'))
+
+gulp.task 'yaml_build_manifest', (done) ->
+  manifest_file_contents = js-yaml.safeLoad fs.readFileSync('src/manifest.yaml')
+  if is_debug_build
+    manifest_file_contents.devtools_page = 'devtools.html'
+  fs.writeFileSync 'dist/manifest.json', JSON.stringify(manifest_file_contents, null, 2)
+  done()
+
+gulp.task 'yaml_build', gulp.parallel('yaml_build_base', 'yaml_build_manifest')
 
 gulp.task 'copy_interventions', gulp.series gulp.parallel('livescript_srcgen', 'js_srcgen'), ->
   return gulp.src(intervention_copypattern, {root: 'src_gen/interventions'})
@@ -646,7 +662,11 @@ gulp.task 'generate_skate_components_js', (done) ->
   fs.writeFileSync 'src/components_skate/components_skate.js', output.join("\n")
   done()
 
-gulp.task 'build_base', gulp.series(gulp.parallel(
+gulp.task 'set_is_debug_build_true', (done) ->
+  is_debug_build := true
+  done()
+
+gulp.task 'build_base', gulp.series('set_is_debug_build_true', gulp.parallel(
   gulp.series('generate_polymer_components_html', 'generate_polymer_dependencies')
   gulp.series('generate_jspm_config', 'copy_root_build')
   #'generate_skate_components_js'
@@ -664,7 +684,7 @@ gulp.task 'build_base', gulp.series(gulp.parallel(
 # based on
 # https://github.com/webpack/webpack-with-common-libs/blob/master/gulpfile.js
 # https://github.com/shama/webpack-stream
-gulp.task 'webpack_build' ->
+gulp.task 'webpack_build', ->
   run_gulp_webpack webpack_config_nowatch
 
 gulp.task 'webpack_watch', ->
@@ -817,8 +837,13 @@ gulp.task 'newver_forced', (done) ->
   fs.writeFileSync 'src/manifest.yaml', js-yaml.safeDump(manifest_info)
   done()
 
-gulp.task 'yaml_watch', ->
-  gulp.watch yamlpattern, gulp.series('yaml_build')
+gulp.task 'yaml_watch_base', ->
+  gulp.watch yamlpattern_base, gulp.series('yaml_build_base')
+
+gulp.task 'yaml_watch_manifest', ->
+  gulp.watch yamlpattern_manifest, gulp.series('yaml_build_manifest')
+
+gulp.task 'yaml_watch', gulp.parallel('yaml_watch_base', 'yaml_watch_manifest')
 
 gulp.task 'copy_watch', ->
   gulp.watch copypattern, gulp.series('copy_build')

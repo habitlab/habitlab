@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/html-echo/html-echo.html">
+
+<dom-module id="feedback-form">
+  <template>
+    <style>
+       :host {
+        display: inline-block;
+        height: 38px;
+        cursor: pointer;
+      }
+
+      #feedback_button {
+        width: 38px;
+        height: 38px;
+      }
+    </style>
+
+    <paper-dialog id="feedback_dialog" with-backdrop style="z-index: 9007199254740991;">
+
+      <paper-dialog-scrollable>
+        <div>
+          <div>Thank you for providing your feedback! It will be emailed to us, along with a screenshot of this page, at <a href="mailto:{{mailing_list}}"
+              target="_blank">{{mailing_list}}</a></div>
+          <form>
+            <paper-textarea on-change="textarea_changed" on-keydown="textarea_keydown" value="{{feedback}}" label="Your Feedback"></paper-textarea>
+            <gold-email-input on-change="save_email" on-keydown="email_changed_keydown" auto-validate value="{{email}}" label="Email (optional, so we can send you a response)"
+              error-message="Please enter a valid email"></gold-email-input>
+          </form>
+
+          <paper-checkbox checked="{{submit_to_gitter}}">Post on the HabitLab community forum at <a href="https://gitter.im/habitlab/habitlab" target="_blank">Gitter</a></paper-checkbox><br>
+          <paper-checkbox checked="{{submit_to_github}}">Submit to the HabitLab bugtracker at <a href="https://github.com/habitlab/habitlab/issues" target="_blank">GitHub Issues</a></paper-checkbox><br>
+          <paper-checkbox checked="{{submit_screenshot}}">Include screenshot of this page</paper-checkbox><br>
+        </div>
+
+      </paper-dialog-scrollable>
+
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-click="submit_feedback">Submit Feedback</paper-button>
+      </div>
+
+    </paper-dialog>
+
+    <paper-dialog id="submitting_wait_dialog" with-backdrop style="z-index: 9007199254740991;">
+      <paper-dialog-scrollable>
+        <div style="margin: 20px">
+          <html-echo html="{{wait_dialog_html}}"></html-echo>
+        </div>
+      </paper-dialog-scrollable>
+    </paper-dialog>
+
+  </template>
+  <script src="feedback-form.js"></script>
+</dom-module>

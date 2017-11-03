@@ -592,8 +592,6 @@ polymer_ext {
         localStorage['saved_intervention_' + intervention_name] = current_text
         localStorage['saved_intervention_time_' + intervention_name] = current_time
         errors = await run_all_checks(current_text)
-        console.log('extra_errors are:')
-        console.log(extra_errors)
         for marker in markedLines
           js_editor.getSession().removeMarker(marker)
         annotations = []

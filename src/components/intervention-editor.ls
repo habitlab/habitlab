@@ -30,6 +30,10 @@
 } = require 'libs_backend/intervention_editor_utils'
 
 {
+  run_all_checks
+} = require 'libs_backend/intervention_bug_catching_rules'
+
+{
   memoizeSingleAsync
 } = require 'libs_common/memoize'
 
@@ -533,7 +537,6 @@ polymer_ext {
       aceRange = brace.acequire('ace/range').Range
       await SystemJS.import('brace/mode/javascript')
       await SystemJS.import('brace/ext/language_tools')
-      eslint = await SystemJS.import('eslint')
       brace.acequire('ace/ext/language_tools')
       self.js_editors[intervention_name] = js_editor = brace.edit(editor_div)
       js_editor.setOptions({
@@ -578,7 +581,7 @@ polymer_ext {
       
       markedLines = []
 
-      js_editor.getSession().on 'change', (e) ->
+      js_editor.getSession().on 'change', (e) ->>
         current_time = Date.now()
         prev_text = self.previous_intervention_text[intervention_name]
         current_text = js_editor.getValue()
@@ -588,10 +591,9 @@ polymer_ext {
         self.previous_intervention_text[intervention_name] = current_text
         localStorage['saved_intervention_' + intervention_name] = current_text
         localStorage['saved_intervention_time_' + intervention_name] = current_time
-        eslint_config = {"parserOptions":{"sourceType":"module","ecmaVersion":8,"ecmaFeatures":{"impliedStrict":1}},"plugins":["eslint-plugin-import"],"extends":["eslint:recommended","plugin:import/errors","plugin:import/warnings","plugin:habitlab/standard"],"env":{"es6":1,"browser":1,"webextensions":1,"commonjs":1},"globals":{"SystemJS":1,"require":1,"require_component":1,"exports":1,"module":1,"console":1,"Polymer":true,"intervention":true,"positive_goal_info":true,"goal_info":true,"tab_id":true,"Buffer":true,"dlog":true,"parameters":true,"set_default_parameters":true},
-        "rules":{"import/named":1,"no-console":0,"no-unused-vars":1,"require-yield":1,"no-undef":1,"comma-dangle":["warn","only-multiline"]}}
-        console.log(eslint_config)
-        errors = eslint.linter.verify(current_text, eslint_config);
+        errors = await run_all_checks(current_text)
+        console.log('extra_errors are:')
+        console.log(extra_errors)
         for marker in markedLines
           js_editor.getSession().removeMarker(marker)
         annotations = []

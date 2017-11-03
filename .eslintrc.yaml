@@ -8,8 +8,6 @@ parserOptions:
 plugins: []
 extends:
   - 'eslint:recommended'
-  - 'plugin:import/errors'
-  - 'plugin:import/warnings'
   #- 'plugin:jsx-control-statements/recommended'
 #env:
 #  "jsx-control-statements/jsx-control-statements": true

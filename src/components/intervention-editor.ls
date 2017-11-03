@@ -63,6 +63,7 @@
 
 swal = require 'sweetalert2'
 lodash = require 'lodash'
+$ = require 'jquery'
 
 polymer_ext {
   is: 'intervention-editor'
@@ -129,7 +130,13 @@ polymer_ext {
       type: Object
       value: {}
     }
+    current_intervention_name: {
+      type: Object
+      computed: 'compute_current_intervention_name(opened_intervention_list, selected_tab_idx)'
+    }
   }
+  compute_current_intervention_name: (opened_intervention_list, selected_tab_idx) ->
+    return opened_intervention_list[selected_tab_idx - 1]
   is_apidoc_shown_changed: (is_apidoc_shown) ->
     if is_apidoc_shown
       this.SM('.resizable_editor_div').removeClass('editor_div_wide').addClass('editor_div_narrow')
@@ -137,8 +144,16 @@ polymer_ext {
       this.SM('.resizable_editor_div').removeClass('editor_div_narrow').addClass('editor_div_wide')
   hide_docs_clicked: ->
     this.is_apidoc_shown = false
+    js_editor = this.js_editors[this.current_intervention_name]
+    if js_editor?
+      js_editor.session.setUseWrapMode(false)
+      js_editor.session.setUseWrapMode(true)
   show_docs_clicked: ->
     this.is_apidoc_shown = true
+    js_editor = this.js_editors[this.current_intervention_name]
+    if js_editor?
+      js_editor.session.setUseWrapMode(false)
+      js_editor.session.setUseWrapMode(true)
   compute_is_on_tutorial_tab: (is_tutorial_shown, selected_tab_idx) ->
     return is_tutorial_shown and (selected_tab_idx == 0)
   pill_button_selected: (evt) ->
@@ -387,10 +402,10 @@ polymer_ext {
     new_intervention_name = new_intervention_data.intervention_name
     goal_info = new_intervention_data.goal_info
     comment_section = """/*
-    This intervention is written in JavaScript.
+    This nudge is written in JavaScript.
     To learn JavaScript, see https://www.javascript.com/try
-    This sample intervention will display a popup with SweetAlert.
-    Click the 'PREVIEW' button to see it run.
+    This sample nudge will display a popup with SweetAlert.
+    Click the 'Run this Nudge' button to see it run.
     To learn how to write HabitLab interventions, see
     https://habitlab.github.io/devdocs
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
@@ -515,22 +530,54 @@ polymer_ext {
       if self.js_editors[intervention_name]?
         return
       brace = await SystemJS.import('brace')
+      aceRange = brace.acequire('ace/range').Range
       await SystemJS.import('brace/mode/javascript')
       await SystemJS.import('brace/ext/language_tools')
+      eslint = await SystemJS.import('eslint')
       brace.acequire('ace/ext/language_tools')
       self.js_editors[intervention_name] = js_editor = brace.edit(editor_div)
       js_editor.setOptions({
         enableBasicAutocompletion: true
         enableSnippets: true
         enableLiveAutocompletion: true
+        #wrap: 80
         #autoScrollEditorIntoView: true
       });
       js_editor.getSession().setMode('ace/mode/javascript')
+      js_editor.getSession().setUseWrapMode(true)
+      js_editor.getSession().setOption("useWorker", false) # disables built in annotation
       js_editor.getSession().setTabSize(2)
       js_editor.getSession().setUseSoftTabs(true)
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
-      js_editor.setValue(intervention_info.code)
+      js_editor.setValue(intervention_info.code) 
+
+      # rules = {
+      #   no-console:1
+      #   no-unused-vars:1
+      #   require-yield:1
+      #   no-undef:1
+      #   comma-dangle:["error","only-multiline"]
+      # }
+      #config = {'extends': 'eslint:recommended'}
+      #console.log(eslint)
+      #cli = eslint.CLIEngine({
+      #  baseConfig: config,
+      #  useEslintrc: false        
+      #})
+
+      style = $('<style>
+        .error_highlight{
+          position:absolute;
+          z-index:20;
+          border-bottom: 1px dotted red;
+        }
+      </style>')
+      $('body').append(style)
+
+      
+      markedLines = []
+
       js_editor.getSession().on 'change', (e) ->
         current_time = Date.now()
         prev_text = self.previous_intervention_text[intervention_name]
@@ -541,6 +588,34 @@ polymer_ext {
         self.previous_intervention_text[intervention_name] = current_text
         localStorage['saved_intervention_' + intervention_name] = current_text
         localStorage['saved_intervention_time_' + intervention_name] = current_time
+        eslint_config = {"parserOptions":{"sourceType":"module","ecmaVersion":8,"ecmaFeatures":{"impliedStrict":1}},"plugins":["eslint-plugin-import"],"extends":["eslint:recommended","plugin:import/errors","plugin:import/warnings","plugin:habitlab/standard"],"env":{"es6":1,"browser":1,"webextensions":1,"commonjs":1},"globals":{"SystemJS":1,"require":1,"require_component":1,"exports":1,"module":1,"console":1,"Polymer":true,"intervention":true,"positive_goal_info":true,"goal_info":true,"tab_id":true,"Buffer":true,"dlog":true,"parameters":true,"set_default_parameters":true},
+        "rules":{"import/named":1,"no-console":0,"no-unused-vars":1,"require-yield":1,"no-undef":1,"comma-dangle":["warn","only-multiline"]}}
+        console.log(eslint_config)
+        errors = eslint.linter.verify(current_text, eslint_config);
+        for marker in markedLines
+          js_editor.getSession().removeMarker(marker)
+        annotations = []
+        for error in errors
+          console.log(error)
+          endLine = error.endLine
+          if endLine == null
+            endLine = error.line
+          endColumn = error.endColumn
+          if endColumn == null
+            endColumn = error.column + 1
+          marker = js_editor.getSession().addMarker(new aceRange(error.line - 1,error.column - 1,endLine - 1,endColumn - 1),
+            "error_highlight", "line");
+          markedLines.push(marker)
+          annotations.push({
+            row: error.line - 1
+            column: 0
+            text = error.message
+            type = "error"
+          })
+          
+        console.log(js_editor.getSession().getAnnotations())
+        #js_editor.getSession().addMarker(new aceRange(2,2,4,4),"some_custom_class", "line");
+        js_editor.getSession().setAnnotations(annotations)
       setInterval ->
         saved_time = localStorage['saved_intervention_time_' + intervention_name]
         last_edited_time = self.last_edited_times[intervention_name]
@@ -572,6 +647,9 @@ polymer_ext {
       else
         await sleep(100)
   ready: ->>
+    document.addEventListener "keydown", (evt) ->
+      if evt.code == 'KeyS' and (evt.ctrlKey or evt.metaKey)
+        evt.preventDefault()
     self = this
     all_goals = await get_goals()    
     #enabled_goals = as_array(await get_enabled_goals())

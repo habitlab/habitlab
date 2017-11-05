@@ -73,7 +73,7 @@ function executeIntervention() {
       $(inbox[0]).text(inbox[0].title).css({ 'color': '#dd4b39', 'font-weight': 'bold' });
     }
     return null;
-  };
+  }
 
   function removeFeed() {
     //quit if the feed is already hidden

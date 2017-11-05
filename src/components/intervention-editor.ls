@@ -653,8 +653,8 @@ polymer_ext {
           annotations.push({
             row: error.line - 1
             column: 0
-            text = error.message
-            type = "error"
+            text: error.message
+            type: "error"
           })
           
         console.log(js_editor.getSession().getAnnotations())

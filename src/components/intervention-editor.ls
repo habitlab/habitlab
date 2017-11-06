@@ -624,7 +624,6 @@ polymer_ext {
 
       
       markedLines = []
-
       js_editor.getSession().on 'change', (e) ->>
         current_time = Date.now()
         prev_text = self.previous_intervention_text[intervention_name]
@@ -635,7 +634,7 @@ polymer_ext {
         self.previous_intervention_text[intervention_name] = current_text
         localStorage['saved_intervention_' + intervention_name] = current_text
         localStorage['saved_intervention_time_' + intervention_name] = current_time
-        errors = await run_all_checks(current_text)
+        errors = await run_all_checks(js_editor, current_text)
         for marker in markedLines
           js_editor.getSession().removeMarker(marker)
         annotations = []

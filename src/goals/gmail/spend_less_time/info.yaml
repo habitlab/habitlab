@@ -3,7 +3,7 @@ goal_statement_to_fill_in: Spend no more than TARGET UNITS on Gmail each day
 progress_description: Time spent on Gmail
 call_to_action: Close Gmail
 interventions:
-  - gmail/delay_new_emails
+  #- gmail/delay_new_emails
   - generic/toast_notifications
   - generic/show_timer_banner
   - generic/scroll_blocker

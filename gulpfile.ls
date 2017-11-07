@@ -59,15 +59,37 @@ lspattern_srcgen = [
   'src/**/*.ls'
 ]
 
+enabled_intervention_list = []
+
+do ->
+  for info_yaml_filepath in glob.sync('src/interventions/**/*.yaml')
+    info_yaml_data = js-yaml.safeLoad fs.readFileSync info_yaml_filepath
+    if not info_yaml_data?
+      console.log 'syntax error in yaml file: ' + info_yaml_filepath
+    if not info_yaml_data.description?
+      console.log 'missing description: ' + info_yaml_filepath
+      continue
+    if info_yaml_data.disabled
+      console.log 'intervention disabled: ' + info_yaml_filepath
+      continue
+    basepath = info_yaml_filepath.substr(0, info_yaml_filepath.length - 10) # '/info.yaml'.length 
+    basepath_parts = basepath.split('/')
+    basepath = basepath_parts[basepath_parts.length - 2 to].join('/')
+    enabled_intervention_list.push basepath
+
 yamlpattern_manifest = [
   'src/manifest.yaml'
 ]
 
 yamlpattern_base = [
   'src/goals/**/*.yaml'
-  'src/interventions/**/*.yaml'
+  #'src/interventions/**/*.yaml'
   'src/fields/**/*.yaml'
 ]
+
+do ->
+  for enabled_intervention_name in enabled_intervention_list
+    yamlpattern_base.push 'src/interventions/' + enabled_intervention_name + '/*.yaml'
 
 yamlpattern = yamlpattern_manifest.concat(yamlpattern_base)
 
@@ -101,9 +123,15 @@ htmlpattern_srcgen = [
   'src/**/*.html'
 ]
 
-intervention_copypattern = [
-  'src_gen/interventions/**/*.js'
-]
+intervention_copypattern = []
+do ->
+  for enabled_intervention_name in enabled_intervention_list
+    intervention_copypattern.push 'src_gen/interventions/' + enabled_intervention_name + '/**/*.js'
+    intervention_copypattern.push 'src_gen/interventions/' + enabled_intervention_name + '/*.js'
+
+#intervention_copypattern = [
+#  'src_gen/interventions/**/*.js'
+#]
 
 copypattern = [
   'src/**/*.html'
@@ -131,6 +159,15 @@ copypattern = [
   '!src/jspm_packages/**/*'
 ]
 
+do ->
+  for src_subfolder in ['goals', 'node_modules_custom', 'jspm_packages', 'components']
+    for extension in ['html', 'png', 'jpg', 'gif', 'svg']
+      copypattern.push 'src/' + src_subfolder + '/**/*.' + extension
+  for enabled_intervention_name in enabled_intervention_list
+    for extension in ['html', 'png', 'jpg', 'gif', 'svg']
+      copypattern.push 'src/interventions/' + enabled_intervention_name + '/*.' + extension
+      copypattern.push 'src/interventions/' + enabled_intervention_name + '/**/*.' + extension
+
 #copyjspmpattern = [
 #  'src/components/**/*.jspm.js'
 #  'src/components/*.jspm.js'
@@ -153,8 +190,8 @@ webpack_pattern = [
 ]
 
 webpack_pattern_content_scripts = [
-  'src/interventions/**/*.ls'
-  'src/interventions/**/*.js'
+  #'src/interventions/**/*.ls'
+  #'src/interventions/**/*.js'
   'src/intervention_utils/**/*.ls'
   'src/intervention_utils/**/*.js'
   'src/frontend_utils/**/*.ls'
@@ -165,6 +202,11 @@ webpack_pattern_content_scripts = [
   '!src/**/*.deps.js'
   '!src/**/*.jspm.js'
 ]
+
+do ->
+  for enabled_intervention_name in enabled_intervention_list
+    webpack_pattern_content_scripts.push 'src/interventions/' + enabled_intervention_name + '/*.ls'
+    webpack_pattern_content_scripts.push 'src/interventions/' + enabled_intervention_name + '/*.js'
 
 webpack_vulcanize_pattern = [
   'src_vulcanize/components/components.js'
@@ -526,6 +568,9 @@ gulp.task 'generate_goal_intervention_info', (done) ->
           intervention_name_to_info[intervention_name] = intervention_info
           generic_intervention_name_to_specific_name[generic_intervention] = intervention_name
       intervention_info = intervention_name_to_info[intervention_name]
+      if not intervention_info?
+        console.log 'error: goal ' + goal_info.name + ' lists nonexistent intervention ' + intervention_name
+        continue
       intervention_info.goals = [goal_info.name]
       interventions_for_goal_new.push intervention_name
     goal_info.interventions = interventions_for_goal_new

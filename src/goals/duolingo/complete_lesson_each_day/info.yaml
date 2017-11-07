@@ -12,6 +12,7 @@ default_interventions:
   - duolingo/iqiyi_sidebar_lesson
 disabled: false
 domain: www.duolingo.com
+goal_statement_units: lessons
 target:
   default: 1
   units: lessons

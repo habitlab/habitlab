@@ -91,7 +91,7 @@
   copypattern = ['src/**/*.html', 'src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg', 'src/*.json', 'src/*.js', 'src/*.css', 'src/_locales/**/*', 'src/bugmuncher/*', 'src/bundles/*', 'src/libs_common/*.js', 'src/libs_backend/*.js', 'src/libs_frontend/*.js', 'src/goals/**/*.js', 'src/generated_libs/**/*.js', 'src/bower_components/**/*', 'src/components/**/*.js', 'src/node_modules_custom/**/*.js', 'src/node_modules_custom/**/*.css', '!src/**/*.deps.js', '!src/**/*.jspm.js', '!src/jspm_packages/**/*'];
   (function(){
     var i$, ref$, len$, src_subfolder, j$, ref1$, len1$, extension, enabled_intervention_name, lresult$, results$ = [];
-    for (i$ = 0, len$ = (ref$ = ['goals', 'node_modules_custom', 'jspm_packages', 'components']).length; i$ < len$; ++i$) {
+    for (i$ = 0, len$ = (ref$ = ['goals', 'node_modules_custom', 'components']).length; i$ < len$; ++i$) {
       src_subfolder = ref$[i$];
       for (j$ = 0, len1$ = (ref1$ = ['html', 'png', 'jpg', 'gif', 'svg']).length; j$ < len1$; ++j$) {
         extension = ref1$[j$];

@@ -160,7 +160,7 @@ copypattern = [
 ]
 
 do ->
-  for src_subfolder in ['goals', 'node_modules_custom', 'jspm_packages', 'components']
+  for src_subfolder in ['goals', 'node_modules_custom', 'components']
     for extension in ['html', 'png', 'jpg', 'gif', 'svg']
       copypattern.push 'src/' + src_subfolder + '/**/*.' + extension
   for enabled_intervention_name in enabled_intervention_list

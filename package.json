@@ -5,12 +5,14 @@
   "dependencies": {
     "base64-js": "^1.2.0",
     "bounce.js": "^0.8.2",
+    "brace": "^0.10.0",
     "clean-css": "^4.1.7",
     "cloner": "^0.4.0",
     "css-element-queries": "^0.4.0",
     "dexie": "^1.4.1",
     "documentation-habitlab": "^4.0.0-beta.19.4",
     "enable-webcomponents-in-content-scripts": "^1.0.7",
+    "eslint": "^4.8.0",
     "getsecret": "^1.0.2",
     "jquery": "^3.0.0",
     "js-yaml": "^3.6.1",
@@ -29,6 +31,7 @@
     "percipio": "^0.1.2",
     "prelude-ls": "^1.1.2",
     "promise-debounce": "^1.0.1",
+    "shelljs": "^0.7.8",
     "shuffled": "^1.0.0",
     "sortablejs": "^1.5.0-rc1",
     "sweetalert2": "^6.3.2",
@@ -96,13 +99,15 @@
       "jspm": "jspm.config.js"
     },
     "dependencies": {
-      "brace": "npm:brace@^0.9.1",
+      "brace": "npm:brace@^0.10.0",
       "cfy": "npm:cfy@^1.0.20",
       "cheerio": "npm:cheerio@^0.22.0",
       "co": "npm:co@^4.6.0",
       "css-element-queries": "npm:css-element-queries@^0.4.0",
       "dexie": "npm:dexie@^1.4.1",
       "enable-webcomponents-in-content-scripts": "npm:enable-webcomponents-in-content-scripts@^1.0.7",
+      "eslint": "npm:eslint@^4.8.0",
+      "espree": "npm:espree@^3.5.1",
       "esprima": "npm:esprima@^3.1.3",
       "gkovacs/systemjs": "github:gkovacs/systemjs@^0.20.8",
       "icojs": "npm:icojs-min@^0.5.0",
@@ -130,6 +135,7 @@
     },
     "devDependencies": {},
     "peerDependencies": {
+      "ajv": "npm:ajv",
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
       "bcrypt-pbkdf": "npm:bcrypt-pbkdf@^1.0.0",
       "buffer": "npm:jspm-nodelibs-buffer@^0.2.0",
@@ -145,6 +151,7 @@
       "https": "npm:jspm-nodelibs-https@^0.2.0",
       "jodid25519": "npm:jodid25519@^1.0.0",
       "jsbn": "npm:jsbn@0.1",
+      "module": "npm:jspm-nodelibs-module@^0.2.0",
       "net": "npm:jspm-nodelibs-net@^0.2.0",
       "os": "npm:jspm-nodelibs-os@^0.2.0",
       "path": "npm:jspm-nodelibs-path@^0.2.0",
@@ -189,6 +196,12 @@
       },
       "npm:moment@2.17.1": {
         "jspmNodeConversion": false
+      },
+      "npm:pbkdf2@3.0.14": {
+        "main": "browser.js"
+      },
+      "npm:safe-buffer@5.1.1": {
+        "browser": "index.js"
       }
     }
   },

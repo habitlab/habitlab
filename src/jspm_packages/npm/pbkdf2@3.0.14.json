@@ -1,0 +1,37 @@
+{
+  "main": "browser.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    },
+    "lib/async.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/sync-browser.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    },
+    "lib/sync.js": {
+      "globals": {
+        "Buffer": "buffer/global"
+      }
+    }
+  },
+  "map": {
+    "./index.js": {
+      "browser": "./browser.js"
+    },
+    "./lib/sync.js": {
+      "browser": "./lib/sync-browser.js"
+    }
+  }
+}

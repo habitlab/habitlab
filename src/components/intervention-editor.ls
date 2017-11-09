@@ -30,6 +30,10 @@
 } = require 'libs_backend/intervention_editor_utils'
 
 {
+  run_all_checks
+} = require 'libs_backend/intervention_bug_catching_rules'
+
+{
   memoizeSingleAsync
 } = require 'libs_common/memoize'
 
@@ -63,6 +67,7 @@
 
 swal = require 'sweetalert2'
 lodash = require 'lodash'
+$ = require 'jquery'
 
 polymer_ext {
   is: 'intervention-editor'
@@ -121,7 +126,21 @@ polymer_ext {
     api_markdown_text: {
       type: String
     }
+    last_edited_times: {
+      type: Object
+      value: {}
+    }
+    previous_intervention_text: {
+      type: Object
+      value: {}
+    }
+    current_intervention_name: {
+      type: Object
+      computed: 'compute_current_intervention_name(opened_intervention_list, selected_tab_idx)'
+    }
   }
+  compute_current_intervention_name: (opened_intervention_list, selected_tab_idx) ->
+    return opened_intervention_list[selected_tab_idx - 1]
   is_apidoc_shown_changed: (is_apidoc_shown) ->
     if is_apidoc_shown
       this.SM('.resizable_editor_div').removeClass('editor_div_wide').addClass('editor_div_narrow')
@@ -129,8 +148,16 @@ polymer_ext {
       this.SM('.resizable_editor_div').removeClass('editor_div_narrow').addClass('editor_div_wide')
   hide_docs_clicked: ->
     this.is_apidoc_shown = false
+    js_editor = this.js_editors[this.current_intervention_name]
+    if js_editor?
+      js_editor.session.setUseWrapMode(false)
+      js_editor.session.setUseWrapMode(true)
   show_docs_clicked: ->
     this.is_apidoc_shown = true
+    js_editor = this.js_editors[this.current_intervention_name]
+    if js_editor?
+      js_editor.session.setUseWrapMode(false)
+      js_editor.session.setUseWrapMode(true)
   compute_is_on_tutorial_tab: (is_tutorial_shown, selected_tab_idx) ->
     return is_tutorial_shown and (selected_tab_idx == 0)
   pill_button_selected: (evt) ->
@@ -185,9 +212,54 @@ polymer_ext {
     }
     if not (await compile_intervention_code(new_intervention_info))
       return false
+    debug_code = """
+    //alert('hello world! debug code version 2');
+
+    // This code will be injected to run in webpage context
+    function codeToInject() {
+        window.addEventListener('error', function(e) {
+            console.log('running in webpage context!')
+            console.log('error is:')
+            console.log(e)
+            let error = {
+              message: e.message
+            }
+            document.dispatchEvent(new CustomEvent('ReportError', {detail: error}));
+        });
+    }
+
+    document.addEventListener('ReportError', function(e) {
+        console.log('CONTENT SCRIPT', e.detail);
+        let error_banner = document.createElement('div');
+        error_banner.setAttribute('id', 'habitlab_error_banner')
+        error_banner.style.position = 'fixed'
+        error_banner.style.zIndex= 9007199254740991
+        error_banner.style.backgroundColor = 'red'
+        error_banner.style.color = 'white'
+        error_banner.innerText = e.detail.message
+        error_banner.style.top = '0px'
+        error_banner.style.left = '0px'
+        error_banner.style.padding = '5px'
+        error_banner.style.borderRadius = '5px'
+        //error_banner.style.width = '500px'
+        //error_banner.style.height = '500px'
+        document.body.appendChild(error_banner)
+        console.log('finished adding error_banner to body')
+    });
+
+    //Inject code
+    var script = document.createElement('script');
+    script.textContent = '(' + codeToInject + '())';
+    (document.head||document.documentElement).appendChild(script);
+    script.parentNode.removeChild(script);
+    """
+    localStorage.setItem('insert_debugging_code', true)
+    new_intervention_info.content_scripts[0].debug_code = debug_code
+    console.log(new_intervention_info)
     self.intervention_info = new_intervention_info
     await add_new_intervention(new_intervention_info)
     localStorage['saved_intervention_' + intervention_name] = new_intervention_info.code
+    localStorage['saved_intervention_time_' + intervention_name] = Date.now()
     return true
   close_tab_clicked: (evt)->
     # close_tab_name evt.path[1].id.substring(4)
@@ -378,10 +450,10 @@ polymer_ext {
     new_intervention_name = new_intervention_data.intervention_name
     goal_info = new_intervention_data.goal_info
     comment_section = """/*
-    This intervention is written in JavaScript.
+    This nudge is written in JavaScript.
     To learn JavaScript, see https://www.javascript.com/try
-    This sample intervention will display a popup with SweetAlert.
-    Click the 'PREVIEW' button to see it run.
+    This sample nudge will display a popup with SweetAlert.
+    Click the 'Run this Nudge' button to see it run.
     To learn how to write HabitLab interventions, see
     https://habitlab.github.io/devdocs
     require_package: returns an NPM module, and ensures that the CSS it uses is loaded
@@ -506,6 +578,7 @@ polymer_ext {
       if self.js_editors[intervention_name]?
         return
       brace = await SystemJS.import('brace')
+      aceRange = brace.acequire('ace/range').Range
       await SystemJS.import('brace/mode/javascript')
       await SystemJS.import('brace/ext/language_tools')
       brace.acequire('ace/ext/language_tools')
@@ -514,14 +587,94 @@ polymer_ext {
         enableBasicAutocompletion: true
         enableSnippets: true
         enableLiveAutocompletion: true
+        #wrap: 80
         #autoScrollEditorIntoView: true
       });
       js_editor.getSession().setMode('ace/mode/javascript')
+      js_editor.getSession().setUseWrapMode(true)
+      js_editor.getSession().setOption("useWorker", false) # disables built in annotation
       js_editor.getSession().setTabSize(2)
       js_editor.getSession().setUseSoftTabs(true)
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
-      js_editor.setValue(intervention_info.code)
+      js_editor.setValue(intervention_info.code) 
+
+      # rules = {
+      #   no-console:1
+      #   no-unused-vars:1
+      #   require-yield:1
+      #   no-undef:1
+      #   comma-dangle:["error","only-multiline"]
+      # }
+      #config = {'extends': 'eslint:recommended'}
+      #console.log(eslint)
+      #cli = eslint.CLIEngine({
+      #  baseConfig: config,
+      #  useEslintrc: false        
+      #})
+
+      style = $('<style>
+        .error_highlight{
+          position:absolute;
+          z-index:20;
+          border-bottom: 1px dotted red;
+        }
+      </style>')
+      $('body').append(style)
+
+      
+      markedLines = []
+
+      js_editor.getSession().on 'change', (e) ->>
+        current_time = Date.now()
+        prev_text = self.previous_intervention_text[intervention_name]
+        current_text = js_editor.getValue()
+        if prev_text == current_text
+          return
+        self.last_edited_times[intervention_name] = current_time
+        self.previous_intervention_text[intervention_name] = current_text
+        localStorage['saved_intervention_' + intervention_name] = current_text
+        localStorage['saved_intervention_time_' + intervention_name] = current_time
+        errors = await run_all_checks(current_text)
+        for marker in markedLines
+          js_editor.getSession().removeMarker(marker)
+        annotations = []
+        for error in errors
+          console.log(error)
+          endLine = error.endLine
+          if endLine == null
+            endLine = error.line
+          endColumn = error.endColumn
+          if endColumn == null
+            endColumn = error.column + 1
+          marker = js_editor.getSession().addMarker(new aceRange(error.line - 1,error.column - 1,endLine - 1,endColumn - 1),
+            "error_highlight", "line");
+          markedLines.push(marker)
+          annotations.push({
+            row: error.line - 1
+            column: 0
+            text: error.message
+            type: "error"
+          })
+          
+        console.log(js_editor.getSession().getAnnotations())
+        #js_editor.getSession().addMarker(new aceRange(2,2,4,4),"some_custom_class", "line");
+        js_editor.getSession().setAnnotations(annotations)
+      setInterval ->
+        saved_time = localStorage['saved_intervention_time_' + intervention_name]
+        last_edited_time = self.last_edited_times[intervention_name]
+        new_intervention_text = localStorage['saved_intervention_' + intervention_name]
+        if saved_time? and new_intervention_text?
+          if (!last_edited_time?) or saved_time > last_edited_time
+            # time to update from remote tab
+            current_text = js_editor.getValue()
+            if current_text == new_intervention_text
+              return
+            self.previous_intervention_text[intervention_name] = new_intervention_text
+            js_editor.setValue(new_intervention_text)
+            self.previous_intervention_text[intervention_name] = new_intervention_text
+            self.last_edited_times[intervention_name] = saved_time
+      , 1000
   opened_intervention_list_changed: ->>
     self = this
     while true
@@ -538,6 +691,9 @@ polymer_ext {
       else
         await sleep(100)
   ready: ->>
+    document.addEventListener "keydown", (evt) ->
+      if evt.code == 'KeyS' and (evt.ctrlKey or evt.metaKey)
+        evt.preventDefault()
     self = this
     all_goals = await get_goals()    
     #enabled_goals = as_array(await get_enabled_goals())

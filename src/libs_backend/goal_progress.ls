@@ -88,8 +88,12 @@ export get_num_goals_met_this_week = ->>
       progress_info = await get_progress_on_goal_days_before_today goal_name, days_before_today
       goal_target = goal_targets[goal_name]
       goal_info = await goal_utils.get_goal_info(goal_name)
-      if (progress_info.progress > goal_target) == goal_info.is_positive
-        num_goals_met += 1
+      if goal_info.is_positive
+        if progress_info.progress > goal_target
+          num_goals_met += 1
+      else
+        if progress_info.progress < goal_target
+          num_goals_met += 1
     days_before_today_to_num_goals_met[days_before_today] = num_goals_met
   return days_before_today_to_num_goals_met
 

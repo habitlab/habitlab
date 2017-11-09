@@ -81,7 +81,7 @@ export list_enabled_goals = ->>
 
 default_goals_list = [
   'facebook/spend_less_time'
-  #'youtube/spend_less_time'
+  'youtube/spend_less_time'
 ]
 
 /**
@@ -210,7 +210,7 @@ export site_has_enabled_spend_less_time_goal = (url) ->>
   domain = url_to_domain(url)
   goals = await get_goals()
   for goal_name,goal_info of goals
-    if domain == goal_info.domain and not goal_info.is_positive?
+    if domain == goal_info.domain and not goal_info.is_positive
       return await is_goal_enabled(goal_name)
   return false
 

@@ -88,7 +88,7 @@ function set_overlay_position_over_video() {
   if ($a.length == 0) {
     return false
   }
-  var video = first_nonempty('#player-api', '.html5-video-player', 'video:not(#rewardvideo)')
+  var video = first_nonempty('.html5-video-player', 'video:not(#rewardvideo)', '#player-api')
   var video_container = video
   //while (video_container.length > 0) {}
   var video_height = video.height()
@@ -113,10 +113,15 @@ function get_youtube_video_id_from_url() {
 }
 
 function get_youtube_video_id_from_page() {
+  if ($('ytd-watch').length > 0 ) {
+    // new youtube
+    return $('ytd-watch').attr('video-id')
+  }
   var $page = $('#page')
   if ($page.length == 0) {
     return '' // TODO log error intervention broken
   }
+  // old youtube version
   var class_list = $page[0].className.split(' ')
   var classnames_starting_with_video = class_list.filter(x => x.startsWith('video-'))
   if (classnames_starting_with_video.length == 0) {
@@ -192,7 +197,7 @@ function divOverVideo(status) {
   if (get_overlay().data('location') == window.location.href) {
     return
   }
-  var video_container = first_nonempty('#player-api', '.html5-video-player', 'video:not(#rewardvideo)')
+  var video_container = first_nonempty('.html5-video-player', 'video:not(#rewardvideo)', '#player-api')
   if (video_container.width() == 0 || video_container.height() == 0) {
     return
   }

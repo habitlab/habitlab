@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+const fs = require('fs')
+const jsyaml = require('js-yaml')
+
+const eslintrc = jsyaml.safeLoad(fs.readFileSync('.eslintrc.yaml'))
+const eslintrc_text = JSON.stringify(eslintrc)
+fs.writeFileSync('.eslintrc.json', eslintrc_text, 'utf-8')
+fs.writeFileSync('src/.eslintrc.json', eslintrc_text, 'utf-8')

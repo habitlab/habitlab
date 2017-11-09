@@ -1,0 +1,9 @@
+{
+  "main": "levenshtein.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

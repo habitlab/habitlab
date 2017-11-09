@@ -241,6 +241,8 @@ export remove_cached_favicon_for_domain = (domain) ->>
   return
 
 export get_favicon_data_for_domain_cached = (domain) ->>
+  if not domain?
+    return
   store = get_store_iconcache()
   res = await store.getItem(domain)
   if res?

@@ -35,22 +35,20 @@ Polymer({
     }
   },
   goal_set: async function(goal_info) {
-    console.log('setting goal to ')
-    console.log(this.goal)    
     let statement = goal_info.goal_statement_to_fill_in
-    if (!('goal_statement_units' in this.goal)) {
+    if (!goal_info.goal_statement_units) {
       if (this.goal.is_positive) {
         this.prefix = "Spend at least "
       } else {
         this.prefix = "Spend no more than "
       }
       this.suffix = "on " + this.goal.sitename_printable + " each day"
+    } else {
+      let idx = statement.indexOf("TARGET UNITS")
+      this.prefix = statement.substring(0, idx) 
+      statement = statement.replace("TARGET UNITS", "")
+      this.suffix = statement.substring(idx)
     }
-
-    let idx = statement.indexOf("TARGET UNITS")
-    this.prefix = statement.substring(0, idx) 
-    statement = statement.replace("TARGET UNITS", "")
-    this.suffix = statement.substring(idx)
     if (!goal_info.is_positive) {
       this.daily_goal_values = [5, 10, 15, 20, 25, 30, 45, 60]
     } else if (goal_info.target.units == "minutes") {

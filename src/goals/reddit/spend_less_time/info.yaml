@@ -4,7 +4,9 @@ progress_description: Time spent on Reddit
 call_to_action: Close Reddit
 interventions:
   #- reddit/remove-comment-links
+
   - reddit/comment_removal
+
   - generic/toast_notifications
   - generic/show_timer_banner
   - generic/scroll_blocker

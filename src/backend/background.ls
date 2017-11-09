@@ -203,7 +203,6 @@ do !->>
 
   {
     get_interventions
-    get_intervention_info
     list_enabled_nonconflicting_interventions_for_location
     list_all_enabled_interventions_for_location
     list_available_interventions_for_location
@@ -477,6 +476,11 @@ do !->>
         };
 
         """
+        if options.debug_code? and localStorage.getItem('insert_debugging_code')?
+          localStorage.removeItem('insert_debugging_code')
+          content_script_debugging_code = options.debug_code
+        else
+          content_script_debugging_code = ''
         content_script_code = """
         window.Polymer = window.Polymer || {}
         window.Polymer.dom = 'shadow'
@@ -484,7 +488,7 @@ do !->>
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
           intervention_info_setter_lib.set_goal_info(#{JSON.stringify(goal_info)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
-          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_code)))}');
+          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_debugging_code + content_script_code)))}');
         })
         """
         /*
@@ -974,16 +978,7 @@ do !->>
       return
     if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
       return
-    intervention_info = await get_intervention_info(JSON.parse(interventions_active)[0])
-    goal_info = await get_goal_info(intervention_info.goals[0])
-    reward_display_code_lines = []
-    reward_display_code_lines.push "window.reward_display_intervention_info = " + JSON.stringify(intervention_info) + ";"
-    reward_display_code_lines.push "window.reward_display_goal_info = " + JSON.stringify(goal_info) + ";"
-    reward_display_code_lines.push "window.reward_display_seconds_saved = " + seconds_saved + ";"
-    reward_display_code_lines.push "window.reward_display_baseline_seconds_spent = " + baseline_seconds_spent + ";"
-    reward_display_code_lines.push "window.reward_display_seconds_spent = " + seconds_spent + ";"
-    reward_display_code_lines.push reward_display_base_code_cached
-    reward_display_code = reward_display_code_lines.join('\n\n')
+    reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
     chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
     iframed_domain_to_track := null
 

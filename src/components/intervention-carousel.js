@@ -1,4 +1,16 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils')
+
+polymer_ext({
+  is: 'intervention-carousel',
+  properties: {
+  },
+  ready: async function() {
+
+  }
+})
+
+/*
+const {polymer_ext} = require('libs_frontend/polymer_utils')
 const screenshot_utils = require('libs_common/screenshot_utils')
 const $ = require('jquery')
 polymer_ext({
@@ -843,3 +855,5 @@ class PureJSCarousel{
     }
   }
 }
+
+*/

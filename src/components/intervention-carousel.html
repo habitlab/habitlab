@@ -1,5 +1,6 @@
 <!-- stylesheet for the carousel-->
 <!-- js for the carousel-->
+<<<<<<< HEAD
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <dom-module id="intervention-carousel">
     <template>
@@ -30,12 +31,30 @@
             width: 720px;
         }
 
+=======
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-carousel/paper-carousel.html">
+
+<dom-module id="intervention-carousel">
+    <template>
+      <style>
+        .purejscarousel {
+            overflow: hidden;
+        }
+  
+        .carousel {
+            width: 720px;
+        }
+  
+>>>>>>> master
         .carousel {
           margin: 50px auto;
           overflow: hidden;
           position: relative;
           width: 240px;
         }
+<<<<<<< HEAD
 
         *, *:after, *:before {
           box-sizing: border-box;
@@ -45,10 +64,22 @@
           display: block;
         }
 
+=======
+  
+        *, *:after, *:before {
+          box-sizing: border-box;
+        }
+  
+        div {
+          display: block;
+        }
+  
+>>>>>>> master
         .carousel:before, .carousel:after {
           content: "";
           display: table;
         }
+<<<<<<< HEAD
 
         *, *:after, *:before {
           box-sizing: border-box;
@@ -58,6 +89,17 @@
           clear: both;
         }
 
+=======
+  
+        *, *:after, *:before {
+          box-sizing: border-box;
+        }
+  
+        .carousel:after {
+          clear: both;
+        }
+  
+>>>>>>> master
         .carousel:before, .carousel:after {
           content: "";
           display: table;
@@ -65,16 +107,28 @@
         *, *:after, *:before {
           box-sizing: border-box;
         }
+<<<<<<< HEAD
 
         .purejscarousel-slides-container:after {
           clear: both;
         }
 
+=======
+  
+        .purejscarousel-slides-container:after {
+          clear: both;
+        }
+  
+>>>>>>> master
         .purejscarousel-slides-container:before, .purejscarousel-slides-container:after {
           content: "";
           display: table;
         }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> master
         .purejscarousel-slide {
           float: left;
           background: #333;
@@ -87,7 +141,11 @@
           text-align: center;
           width: 240px;
         }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> master
         .slide {
           background: #333;
           border: 10px solid #fff;
@@ -99,12 +157,20 @@
           text-align: center;
           width: 240px;
         }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> master
         .active.purejscarousel-dot {
           cursor: default;
           opacity: .5;
         }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> master
         .purejscarousel-dot {
           background: #aaa;
           border: 0;
@@ -116,13 +182,18 @@
           margin: 0 5px;
           width: 15px;
         }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> master
         .purejscarousel-dots-container {
           float: left;
           margin-top: 15px;
           text-align: center;
           width: 100%;
         }
+<<<<<<< HEAD
 
       </style>
 
@@ -135,6 +206,24 @@
               <paper-button class="button" on-click="code_custom_nudge_clicked">Go To Store</paper-button>
 
               <!--Instead of simply inserting these features I think it would be best to get the following initiated -->
+=======
+  
+      </style>
+
+<paper-carousel items="3" responsive="600:2, 460:1" controls="true" dots="true" dotText="false">
+	<div class="paper-carousel-demo-indigo" data-text="#1"></div>
+	<div class="paper-carousel-demo-pink" data-text="#2"></div>
+	<div class="paper-carousel-demo-teal" data-text="#3"></div>
+	<div class="paper-carousel-demo-amber" data-text="#4"></div>
+	<div class="paper-carousel-demo-blue" data-text="#5"></div>
+	<div class="paper-carousel-demo-green" data-text="#6"></div>
+</paper-carousel>
+<!--
+      <paper-card class="paper-card">
+              <div class="title-text">Intervention Store</div>
+              <paper-button class="button" on-click="code_custom_nudge_clicked">Go To Store</paper-button>
+
+>>>>>>> master
               <section>
                 <div class="carousel purejscarousel" id="carousel-one-by-one">
                   <div class=" purejscarousel-slides-container" style="margin-left: 0px; width: 100%">
@@ -179,6 +268,7 @@
 
                   <button class=" purejscarousel-btn purejscarousel-btn-prev" type="button" data-is-native="0" disabled=""></button>
                   <button class=" purejscarousel-btn purejscarousel-btn-next" type="button" data-is-native="0"></button>
+<<<<<<< HEAD
 
                 </div>
               </section>
@@ -188,3 +278,15 @@
     </template>
     <script src="intervention-carousel.js"></script>
   </dom-module>
+=======
+                   
+                </div>
+              </section>
+
+      </paper-card>
+    -->
+      
+    </template>
+    <script src="intervention-carousel.js"></script>
+  </dom-module>
+>>>>>>> master

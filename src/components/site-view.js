@@ -33,6 +33,18 @@ async function view_more_interventions(site) {
   console.log(result);
 }
 
+// //THIS MIGHT BE ENTIRELY OPTIONAL FOR THIS PARTICULAR CODE
+// var carouselOneByOne = {
+//   carousel: '#carousel-one-by-one',
+//   slide: '.slide',
+//   oneByOne: true
+// }
+// console.log(carouselOneByOne.brand);
+// console.log(carouselOneByOne.slide);
+// console.log(carouselOneByOne. oneByOne);
+//THIS MIGHT BE ENTIRELY OPTIONAL FOR THIS PARTICULAR CODE
+
+
 function test() {
     console.log("hello 2");
 }

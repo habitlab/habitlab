@@ -1,0 +1,29 @@
+{
+  "name": "702301_web_corporativa_2016",
+  "version": "1.0.0",
+  "author": "Redbility <hello@redbility.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.7.7",
+    "chalk": "^1.1.1",
+    "gulp": "^3.8.5",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-coffee": "^2.3.3",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-pug": "^3.0.3",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-watch": "^4.3.8",
+    "pug": "^2.0.0-beta3",
+    "web-component-tester": "^4.0.0"
+  },
+  "scripts": {
+    "start": "gulp serve"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

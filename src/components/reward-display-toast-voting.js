@@ -7,6 +7,10 @@ const {
   get_feedback_for_intervention,
 } = require('libs_common/intervention_feedback_utils')
 
+const {
+  get_intervention
+} = require('libs_common/intervention_info')
+
 Polymer({
   is: 'reward-display-toast-voting',
   properties: {
@@ -17,6 +21,7 @@ Polymer({
     },
     intervention_info: {
       type: Object,
+      value: get_intervention(),
     },
     goal_info: {
       type: Object,
@@ -90,7 +95,7 @@ Polymer({
     */
     setTimeout(function() {
       self.hide()
-    }, 10000)
+    }, 300000000)
   },
   video_ended: function() {
     this.hide()
@@ -105,6 +110,15 @@ Polymer({
   thumbs_down_clicked: function() {
     downvote_intervention(this.intervention_info.name);
     this.hide();
+  },
+  turn_off_clicked: function() {
+    //downvote_intervention(this.intervention_info.name);
+    this.$.reward_display_toast_real.hide();
+    this.$.feedback_toast.open();
+  },
+  close_toast_pos_feedback: function() {
+    this.hide();
+    upvote_intervention(this.intervention_info.name);
   },
   query_changed: async function() {
     let results = await fetch('https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query).then(x => x.json())

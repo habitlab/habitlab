@@ -1,6 +1,9 @@
 <!-- stylesheet for the carousel-->
 <!-- js for the carousel-->
 
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-carousel/paper-carousel.html">
+
 <dom-module id="intervention-carousel">
     <template>
       <style>
@@ -108,15 +111,19 @@
   
       </style>
 
-<!--THIS IS GOING TO BE THE START OF THE NEW PROJECT FOR THIS INFORMATION -->
-      <!--As we can see with this example set that we want to insert a carousel that gets the apps-->
-
+<paper-carousel items="3" responsive="600:2, 460:1" controls="true" dots="true" dotText="false">
+	<div class="paper-carousel-demo-indigo" data-text="#1"></div>
+	<div class="paper-carousel-demo-pink" data-text="#2"></div>
+	<div class="paper-carousel-demo-teal" data-text="#3"></div>
+	<div class="paper-carousel-demo-amber" data-text="#4"></div>
+	<div class="paper-carousel-demo-blue" data-text="#5"></div>
+	<div class="paper-carousel-demo-green" data-text="#6"></div>
+</paper-carousel>
+<!--
       <paper-card class="paper-card">
-          <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudges" class="paper-card"> -->
               <div class="title-text">Intervention Store</div>
               <paper-button class="button" on-click="code_custom_nudge_clicked">Go To Store</paper-button>
 
-              <!--Instead of simply inserting these features I think it would be best to get the following initiated -->
               <section>
                 <div class="carousel purejscarousel" id="carousel-one-by-one">
                   <div class=" purejscarousel-slides-container" style="margin-left: 0px; width: 100%">
@@ -165,10 +172,9 @@
                 </div>
               </section>
 
-              <!--This is the end of the development of the carousel section for this particular problem-->
       </paper-card>
-      <script src="purejscarousel.js"></script>
+    -->
       
     </template>
-    
+    <script src="intervention-carousel.js"></script>
   </dom-module>

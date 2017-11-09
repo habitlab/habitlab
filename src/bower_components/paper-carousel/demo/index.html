@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Paper-carousel demo</title>
+    <link rel="import" href="../paper-carousel.html">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,600,400,400italic,800" rel="stylesheet" type="text/css">
+    <style>
+	 	body[unresolved] { opacity: 0; }
+		body {
+			font-family: Open Sans;
+		}
+	</style>
+  </head>
+  <body unresolved>
+    <div class="content">
+      <!-- MODULE-->
+      <paper-carousel items="4" responsive="1280:3, 800:2, 460:1" controls="true" dots="true" dotText="false" loop="true" autoplay="true" autoplaytime="3000" transitionspeed="500">
+        <div class="paper-carousel-demo-indigo" data-text="#1"></div>
+        <div class="paper-carousel-demo-pink" data-text="#2"></div>
+        <div class="paper-carousel-demo-teal" data-text="#3"></div>
+        <div class="paper-carousel-demo-amber" data-text="#4"></div>
+        <div class="paper-carousel-demo-blue" data-text="#5"></div>
+        <div class="paper-carousel-demo-green" data-text="#6"></div>
+      </paper-carousel>
+    </div>
+    <footer></footer>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  </body>
+</html>

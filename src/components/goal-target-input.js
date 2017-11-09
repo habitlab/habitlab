@@ -62,6 +62,7 @@ Polymer({
     if (this.goal == null) {
       return "minutes"
     }
+    console.log(this.goal)
     let unit = this.goal.target.units
     if ('goal_statement_units' in this.goal) {
       unit = this.goal.goal_statement_units

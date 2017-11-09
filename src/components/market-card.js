@@ -1,4 +1,4 @@
-const {polymer_ext} = require('libs_frontend/polymer_utils');
+/*const {polymer_ext} = require('libs_frontend/polymer_utils');
 const _ = require('underscore');
 const ajax_utils = require('libs_common/ajax_utils');
 const {escape_as_html} = require('libs_common/html_utils')
@@ -26,3 +26,4 @@ polymer_ext({
     }
   }
 });
+*/

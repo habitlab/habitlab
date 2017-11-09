@@ -1,5 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-
+<link rel="import" href="intervention-carousel.html">
 <dom-module id="intervention-market">
   <template>
     <style>
@@ -19,6 +19,8 @@
       .container {
         text-align: center;
         display: flex;
+        height:500px;
+        width:100%;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -49,11 +51,10 @@
     <div class="container">
 
       <div class="title" style="color: #ffffff">{{site}} custom nudges</div>
-
-      <paper-card heading="user-made Interventions" class="paper-card">
-        <div class="card-content">
-
-        </div>
+      <intervention-carousel></intervention-carousel>
+      <paper-card heading="user-made Interventions">
+        <!--<div class="card-content">
+        </div>-->
       </paper-card>
     </div>
 

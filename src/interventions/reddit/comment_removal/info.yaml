@@ -1,0 +1,7 @@
+description: Removes Reddit comments
+displayname: Comment Remover
+matches:
+  - www.reddit.com
+content_scripts:
+  - frontend.js
+preview: https://www.reddit.com

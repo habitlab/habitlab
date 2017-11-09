@@ -5,176 +5,20 @@
 <link rel="import" href="../bower_components/paper-carousel/paper-carousel.html">
 
 <dom-module id="intervention-carousel">
-    <template>
-      <style>
-        .purejscarousel {
-            overflow: hidden;
-        }
-  
-        .carousel {
-            width: 720px;
-        }
-  
-        .carousel {
-          margin: 50px auto;
-          overflow: hidden;
-          position: relative;
-          width: 240px;
-        }
-  
-        *, *:after, *:before {
-          box-sizing: border-box;
-        }
-  
-        div {
-          display: block;
-        }
-  
-        .carousel:before, .carousel:after {
-          content: "";
-          display: table;
-        }
-  
-        *, *:after, *:before {
-          box-sizing: border-box;
-        }
-  
-        .carousel:after {
-          clear: both;
-        }
-  
-        .carousel:before, .carousel:after {
-          content: "";
-          display: table;
-        }
-        *, *:after, *:before {
-          box-sizing: border-box;
-        }
-  
-        .purejscarousel-slides-container:after {
-          clear: both;
-        }
-  
-        .purejscarousel-slides-container:before, .purejscarousel-slides-container:after {
-          content: "";
-          display: table;
-        }
-  
-        .purejscarousel-slide {
-          float: left;
-          background: #333;
-          border: 10px solid #fff;
-          color: #fff;
-          float: left;
-          font-size: 20px;
-          height: 240px;
-          line-height: 11;
-          text-align: center;
-          width: 240px;
-        }
-  
-        .slide {
-          background: #333;
-          border: 10px solid #fff;
-          color: #fff;
-          float: left;
-          font-size: 20px;
-          height: 240px;
-          line-height: 11;
-          text-align: center;
-          width: 240px;
-        }
-  
-        .active.purejscarousel-dot {
-          cursor: default;
-          opacity: .5;
-        }
-  
-        .purejscarousel-dot {
-          background: #aaa;
-          border: 0;
-          border-radius: 50%;
-          box-shadow: none;
-          cursor: pointer;
-          height: 15px;
-          outline: none;
-          margin: 0 5px;
-          width: 15px;
-        }
-  
-        .purejscarousel-dots-container {
-          float: left;
-          margin-top: 15px;
-          text-align: center;
-          width: 100%;
-        }
-  
-      </style>
+  <template>
+    <style>
 
-<paper-carousel items="3" responsive="600:2, 460:1" controls="true" dots="true" dotText="false">
-	<div class="paper-carousel-demo-indigo" data-text="#1"></div>
-	<div class="paper-carousel-demo-pink" data-text="#2"></div>
-	<div class="paper-carousel-demo-teal" data-text="#3"></div>
-	<div class="paper-carousel-demo-amber" data-text="#4"></div>
-	<div class="paper-carousel-demo-blue" data-text="#5"></div>
-	<div class="paper-carousel-demo-green" data-text="#6"></div>
-</paper-carousel>
-<!--
-      <paper-card class="paper-card">
-              <div class="title-text">Intervention Store</div>
-              <paper-button class="button" on-click="code_custom_nudge_clicked">Go To Store</paper-button>
+    </style>
 
-              <section>
-                <div class="carousel purejscarousel" id="carousel-one-by-one">
-                  <div class=" purejscarousel-slides-container" style="margin-left: 0px; width: 100%">
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 1</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 2</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 3</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 4</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 5</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 6</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 7</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 8</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 9</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 10</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 11</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 12</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 13</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 14</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 15</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 16</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 17</div>
-                    <div class="slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide purejscarousel-slide">Slide 18</div>
-                  </div>
+    <paper-carousel items="3" responsive="600:2, 460:1" controls="true" dots="true" dotText="false">
+      <div class="paper-carousel-demo-indigo" data-text="#1"></div>
+      <div class="paper-carousel-demo-pink" data-text="#2"></div>
+      <div class="paper-carousel-demo-teal" data-text="#3"></div>
+      <div class="paper-carousel-demo-amber" data-text="#4"></div>
+      <div class="paper-carousel-demo-blue" data-text="#5"></div>
+      <div class="paper-carousel-demo-green" data-text="#6"></div>
+    </paper-carousel>
 
-                  <div class=" purejscarousel-dots-container">
-                    <button class="purejscarousel-dot active" data-index="0" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="1" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="2" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="3" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="4" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="5" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="6" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="7" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="8" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="9" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="10" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="11" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="12" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="13" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="14" type="button"></button>
-                    <button class="purejscarousel-dot" data-index="15" type="button"></button>
-                  </div>
-
-                  <button class=" purejscarousel-btn purejscarousel-btn-prev" type="button" data-is-native="0" disabled=""></button>
-                  <button class=" purejscarousel-btn purejscarousel-btn-next" type="button" data-is-native="0"></button>
-                   
-                </div>
-              </section>
-
-      </paper-card>
-    -->
-      
-    </template>
-    <script src="intervention-carousel.js"></script>
-  </dom-module>
+  </template>
+  <script src="intervention-carousel.js"></script>
+</dom-module>

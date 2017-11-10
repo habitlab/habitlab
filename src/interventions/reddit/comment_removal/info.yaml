@@ -5,3 +5,4 @@ matches:
 content_scripts:
   - frontend.js
 preview: https://www.reddit.com
+disabled: true

@@ -12,11 +12,13 @@
 <link rel="import" href="graph-time-saved-daily.html">
 <link rel="import" href="graph-num-times-interventions-deployed.html">
 <link rel="import" href="graph-donut-top-sites.html">
-<link rel="import" href="goals-met-over-time.html">
 <link rel="import" href="all-badges-earned-display.html">
 <link rel="import" href="graph-intervention-effectiveness-comparison.html">
 <link rel="import" href="create-intervention-dialog.html">
 <link rel="import" href="goal-target-input.html">
+<!--
+<link rel="import" href="intervention-carousel.html">
+-->
 
 <dom-module id="site-view">
   <template>
@@ -97,6 +99,7 @@
         </div>
       </paper-card>
 
+
       <paper-card class="paper-card">
         <div class="title-text"> Nudges </div>
         <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudges" class="paper-card"> -->
@@ -109,6 +112,11 @@
         </template>
         <paper-button class="button" on-click="code_custom_nudge_clicked">Code your custom nudge</paper-button>
       </paper-card>
+
+      <!--
+      <intervention-carousel style="width: 100%; height: 400px"></intervention-carousel>
+      -->
+
 
       <paper-card class="paper-card" style="font-size: 22px; color:#5a5a5a;">
         <div class="title-text"> Progress </div>

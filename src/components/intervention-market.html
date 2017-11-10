@@ -1,0 +1,65 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="intervention-carousel.html">
+<dom-module id="intervention-market">
+  <template>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        --paper-card: {
+          width: 100%;
+          padding: 10px 20px;
+          margin-top: 0px;
+        }
+        ;
+      }
+
+      .container {
+        text-align: center;
+        display: flex;
+        height:500px;
+        width:100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .title {
+        background-color: #2E4053;
+        width: 100%;
+        font-size: 33px;
+        color: white;
+        text-transform:capitalize;
+        padding-bottom:20px;
+        padding-top: 20px;
+      }
+
+      .paper-card {
+        background-color: white;
+        width: 100%;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+
+      .card-content {
+        font-size: 20px;
+      }
+    </style>
+
+    <div class="container">
+
+      <div class="title" style="color: #ffffff">{{site}} custom nudges</div>
+      <intervention-carousel></intervention-carousel>
+      <paper-card heading="user-made Interventions">
+        <!--<div class="card-content">
+        </div>-->
+      </paper-card>
+    </div>
+
+    <!-- <div style="margin-bottom: 20px"></div> -->
+
+  </template>
+  <script src="intervention-market.js"></script>
+</dom-module>

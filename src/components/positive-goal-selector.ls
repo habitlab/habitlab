@@ -33,7 +33,7 @@ swal = require 'sweetalert2'
 
 {
   get_baseline_time_on_domains
-  get_baseline_time_on_domain
+  list_all_domains_in_history
 } = require 'libs_backend/history_utils'
 
 {
@@ -474,9 +474,11 @@ polymer_ext {
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     self.on_resize '#outer_wrapper', ->
       self.repaint_due_to_resize()
-    #fetch history for suggested sites in intervention settings 
-    this.baseline_time_on_domains = await get_baseline_time_on_domains()
-    baseline_time_on_domains_array = []
+    do ->>
+      self.baseline_time_on_domains_array = await list_all_domains_in_history()
+    do ->>
+      self.baseline_time_on_domains = await get_baseline_time_on_domains()
+    #fetch history for suggested sites in intervention settings
     #console.log('started fetching favicons')
     #domain_to_favicon = await get_favicon_data_for_domains_bulk(Object.keys(this.baseline_time_on_domains))
     #for domain,time of this.baseline_time_on_domains

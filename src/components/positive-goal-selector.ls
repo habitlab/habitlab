@@ -490,7 +490,7 @@ polymer_ext {
       #})
     #console.log('finished fetching favicons')
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
-    this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
+    #this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
     self.once_available '.siteiconregular' ->
       self.repaint_due_to_resize()
 

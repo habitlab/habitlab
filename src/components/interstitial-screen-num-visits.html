@@ -1,9 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="habitlab-logo-v2.html">
-<link rel="import" href="positive-site-trigger.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
-<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="habitlab-logo-v2.html">
 <link rel="import" href="close-tab-button.html">
 <link rel="import" href="quote-message.html">
 
@@ -103,28 +100,18 @@
           <br>You have visited it <b>{{visits}}</b> times.
         </div>
       </div>
-
-      <template is="dom-if" if="{{show_quote_message}}">
-        <quote-message class="message-block"></quote-message>
-      </template>
-      <template is="dom-if" if="{{show_positive_site_trigger}}">
-        <positive-site-trigger class="message-block"></positive-site-trigger>
-      </template>
+      <quote-message class="message-block"></quote-message>
       <center>
         <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
         <center>
           <center>
             <close-tab-button id="calltoactionbutton" />
           </center>
-
           <div class="contentContainer">
-            <center>
-              <paper-progress id="paperprogress"></paper-progress>
-            </center>
-            <center>
-              <paper-button id="okbutton" class="okButton" on-click="buttonclicked">OK</paper-button>
-            </center>
+            <center><paper-button id="okbutton" class="okButton" on-click="continueclicked">{{continue_button_text}}</paper-button></center>
           </div>
+        </center>
+      </center>
     </div>
 
   </template>

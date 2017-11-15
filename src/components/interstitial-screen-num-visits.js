@@ -104,6 +104,10 @@ Polymer({
     this.$.okbutton.textContent = this.btnTxt 
     this.$.calltoactionbutton.closeTabText = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
+  },
+  continueclicked: function() {
+    log_action({'negative': 'Continued to site.'})
+    $(this).hide()
   }
 });
 

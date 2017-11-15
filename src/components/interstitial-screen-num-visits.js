@@ -40,14 +40,6 @@ Polymer({
       type: Boolean,
       value: Math.floor(Math.random()*2) == 0,
     },
-    show_rss_message: {
-      type: Boolean,
-      computed: 'compute_show_rss_message(show_positive_site_trigger, show_progress_message, show_quote_message, randomizer)',
-    },
-    show_workpages_message: {
-      type: Boolean,
-      computed: 'compute_show_workpages_message(show_positive_site_trigger, show_progress_message, show_quote_message, randomizer)',
-    },
     show_positive_site_trigger: {
       type: Boolean,
       value: false

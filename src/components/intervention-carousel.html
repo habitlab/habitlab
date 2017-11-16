@@ -3,6 +3,7 @@
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-carousel/paper-carousel.html">
+<link rel="import" href="market-card.html">
 
 <dom-module id="intervention-carousel">
   <template>
@@ -28,47 +29,16 @@
         background-color: gray;
       }
 
-      .borders{
-        border: 2px solid gray;
-        border-radius: 10px;
-      }
-
-      .card{
-        padding:6px;
-        margin:10px;
-        height:calc(100% - 40px)
-      }
-      
-      .checked {
-        color: orange;
-    }
     </style>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-    <paper-carousel items="4" responsive="600:2, 460:1" controls="true" dots="true" dotText="false">
-      <div class="paper-carousel-demo-teal" style = "background-color:white; display:block">
-        <div class = "card borders">
-          <img>
-          <br>
-          <h2>Intervention Name</h2>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-          <h3>Date: 10/12/2017</h3>
-          <p>Description: Lorem ipsum...</p>
-        </div>
-      </div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"></div>      
+    <paper-carousel items="4" responsive="600:2, 460:1" controls="true" dots="true" dotText="false" style="height:350px">
+      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
+      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
+      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
+      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
+      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
+      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
+      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>      
       
     </paper-carousel>
 

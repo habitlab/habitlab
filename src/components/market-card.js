@@ -1,29 +1,28 @@
-/*const {polymer_ext} = require('libs_frontend/polymer_utils');
-const _ = require('underscore');
-const ajax_utils = require('libs_common/ajax_utils');
-const {escape_as_html} = require('libs_common/html_utils')
+const {polymer_ext} = require('libs_frontend/polymer_utils')
+const screenshot_utils = require('libs_common/screenshot_utils')
 
 polymer_ext({
-  is: 'market-card-Filler',
+  is: 'market-card',
   properties: {
     name: {
-      type: String,
+      type: String
     },
-    harshness: {
-      type: String,
+    date:{
+      type: String
     },
-    imgUrl: {
-      type: String,
+    description:{
+      type: String
     },
-    postedDate: {
-      type: String,
-    },
-    other: {
-      type: Object,
-      value: {}
+    startCount:{
+      type: Number
     }
   },
-    }
+  ready: async function() {
+    console.log('site is:')
+    console.log(this.site)
+    console.log('ready called in intervention market. fetching data')
+    let data = await fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=json').then(x => x.json())
+    console.log('finished fetching data')
+    //console.log(data)
   }
-});
-*/
+})

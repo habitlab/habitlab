@@ -34,6 +34,6 @@ export printable_time_spent_long = (seconds) ->
       output.push (minutes + ' minutes')
   if remaining_seconds == 1
     output.push '1 second'
-  else
+  else if remaining_seconds > 0
     output.push (remaining_seconds + ' seconds')
   return output.join(' ')

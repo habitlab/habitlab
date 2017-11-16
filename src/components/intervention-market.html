@@ -18,8 +18,8 @@
 
       .container {
         text-align: center;
-        display: flex;
-        height:500px;
+        display: block;
+        height:100% ;
         width:100%;
         flex-direction: column;
         align-items: center;
@@ -39,22 +39,98 @@
       .paper-card {
         background-color: white;
         width: 100%;
-        margin-left: 20px;
-        margin-right: 20px;
+        margin-left: 0px;
+        margin-right: 0px;
       }
 
       .card-content {
         font-size: 20px;
       }
+
+
+      body{
+        background: #f2f2f2;
+        font-family: sans-serif;
+      }
+
+      .search {
+        width: 100%;
+        position: relative
+      }
+
+      .searchTerm {
+        float: left;
+        width: 100%;
+        border: 3px solid #00B4CC;
+        padding: 5px;
+        height: 20px;
+        border-radius: 5px;
+        outline: none;
+        color: #9DBFAF;
+      }
+
+      .searchTerm:focus{
+        color: #00B4CC;
+      }
+
+      .searchButton {
+        position: absolute;  
+        right: -50px;
+        width: 40px;
+        height: 36px;
+        border: 1px solid #00B4CC;
+        background: #00B4CC;
+        text-align: center;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+
+      /*Resize the wrap to see the search bar change!*/
+      .wrap{
+        width: 95%;
+        align-items: center;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-bottom: 15px;
+      }
+
+
     </style>
 
     <div class="container">
 
       <div class="title" style="color: #ffffff">{{site}} custom nudges</div>
-      <intervention-carousel></intervention-carousel>
-      <paper-card heading="user-made Interventions">
-        <!--<div class="card-content">
-        </div>-->
+      <paper-card>
+        <!--Search Bar -->  
+        <div class="wrap">
+              <div class="search">
+                 <input type="text" class="searchTerm" placeholder="What are you looking for?">
+                 <button type="submit" class="searchButton">
+                   <i class="fa fa-search"></i>
+                </button>
+              </div>
+        </div>
+        <br><br>
+        <!--SideBar-->
+        <div style = "width:100%; display:flex">
+        <div style = "width:20%; border-Left:#2E4053;">
+            <form>
+                <input type="radio" name="sort" value="star_count" checked> Stars<br>
+                <input type="radio" name="sort" value="user_count"> Users <br>
+                <input type="radio" name="sort" value="date_added"> Date <br>
+                <input type="radio" name="sort" value="name"> Name <br>
+              </form>
+        </div>
+        <div style = "width:80%">
+          <!--Display Carousel-->
+          <intervention-carousel></intervention-carousel>
+        </div>
+          
+        </div>
       </paper-card>
     </div>
 

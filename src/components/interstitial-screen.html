@@ -1,12 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="habitlab-logo-v2.html">
-<link rel="import" href="habitlab-rss-message.html">
-<link rel="import" href="workpages-message.html">
-<link rel="import" href="goal-progress-message.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-time-picker/paper-time-picker.html">
 <link rel="import" href="../bower_components/paper-progress/paper-progress.html">
-<link rel="import" href="action-dropdown.html">
+<link rel="import" href="habitlab-logo-v2.html">
+<link rel="import" href="call-to-action-button.html">
 
 <dom-module id="interstitial-screen">
   <template>
@@ -66,7 +63,6 @@
       .closeTabButton {
         cursor: pointer;
         padding: 5px;
-        margin-top: 10px;
         margin-bottom: 10px;
         font-size: 14px;
         height: 38px;
@@ -87,14 +83,6 @@
       }
     </style>
     <div class="whiteDiv">
-
-      <!--<template is="dom-if" if="{{show_rss_message}}">
-        <habitlab-rss-message class="message-block"></habitlab-rss-message>
-      </template>
-      <template is="dom-if" if="{{show_workpages_message}}">
-        <workpages-message class="message-block"></workpages-message>
-      </template> -->
-
       <div class="contentContainer">
         <div id="titletext" class="titleText"></div>
         <div id="messagetext"></div>
@@ -104,14 +92,16 @@
               <paper-progress id="paperprogress"></paper-progress>
             </center>
             <center>
-              <action-dropdown id="closetabbutton" class="closeTabButton"></action-dropdown>
+              <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
+            </center>
+            <center>
+              <call-to-action-button id="closetabbutton" class="closeTabButton"></call-to-action-button>
             </center>
             <center>
               <paper-button id="okbutton" class="okButton" on-click="buttonclicked">default</paper-button>
             </center>
-            <center>
-              <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
-              <center>
+          </p>
+        </p>
       </div>
     </div>
 

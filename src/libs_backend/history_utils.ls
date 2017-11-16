@@ -262,6 +262,22 @@ export ensure_history_utils_data_cached = ->>
     baseline_time_on_domains = await get_baseline_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, date_now)
     await setdict 'baseline_time_on_domains', baseline_time_on_domains
 
+export list_all_domains_in_history = ->>
+  start_time = 0
+  end_time = Date.now()
+  url_history_info_list = await new Promise -> chrome.history.search {text: '', startTime: start_time, endTime: end_time, maxResults: 2**31-1}, it
+  output_set = {}
+  output = []
+  for {url} in url_history_info_list
+    domain = url_to_domain(url)
+    if domain.length == 0
+      continue
+    if not output_set[domain]?
+      output_set[domain] = true
+      output.push(domain)
+  output.sort()
+  return output
+
 # seconds
 export get_average_seconds_spent_on_domain = (domain) ->>
   days_before_to_seconds_spent = await get_seconds_spent_on_domain_all_days(domain)

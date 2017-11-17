@@ -4,14 +4,6 @@ set_default_parameters({
 
 const $ = require('jquery')
 
-/*
-window.Polymer = {
-  dom: 'shadow',
-  lazyRegister: true,
-  useNativeCSSProperties: true,
-}
-*/
-
 //Polymer Component
 require_component('paper-slider')
 require_component('paper-input')
@@ -40,10 +32,6 @@ const {
 
 var shadow_root;
 var shadow_div;
-
-
-var timeLimitThisVisit;
-var timeBegun;
 
 //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
 function addBeginDialog(message) {
@@ -99,11 +87,8 @@ function addBeginDialog(message) {
         $wrongInputText.insertAfter($slider)
       }
     } else {
-      timeBegun = Math.floor(Date.now() / 1000)
-      timeLimitThisVisit = minutes * 60
-
       shadow_div.find('.beginBox').remove()
-      displayCountdown()
+      displayCountdown(minutes * 60)
     }
   })
 
@@ -185,20 +170,6 @@ function cheat(seconds) {
   var display_timespent_div = document.createElement('timespent-view')
   display_timespent_div.className = 'timespent-view'
   shadow_div.append(display_timespent_div)
-  /*
-  var update_countdown = () => {
-    const timeRemaining = getRemainingTimeThisVisit();
-    var printable_time = printable_time_spent_long(timeRemaining)
-    display_timespent_div.attr('display-text', printable_time + ' left.');
-    if (timeRemaining < 0) {
-      shadow_div.find('.timespent-view').remove();
-      addEndDialog("Your time this visit is up!");
-      clearInterval(countdownTimer);
-    }
-  }
-  update_countdown();
-  var countdownTimer = setInterval(update_countdown, 1000);
-  */
   display_timespent_div.addEventListener('timer-finished', function() {
     shadow_div.find('.timespent-view').remove();
     addEndDialog("Your Cheating Time is Up!");
@@ -206,59 +177,11 @@ function cheat(seconds) {
   display_timespent_div.startTimer(seconds)
 }
 
-/*
-function cheat(minutes) {
-  getTimeSpent((time) => {
-    localStorage.cheatStart = time
-    cheatCountdown()
-  })
-}
-
-function cheatCountdown() {
-  const timeCheatingUp = parseInt(parameters.cheatseconds) + parseInt(localStorage.cheatStart)
-
-  var cheatTimer = setInterval(() => {
-    getTimeSpent((timeSpent) => {
-      if (timeSpent > timeCheatingUp) {
-        clearInterval(cheatTimer)
-        addEndDialog('Your Cheating Time is Up!')
-      }
-    })
-  }, 1000);
-}
-*/
-
-function getTimeSpent(callback) {
-  get_seconds_spent_on_current_domain_today().then((secondsSpent) => {
-    callback(secondsSpent)
-  })
-}
-
-//Retrieves the remaining time left for the user to spend on facebook
-function getRemainingTimeThisVisit() {
-  const timeSpent = Math.floor(Date.now() / 1000) - timeBegun 
-  return timeLimitThisVisit - timeSpent
-}
-
 //Displays the countdown on the bottom left corner of the Facebook page
-function displayCountdown() {
+function displayCountdown(timeLimitThisVisit) {
   var display_timespent_div = document.createElement('timespent-view')
   display_timespent_div.className = 'timespent-view'
   shadow_div.append(display_timespent_div)
-  /*
-  var update_countdown = () => {
-    const timeRemaining = getRemainingTimeThisVisit();
-    var printable_time = printable_time_spent_long(timeRemaining)
-    display_timespent_div.attr('display-text', printable_time + ' left.');
-    if (timeRemaining < 0) {
-      shadow_div.find('.timespent-view').remove();
-      addEndDialog("Your time this visit is up!");
-      clearInterval(countdownTimer);
-    }
-  }
-  update_countdown();
-  var countdownTimer = setInterval(update_countdown, 1000);
-  */
   display_timespent_div.addEventListener('timer-finished', function() {
     shadow_div.find('.timespent-view').remove();
     addEndDialog("Your time this visit is up!");

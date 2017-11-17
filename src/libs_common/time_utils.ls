@@ -17,6 +17,8 @@ export printable_time_spent = (seconds) ->
 * @return {String} 
 */
 export printable_time_spent_long = (seconds) ->
+  if seconds < 0
+    return '0 seconds'
   hours = Math.floor(seconds / 3600)
   remaining_seconds = seconds - (hours * 3600)
   minutes = Math.floor(remaining_seconds / 60)
@@ -34,6 +36,6 @@ export printable_time_spent_long = (seconds) ->
       output.push (minutes + ' minutes')
   if remaining_seconds == 1
     output.push '1 second'
-  else if remaining_seconds > 0
+  else if remaining_seconds >= 0
     output.push (remaining_seconds + ' seconds')
   return output.join(' ')

@@ -157,18 +157,56 @@ function addEndDialog(message) {
   $contentContainer.append($('<p>'))  
 
   //Cheat button
-  const $cheatButton = $('<paper-button raised style="background-color: #ffffff;">')
+  const $cheatButton = $('<paper-button raised>')
   $cheatButton.text("Cheat for " + parameters.cheatseconds + " Seconds")
-  $cheatButton.css({'cursor': 'pointer', 'padding': '5px'});
+  $cheatButton.css({
+    cursor: 'pointer',
+    color: 'white',
+    'font-size': '14px',
+    'background-color': '#415D67',
+    margin: '0 auto',
+    height: '38px',
+    'box-shadow': '2px 2px 2px #888888',
+  })
   $cheatButton.click(() => {
     $dialogBox.remove()
     cheat(parameters.cheatseconds)
   })
 
+  $contentContainer.append($('<habitlab-logo-v2>'));
+  $contentContainer.append($('<p>'));
+  $contentContainer.append($('<close-tab-button>'));
+  $contentContainer.append($('<p>'));
   $contentContainer.append($cheatButton);
   $dialogBox.append($contentContainer);
 }
 
+function cheat(seconds) {
+  var display_timespent_div = document.createElement('timespent-view')
+  display_timespent_div.className = 'timespent-view'
+  shadow_div.append(display_timespent_div)
+  /*
+  var update_countdown = () => {
+    const timeRemaining = getRemainingTimeThisVisit();
+    var printable_time = printable_time_spent_long(timeRemaining)
+    display_timespent_div.attr('display-text', printable_time + ' left.');
+    if (timeRemaining < 0) {
+      shadow_div.find('.timespent-view').remove();
+      addEndDialog("Your time this visit is up!");
+      clearInterval(countdownTimer);
+    }
+  }
+  update_countdown();
+  var countdownTimer = setInterval(update_countdown, 1000);
+  */
+  display_timespent_div.addEventListener('timer-finished', function() {
+    shadow_div.find('.timespent-view').remove();
+    addEndDialog("Your Cheating Time is Up!");
+  })
+  display_timespent_div.startTimer(seconds)
+}
+
+/*
 function cheat(minutes) {
   getTimeSpent((time) => {
     localStorage.cheatStart = time
@@ -188,6 +226,7 @@ function cheatCountdown() {
     })
   }, 1000);
 }
+*/
 
 function getTimeSpent(callback) {
   get_seconds_spent_on_current_domain_today().then((secondsSpent) => {
@@ -203,8 +242,10 @@ function getRemainingTimeThisVisit() {
 
 //Displays the countdown on the bottom left corner of the Facebook page
 function displayCountdown() {
-  var display_timespent_div = $('<timespent-view>')
+  var display_timespent_div = document.createElement('timespent-view')
+  display_timespent_div.className = 'timespent-view'
   shadow_div.append(display_timespent_div)
+  /*
   var update_countdown = () => {
     const timeRemaining = getRemainingTimeThisVisit();
     var printable_time = printable_time_spent_long(timeRemaining)
@@ -217,6 +258,12 @@ function displayCountdown() {
   }
   update_countdown();
   var countdownTimer = setInterval(update_countdown, 1000);
+  */
+  display_timespent_div.addEventListener('timer-finished', function() {
+    shadow_div.find('.timespent-view').remove();
+    addEndDialog("Your time this visit is up!");
+  })
+  display_timespent_div.startTimer(timeLimitThisVisit)
 }
 
 function main() {

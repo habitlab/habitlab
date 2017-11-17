@@ -186,9 +186,9 @@ do !->>
     post_json('https://habitlab.herokuapp.com/add_install', install_data)
     user_secret = await get_user_secret()
     post_json('https://habitlab.herokuapp.com/add_secret', {user_id, user_secret})
-    setInterval ->
-      show_finish_configuring_notification_if_needed()
-    , 5000
+    #setInterval ->
+    #  show_finish_configuring_notification_if_needed()
+    #, 5000
 
   {
     get_all_message_handlers

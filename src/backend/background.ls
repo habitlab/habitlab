@@ -147,17 +147,17 @@ do !->>
       post_json
     } = require('libs_backend/ajax_utils')
     # open the options page on first run
-    if localStorage.getItem('notfirstrun')
-      if not localStorage.getItem('allow_logging')? # user did not complete onboarding
-        show_finish_configuring_notification_if_needed()
-        #setInterval ->
-        #  show_finish_configuring_notification_if_needed()
-        #, 20000
-        #chrome.tabs.create {url: 'options.html#onboarding:last'}
-        #localStorage.setItem('allow_logging_on_default_without_onboarding', true)
-        #localStorage.setItem('allow_logging', true)
-        #send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
-      return
+    #if localStorage.getItem('notfirstrun')
+    #  if not localStorage.getItem('allow_logging')? # user did not complete onboarding
+    #    show_finish_configuring_notification_if_needed()
+    #    #setInterval ->
+    #    #  show_finish_configuring_notification_if_needed()
+    #    #, 20000
+    #    #chrome.tabs.create {url: 'options.html#onboarding:last'}
+    #    #localStorage.setItem('allow_logging_on_default_without_onboarding', true)
+    #    #localStorage.setItem('allow_logging', true)
+    #    #send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
+    #  return
     localStorage.setItem('notfirstrun', true)
     await set_default_goals_enabled()
     user_id = await get_user_id()

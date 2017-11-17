@@ -147,7 +147,8 @@ do !->>
       post_json
     } = require('libs_backend/ajax_utils')
     # open the options page on first run
-    #if localStorage.getItem('notfirstrun')
+    if localStorage.getItem('notfirstrun')
+      return
     #  if not localStorage.getItem('allow_logging')? # user did not complete onboarding
     #    show_finish_configuring_notification_if_needed()
     #    #setInterval ->

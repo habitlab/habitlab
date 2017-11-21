@@ -183,7 +183,7 @@ export get_baseline_time_on_domains_real = ->>
   url_to_visits = await get_url_to_visits(0, Date.now())
   return get_baseline_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, Date.now())
 
-export get_baseline_time_on_domains = ->>
+export get_baseline_time_on_domains = memoizeSingleAsync ->>
   baseline_time_on_domains = await getdict 'baseline_time_on_domains'
   if baseline_time_on_domains? and Object.keys(baseline_time_on_domains).length > 0
     return baseline_time_on_domains
@@ -237,7 +237,7 @@ export get_baseline_session_time_on_domains_real = ->>
   url_to_visits = await get_url_to_visits(0, Date.now())
   return get_baseline_session_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, Date.now())
 
-export get_baseline_session_time_on_domains = ->>
+export get_baseline_session_time_on_domains = memoizeSingleAsync ->>
   baseline_time_on_domains = await getdict 'baseline_session_time_on_domains'
   if baseline_time_on_domains? and Object.keys(baseline_time_on_domains).length > 0
     return baseline_time_on_domains

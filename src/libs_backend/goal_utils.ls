@@ -206,8 +206,7 @@ export is_goal_enabled = (goal_name) ->>
   enabled_goals = await get_enabled_goals()
   return enabled_goals[goal_name]?
 
-export site_has_enabled_spend_less_time_goal = (url) ->>
-  domain = url_to_domain(url)
+export site_has_enabled_spend_less_time_goal = (domain) ->>
   goals = await get_goals()
   for goal_name,goal_info of goals
     if domain == goal_info.domain and not goal_info.is_positive

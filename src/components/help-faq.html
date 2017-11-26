@@ -44,6 +44,20 @@
 
       <div class="title" style="color: white">Help / FAQ</div>
 
+      <paper-card heading="I have an idea for an intervention or goal!" class="paper-card">
+        <div class="card-content">
+          <a href="https://www.reddit.com/r/habitlab/" target="_blank">Submit your idea to our idea incubator on Reddit</a> or try implementing it yourself with the
+          <a href="index.html?tag=intervention-editor" target="_blank">nudge editor</a>.
+        </div>
+      </paper-card>
+
+      <paper-card heading="I have feedback / I found a bug!" class="paper-card">
+        <div class="card-content">
+          <a href="#help" on-click="submit_feedback_clicked">Click here to submit feedback</a> and it will be sent to our
+          <a href="https://github.com/habitlab/habitlab/issues">bug tracker</a>.
+        </div>
+      </paper-card>
+
       <paper-card heading="I am not seeing any nudges on a page" class="paper-card">
         <div class="card-content">
           Make sure you have set a goal to reduce time spent on that page. You can set goals on the <a on-click="change_tab"
@@ -116,21 +130,13 @@
 
       <paper-card heading="How can I make multiple nudges shown when I visit a page?" class="paper-card">
         <div class="card-content">
-          Not currently supported. As a workaround, you can use the <a href="https://habitlab.github.io/write" target="_blank">nudge editor</a>          to create a new nudge that shows multiple nudges at once.
-        </div>
-      </paper-card>
-
-      <paper-card heading="I have a suggestion for HabitLab / I found a bug!" class="paper-card">
-        <div class="card-content">
-          <a href="#help" on-click="submit_feedback_clicked">Click here to submit feedback</a> and it will be sent to our
-          <a href="https://github.com/habitlab/habitlab/issues">bug tracker</a>.
+          Not currently supported. As a workaround, you can use the <a href="index.html?tag=intervention-editor" target="_blank">nudge editor</a>          to create a new nudge that shows multiple nudges at once.
         </div>
       </paper-card>
 
       <paper-card heading="My question was not answered / Contact us" class="paper-card">
         <div class="card-content">
-          <a href="mailto:{{mailing_list}}" target="_blank">Email us</a> or <a href="https://gitter.im/habitlab/habitlab"
-            target="_blank">ask on Gitter</a> and we will get back to you!
+          <a href="https://github.com/habitlab/habitlab/issues" target="_blank">Report an issue on Github</a> or <a href="mailto:{{mailing_list}}" target="_blank">email us</a> and we will get back to you!
         </div>
       </paper-card>
 

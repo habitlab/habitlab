@@ -249,7 +249,7 @@
             <template is="dom-repeat" items="{{site_and_goals.goals}}" as="goal" index-as="goalidx">
               <template is="dom-if" if="{{is_goal_shown(goal)}}">
                 <template is="dom-if" if="{{goal.is_positive}}">
-                  <div class$="sitebutton-{{siteidx}}-{{goalidx}}" style="display: inline-block; align-items: center; padding-bottom: 15px;">
+                  <div class$="psitebutton-{{siteidx}}-{{goalidx}}" style="display: inline-block; align-items: center; padding-bottom: 15px;">
 
                     <div style="position: relative; top: 12.5px; left: 21px; pointer-events: none">
                       <div style="position: absolute; pointer-events: none">
@@ -290,7 +290,7 @@
                       </template>
                     </div>
                   </div>
-                  <l2t-context-menu parentclass="sitebutton-{{siteidx}}-{{goalidx}}" class="orange">
+                  <l2t-context-menu parentclass="psitebutton-{{siteidx}}-{{goalidx}}" class="orange">
                     <template is="dom-if" if="{{!is_onboarding}}">
                       <paper-item style="text-align: left; font-weight: normal" on-click="configure_clicked" goal_name="{{goal.name}}" sitename_printable="{{goal.sitename_printable}}"
                         is_enabled="{{goal.enabled}}" goal_description="{{goal.description}}">⚙️ Configure</paper-item>

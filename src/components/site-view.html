@@ -99,20 +99,24 @@
         </div>
       </paper-card>
 
-
       <paper-card class="paper-card">
+
+        <paper-button class="button" on-click="vote_for_nudge_clicked">Vote for new nudges you want</paper-button>
+        <br> <br>
+        <paper-button class="button" on-click="code_custom_nudge_clicked">Code your custom nudge</paper-button>
+        <br> <br> <br>
+
         <div class="title-text"> Nudges </div>
+
         <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudges" class="paper-card"> -->
         <div class="card-content">Nudges turned on will only be shown some of the time
           <iron-icon icon="help" on-click="help_icon_clicked" style="width: 25px; height: 25px; color: #415D67; cursor: pointer; margin-bottom: 5px"></iron-icon>
         </div>
+
         <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
           <intervention-view-single-v2 goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
           <br> <br>
         </template>
-        <paper-button class="button" on-click="vote_for_nudge_clicked">Vote for new nudges you want</paper-button>
-        <br> <br>
-        <paper-button class="button" on-click="code_custom_nudge_clicked">Code your custom nudge</paper-button>
       </paper-card>
 
       <!--

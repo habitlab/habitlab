@@ -102,15 +102,15 @@ polymer_ext {
     icon_check_url:{
       type: String,
       value: chrome.extension.getURL('icons/icon_check_bluewhite.png') 
-    },
+    }
     icon_gear_url:{
       type: String,
       value: chrome.extension.getURL('icons/icon_gear_bluewhite.png') 
-    },
+    }
     icon_add_url: {
       type: String,
       value: chrome.extension.getURL('icons/plus.png') 
-    },
+    }
     delete_url: {
       type: String,
       value: chrome.extension.getURL('icons/delete.svg') 

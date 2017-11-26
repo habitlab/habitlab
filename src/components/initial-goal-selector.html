@@ -180,11 +180,11 @@
 
         .settingsicon {
           width:45px;
-          box-shadow: 0px 0px 0px #346da3;
+          box-shadow: 0px 0px 0px #000000;
         }
 
         .settingsicon:hover {
-          box-shadow: 0px 0px 45px #346da3;
+          box-shadow: 0px 0px 45px #000000;
           border-radius:45px;
         }
       </style>
@@ -272,7 +272,7 @@
                     </template>
 
                     <template is="dom-if" if="{{!is_onboarding}}">
-                      <div style="position: relative; top: 12.5px; left: 21px;">
+                      <div style="position: relative; top: 12.5px; left: 21px; cursor: pointer;">
                         <div style="position: absolute;">
                           <template is="dom-if" if="{{goal.enabled}}">
                             <img class="settingsicon" src="{{icon_gear_url}}" on-click="settings_goal_clicked" sitename="{{goal.sitename}}" />

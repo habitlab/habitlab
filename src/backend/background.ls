@@ -69,6 +69,16 @@ do !->>
   } = require 'libs_backend/goal_utils'
 
   {
+    get_interventions
+    list_enabled_nonconflicting_interventions_for_location
+    list_all_enabled_interventions_for_location
+    list_available_interventions_for_location
+    get_intervention_parameters
+    is_it_outside_work_hours
+    set_default_generic_interventions_enabled
+  } = require 'libs_backend/intervention_utils'
+
+  {
     send_message_to_active_tab
     send_message_to_tabid
     get_active_tab_info
@@ -161,6 +171,7 @@ do !->>
     #  return
     localStorage.setItem('notfirstrun', true)
     await set_default_goals_enabled()
+    await set_default_generic_interventions_enabled()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()
@@ -201,15 +212,6 @@ do !->>
   {
     start_syncing_all_data
   } = require 'libs_backend/log_sync_utils'
-
-  {
-    get_interventions
-    list_enabled_nonconflicting_interventions_for_location
-    list_all_enabled_interventions_for_location
-    list_available_interventions_for_location
-    get_intervention_parameters
-    is_it_outside_work_hours
-  } = require 'libs_backend/intervention_utils'
 
   {
     make_wait_token

@@ -392,6 +392,7 @@ polymer_ext {
     'S'
     'SM'
     'is_not_equal_to_any'
+    'is_equal'
   ]
 }, {
   source: require 'libs_common/localization_utils'

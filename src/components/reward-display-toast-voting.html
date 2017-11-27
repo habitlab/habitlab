@@ -28,7 +28,7 @@
         max-height: calc(250px - 70px);
       }
 
-      /* paper-button.custom {
+      paper-button.custom {
         color: white;
         background-color: #FF0000;
         border-radius: 1px;
@@ -41,7 +41,7 @@
         padding: 25px 20px;
         text-align: center;
         transition: all 300ms ease-out;
-      }  */
+      }  
 
       paper-button.custom_green {
         background-color: #2ECC40;
@@ -105,15 +105,46 @@
         </paper-button>
 
         <paper-button raised class="custom_red">
-            <img src="icons/thumbs_down.png" style="width: 20px;" on-click="thumbs_down_clicked" />            
+            <img src="icons/thumbs_down.svg" style="width: 20px;" on-click="thumbs_down_clicked" />            
         </paper-button>
 
       </div>
     </paper-toast>
 
-    <!-- FEEDBACK TOAST -->
-    <paper-toast id="feedback_toast" vertical-align="top" horizontal-align="right" duration="0">
+    <!-- ASK TO TURN OFF TOAST -->
+    <paper-toast id="turn_off_toast" vertical-align="top" horizontal-align="right" duration="0">
       <div class="user_give_feedback">
+        <span class="ask-off">Would you like this intervention to be turned off permanently?</span>
+        <p></p>
+        <paper-button raised class="custom_green" on-click="turn_it_off">
+          <span on-click="turn_it_off">YES PLEASE</span>                     
+        </paper-button>
+
+        <paper-button raised class="custom_red">
+          <span on-click="dont_turn_it_off"></span>NO IT'S OKAY
+        </paper-button>
+
+      </div>
+    </paper-toast>
+
+
+
+    <!-- WHY? TOAST -->
+    <paper-toast id="reason_toast" vertical-align="top" horizontal-align="right" duration="0">
+      <div class="user_give_feedback">
+        <span class="ask-off">Okay! What did you dislike about it?</span>
+        <p></p>
+        <paper-button raised class="custom">
+          <span>Too aggressive</span>                   
+        </paper-button>
+
+        <paper-button raised class="custom">
+          <span>Feels ineffective</span>
+        </paper-button>
+
+        <paper-button raised class="custom">
+          <span>Broken / buggy</span>
+        </paper-button>
 
       </div>
     </paper-toast>

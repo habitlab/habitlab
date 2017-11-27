@@ -100,8 +100,9 @@ Polymer({
   video_ended: function() {
     this.hide()
   },
-  submit_feedback: function() {
-    add_feedback_for_intervention(this.intervention_info.name, {user_feedback: 'some freeform text', reasons: {'Annoying': true, 'Ineffective': true}})
+  submit_feedback: function(reason) {
+    // add_feedback_for_intervention(this.intervention_info.name, {user_feedback: 'some freeform text', reasons: {'Annoying': true, 'Ineffective': true}})
+    
   },
   thumbs_up_clicked: function() {
     upvote_intervention(this.intervention_info.name);
@@ -109,12 +110,17 @@ Polymer({
   },
   thumbs_down_clicked: function() {
     downvote_intervention(this.intervention_info.name);
-    this.hide();
+    this.$.reward_display_toast_real.hide();
+    this.$.turn_off_toast.open();
   },
   turn_off_clicked: function() {
     //downvote_intervention(this.intervention_info.name);
     this.$.reward_display_toast_real.hide();
     this.$.feedback_toast.open();
+  },
+  turn_it_off: function() {
+    this.$.turn_off_toast.hide();
+    this.$.reason_toast.open();
   },
   close_toast_pos_feedback: function() {
     this.hide();

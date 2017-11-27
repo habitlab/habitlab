@@ -178,7 +178,7 @@ polymer_ext {
   compute_sitename: (goal) ->
     return goal.sitename_printable
 
-  openBy: (evt) ->
+  openBy: (evt) ->>
     dialog_intervention = evt.target.intervention_info
     if evt.target.goal_info?
       dialog_goal = evt.target.goal_info
@@ -186,6 +186,8 @@ polymer_ext {
       dialog_goal = 0
     this.dialog_intervention = dialog_intervention
     this.dialog_goal = dialog_goal
+    enabled_interventions = await get_enabled_interventions()
+    this.enabled = enabled_interventions[dialog_intervention.name]
     # console.log(this.$$('#alignedDialog').dialog_intervention)
     # this.$$('#alignedDialog').positionTarget = evt.target
     this.$$('#alignedDialog').open()

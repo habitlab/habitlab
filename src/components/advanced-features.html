@@ -1,5 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="advanced-features">
   <template>
@@ -20,12 +20,8 @@
       }
     </style>
     <div class="card-content">
-      <!--
-      <paper-checkbox checked="{{show_beta_goals_and_interventions}}">Show goals and nudges that are in beta (reloads page).</paper-checkbox>
-      <div style="height: 12px"></div>
-      -->
       <div>If you know how to <a target="_blank" href="https://www.javascript.com/">write code in JavaScript</a>, you can <a target="_blank"
-          href="https://habitlab.github.io/write">write your own nudges</a> in the nudge editor</div>
+          href="index.html?tag=intervention-editor">write your own nudges</a> in the nudge editor</div>
       <div style="height: 12px"></div>
       <paper-button class="open-intervention-editor-button" on-click="open_intervention_editor">Open Nudge Editor</paper-button>
     </div>

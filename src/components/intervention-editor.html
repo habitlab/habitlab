@@ -96,12 +96,13 @@
 
       .marked-div {
         display: inline-block;
-        width: 300px;
+        width: 500px;
         position: fixed;
         overflow-y: scroll;
         top: 50px;
         right: 60px;
         bottom: 0px;
+        word-wrap: break-word;
       }
 
       #pill_selector {
@@ -109,12 +110,13 @@
       }
 
       .editor_div_narrow {
-        width: calc(100vw - 360px);
+        width: calc(100vw - 560px);
       }
 
       .editor_div_wide {
         width: calc(100vw - 60px);
       }
+
 
       #tutorial_tab {
         display: inline-block;
@@ -204,7 +206,7 @@
 
       <div class="icon_container" on-click="add_new_intervention_clicked">
         <paper-icon-button icon="add-box" id="create_button"></paper-icon-button>
-        <paper-tooltip position="left" for="create_button">Create a new nudge.</paper-tooltip>
+        <paper-tooltip position="left" for="create_button">No fucks given.</paper-tooltip>
         <div class="icon_text">CREATE</div>
       </div>
       <div class="icon_container" on-click="open_custom_intervention_clicked">

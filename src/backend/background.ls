@@ -69,6 +69,16 @@ do !->>
   } = require 'libs_backend/goal_utils'
 
   {
+    get_interventions
+    list_enabled_nonconflicting_interventions_for_location
+    list_all_enabled_interventions_for_location
+    list_available_interventions_for_location
+    get_intervention_parameters
+    is_it_outside_work_hours
+    set_default_generic_interventions_enabled
+  } = require 'libs_backend/intervention_utils'
+
+  {
     send_message_to_active_tab
     send_message_to_tabid
     get_active_tab_info
@@ -148,18 +158,20 @@ do !->>
     } = require('libs_backend/ajax_utils')
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
-      if not localStorage.getItem('allow_logging')? # user did not complete onboarding
-        show_finish_configuring_notification_if_needed()
-        #setInterval ->
-        #  show_finish_configuring_notification_if_needed()
-        #, 20000
-        #chrome.tabs.create {url: 'options.html#onboarding:last'}
-        #localStorage.setItem('allow_logging_on_default_without_onboarding', true)
-        #localStorage.setItem('allow_logging', true)
-        #send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
       return
+    #  if not localStorage.getItem('allow_logging')? # user did not complete onboarding
+    #    show_finish_configuring_notification_if_needed()
+    #    #setInterval ->
+    #    #  show_finish_configuring_notification_if_needed()
+    #    #, 20000
+    #    #chrome.tabs.create {url: 'options.html#onboarding:last'}
+    #    #localStorage.setItem('allow_logging_on_default_without_onboarding', true)
+    #    #localStorage.setItem('allow_logging', true)
+    #    #send_logging_enabled {page: 'background', manual: false, 'allow_logging_on_default_without_onboarding': true}
+    #  return
     localStorage.setItem('notfirstrun', true)
     await set_default_goals_enabled()
+    await set_default_generic_interventions_enabled()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()
@@ -185,9 +197,9 @@ do !->>
     post_json('https://habitlab.herokuapp.com/add_install', install_data)
     user_secret = await get_user_secret()
     post_json('https://habitlab.herokuapp.com/add_secret', {user_id, user_secret})
-    setInterval ->
-      show_finish_configuring_notification_if_needed()
-    , 5000
+    #setInterval ->
+    #  show_finish_configuring_notification_if_needed()
+    #, 5000
 
   {
     get_all_message_handlers
@@ -200,16 +212,6 @@ do !->>
   {
     start_syncing_all_data
   } = require 'libs_backend/log_sync_utils'
-
-  {
-    get_interventions
-    get_intervention_info
-    list_enabled_nonconflicting_interventions_for_location
-    list_all_enabled_interventions_for_location
-    list_available_interventions_for_location
-    get_intervention_parameters
-    is_it_outside_work_hours
-  } = require 'libs_backend/intervention_utils'
 
   {
     make_wait_token
@@ -287,6 +289,9 @@ do !->>
     sleep
   } = require 'libs_common/common_libs'
 
+  {
+    printable_time_spent_short
+  } = require 'libs_common/time_utils'
   # require 'libs_common/measurement_utils'
 
   # dlog 'weblab running in background'
@@ -477,6 +482,11 @@ do !->>
         };
 
         """
+        if options.debug_code? and localStorage.getItem('insert_debugging_code')?
+          localStorage.removeItem('insert_debugging_code')
+          content_script_debugging_code = options.debug_code
+        else
+          content_script_debugging_code = ''
         content_script_code = """
         window.Polymer = window.Polymer || {}
         window.Polymer.dom = 'shadow'
@@ -484,7 +494,7 @@ do !->>
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
           intervention_info_setter_lib.set_goal_info(#{JSON.stringify(goal_info)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
-          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_code)))}');
+          SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_debugging_code + content_script_code)))}');
         })
         """
         /*
@@ -637,26 +647,29 @@ do !->>
       return
 
     domain = url_to_domain(location)
+    override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
+    has_enabled_spend_less_time_goal = await site_has_enabled_spend_less_time_goal(domain)
+    if (not has_enabled_spend_less_time_goal) and (not override_enabled_interventions?)
+      return
+
     if not domain_to_prev_enabled_interventions[domain]?
       domain_to_prev_enabled_interventions[domain] = []
     prev_enabled_interventions = domain_to_prev_enabled_interventions[domain]
     all_enabled_interventions = await list_all_enabled_interventions_for_location(domain)
+    if (all_enabled_interventions.length == 0) and (not override_enabled_interventions?)
+      return
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
     session_id = await get_session_id_for_tab_id_and_domain(tabId, domain)
     active_interventions = await getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
     dlog 'active_interventions is'
     dlog active_interventions
-    override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
     dlog 'override_enabled_interventions is'
     dlog override_enabled_interventions
     if not active_interventions?
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
-        if not await site_has_enabled_spend_less_time_goal(location)
-          # chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
-          return
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
       intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
       if intervention?
@@ -974,16 +987,7 @@ do !->>
       return
     if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
       return
-    intervention_info = await get_intervention_info(JSON.parse(interventions_active)[0])
-    goal_info = await get_goal_info(intervention_info.goals[0])
-    reward_display_code_lines = []
-    reward_display_code_lines.push "window.reward_display_intervention_info = " + JSON.stringify(intervention_info) + ";"
-    reward_display_code_lines.push "window.reward_display_goal_info = " + JSON.stringify(goal_info) + ";"
-    reward_display_code_lines.push "window.reward_display_seconds_saved = " + seconds_saved + ";"
-    reward_display_code_lines.push "window.reward_display_baseline_seconds_spent = " + baseline_seconds_spent + ";"
-    reward_display_code_lines.push "window.reward_display_seconds_spent = " + seconds_spent + ";"
-    reward_display_code_lines.push reward_display_base_code_cached
-    reward_display_code = reward_display_code_lines.join('\n\n')
+    reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
     chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
     iframed_domain_to_track := null
 
@@ -1094,11 +1098,21 @@ do !->>
     else
       current_domain = url_to_domain(active_tab.url)
     current_day = get_days_since_epoch()
+    has_enabled_goal = await site_has_enabled_spend_less_time_goal(current_domain)
+    if not has_enabled_goal
+      chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
+      return
+
+    session_id = tab_id_to_domain_to_session_id[active_tab.id][current_domain]
+    if not session_id?
+      chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
+      return
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
-    session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
+    #session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
     # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
     await addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
-    await addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1
+    addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->
+      chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
     #  dlog "total seconds spent on #{current_domain} today is #{total_seconds}"
   ), 1000

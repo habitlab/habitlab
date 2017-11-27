@@ -156,6 +156,44 @@ export set_intervention_disabled = (intervention_name) ->>
   await set_enabled_interventions enabled_interventions
 */
 
+default_generic_interventions_list = [
+  'generic/toast_notifications'
+  'generic/show_timer_banner'
+]
+
+default_generic_positive_interventions_list = [
+  'generic_positive/feed_injection_positive_goal_widget'
+]
+
+export list_enabled_generic_interventions = ->>
+  enabled_interventions = await get_enabled_interventions()
+  output = []
+  for k,v of enabled_interventions
+    if v and k.startsWith('generic/')
+      output.push k
+  if output.length == 0
+    return default_generic_interventions_list
+  return output
+
+export list_enabled_generic_positive_interventions = ->>
+  enabled_interventions = await get_enabled_interventions()
+  output = []
+  for k,v of enabled_interventions
+    if v and k.startsWith('generic_positive/')
+      output.push k
+  if output.length == 0
+    return default_generic_positive_interventions_list
+  return output
+
+export set_default_generic_interventions_enabled = ->>
+  await set_interventions_enabled (default_generic_interventions_list.concat(default_generic_positive_interventions_list))
+  return
+
+export set_interventions_enabled = (intervention_name_list) ->>
+  for x in intervention_name_list
+    await set_intervention_enabled(x)
+  return
+
 export set_intervention_enabled = (intervention_name) ->>
   is_disabled = await intervention_manager.get_is_intervention_disabled_from_intervention_manager(intervention_name)
   if is_disabled == false

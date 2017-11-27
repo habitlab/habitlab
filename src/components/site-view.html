@@ -12,11 +12,13 @@
 <link rel="import" href="graph-time-saved-daily.html">
 <link rel="import" href="graph-num-times-interventions-deployed.html">
 <link rel="import" href="graph-donut-top-sites.html">
-<link rel="import" href="goals-met-over-time.html">
 <link rel="import" href="all-badges-earned-display.html">
 <link rel="import" href="graph-intervention-effectiveness-comparison.html">
 <link rel="import" href="create-intervention-dialog.html">
 <link rel="import" href="goal-target-input.html">
+<!--
+<link rel="import" href="intervention-carousel.html">
+-->
 
 <dom-module id="site-view">
   <template>
@@ -98,17 +100,29 @@
       </paper-card>
 
       <paper-card class="paper-card">
+
+        <paper-button class="button" on-click="vote_for_nudge_clicked">Vote for new nudges</paper-button>
+        <br> <br>
+        <paper-button class="button" on-click="code_custom_nudge_clicked">Code your own nudge</paper-button>
+        <br> <br> <br>
+
         <div class="title-text"> Nudges </div>
+
         <!-- <paper-card heading="{{goal_info.sitename_printable}} Nudges" class="paper-card"> -->
         <div class="card-content">Nudges turned on will only be shown some of the time
           <iron-icon icon="help" on-click="help_icon_clicked" style="width: 25px; height: 25px; color: #415D67; cursor: pointer; margin-bottom: 5px"></iron-icon>
         </div>
+
         <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
           <intervention-view-single-v2 goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
           <br> <br>
         </template>
-        <paper-button class="button" on-click="code_custom_nudge_clicked">Code your custom nudge</paper-button>
       </paper-card>
+
+      <!--
+      <intervention-carousel style="width: 100%; height: 400px"></intervention-carousel>
+      -->
+
 
       <paper-card class="paper-card" style="font-size: 22px; color:#5a5a5a;">
         <div class="title-text"> Progress </div>

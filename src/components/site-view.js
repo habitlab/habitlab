@@ -33,6 +33,18 @@ async function view_more_interventions(site) {
   console.log(result);
 }
 
+// //THIS MIGHT BE ENTIRELY OPTIONAL FOR THIS PARTICULAR CODE
+// var carouselOneByOne = {
+//   carousel: '#carousel-one-by-one',
+//   slide: '.slide',
+//   oneByOne: true
+// }
+// console.log(carouselOneByOne.brand);
+// console.log(carouselOneByOne.slide);
+// console.log(carouselOneByOne. oneByOne);
+//THIS MIGHT BE ENTIRELY OPTIONAL FOR THIS PARTICULAR CODE
+
+
 function test() {
     console.log("hello 2");
 }
@@ -150,6 +162,9 @@ polymer_ext({
   //     localStorage.setItem('intervention_editor_new_intervention_info', JSON.stringify(evt.detail));
   //   });
   // }
+  vote_for_nudge_clicked: function() {
+    chrome.tabs.create({url: 'https://www.reddit.com/r/habitlab/'});
+  },
   code_custom_nudge_clicked: function(){
     // chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
     chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});

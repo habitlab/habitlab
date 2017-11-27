@@ -1,0 +1,29 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="nudge-incubator">
+  <template>
+    <style>
+      .card-content {
+        font-size: 20px;
+      }
+
+      .open-nudge-incubator-button {
+        color: white;
+        background-color: #415D67;
+        margin-left: 16px;
+        margin-bottom: 8px;
+        padding: 5px;
+        font-size: 16px;
+        text-transform: none;
+        -webkit-font-smoothing: subpixel-antialiased;
+      }
+    </style>
+    <div class="card-content">
+      <div>Vote for new nudges and goals you want added to Habitlab, or submit your own ideas and designs on the <a href="https://www.reddit.com/r/habitlab/" target="_blank">habitlab subreddit</a></div>
+      <div style="height: 12px"></div>
+      <paper-button class="open-nudge-incubator-button" on-click="open_nudge_incubator">Vote for New Nudges</paper-button>
+    </div>
+  </template>
+  <script src="nudge-incubator.js"></script>
+</dom-module>

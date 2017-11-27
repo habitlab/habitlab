@@ -31,7 +31,7 @@ swal = require 'sweetalert2'
 
 {
   get_baseline_time_on_domains
-  get_baseline_time_on_domain
+  list_all_domains_in_history
 } = require 'libs_backend/history_utils'
 
 {
@@ -102,11 +102,15 @@ polymer_ext {
     icon_check_url:{
       type: String,
       value: chrome.extension.getURL('icons/icon_check_bluewhite.png') 
-    },
+    }
+    icon_gear_url:{
+      type: String,
+      value: chrome.extension.getURL('icons/icon_gear_bluewhite.png') 
+    }
     icon_add_url: {
       type: String,
       value: chrome.extension.getURL('icons/plus.png') 
-    },
+    }
     delete_url: {
       type: String,
       value: chrome.extension.getURL('icons/delete.svg') 
@@ -453,9 +457,12 @@ polymer_ext {
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
     self.on_resize '#outer_wrapper', ->
       self.repaint_due_to_resize()
-    #fetch history for suggested sites in intervention settings 
-    this.baseline_time_on_domains = await get_baseline_time_on_domains()
-    baseline_time_on_domains_array = []
+    do ->>
+      self.baseline_time_on_domains_array = await list_all_domains_in_history()
+    do ->>
+      self.baseline_time_on_domains = await get_baseline_time_on_domains()
+    #fetch history for suggested sites in intervention settings
+    #baseline_time_on_domains_array = []
     #console.log('started fetching favicons')
     #domain_to_favicon = await get_favicon_data_for_domains_bulk(Object.keys(this.baseline_time_on_domains))
     #for domain,time of this.baseline_time_on_domains
@@ -467,7 +474,7 @@ polymer_ext {
       #})
     #console.log('finished fetching favicons')
     #this.baseline_time_on_domains_array = baseline_time_on_domains_array
-    this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
+    #this.baseline_time_on_domains_array = Object.keys(this.baseline_time_on_domains)
     self.once_available '.siteiconregular' ->
       self.repaint_due_to_resize()
 }, [

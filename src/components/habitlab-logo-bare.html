@@ -1,0 +1,76 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="habitlab-options-popup-v2.html">
+
+<dom-module id="habitlab-logo-bare">
+  <template>
+    <style>
+       :host {
+        display: inline-block;
+        font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        --habitlab-logo-height: 38px;
+        --habitlab-logo-background-color: red;
+        height: var(--habitlab-logo-height);
+        font-size: 14px;
+        /*
+            --width: 38px;
+            --height: 38px;
+      
+            width: var(--width);
+            height: var(--height);
+      
+            width: 20px;
+            height: 20px;*/
+        cursor: pointer;
+      }
+
+      .habitlab_logo_img {
+        /*
+            width: var(--width);
+            height: var(--height);
+            */
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+        width: 20px;
+        height: 20px;
+        padding-right: 8px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+
+      #habitlab_button {
+        height: var(--habitlab-logo-height);
+        width: 100%;
+
+        background-color: var(--habitlab-logo-background-color);
+        color: white;
+        margin: 0 auto;
+        box-shadow: 2px 2px 2px #888888;
+      }
+
+      .intervention-icon {
+        height: var(--habitlab-logo-height);
+        width: var(--habitlab-logo-height);
+        margin-right: 8px;
+        margin-left: -9px;
+        padding-left: 0px;
+        border-radius: 5px;
+      }
+    </style>
+
+    <!--<img id="habitlab_button" src="{{get_url()}}" alt="icon" on-click="habitlab_button_clicked" />-->
+    <paper-button id="habitlab_button" on-click="habitlab_button_clicked">
+      <div style="display: flex;align-items:center; justify-content:center;align-content:flex-start;text-align: center; height: 100%; width: 100%;">
+        <!-- <img src="{{get_url()}}" class="habitlab_logo_img" /> -->
+        <img src="{{intervention_icon}}" class="intervention-icon" />
+        <div style="display:block;vertical-align: middle;text-align: center;">{{msg("Turn off")}}</div>
+        <!-- <div>{{intervention_name}}</div> -->
+      </div>
+    </paper-button>
+
+    <habitlab-options-popup-v2 id="habitlab_options_popup"></habitlab-options-popup-v2>
+
+  </template>
+  <script src="habitlab-logo-bare.js"></script>
+</dom-module>

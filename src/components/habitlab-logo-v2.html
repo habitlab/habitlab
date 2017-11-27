@@ -8,7 +8,9 @@
        :host {
         display: inline-block;
         font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        height: 38px;
+        --habitlab-logo-height: 38px;
+        --habitlab-logo-background-color: #415D67;
+        height: var(--habitlab-logo-height);
         font-size: 14px;
         /*
             --width: 38px;
@@ -38,18 +40,18 @@
       }
 
       #habitlab_button {
-        height: 40px;
+        height: var(--habitlab-logo-height);
         width: 100%;
 
-        background-color: #415D67;
+        background-color: var(--habitlab-logo-background-color);
         color: white;
         margin: 0 auto;
         box-shadow: 2px 2px 2px #888888;
       }
 
       .intervention-icon {
-        height: 40px;
-        width: 40px;
+        height: var(--habitlab-logo-height);
+        width: var(--habitlab-logo-height);
         margin-right: 8px;
         margin-left: -9px;
         padding-left: 0px;

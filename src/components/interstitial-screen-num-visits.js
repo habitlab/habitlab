@@ -40,14 +40,6 @@ Polymer({
       type: Boolean,
       value: Math.floor(Math.random()*2) == 0,
     },
-    show_rss_message: {
-      type: Boolean,
-      computed: 'compute_show_rss_message(show_positive_site_trigger, show_progress_message, show_quote_message, randomizer)',
-    },
-    show_workpages_message: {
-      type: Boolean,
-      computed: 'compute_show_workpages_message(show_positive_site_trigger, show_progress_message, show_quote_message, randomizer)',
-    },
     show_positive_site_trigger: {
       type: Boolean,
       value: false
@@ -87,35 +79,15 @@ Polymer({
     this.$.okbutton.style.display = 'none';
     //this.$.calltoactionbutton.style.display = 'none';
   },
-  /// Show positive site trigger if there's an enabled goal
-  compute_show_positive_site_trigger: async function() {
-    let randomizer = Math.floor(Math.random()*2) == 0
-    return randomizer
-    
-    // let positive_goals = await get_positive_enabled_uncompleted_goals()
-    // console.log(positive_goals)
-    // return (Object.keys(positive_goals).length > 0)
-  },
-  showProgress: function() {
-    this.$.paperprogress.style.display = 'block';
-  },
-  incrementProgress: function() {
-    this.$.paperprogress.value += 1;
-  },
   showButton: function() {
-    console.log(this.$.okbutton)
     this.$.okbutton.hidden = false
     //this.$.calltoactionbutton.hidden = false
     this.$.okbutton.style.style.display = 'inline-flex';
     this.$.calltoactionbutton.setProperty('--call-to-action-button-display', 'inline-flex');
   },
   ready: async function() {
-    console.log('interstitial-polymer ready')
     this.$.okbutton.textContent = this.btnTxt
     this.$.calltoactionbutton.text = this.btnTxt2
-    
-    this.show_positive_site_trigger = await this.compute_show_positive_site_trigger()
-    this.show_quote_message = !this.show_positive_site_trigger
 
     this.addEventListener('show_button', function() {
     })
@@ -132,6 +104,10 @@ Polymer({
     this.$.okbutton.textContent = this.btnTxt 
     this.$.calltoactionbutton.closeTabText = this.btnTxt2
     this.$.messagetext.textContent = this.messageText
+  },
+  continueclicked: function() {
+    log_action({'negative': 'Continued to site.'})
+    $(this).hide()
   }
 });
 

@@ -21,12 +21,9 @@ interventions:
 default_interventions:
   - facebook/feed_injection_timer
   - facebook/remove_news_feed
-  - facebook/rich_notifications
   - facebook/remove_comments
-  - facebook/remove_clickbait
   - generic/toast_notifications
-  - generic/show_timer_banner  
-  - generic/scroll_blocker
+  - generic/show_timer_banner
 measurement: time_spent_on_domain
 domain: www.facebook.com
 target:

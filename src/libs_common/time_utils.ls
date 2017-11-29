@@ -6,6 +6,19 @@ export get_days_since_epoch = ->
   start_of_epoch = moment().year(2016).month(0).date(1).hours(0).minutes(0).seconds(0).milliseconds(0)
   return moment().diff(start_of_epoch, 'days')
 
+pad_to_two_digits = (val) ->
+  output = val.toString()
+  if output.length == 1
+    return '0' + output
+  return output
+
+export printable_time_spent_short = (seconds) ->
+  if seconds < 0
+    return '00:00'
+  minutes = Math.floor(seconds / 60)
+  seconds = seconds - (minutes * 60)
+  return pad_to_two_digits(minutes) + ':' + pad_to_two_digits(seconds)
+
 export printable_time_spent = (seconds) ->
   if seconds < 60
     return seconds + ' seconds'

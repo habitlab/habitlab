@@ -11,8 +11,8 @@
       :host {
         display: block;
         width: 100%;
-        height: 100%;
-        background-color: white;
+        height: 520px;
+        background-color: #BEDEFD;
         --paper-card: {
           width: 100%;
           padding: 10px 20px;
@@ -29,18 +29,31 @@
         background-color: gray;
       }
 
+      .card-container{
+        height: 245px;
+        width: 160px;
+      }
+
+      .container{
+        display:flex;
+        height:100%;
+        flex-wrap: wrap;
+      }
+
     </style>
 
-    <paper-carousel items="4" responsive="600:2, 460:1" controls="true" dots="true" dotText="false" style="height:350px; user-select: none">
-      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>
-      <div class="paper-carousel-demo-teal" style = "background-color:white"><market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card></div>      
-      
-    </paper-carousel>
+    <div class= "container">
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+    </div>
 
   </template>
   <script src="intervention-carousel.js"></script>

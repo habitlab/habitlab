@@ -225,7 +225,7 @@ export log_pageview = (data) ->>
   data.type = 'view'
   pagepath = window.location.pathname
   if window.location.search.length > 0
-    pagepath += window.location.pathname
+    pagepath += window.location.search
   if window.location.hash.length > 0
     pagepath += window.location.hash
   data.page = pagepath
@@ -239,7 +239,7 @@ export log_pagenav = (data) ->>
   data.type = 'nav'
   pagepath = window.location.pathname
   if window.location.search.length > 0
-    pagepath += window.location.pathname
+    pagepath += window.location.search
   if window.location.hash.length > 0
     pagepath += window.location.hash
   data.page = pagepath
@@ -253,7 +253,7 @@ export log_pageclick = (data) ->>
   data.type = 'click'
   pagepath = window.location.pathname
   if window.location.search.length > 0
-    pagepath += window.location.pathname
+    pagepath += window.location.search
   if window.location.hash.length > 0
     pagepath += window.location.hash
   data.page = pagepath

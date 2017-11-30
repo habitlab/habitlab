@@ -189,15 +189,33 @@
       <p>Habitlab has directed you to the Settings page. You will be able to manage your Nudges and track your progress here.</p>
     </paper-dialog>
 
+    <div id="screen2" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
+      <div id="screen2_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
+        <initial-goal-selector is_onboarding="true" id="goal_selector" on-goal_changed="rerender_onboarding_badges" />
+      </div>
+    </div>
+
+    <div id="screen3" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
+      <div id="screen3_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
+        <positive-goal-selector is_onboarding="true" id="positive_goal_selector" on-goal_changed="rerender_onboarding_badges" />
+      </div>
+    </div>
+
+    <div id="screen4" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
+      <div id="screen4_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
+        <div>
+          <onboarding-badges id="badges_received" />
+        </div>
+
+      </div>
+    </div>
 
     <div id="screen1" class="section slide" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249);overflow-y: scroll">
 
-      <div class="title">
-        <img style="width:45px" src="{{habitlab_logo_white_url}}" />
-        <div style="font-size: 55px; padding-right:7px;">{{msg("Welcome to HabitLab")}}</div>
-      </div>
+<div style="margin-top:50px"></div>
+
       <a href="http://hci.stanford.edu" target="_blank">
-          <img style="width: 18%; margin-auto; margin-bottom: 15px; padding-right:20px;margin-top:5px;" src="{{get_stanford_icon()}}" />
+          <img style="width: 18%; margin-bottom: 15px; padding-right:20px;margin-top:5px;" src="{{get_stanford_icon()}}" />
         </a>
 
       <div class="subtext">HabitLab is a research project run by the<br><a href="http://hci.stanford.edu/" target="_blank" style="color: white;">Stanford HCI Group</a>.</div>
@@ -256,31 +274,8 @@
         </div>
       </div>
       <br>
-      <paper-button class="get_started_button" on-click="next_slide">{{msg("Get Started")}}</paper-button>
 
-    </div>
-
-
-
-    <div id="screen2" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
-      <div id="screen2_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
-        <initial-goal-selector is_onboarding="true" id="goal_selector" on-goal_changed="rerender_onboarding_badges" />
-      </div>
-    </div>
-
-    <div id="screen3" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
-      <div id="screen3_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
-        <positive-goal-selector is_onboarding="true" id="positive_goal_selector" on-goal_changed="rerender_onboarding_badges" />
-      </div>
-    </div>
-
-    <div id="screen4" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
-      <div id="screen4_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
-        <div>
-          <onboarding-badges id="badges_received" />
-        </div>
-
-        <div class="bottom-bar" style=" z-index: 100;align-items:center;">
+      <div class="bottom-bar" style=" z-index: 100;align-items:center;">
           <div style="display:inline-block; text-align: right;padding-right:30px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
             <div class="prevnext_button_container">
               <div>
@@ -293,8 +288,6 @@
             </div>
           </div>
         </div>
-
-      </div>
     </div>
 
     <template is="dom-if" if="{{is_not_equal_to_any(slide_idx, 0, 3)}}">
@@ -302,6 +295,21 @@
         <div style="display:inline-table; text-align: center;align-items:center; padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
           <div class="prevnext_button_container">
             <paper-button class="prevnext_button" on-click="prev_slide">
+              <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
+          </div>
+          <div class="prevnext_button_container">
+            <paper-button class="prevnext_button" on-click="next_slide">
+              <iron-icon icon="arrow-downward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Next")}}</paper-button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template is="dom-if" if="{{is_equal(slide_idx, 0)}}">
+      <div class="bottom-bar">
+        <div style="display:inline-table; text-align: center;align-items:center; padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
+          <div class="prevnext_button_container">
+            <paper-button class="prevnext_button" on-click="prev_slide" style="visibility:hidden; pointer-events:none">
               <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
           </div>
           <div class="prevnext_button_container">

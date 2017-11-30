@@ -206,8 +206,7 @@ export is_goal_enabled = (goal_name) ->>
   enabled_goals = await get_enabled_goals()
   return enabled_goals[goal_name]?
 
-export site_has_enabled_spend_less_time_goal = (url) ->>
-  domain = url_to_domain(url)
+export site_has_enabled_spend_less_time_goal = (domain) ->>
   goals = await get_goals()
   for goal_name,goal_info of goals
     if domain == goal_info.domain and not goal_info.is_positive
@@ -511,9 +510,8 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
     fix_names_generic_positive = (x) ->
       return x.replace('generic_positive/', "generated_#{domain}/")
     generated_interventions = generic_positive_interventions.map(fix_names_generic_positive)
-    default_interventions = [
-      'generic_positive/feed_injection_positive_goal_widget'
-    ].map(fix_names_generic_positive)
+    default_interventions = await intervention_utils.list_enabled_generic_positive_interventions()
+    default_interventions = default_interventions.map(fix_names_generic_positive)
     target_default = 5
   else
     custom_goal_name = "custom/spend_less_time_#{domain}"
@@ -526,10 +524,8 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
     fix_names_video = (x) ->
       return x.replace('video/', "generated_#{domain}/")
     generated_interventions = generic_interventions.map(fix_names_generic)
-    default_interventions = [
-      'generic/toast_notifications'
-      'generic/show_timer_banner'
-    ].map(fix_names_generic)
+    default_interventions= await intervention_utils.list_enabled_generic_interventions()
+    default_interventions = default_interventions.map(fix_names_generic)
     if intervention_utils.is_video_domain(domain)
       video_interventions = await intervention_utils.list_video_interventions()
       generated_interventions = generated_interventions.concat(video_interventions.map(fix_names_video))

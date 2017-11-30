@@ -128,6 +128,10 @@ set_nested_property = (tag, property_name, property_value) ->
   property_name_remainder = property_name.substr(dot_index + 1)
   set_nested_property tag[property_name_start], property_name_remainder, property_value
 
+{
+  log_pageview
+} = require 'libs_backend/log_utils'
+
 start_page_index = ->>
   document.title = window.location.href.replace(chrome.extension.getURL(''), '').replace('index.html?tag=', '')
   interventions = await get_interventions()
@@ -184,6 +188,7 @@ start_page_index = ->>
     document.body.style.backgroundColor = index_background_color
   add_url_input_if_needed()
   window.basetag = tag
+  log_pageview({to: 'index'})
   return
 
 start_page_index()

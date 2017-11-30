@@ -35,6 +35,11 @@
   msg
 } = require 'libs_common/localization_utils'
 
+{
+  log_pagenav
+} = require 'libs_backend/log_utils'
+
+
 swal = require 'sweetalert2'
 
 polymer_ext {
@@ -126,6 +131,7 @@ polymer_ext {
     return (['overview', 'settings'].concat(goals_list)).concat(['help'])[selected_tab_idx]
   selected_tab_name_changed: (selected_tab_name) ->
     this.fire 'options_selected_tab_changed', {selected_tab_name}
+    log_pagenav({tab: selected_tab_name})
   string_to_id: (sitename) ->
     output = ''
     for c in sitename

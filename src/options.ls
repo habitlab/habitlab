@@ -35,6 +35,11 @@ add_url_input_if_needed = ->
 window.developer_options = ->
   window.location.href = '/index.html?tag=options-dev'
 
+{
+  log_pageview
+  log_pagenav
+} = require 'libs_backend/log_utils'
+
 if window.location.pathname == '/options.html'
   require 'components/options-view-v2.deps'
 
@@ -83,13 +88,16 @@ if window.location.pathname == '/options.html'
       options_view.rerender().then ->
         options_view.onboarding_completed()
       window.location.hash = 'settings'
+      log_pagenav({from: 'onboarding', to: 'settings', reason: 'onboarding-complete'})
     #options_view.style.display = 'none'
     document.getElementById('index_body').appendChild(onboarding_view)
     #setTimeout ->
     #  options_view = add_options_view(true)
     #, 5000
+    log_pageview({to: 'settings'})
   else
     options_view = add_options_view(false)
+    log_pageview()
   require 'libs_common/global_exports_post'
   add_url_input_if_needed()
   return

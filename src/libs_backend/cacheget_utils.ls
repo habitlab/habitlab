@@ -129,7 +129,7 @@ export systemjsget = (url) ->>
   res = await store.getItem(url)
   if res?
     return res
-  request = await fetch('https://habitlab-dist-' + habitlab_version + '.netlify.com/' + url)
+  request = await fetch('https://habitlab-dist.github.io/' + habitlab_version + '/' + url)
   res = await request.text()
   if res?
     await store.setItem(url, res)

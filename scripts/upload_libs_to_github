@@ -10,7 +10,7 @@ let getsecret = require('getsecret')
 let {exec} = require('shelljs')
 let octo = new Octokat({token: getsecret('github_api_key')})
 
-let name = "habitlab-dist-" + version
+let name = version
 
 let {removeSync} = require('remove')
 

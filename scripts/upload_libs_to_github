@@ -51,6 +51,7 @@ async function main() {
   exec('git commit -am "initial commit"')
   exec('git branch gh-pages')
   exec('git push origin gh-pages --force')
+  removeSync('.git')
 }
 
 main()

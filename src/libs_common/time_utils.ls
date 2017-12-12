@@ -17,7 +17,7 @@ export printable_time_spent_short = (seconds) ->
     return '00:00'
   minutes = Math.floor(seconds / 60)
   seconds = seconds - (minutes * 60)
-  return pad_to_two_digits(minutes) + ':' + pad_to_two_digits(seconds)
+  return minutes + ':' + pad_to_two_digits(seconds)
 
 export printable_time_spent = (seconds) ->
   if seconds < 60

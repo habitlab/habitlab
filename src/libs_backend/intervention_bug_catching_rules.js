@@ -3,90 +3,12 @@ let valid_function_names_cached = []
 async function get_api_function_names() {
   let api_doc_text = await fetch('API.md').then(x => x.text())
   let lines_with_functions = api_doc_text.split('\n').filter(x => x.startsWith('[const {'))
-<<<<<<< HEAD
-  console.log('getting function names')
-  console.log(lines_with_functions)
-  var function_names = {}
-  for (let index in lines_with_functions) {
-    let line = lines_with_functions[index]
-    var start = line.indexOf("{")
-    var end = line.indexOf("}")
-    let function_name = line.substr(start + 1, end - start - 1)
-    start = line.indexOf("[") 
-    end = line.indexOf("]")
-    let require_call = line.substr(start + 1, end - start - 1)
-    function_names[function_name] = require_call
-  }
-  console.log(function_names)
-  return function_names
-}
-
-async function declares_api_function(declaration, function_names) {
-  console.log("reached 1")
-  if(declaration.type != "VariableDeclarator") return false
-  // check id statement
-  console.log("reached 2")
-  if(declaration.id.type != "ObjectPattern") return false
-  console.log("reached 3")
-  let property = declaration.id.properties[0]
-  console.log("reached 4")
-  if(property.type != "Property") return false
-  console.log("reached 5")
-  if(property.key.type != "Identifier") return false
-  console.log("reached 6")
-  console.log(property.key.name)
-  console.log(function_names)
-  if(!(property.key.name in function_names)) return false
-  //check init statement
-  console.log("reached 7")
-  if(declaration.init.type != "CallExpression") return false
-  console.log("reached 8")
-  if(declaration.init.callee.type != "Identifier" || declaration.callee.name != "require") return false
-  console.log("reached 9")
-  if(declaration.init.arguments.length != 1) return false
-  console.log("reached 10")
-  let arg = declaration.init.arguments[0]
-  if(arg.type != "Literal") return false
-  console.log("reached 11")
-  return arg.value == function_names[property.key.name]
-}
-
-async function list_missing_imports(ast, output) {
-  console.log("listing missing imports")
-  console.log(ast)
-  let function_names = await get_api_function_names()
-  for (let index in ast.body) {
-    let line_ast = ast.body[index]
-    switch (line_ast.type) {
-      case "VariableDeclaration": {
-        let does_declare_api_function = await declares_api_function(line_ast.declarations[0], function_names)
-        console.log(does_declare_api_function)
-        break
-      }
-      case "ExpressionStatement": {
-        break
-      }
-      default: {
-        console.log('unexpected case')
-        break
-      }
-    }
-  }
-  output.push({
-    column: 0,
-    line: 2,
-    endColumn: 6,
-    endLine: 2,
-    message: 'list missing imports'
-  })
-=======
-  functions = {}
+  let functions = {}
   for(let line of lines_with_functions) {
     let name = line.substring(line.indexOf('{') + 1, line.indexOf('}'))
     let require_statement = line.substring(line.indexOf('[') + 1, line.indexOf(']'))
     functions[name] = require_statement
   }
-  console.log(functions)
   return functions
 }
 
@@ -127,7 +49,6 @@ async function list_all_api_calls_missing_require(ast, api_function_names) {
   let api_calls_missing_require = []
   let imported_api_functions = []
   for(let line of ast.body) {
-    console.log(imported_api_functions)
     let expressions = []
     switch(line.type) {
       case 'ExpressionStatement':
@@ -149,7 +70,6 @@ async function list_all_api_calls_missing_require(ast, api_function_names) {
         break;
     }
   }
-  console.log(api_calls_missing_require)
   return api_calls_missing_require
 }
 
@@ -172,10 +92,29 @@ async function list_missing_imports(js_editor, ast, output, text) {
   return output
 }
 
+async function check_undefined_identifier_use(output) {
+  console.log("here 1.5")
+  console.log("checking undefined identifiers")
+  console.log(output)
+  for(let index in output) {
+    let error_msg = output[index]
+    console.log(error_msg)
+    if(error_msg.message == "'$' is not defined.") {
+      error_msg.message = "Trying to use jQuery? Be sure to include \"const $ = require('jQuery')\""
+    } else if(error_msg.message == "'sweetalert' is not defined." || error_msg.message == "'swal' is not defined.") {
+      error_msg.message = "Trying to use SweetAlert? Be sure to include \"var sweetalert = require_package('sweetalert2')\""
+    }
+    console.log(error_msg.message)
+    output[index] = error_msg
+  }
+  return output
+}
+
+
 async function remove_api_call_eslint_errors(output, api_function_names) {
   for(let i = 0; i < output.length; i++) {
     let error = output[i]
-    regex = /\'.*\' is not defined./
+    let regex = /\'.*\' is not defined./
     if(error.message.match(regex) != null) {
       let undefined_call = error.message.split("'")[1]
       for(let name in api_function_names) {
@@ -187,7 +126,6 @@ async function remove_api_call_eslint_errors(output, api_function_names) {
     }
   }
   return output
->>>>>>> 760b1822e37f10ac19720919150a688b10142dce
 }
 
 let espree_cached = null
@@ -211,11 +149,7 @@ async function get_eslint() {
 async function run_eslint_checks(text) {
   let eslint = await get_eslint()
   let eslint_config = {"parserOptions":{"sourceType":"module","ecmaVersion":8,"ecmaFeatures":{"impliedStrict":1}},"extends":["eslint:recommended","plugin:import/errors","plugin:import/warnings","plugin:habitlab/standard"],"env":{"es6":1,"browser":1,"webextensions":1,"commonjs":1},"globals":{"SystemJS":1,"require":1,"require_component":1,"exports":1,"module":1,"console":1,"Polymer":true,"intervention":true,"positive_goal_info":true,"goal_info":true,"tab_id":true,"Buffer":true,"dlog":true,"parameters":true,"set_default_parameters":true},
-<<<<<<< HEAD
-  "rules":{"no-console":0,"no-unused-vars":1,"require-yield":1,"no-undef":1,"comma-dangle":["warn","only-multiline"]}}
-=======
     "rules":{"no-console":0,"no-unused-vars":1,"require-yield":1,"no-undef":1,"comma-dangle":["warn","only-multiline"]}}
->>>>>>> 760b1822e37f10ac19720919150a688b10142dce
   let errors = eslint.linter.verify(text, eslint_config)
   return errors
 }
@@ -227,13 +161,12 @@ async function parse_text(text) {
 
 async function run_all_checks(js_editor, text) {
   let output = await run_eslint_checks(text)
+  console.log(output)
+  console.log("here 1")
+  output = await check_undefined_identifier_use(output)
+  console.log("here 2")
   let ast = await parse_text(text)
-  let rules = [
-    list_missing_imports
-  ]
-  for (let rule of rules) {
-    output = await rule(js_editor, ast, output, text)
-  }
+  output = await list_missing_imports(js_editor, ast, output, text)
   return output
 }
 

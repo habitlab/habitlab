@@ -981,6 +981,8 @@ do !->>
     seconds_spent = await getkey_dictdict('seconds_on_domain_per_session', domain, session_id)
     if seconds_spent > baseline_seconds_spent
       return
+    if isNaN(seconds_spent)
+      seconds_spent = 0
     seconds_saved = baseline_seconds_spent - seconds_spent
     current_tab_info = await get_active_tab_info()
     if (not current_tab_info?) or (not current_tab_info.url?)

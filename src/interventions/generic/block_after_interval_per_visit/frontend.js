@@ -14,6 +14,10 @@ require_component('timespent-view')
 require_component('habitlab-logo-v2')
 
 const {
+  get_is_new_session
+} = require('libs_common/intervention_info')
+
+const {
   once_body_available,
   create_shadow_div_on_body
 } = require('libs_frontend/frontend_libs')
@@ -198,6 +202,11 @@ function main() {
   //if (on_same_domain_and_same_tab) {
   //  return
   //}
+  const is_new_session = get_is_new_session();
+  console.log('is new session: ' + is_new_session)
+  if (!is_new_session) {
+    return
+  }
 
   await once_body_available()
   shadow_div = create_shadow_div_on_body();

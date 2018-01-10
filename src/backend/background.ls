@@ -333,7 +333,7 @@ do !->>
 
   cached_systemjs_code = null
 
-  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session) ->>
+  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id) ->>
     {content_script_options, name} = intervention_info
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
@@ -472,6 +472,9 @@ do !->>
         const intervention = #{JSON.stringify(intervention_info_copy)};
         const parameters = #{JSON.stringify(parameter_values)};
         const tab_id = #{tabId};
+        console.log('setting session_id')
+        console.log(session_id)
+        const session_id = #{session_id};
         const is_new_session = #{is_new_session};
         const dlog = function(...args) { console.log(...args); };
         const set_default_parameters = function(parameter_object) {
@@ -495,6 +498,7 @@ do !->>
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
           intervention_info_setter_lib.set_goal_info(#{JSON.stringify(goal_info)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
+          intervention_info_setter_lib.set_session_id(#{session_id});
           intervention_info_setter_lib.set_is_new_session(#{is_new_session});
           SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_debugging_code + content_script_code)))}');
         })
@@ -542,6 +546,7 @@ do !->>
       const goal_info = #{JSON.stringify(goal_info)};
       const parameters = #{JSON.stringify(parameter_values)};
       const tab_id = #{tabId};
+      const session_id = #{session_id};
       const is_new_session = #{is_new_session};
       const dlog = function(...args) { console.log(...args); };
       const set_default_parameters = function(parameter_object) {
@@ -562,6 +567,7 @@ do !->>
         intervention_info_setter_lib.set_intervention(intervention);
         intervention_info_setter_lib.set_goal_info(goal_info);
         intervention_info_setter_lib.set_tab_id(tab_id);
+        intervention_info_setter_lib.set_session_id(session_id);
         intervention_info_setter_lib.set_is_new_session(is_new_session);
         log_utils.log_impression();
         (async function() {
@@ -595,7 +601,7 @@ do !->>
       await new Promise -> chrome.tabs.executeScript tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, it
     return
 
-  load_intervention_list = (intervention_list, tabId, is_new_session) ->>
+  load_intervention_list = (intervention_list, tabId, is_new_session, session_id) ->>
     if intervention_list.length == 0
       return
 
@@ -617,11 +623,11 @@ do !->>
 
     # load content scripts
     for intervention_info in intervention_info_list
-      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list, is_new_session
+      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list, is_new_session, session_id
     return
 
-  load_intervention = (intervention_name, tabId) ->>
-    await load_intervention_list [intervention_name], tabId
+  #load_intervention = (intervention_name, tabId) ->>
+  #  await load_intervention_list [intervention_name], tabId
 
   list_loaded_interventions = ->>
     await send_message_to_active_tab 'list_loaded_interventions', {}
@@ -745,7 +751,7 @@ do !->>
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
     dlog 'interventions to load is:'
     dlog interventions_to_load
-    await load_intervention_list interventions_to_load, tabId, is_new_session
+    await load_intervention_list interventions_to_load, tabId, is_new_session, session_id
     if interventions_to_load.length > 0
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
     else
@@ -799,10 +805,10 @@ do !->>
       #dlog 'getLocation background page:'
       #dlog location
       return location
-    'load_intervention': (data) ->>
-      {intervention_name, tabId} = data
-      await load_intervention intervention_name, tabId
-      return
+    #'load_intervention': (data) ->>
+    #  {intervention_name, tabId} = data
+    #  await load_intervention intervention_name, tabId
+    #  return
     'load_intervention_for_location': (data) ->>
       {location, tabId} = data
       await load_intervention_for_location location, tabId

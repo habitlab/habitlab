@@ -203,7 +203,6 @@ function main() {
   //  return
   //}
   const is_new_session = get_is_new_session();
-  console.log('is new session: ' + is_new_session)
   if (!is_new_session) {
     return
   }

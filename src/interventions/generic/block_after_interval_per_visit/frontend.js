@@ -23,7 +23,7 @@ const {
 } = require('libs_frontend/frontend_libs')
 
 const {
-  get_seconds_spent_on_current_domain_today
+  get_seconds_spent_on_current_domain_in_current_session
 } = require('libs_common/time_spent_utils')
 
 const {
@@ -203,15 +203,15 @@ function main() {
   //  return
   //}
   const is_new_session = get_is_new_session();
-  if (!is_new_session) {
-    return
-  }
-
   await once_body_available()
   shadow_div = create_shadow_div_on_body();
   shadow_root = shadow_div.shadow_root;
   shadow_div = $(shadow_div);
-  main()
+  if (!is_new_session) {
+    displayCountdown(3 * 60) // todo get this from actual amount input by user
+  } else {
+    main()
+  }
 })()
 
 window.on_intervention_disabled = () => {

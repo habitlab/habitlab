@@ -1121,7 +1121,11 @@ do !->>
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
       return
 
-    session_id = tab_id_to_domain_to_session_id[active_tab.id][current_domain]
+    domain_to_session_id = tab_id_to_domain_to_session_id[active_tab.id]
+    if not domain_to_session_id?
+      chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
+      return
+    session_id = domain_to_session_id[current_domain]
     if not session_id?
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
       return

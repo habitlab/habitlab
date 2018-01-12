@@ -37,5 +37,29 @@ export get_tab_id = ->
     return tab_id
   return
 
+is_new_session_cached = null
+
+export set_is_new_session = (new_is_new_session) ->
+  is_new_session_cached := new_is_new_session
+
+export get_is_new_session = ->
+  if is_new_session_cached?
+    return is_new_session_cached
+  if is_new_session?
+    return is_new_session
+  return false
+
+session_id_cached = null
+
+export set_session_id = (new_session_id) ->
+  session_id_cached := new_session_id
+
+export get_session_id = ->
+  if session_id_cached?
+    return session_id_cached
+  if session_id?
+    return session_id
+  return
+
 # {gexport_module} = require 'libs_common/gexport'
 # gexport_module 'intervention_info', -> eval(it)

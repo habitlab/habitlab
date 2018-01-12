@@ -22,6 +22,10 @@ prelude = require 'prelude-ls'
 } = require 'libs_common/time_utils'
 
 {
+  get_session_id
+} = require 'libs_common/intervention_info'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
@@ -106,6 +110,15 @@ export get_seconds_spent_on_current_domain_in_session = (session_id) ->>
 
 export get_seconds_spent_on_domain_in_session = (domain, session_id) ->>
   result = await getkey_dictdict 'seconds_on_domain_per_session', domain, session_id
+  return result ? 0
+
+export get_seconds_spent_on_current_domain_in_current_session = ->>
+  console.log 'calling get_session_id'
+  session_id = get_session_id()
+  console.log 'session id is:'
+  console.log session_id
+  current_domain = window.location.hostname
+  result = await get_seconds_spent_on_domain_in_session current_domain, session_id
   return result ? 0
 
 gexport_module 'time_spent_utils', -> eval(it)

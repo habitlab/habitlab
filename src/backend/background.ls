@@ -333,7 +333,7 @@ do !->>
 
   cached_systemjs_code = null
 
-  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list) ->>
+  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id) ->>
     {content_script_options, name} = intervention_info
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
@@ -472,6 +472,10 @@ do !->>
         const intervention = #{JSON.stringify(intervention_info_copy)};
         const parameters = #{JSON.stringify(parameter_values)};
         const tab_id = #{tabId};
+        console.log('setting session_id')
+        console.log(session_id)
+        const session_id = #{session_id};
+        const is_new_session = #{is_new_session};
         const dlog = function(...args) { console.log(...args); };
         const set_default_parameters = function(parameter_object) {
           for (let parameter_name of Object.keys(parameter_object)) {
@@ -494,6 +498,8 @@ do !->>
           intervention_info_setter_lib.set_intervention(#{JSON.stringify(intervention_info_copy)});
           intervention_info_setter_lib.set_goal_info(#{JSON.stringify(goal_info)});
           intervention_info_setter_lib.set_tab_id(#{tabId});
+          intervention_info_setter_lib.set_session_id(#{session_id});
+          intervention_info_setter_lib.set_is_new_session(#{is_new_session});
           SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_debugging_code + content_script_code)))}');
         })
         """
@@ -540,6 +546,8 @@ do !->>
       const goal_info = #{JSON.stringify(goal_info)};
       const parameters = #{JSON.stringify(parameter_values)};
       const tab_id = #{tabId};
+      const session_id = #{session_id};
+      const is_new_session = #{is_new_session};
       const dlog = function(...args) { console.log(...args); };
       const set_default_parameters = function(parameter_object) {
         for (let parameter_name of Object.keys(parameter_object)) {
@@ -559,6 +567,8 @@ do !->>
         intervention_info_setter_lib.set_intervention(intervention);
         intervention_info_setter_lib.set_goal_info(goal_info);
         intervention_info_setter_lib.set_tab_id(tab_id);
+        intervention_info_setter_lib.set_session_id(session_id);
+        intervention_info_setter_lib.set_is_new_session(is_new_session);
         log_utils.log_impression();
         (async function() {
           while (document.body == null) {
@@ -591,7 +601,7 @@ do !->>
       await new Promise -> chrome.tabs.executeScript tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, it
     return
 
-  load_intervention_list = (intervention_list, tabId) ->>
+  load_intervention_list = (intervention_list, tabId, is_new_session, session_id) ->>
     if intervention_list.length == 0
       return
 
@@ -613,11 +623,11 @@ do !->>
 
     # load content scripts
     for intervention_info in intervention_info_list
-      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list
+      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list, is_new_session, session_id
     return
 
-  load_intervention = (intervention_name, tabId) ->>
-    await load_intervention_list [intervention_name], tabId
+  #load_intervention = (intervention_name, tabId) ->>
+  #  await load_intervention_list [intervention_name], tabId
 
   list_loaded_interventions = ->>
     await send_message_to_active_tab 'list_loaded_interventions', {}
@@ -627,10 +637,10 @@ do !->>
       tab_id_to_domain_to_session_id[tabId] = {}
     session_id = tab_id_to_domain_to_session_id[tabId][domain]
     if session_id?
-      return session_id
+      return [session_id, false]
     session_id = await get_new_session_id_for_domain(domain)
     tab_id_to_domain_to_session_id[tabId][domain] = session_id
-    return session_id
+    return [session_id, true]
 
   tab_id_to_loaded_interventions = {}
 
@@ -660,7 +670,11 @@ do !->>
       return
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
-    session_id = await get_session_id_for_tab_id_and_domain(tabId, domain)
+    [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(tabId, domain)
+    dlog 'session_id is:'
+    dlog session_id
+    dlog 'is_new_session is:'
+    dlog is_new_session
     active_interventions = await getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
     dlog 'active_interventions is'
     dlog active_interventions
@@ -735,7 +749,9 @@ do !->>
             interventions_to_load.push permanently_enabled_intervention
             #await load_intervention permanently_enabled_intervention, tabId
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
-    await load_intervention_list interventions_to_load, tabId
+    dlog 'interventions to load is:'
+    dlog interventions_to_load
+    await load_intervention_list interventions_to_load, tabId, is_new_session, session_id
     if interventions_to_load.length > 0
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
     else
@@ -789,10 +805,10 @@ do !->>
       #dlog 'getLocation background page:'
       #dlog location
       return location
-    'load_intervention': (data) ->>
-      {intervention_name, tabId} = data
-      await load_intervention intervention_name, tabId
-      return
+    #'load_intervention': (data) ->>
+    #  {intervention_name, tabId} = data
+    #  await load_intervention intervention_name, tabId
+    #  return
     'load_intervention_for_location': (data) ->>
       {location, tabId} = data
       await load_intervention_for_location location, tabId
@@ -981,6 +997,8 @@ do !->>
     seconds_spent = await getkey_dictdict('seconds_on_domain_per_session', domain, session_id)
     if seconds_spent > baseline_seconds_spent
       return
+    if isNaN(seconds_spent)
+      seconds_spent = 0
     seconds_saved = baseline_seconds_spent - seconds_spent
     current_tab_info = await get_active_tab_info()
     if (not current_tab_info?) or (not current_tab_info.url?)
@@ -1103,12 +1121,16 @@ do !->>
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
       return
 
-    session_id = tab_id_to_domain_to_session_id[active_tab.id][current_domain]
+    domain_to_session_id = tab_id_to_domain_to_session_id[active_tab.id]
+    if not domain_to_session_id?
+      chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
+      return
+    session_id = domain_to_session_id[current_domain]
     if not session_id?
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
       return
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
-    #session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
+    # [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
     # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
     await addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
     addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->
@@ -1135,7 +1157,7 @@ do !->>
     current_domain = url_to_domain(active_tab.url)
     dlog "current domain is #{current_domain}"
     dlog "current tab id is #{active_tab.id}"
-    session_id = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
+    [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
     dlog "session_id: #{session_id}"
     seconds_spent = await get_seconds_spent_on_domain_in_session(current_domain, session_id)
     dlog "seconds spent: #{seconds_spent}"

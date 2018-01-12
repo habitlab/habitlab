@@ -17,3 +17,7 @@ async function set_intervention_session_var_backend(intervention_name, session_i
   intervention_to_session_id_to_vars[intervention_name][session_id][key] = val
 }
 
+module.exports = {
+  get_intervention_session_var_backend,
+  set_intervention_session_var_backend,
+}

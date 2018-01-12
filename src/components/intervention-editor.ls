@@ -619,6 +619,9 @@ polymer_ext {
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
       js_editor.setValue(intervention_info.code) 
 
+      clicked_fn: ->>
+        alert('hi')
+        
       style = $('<style>
         .error_highlight{
           position: absolute;
@@ -633,8 +636,10 @@ polymer_ext {
         }
       </style>')
       $('body').append(style)
+      $('.ace_gutter-cell').click(clicked_fn)
 
       
+
       markedLines = []
       js_editor.getSession().on 'change', (e) ->>
         current_time = Date.now()
@@ -647,6 +652,7 @@ polymer_ext {
         localStorage['saved_intervention_' + intervention_name] = current_text
         localStorage['saved_intervention_time_' + intervention_name] = current_time
         errors = await run_all_checks(js_editor, current_text)
+        #remove old markers
         for marker in markedLines
           js_editor.getSession().removeMarker(marker)
         annotations = []

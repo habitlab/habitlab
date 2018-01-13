@@ -28,6 +28,11 @@ $ = require 'jquery'
   msg
 } = require 'libs_common/localization_utils'
 
+{
+  log_pagenav
+} = require 'libs_backend/log_utils'
+
+
 polymer_ext {
   is: 'onboarding-view'
   properties: {
@@ -141,6 +146,7 @@ polymer_ext {
       slide.show()
       slide.css('top', '0px')
       this.animation_inprogress = false
+    log_pagenav({tab: 'onboarding', prev_slide_idx: prev_slide_idx, slide_idx: this.slide_idx})
   onboarding_complete: ->
     this.$$('#dialog').open()
     console.log('onboarding_completed dialog opened') 

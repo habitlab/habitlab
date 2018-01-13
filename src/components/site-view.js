@@ -27,6 +27,10 @@ const {
 
 const {remoteget_json} = require('libs_common/cacheget_utils');
 
+const {
+  log_pageclick
+} = require('libs_backend/log_utils');
+
 async function view_more_interventions(site) {
   alert("view more: " + site);
   const result = await remoteget_json("https://habitlab.github.io/contributed_interventions.json");
@@ -164,10 +168,11 @@ polymer_ext({
   // }
   vote_for_nudge_clicked: function() {
     chrome.tabs.create({url: 'https://www.reddit.com/r/habitlab/'});
+    log_pageclick({from: 'site-view', tab: this.site, to: 'https://www.reddit.com/r/habitlab/'});    
   },
-  code_custom_nudge_clicked: function(){
-    // chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor-onboard')});
+  code_custom_nudge_clicked: function() {
     chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});
+    log_pageclick({from: 'site-view', tab: this.site, to: 'intervention-editor'});    
   }
 }, {
   source: require('libs_frontend/polymer_methods'),

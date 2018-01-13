@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+
+let jsyaml = require('js-yaml')
+let fs = require('fs')
+
+let version = jsyaml.safeLoad(fs.readFileSync('src/manifest.yaml', 'utf-8')).version.trim().split('.').join('-')
+
+let Octokat = require('octokat')
+let getsecret = require('getsecret')
+let {exec} = require('shelljs')
+let octo = new Octokat({token: getsecret('github_api_key')})
+
+let name = version
+
+let {removeSync} = require('remove')
+
+async function list_repos() {
+  let repo_list = await octo.orgs('habitlab-dist').repos.fetch()
+  return repo_list.items.map(x => x.name)
+}
+
+async function does_repo_exist(name) {
+  // return await octo.orgs('habitlab-dist').repos.contains(name)
+  // above line does not work as contains expects an id not a name
+  let repo_list = await list_repos()
+  return repo_list.includes(name)
+}
+
+async function create_repo(name) {
+  await octo.orgs('habitlab-dist').repos.create({name: name})
+}
+
+async function main() {
+  if (!fs.existsSync('dist')) {
+    console.log('missing dist directory')
+    return
+  }
+  let repo_exists = await does_repo_exist(name)
+  if (!repo_exists) {
+    console.log('creating repo on github ' + name)
+    await create_repo(name)
+  }
+  process.chdir('dist')
+  if (fs.existsSync('.git')) {
+    removeSync('.git')
+  }
+  exec('git init')
+  // exec('git remote rm origin')
+  exec('git remote add origin git@github.com:habitlab-dist/' + name + '.git')
+  exec('git add .')
+  exec('git commit -am "initial commit"')
+  exec('git branch gh-pages')
+  exec('git push origin gh-pages --force')
+  removeSync('.git')
+}
+
+main()

@@ -70,11 +70,9 @@ export get_interventions_seen_today = ->>
   combined.pop()
   return combined
 
-  
-
 export get_log_names = ->>
   interventions_list = await intervention_utils.list_all_interventions()
-  logs_list = ['goals', 'interventions', 'feedback'].map -> 'logs/'+it
+  logs_list = ['goals', 'interventions', 'feedback', 'pages'].map -> 'logs/'+it
   return interventions_list.concat(logs_list)
 
 intervention_logdb_cache = null
@@ -218,6 +216,48 @@ export get_num_actions = (name) ->>
   day = get_days_since_epoch()
   num_actions = await collection.where('[type+day]').equals(['action', day]).count()
   return num_actions
+
+export log_pageview = (data) ->>
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'view'
+  pagepath = window.location.pathname
+  if window.location.search.length > 0
+    pagepath += window.location.search
+  if window.location.hash.length > 0
+    pagepath += window.location.hash
+  data.page = pagepath
+  await addtolog 'logs/pages', data
+
+export log_pagenav = (data) ->>
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'nav'
+  pagepath = window.location.pathname
+  if window.location.search.length > 0
+    pagepath += window.location.search
+  if window.location.hash.length > 0
+    pagepath += window.location.hash
+  data.page = pagepath
+  await addtolog 'logs/pages', data
+
+export log_pageclick = (data) ->>
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'click'
+  pagepath = window.location.pathname
+  if window.location.search.length > 0
+    pagepath += window.location.search
+  if window.location.hash.length > 0
+    pagepath += window.location.hash
+  data.page = pagepath
+  await addtolog 'logs/pages', data
 
 export log_impression_internal = (name, data) ->>
   # name = intervention name

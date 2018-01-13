@@ -113,10 +113,7 @@ export get_seconds_spent_on_domain_in_session = (domain, session_id) ->>
   return result ? 0
 
 export get_seconds_spent_on_current_domain_in_current_session = ->>
-  console.log 'calling get_session_id'
   session_id = get_session_id()
-  console.log 'session id is:'
-  console.log session_id
   current_domain = window.location.hostname
   result = await get_seconds_spent_on_domain_in_session current_domain, session_id
   return result ? 0

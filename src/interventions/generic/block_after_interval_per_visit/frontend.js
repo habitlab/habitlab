@@ -34,6 +34,11 @@ const {
   printable_time_spent_long
 } = require('libs_common/time_utils')
 
+const {
+  get_intervention_session_var,
+  set_intervention_session_var,
+} = require('libs_frontend/intervention_session_vars')
+
 var shadow_root;
 var shadow_div;
 
@@ -92,6 +97,7 @@ function addBeginDialog(message) {
       }
     } else {
       shadow_div.find('.beginBox').remove()
+      set_intervention_session_var('seconds_selected', minutes*60)
       displayCountdown(minutes * 60)
     }
   })
@@ -208,7 +214,15 @@ function main() {
   shadow_root = shadow_div.shadow_root;
   shadow_div = $(shadow_div);
   if (!is_new_session) {
-    displayCountdown(3 * 60) // todo get this from actual amount input by user
+    let seconds_selected = await get_intervention_session_var('seconds_selected')
+    console.log('seconds selected 1')
+    console.log(seconds_selected)
+    if (!isFinite(seconds_selected)) {
+      seconds_selected = 3*60
+    }
+    console.log('seconds selected 2')
+    console.log(seconds_selected)
+    displayCountdown(seconds_selected) // todo get this from actual amount input by user
   } else {
     main()
   }

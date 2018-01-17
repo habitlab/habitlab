@@ -38,6 +38,10 @@
 } = require 'libs_common/memoize'
 
 {
+  localget
+} = require 'libs_common/cacheget_utils'
+
+{
   load_css_file
 } = require 'libs_common/content_script_utils'
 
@@ -212,7 +216,9 @@ polymer_ext {
     }
     if not (await compile_intervention_code(new_intervention_info))
       return false
-    debug_code = """
+    debug_code = await localget('libs_frontend/intervention_debug_support.js')
+    /*
+    """
     //alert('hello world! debug code version 2');
 
     // This code will be injected to run in webpage context
@@ -245,6 +251,19 @@ polymer_ext {
         //error_banner.style.height = '500px'
         document.body.appendChild(error_banner)
         console.log('finished adding error_banner to body')
+        error_banner.addEventListener('mousedown', async function(evt) {
+          console.log('importing sweetalert2')
+          let swal = await SystemJS.import('sweetalert2')
+          console.log('importing load_css_file')
+          let {load_css_file} = await SystemJS.import('libs_common/content_script_utils')
+          console.log('loading css file')
+          await load_css_file('sweetalert2')
+          console.log('loading css file complete')
+          swal({
+            title: 'Developer Help',
+            text: 'To open the developer console you can enter Ctrl-Shift-J'
+          })
+        })
     });
 
     //Inject code
@@ -253,6 +272,7 @@ polymer_ext {
     (document.head||document.documentElement).appendChild(script);
     script.parentNode.removeChild(script);
     """
+    */
     localStorage.setItem('insert_debugging_code', true)
     new_intervention_info.content_scripts[0].debug_code = debug_code
     console.log(new_intervention_info)
@@ -599,32 +619,28 @@ polymer_ext {
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
       js_editor.setValue(intervention_info.code) 
 
-      # rules = {
-      #   no-console:1
-      #   no-unused-vars:1
-      #   require-yield:1
-      #   no-undef:1
-      #   comma-dangle:["error","only-multiline"]
-      # }
-      #config = {'extends': 'eslint:recommended'}
-      #console.log(eslint)
-      #cli = eslint.CLIEngine({
-      #  baseConfig: config,
-      #  useEslintrc: false        
-      #})
-
+      clicked_fn: ->>
+        alert('hi')
+        
       style = $('<style>
         .error_highlight{
-          position:absolute;
-          z-index:20;
+          position: absolute;
+          z-index: 20;
           border-bottom: 1px dotted red;
+        }
+        .warning_highlight{
+          position: absolute;
+          z-index: 20;
+          color: red;
+          background-color: yellow;
         }
       </style>')
       $('body').append(style)
+      $('.ace_gutter-cell').click(clicked_fn)
 
       
-      markedLines = []
 
+      markedLines = []
       js_editor.getSession().on 'change', (e) ->>
         current_time = Date.now()
         prev_text = self.previous_intervention_text[intervention_name]
@@ -635,7 +651,8 @@ polymer_ext {
         self.previous_intervention_text[intervention_name] = current_text
         localStorage['saved_intervention_' + intervention_name] = current_text
         localStorage['saved_intervention_time_' + intervention_name] = current_time
-        errors = await run_all_checks(current_text)
+        errors = await run_all_checks(js_editor, current_text)
+        #remove old markers
         for marker in markedLines
           js_editor.getSession().removeMarker(marker)
         annotations = []
@@ -647,8 +664,11 @@ polymer_ext {
           endColumn = error.endColumn
           if endColumn == null
             endColumn = error.column + 1
+          class_name = 'error_highlight'
+          if error.message.indexOf('is assigned a value but never used.') > 0
+            class_name = 'warning_highlight'
           marker = js_editor.getSession().addMarker(new aceRange(error.line - 1,error.column - 1,endLine - 1,endColumn - 1),
-            "error_highlight", "line");
+            class_name, "line");
           markedLines.push(marker)
           annotations.push({
             row: error.line - 1

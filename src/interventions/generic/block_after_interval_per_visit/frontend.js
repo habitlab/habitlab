@@ -215,13 +215,9 @@ function main() {
   shadow_div = $(shadow_div);
   if (!is_new_session) {
     let seconds_selected = await get_intervention_session_var('seconds_selected')
-    console.log('seconds selected 1')
-    console.log(seconds_selected)
     if (!isFinite(seconds_selected)) {
       seconds_selected = 3*60
     }
-    console.log('seconds selected 2')
-    console.log(seconds_selected)
     displayCountdown(seconds_selected) // todo get this from actual amount input by user
   } else {
     main()

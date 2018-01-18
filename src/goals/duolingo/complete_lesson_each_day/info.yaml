@@ -18,3 +18,4 @@ target:
 is_positive: true
 icon: icon.svg
 color: '#4db8ec'
+category: learning

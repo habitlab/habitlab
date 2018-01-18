@@ -41,25 +41,23 @@
       }
     </style>
 
-    <template is="dom-repeat" items="{{items}}" as="item">
-      <div class$="tab_elem vertical_align [[text_if_equal(index, selected_tab_idx, 'selected')]]" on-click="tab_elem_selected"
-        name="{{item}}" idx="{{index}}">
-        <img src="{{item.icon}}" style="border-radius: 5px; width: 40px; height: 40px; min-width: 40px; min-height: 40px; margin-right: 15px; margin-left: 15px; pointer-events: none"
-        /> {{item.name}}
+    <template is="dom-repeat" items="{{items}}" as="category">
+      <div>{{category.name}}</div>
+      <template is="dom-repeat" items="{{category.items}}" as="item">
+        <div class$="tab_elem vertical_align [[text_if_equal(index, selected_tab_idx, 'selected')]]" on-click="tab_elem_selected"
+          name="{{item}}" idx="{{index}}">
+          <img src="{{item.icon}}" style="border-radius: 5px; width: 40px; height: 40px; min-width: 40px; min-height: 40px; margin-right: 15px; margin-left: 15px; pointer-events: none"
+          /> {{item.name}}
 
-      </div>
+        </div>
+      </template>
+
     </template>
-    <div class="tab_elem vertical_align" on-click="feedback_button_clicked">
-      <img src="{{feedback_icon}}" style="width: 40px; height: 40px; min-width: 40px; min-height: 40px; margin-right: 15px; margin-left: 15px; pointer-events: none"
-      /> {{msg("Feedback")}}
-    </div>
-    <div>
-
-
-
-    </div>
-
   </template>
+  <div class="tab_elem vertical_align" on-click="feedback_button_clicked">
+    <img src="{{feedback_icon}}" style="width: 40px; height: 40px; min-width: 40px; min-height: 40px; margin-right: 15px; margin-left: 15px; pointer-events: none"
+    /> {{msg("Feedback")}}
+  </div>
 
   <script src="sidebar-tabs.js"></script>
 

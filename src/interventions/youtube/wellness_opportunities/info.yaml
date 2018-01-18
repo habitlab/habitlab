@@ -1,0 +1,7 @@
+description: Add Wellness Suggestion to Sidebar
+displayname: Wellness Opportunities
+matches:
+  - www.youtube.com
+content_scripts:
+  - path: frontend.js
+    run_at: document_start

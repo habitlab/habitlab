@@ -25,10 +25,10 @@ Polymer({
       value: []
     }
   },
-  show_sidebar_button_clicked: function(evt) {
-    this.fire('show_sidebar_clicked', {})
-    console.log('show sidebar button was clicked')
-  },
+   show_sidebar_button_clicked: function(evt) {
+     this.fire('show_sidebar_clicked', {})
+     console.log('show sidebar button was clicked')
+   },
   get_intervention_icon_url: function(intervention) {
     let url_path
     if (intervention.generic_intervention)
@@ -53,10 +53,15 @@ Polymer({
     }
     console.log('intervention is ')
     console.log(interventions)
+    console.log('enabled_interventions is')
+    console.log(enabled_interventions)
+    console.log('positive_enabled_goals is')
+    console.log(positive_enabled_goals)
     for (let intervention_name of interventions) {
       if (enabled_interventions[intervention_name]) {
         let intervention_info = all_interventions[intervention_name]
         wellness_interventions.push(intervention_info)
+        console.log(intervention_info)
       }
     }
     this.wellness_interventions = wellness_interventions

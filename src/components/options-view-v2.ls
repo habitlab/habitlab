@@ -74,12 +74,13 @@ polymer_ext {
     need_tab_change: 'on_need_tab_change'
   }
   compute_sidebar_items: (enabled_goal_info_list, goal_name_to_icon) ->
+    console.log enabled_goal_info_list
     default_icon = chrome.extension.getURL('icons/loading.gif')
-    output = [{name: msg('Overview'), icon: habitlab_icon}, {name: msg('Settings'), icon: gear_icon}]
+    output = [{name: msg('Overview'), icon: habitlab_icon, category: 'top'}, {name: msg('Settings'), icon: gear_icon, category: 'top'}]
     for x in enabled_goal_info_list
-      output.push {name: x.sitename_printable, icon: x.icon ? goal_name_to_icon[x.name] ? default_icon}
-    output.push({name: msg('Help / FAQ'), icon: help_icon})
-    return output
+      output.push {name: x.sitename_printable, category: x.category, icon: x.icon ? goal_name_to_icon[x.name] ? default_icon}
+    output.push({name: msg('Help / FAQ'), icon: help_icon, category: 'bottom'})
+    return [{name: 'category', items: output}]
   enable_habitlab_button_clicked: ->
     this.is_habitlab_disabled = false
     enable_habitlab()

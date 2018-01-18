@@ -23,7 +23,10 @@ polymer_ext({
   },
   isdemo_changed: function(isdemo) {
     if (isdemo) {
-      this.items = [{name: msg('Overview')}, {name: msg('Settings')}];
+      this.items = [{
+        name: 'top',
+        items: [{name: msg('Overview')}, {name: msg('Settings')}]
+      }];
       this.selected_tab_idx = 0;
     }
   },

@@ -15,3 +15,4 @@ is_positive: true
 sitename_printable: New York Times
 icon: icon.png
 color: 'rgb(41,41,41)'
+category: news

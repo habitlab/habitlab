@@ -24,3 +24,4 @@ target:
   units: minutes
 icon: icon.svg
 color: '#7cad3e'
+category: video

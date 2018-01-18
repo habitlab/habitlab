@@ -16,3 +16,4 @@ is_positive: true
 sitename_printable: Calm
 icon: icon.jpg
 color: 'rgb(80, 115, 230)'
+category: wellness

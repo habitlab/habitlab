@@ -73,6 +73,10 @@ polymer_ext {
               name: 'local_logging_server'
               description: 'Use localhost:5000 as the logging server URL'
             }
+            {
+              name: 'check_for_updates_devmode'
+              description: 'Used for debugging the check for updates feature if the extension was sideloaded in dev mode'
+            }
           ]
         }
         {

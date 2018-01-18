@@ -1362,8 +1362,9 @@ do !->>
       localStorage.setItem('extension_update_available_version', update_details.version)
       start_trying_to_restart_habitlab()
 
-  if (not developer_mode) and (localstorage_getbool('allow_logging'))
-    run_every_timeperiod check_if_update_available_and_run_update, 600000 # 1000*60*10 every 10 minutes
+  if (not developer_mode) or (localStorage.getItem('check_for_updates_devmode') == 'true')
+    if localStorage.getItem('allow_logging') != 'false'
+      run_every_timeperiod check_if_update_available_and_run_update, 600000 # 1000*60*10 every 10 minutes
 
   url_to_open_on_next_start = localStorage.getItem('habitlab_open_url_on_next_start')
   if url_to_open_on_next_start?

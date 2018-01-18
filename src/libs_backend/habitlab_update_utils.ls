@@ -50,9 +50,13 @@ export is_habitlab_update_available = ->>
   return semver.gt(latest_version, habitlab_version)
 
 export check_if_update_available_and_run_update = ->>
-  if developer_mode
-    return false
-  if not (chrome.runtime.id == 'obghclocpdgcekcognpkblghkedcpdgd' or chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina')
+  is_checking_for_updates_enabled = false
+  if (chrome.runtime.id == 'obghclocpdgcekcognpkblghkedcpdgd' or chrome.runtime.id == 'bleifeoekkfhicamkpadfoclfhfmmina')
+    is_checking_for_updates_enabled = true
+  else
+    if developer_mode and localStorage.getItem('check_for_updates_devmode') == 'true'
+      is_checking_for_updates_enabled = true
+  if not is_checking_for_updates_enabled
     return false
   update_available = await is_habitlab_update_available()
   if update_available

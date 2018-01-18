@@ -626,11 +626,8 @@ export get_interventions = ->>
 */
 
 select_subset_of_available_interventions = (intervention_info_list_all) ->
-  console.log 'select_subset_of_available_interventions'
-  console.log intervention_info_list_all
   goal_to_intervention_info_list = {}
   for intervention_info in intervention_info_list_all
-    console.log intervention_info
     if not intervention_info.goals?
       continue
     goal_name = intervention_info.goals[0]

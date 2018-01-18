@@ -619,7 +619,7 @@ polymer_ext {
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
       js_editor.setValue(intervention_info.code) 
 
-      clicked_fn: ->>
+      clicked_fn = ->>
         alert('hi')
         
       style = $('<style>

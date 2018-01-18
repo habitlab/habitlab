@@ -11,7 +11,11 @@ const {
   get_intervention
 } = require('libs_common/intervention_info')
 
-Polymer({
+const {
+  polymer_ext
+} = require('libs_frontend/polymer_utils');
+
+polymer_ext({
   is: 'reward-display-toast-voting',
   properties: {
     query: {
@@ -51,6 +55,16 @@ Polymer({
     },
     preference_message: {
       type: String
+    },
+    active_screen: {
+      type: String,
+      value: 'freewrite_feedback'
+    },
+    type_feedback_reported: {
+      type: String
+    },
+    user_freewrite_feedback: {
+      type:String
     }
   },
   compute_time_saved_message: function(seconds_saved) {
@@ -100,31 +114,33 @@ Polymer({
   video_ended: function() {
     this.hide()
   },
-  submit_feedback: function(reason) {
-    // add_feedback_for_intervention(this.intervention_info.name, {user_feedback: 'some freeform text', reasons: {'Annoying': true, 'Ineffective': true}})
-    
-  },
   thumbs_up_clicked: function() {
     upvote_intervention(this.intervention_info.name);
     this.hide();
   },
   thumbs_down_clicked: function() {
     downvote_intervention(this.intervention_info.name);
-    this.$.reward_display_toast_real.hide();
-    this.$.turn_off_toast.open();
-  },
-  turn_off_clicked: function() {
-    //downvote_intervention(this.intervention_info.name);
-    this.$.reward_display_toast_real.hide();
-    this.$.feedback_toast.open();
+    this.active_screen = 'permanently_disable';
   },
   turn_it_off: function() {
-    this.$.turn_off_toast.hide();
-    this.$.reason_toast.open();
+    // TO-DO: insert function here for turning it off permanently
+    this.active_screen = 'voting_screen'
+  },
+  turn_in_feedback: function() {
+    
+  },
+  voted_button: function(evt) {
+    let cause = evt.target.getAttribute('votecause')
+    this.active_screen = 'freewrite_feedback'
   },
   close_toast_pos_feedback: function() {
     this.hide();
     upvote_intervention(this.intervention_info.name);
+  },
+  submit_feedback: function() {
+    console.log('submit feedback called')
+    console.log(this.user_freewrite_feedback)
+    add_feedback_for_intervention(this.intervention_info.name, {user_feedback: 'some freeform text', reasons: {'Annoying': true, 'Ineffective': true}})
   },
   query_changed: async function() {
     let results = await fetch('https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query).then(x => x.json())
@@ -138,4 +154,10 @@ Polymer({
     }
     this.image_url = results.data.image_url.replace(/\.gif$/, '.webp')
   }
-})
+}, {
+  source: require('libs_frontend/polymer_methods'),
+  methods: [
+    'is_equal'
+  ]
+});
+

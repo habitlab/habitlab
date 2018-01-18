@@ -643,19 +643,13 @@ select_subset_of_available_interventions = (intervention_info_list_all) ->
       if intervention_info.is_default
         available_default_interventions.push(intervention_info.name)
     available_default_interventions = shuffled(available_default_interventions)
-    console.log 'available default interventions'
-    console.log available_default_interventions
     num_interventions_chosen = 1 + Math.floor(Math.random() * available_default_interventions.length)
-    console.log 'num interventions chosen'
-    console.log num_interventions_chosen
     chosen_interventions = available_default_interventions.slice(0, num_interventions_chosen)
     for intervention_name in chosen_interventions
       default_enabled_interventions[intervention_name] = true
   for intervention_info in intervention_info_list_all
     if not default_enabled_interventions[intervention_info.name]?
       default_enabled_interventions[intervention_info.name] = false
-  console.log 'default_enabled_intervnetions'
-  console.log default_enabled_interventions
   return default_enabled_interventions
 
 /**

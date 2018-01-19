@@ -10,14 +10,22 @@
 
     </style>
 
-    <paper-carousel items="3" responsive="600:2, 460:1" controls="true" dots="true" dotText="false">
-      <div class="paper-carousel-demo-indigo" data-text="#1"></div>
-      <div class="paper-carousel-demo-pink" data-text="#2"></div>
-      <div class="paper-carousel-demo-teal" data-text="#3"></div>
-      <div class="paper-carousel-demo-amber" data-text="#4"></div>
-      <div class="paper-carousel-demo-blue" data-text="#5"></div>
-      <div class="paper-carousel-demo-green" data-text="#6"></div>
-    </paper-carousel>
+    <div class= "container">
+      <market-card name = "Add Your Own" description = "Upload your own custom made nudges!"></market-card>
+      <template is="dom-repeat" items="{{interventions}}" as="info">
+        <market-card name = "{{info.name}}" date = "11/16/2017" description = "{{info.name}}"></market-card>
+      </template>
+      <!-- <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
+      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card> -->
+    </div>
 
   </template>
   <script src="intervention-carousel.js"></script>

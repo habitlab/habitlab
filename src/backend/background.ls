@@ -1120,7 +1120,6 @@ do !->>
     if not has_enabled_goal
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
       return
-
     domain_to_session_id = tab_id_to_domain_to_session_id[active_tab.id]
     if not domain_to_session_id?
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
@@ -1132,7 +1131,7 @@ do !->>
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
     # [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
     # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
-    await addtokey_dictdict 'seconds_on_domain_per_session', current_domain, session_id, 1
+    addtokey_dictdict('seconds_on_domain_per_session', current_domain, session_id, 1)
     addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->
       chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->

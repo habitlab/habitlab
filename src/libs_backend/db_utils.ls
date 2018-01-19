@@ -318,6 +318,12 @@ export cleardict = (name) ->>
   .delete()
   return
 
+export getdictdict = (name) ->>
+  data = await getCollection(name)
+  result = await data
+  .toArray()
+  return {[key, key2, val] for {key, key2, val} in result}
+
 export getdict_for_key_dictdict = (name, key) ->>
   data = await getCollection(name)
   result = await data

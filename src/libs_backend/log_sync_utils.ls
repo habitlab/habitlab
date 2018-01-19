@@ -177,7 +177,6 @@ export start_syncing_all_db_collections = ->>
     return
   db_syncing_active := true
   collection_names = list_collections_to_sync()
-  sync_num = 120
   # only sync once every 120 seconds
   infrequently_synced = [
     'seconds_on_domain_per_day'
@@ -185,16 +184,19 @@ export start_syncing_all_db_collections = ->>
     'custom_measurements_each_day'
     'visits_to_domain_per_day'
   ]
+  sync_nums = {}
+  for collection_name in infrequently_synced
+    sync_nums[collection_name] = 120
   while db_syncing_active
     for collection_name in collection_names
       if not db_syncing_active
         return
       if infrequently_synced.includes(collection_name)
-        sync_num += 1
-        if sync_num < 120
+        sync_nums[collection_name] += 1
+        if sync_nums[collection_name] < 120
           continue
         else
-          sync_num = 0
+          sync_nums[collection_name] = 0
       all_successful = await sync_unsynced_items_in_db_collection(collection_name)
       if not all_successful
         dlog 'error during collection syncing, pausing 1200 seconds: ' + collection_name

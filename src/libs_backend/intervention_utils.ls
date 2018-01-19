@@ -277,11 +277,12 @@ export generate_interventions_for_domain = (domain) ->>
     intervention_info.is_default = default_interventions.includes(intervention_info.name)
     #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
     new_intervention_info_list.push intervention_info
-  default_enabled_interventions = select_subset_of_available_interventions(new_intervention_info_list)
+  [default_enabled_interventions, interventions_per_goal, intervention_choosing_strategy] = select_subset_of_available_interventions(new_intervention_info_list)
   log_utils.add_log_interventions {
     type: 'default_interventions_for_custom_goal'
+    interventions_per_goal: interventions_per_goal
     custom_goal: goal_name
-    intervention_choosing_strategy: 'random'
+    intervention_choosing_strategy: intervention_choosing_strategy
     default_enabled_interventions: default_enabled_interventions
   }
   await add_new_interventions new_intervention_info_list
@@ -625,6 +626,20 @@ export get_interventions = ->>
   return output
 */
 
+get_interventions_per_goal = ->
+  if localStorage.getItem('interventions_per_goal')?
+    return localStorage.getItem('interventions_per_goal')
+  interventions_per_goal = ['one', 'half_of_defaults', 'all_of_defaults'][Math.floor(Math.random()*3)]
+  localStorage.setItem 'interventions_per_goal', interventions_per_goal
+  return interventions_per_goal
+
+get_intervention_choosing_strategy = ->
+  if localStorage.getItem('intervention_choosing_strategy')?
+    return localStorage.getItem('intervention_choosing_strategy')
+  intervention_choosing_strategy = 'random'
+  localStorage.setItem 'intervention_choosing_strategy', intervention_choosing_strategy
+  return intervention_choosing_strategy
+
 select_subset_of_available_interventions = (intervention_info_list_all) ->
   goal_to_intervention_info_list = {}
   for intervention_info in intervention_info_list_all
@@ -637,20 +652,26 @@ select_subset_of_available_interventions = (intervention_info_list_all) ->
       goal_to_intervention_info_list[goal_name] = []
     goal_to_intervention_info_list[goal_name].push(intervention_info)
   default_enabled_interventions = {}
+  interventions_per_goal = get_interventions_per_goal()
   for goal_name,intervention_info_list of goal_to_intervention_info_list
     available_default_interventions = []
     for intervention_info in intervention_info_list
       if intervention_info.is_default
         available_default_interventions.push(intervention_info.name)
     available_default_interventions = shuffled(available_default_interventions)
-    num_interventions_chosen = 1 + Math.floor(Math.random() * available_default_interventions.length)
+    num_interventions_chosen = available_default_interventions.length
+    if interventions_per_goal == 'half_of_defaults'
+      num_interventions_chosen = Math.round(available_default_interventions.length * 0.5)
+    if interventions_per_goal == 'one'
+      num_interventions_chosen = 1
     chosen_interventions = available_default_interventions.slice(0, num_interventions_chosen)
     for intervention_name in chosen_interventions
       default_enabled_interventions[intervention_name] = true
   for intervention_info in intervention_info_list_all
     if not default_enabled_interventions[intervention_info.name]?
       default_enabled_interventions[intervention_info.name] = false
-  return default_enabled_interventions
+  intervention_choosing_strategy = get_intervention_choosing_strategy()
+  return [default_enabled_interventions, interventions_per_goal, intervention_choosing_strategy]
 
 /**
  * Gets the intervention info for all interventions, in the form of an object mapping intervention names to intervention info
@@ -676,12 +697,13 @@ export get_interventions = ->>
   if cached_default_enabled_interventions?
     default_enabled_interventions = JSON.parse(cached_default_enabled_interventions)
   else
-    default_enabled_interventions = select_subset_of_available_interventions(intervention_info_list)
+    [default_enabled_interventions, interventions_per_goal, intervention_choosing_strategy] = select_subset_of_available_interventions(intervention_info_list)
     localStorage.setItem('default_interventions_on_install_cached', JSON.stringify(default_enabled_interventions))
     # log the enabled one
     await log_utils.add_log_interventions {
       type: 'default_interventions_on_install'
-      intervention_choosing_strategy: 'random'
+      interventions_per_goal: interventions_per_goal
+      intervention_choosing_strategy: intervention_choosing_strategy
       enabled_interventions: default_enabled_interventions
       #enabled_goals: {} # incorrect value
     }

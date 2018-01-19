@@ -106,88 +106,108 @@
         margin-bottom: 15px;
       }
 
-      #radio-demo {
-        max-width:400px;
+      [type="radio"]:checked,
+      [type="radio"]:not(:checked) {
+          position: absolute;
+          left: -9999px;
+      }
+      [type="radio"]:checked + label,
+      [type="radio"]:not(:checked) + label
+      {
+          position: relative;
+          padding-left: 28px;
+          cursor: pointer;
+          line-height: 20px;
+          display: inline-block;
+          color: #666;
+      }
+      [type="radio"]:checked + label:before,
+      [type="radio"]:not(:checked) + label:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 18px;
+          height: 18px;
+          border: 1px solid #ddd;
+          border-radius: 100%;
+          background: #fff;
+      }
+      [type="radio"]:checked + label:after,
+      [type="radio"]:not(:checked) + label:after {
+          content: '';
+          width: 12px;
+          height: 12px;
+          background: #F4C261;
+          position: absolute;
+          top: 4px;
+          left: 4px;
+          border-radius: 100%;
+          -webkit-transition: all 0.2s ease;
+          transition: all 0.2s ease;
+      }
+      [type="radio"]:not(:checked) + label:after {
+          opacity: 0;
+          -webkit-transform: scale(0);
+          transform: scale(0);
+      }
+      [type="radio"]:checked + label:after {
+          opacity: 1;
+          -webkit-transform: scale(1);
+          transform: scale(1);
       }
 
-      #radio-demo input[type="radio"] {
-        position: absolute;
-        opacity: 0;
-        -moz-opacity: 0;
-        -webkit-opacity: 0;
-        -o-opacity: 0;
-      }
+</style>
 
-      #radio-demo input[type="radio"] + label {
-        position: relative;
-        padding: 0 0 0 25px;
-        font-size: 16px;
-        line-height: 25px;
-        margin:0 0 10px 0;
-      }
+<div class="container">
 
-      #radio-demo input[type="radio"] + label:before {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 2px;
-        height: 14px;
-        width: 14px;
-        background: white;
-        border: 1px solid gray;
-        box-shadow: inset 0px 0px 0px 2px white;
-        -webkit-box-shadow: inset 0px 0px 0px 2px white;
-        -moz-box-shadow: inset 0px 0px 0px 2px white;
-        -o-box-shadow: inset 0px 0px 0px 2px white;
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        -o-border-radius: 8px;
-      }
-
-      #radio-demo input[type="radio"]:checked + label:before {
-        background: #ef8700;
-      }
-
-    </style>
-
-    <div class="container">
-
-      <div class="title" style="color: #ffffff">{{site}} custom nudges</div>
-      <paper-card style="background-color:#BEDEFD">
-        <!--Search Bar -->
-        <div class="wrap">
-              <div class="search">
-                 <input type="text" class="searchTerm" placeholder="What are you looking for?">
-                 <button type="submit" class="searchButton">
+  <div class="title" style="color: #ffffff">{{site}} custom nudges</div>
+  <paper-card style="background-color:#BEDEFD">
+    <!--Search Bar -->
+    <div class="wrap">
+      <div class="search">
+        <input type="text" class="searchTerm" placeholder="What are you looking for?">
+        <button type="submit" class="searchButton">
                    <i class="fa fa-search"></i>
                 </button>
-              </div>
-        </div>
-        <br><br>
-
-        <div style = "width:100%; display:flex">
-        <div style = "width:16%; border-Left:#2E4053;">
-            <form id = "radio-demo">
-                <input type="radio" name="sort" value="star_count" checked> <label for="star_count">Stars</label><br>
-                <input type="radio" name="sort" value="user_count"> <label for="user_count">Users</label><br>
-                <input type="radio" name="sort" value="date_added"> <label for="date_added">Date</label><br>
-                <input type="radio" name="sort" value="name"> <label for="name">Name</label><br>
-              </form>
-              <br>
-              <paper-button> See more nudges > </paper-button>
-              <profile-card></profile-card>
-        </div>
-        <div style = "width:84%">
-          <!--Display Carousel-->
-          <intervention-carousel></intervention-carousel>
-        </div>
-
-        </div>
-      </paper-card>
+      </div>
     </div>
+    <br><br>
 
-    <!-- <div style="margin-bottom: 20px"></div> -->
+    <div style="width:100%; display:flex">
+      <div style="width:16%; border-Left:#2E4053; background:White; padding:20px">
+        <h2>Sort Extensions By:</h2>
+        <form action="#">
+        <p>
+          <input type="radio" id="starSort" name = "radio-group" checked>
+          <label for="starSort">Stars</label>
+        </p>
+        <p>
+          <input type="radio" id="userSort" name = "radio-group" >
+          <label for="userSort">Users</label>
+        </p>
+        <p>
+          <input type="radio" id="dateSort" name = "radio-group" >
+          <label for="dateSort">Date</label>
+        </p>
+        <p>
+          <input type="radio" id="nameSort" name = "radio-group" >
+          <label for="nameSort">Name</label>
+        </p>
+      </form>
+        <paper-button> Uplaod your Own </paper-button>
+      </div>
+      <div style="width:84%">
+        <!--Display Carousel-->
+        <intervention-carousel></intervention-carousel>
+      </div>
 
-  </template>
+    </div>
+  </paper-card>
+</div>
+
+<!-- <div style="margin-bottom: 20px"></div> -->
+
+</template>
   <script src="intervention-market.js"></script>
 </dom-module>

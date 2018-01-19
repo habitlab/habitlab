@@ -3,60 +3,21 @@
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-carousel/paper-carousel.html">
-<link rel="import" href="market-card.html">
 
 <dom-module id="intervention-carousel">
   <template>
     <style>
-      :host {
-        display: block;
-        width: 100%;
-        height: 520px;
-        background-color: #BEDEFD;
-        --paper-card: {
-          width: 100%;
-          padding: 10px 20px;
-          margin-top: 0px;
-        }
-        ;
-      }
-      .center{
-        align-items: center;
-      }
-      img{
-        width: 100px;
-        height: 100px;
-        background-color: gray;
-      }
-
-      .card-container{
-        height: 245px;
-        width: 160px;
-      }
-
-      .container{
-        display:flex;
-        height:100%;
-        flex-wrap: wrap;
-      }
 
     </style>
 
-    <div class= "container">
-      <template is="dom-repeat" items="{{interventions}}" as="info">
-        <market-card name = "{{info.name}}" date = "11/16/2017" description = "{{info.name}}"></market-card>
-      </template>
-      <!-- <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card>
-      <market-card name = "Comment Removal" date = "11/16/2017" description = "Removes reddit comments"></market-card> -->
-    </div>
+    <paper-carousel items="3" responsive="600:2, 460:1" controls="true" dots="true" dotText="false">
+      <div class="paper-carousel-demo-indigo" data-text="#1"></div>
+      <div class="paper-carousel-demo-pink" data-text="#2"></div>
+      <div class="paper-carousel-demo-teal" data-text="#3"></div>
+      <div class="paper-carousel-demo-amber" data-text="#4"></div>
+      <div class="paper-carousel-demo-blue" data-text="#5"></div>
+      <div class="paper-carousel-demo-green" data-text="#6"></div>
+    </paper-carousel>
 
   </template>
   <script src="intervention-carousel.js"></script>

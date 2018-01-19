@@ -116,6 +116,9 @@ lib_name_to_func_names_and_signatures =
     get_num_upvotes_for_intervention: 'intervention_name'
     get_num_downvotes_for_intervention: 'intervention_name'
     get_feedback_for_intervention: 'intervention_name'
+  intervention_session_vars_backend:
+    get_intervention_session_var_backend: ['intervention_name', 'session_id', 'key']
+    set_intervention_session_var_backend: ['intervention_name', 'session_id', 'key', 'val']
 
 func_name_to_signature = {}
 for lib_name,funcs of lib_name_to_func_names_and_signatures

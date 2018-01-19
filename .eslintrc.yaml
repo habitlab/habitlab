@@ -29,6 +29,8 @@ globals:
   'positive_goal_info': true
   'goal_info': true
   'tab_id': true
+  'session_id': true
+  'is_new_session': true
   'Buffer': true
   'dlog': true
   'parameters': true

@@ -14,12 +14,16 @@ require_component('timespent-view')
 require_component('habitlab-logo-v2')
 
 const {
+  get_is_new_session
+} = require('libs_common/intervention_info')
+
+const {
   once_body_available,
   create_shadow_div_on_body
 } = require('libs_frontend/frontend_libs')
 
 const {
-  get_seconds_spent_on_current_domain_today
+  get_seconds_spent_on_current_domain_in_current_session
 } = require('libs_common/time_spent_utils')
 
 const {
@@ -29,6 +33,11 @@ const {
 const {
   printable_time_spent_long
 } = require('libs_common/time_utils')
+
+const {
+  get_intervention_session_var,
+  set_intervention_session_var,
+} = require('libs_frontend/intervention_session_vars')
 
 var shadow_root;
 var shadow_div;
@@ -88,6 +97,7 @@ function addBeginDialog(message) {
       }
     } else {
       shadow_div.find('.beginBox').remove()
+      set_intervention_session_var('seconds_selected', minutes*60)
       displayCountdown(minutes * 60)
     }
   })
@@ -198,12 +208,20 @@ function main() {
   //if (on_same_domain_and_same_tab) {
   //  return
   //}
-
+  const is_new_session = get_is_new_session();
   await once_body_available()
   shadow_div = create_shadow_div_on_body();
   shadow_root = shadow_div.shadow_root;
   shadow_div = $(shadow_div);
-  main()
+  if (!is_new_session) {
+    let seconds_selected = await get_intervention_session_var('seconds_selected')
+    if (!isFinite(seconds_selected)) {
+      seconds_selected = 3*60
+    }
+    displayCountdown(seconds_selected) // todo get this from actual amount input by user
+  } else {
+    main()
+  }
 })()
 
 window.on_intervention_disabled = () => {

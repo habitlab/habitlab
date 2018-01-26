@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="intervention-carousel.html">
+<link rel="import" href="profile-card.html">
 <dom-module id="intervention-market">
   <template>
     <style>
@@ -7,25 +8,22 @@
         display: block;
         width: 100%;
         height: 100%;
-        background-color: white;
+        background-color: #BEDEFD;
         --paper-card: {
           width: 100%;
-          padding: 10px 20px;
+          padding: 10px;
           margin-top: 0px;
-        }
-        ;
+        };
       }
-
       .container {
         text-align: center;
-        display: flex;
-        height:500px;
+        display: block;
+        height:100% ;
         width:100%;
         flex-direction: column;
         align-items: center;
         justify-content: center;
       }
-
       .title {
         background-color: #2E4053;
         width: 100%;
@@ -35,35 +33,18 @@
         padding-bottom:20px;
         padding-top: 20px;
       }
-
       .paper-card {
         background-color: white;
         width: 100%;
-        margin-left: 20px;
-        margin-right: 20px;
+        margin-left: 0px;
+        margin-right: 0px;
       }
-
       .card-content {
         font-size: 20px;
       }
-<<<<<<< HEAD
-    </style>
-
-    <div class="container">
-
-      <div class="title" style="color: #ffffff">{{site}} custom nudges</div>
-      <intervention-carousel></intervention-carousel>
-      <paper-card heading="user-made Interventions">
-        <!--<div class="card-content">
-        </div>-->
-      </paper-card>
-=======
-
-
       body{
         font-family: sans-serif;
       }
-
       paper-button{
         color: #fff;
         background-color: #415D67;
@@ -72,154 +53,37 @@
         text-transform: none;
         -webkit-font-smoothing: subpixel-antialiased;
       }
-
-      .search {
-        width: 100%;
-        position: relative
-      }
-
-      .searchTerm {
-        float: left;
-        width: 100%;
-        border: 3px solid #51A7F9;
-        padding: 5px;
-        height: 20px;
-        border-radius: 5px;
-        outline: none;
-        color: #51A7F9;
-      }
-
-      .searchTerm:focus{
-        color: #51A7F9;
-      }
-
-      .searchButton {
+      #icon{
+        width: 100px;
+        height: 100px;
+        margin-left: 20px;
         position: absolute;
-        right: -50px;
-        width: 40px;
-        height: 36px;
-        border: 1px solid #51A7F9;
-        background: #51A7F9;
-        text-align: center;
-        color: #fff;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 20px;
+        z-index: 1000;
       }
-
-      /*Resize the wrap to see the search bar change!*/
-      .wrap{
-        width: 97%;
-        align-items: center;
-        position: relative;
-        top: 50%;
-        left: 48%;
-        transform: translate(-50%, -50%);
-        margin-bottom: 15px;
+      #settings{
+        margin-right: calc(50% - 50px);
+        margin-top: 3px;
+        width: 50px;
+        height: 50px;
+        position: absolute;
       }
-
-      [type="radio"]:checked,
-      [type="radio"]:not(:checked) {
-          position: absolute;
-          left: -9999px;
-      }
-      [type="radio"]:checked + label,
-      [type="radio"]:not(:checked) + label
-      {
-          position: relative;
-          padding-left: 28px;
-          cursor: pointer;
-          line-height: 20px;
-          display: inline-block;
-          color: #666;
-      }
-      [type="radio"]:checked + label:before,
-      [type="radio"]:not(:checked) + label:before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 18px;
-          height: 18px;
-          border: 1px solid #ddd;
-          border-radius: 100%;
-          background: #fff;
-      }
-      [type="radio"]:checked + label:after,
-      [type="radio"]:not(:checked) + label:after {
-          content: '';
-          width: 12px;
-          height: 12px;
-          background: #F4C261;
-          position: absolute;
-          top: 4px;
-          left: 4px;
-          border-radius: 100%;
-          -webkit-transition: all 0.2s ease;
-          transition: all 0.2s ease;
-      }
-      [type="radio"]:not(:checked) + label:after {
-          opacity: 0;
-          -webkit-transform: scale(0);
-          transform: scale(0);
-      }
-      [type="radio"]:checked + label:after {
-          opacity: 1;
-          -webkit-transform: scale(1);
-          transform: scale(1);
-      }
-
 </style>
 
 <div class="container">
+<img id = "settings" src="icons/settings_icon.png">
+  <div class="title" style="color: #ffffff">
+    {{site}} custom nudges
+    <img id = "icon" src="icons/store_icon.png">
+  </div>
 
-  <div class="title" style="color: #ffffff">{{site}} custom nudges</div>
   <paper-card style="background-color:#BEDEFD">
-    <!--Search Bar -->
-    <div class="wrap">
-      <div class="search">
-        <input type="text" class="searchTerm" placeholder="What are you looking for?">
-        <button type="submit" class="searchButton">
-                   <i class="fa fa-search"></i>
-                </button>
-      </div>
-    </div>
-    <br><br>
-
-    <div style="width:100%; display:flex">
-      <div style="width:16%; border-Left:#2E4053; background:White; padding:20px">
-        <h2>Sort Extensions By:</h2>
-        <form action="#">
-        <p>
-          <input type="radio" id="starSort" name = "radio-group" checked>
-          <label for="starSort">Stars</label>
-        </p>
-        <p>
-          <input type="radio" id="userSort" name = "radio-group" >
-          <label for="userSort">Users</label>
-        </p>
-        <p>
-          <input type="radio" id="dateSort" name = "radio-group" >
-          <label for="dateSort">Date</label>
-        </p>
-        <p>
-          <input type="radio" id="nameSort" name = "radio-group" >
-          <label for="nameSort">Name</label>
-        </p>
-      </form>
-        <paper-button> Uplaod your Own </paper-button>
-      </div>
-      <div style="width:84%">
+    <div style="width:90%; display:flex">
         <!--Display Carousel-->
         <intervention-carousel></intervention-carousel>
-      </div>
-
->>>>>>> 9f6e70e8... Fixed problems with radio buttons and removed profile area
     </div>
   </paper-card>
 </div>
 
-<!-- <div style="margin-bottom: 20px"></div> -->
 
 </template>
   <script src="intervention-market.js"></script>

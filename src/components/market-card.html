@@ -23,9 +23,61 @@
   <template>
     <style>
        :host {
+<<<<<<< HEAD
         display: inline-block;
         height: 38px;
         cursor: pointer;
+=======
+        display: block;
+        width: 208px;
+        height: 312px;
+        background-color: white;
+        margin-right: 10px;
+        --paper-card: {
+          width: 100%;
+          margin-top: 0px;
+        }
+        ;
+      }
+
+      .borders{
+        border: 2px solid gray;
+        border-radius: 10px;
+      }
+
+      .card{
+        width:100%;
+        height:100%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+      .checked {
+        color: orange;
+      }
+      img{
+        height:55%;
+        width:100%;
+        background-color: grey;
+      }
+
+      h2{
+        font-size: 16px;
+      }
+
+      h3{
+        font-size: 18px;
+      }
+
+      p{
+        font-size: 12px;
+      }
+
+      .container{
+          margin-right: 5px;
+          width: 160px;
+          height:245px;
+>>>>>>> 162a7d1d... Added new icons + implemented design changes to market place.
       }
 
         body {
@@ -41,6 +93,7 @@
         iron-icon.star:last-of-type { color: var(--paper-grey-500); }
     </style>
 
+<<<<<<< HEAD
     <paper-card image="{{imgUrl}}">
   <div class="card-content">
     <div class="subCard-header">{{name}}
@@ -62,6 +115,23 @@
     </div>
   </div>
 </paper-card>
+=======
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <div class = "card">
+        <img>
+        <br>
+        <h2>{{name}}</h2>
+        <p>{{description}}</p>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+      </div>
+
+    <!-- <div style="margin-bottom: 20px"></div> -->
+
+>>>>>>> 162a7d1d... Added new icons + implemented design changes to market place.
   </template>
   <script src="market-card.js"></script>
 </dom-module> -->

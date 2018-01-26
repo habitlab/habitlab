@@ -129,6 +129,7 @@ export get_intervention_selection_algorithm = ->>
 */
 
 selection_algorithms_for_visit = {
+  'random': one_random_intervention_per_enabled_goal
   'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal
   'default': one_random_intervention_per_enabled_goal
 }

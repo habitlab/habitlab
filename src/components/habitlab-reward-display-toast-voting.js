@@ -16,7 +16,7 @@ const {
 } = require('libs_frontend/polymer_utils');
 
 polymer_ext({
-  is: 'reward-display-toast-voting',
+  is: 'habitlab-reward-display-toast-voting',
   properties: {
     query: {
       type: String,
@@ -52,6 +52,18 @@ polymer_ext({
     },
     image_url: {
       type: String
+    },
+    thumbs_up_icon: {
+      type: String,
+      value: chrome.extension.getURL('icons/thumbs_up.svg')
+    },
+    thumbs_down_icon: {
+      type: String,
+      value: chrome.extension.getURL('icons/thumbs_down.svg')
+    },
+    x_icon: {
+      type: String,
+      value: chrome.extension.getURL('icons/x.png')
     },
     preference_message: {
       type: String

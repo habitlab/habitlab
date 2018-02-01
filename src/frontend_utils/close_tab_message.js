@@ -1,8 +1,8 @@
 const $ = require('jquery')
 
 function show_reward_display() {
-  $('reward-display-toast-voting').remove()
-  let reward_display = $('<reward-display-toast-voting>')
+  $('habitlab-reward-display-toast-voting').remove()
+  let reward_display = $('<habitlab-reward-display-toast-voting>')
   reward_display[0].intervention_info = window.reward_display_intervention_info
   reward_display[0].goal_info = window.reward_display_goal_info
   reward_display[0].seconds_saved = window.reward_display_seconds_saved
@@ -18,7 +18,7 @@ if (!window.close_tab_message_loaded) {
   window.Polymer = window.Polymer || {};
   window.Polymer.dom = 'shadow';
   require('enable-webcomponents-in-content-scripts')
-  require('components/reward-display-toast-voting.deps')
+  require('components/habitlab-reward-display-toast-voting.deps')
 }
 
 show_reward_display()

@@ -46,6 +46,24 @@
         <paper-button dialog-dismiss>Close</paper-button>
       </div>
     </paper-dialog>
+
+    <paper-dialog id="turn_off_toast" vertical-align="top" horizontal-align="right" duration="0">
+      <div class="user_give_feedback">
+        <span class="ask-off">Would you like this intervention to be turned off permanently?</span>
+        <p></p>
+        <paper-button raised class="custom_green" on-click="turn_it_off">
+          <span on-click="turn_it_off">YES PLEASE</span>                     
+        </paper-button>
+
+        <paper-button raised class="custom_red">
+          <span on-click="dont_turn_it_off"></span>NO IT'S OKAY
+        </paper-button>
+
+      </div>
+    </paper-dialog>
+
+
+
   </template>
   <script src="habitlab-options-popup-v2.js"></script>
 </dom-module>

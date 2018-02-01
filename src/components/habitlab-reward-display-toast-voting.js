@@ -1,5 +1,22 @@
-Polymer({
-  is: 'reward-display-toast',
+const {
+  upvote_intervention,
+  downvote_intervention,
+  add_feedback_for_intervention,
+  get_num_upvotes_for_intervention,
+  get_num_downvotes_for_intervention,
+  get_feedback_for_intervention,
+} = require('libs_common/intervention_feedback_utils')
+
+const {
+  get_intervention
+} = require('libs_common/intervention_info')
+
+const {
+  polymer_ext
+} = require('libs_frontend/polymer_utils');
+
+polymer_ext({
+  is: 'habitlab-reward-display-toast-voting',
   properties: {
     query: {
       type: String,
@@ -8,6 +25,7 @@ Polymer({
     },
     intervention_info: {
       type: Object,
+      value: get_intervention(),
     },
     goal_info: {
       type: Object,
@@ -34,6 +52,34 @@ Polymer({
     },
     image_url: {
       type: String
+    },
+    thumbs_up_icon: {
+      type: String,
+      value: chrome.extension.getURL('icons/thumbs_up.svg')
+    },
+    thumbs_down_icon: {
+      type: String,
+      value: chrome.extension.getURL('icons/thumbs_down.svg')
+    },
+    x_icon: {
+      type: String,
+      value: chrome.extension.getURL('icons/x.png')
+    },
+    preference_message: {
+      type: String
+    },
+    active_screen: {
+      type: String,
+      value: 'do_you_like'
+    },
+    type_feedback_reported: {
+      type: String
+    },
+    user_freewrite_feedback: {
+      type:String
+    },
+    cause: {
+      type:String
     }
   },
   compute_time_saved_message: function(seconds_saved) {
@@ -78,10 +124,39 @@ Polymer({
     */
     setTimeout(function() {
       self.hide()
-    }, 2000)
+    }, 300000000)
   },
   video_ended: function() {
     this.hide()
+  },
+  thumbs_up_clicked: function() {
+    upvote_intervention(this.intervention_info.name);
+    this.hide();
+  },
+  thumbs_down_clicked: function() {
+    downvote_intervention(this.intervention_info.name);
+    this.active_screen = 'permanently_disable';
+  },
+  turn_it_off: function() {
+    // TO-DO: insert function here for turning it off permanently
+    this.active_screen = 'voting_screen'
+  },
+  turn_in_feedback: function() {
+    
+  },
+  voted_button: function(evt) {
+    this.cause = evt.target.getAttribute('votecause')
+    this.active_screen = 'freewrite_feedback'
+  },
+  close_toast_pos_feedback: function() {
+    this.hide();
+    upvote_intervention(this.intervention_info.name);
+  },
+  submit_feedback: function() {
+    console.log('submit feedback called')
+    console.log(this.user_freewrite_feedback)
+    add_feedback_for_intervention(this.intervention_info.name, {user_feedback: this.user_freewrite_feedback, reason: this.cause}) // can we change the backend to accept a string instead?
+    this.hide();
   },
   query_changed: async function() {
     let results = await fetch('https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query).then(x => x.json())
@@ -95,4 +170,10 @@ Polymer({
     }
     this.image_url = results.data.image_url.replace(/\.gif$/, '.webp')
   }
-})
+}, {
+  source: require('libs_frontend/polymer_methods'),
+  methods: [
+    'is_equal'
+  ]
+});
+

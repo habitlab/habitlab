@@ -58,12 +58,15 @@ polymer_ext({
     },
     active_screen: {
       type: String,
-      value: 'freewrite_feedback'
+      value: 'do_you_like'
     },
     type_feedback_reported: {
       type: String
     },
     user_freewrite_feedback: {
+      type:String
+    },
+    cause: {
       type:String
     }
   },
@@ -130,7 +133,7 @@ polymer_ext({
     
   },
   voted_button: function(evt) {
-    let cause = evt.target.getAttribute('votecause')
+    this.cause = evt.target.getAttribute('votecause')
     this.active_screen = 'freewrite_feedback'
   },
   close_toast_pos_feedback: function() {
@@ -140,7 +143,8 @@ polymer_ext({
   submit_feedback: function() {
     console.log('submit feedback called')
     console.log(this.user_freewrite_feedback)
-    add_feedback_for_intervention(this.intervention_info.name, {user_feedback: 'some freeform text', reasons: {'Annoying': true, 'Ineffective': true}})
+    add_feedback_for_intervention(this.intervention_info.name, {user_feedback: this.user_freewrite_feedback, reason: this.cause}) // can we change the backend to accept a string instead?
+    this.hide();
   },
   query_changed: async function() {
     let results = await fetch('https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=' + this.query).then(x => x.json())

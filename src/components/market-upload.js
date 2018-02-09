@@ -18,16 +18,10 @@ polymer_ext({
     }
   },
   ready: async function() {
-      this.$$(".card").hover(
-      function(){
-  	     this.$$(".description", this).css("display", "block");
-	   },function(){
-  		   this.$$(".description", this).css("display", "none");
-     });
     //console.log('site is:')
     //console.log(this.site)
     //console.log('ready called in intervention market. fetching data')
-    //let data = await fetch('localhost:5000').then(x => x.json())
+    //let data = await fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=json').then(x => x.json())
     //console.log('finished fetching data')
     //console.log(data)
   }

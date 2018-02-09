@@ -1,0 +1,101 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="market-card">
+  <template>
+    <style>
+       :host {
+        display: block;
+        width: 208px;
+        height: 312px;
+        background-color: white;
+        margin-right: 10px;
+        --paper-card: {
+          width: 100%;
+          margin-top: 0px;
+        }
+        ;
+      }
+
+      .borders{
+        border: 2px solid gray;
+        border-radius: 10px;
+      }
+
+      .card{
+        width:100%;
+        height:100%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+      .checked {
+        color: orange;
+      }
+      img{
+        height:55%;
+        width:100%;
+        background-color: grey;
+      }
+
+      h2{
+        font-size: 16px;
+      }
+
+      h3{
+        font-size: 18px;
+      }
+
+      p{
+        font-size: 12px;
+      }
+
+      .container{
+          margin-right: 5px;
+          width: 160px;
+          height:245px;
+      }
+
+      .card:hover > .overlay {
+          position: absolute;
+          top: 0;
+          width:100%;
+          height:100%;
+          left: 0;
+          background-color:#000;
+          opacity:0.5;
+          z-index: 100;
+          display: block;
+      }
+
+      .description {
+        display: none;
+        position: absolute;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        text-align: center;
+      }
+
+
+    </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <div class = "card">
+        <div>
+        <h2>Add your own Nudge!</h2>
+        <img src = "https://i.stack.imgur.com/x3KMH.jpg">
+        </div>
+        <div>
+          <select name="Choose Nudge">
+          </select>
+          <h1>Submit as<h1>
+          <textarea rows = "1" cols ="20">
+          </textarea>
+        </div>
+        <h1>Description<h1>
+        <textarea rows = "5" cols ="50">
+        </textarea>
+      </div>
+  </template>
+  <script src="market-upload.js"></script>
+</dom-module>

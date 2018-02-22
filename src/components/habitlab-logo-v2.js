@@ -57,18 +57,19 @@ polymer_ext({
     SystemJS.import('libs_common/screenshot_utils');
   },
   habitlab_button_clicked: async function() {
-    var screenshot_utils = await SystemJS.import('libs_common/screenshot_utils');
-    var screenshot = await screenshot_utils.get_screenshot_as_base64();
-    var data = await screenshot_utils.get_data_for_feedback();
+    //var screenshot_utils = await SystemJS.import('libs_common/screenshot_utils');
+    //var screenshot = await screenshot_utils.get_screenshot_as_base64();
+    //var data = await screenshot_utils.get_data_for_feedback();
     const habitlab_options_popup = document.createElement('habitlab-reward-display-toast-voting');
-    habitlab_options_popup.screenshot = screenshot;
+    habitlab_options_popup.active_screen = 'permanently_disable'
+    //habitlab_options_popup.screenshot = screenshot;
     document.body.appendChild(habitlab_options_popup);
     this.fire('disable_intervention')
     //console.log(habitlab_options_popup)
     //habitlab_options_popup.screenshot = screenshot;
     //habitlab_options_popup.other = data;
-    console.log(habitlab_options_popup)
-    console.log(habitlab_options_popup.show)
+    //console.log(habitlab_options_popup)
+    //console.log(habitlab_options_popup.show)
     habitlab_options_popup.show();
     /*
     var screenshot_utils = await SystemJS.import('libs_common/screenshot_utils');

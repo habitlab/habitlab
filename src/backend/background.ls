@@ -472,8 +472,6 @@ do !->>
         const intervention = #{JSON.stringify(intervention_info_copy)};
         const parameters = #{JSON.stringify(parameter_values)};
         const tab_id = #{tabId};
-        console.log('setting session_id')
-        console.log(session_id)
         const session_id = #{session_id};
         const is_new_session = #{is_new_session};
         const dlog = function(...args) { console.log(...args); };

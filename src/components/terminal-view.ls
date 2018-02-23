@@ -54,7 +54,7 @@ polymer_ext {
     if not self.terminal_loaded
       [jquery_terminal,_] = await Promise.all [
         SystemJS.import('jquery.terminal')
-        load_css_file('node_modules_custom/jquery.terminal/css/jquery.terminal.min.css')
+        load_css_file('modules_custom/jquery.terminal/css/jquery.terminal.min.css')
       ]
       jquery_terminal($)
       self.attach_terminal()

@@ -48,10 +48,10 @@
         'default': 'false',
         description: 'Target for generated files is jspm'
       }, {
-        option: 'node_modules_custom',
+        option: 'modules_custom',
         type: 'Boolean',
         'default': 'false',
-        description: 'Include node_modules_custom directory among those we generate .deps.js files for'
+        description: 'Include modules_custom directory among those we generate .deps.js files for'
       }, {
         option: 'regenerate',
         type: 'Boolean',
@@ -183,7 +183,7 @@
       if (!options.jspm && filename.indexOf('/jspm_packages/') !== -1) {
         continue;
       }
-      if (!options.node_modules_custom && filename.indexOf('/node_modules_custom/') !== -1) {
+      if (!options.modules_custom && filename.indexOf('/modules_custom/') !== -1) {
         continue;
       }
       generate_dependencies_for_file_recursive(filename);

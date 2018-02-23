@@ -75,7 +75,7 @@
     return results$;
   })();
   yamlpattern = yamlpattern_manifest.concat(yamlpattern_base);
-  eslintpattern = ['src/**/*.js', 'src_gen/**/*.js', '!src/flowtypes/*.js', '!src/bundles/*.js', '!src_gen/bundles/*.js', '!src/bugmuncher/*.js', '!src_gen/bugmuncher/*.js', '!src/bower_components/**/*.js', '!src_gen/bower_components/**/*.js', '!src/**/*.deps.js', '!src/**/*.jspm.js', '!src/jspm_packages/**/*.js', '!src_gen/jspm_packages/**/*.js', '!src/node_modules_custom/**/*.js', '!src_gen/node_modules_custom/**/*.js'];
+  eslintpattern = ['src/**/*.js', 'src_gen/**/*.js', '!src/flowtypes/*.js', '!src/bundles/*.js', '!src_gen/bundles/*.js', '!src/bugmuncher/*.js', '!src_gen/bugmuncher/*.js', '!src/bower_components/**/*.js', '!src_gen/bower_components/**/*.js', '!src/**/*.deps.js', '!src/**/*.jspm.js', '!src/jspm_packages/**/*.js', '!src_gen/jspm_packages/**/*.js', '!src/modules_custom/**/*.js', '!src_gen/modules_custom/**/*.js'];
   jspattern_srcgen = ['src/**/*.js', '!src/flowtypes/*.js', '!src/**/*.deps.js'];
   htmlpattern_srcgen = ['src/**/*.html'];
   intervention_copypattern = [];
@@ -88,10 +88,10 @@
     }
     return results$;
   })();
-  copypattern = ['src/**/*.html', 'src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg', 'src/*.json', 'src/*.js', 'src/*.css', 'src/_locales/**/*', 'src/bugmuncher/*', 'src/bundles/*', 'src/libs_common/*.js', 'src/libs_backend/*.js', 'src/libs_frontend/*.js', 'src/goals/**/*.js', 'src/generated_libs/**/*.js', 'src/bower_components/**/*', 'src/components/**/*.js', 'src/node_modules_custom/**/*.js', 'src/node_modules_custom/**/*.css', '!src/**/*.deps.js', '!src/**/*.jspm.js', '!src/jspm_packages/**/*'];
+  copypattern = ['src/**/*.html', 'src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg', 'src/*.json', 'src/*.js', 'src/*.css', 'src/_locales/**/*', 'src/bugmuncher/*', 'src/bundles/*', 'src/libs_common/*.js', 'src/libs_backend/*.js', 'src/libs_frontend/*.js', 'src/goals/**/*.js', 'src/generated_libs/**/*.js', 'src/bower_components/**/*', 'src/components/**/*.js', 'src/modules_custom/**/*.js', 'src/modules_custom/**/*.css', '!src/**/*.deps.js', '!src/**/*.jspm.js', '!src/jspm_packages/**/*'];
   (function(){
     var i$, ref$, len$, src_subfolder, j$, ref1$, len1$, extension, enabled_intervention_name, lresult$, results$ = [];
-    for (i$ = 0, len$ = (ref$ = ['goals', 'node_modules_custom', 'components']).length; i$ < len$; ++i$) {
+    for (i$ = 0, len$ = (ref$ = ['goals', 'modules_custom', 'components']).length; i$ < len$; ++i$) {
       src_subfolder = ref$[i$];
       for (j$ = 0, len1$ = (ref1$ = ['html', 'png', 'jpg', 'gif', 'svg']).length; j$ < len1$; ++j$) {
         extension = ref1$[j$];
@@ -569,14 +569,14 @@
       path = alias_info.path, frontend = alias_info.frontend;
       path_map[path] = frontend;
     }
-    for (i$ = 0, len$ = (ref$ = fs.readdirSync('src/node_modules_custom')).length; i$ < len$; ++i$) {
+    for (i$ = 0, len$ = (ref$ = fs.readdirSync('src/modules_custom')).length; i$ < len$; ++i$) {
       libname = ref$[i$];
       if (libname.startsWith('.')) {
         continue;
       }
-      package_json_file = "src/node_modules_custom/" + libname + "/package.json";
+      package_json_file = "src/modules_custom/" + libname + "/package.json";
       package_json = JSON.parse(fs.readFileSync(package_json_file, 'utf-8'));
-      path_map[libname] = "node_modules_custom/" + libname + "/" + package_json.main;
+      path_map[libname] = "modules_custom/" + libname + "/" + package_json.main;
     }
     fs.writeFileSync('jspm_config_frontend.js', "SystemJS.config({\nmap: " + JSON.stringify(path_map, null, 2) + "\n});");
     return done();
@@ -591,14 +591,14 @@
       path = alias_info.path, backend = alias_info.backend;
       path_map[path] = backend;
     }
-    for (i$ = 0, len$ = (ref$ = fs.readdirSync('src/node_modules_custom')).length; i$ < len$; ++i$) {
+    for (i$ = 0, len$ = (ref$ = fs.readdirSync('src/modules_custom')).length; i$ < len$; ++i$) {
       libname = ref$[i$];
       if (libname.startsWith('.')) {
         continue;
       }
-      package_json_file = "src/node_modules_custom/" + libname + "/package.json";
+      package_json_file = "src/modules_custom/" + libname + "/package.json";
       package_json = JSON.parse(fs.readFileSync(package_json_file, 'utf-8'));
-      path_map[libname] = "node_modules_custom/" + libname + "/" + package_json.main;
+      path_map[libname] = "modules_custom/" + libname + "/" + package_json.main;
     }
     fs.writeFileSync('jspm_config_backend.js', "SystemJS.config({\nmap: " + JSON.stringify(path_map, null, 2) + "\n});");
     return done();
@@ -620,7 +620,7 @@
     fs.writeFileSync('src/components/components.html', output.join("\n"));
     return done();
   });
-  extra_folders = ['node_modules_custom', 'intervention_templates', 'generated_libs', 'bundles', 'bower_components', 'libs_frontend', 'libs_common', 'libs_backend', 'components'];
+  extra_folders = ['modules_custom', 'intervention_templates', 'generated_libs', 'bundles', 'bower_components', 'libs_frontend', 'libs_common', 'libs_backend', 'components'];
   gulp.task('make_extra_file_list', function(done){
     var complete_file_list, i$, ref$, len$, subfolder, j$, ref1$, len1$, entry;
     complete_file_list = [];

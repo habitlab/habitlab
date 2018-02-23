@@ -1,6 +1,6 @@
 package_name_to_css = {
   sweetalert2: 'bower_components/sweetalert2/dist/sweetalert2.css'
-  'jquery.terminal': 'node_modules_custom/jquery.terminal/css/jquery.terminal.min.css'
+  'jquery.terminal': 'modules_custom/jquery.terminal/css/jquery.terminal.min.css'
 }
 
 package_name_to_css_list = {

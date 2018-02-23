@@ -3,7 +3,7 @@
     var {systemjsget, remoteget} = require('libs_backend/cacheget_utils');
     var chrome_base_url = chrome.runtime.getURL('');
     var is_local_package = function(input) {
-      for (var prefix of ['bower_components', 'bundles', 'components', 'frontend_utils', 'generated_libs', 'goals', 'intervention_utils', 'jspm_packages', 'libs_backend', 'libs_common', 'libs_frontend', 'node_modules_custom']) {
+      for (var prefix of ['bower_components', 'bundles', 'components', 'frontend_utils', 'generated_libs', 'goals', 'intervention_utils', 'jspm_packages', 'libs_backend', 'libs_common', 'libs_frontend', 'modules_custom']) {
         if (input.startsWith(chrome_base_url + prefix + '/')) {
           return true;
         }

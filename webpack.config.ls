@@ -14,7 +14,7 @@ npmdir_jspm = (x) ->
   path.join(cwd, 'src', 'jspm_packages', 'npm', x)
 
 npmdir_custom = (x) ->
-  path.join(cwd, 'src', 'node_modules_custom', x)
+  path.join(cwd, 'src', 'modules_custom', x)
 
 
 fromcwd = (x) ->
@@ -147,7 +147,7 @@ for libname in fs.readdirSync 'src/jspm_packages/npm'
   webpack_config.resolve.alias[libname_base] = npmdir_jspm libname
 */
 
-for libname in fs.readdirSync 'src/node_modules_custom'
+for libname in fs.readdirSync 'src/modules_custom'
   webpack_config.resolve.alias[libname] = npmdir_custom libname
 
 module.exports = webpack_config

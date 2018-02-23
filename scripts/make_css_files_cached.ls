@@ -8,7 +8,7 @@ cssmin = new CleanCSS(options)
 
 list_of_files_to_make_cached = [
   'bower_components/sweetalert2/dist/sweetalert2.css'
-  'node_modules_custom/jquery.terminal/css/jquery.terminal.min.css'
+  'modules_custom/jquery.terminal/css/jquery.terminal.min.css'
 ]
 
 output = {}

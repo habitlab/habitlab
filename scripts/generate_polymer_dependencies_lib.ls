@@ -57,10 +57,10 @@ get_option_parser = ->
       description: 'Target for generated files is jspm'
     }
     {
-      option: 'node_modules_custom'
+      option: 'modules_custom'
       type: 'Boolean'
       default: 'false'
-      description: 'Include node_modules_custom directory among those we generate .deps.js files for'
+      description: 'Include modules_custom directory among those we generate .deps.js files for'
     }
     {
       option: 'regenerate'
@@ -178,7 +178,7 @@ export generate_dependencies_for_all_files_in_src_path = ->
       continue
     if not options.jspm and filename.indexOf('/jspm_packages/') != -1
       continue
-    if not options.node_modules_custom and filename.indexOf('/node_modules_custom/') != -1
+    if not options.modules_custom and filename.indexOf('/modules_custom/') != -1
       continue
     generate_dependencies_for_file_recursive(filename)
   return

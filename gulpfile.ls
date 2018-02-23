@@ -109,8 +109,8 @@ eslintpattern = [
   '!src/**/*.jspm.js'
   '!src/jspm_packages/**/*.js'
   '!src_gen/jspm_packages/**/*.js'
-  '!src/node_modules_custom/**/*.js'
-  '!src_gen/node_modules_custom/**/*.js'
+  '!src/modules_custom/**/*.js'
+  '!src_gen/modules_custom/**/*.js'
 ]
 
 jspattern_srcgen = [
@@ -152,15 +152,15 @@ copypattern = [
   'src/generated_libs/**/*.js'
   'src/bower_components/**/*'
   'src/components/**/*.js'
-  'src/node_modules_custom/**/*.js'
-  'src/node_modules_custom/**/*.css'
+  'src/modules_custom/**/*.js'
+  'src/modules_custom/**/*.css'
   '!src/**/*.deps.js'
   '!src/**/*.jspm.js'
   '!src/jspm_packages/**/*'
 ]
 
 do ->
-  for src_subfolder in ['goals', 'node_modules_custom', 'components']
+  for src_subfolder in ['goals', 'modules_custom', 'components']
     for extension in ['html', 'png', 'jpg', 'gif', 'svg']
       copypattern.push 'src/' + src_subfolder + '/**/*.' + extension
   for enabled_intervention_name in enabled_intervention_list
@@ -629,12 +629,12 @@ gulp.task 'generate_jspm_config_frontend', (done) ->
   for alias_info in get_alias_info()
     {path, frontend} = alias_info
     path_map[path] = frontend
-  for libname in fs.readdirSync 'src/node_modules_custom'
+  for libname in fs.readdirSync 'src/modules_custom'
     if libname.startsWith('.')
       continue
-    package_json_file = "src/node_modules_custom/#{libname}/package.json"
+    package_json_file = "src/modules_custom/#{libname}/package.json"
     package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
-    path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
+    path_map[libname] = "modules_custom/#{libname}/#{package_json.main}"
   fs.writeFileSync 'jspm_config_frontend.js', """
   SystemJS.config({
   map: #{JSON.stringify(path_map, null, 2)}
@@ -649,12 +649,12 @@ gulp.task 'generate_jspm_config_backend', (done) ->
   for alias_info in get_alias_info()
     {path, backend} = alias_info
     path_map[path] = backend
-  for libname in fs.readdirSync 'src/node_modules_custom'
+  for libname in fs.readdirSync 'src/modules_custom'
     if libname.startsWith('.')
       continue
-    package_json_file = "src/node_modules_custom/#{libname}/package.json"
+    package_json_file = "src/modules_custom/#{libname}/package.json"
     package_json = JSON.parse fs.readFileSync(package_json_file, 'utf-8')
-    path_map[libname] = "node_modules_custom/#{libname}/#{package_json.main}"
+    path_map[libname] = "modules_custom/#{libname}/#{package_json.main}"
   fs.writeFileSync 'jspm_config_backend.js', """
   SystemJS.config({
   map: #{JSON.stringify(path_map, null, 2)}
@@ -678,7 +678,7 @@ gulp.task 'generate_polymer_components_html', (done) ->
   fs.writeFileSync 'src/components/components.html', output.join("\n")
   done()
 
-extra_folders = ['node_modules_custom', 'intervention_templates', 'generated_libs', 'bundles', 'bower_components', 'libs_frontend', 'libs_common', 'libs_backend', 'components']
+extra_folders = ['modules_custom', 'intervention_templates', 'generated_libs', 'bundles', 'bower_components', 'libs_frontend', 'libs_common', 'libs_backend', 'components']
 
 gulp.task 'make_extra_file_list', (done) ->
   complete_file_list = []

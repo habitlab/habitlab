@@ -8,7 +8,7 @@
     compatibility: '*'
   };
   cssmin = new CleanCSS(options);
-  list_of_files_to_make_cached = ['bower_components/sweetalert2/dist/sweetalert2.css', 'node_modules_custom/jquery.terminal/css/jquery.terminal.min.css'];
+  list_of_files_to_make_cached = ['bower_components/sweetalert2/dist/sweetalert2.css', 'modules_custom/jquery.terminal/css/jquery.terminal.min.css'];
   output = {};
   for (i$ = 0, len$ = list_of_files_to_make_cached.length; i$ < len$; ++i$) {
     filename = list_of_files_to_make_cached[i$];

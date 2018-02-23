@@ -57,6 +57,7 @@ polymer_ext({
     SystemJS.import('libs_common/screenshot_utils');
   },
   habitlab_button_clicked: async function() {
+    /*
     //var screenshot_utils = await SystemJS.import('libs_common/screenshot_utils');
     //var screenshot = await screenshot_utils.get_screenshot_as_base64();
     //var data = await screenshot_utils.get_data_for_feedback();
@@ -71,7 +72,7 @@ polymer_ext({
     //console.log(habitlab_options_popup)
     //console.log(habitlab_options_popup.show)
     habitlab_options_popup.show();
-    /*
+    */
     var screenshot_utils = await SystemJS.import('libs_common/screenshot_utils');
     var screenshot = await screenshot_utils.get_screenshot_as_base64();
     var data = await screenshot_utils.get_data_for_feedback();
@@ -80,7 +81,6 @@ polymer_ext({
     habitlab_options_popup.screenshot = screenshot;
     habitlab_options_popup.other = data;
     habitlab_options_popup.open();
-    */
   },
   get_url: function() {
     //return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');

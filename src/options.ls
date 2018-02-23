@@ -94,7 +94,7 @@ if window.location.pathname == '/options.html'
     #setTimeout ->
     #  options_view = add_options_view(true)
     #, 5000
-    log_pageview({to: 'settings'})
+    log_pageview({to: 'onboarding'})
   else
     options_view = add_options_view(false)
     log_pageview()

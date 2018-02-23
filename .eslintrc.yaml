@@ -21,6 +21,7 @@ globals:
   #'$': true
   'SystemJS': true
   'require': true
+  'require_package': true
   'require_component': true
   'exports': true
   'module': true

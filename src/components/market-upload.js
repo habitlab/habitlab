@@ -2,7 +2,7 @@ const {polymer_ext} = require('libs_frontend/polymer_utils')
 const screenshot_utils = require('libs_common/screenshot_utils')
 
 polymer_ext({
-  is: 'market-card',
+  is: 'market-upload',
   properties: {
     name: {
       type: String

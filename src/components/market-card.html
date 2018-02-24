@@ -25,8 +25,8 @@
        :host {
         display: block;
         width: 208px;
-        height: 312px;
-        background-color: white;
+        height: 270px;
+        background-color: transparent;
         margin-right: 10px;
         --paper-card: {
           width: 100%;
@@ -35,9 +35,11 @@
         ;
       }
 
+      img{}
+
       .borders{
-        border: 2px solid gray;
-        border-radius: 10px;
+        border: 2px solid white;
+        border-radius: 30px;
       }
 
       .card{
@@ -48,23 +50,28 @@
         justify-content: center;
       }
       .checked {
-        color: orange;
+        color: black;
       }
-      img{
-        height:55%;
-        width:100%;
-        background-color: grey;
+
+      .cardSquare{
+        height:160px;
+        width:160px;
+        background-color: white;
+        padding: 10px;
       }
 
       h2{
+        color: white;
         font-size: 16px;
       }
 
       h3{
+        color: white;
         font-size: 18px;
       }
 
       p{
+        color: white;
         font-size: 12px;
       }
 
@@ -74,6 +81,7 @@
           height:245px;
       }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         body {
           display: flex;
@@ -97,6 +105,10 @@
           opacity:0.5;
           z-index: 100;
           display: block;
+=======
+      #description{
+        display: none;
+>>>>>>> b7e466ae... Completely changed UI design
       }
 
       .description {
@@ -109,13 +121,100 @@
         text-align: center;
       }
 
+      .buttonDownload {
+      	display: inline-block;
+      	position: relative;
+      	padding: 10px 18px;
+
+      	background-color: #51a7f9;
+      	color: white;
+
+      	font-family: sans-serif;
+      	text-decoration: none;
+      	font-size: 0.9em;
+      	text-align: center;
+        border-radius: 20px;
+      }
+
+      .buttonDownload:hover {
+      	background-color: #333;
+      	color: white;
+      }
+
+      .buttonDownload:before, .buttonDownload:after {
+      	content: ' ';
+      	display: block;
+      	position: absolute;
+      	left: 12px;
+      	top: 52%;
+      }
+
+      /* Download box shape  */
+      .buttonDownload:before {
+      	width: 10px;
+      	height: 2px;
+      	border-style: solid;
+      	border-width: 0 2px 2px;
+      }
+
+      /* Download arrow shape */
+      .buttonDownload:after {
+      	width: 0;
+      	height: 0;
+      	margin-top: -7px;
+        marging-left:2px;
+      	border-style: solid;
+      	border-width: 4px 4px 4px 4px;
+      	border-color: transparent;
+      	border-top-color: inherit;
+
+      	animation: downloadArrow 2s linear infinite;
+      	animation-play-state: paused;
+      }
+
+      .buttonDownload:hover:before {
+      	border-color: #51a7f9;
+      }
+
+      .buttonDownload:hover:after {
+      	border-top-color: #51a7f9;
+      	animation-play-state: running;
+      }
+
+      /* keyframes for the download icon anim */
+      @keyframes downloadArrow {
+      	/* 0% and 0.001% keyframes used as a hackish way of having the button frozen on a nice looking frame by default */
+      	0% {
+      		margin-top: -7px;
+      		opacity: 1;
+      	}
+
+      	0.001% {
+      		margin-top: -15px;
+      		opacity: 0;
+      	}
+
+      	50% {
+      		opacity: 1;
+      	}
+
+      	100% {
+      		margin-top: 0;
+      		opacity: 0;
+      	}
+      }
+
 
 >>>>>>> fdd73f1e... small updates
     </style>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <div class = "card">
-        <img>
+        <img id= "image" class = "cardSquare borders" src = "https://images-eu.ssl-images-amazon.com/images/G/29/gc/designs/livepreview/a_generic_10_it_noto_email_v2016_it-main._CB515027220_.png">
+        <div id= "description" class = "cardSquare borders">
+          <div style="height:calc(80%)">{{description}}</div>
+            <a href="#{{location}}" class="buttonDownload"></a>
+        </div>
         <br>
         <h2>{{name}}</h2>
         <span class="fa fa-star checked"></span>
@@ -123,8 +222,6 @@
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star"></span>
         <span class="fa fa-star"></span>
-        <div class = "ovelay"></div>
-        <p class = "description">{{description}}</p>
       </div>
 
     <!-- <div style="margin-bottom: 20px"></div> -->

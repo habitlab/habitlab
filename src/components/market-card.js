@@ -27,6 +27,7 @@ polymer_ext({
     }
 =======
   ready: async function() {
+<<<<<<< HEAD
       this.$$(".card").hover(
       function(){
   	     this.$$(".description", this).css("display", "block");
@@ -43,3 +44,22 @@ polymer_ext({
   }
 });
 */
+=======
+    const self = this
+    self.S(".card").hover(
+    function() {
+      self.S("#description").css("display", "inline-block");
+      self.S("#image").css("display", "none");
+    },
+    function() {
+      self.S("#description").css("display", "none");
+      self.S("#image").css("display", "inline-block");
+    });
+  }
+}, {
+  source: require('libs_frontend/polymer_methods'),
+  methods: [
+    'S'
+  ]
+})
+>>>>>>> b7e466ae... Completely changed UI design

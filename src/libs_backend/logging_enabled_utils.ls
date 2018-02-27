@@ -4,6 +4,7 @@
 
 {
   get_user_id
+  get_install_id
 } = require 'libs_backend/background_common'
 
 chrome_manifest = chrome.runtime.getManifest()
@@ -16,6 +17,7 @@ export get_basic_client_data = ->>
   data.client_timestamp = Date.now()
   data.client_localtime = new Date().toString()
   data.user_id = await get_user_id()
+  data.install_id = await get_install_id()
   data.browser = navigator.userAgent
   data.language = navigator.language
   data.languages = navigator.languages

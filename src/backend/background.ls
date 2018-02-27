@@ -22,6 +22,7 @@ do !->>
     addtokey_dictdict
     getkey_dictdict
     getDb
+    setvar_experiment
   } = require 'libs_backend/db_utils'
 
   await getDb()
@@ -153,7 +154,10 @@ do !->>
     return last_visit_timestamp
 
   set_intervention_selection_algorithm_firstinstall = ->
-    # todo
+    algorithms = ['default', 'experiment_always_same']
+    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
+    setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
     return
 
   do !->>

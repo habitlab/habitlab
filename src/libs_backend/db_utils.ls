@@ -43,6 +43,7 @@ current_schema_for_collections = {
   goal_vars_synced: '[key+key2],key,key2,synced'
   goal_vars_unsynced: '[key+key2],key,key2'
   experiment_vars_for_goal: '[key+key2],key,key2'
+  experiment_vars: 'key,synced'
   #lists: '++,key,val'
   # composite index:
   # https://groups.google.com/forum/#!topic/dexiejs/G3_W5PssCGA
@@ -196,6 +197,29 @@ export clearvar = (key) ->>
 
 export printvar = (key) ->>
   result = await getvar key
+  console.log result
+  return result
+
+export setvar_experiment = (key, val) ->>
+  data = await getCollection('experiment_vars')
+  await data.put({key: key, val: val, synced: 0, timestamp: Date.now()})
+  return val
+
+export getvar_experiment = (key) ->>
+  data = await getCollection('experiment_vars')
+  result = await data.get(key)
+  if result?
+    return result.val
+  else
+    return null
+
+export clearvar_experiment = (key) ->>
+  data = await getCollection('experiment_vars')
+  num_deleted = await data.where('key').equals(key).delete()
+  return
+
+export printvar_experiment = (key) ->>
+  result = await getvar_experiment key
   console.log result
   return result
 

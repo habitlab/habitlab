@@ -144,8 +144,10 @@ export experiment_always_same = (enabled_goals) ->>
     available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
     if available_interventions.length == 0
       continue
-    default_intervention_for_goal = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_default_intervention')
-    selected_intervention = shuffled(available_interventions)[0]
+    selected_intervention = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_default_intervention')
+    if not selected_intervention? or available_interventions.indexOf(selected_intervention) == -1
+      selected_intervention = shuffled(available_interventions)[0]
+      await setkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_default_intervention', selected_intervention)
     output.push selected_intervention
     output_set[selected_intervention] = true
   return prelude.sort(output)

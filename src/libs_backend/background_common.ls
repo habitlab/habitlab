@@ -35,6 +35,20 @@ export get_user_id = memoizeSingleAsync ->>
     await new Promise -> chrome_storage_sync.remove 'userid', it
     return await get_user_id_real()
 
+cached_install_id = null
+
+export get_install_id = memoizeSingleAsync ->>
+  if cached_install_id?
+    return cached_install_id
+  install_id = localStorage.getItem('install_id')
+  if install_id?
+    cached_install_id := install_id
+    return install_id
+  install_id = generate_random_id()
+  cached_install_id := install_id
+  localStorage.setItem('install_id', install_id)
+  return install_id
+
 export get_user_id_from_history = ->>
   history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
   for search_result in history_search_results

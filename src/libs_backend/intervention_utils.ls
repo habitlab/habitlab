@@ -277,6 +277,7 @@ export generate_interventions_for_domain = (domain) ->>
     intervention_info.is_default = default_interventions.includes(intervention_info.name)
     #fix_intervention_info intervention_info, ["custom/spend_less_time_#{domain}"] # TODO may need to add the goal it addresses
     new_intervention_info_list.push intervention_info
+  /*
   [default_enabled_interventions, interventions_per_goal, intervention_choosing_strategy] = select_subset_of_available_interventions(new_intervention_info_list)
   log_utils.add_log_interventions {
     type: 'default_interventions_for_custom_goal'
@@ -285,6 +286,7 @@ export generate_interventions_for_domain = (domain) ->>
     intervention_choosing_strategy: intervention_choosing_strategy
     default_enabled_interventions: default_enabled_interventions
   }
+  */
   await add_new_interventions new_intervention_info_list
   return
 
@@ -692,6 +694,33 @@ export get_interventions = ->>
   interventions_list = await list_all_interventions()
   output = {}
   intervention_info_list = (await goal_utils.get_goal_intervention_info()).interventions
+  for intervention_info in intervention_info_list
+    output[intervention_info.name] = intervention_info
+  extra_get_interventions_text = localStorage.getItem 'extra_get_interventions'
+  if extra_get_interventions_text?
+    extra_get_interventions = JSON.parse extra_get_interventions_text
+    for intervention_name,intervention_info of extra_get_interventions
+      output[intervention_name] = intervention_info
+  localStorage.setItem 'cached_get_interventions', JSON.stringify(output)
+  fix_intervention_name_to_intervention_info_dict output, interventions_to_goals
+  return output
+
+/*
+export get_interventions = ->>
+  #if local_cache_get_interventions?
+    #return local_cache_get_interventions
+  cached_get_interventions = localStorage.getItem 'cached_get_interventions'
+  interventions_to_goals = await goal_utils.get_interventions_to_goals()
+  if cached_get_interventions?
+    intervention_name_to_info = JSON.parse cached_get_interventions
+    fix_intervention_name_to_intervention_info_dict intervention_name_to_info, interventions_to_goals
+    return intervention_name_to_info
+    #return JSON.parse cached_get_interventions
+    #local_cache_get_interventions := JSON.parse cached_get_interventions
+    #return local_cache_get_interventions
+  interventions_list = await list_all_interventions()
+  output = {}
+  intervention_info_list = (await goal_utils.get_goal_intervention_info()).interventions
   default_enabled_interventions = {}
   cached_default_enabled_interventions = localStorage.getItem('default_interventions_on_install_cached')
   if cached_default_enabled_interventions?
@@ -718,6 +747,7 @@ export get_interventions = ->>
   localStorage.setItem 'cached_get_interventions', JSON.stringify(output)
   fix_intervention_name_to_intervention_info_dict output, interventions_to_goals
   return output
+*/
 
 export clear_cache_get_interventions = ->
   #local_cache_get_interventions := null

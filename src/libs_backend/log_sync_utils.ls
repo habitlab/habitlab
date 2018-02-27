@@ -11,6 +11,7 @@
 
 {
   get_user_id
+  get_install_id
 } = require 'libs_backend/background_common'
 
 {
@@ -129,6 +130,7 @@ upload_collection_item_to_server = (name, data) ->>
   collection = await getCollection(name)
   data = {} <<< data
   data.userid = await get_user_id()
+  data.install_id = await get_install_id()
   data.collection = name
   data.habitlab_version = habitlab_version
   if developer_mode

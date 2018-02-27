@@ -1,5 +1,6 @@
 require! {
   shuffled
+  moment
 }
 
 prelude = require 'prelude-ls'
@@ -16,6 +17,11 @@ prelude = require 'prelude-ls'
   get_enabled_goals
   get_goals
 } = require 'libs_backend/goal_utils'
+
+{
+  getkey_dictdict
+  setkey_dictdict
+} = require 'libs_backend/db_utils'
 
 {
   as_array
@@ -128,6 +134,7 @@ export get_intervention_selection_algorithm = ->>
   return selection_algorithms[algorithm_name]
 */
 
+/*
 export experiment_always_same = (enabled_goals) ->>
   if not enabled_goals?
     enabled_goals = await get_enabled_goals()
@@ -144,10 +151,148 @@ export experiment_always_same = (enabled_goals) ->>
     available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
     if available_interventions.length == 0
       continue
-    selected_intervention = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_default_intervention')
+    selected_intervention = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_intervention')
     if not selected_intervention? or available_interventions.indexOf(selected_intervention) == -1
       selected_intervention = shuffled(available_interventions)[0]
-      await setkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_default_intervention', selected_intervention)
+      await setkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_intervention', selected_intervention)
+    output.push selected_intervention
+    output_set[selected_intervention] = true
+  return prelude.sort(output)
+*/
+
+export experiment_always_same = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
+  goals = await get_goals()
+  output = []
+  output_set = {}
+  for goal_name,goal_enabled of enabled_goals
+    goal_info = goals[goal_name]
+    if (not goal_info?) or (not goal_info.interventions?)
+      continue
+    interventions = goal_info.interventions
+    # what interventions are available that have not been disabled?
+    available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
+    if available_interventions.length == 0
+      continue
+    curday = moment().format('YYYYMMDD')
+    selected_intervention_info = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_intervention_info')
+    selected_intervention = null
+    if selected_intervention_info?
+      try
+        selected_intervention_info = JSON.parse(selected_intervention_info)
+        selected_intervention = selected_intervention_info.intervention
+      catch
+        # end
+    if not selected_intervention? or available_interventions.indexOf(selected_intervention) == -1
+      selected_intervention = shuffled(available_interventions)[0]
+      await setkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_intervention_info', JSON.stringify({day: curday, intervention: selected_intervention}))
+    output.push selected_intervention
+    output_set[selected_intervention] = true
+  return prelude.sort(output)
+
+export experiment_oneperday = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
+  goals = await get_goals()
+  output = []
+  output_set = {}
+  for goal_name,goal_enabled of enabled_goals
+    goal_info = goals[goal_name]
+    if (not goal_info?) or (not goal_info.interventions?)
+      continue
+    interventions = goal_info.interventions
+    # what interventions are available that have not been disabled?
+    available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
+    if available_interventions.length == 0
+      continue
+    curday = moment().format('YYYYMMDD')
+    selected_intervention_info = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_oneperday_intervention_info')
+    selected_intervention = null
+    if selected_intervention_info?
+      try
+        selected_intervention_info = JSON.parse(selected_intervention_info)
+        day = selected_intervention_info.day
+        if day == curday
+          selected_intervention = selected_intervention_info.intervention
+      catch
+        # end
+    if not selected_intervention? or available_interventions.indexOf(selected_intervention) == -1
+      selected_intervention = shuffled(available_interventions)[0]
+      await setkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_oneperday_intervention_info', JSON.stringify({day: curday, intervention: selected_intervention}))
+    output.push selected_intervention
+    output_set[selected_intervention] = true
+  return prelude.sort(output)
+
+export experiment_onepertwodays = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
+  goals = await get_goals()
+  output = []
+  output_set = {}
+  for goal_name,goal_enabled of enabled_goals
+    goal_info = goals[goal_name]
+    if (not goal_info?) or (not goal_info.interventions?)
+      continue
+    interventions = goal_info.interventions
+    # what interventions are available that have not been disabled?
+    available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
+    if available_interventions.length == 0
+      continue
+    curday = moment().format('YYYYMMDD')
+    daysago1 = moment().subtract(1, 'day').format('YYYYMMDD')
+    selected_intervention_info = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_onepertwodays_intervention_info')
+    selected_intervention = null
+    if selected_intervention_info?
+      try
+        selected_intervention_info = JSON.parse(selected_intervention_info)
+        day = selected_intervention_info.day
+        if day == curday or day == daysago1
+          selected_intervention = selected_intervention_info.intervention
+      catch
+        # end
+    if not selected_intervention? or available_interventions.indexOf(selected_intervention) == -1
+      selected_intervention = shuffled(available_interventions)[0]
+      await setkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_onepertwodays_intervention_info', JSON.stringify({day: curday, intervention: selected_intervention}))
+    output.push selected_intervention
+    output_set[selected_intervention] = true
+  return prelude.sort(output)
+
+export experiment_oneperthreedays = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
+  goals = await get_goals()
+  output = []
+  output_set = {}
+  for goal_name,goal_enabled of enabled_goals
+    goal_info = goals[goal_name]
+    if (not goal_info?) or (not goal_info.interventions?)
+      continue
+    interventions = goal_info.interventions
+    # what interventions are available that have not been disabled?
+    available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
+    if available_interventions.length == 0
+      continue
+    curday = moment().format('YYYYMMDD')
+    daysago1 = moment().subtract(1, 'day').format('YYYYMMDD')
+    daysago2 = moment().subtract(2, 'day').format('YYYYMMDD')
+    selected_intervention_info = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_oneperthreedays_intervention_info')
+    selected_intervention = null
+    if selected_intervention_info?
+      try
+        selected_intervention_info = JSON.parse(selected_intervention_info)
+        day = selected_intervention_info.day
+        if day == curday or day == daysago1 or day == daysago2
+          selected_intervention = selected_intervention_info.intervention
+      catch
+        # end
+    if not selected_intervention? or available_interventions.indexOf(selected_intervention) == -1
+      selected_intervention = shuffled(available_interventions)[0]
+      await setkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_oneperthreedays_intervention_info', JSON.stringify({day: curday, intervention: selected_intervention}))
     output.push selected_intervention
     output_set[selected_intervention] = true
   return prelude.sort(output)
@@ -157,8 +302,9 @@ selection_algorithms_for_visit = {
   'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal
   'default': one_random_intervention_per_enabled_goal
   'experiment_always_same': experiment_always_same
-  #'experiment_oneperday': one_intervention_per_day
-  #'experiment_onepertwodays': one_intervention_per_twodays
+  'experiment_oneperday': experiment_oneperday
+  'experiment_onepertwodays': experiment_onepertwodays
+  'experiment_oneperthreedays': experiment_oneperthreedays
 }
 
 export get_intervention_selection_algorithm_for_visit = ->>

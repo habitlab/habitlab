@@ -152,6 +152,10 @@ do !->>
           last_visit_timestamp = search_result.lastVisitTime
     return last_visit_timestamp
 
+  set_intervention_selection_algorithm_firstinstall = ->
+    # todo
+    return
+
   do !->>
     {
       post_json
@@ -172,6 +176,8 @@ do !->>
     localStorage.setItem('notfirstrun', true)
     await set_default_goals_enabled()
     await set_default_generic_interventions_enabled()
+    # set intervention selection algorithm - experiment
+    set_intervention_selection_algorithm_firstinstall()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()

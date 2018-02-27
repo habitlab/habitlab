@@ -42,6 +42,7 @@ current_schema_for_collections = {
   intervention_vars_unsynced: '[key+key2],key,key2'
   goal_vars_synced: '[key+key2],key,key2,synced'
   goal_vars_unsynced: '[key+key2],key,key2'
+  experiment_vars_for_goal: '[key+key2],key,key2'
   #lists: '++,key,val'
   # composite index:
   # https://groups.google.com/forum/#!topic/dexiejs/G3_W5PssCGA

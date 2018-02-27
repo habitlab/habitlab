@@ -128,10 +128,35 @@ export get_intervention_selection_algorithm = ->>
   return selection_algorithms[algorithm_name]
 */
 
+export experiment_always_same = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
+  goals = await get_goals()
+  output = []
+  output_set = {}
+  for goal_name,goal_enabled of enabled_goals
+    goal_info = goals[goal_name]
+    if (not goal_info?) or (not goal_info.interventions?)
+      continue
+    interventions = goal_info.interventions
+    # what interventions are available that have not been disabled?
+    available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
+    if available_interventions.length == 0
+      continue
+    default_intervention_for_goal = await getkey_dictdict('experiment_vars_for_goal', goal_name, 'experiment_always_same_default_intervention')
+    selected_intervention = shuffled(available_interventions)[0]
+    output.push selected_intervention
+    output_set[selected_intervention] = true
+  return prelude.sort(output)
+
 selection_algorithms_for_visit = {
   'random': one_random_intervention_per_enabled_goal
   'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal
   'default': one_random_intervention_per_enabled_goal
+  'experiment_always_same': experiment_always_same
+  #'experiment_oneperday': one_intervention_per_day
+  #'experiment_onepertwodays': one_intervention_per_twodays
 }
 
 export get_intervention_selection_algorithm_for_visit = ->>

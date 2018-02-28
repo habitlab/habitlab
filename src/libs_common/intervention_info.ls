@@ -49,6 +49,18 @@ export get_is_new_session = ->
     return is_new_session
   return false
 
+is_preview_mode_cached = null
+
+export set_is_preview_mode = (new_is_preview_mode) ->
+  is_preview_mode_cached := new_is_preview_mode
+
+export get_is_preview_mode = ->
+  if is_preview_mode_cached?
+    return is_preview_mode_cached
+  if is_preview_mode?
+    return is_preview_mode
+  return false
+
 session_id_cached = null
 
 export set_session_id = (new_session_id) ->

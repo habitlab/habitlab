@@ -32,6 +32,7 @@ globals:
   'tab_id': true
   'session_id': true
   'is_new_session': true
+  'is_preview_mode': true
   'Buffer': true
   'dlog': true
   'parameters': true

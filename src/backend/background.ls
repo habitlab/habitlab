@@ -981,6 +981,7 @@ do !->>
       send_message_to_tabid tabId, 'tab_activated', {}
 
   chrome.tabs.onRemoved.addListener (tabId, info) ->>
+    iframed_domain_to_track := null
     if tabs_to_listen_for_focus.has tabId
       tabs_to_listen_for_focus.delete tabId
 
@@ -1014,8 +1015,8 @@ do !->>
     if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
       return
     reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
-    chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
-    iframed_domain_to_track := null
+    if localStorage.getItem('allow_reward_gifs') != 'false'
+      chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
 
   /*
   setInterval ->>

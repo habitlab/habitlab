@@ -45,3 +45,21 @@ export send_logging_disabled = (options) ->>
     data[k] = v
   post_json('https://habitlab.herokuapp.com/add_logging_state', data)
   return
+
+export send_feature_enabled = (options) ->>
+  options = options ? {}
+  data = await get_basic_client_data()
+  data.feature_enabled = true
+  for k,v of options
+    data[k] = v
+  post_json('https://habitlab.herokuapp.com/add_feature_state', data)
+  return
+
+export send_feature_disabled = (options) ->>
+  options = options ? {}
+  data = await get_basic_client_data()
+  data.feature_enabled = false
+  for k,v of options
+    data[k] = v
+  post_json('https://habitlab.herokuapp.com/add_feature_state', data)
+  return

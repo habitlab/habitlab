@@ -22,6 +22,7 @@ prelude = require 'prelude-ls'
   getkey_dictdict
   setkey_dictdict
   getvar_experiment
+  setvar_experiment
 } = require 'libs_backend/db_utils'
 
 {

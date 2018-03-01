@@ -347,7 +347,12 @@ export getdictdict = (name) ->>
   data = await getCollection(name)
   result = await data
   .toArray()
-  return {[key, key2, val] for {key, key2, val} in result}
+  output = {}
+  for {key, key2, val} in result
+    if not output[key]?
+      output[key] = {}
+    output[key][key2] = val
+  return output
 
 export getdict_for_key_dictdict = (name, key) ->>
   data = await getCollection(name)

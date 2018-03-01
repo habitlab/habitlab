@@ -91,6 +91,10 @@ polymer_ext {
       type: Boolean
       value: localStorage.popup_view_has_been_opened == 'true'
     }
+    positive_goals_disabled: {
+      type: Boolean
+      value: localStorage.positive_goals_disabled == 'true'
+    }
   }
   select_new_interventions: (evt) ->
     self = this
@@ -306,8 +310,9 @@ polymer_ext {
     # this.$.privacy_options.rerender()
   rerender: ->>
     # this.$.privacy_options.rerender()
-    await this.$.goal_selector.set_sites_and_goals()
-    await this.$.positive_goal_selector.set_sites_and_goals()
+    await this.$$('#goal_selector').set_sites_and_goals()
+    if this.$$('#positive_goal_selector')?
+      await this.$$('#positive_goal_selector').set_sites_and_goals()
 }, [
   {
     source: require 'libs_common/localization_utils'

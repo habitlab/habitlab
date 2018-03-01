@@ -325,11 +325,13 @@
       <paper-button id="goals-button" class="next-button" on-click="goals_set">Next</paper-button>
     </paper-card>
 
-    <paper-card class="papercard" heading="{{title_text}}">
-      <!--<div style="padding: 16px; font-size: 24px; font-weight: 400; color: black">What goals should HabitLab help you achieve? <iron-icon icon="help-outline" on-click="goals_help_icon_clicked" style="margin-bottom: 5px; cursor: pointer"></iron-icon></div>-->
-      <positive-goal-selector id="positive_goal_selector" />
-      <paper-button id="positive-goals-button" class="next-button" on-click="goals_set">Next</paper-button>
-    </paper-card>
+    <template is="dom-if" if="{{!positive_goals_disabled}}">
+      <paper-card class="papercard" heading="{{title_text}}">
+        <!--<div style="padding: 16px; font-size: 24px; font-weight: 400; color: black">What goals should HabitLab help you achieve? <iron-icon icon="help-outline" on-click="goals_help_icon_clicked" style="margin-bottom: 5px; cursor: pointer"></iron-icon></div>-->
+        <positive-goal-selector id="positive_goal_selector" />
+        <paper-button id="positive-goals-button" class="next-button" on-click="goals_set">Next</paper-button>
+      </paper-card>
+    </template>
 
       <!--<div id="intro3" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 

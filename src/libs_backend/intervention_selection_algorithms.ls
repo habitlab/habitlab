@@ -413,7 +413,8 @@ export experiment_alternate_between_same_vs_random_varlength_deterministic = (en
   else
     if not experiment_info.conditions?
       experiment_info.conditions = shuffled(['random', 'same'])
-    experiment_info.conditionduration = 1 + Math.floor(Math.random() * 7)
+    duration_options = [1, 3, 5, 7]
+    experiment_info.conditionduration = duration_options[Math.floor(Math.random() * duration_options.length)]
     experiment_info.day = curday
     condition = get_current_condition_for_experiment(experiment_info)
     await setvar_experiment('experiment_alternate_between_same_vs_random_varlength_deterministic', JSON.stringify(experiment_info))

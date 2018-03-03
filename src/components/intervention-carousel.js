@@ -7,29 +7,61 @@ polymer_ext({
     interventions: {
       type: Array,
     },
-    site:{
+    site: {
       type: String,
     }
-  },
-  ready: async function() {
-      this.S(".addCard").onClick = this.startAdd();
-      //console.log(this.interventions);
-      let request = 'http://localhost:5000/get_contributed_interventions_for_site' + '?website='+ this.site;
-      console.log(request);
-      let data = await fetch(request).then(x => x.json());
-      console.log(data);
-      this.addCards(data);
-  },
-  addCards:function(data){
-      for(var i = 0; i < data.length; i++){
-        this.intervention.add(data[i]);
-      }
-  },
-  startAdd:function(){
-    this.S("#addScreen").css("display","block");
-  }
-});
+    },
+    ready: async function() {
+        //console.log(this.interventions);
+        let request = 'http://localhost:5000/get_contributed_interventions_for_site' + '?website=' + this.site;
+        console.log(request);
+        let data = await fetch(request).then(x => x.json());
+        console.log(data);
+        this.addCards(data);
+        let modal = this.S('#myModal')[0];
+        let addCard = this.S(".addCard")[0];
+        let span = this.S(".close")[0];
+        console.log("-----");
+        console.log(addCard);
+        console.log(modal);
+        console.log(span);
+        console.log("-----");
+        // Get the <span> element that closes the modal
 
+
+        // When the user clicks the button, open the modal
+        addCard.onclick = function() {
+          modal.style.display = "block";
+          console.log("clicked");
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+      },
+      addCards: function(data) {
+        for (var i = 0; i < data.length; i++) {
+          this.intervention.add(data[i]);
+        }
+      },
+      startAdd: function() {
+        this.S("#addScreen").css("display", "block");
+      }
+    }, {
+      source: require('libs_frontend/polymer_methods'),
+      methods: [
+        'S'
+      ]
+    }
+    );
       /*{
         "name": "block_gif_links",
         "img": "source URL"

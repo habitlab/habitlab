@@ -12,6 +12,7 @@
 <link rel="import" href="initial-goal-selector.html">
 <link rel="import" href="positive-goal-selector.html">
 <link rel="import" href="onboarding-badges.html">
+<link rel="import" href="irb-dialog.html">
 
 <dom-module id="onboarding-view">
   <template>
@@ -104,8 +105,6 @@
         font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
       }
 
-      .onboarding_complete {}
-
       .subtext {
         font-size: 20px;
         font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -184,9 +183,11 @@
       }
     </style>
 
+    <irb-dialog id="irbdialog" shown_in_context="settings"></irb-dialog>
+
     <paper-dialog id="dialog">
-      <h2>Onboarding Complete!</h2>
-      <p>Habitlab has directed you to the Settings page. You will be able to manage your Nudges and track your progress here.</p>
+      <h2>Done Setting Up HabitLab!</h2>
+      <p>This is the settings page, where you can manage your Nudges and track your progress.</p>
     </paper-dialog>
 
     <div id="screen2" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
@@ -210,86 +211,6 @@
         </div>
 
       </div>
-    </div>
-
-    <div id="screen1" class="section slide" style="width: 100vw; height: 100vh; background-color:rgb(81, 167,249);overflow-y: scroll">
-
-<div style="margin-top:50px"></div>
-
-      <a href="http://hci.stanford.edu" target="_blank">
-          <img style="width: 18%; margin-bottom: 15px; padding-right:20px;margin-top:5px;" src="{{get_stanford_icon()}}" />
-        </a>
-
-      <div class="subtext">HabitLab is a research project run by the<br><a href="http://hci.stanford.edu/" target="_blank" style="color: white;">Stanford HCI Group</a>.</div>
-      <!--<div class="subtext">By using HabitLab, you are agreeing to the <a href = "https://github.com/habitlab/habitlab/wiki/Privacy#stanford-irb" target= "_blank" style = "color:white; text-decoration: underline;padding-bottom:10px;">terms of service</a>.</div>-->
-
-      <div style="text-align:center;">
-        <div style="width: 100%; height: 100%; overflow: hidden">
-          <div id="irb_text" style="display: inline-block;height: 70px; margin-top: 15px; font-size: 10px; width: 700px;background-color:rgba(250,250,250,0.6); color:rgba(75,84,92,95);padding:5px;padding-top:10px; padding-bottom:10px; border-radius: 5px;overflow-x: hidden; overflow-y: scroll;">
-
-            <b>Description</b>: HabitLab is a research study on developing better online habits. You can participate by installing
-            and using the HabitLab Chrome extension. The extension will ask you to specify some goals (such as spending less
-            time on Facebook), and will deploy various nudges that aim help you achieve those goals. It will log data related
-            to progress on your goals (such as time spent on domains), which will be used by our algorithms to determine
-            which nudges work for you. Data will not be shared with anyone outside our research team. You can opt-out of
-            sending this data to our servers on this page, or via an option under the extension settings.
-            <br><br>
-            <b>Time Involvement</b>: You can participate for as long as you want by keeping the extension installed.
-            <br><br>
-            <b>Risks and Benefits</b>: There are no forseeable risks associated with using HabitLab. We cannot and do not
-            guarantee or promise that you will receive any benefits from using HabitLab.
-            <br><br>
-            <b>Subject's Rights</b>: If you have read this form and have decided to participate in this project, please understand
-            your participation is voluntary and you have the right to withdraw your consent or discontinue participation
-            at any time without penalty or loss of benefits to which you are otherwise entitled. The alternative is not to
-            participate. You have the right to uninstall our extension at any time. Your individual privacy will be maintained
-            in all published and written data resulting from the study.
-            <br><br>
-            <b>Contact Information</b>: If you have any questions, concerns or complaints about this research, its procedures,
-            risks and benefits, contact the Protocol Director, <a style="color: rgb(81, 167, 249);" href="http://www.gkovacs.com/"
-              target="_blank">Geza Kovacs</a> <a style="color: rgb(81, 167, 249)" href="mailto:{{geza_meoaddr}}" target="_blank">{{geza_meoaddr}}</a>
-            <br><br>
-            <b>Independent Contact</b>: If you are not satisfied with how this study is being conducted, or if you have any
-            concerns, complaints, or general questions about the research or your rights as a participant, please contact
-            the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at (650)-723-2480
-            or toll free at 1-866-680-2906. You can also write to the Stanford IRB, Stanford University, 3000 El Camino Real,
-            Five Palo Alto Square, 4th Floor, Palo Alto, CA 94306.
-            <br><br>
-            <a href="https://github.com/habitlab/habitlab/wiki/Privacy#stanford-irb" target="_blank" style="color: rgb(81, 167, 249);">You may print or save a copy of this page for your records.</a>
-          </div>
-        </div>
-
-        <br>
-        <div class="checkbox_div_outer" style="padding-top:10px;padding-bottom:20px;">
-          <div class="checkbox_div">
-            <paper-checkbox checked="checked" checked="{{allow_logging}}">
-              <span class="checkbox_span">Let HabitLab send anonymized data to Stanford's servers<br>( we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: white; text-decoration: underline;" on-click="see_what_gets_loggged_clicked">see what gets logged</a> )</span>
-            </paper-checkbox>
-            <br><br>
-            <paper-checkbox checked="checked" disabled="disabled">
-              <span class="checkbox_span">By using HabitLab, I agree with the terms of service.</a></span>
-            </paper-checkbox>
-            <!-- <paper-checkbox checked="checked" disabled="disabled">
-              <span class="checkbox_span">By using HabitLab, I agree with the <a href="https://github.com/habitlab/habitlab/wiki/Privacy#stanford-irb" target="_blank" style="color: white; text-decoration: underline;" on-click="see_what_gets_loggged_clicked">terms of service.</a></span>
-            </paper-checkbox> -->
-          </div>
-        </div>
-      </div>
-      <br>
-
-      <div class="bottom-bar" style=" z-index: 100;align-items:center;">
-          <div style="display:inline-block; text-align: right;padding-right:30px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
-            <div class="prevnext_button_container">
-              <div>
-                <paper-button class="prevnext_button" on-click="prev_slide">
-                  <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px;"></iron-icon> {{msg("Previous")}}</paper-button>
-              </div>
-              <div>
-                <paper-button class="get_started_button onboarding_complete" style="margin-top: 10px;" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>
-              </div>
-            </div>
-          </div>
-        </div>
     </div>
 
     <template is="dom-if" if="{{is_not_equal_to_any(slide_idx, 0, last_slide_idx)}}">
@@ -317,6 +238,20 @@
           <div class="prevnext_button_container">
             <paper-button class="prevnext_button" on-click="next_slide">
               <iron-icon icon="arrow-downward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Next")}}</paper-button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template is="dom-if" if="{{is_equal(slide_idx, last_slide_idx)}}">
+      <div class="bottom-bar">
+        <div style="display:inline-table; text-align: center;align-items:center; padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
+          <div class="prevnext_button_container">
+            <paper-button class="prevnext_button" on-click="prev_slide">
+              <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
+          </div>
+          <div class="prevnext_button_container">
+            <paper-button class="prevnext_button" style="color: white; height: 37px;" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>
           </div>
         </div>
       </div>

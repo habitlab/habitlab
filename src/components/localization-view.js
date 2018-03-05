@@ -4,7 +4,7 @@ const {
 
 Polymer({
   is: 'localization-view',
-  propertites: {
+  properties: {
     messages_json_output_text: {
       type: String,
       value: ''

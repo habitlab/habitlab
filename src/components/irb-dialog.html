@@ -1,0 +1,81 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="irb-dialog">
+  <template>
+    <style>
+      .card-content {
+        font-size: 20px;
+      }
+
+      .checkbox_span {
+        color: black;
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      }
+    </style>
+
+    <paper-dialog id="irb_dialog" with-backdrop modal style="z-index: 9007199254740991;">
+      <div class="subtext">Please read and agree to our terms of service</div>
+      <!--<div class="subtext">By using HabitLab, you are agreeing to the <a href = "https://github.com/habitlab/habitlab/wiki/Privacy#stanford-irb" target= "_blank" style = "color:white; text-decoration: underline;padding-bottom:10px;">terms of service</a>.</div>-->
+
+      <div style="text-align:center;">
+        <div style="width: 100%; height: 100%; overflow: hidden">
+          <div id="irb_text" style="display: inline-block;height: 70px; margin-top: 15px; font-size: 10px; width: 700px;background-color:rgba(250,250,250,0.6); color:rgba(75,84,92,95);padding:5px;padding-top:10px; padding-bottom:10px; border-radius: 5px;overflow-x: hidden; overflow-y: scroll;">
+
+            HabitLab is a research project run by the <a href="http://hci.stanford.edu/" target="_blank" style="color: rgb(81, 167, 249);">Stanford HCI Group</a>
+            <br><br>
+
+            <b>Description</b>: HabitLab is a research study on developing better online habits. You can participate by installing
+            and using the HabitLab Chrome extension. The extension will ask you to specify some goals (such as spending less
+            time on Facebook), and will deploy various nudges that aim help you achieve those goals. It will log anonymized data related
+            to progress on your goals (such as time spent on domains), which will be used by our algorithms to determine
+            which nudges work for you. Data will not be shared with anyone outside our research team. You can opt-out of
+            sending this data to our servers at the bottom of this page or via an option under the extension settings.
+            <br><br>
+            <b>Time Involvement</b>: You can participate for as long as you want by keeping the extension installed.
+            <br><br>
+            <b>Risks and Benefits</b>: There are no forseeable risks associated with using HabitLab. We cannot and do not
+            guarantee or promise that you will receive any benefits from using HabitLab.
+            <br><br>
+            <b>Subject's Rights</b>: If you have read this form and have decided to participate in this project, please understand
+            your participation is voluntary and you have the right to withdraw your consent or discontinue participation
+            at any time without penalty or loss of benefits to which you are otherwise entitled. The alternative is not to
+            participate. You have the right to uninstall our extension at any time. Your individual privacy will be maintained
+            in all published and written data resulting from the study.
+            <br><br>
+            <b>Contact Information</b>: If you have any questions, concerns or complaints about this research, its procedures,
+            risks and benefits, contact the Protocol Director, <a style="color: rgb(81, 167, 249);" href="http://www.gkovacs.com/"
+              target="_blank">Geza Kovacs</a> <a style="color: rgb(81, 167, 249)" href="mailto:{{geza_meoaddr}}" target="_blank">{{geza_meoaddr}}</a>
+            <br><br>
+            <b>Independent Contact</b>: If you are not satisfied with how this study is being conducted, or if you have any
+            concerns, complaints, or general questions about the research or your rights as a participant, please contact
+            the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at (650)-723-2480
+            or toll free at 1-866-680-2906. You can also write to the Stanford IRB, Stanford University, 3000 El Camino Real,
+            Five Palo Alto Square, 4th Floor, Palo Alto, CA 94306.
+            <br><br>
+            <a href="https://github.com/habitlab/habitlab/wiki/Privacy#stanford-irb" target="_blank" style="color: rgb(81, 167, 249);">You may print or save a copy of this page for your records.</a>
+            <br><br>
+
+            <paper-checkbox checked="{{allow_logging}}">
+              <span class="checkbox_span">Let HabitLab send anonymized data to Stanford's servers<br>( we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: rgb(81, 167, 249);" on-click="see_what_gets_loggged_clicked">see what gets logged</a> )</span>
+            </paper-checkbox>
+          </div>
+        </div>
+
+        <br>
+        <div class="checkbox_div_outer" style="padding-top:10px;padding-bottom:20px;">
+          <div class="checkbox_div">
+            <paper-button style="background-color: green; color: white" on-click="accept_clicked">Agree</paper-button>
+            <!-- <paper-checkbox checked="checked" disabled="disabled">
+              <span class="checkbox_span">By using HabitLab, I agree with the <a href="https://github.com/habitlab/habitlab/wiki/Privacy#stanford-irb" target="_blank" style="color: white; text-decoration: underline;" on-click="see_what_gets_loggged_clicked">terms of service.</a></span>
+            </paper-checkbox> -->
+          </div>
+        </div>
+      </div>
+      <br>
+    </paper-dialog>
+
+  </template>
+  <script src="irb-dialog.js"></script>
+</dom-module>

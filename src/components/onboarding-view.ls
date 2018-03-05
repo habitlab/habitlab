@@ -41,23 +41,14 @@ polymer_ext {
       value: do ->
         if (window.hashdata_unparsed == 'last')
           if localStorage.positive_goals_disabled == 'true'
-            return 2
-          return 3
+            return 1
+          return 2
         return 0
       observer: 'slide_changed'
     }
     prev_slide_idx: {
       type: Number
       value: 0
-    }
-    allow_logging: {
-      type: Boolean
-      value: do ->
-        stored_value = localStorage.getItem('allow_logging')
-        if stored_value?
-          return stored_value == 'true'
-        return true
-      observer: 'allow_logging_changed'
     }
     # welcome_slide_line1: {
     #   type: String
@@ -67,10 +58,6 @@ polymer_ext {
     #   type: String
     #   value: msg("Let's do a quick tutorial and get you set up.")
     # }
-    geza_meoaddr: {
-      type: String
-      value: [['gko', 'vacs'].join(''), ['stan', 'ford', '.', 'edu'].join('')].join('@')
-    }
     habitlab_logo_url: {
       type: String,
       value: chrome.extension.getURL('icons/logo_gradient.svg') 
@@ -87,8 +74,8 @@ polymer_ext {
       type: Number
       value: do ->
         if localStorage.positive_goals_disabled == 'true'
-          return 2
-        return 3
+          return 1
+        return 2
     }
   }
   see_what_gets_loggged_clicked: (evt) ->
@@ -96,26 +83,6 @@ polymer_ext {
     evt.stopPropagation()
   get_stanford_icon: ->
     return chrome.extension.getURL('icons/stanford.svg')
-  allow_logging_changed: (allow_logging, prev_value_allow_logging) ->
-    if not prev_value_allow_logging?
-      return # was initializing
-    if not allow_logging?
-      return
-    send_change = true
-    prev_allow_logging = localStorage.getItem('allow_logging')
-    if prev_allow_logging?
-      prev_allow_logging = (prev_allow_logging == 'true')
-      if prev_allow_logging == allow_logging # no change
-        send_change = false
-    localStorage.setItem('allow_logging', allow_logging)
-    if allow_logging
-      if send_change
-        send_logging_enabled({page: 'onboarding', manual: true})
-      start_syncing_all_data()
-    else
-      if send_change
-        send_logging_disabled({page: 'onboarding', manual: true})
-      stop_syncing_all_data()
   slide_changed: (evt) ->
     self = this
     this.SM('.slide').stop()
@@ -287,6 +254,7 @@ polymer_ext {
     userid_setting_iframe = $('<iframe id="setuseridiframe" src="https://habitlab.stanford.edu/setuserid?userid=' + userid + '" style="width: 0; height: 0; pointer-events: none; opacity: 0; display: none"></iframe>')
     $('body').append(userid_setting_iframe)
   ready: ->>
+    this.$$('#irbdialog').open()
     $('body').css('overflow', 'hidden')
     self = this
     this.$$('#goal_selector').set_sites_and_goals()

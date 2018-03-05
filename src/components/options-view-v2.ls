@@ -152,13 +152,12 @@ polymer_ext {
     return
   onboarding_completed: ->
     swal({
-      title: "Onboarding Complete!",
-      text: "Habitlab has directed you to the Settings page. You will be able to manage your Nudges and track your progress here.",
+      title: "Done Setting Up HabitLab!",
+      text: "This is the settings page, where you can manage your Nudges and track your progress.",
       confirmButtonColor: "#3C5A96"
     });
 
   on_goal_changed: (evt) ->
-    console.log 'goal changed'
     this.rerender()
     #this.$$('#options-interventions').on_goal_changed(evt.detail)
     #this.$$('#dashboard-view').on_goal_changed(evt.detail)
@@ -231,7 +230,15 @@ polymer_ext {
     #self.$$('#settings_tab').rerender()
   #  self.once_available '#optionstab', ->
   #    self.S('#optionstab').prop('selected', 0)
+  allow_logging_changed: ->
+    console.log 'allow logging changed'
+    self = this
+    once_true ->
+      self.$$('#settings_tab')?rerender_privacy_options?
+    , ->
+      self.$$('#settings_tab').rerender_privacy_options()
   ready: ->>
+    this.$$('#irbdialog').open_if_needed()
     ##self = this
     ##this.$$('#goal_selector').set_sites_and_goals()
     await this.rerender()

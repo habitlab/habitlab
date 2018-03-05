@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="irb-dialog.html">
 
 <dom-module id="options-view-v2">
   <template>
@@ -83,6 +84,9 @@
         }
       </style>
     </custom-style>
+
+    <irb-dialog id="irbdialog" on-allow-logging-changed="allow_logging_changed" shown_in_context="settings"></irb-dialog>
+
     <template is="dom-if" if="{{!is_habitlab_disabled}}">
 
       <div>

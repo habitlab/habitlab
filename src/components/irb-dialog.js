@@ -80,7 +80,7 @@ Polymer({
     this.$.irb_dialog.close()
   },
   open_if_needed: function() {
-    if (localStorage.getItem('irb_accepted') != 'true')
+    if (localStorage.getItem('allow_logging') == null && localStorage.getItem('irb_accepted') != 'true')
       this.open()
   },
   isdemo_changed: function(isdemo) {

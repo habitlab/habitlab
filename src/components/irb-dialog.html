@@ -31,7 +31,11 @@
             time on Facebook), and will deploy various nudges that aim help you achieve those goals. It will log anonymized data related
             to progress on your goals (such as time spent on domains), which will be used by our algorithms to determine
             which nudges work for you. Data will not be shared with anyone outside our research team. You can opt-out of
-            sending this data to our servers at the bottom of this page or via an option under the extension settings.
+            sending this data to our servers below or via an option under the extension settings.
+            <br><br>
+            <paper-checkbox checked="{{allow_logging}}">
+              <span class="checkbox_span">Let HabitLab send anonymized data to Stanford's servers<br>( we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: rgb(81, 167, 249);" on-click="see_what_gets_loggged_clicked">see what gets logged</a> )</span>
+            </paper-checkbox>
             <br><br>
             <b>Time Involvement</b>: You can participate for as long as you want by keeping the extension installed.
             <br><br>
@@ -56,10 +60,6 @@
             <br><br>
             <a href="https://github.com/habitlab/habitlab/wiki/Privacy#stanford-irb" target="_blank" style="color: rgb(81, 167, 249);">You may print or save a copy of this page for your records.</a>
             <br><br>
-
-            <paper-checkbox checked="{{allow_logging}}">
-              <span class="checkbox_span">Let HabitLab send anonymized data to Stanford's servers<br>( we need this data to help us build HabitLab! <a href="https://github.com/habitlab/habitlab/wiki/Privacy" target="_blank" style="color: rgb(81, 167, 249);" on-click="see_what_gets_loggged_clicked">see what gets logged</a> )</span>
-            </paper-checkbox>
           </div>
         </div>
 

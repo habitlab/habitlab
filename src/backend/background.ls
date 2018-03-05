@@ -155,7 +155,7 @@ do !->>
 
   set_intervention_selection_algorithm_firstinstall = ->
     # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
-    algorithms = ['experiment_alternate_between_same_vs_random_daily_deterministic', 'experiment_alternate_between_same_vs_random_daily_deterministic', 'experiment_alternate_between_same_vs_random_varlength_deterministic']
+    algorithms = ['experiment_alternate_between_same_vs_random_daily_deterministic']
     chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
     setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)

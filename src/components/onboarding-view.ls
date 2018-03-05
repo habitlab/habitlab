@@ -254,7 +254,7 @@ polymer_ext {
     userid_setting_iframe = $('<iframe id="setuseridiframe" src="https://habitlab.stanford.edu/setuserid?userid=' + userid + '" style="width: 0; height: 0; pointer-events: none; opacity: 0; display: none"></iframe>')
     $('body').append(userid_setting_iframe)
   ready: ->>
-    this.$$('#irbdialog').open()
+    this.$$('#irbdialog').open_if_needed()
     $('body').css('overflow', 'hidden')
     self = this
     this.$$('#goal_selector').set_sites_and_goals()

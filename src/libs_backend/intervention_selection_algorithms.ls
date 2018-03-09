@@ -434,6 +434,47 @@ export experiment_alternate_between_same_vs_random_varlength_deterministic = (en
     output_set[selected_intervention] = true
   return prelude.sort(output)
 
+export experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
+  goals = await get_goals()
+  experiment_info = await getvar_experiment('experiment_alternate_between_same_vs_random_varlength_deterministic')
+  experiment_info = try_parse_json experiment_info
+  if not experiment_info?
+    experiment_info = {}
+  curday = moment().format('YYYYMMDD')
+  if is_experiment_still_running(experiment_info)
+    condition = get_current_condition_for_experiment(experiment_info)
+  else
+    if not experiment_info.conditions?
+      experiment_info.conditions = shuffled(['random', 'same'])
+    if not experiment_info.duration_order?
+      experiment_info.duration_order = shuffled([1, 3, 5, 7])
+    if not experiment_info.duration_idx?
+      experiment_info.duration_idx = 0
+    else
+      experiment_info.duration_idx = (experiment_info.duration_idx + 1) % experiment_info.duration_order.length
+    experiment_info.conditionduration = experiment_info.duration_order[experiment_info.duration_idx]
+    experiment_info.day = curday
+    condition = get_current_condition_for_experiment(experiment_info)
+    await setvar_experiment('experiment_alternate_between_same_vs_random_varlength_deterministic', JSON.stringify(experiment_info))
+  output = []
+  output_set = {}
+  for goal_name,goal_enabled of enabled_goals
+    goal_info = goals[goal_name]
+    if (not goal_info?) or (not goal_info.interventions?)
+      continue
+    interventions = goal_info.interventions
+    # what interventions are available that have not been disabled?
+    available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
+    if available_interventions.length == 0
+      continue
+    selected_intervention = await choose_among_interventions_by_rule(available_interventions, goal_name, condition)
+    output.push selected_intervention
+    output_set[selected_intervention] = true
+  return prelude.sort(output)
+
 selection_algorithms_for_visit = {
   'random': one_random_intervention_per_enabled_goal
   'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal
@@ -444,6 +485,7 @@ selection_algorithms_for_visit = {
   'experiment_oneperthreedays': experiment_oneperthreedays
   'experiment_alternate_between_same_vs_random_daily_deterministic': experiment_alternate_between_same_vs_random_daily_deterministic
   'experiment_alternate_between_same_vs_random_varlength_deterministic': experiment_alternate_between_same_vs_random_varlength_deterministic
+  'experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare': experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare
 }
 
 export get_intervention_selection_algorithm_for_visit = ->>

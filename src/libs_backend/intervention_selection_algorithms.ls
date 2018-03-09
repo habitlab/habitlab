@@ -439,7 +439,7 @@ export experiment_alternate_between_same_vs_random_varlength_deterministic_latin
     enabled_goals = await get_enabled_goals()
   enabled_interventions = await get_enabled_interventions()
   goals = await get_goals()
-  experiment_info = await getvar_experiment('experiment_alternate_between_same_vs_random_varlength_deterministic')
+  experiment_info = await getvar_experiment('experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare')
   experiment_info = try_parse_json experiment_info
   if not experiment_info?
     experiment_info = {}
@@ -458,7 +458,7 @@ export experiment_alternate_between_same_vs_random_varlength_deterministic_latin
     experiment_info.conditionduration = experiment_info.duration_order[experiment_info.duration_idx]
     experiment_info.day = curday
     condition = get_current_condition_for_experiment(experiment_info)
-    await setvar_experiment('experiment_alternate_between_same_vs_random_varlength_deterministic', JSON.stringify(experiment_info))
+    await setvar_experiment('experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare', JSON.stringify(experiment_info))
   output = []
   output_set = {}
   for goal_name,goal_enabled of enabled_goals

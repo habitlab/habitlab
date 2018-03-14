@@ -85,7 +85,7 @@ function addBeginDialog(message) {
   $okButton.text("Restrict My Minutes!");
   $okButton.css({'cursor': 'pointer', 'padding': '10px', 'background-color': '#415D67', 'color': 'white', 'font-weight': 'normal', 'box-shadow': '2px 2px 2px #888888'});
   //$okButton.click(() => {
-  $okButton.on('click', () => {
+  $okButton.on('click', async function() {
     var minutes = shadow_root.querySelector("paper-slider").value
     if (minutes === "") {
       if (shadow_div.find('.wrongInputText').length === 0) {
@@ -97,8 +97,10 @@ function addBeginDialog(message) {
       }
     } else {
       shadow_div.find('.beginBox').remove()
+      let current_time_spent = await get_seconds_spent_on_current_domain_in_current_session()
+      set_intervention_session_var('seconds_spent_at_most_recent_start', current_time_spent)
       set_intervention_session_var('seconds_selected', minutes*60)
-      displayCountdown(minutes * 60)
+      displayCountdown(minutes * 60, current_time_spent)
     }
   })
 
@@ -163,8 +165,10 @@ function addEndDialog(message) {
     height: '38px',
     'box-shadow': '2px 2px 2px #888888',
   })
+  let time_selection_dialog_shown = Date.now()
   $cheatButton.click(() => {
     $dialogBox.remove()
+    let seconds_until_selected = Math.round((Date.now() - time_selection_dialog_shown) / 1000)
     cheat(parameters.cheatseconds)
   })
 
@@ -176,7 +180,7 @@ function addEndDialog(message) {
   $dialogBox.append($contentContainer);
 }
 
-function cheat(seconds) {
+async function cheat(seconds) {
   var display_timespent_div = document.createElement('timespent-view')
   display_timespent_div.className = 'timespent-view'
   shadow_div.append(display_timespent_div)
@@ -184,11 +188,14 @@ function cheat(seconds) {
     shadow_div.find('.timespent-view').remove();
     addEndDialog("Your Cheating Time is Up!");
   })
-  display_timespent_div.startCheatTimer(seconds)
+  let current_time_spent = await get_seconds_spent_on_current_domain_in_current_session()
+  set_intervention_session_var('seconds_spent_at_most_recent_start', current_time_spent)
+  set_intervention_session_var('seconds_selected', 30)
+  display_timespent_div.startTimer(seconds, current_time_spent)
 }
 
 //Displays the countdown on the bottom left corner of the Facebook page
-function displayCountdown(timeLimitThisVisit) {
+function displayCountdown(timeLimitThisVisit, seconds_spent_at_most_recent_start) {
   var display_timespent_div = document.createElement('timespent-view')
   display_timespent_div.className = 'timespent-view'
   shadow_div.append(display_timespent_div)
@@ -196,7 +203,7 @@ function displayCountdown(timeLimitThisVisit) {
     shadow_div.find('.timespent-view').remove();
     addEndDialog("Your time this visit is up!");
   })
-  display_timespent_div.startTimer(timeLimitThisVisit)
+  display_timespent_div.startTimer(timeLimitThisVisit, seconds_spent_at_most_recent_start)
 }
 
 function main() {
@@ -214,11 +221,15 @@ function main() {
   shadow_root = shadow_div.shadow_root;
   shadow_div = $(shadow_div);
   if (!is_new_session) {
+    let seconds_spent_at_most_recent_start = await get_intervention_session_var('seconds_spent_at_most_recent_start')
+    if (!isFinite(seconds_spent_at_most_recent_start)) {
+      seconds_spent_at_most_recent_start = 0
+    }
     let seconds_selected = await get_intervention_session_var('seconds_selected')
     if (!isFinite(seconds_selected)) {
       seconds_selected = 3*60
     }
-    displayCountdown(seconds_selected) // todo get this from actual amount input by user
+    displayCountdown(seconds_selected, seconds_spent_at_most_recent_start) // todo get this from actual amount input by user
   } else {
     main()
   }

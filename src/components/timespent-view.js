@@ -59,9 +59,16 @@ polymer_ext({
     }
     return time_remaining
   },
-  ready: async function() {
+  start: async function(seconds_spent_at_most_recent_start) {
+    if (this.started) {
+      return
+    }
+    this.started = true
     let self = this
-    self.time_spent_on_domain_start = 0
+    if (seconds_spent_at_most_recent_start == null) {
+      seconds_spent_at_most_recent_start = 0
+    }
+    self.time_spent_on_domain_start = seconds_spent_at_most_recent_start
     self.time_spent_on_domain_now = await get_seconds_spent_on_current_domain_in_current_session()
     let was_time_remaining_previously_zero = false
     setInterval(async function() {
@@ -76,16 +83,14 @@ polymer_ext({
       }
     }, 1000)
   },
-  startCheatTimer: async function(seconds) {
-    this.num_seconds_allowed = seconds
-    let seconds_on_domain = await get_seconds_spent_on_current_domain_in_current_session()
-    this.time_spent_on_domain_start = seconds_on_domain
-    this.time_spent_on_domain_now = this.time_spent_on_domain_start
-  },
-  startTimer: async function(seconds) {
+  startTimer: async function(seconds, seconds_spent_at_most_recent_start) {
+    if (seconds_spent_at_most_recent_start == null) {
+      seconds_spent_at_most_recent_start = 0
+    }
     this.num_seconds_allowed = seconds
     //let seconds_on_domain = await get_seconds_spent_on_current_domain_in_current_session()
-    this.time_spent_on_domain_start = 0 //seconds_on_domain
+    this.time_spent_on_domain_start = seconds_spent_at_most_recent_start // 0 //seconds_on_domain
     this.time_spent_on_domain_now = this.time_spent_on_domain_start
+    this.start(seconds_spent_at_most_recent_start)
   },
 });

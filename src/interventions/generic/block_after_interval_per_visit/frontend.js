@@ -165,10 +165,8 @@ function addEndDialog(message) {
     height: '38px',
     'box-shadow': '2px 2px 2px #888888',
   })
-  let time_selection_dialog_shown = Date.now()
   $cheatButton.click(() => {
     $dialogBox.remove()
-    let seconds_until_selected = Math.round((Date.now() - time_selection_dialog_shown) / 1000)
     cheat(parameters.cheatseconds)
   })
 

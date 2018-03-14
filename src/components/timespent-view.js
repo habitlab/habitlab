@@ -61,8 +61,9 @@ polymer_ext({
   },
   ready: async function() {
     let self = this
-    self.time_spent_on_domain_start = 0
-    self.time_spent_on_domain_now = await get_seconds_spent_on_current_domain_in_current_session()
+    let seconds_on_domain = await get_seconds_spent_on_current_domain_in_current_session()
+    self.time_spent_on_domain_start = seconds_on_domain
+    self.time_spent_on_domain_now = seconds_on_domain
     let was_time_remaining_previously_zero = false
     setInterval(async function() {
       self.time_spent_on_domain_now = await get_seconds_spent_on_current_domain_in_current_session()
@@ -78,8 +79,8 @@ polymer_ext({
   },
   startTimer: async function(seconds) {
     this.num_seconds_allowed = seconds
-    //let seconds_on_domain = await get_seconds_spent_on_current_domain_in_current_session()
-    this.time_spent_on_domain_start = 0 //seconds_on_domain
+    let seconds_on_domain = await get_seconds_spent_on_current_domain_in_current_session()
+    this.time_spent_on_domain_start = seconds_on_domain
     this.time_spent_on_domain_now = this.time_spent_on_domain_start
   },
 });

@@ -184,7 +184,7 @@ function cheat(seconds) {
     shadow_div.find('.timespent-view').remove();
     addEndDialog("Your Cheating Time is Up!");
   })
-  display_timespent_div.startTimer(seconds)
+  display_timespent_div.startCheatTimer(seconds)
 }
 
 //Displays the countdown on the bottom left corner of the Facebook page

@@ -27,6 +27,26 @@ function post_json(url, data) {
   })
 }
 
+function get_json(url, params) {
+  console.log(url+"?"+params)
+  return new Promise(function(resolve, reject) {
+    let xhr = new XMLHttpRequest()
+    xhr.open('GET', url+"?"+params, true)
+    xhr.onload = function() {
+      if (xhr.status == 200) {
+        resolve(xhr.responseText)
+      } else {
+        reject('error in get_json: ' + xhr.status)
+      }
+    }
+    xhr.onerror = function() {
+      reject(xhr)
+    }
+    xhr.send(null)
+  })
+}
+
 module.exports = {
-  post_json
+  post_json,
+  get_json
 }

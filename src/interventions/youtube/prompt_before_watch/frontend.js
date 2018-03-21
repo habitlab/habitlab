@@ -32,6 +32,7 @@ require_component('paper-button')
 let end_pauser = null //new
 let play_video_clicked = false
 let video_pauser = null
+let ads_pauser = null
 
 function create_video_pauser() {
   if (video_pauser != null) {
@@ -99,7 +100,8 @@ function set_overlay_position_over_video() {
   $a.width(video_width);
   $a.height(video_height);
   $a.css({'background-color': 'white'});
-  $a.css('z-index', 30);
+  // hard coding z-index that bring overlay upfront
+  $a.css('z-index', 100);
   const b = $a[0]
   b.style.left = video.offset().left + 'px';
   b.style.top = video.offset().top + 'px';
@@ -221,17 +223,17 @@ function divOverVideo(status) {
 
   //Centered container for text in the white box
   const $contentContainer = $('<div>')
-  .addClass('contentContainer')
-  .css({
-    //'position': 'absolute',
-    //'top': '50%',
-    //'left': '50%',
-    //'transform': 'translateX(-50%) translateY(-50%)',
-    'text-align': 'center',
-    'display': 'table-cell',
-    'vertical-align': 'middle'
-  });
-  
+    .addClass('contentContainer')
+    .css({
+      //'position': 'absolute',
+      //'top': '50%',
+      //'left': '50%',
+      //'transform': 'translateX(-50%) translateY(-50%)',
+      'text-align': 'center',
+      'display': 'table-cell',
+      'vertical-align': 'middle'
+    });
+
   $contentContainer.append('<habitlab-logo-v2>')
   $contentContainer.append('<br><br>')
 
@@ -317,25 +319,69 @@ function endWarning() {
   }
 }
 
+let ads_played = false
+
+function adsEndWarning() {
+  if (window.intervention_disabled) {
+    return
+  }
+  const overlayBox = document.querySelector('video:not(#rewardvideo)');
+  // This is an hack to record if the video is played
+  if ((overlayBox.currentTime > 0.8) && !overlayBox.paused) {
+    ads_played = true
+  }
+  // when the actual video start
+  if (ads_played && overlayBox.currentTime < 0.5 && !overlayBox.paused) {
+    ads_played = false
+    clearInterval(ads_pauser)
+    ads_pauser = null
+    pauseVideo()
+    removeDiv();
+    divOverVideo("begin")
+    set_overlay_position_over_video()
+  }
+}
+
 var prev_location_href = null
 
 //All method calls
 function main() {
+  // we need to clear interval parsers first
+  if (end_pauser != null) { clearInterval(end_pauser); }
+  if (video_pauser != null) { clearInterval(video_pauser); }
+  if (ads_pauser != null) { clearInterval(ads_pauser); }
+  // return in corner case
   if (window.intervention_disabled) {
     return
   }
   if (window.location.href == prev_location_href) {
     return // duplicate call to main
   }
-  prev_location_href = window.location.href
-  create_video_pauser()
-  removeDiv();
-  divOverVideoOnceAvailable("begin");
-  if (end_pauser === null) {
-    end_pauser = setInterval(() => {
-      endWarning()
-    }, 100); //Loop to test the status of the video until near the end
-  }
+  // TODO: remove const busy waiting. currently cannot find a stable way
+  setTimeout(function(){ 
+    // detect if there is an ads
+    if (document.getElementsByClassName('videoAdUi').length > 0){
+      // console.log('We found a ads!')
+      removeDivAndPlay()
+      // pause the video at the end
+      if (ads_pauser === null) {
+        ads_pauser = setInterval(() => {
+          adsEndWarning()
+        }, 100);
+      }
+    } else {
+      // console.log('Called!!')
+      prev_location_href = window.location.href
+      create_video_pauser()
+      removeDiv();
+      divOverVideoOnceAvailable("begin");
+      if (end_pauser === null) {
+        end_pauser = setInterval(() => {
+          endWarning()
+        }, 100); //Loop to test the status of the video until near the end
+      }
+    }
+  }, 1000);
 }
 
 //Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
@@ -357,9 +403,9 @@ function afterNavigate() {
 (document.body || document.documentElement).addEventListener('transitionend',
   (event) => {
     if (event.propertyName === 'width' && event.target.id === 'progress') {
-        afterNavigate();
+      afterNavigate();
     }
-}, true);
+  }, true);
 
 //$(document).ready(main);
 //main()
@@ -380,7 +426,7 @@ window.addEventListener('popstate', function(evt) {
 })
 
 window.addEventListener('resize', function(evt) {
-  set_overlay_position_over_video()
+    set_overlay_position_over_video()
 })
 
 window.on_intervention_disabled = () => {

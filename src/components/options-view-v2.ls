@@ -13,6 +13,11 @@
 } = require 'libs_backend/goal_utils'
 
 {
+  list_currently_loaded_interventions
+  get_active_tab_info
+} = require 'libs_backend/background_common'
+
+{
   get_favicon_data_for_domain_cached
 } = require 'libs_backend/favicon_utils'
 

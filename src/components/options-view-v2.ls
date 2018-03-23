@@ -87,11 +87,12 @@ polymer_ext {
     this.is_habitlab_disabled = false
     enable_habitlab()
     tab_info = await get_active_tab_info()
-    loaded_interventions = await list_currently_loaded_interventions()
+    loaded_interventions = []
     add_log_habitlab_enabled({
       page: 'options-view-v2',
       reason: 'enable_habitlab_big_button_clicked'
       tab_info: tab_info
+      url: tab_info?url
       loaded_interventions: loaded_interventions
     })
   get_power_icon_src: ->

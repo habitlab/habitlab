@@ -208,7 +208,9 @@ polymer_ext {
         page: 'popup-view',
         reason: 'disable_button_slider_toggle'
         tab_info: tab_info
+        url: tab_info?url
         loaded_interventions: loaded_interventions
+        loaded_intervention: loaded_interventions[0]
       })
     else
       this.is_habitlab_disabled = false
@@ -219,6 +221,7 @@ polymer_ext {
         page: 'popup-view',
         reason: 'disable_button_slider_toggle'
         tab_info: tab_info
+        url: tab_info?url
         loaded_interventions: loaded_interventions
       })
 

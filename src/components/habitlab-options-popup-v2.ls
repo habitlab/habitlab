@@ -23,6 +23,10 @@ swal = require 'sweetalert2'
   get_goals
 } = require 'libs_common/goal_utils'
 
+{
+  add_log_habitlab_disabled
+} = require 'libs_common/log_utils'
+
 intervention = require('libs_common/intervention_info').get_intervention()
 
 polymer_ext {
@@ -109,6 +113,13 @@ polymer_ext {
       title: 'HabitLab Turned Off!',
       text: 'HabitLab will not show you interventions for the rest of today.'
     }
+    add_log_habitlab_disabled({
+      page: 'popup-view',
+      reason: 'disable_button_slider_toggle'
+      loaded_intervention: intervention
+      loaded_interventions: [intervention]
+      url: window.location.href
+    })
   open_interventions_page: ->
     open_url_in_new_tab('options.html#interventions')
     this.$$('#intervention_info_dialog').close()

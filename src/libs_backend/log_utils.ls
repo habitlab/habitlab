@@ -72,7 +72,7 @@ export get_interventions_seen_today = ->>
 
 export get_log_names = ->>
   interventions_list = await intervention_utils.list_all_interventions()
-  logs_list = ['goals', 'interventions', 'feedback', 'pages'].map -> 'logs/'+it
+  logs_list = ['goals', 'interventions', 'feedback', 'pages', 'enabledisable'].map -> 'logs/'+it
   return interventions_list.concat(logs_list)
 
 intervention_logdb_cache = null
@@ -143,6 +143,24 @@ export add_log_interventions = (data) ->>
   if not data.enabled_goals?
     data.enabled_goals = await goal_utils.get_enabled_goals()
   await addtolog 'logs/interventions', data
+
+export add_log_enabledisable = (data) ->>
+  data = {} <<< data
+  if not data.enabled_interventions?
+    data.enabled_interventions = await intervention_utils.get_enabled_interventions()
+  if not data.enabled_goals?
+    data.enabled_goals = await goal_utils.get_enabled_goals()
+  await addtolog 'logs/enabledisable', data
+
+export add_log_habitlab_disabled = (data) ->>
+  data = {} <<< data
+  data.type = 'disabled'
+  await add_log_enabledisable(data)
+
+export add_log_habitlab_enabled = (data) ->>
+  data = {} <<< data
+  data.type = 'enabled'
+  await add_log_enabledisable(data)
 
 export add_log_feedback = (data) ->>
   data = {} <<< data

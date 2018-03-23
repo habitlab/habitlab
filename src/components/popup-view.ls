@@ -1,7 +1,7 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
-{add_log_feedback} = require 'libs_backend/log_utils'
+{add_log_feedback, add_log_habitlab_disabled} = require 'libs_backend/log_utils'
 
 swal_cached = null
 get_swal = ->>
@@ -207,6 +207,9 @@ polymer_ext {
       enable_habitlab()
 
   enable_habitlab_button_clicked: ->
+    #add_log_habitlab_enabled({
+    #  source: 'popup-view'
+    #})
     enable_habitlab()
     this.is_habitlab_disabled = false
 

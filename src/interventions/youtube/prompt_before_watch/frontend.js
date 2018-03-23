@@ -374,23 +374,6 @@ function main() {
     return // duplicate call to main
   }
   prev_location_href = window.location.href
-  // we need to clear interval parsers first
-  if (end_pauser != null) { 
-    clearInterval(end_pauser); 
-    end_pauser = null
-  }
-  if (video_pauser != null) { 
-    clearInterval(video_pauser);
-    video_pauser = null 
-  }
-  if (ads_pauser != null) { 
-    clearInterval(ads_pauser); 
-    ads_pauser = null
-  }
-  if (ads_end_pauser != null) {
-    clearInterval(ads_end_pauser); 
-    ads_end_pauser = null
-  }
   // TODO: remove const busy waiting. currently cannot find a stable way
   setTimeout(function(){ 
     // detect if there is an ads
@@ -427,6 +410,23 @@ function main() {
 
 //Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
 function afterNavigate() {
+    // we need to clear interval parsers first
+    if (end_pauser != null) { 
+      clearInterval(end_pauser); 
+      end_pauser = null
+    }
+    if (video_pauser != null) { 
+      clearInterval(video_pauser);
+      video_pauser = null 
+    }
+    if (ads_pauser != null) { 
+      clearInterval(ads_pauser); 
+      ads_pauser = null
+    }
+    if (ads_end_pauser != null) {
+      clearInterval(ads_end_pauser); 
+      ads_end_pauser = null
+    }
   if ('/watch' === location.pathname) {
     //if (video_pauser) {
     //  clearInterval(video_pauser);

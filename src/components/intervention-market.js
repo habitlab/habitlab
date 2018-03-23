@@ -5,15 +5,22 @@ polymer_ext({
   is: 'intervention-market',
   properties: {
     site: {
-      type: String
+      type: String,
+      observer: 'site_changed',
     }
   },
-  ready: async function() {
-    console.log('site is:')
+  site_changed: async function() {
+    console.log('site in site_changed is:')
+    console.log(this.site)
+  },
+  /*
+  attached: async function() {
+    console.log('site v2 is:')
     console.log(this.site)
     // console.log('ready called in intervention market. fetching data')
     // let data = await fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=json').then(x => x.json())
     // console.log('finished fetching data')
     //console.log(data)
   }
+  */
 })

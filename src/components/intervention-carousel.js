@@ -9,10 +9,12 @@ polymer_ext({
     },
     site: {
       type: String,
+      observer: 'site_changed'
     }
     },
-    ready: async function() {
+    site_changed: async function() {
         //console.log(this.interventions);
+        console.log("site carousel v2 " + this.site);
         let request = 'http://localhost:5000/get_contributed_interventions_for_site' + '?website=' + this.site;
         console.log(request);
         let data = await fetch(request).then(x => x.json());

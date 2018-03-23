@@ -78,7 +78,7 @@ polymer_ext {
       output.push {name: x.sitename_printable, icon: x.icon ? goal_name_to_icon[x.name] ? default_icon}
     output.push({name: msg('Help / FAQ'), icon: chrome.extension.getURL('icons/help.svg')})
     return output
-  enable_habitlab_button_clicked: ->
+  enable_habitlab_button_clicked: ->>
     this.is_habitlab_disabled = false
     enable_habitlab()
     tab_info = await get_active_tab_info()

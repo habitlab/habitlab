@@ -33,6 +33,7 @@ let end_pauser = null //new
 let play_video_clicked = false
 let video_pauser = null
 let ads_pauser = null
+let ads_end_pauser = null
 
 function create_video_pauser() {
   if (video_pauser != null) {
@@ -320,6 +321,7 @@ function endWarning() {
 }
 
 let ads_played = false
+let ads_finished = false
 
 function adsEndWarning() {
   if (window.intervention_disabled) {
@@ -333,6 +335,7 @@ function adsEndWarning() {
   // when the actual video start
   if (ads_played && overlayBox.currentTime < 0.5 && !overlayBox.paused) {
     ads_played = false
+    ads_finished = true
     clearInterval(ads_pauser)
     ads_pauser = null
     pauseVideo()
@@ -342,14 +345,27 @@ function adsEndWarning() {
   }
 }
 
+// TODO: unfinished
+function adsvideoEndWarning() {
+  if (window.intervention_disabled) {
+    return
+  }
+  const overlayBox = document.querySelector('video:not(#rewardvideo)');
+  if (ads_finished && (overlayBox.currentTime > (overlayBox.duration - 0.15)) && !overlayBox.paused) {
+    ads_finished = false
+    clearInterval(ads_end_pauser)
+    ads_end_pauser = null
+    pauseVideo()
+    removeDiv();
+    divOverVideo("end")
+    set_overlay_position_over_video()
+  }
+}
+
 var prev_location_href = null
 
 //All method calls
 function main() {
-  // we need to clear interval parsers first
-  if (end_pauser != null) { clearInterval(end_pauser); }
-  if (video_pauser != null) { clearInterval(video_pauser); }
-  if (ads_pauser != null) { clearInterval(ads_pauser); }
   // return in corner case
   if (window.intervention_disabled) {
     return
@@ -357,21 +373,46 @@ function main() {
   if (window.location.href == prev_location_href) {
     return // duplicate call to main
   }
+  prev_location_href = window.location.href
+  // we need to clear interval parsers first
+  if (end_pauser != null) { 
+    clearInterval(end_pauser); 
+    end_pauser = null
+  }
+  if (video_pauser != null) { 
+    clearInterval(video_pauser);
+    video_pauser = null 
+  }
+  if (ads_pauser != null) { 
+    clearInterval(ads_pauser); 
+    ads_pauser = null
+  }
+  if (ads_end_pauser != null) {
+    clearInterval(ads_end_pauser); 
+    ads_end_pauser = null
+  }
   // TODO: remove const busy waiting. currently cannot find a stable way
   setTimeout(function(){ 
     // detect if there is an ads
     if (document.getElementsByClassName('videoAdUi').length > 0){
-      // console.log('We found a ads!')
-      removeDivAndPlay()
+      console.log('We found a ads!')
+      //removeDivAndPlay()
+      set_overlay_position_over_video()
+      removeDiv()
       // pause the video at the end
       if (ads_pauser === null) {
         ads_pauser = setInterval(() => {
           adsEndWarning()
         }, 100);
       }
+      // special end pauser for ads videos
+      if (ads_end_pauser === null) {
+        ads_end_pauser = setInterval(() => {
+          adsvideoEndWarning()
+        }, 100); //Loop to test the status of the video until near the end
+      }
     } else {
-      // console.log('Called!!')
-      prev_location_href = window.location.href
+      console.log('Called!!')
       create_video_pauser()
       removeDiv();
       divOverVideoOnceAvailable("begin");

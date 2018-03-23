@@ -114,10 +114,10 @@ polymer_ext {
       text: 'HabitLab will not show you interventions for the rest of today.'
     }
     add_log_habitlab_disabled({
-      page: 'popup-view',
-      reason: 'disable_button_slider_toggle'
-      loaded_intervention: intervention
-      loaded_interventions: [intervention]
+      page: 'habitlab-options-popup-v2',
+      reason: 'turn_off_habitlab_in_turn_off_intervention'
+      loaded_intervention: intervention?name
+      loaded_interventions: [intervention?name]
       url: window.location.href
     })
   open_interventions_page: ->

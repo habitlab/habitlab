@@ -1,7 +1,7 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
-{add_log_feedback, add_log_habitlab_disabled} = require 'libs_backend/log_utils'
+{add_log_feedback, add_log_habitlab_disabled, add_log_habitlab_enabled} = require 'libs_backend/log_utils'
 
 swal_cached = null
 get_swal = ->>
@@ -202,16 +202,37 @@ polymer_ext {
     if evt.target.checked
       this.is_habitlab_disabled = true
       disable_habitlab()
+      tab_info = await get_active_tab_info()
+      loaded_interventions = await list_currently_loaded_interventions()
+      add_log_habitlab_disabled({
+        page: 'popup-view',
+        reason: 'disable_button_slider_toggle'
+        tab_info: tab_info
+        loaded_interventions: loaded_interventions
+      })
     else
       this.is_habitlab_disabled = false
       enable_habitlab()
+      tab_info = await get_active_tab_info()
+      loaded_interventions = await list_currently_loaded_interventions()
+      add_log_habitlab_enabled({
+        page: 'popup-view',
+        reason: 'disable_button_slider_toggle'
+        tab_info: tab_info
+        loaded_interventions: loaded_interventions
+      })
 
-  enable_habitlab_button_clicked: ->
-    #add_log_habitlab_enabled({
-    #  source: 'popup-view'
-    #})
-    enable_habitlab()
+  enable_habitlab_button_clicked: ->>
     this.is_habitlab_disabled = false
+    enable_habitlab()
+    tab_info = await get_active_tab_info()
+    loaded_interventions = await list_currently_loaded_interventions()
+    add_log_habitlab_enabled({
+      page: 'popup-view',
+      reason: 'enable_habitlab_big_button_clicked'
+      tab_info: tab_info
+      loaded_interventions: loaded_interventions
+    })
 
   goal_enable_button_changed: (evt) ->>
     goal = evt.target.goal

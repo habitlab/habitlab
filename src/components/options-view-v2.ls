@@ -30,8 +30,8 @@
 
 {
   log_pagenav
+  add_log_habitlab_enabled
 } = require 'libs_backend/log_utils'
-
 
 swal = require 'sweetalert2'
 
@@ -81,6 +81,14 @@ polymer_ext {
   enable_habitlab_button_clicked: ->
     this.is_habitlab_disabled = false
     enable_habitlab()
+    tab_info = await get_active_tab_info()
+    loaded_interventions = await list_currently_loaded_interventions()
+    add_log_habitlab_enabled({
+      page: 'options-view-v2',
+      reason: 'enable_habitlab_big_button_clicked'
+      tab_info: tab_info
+      loaded_interventions: loaded_interventions
+    })
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
   on_need_tab_change: (evt) ->

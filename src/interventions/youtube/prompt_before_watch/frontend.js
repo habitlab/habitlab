@@ -340,6 +340,14 @@ function main() {
 
 //Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
 function afterNavigate() {
+  if (video_pauser != null) { 
+    clearInterval(video_pauser);
+    video_pauser = null 
+  }
+  if (end_pauser != null) { 
+    clearInterval(end_pauser); 
+    end_pauser = null
+  }
   if ('/watch' === location.pathname) {
     //if (video_pauser) {
     //  clearInterval(video_pauser);

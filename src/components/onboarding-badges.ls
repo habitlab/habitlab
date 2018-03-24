@@ -229,7 +229,13 @@ polymer_ext {
       await set_intervention_enabled this.dialog_intervention.name
       add_log_interventions {
         type: 'intervention_set_smartly_managed'
+        page: 'onboarding-view'
+        subpage: 'onboarding-badges'
+        category: 'intervention_enabledisable'
+        now_enabled: false
+        is_permanent: true
         manual: true
+        url: window.location.href
         intervention_name: this.dialog_intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
@@ -239,7 +245,13 @@ polymer_ext {
       await set_intervention_disabled this.dialog_intervention.name
       add_log_interventions {
         type: 'intervention_set_always_disabled'
+        page: 'onboarding-view'
+        subpage: 'onboarding-badges'
+        category: 'intervention_enabledisable'
+        now_enabled: false
+        is_permanent: true
         manual: true
+        url: window.location.href
         intervention_name: this.dialog_intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }

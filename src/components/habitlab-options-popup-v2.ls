@@ -25,6 +25,7 @@ swal = require 'sweetalert2'
 
 {
   add_log_habitlab_disabled
+  add_log_interventions
 } = require 'libs_common/log_utils'
 
 intervention = require('libs_common/intervention_info').get_intervention()
@@ -89,23 +90,45 @@ polymer_ext {
     await load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
   open: ->
     this.$$('#intervention_info_dialog').open()
-  disable_temp_callback: ->
+  disable_temp_callback: ->>
     this.$$('#intervention_info_dialog').close()
     self = this
     this.fire('disable_intervention')
-
     swal {
       title: 'Turned Off!'
       text: 'This intervention will be turned off temporarily.'
     }
-  disable_perm_callback: ->
+    add_log_interventions {
+      type: 'intervention_set_temporarily_disabled'
+      page: 'habitlab-logo-v2'
+      subpage: 'habitlab-options-popup-v2'
+      category: 'intervention_enabledisable'
+      now_enabled: false
+      is_permanent: false
+      manual: true
+      url: window.location.href
+      intervention_name: this.intervention
+    }
+  disable_perm_callback: ->>
     this.$$('#intervention_info_dialog').close()
     self = this
     this.fire('disable_intervention')
-
-    set_intervention_disabled_permanently(this.intervention, ->
-      swal('Turned Off!', 'This intervention will be turned off permanently.')
-    )
+    swal {
+      title: 'Turned Off!'
+      text: 'This intervention will be turned off permanently. You can re-enable it from the HabitLab settings page.'
+    }
+    set_intervention_disabled_permanently(this.intervention)
+    add_log_interventions {
+      type: 'intervention_set_always_disabled'
+      page: 'habitlab-logo-v2'
+      subpage: 'habitlab-options-popup-v2'
+      category: 'intervention_enabledisable'
+      now_enabled: false
+      is_permanent: true
+      manual: true
+      url: window.location.href
+      intervention_name: this.intervention
+    }
   disable_habitlab_callback: ->
     this.$$('#intervention_info_dialog').close()
     disable_habitlab()
@@ -116,8 +139,8 @@ polymer_ext {
     add_log_habitlab_disabled({
       page: 'habitlab-options-popup-v2',
       reason: 'turn_off_habitlab_in_turn_off_intervention'
-      loaded_intervention: intervention?name
-      loaded_interventions: [intervention?name]
+      loaded_intervention: this.intervention
+      loaded_interventions: [this.intervention]
       url: window.location.href
     })
   open_interventions_page: ->

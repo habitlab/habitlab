@@ -168,7 +168,13 @@ polymer_ext {
       await set_intervention_enabled this.intervention.name
       add_log_interventions {
         type: 'intervention_set_smartly_managed'
+        page: 'site-view'
+        subpage: 'intervention-view-single-compact'
+        category: 'intervention_enabledisable'
+        now_enabled: true
+        is_permanent: true
         manual: true
+        url: window.location.href
         intervention_name: this.intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
@@ -178,7 +184,13 @@ polymer_ext {
       await set_intervention_disabled this.intervention.name
       add_log_interventions {
         type: 'intervention_set_always_disabled'
+        page: 'site-view'
+        subpage: 'intervention-view-single-v2'
+        category: 'intervention_enabledisable'
+        now_enabled: false
+        is_permanent: true
         manual: true
+        url: window.location.href
         intervention_name: this.intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }

@@ -19,6 +19,11 @@
   localstorage_getbool
 } = require 'libs_common/localstorage_utils'
 
+{
+  get_active_tab_info
+  list_currently_loaded_interventions_for_tabid
+} = require 'libs_backend/background_common'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 #set_intervention_options_debounced = debounce (args, callback) ->
@@ -166,20 +171,40 @@ polymer_ext {
       this.enabled = true
       prev_enabled_interventions = await get_enabled_interventions()
       await set_intervention_enabled this.intervention.name
+      tab_info = await get_active_tab_info()
+      loaded_interventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
       add_log_interventions {
         type: 'intervention_set_smartly_managed'
+        page: 'popup-view'
+        subpage: 'intervention-view-single-compact'
+        category: 'intervention_enabledisable'
+        now_enabled: true
+        is_permanent: true
         manual: true
         intervention_name: this.intervention.name
+        url: window.location.href
+        tab_url: tab_info.url
+        interventions_loaded: loaded_interventions
         prev_enabled_interventions: prev_enabled_interventions
       }
     else if buttonidx == 0 # never shown
       this.enabled = false
       prev_enabled_interventions = await get_enabled_interventions()
       await set_intervention_disabled this.intervention.name
+      tab_info = await get_active_tab_info()
+      loaded_interventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
       add_log_interventions {
         type: 'intervention_set_always_disabled'
+        page: 'popup-view'
+        subpage: 'intervention-view-single-compact'
+        category: 'intervention_enabledisable'
+        now_enabled: false
+        is_permanent: true
         manual: true
         intervention_name: this.intervention.name
+        url: window.location.href
+        tab_url: tab_info.url
+        interventions_loaded: loaded_interventions
         prev_enabled_interventions: prev_enabled_interventions
       }
   get_pill_button_idx: (enabled) ->

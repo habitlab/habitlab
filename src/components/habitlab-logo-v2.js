@@ -2,6 +2,10 @@ const {polymer_ext} = require('libs_frontend/polymer_utils');
 const {get_intervention} = require('libs_common/intervention_info')
 const {intervention_feedback} = require('libs_common/intervention_feedback_utils')
 
+const {
+  add_log_interventions
+} = require('libs_common/log_utils')
+
 polymer_ext({
   is: 'habitlab-logo-v2',
   properties: {
@@ -81,6 +85,14 @@ polymer_ext({
     habitlab_options_popup.screenshot = screenshot;
     habitlab_options_popup.other = data;
     habitlab_options_popup.open();
+    add_log_interventions({
+      type: 'intervention_turn_off_settings_menu_opened',
+      page: 'habitlab-logo-v2',
+      subpage: 'habitlab-logo-v2',
+      category: 'intervention_turnoffsettings',
+      url: window.location.href,
+      intervention_name: this.intervention_name
+    })
   },
   get_url: function() {
     //return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');

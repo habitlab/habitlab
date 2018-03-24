@@ -4,6 +4,7 @@ lib_name_to_func_names_and_signatures =
     getlog: 'name'
     clearlog: 'name'
     add_log_habitlab_disabled: ['data']
+    add_log_interventions: ['data']
     log_impression_internal: ['name', 'data']
     log_disable_internal: ['name', 'data']
     log_action_internal: ['name', 'data']

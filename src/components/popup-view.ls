@@ -1,7 +1,7 @@
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
-{add_log_feedback, add_log_habitlab_disabled, add_log_habitlab_enabled} = require 'libs_backend/log_utils'
+{add_log_feedback, add_log_interventions, add_log_habitlab_disabled, add_log_habitlab_enabled} = require 'libs_backend/log_utils'
 
 swal_cached = null
 get_swal = ->>
@@ -21,6 +21,7 @@ get_screenshot_utils = ->>
   get_active_tab_url
   get_active_tab_id
   list_currently_loaded_interventions
+  list_currently_loaded_interventions_for_tabid
   get_active_tab_info
   disable_interventions_in_active_tab
   open_debug_page_for_tab_id
@@ -134,12 +135,27 @@ polymer_ext {
     self = this
     intervention = evt.target.intervention
     # <- set_intervention_disabled intervention
-    url = await get_active_tab_url()
-    enabledInterventions = await list_currently_loaded_interventions()
+    prev_enabled_interventions = await get_enabled_interventions()
+    tab_info = await get_active_tab_info()
+    url = tab_info.url
+    enabledInterventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
     await disable_interventions_in_active_tab()
     this.fire 'disable_intervention' 
+    add_log_interventions {
+      type: 'intervention_set_temporarily_disabled'
+      page: 'popup-view'
+      subpage: 'popup-view-active-intervention-tab'
+      category: 'intervention_enabledisable'
+      now_enabled: false
+      is_permanent: false
+      manual: true
+      url: window.location.href
+      tab_url: url
+      intervention_name: intervention
+      prev_enabled_interventions: prev_enabled_interventions
+    }
     #swal({
     #  title: 'Disabled!',
     #  text: 'This intervention will be disabled temporarily.'
@@ -148,13 +164,28 @@ polymer_ext {
   perm_disable_button_clicked: (evt) ->>
     self = this
     intervention = evt.target.intervention
+    prev_enabled_interventions = await get_enabled_interventions()
     await set_intervention_disabled_permanently intervention
-    url = await get_active_tab_url()
-    enabledInterventions = await list_currently_loaded_interventions()
+    tab_info = await get_active_tab_info()
+    url = tab_info.url
+    enabledInterventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
     await disable_interventions_in_active_tab()
     this.fire 'disable_intervention'
+    add_log_interventions {
+      type: 'intervention_set_permanently_disabled'
+      page: 'popup-view'
+      subpage: 'popup-view-active-intervention-tab'
+      category: 'intervention_enabledisable'
+      now_enabled: false
+      is_permanent: false
+      manual: true
+      url: window.location.href
+      tab_url: url
+      intervention_name: intervention
+      prev_enabled_interventions: prev_enabled_interventions
+    }
     #swal({
     #  title: 'Disabled!',
     #  text: 'This intervention will be disabled permanently.'

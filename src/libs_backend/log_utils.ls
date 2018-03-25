@@ -14,6 +14,7 @@
 
 {
   get_user_id
+  get_install_id
 } = require 'libs_backend/background_common'
 
 {
@@ -175,6 +176,7 @@ export addtolog = (name, data) ->>
   if not data.type?
     data.type = 'general'
   data.userid = await get_user_id()
+  data.install_id = await get_install_id()
   data.day = get_days_since_epoch()
   data.synced = 0
   data.timestamp = Date.now()

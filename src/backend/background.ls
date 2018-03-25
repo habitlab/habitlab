@@ -84,6 +84,7 @@ do !->>
     send_message_to_tabid
     get_active_tab_info
     get_user_id
+    get_install_id
     get_user_secret
     list_currently_loaded_interventions_for_tabid
   } = require 'libs_backend/background_common'
@@ -1253,6 +1254,7 @@ do !->>
       return false # had an error
     uninstall_url_data.u = await get_user_id()
     uninstall_url_data.l = if (localStorage.getItem('allow_logging') == 'true') then 1 else 0
+    uninstall_url_data.i = await get_install_id()
     if not set_uninstall_url_if_valid()
       return uninstall_url
     list_enabled_goals_short = ->>

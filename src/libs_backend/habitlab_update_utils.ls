@@ -40,7 +40,7 @@ export get_latest_habitlab_version = ->>
     chrome_runtime_id = 'bleifeoekkfhicamkpadfoclfhfmmina'
   user_id = await get_user_id()
   install_id = await get_install_id()
-  latest_version_info = await fetch('https://habitlab.herokuapp.com/app_version?appid=' + chrome_runtime_id + '&userid=' + user_id + '&installid=' install_id).then((.json!))
+  latest_version_info = await fetch('https://habitlab.herokuapp.com/app_version?appid=' + chrome_runtime_id + '&userid=' + user_id + '&installid=' + install_id).then((.json!))
   if (not latest_version_info?version?) or (not semver.valid(latest_version_info.version))
     return null
   return latest_version_info.version

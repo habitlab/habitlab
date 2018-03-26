@@ -1,6 +1,9 @@
 window.addEventListener "unhandledrejection", (evt) ->
   throw new Error(evt.reason)
 
+# debugging purpose
+# localStorage.setItem("local_logging_server", true)
+
 do !->>
   localStorage.removeItem 'cached_list_all_goals'
   localStorage.removeItem 'cached_list_all_interventions'

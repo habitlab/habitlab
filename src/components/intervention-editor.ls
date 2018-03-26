@@ -557,32 +557,61 @@ script.parentNode.removeChild(script);
     this.is_tutorial_shown=true
     this.selected_tab_idx=0
   share_clicked: ->>
-    # self=this
-    # chrome.permissions.request {
-    #   permissions: ['identity', 'identity.email']
-    #   origins: []
-    # }, (granted) -> 
-    #   console.log 'granted: ' + granted
-    #   return
-    # intervention_name=self.get_intervention_name()
-    # intervention_info = await get_intervention_info(intervention_name)
-    # chrome.identity.getProfileUserInfo (author_info) ->>
-    #   upload_result = await upload_intervention(intervention_info, author_info)
-    #   if upload_result.status=='success'
-    #     try
-    #       await swal({
-    #         title: 'Copy the url below to privately share your nudge. \n Click Submit for HabitLab developers to publish your nudge to all users.'
-    #         text: upload_result.url
-    #         type: 'info'
-    #         showCancelButton: true
-    #         confirmButtonText: 'Submit'
-    #         cancelButtonText: 'No'
-    #       })
-    #     catch
-    #       console.log 'not sharing this time'
-    #       # TODO client remove_intervention(intervention_name)
-    #   return
-    chrome.tabs.create {url: 'https://github.com/habitlab/habitlab/wiki/Share-Interventions'}
+    # get permission of user identity
+    self=this
+    chrome.permissions.request {
+      permissions: ['identity', 'identity.email']
+      origins: []
+    }, (granted) -> 
+      console.log 'granted: ' + granted
+      return
+
+    # sanity checks before sharing
+    # 1. saved check
+    intervention_name=self.get_intervention_name()
+    intervention_info = await get_intervention_info(intervention_name)
+    js_editor = this.js_editors[intervention_name]
+    temp_code=js_editor.getSession().getValue().trim()
+    intervention_info_code = intervention_info.code
+    if temp_code != intervention_info_code
+      confirm("please save your code before sharing.")
+      return
+    # 2. double sharing case avoid
+    # nit: we are doing a over-simplified quick local check
+    # this might be deprecated due to local storage restore,
+    # but this will save server side bottleneck. In the server,
+    # a background thread for de-dup should be implemented for
+    # scalability concern.
+    if localStorage['uploaded_intervention_' + intervention_name] == temp_code
+      confirm("you have already shared your code.")
+      return
+    # 3. error check
+    errors = await run_all_checks(js_editor.getSession(), temp_code)
+    if errors.length > 0
+      confirm("please fix your code before sharing.")
+      return
+
+    # Avoid to use swal because I cannot press the button    
+    # sharing
+    chrome.identity.getProfileUserInfo (author_info) ->>
+        if (confirm("Click OK to share your code to all users! Click No to share your code via private link."))
+          upload_result = await upload_intervention(intervention_info, author_info, true)
+          if upload_result.status=='success'
+              confirm("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + upload_result.url)
+              # record this last save of the intervention
+              localStorage['uploaded_intervention_' + intervention_name] = temp_code
+          else
+              confirm("Fail to upload your code! Please open an ticket!")
+        else
+          upload_result = await upload_intervention(intervention_info, author_info, false)
+          if upload_result.status=='success'
+            confirm("Here is a link you can share your code in private:\n" + upload_result.url)
+            # record this last save of the intervention
+            localStorage['uploaded_intervention_' + intervention_name] = temp_code
+          else
+            confirm("Fail to upload your code! Please open an ticket!")
+             
+    # chrome.tabs.create {url: 'https://github.com/habitlab/habitlab/wiki/Share-Interventions'}
   make_javascript_editor: (editor_div) ->>
     intervention_name = editor_div.intervention_tab_name
     if intervention_name?

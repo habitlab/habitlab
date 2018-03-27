@@ -13,24 +13,51 @@ polymer_ext({
     }
     },
     site_changed: async function() {
-        //console.log(this.interventions);
-        console.log("site carousel v2 " + this.site);
-        let request = 'http://localhost:5000/get_contributed_interventions_for_site' + '?website=' + this.site;
+        // 1. Fetch shared interventions from the server
+        console.log("Fetching from the server of shared interventions from: " + this.site);
+        // TODO: remove for testing
+        // localStorage.setItem('local_logging_server', true) 
+        if (localStorage.getItem('local_logging_server') == 'true') {
+          console.log("posting to local server")
+          logging_server_url = 'http://localhost:5000/'
+        } else {
+          console.log("posting to local server")
+          logging_server_url = 'https://habitlab.herokuapp.com/'
+        }
+        let request = logging_server_url + 'get_sharedinterventions_for_site' + '?website=' + this.site;
         console.log(request);
         let data = await fetch(request).then(x => x.json());
         console.log(data);
-        this.addCards(data);
+        // update the the html accordingly
+        // this.interventions = []
+        // for (var i = 0; i < data.length; i++) {
+        //   this.interventions.push(data[i])
+        // }
+        // console.log(this.interventions)
+        // this.set('interventions', this.interventions)
+
+        // let temp = this.S('#market-card')[0];
+        // console.log(temp)
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].displayname) {
+          this.buildProjectCard(data[i].code, data[i].name, 
+                                data[i].displayname, data[i].description, 
+                                data[i].domain, data[i].preview, data[i].sitename, 
+                                data[i].sitename_printable, data[i].goals, 
+                                data[i].stars, data[i].author_email)
+          }
+        }
+
+        // upload functionality
         let modal = this.S('#myModal')[0];
         let addCard = this.S(".addCard")[0];
         let span = this.S(".close")[0];
-        console.log("-----");
-        console.log(addCard);
-        console.log(modal);
-        console.log(span);
-        console.log("-----");
+        // console.log("-----");
+        // console.log(addCard);
+        // console.log(modal);
+        // console.log(span);
+        // console.log("-----");
         // Get the <span> element that closes the modal
-
-
         // When the user clicks the button, open the modal
         addCard.onclick = function() {
           modal.style.display = "block";
@@ -48,15 +75,39 @@ polymer_ext({
             modal.style.display = "none";
           }
         }
-      },
-      addCards: function(data) {
-        for (var i = 0; i < data.length; i++) {
-          this.intervention.add(data[i]);
-        }
+
+        let button = this.S(".buttonDownload");
+    console.log(button)
+    // button.onclick = function() {
+    //   confirm("fuck!!!!")
+    // }
       },
       startAdd: function() {
         this.S("#addScreen").css("display", "block");
-      }
+      },
+      buildProjectCard: function(code, name, displayname, description, 
+        domain, preview, sitename, sitename_printable,
+        goals, stars, author_email){
+        let containerElement = document.querySelector(".addCard");
+        //Project holder space
+        let card = document.createElement('market-card');
+        card.setAttribute("code", code);
+        // card.setAttribute("date", date);
+        card.setAttribute("name", name);
+        console.log(name + " " + displayname)
+        card.setAttribute("displayname", displayname);
+        card.setAttribute("description", description);
+        card.setAttribute("domain", domain);
+        card.setAttribute("preview", preview);
+        card.setAttribute("sitename", sitename);
+        card.setAttribute("sitename_printable", sitename_printable);
+        card.setAttribute("goals", goals);
+        card.setAttribute("starCount", stars);
+        card.setAttribute("author", author_email);
+        //card.addEventListener('click', this.onClick);
+        //Makes sure to insert cards at the front so add button is last
+        containerElement.insertAdjacentElement('afterend', card);
+      },
     }, {
       source: require('libs_frontend/polymer_methods'),
       methods: [

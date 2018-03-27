@@ -10,8 +10,9 @@ polymer_ext({
     }
   },
   site_changed: async function() {
-    console.log('site in site_changed is:')
-    console.log(this.site)
+    console.log('site in site_changed is:' + this.site)
+    // pass
+    // service work will let carousel object do
   },
   /*
   attached: async function() {

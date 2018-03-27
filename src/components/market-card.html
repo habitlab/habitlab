@@ -70,6 +70,11 @@
         font-size: 18px;
       }
 
+      h5{
+        color: black;
+        font-size: 12px;
+      }
+
       p{
         color: white;
         font-size: 12px;
@@ -162,7 +167,7 @@
       	width: 0;
       	height: 0;
       	margin-top: -7px;
-        marging-left:2px;
+        margin-left:2px;
       	border-style: solid;
       	border-width: 4px 4px 4px 4px;
       	border-color: transparent;
@@ -186,21 +191,25 @@
       	/* 0% and 0.001% keyframes used as a hackish way of having the button frozen on a nice looking frame by default */
       	0% {
       		margin-top: -7px;
+          margin-left: 3px;
       		opacity: 1;
       	}
 
       	0.001% {
       		margin-top: -15px;
+          margin-left: 3px;
       		opacity: 0;
       	}
 
       	50% {
       		opacity: 1;
+          margin-left: 3px;
       	}
 
       	100% {
       		margin-top: 0;
       		opacity: 0;
+          margin-left: 3px;
       	}
       }
 
@@ -210,18 +219,14 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <div class = "card">
-        <img id= "image" class = "cardSquare borders" src = "https://images-eu.ssl-images-amazon.com/images/G/29/gc/designs/livepreview/a_generic_10_it_noto_email_v2016_it-main._CB515027220_.png">
+        <img id= "image" class = "cardSquare borders" src = "chrome-extension://hjakkhalcpfpakdbiakdddfmfkbkmaef/icons/custom_intervention_icon.svg">
         <div id= "description" class = "cardSquare borders">
           <div style="height:calc(80%)">{{description}}</div>
             <a href="#{{location}}" class="buttonDownload"></a>
         </div>
         <br>
         <h2>{{name}}</h2>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
+        <h5><b>Creator:{{author}}</b><h5>
       </div>
 
     <!-- <div style="margin-bottom: 20px"></div> -->

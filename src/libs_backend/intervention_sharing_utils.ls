@@ -9,7 +9,7 @@ export upload_intervention = (intervention_info, author_info, is_sharing) ->>
   console.log author_info
   # 1. get the server loc
   ### TODO: remove for testing
-  localStorage.setItem('local_logging_server', true) 
+  # localStorage.setItem('local_logging_server', true) 
   ###
   if localStorage.getItem('local_logging_server') == 'true'
     console.log "posting to local server"
@@ -19,12 +19,12 @@ export upload_intervention = (intervention_info, author_info, is_sharing) ->>
     logging_server_url = 'https://habitlab.herokuapp.com/'
   # 2. Concat data to transmit
   intervention_info_with_author = intervention_info
-  intervention_info_with_author.auther_email = author_info.email
+  intervention_info_with_author.author_email = author_info.email
   intervention_info_with_author.author_id = author_info.id
   data = {} <<< intervention_info_with_author
   data.logname = "share_intervention_repo"
   data.is_sharing = is_sharing
-  # console.log data
+  console.log data
   # 3. Encoding with intervention II
   data.key = author_info.id + Date.now()
   # 4. Send it
@@ -32,6 +32,7 @@ export upload_intervention = (intervention_info, author_info, is_sharing) ->>
   try
     console.log 'Posting data to: ' + logging_server_url + 'sharedintervention'
     response = await post_json(logging_server_url + 'sharedintervention', data)
+    console.log response
     if response.success
       if is_sharing
         return {status: 'success', url: logging_server_url + "lookupintervention?share=y&id=" + data.key}

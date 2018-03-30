@@ -105,7 +105,8 @@ polymer_ext({
             sitename: self.sitename,
             sitename_printable: self.sitename_printable,
             goals: [self.goals],
-            custom: true
+            custom: true,
+            downloaded: true
           }
           if (await compile_intervention_code(new_intervention_info) == false) {
             return false
@@ -170,6 +171,7 @@ polymer_ext({
         console.log(new_intervention_info)
         await add_new_intervention(new_intervention_info)
         localStorage['saved_intervention_' + new_intervention_info.name] = new_intervention_info.code
+        localStorage['downloaded_intervention_' + new_intervention_info.name] = Date.now()
         localStorage['saved_intervention_time_' + new_intervention_info.name] = Date.now()
         }
         catch(err) {

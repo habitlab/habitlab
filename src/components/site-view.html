@@ -116,7 +116,7 @@
         </div>
 
         <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
-          <intervention-view-single-v2 goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
+          <intervention-view-single-v2 on-download-deleted="somemethod" goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
           <br> <br>
         </template>
       </paper-card>

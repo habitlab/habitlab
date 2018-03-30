@@ -24,6 +24,15 @@
         margin-bottom: 5px;
       }
 
+      .uninstall-button {
+        text-align: center;
+        text-transform: none;
+        background-color: #415D67;
+        color: white;
+        -webkit-font-smoothing: subpixel-antialiased;
+        margin-bottom: 5px;
+      }
+
       .try-now-button {
         text-align: center;
         text-transform: none;
@@ -68,7 +77,13 @@
               <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
               <paper-tooltip for="pill_selector" animation-delay="0">Each time you visit <span>{{sitename}}</span>,<br>HabitLab will show one of the<br>nudges turned 'On'.</paper-tooltip>
             </div>
-            <template is="dom-if" if="{{custom}}">
+            <template is="dom-if" if="{{downloaded}}">
+              <div style="align-self:auto; vertical-align:middle; width:75px; margin-right: 10px; border: transparent;">
+                <paper-button class="uninstall-button" style="height: 30px; min-width: 5.2em; font-weight: 380" on-click="delete_custom_intervention">Delete</paper-button>
+                <paper-button class="try-now-button" style="height: 30px; min-width: 5.2em; font-weight: 400" on-click="preview_intervention">Try now</paper-button>
+              </div>
+            </template>
+            <template is="dom-if" if="{{test_function(downloaded, custom)}}">
               <div style="align-self:auto; vertical-align:middle; width:75px; margin-right: 10px; border: transparent;">
                 <paper-button class="edit-button" style="height: 30px; min-width: 5.2em; font-weight: 400" on-click="edit_custom_intervention">Edit</paper-button>
                 <paper-button class="try-now-button" style="height: 30px; min-width: 5.2em; font-weight: 400" on-click="preview_intervention">Try now</paper-button>

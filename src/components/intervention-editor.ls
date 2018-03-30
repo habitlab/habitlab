@@ -602,6 +602,10 @@ polymer_ext {
     # Avoid to use swal because I cannot press the button    
     # sharing
     chrome.identity.getProfileUserInfo (author_info) ->>
+        console.log(author_info)
+        if (author_info.id == "")
+          alert("You have to sign-in in Chrome before sharing!")
+          return
         if (confirm("Click OK to share your code to all users! Click No to share your code via private link."))
           upload_result = await upload_intervention(intervention_info, author_info, true)
           if upload_result.status=='success'

@@ -393,6 +393,8 @@ export remove_custom_intervention = (intervention_name) ->
   localStorage.removeItem 'saved_intervention_' + intervention_name
   localStorage.removeItem 'saved_interventions_' + intervention_name
   localStorage.removeItem 'saved_intervention_time_' + intervention_name
+  # if it is downloaded
+  localStorage.removeItem 'downloaded_intervention_' + intervention_name
   return
 
 export list_generic_interventions = memoizeSingleAsync ->>

@@ -30,6 +30,10 @@
         cursor:pointer;
       }
 
+      .imgContainer:hover{
+        box-shadow: 0 0 15px rgb(151, 194, 236);
+      }
+
       .imgContainer{
         width: 160px;
         height: 160px;
@@ -121,7 +125,7 @@
     </div>
     <br>
     <h2>Add your Own!</h4>
-      </div>
+  </div>
       <template is="dom-repeat" items="{{interventions}}" as="info">
         <market-card  name = "{{info.name}}" starCount = "{{info.stars}}" description = "{{info.description}}"></market-card>
       </template>

@@ -64,7 +64,8 @@ polymer_ext({
       self.S("#image").css("display", "inline-block");
     });
     self.S(".buttonDownload").click(
-      async function() {
+      async function(e) {
+        e.preventDefault();
         // check if local has same name intervention
         // need to loop through _new as well in fixed try amount (e.g. 1000)
         temp_name = self.name
@@ -72,7 +73,7 @@ polymer_ext({
         for (i = 0; i < 1000; i++) {
           if(localStorage['saved_intervention_' + temp_name]) {
             if (localStorage['saved_intervention_' + temp_name].trim() == self.code) {
-              confirm("You already have the code in " + temp_name + "! Nothing has changed!");
+              alert("You already have the code in " + temp_name + "! Nothing has changed!");
               return
             }
           } else {
@@ -83,10 +84,10 @@ polymer_ext({
         }
         if(localStorage['saved_intervention_' + self.name]) {
           if (localStorage['saved_intervention_' + self.name].trim() == self.code) {
-            confirm("You already have the code! And nothing has changed!")
+            alert("You already have the code! And nothing has changed!")
             return
           }
-          confirm("You have a same name intervention! \n This will be saved with '_new' at the end of the file name");
+          alert("You have a same name intervention! \n This will be saved with '_new' at the end of the file name");
           self.name = self.name + "_new";
         }
         try {
@@ -178,7 +179,7 @@ polymer_ext({
             confirm('Error: downloading failed (' + err + ')')
         }
         await list_custom_interventions()
-       confirm("Thanks for downloading! Refresh and you can view the intervention at Nudges list!")
+       alert("Thanks for downloading! Refresh and you can view the intervention at Nudges list!")
        self.fire('intervention-added', {
 
        })

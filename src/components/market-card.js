@@ -6,6 +6,11 @@ const {
 } = require('libs_backend/intervention_utils')
 const {compile_intervention_code} = require('libs_backend/intervention_editor_utils')
 
+const {
+  localget
+} = require('libs_common/cacheget_utils')
+
+
 polymer_ext({
   is: 'market-card',
   properties: {
@@ -42,6 +47,10 @@ polymer_ext({
     author:{
       type: String
     },
+  },
+  get_custom_intervention_icon_url: function() {
+    //return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');
+    return chrome.extension.getURL('icons/custom_intervention_icon.svg');
   },
   ready: async function() {
     const self = this
@@ -170,6 +179,9 @@ polymer_ext({
         }
         await list_custom_interventions()
        confirm("Thanks for downloading! Refresh and you can view the intervention at Nudges list!")
+       self.fire('intervention-added', {
+
+       })
         // download count of this shared intervention, send back to server
       }
     );

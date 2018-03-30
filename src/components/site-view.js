@@ -127,6 +127,10 @@ polymer_ext({
       //cancelButtonText: 'Close'
     })
   },
+  somemethod: function() {
+    //alert('somemethod called in site-alert')
+    this.rerender()
+  },
   rerender1: async function() {
     const [goal_info_list, intervention_name_to_info_map, enabled_interventions] = await Promise.all([
       list_goals_for_site(this.site),

@@ -179,10 +179,13 @@ polymer_ext({
             confirm('Error: downloading failed (' + err + ')')
         }
         await list_custom_interventions()
-       alert("Thanks for downloading! Refresh and you can view the intervention at Nudges list!")
+       //alert("Thanks for downloading! Refresh and you can view the intervention at Nudges list!")
        self.fire('intervention-added', {
 
        })
+       self.fire('intervention_removed', {
+
+        })
         // download count of this shared intervention, send back to server
       }
     );

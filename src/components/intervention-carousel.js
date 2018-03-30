@@ -6,13 +6,22 @@ polymer_ext({
   properties: {
     interventions: {
       type: Array,
+      observer: 'site_changed'
     },
     site: {
       type: String,
       observer: 'site_changed'
     }
     },
+    somemethod: function() {
+      // alert('somemethod called in carousel-alert')
+      this.site_changed()
+    },
+    ready: function() {
+       this.addEventListener('intervention_removed', this.somemethod);
+    },
     site_changed: async function() {
+      //console.log("1.11")
         // 1. Fetch shared interventions from the server
         console.log("Fetching from the server of shared interventions from: " + this.site);
         // TODO: remove for testing
@@ -38,8 +47,15 @@ polymer_ext({
 
         // let temp = this.S('#market-card')[0];
         // console.log(temp)
+        // remove current cards
+        var element = document.getElementById("cardAccess");
+        while (element) {
+          element.outerHTML = "";
+          delete element;
+          element = document.getElementById("cardAccess");
+        }
         for (var i = 0; i < data.length; i++) {
-          if (data[i].displayname) {
+          if (data[i].displayname && !localStorage['saved_intervention_' + data[i].name]) {
           this.buildProjectCard(data[i].code, data[i].name, 
                                 data[i].displayname, data[i].description, 
                                 data[i].domain, data[i].preview, data[i].sitename, 
@@ -104,6 +120,7 @@ polymer_ext({
         card.setAttribute("goals", goals);
         card.setAttribute("starCount", stars);
         card.setAttribute("author", author_email);
+        card.id = "cardAccess"
         //card.addEventListener('click', this.onClick);
         //Makes sure to insert cards at the front so add button is last
         containerElement.insertAdjacentElement('afterend', card);

@@ -1,18 +1,35 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils')
 const screenshot_utils = require('libs_common/screenshot_utils')
+var $ = require('jquery');
+const {
+  list_site_info_for_sites_for_which_goals_are_enabled,
+  list_goals_for_site,
+  get_goals,
+  list_all_goals,
+} = require('libs_backend/goal_utils');
+
+const {
+  get_interventions,
+  get_enabled_interventions
+} = require('libs_backend/intervention_utils');
 
 polymer_ext({
   is: 'intervention-carousel',
   properties: {
     interventions: {
       type: Array,
-      observer: 'site_changed'
     },
     site: {
       type: String,
       observer: 'site_changed'
+    },
+    uploaded_interventions: {
+      type: Array,
     }
     },
+    // listeners: {
+    //   'modal_close': 'closeModal',
+    // },
     somemethod: function() {
       // alert('somemethod called in carousel-alert')
       this.site_changed()
@@ -20,38 +37,44 @@ polymer_ext({
     ready: function() {
        this.addEventListener('intervention_removed', this.somemethod);
     },
+    get_list_of_uploadable: async function() {
+    const [goal_info_list, intervention_name_to_info_map, enabled_interventions] = await Promise.all([
+      list_goals_for_site(this.site),
+      get_interventions(),
+      get_enabled_interventions()
+    ])
+    for (let intervention_name of Object.keys(intervention_name_to_info_map)) {
+      const intervention_info = intervention_name_to_info_map[intervention_name];
+      intervention_info.enabled = (enabled_interventions[intervention_name] == true);
+    }
+    return intervention_name_to_info_map
+  },
     site_changed: async function() {
       //console.log("1.11")
         // 1. Fetch shared interventions from the server
-        console.log("Fetching from the server of shared interventions from: " + this.site);
+        //console.log("Fetching from the server of shared interventions from: " + this.site);
         // TODO: remove for testing
         // localStorage.setItem('local_logging_server', true) 
         if (localStorage.getItem('local_logging_server') == 'true') {
-          console.log("posting to local server")
+          //console.log("posting to local server")
           logging_server_url = 'http://localhost:5000/'
         } else {
-          console.log("posting to local server")
+          //console.log("posting to local server")
           logging_server_url = 'https://habitlab.herokuapp.com/'
         }
         let request = logging_server_url + 'get_sharedinterventions_for_site' + '?website=' + this.site;
-        console.log(request);
+        //console.log(request);
         let data = await fetch(request).then(x => x.json());
-        console.log(data);
-        // update the the html accordingly
-        // this.interventions = []
-        // for (var i = 0; i < data.length; i++) {
-        //   this.interventions.push(data[i])
-        // }
-        // console.log(this.interventions)
-        // this.set('interventions', this.interventions)
+        //console.log(data);
+        //console.log(this.interventions);
 
-        // let temp = this.S('#market-card')[0];
-        // console.log(temp)
+
         // remove current cards
         var element = document.getElementById("cardAccess");
         while (element) {
           element.outerHTML = "";
-          delete element;
+          var a = {x : element}
+          delete a.x;
           element = document.getElementById("cardAccess");
         }
         for (var i = 0; i < data.length; i++) {
@@ -75,9 +98,32 @@ polymer_ext({
         // console.log("-----");
         // Get the <span> element that closes the modal
         // When the user clicks the button, open the modal
-        addCard.onclick = function() {
-          modal.style.display = "block";
-          console.log("clicked");
+        var map = await this.get_list_of_uploadable()
+        var s = this.site
+        //console.log(map);
+        addCard.onclick = async function(event, site = s, intervention_name_to_info_map = map) {
+          // modal.style.display = "block";
+          //console.log(site);
+          //console.log(intervention_name_to_info_map);
+          // here we display a dialog
+          var li = []
+          var displaynames = []
+          for (let intervention_name of Object.keys(intervention_name_to_info_map)) {
+            if(intervention_name_to_info_map[intervention_name].sitename == site && !intervention_name_to_info_map[intervention_name].downloaded && intervention_name_to_info_map[intervention_name].custom) {
+              // console.log(intervention_name_to_info_map[intervention_name])
+              li.push(intervention_name_to_info_map[intervention_name])
+              displaynames.push(intervention_name_to_info_map[intervention_name].displayname)
+            }
+          }
+          //console.log(li)
+          create_intervention_dialog = document.createElement('create-intervention-dialog')
+          document.body.appendChild(create_intervention_dialog)
+          create_intervention_dialog.intervention_list=li
+          create_intervention_dialog.upload_existing_custom_intervention_dialog()
+          create_intervention_dialog.addEventListener('upload_intervention', function(event) {
+            console.log(event);
+
+          })
         }
 
         // When the user clicks on <span> (x), close the modal
@@ -100,6 +146,9 @@ polymer_ext({
       },
       startAdd: function() {
         this.S("#addScreen").css("display", "block");
+      },
+      closeModal: function() {
+        this.S("#addScreen").css("display", "none");
       },
       buildProjectCard: function(code, name, displayname, description, 
         domain, preview, sitename, sitename_printable,

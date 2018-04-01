@@ -11,9 +11,62 @@ polymer_ext({
   },
   site_changed: async function() {
     console.log('site in site_changed is:' + this.site)
+    // fetch again for the uploaded data from this author
+    // 1. Fetch shared interventions from the server
+    console.log("Fetching from the server of shared interventions from: " + this.site);
+    // TODO: remove for testing
+    // localStorage.setItem('local_logging_server', true) 
+    if (localStorage.getItem('local_logging_server') == 'true') {
+      console.log("posting to local server")
+      logging_server_url = 'http://localhost:5000/'
+    } else {
+      console.log("posting to local server")
+      logging_server_url = 'https://habitlab.herokuapp.com/'
+    }
+    let request = logging_server_url + 'get_sharedinterventions_for_site' + '?website=' + this.site;
+    //console.log(request);
+    let data = await fetch(request).then(x => x.json());
+    //console.log(data);
+    var pass_data = data
     // pass
     // service work will let carousel object do
+    // upload functionality
+    let settings = this.S('.mySettings')[0];
+    settings.onclick = async function(event, data = pass_data) {
+      chrome.permissions.request({
+        permissions: ['identity', 'identity.email'],
+        origins: []
+      }, function(granted) {
+        //console.log('granted: ' + granted)
+        return
+      });
+
+      chrome.identity.getProfileUserInfo(function(author_info){
+            if (author_info.id == "") {
+            alert("You have to sign-in in Chrome before sharing!")
+           return
+            }
+              console.log("author_info ",author_info);
+              console.log(data);
+              var li = []
+              // get the list of this author's intervention
+              for (var i = 0; i < data.length; i++) {
+                if (data[i].author_id == author_info.id) {
+                  li.push(data[i])
+                }
+              }
+              create_intervention_dialog = document.createElement('create-intervention-dialog')
+              document.body.appendChild(create_intervention_dialog)
+              create_intervention_dialog.intervention_list=li
+              create_intervention_dialog.remove_upload_custom_intervention_dialog()
+              create_intervention_dialog.addEventListener('remove_intervention', function(event) {
+              console.log(event);
+              // delete on the server side
+          })
+      });
+    }
   },
+  
   /*
   attached: async function() {
     console.log('site v2 is:')
@@ -24,4 +77,9 @@ polymer_ext({
     //console.log(data)
   }
   */
-})
+}, {
+  source: require('libs_frontend/polymer_methods'),
+  methods: [
+    'S'
+  ]
+});

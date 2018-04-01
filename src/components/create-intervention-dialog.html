@@ -50,6 +50,30 @@
       <paper-button id="open_button" on-click="open_intervention_clicked" class="button">Open</paper-button>
     </paper-dialog>
 
+    <paper-dialog id="upload_existing_custom_intervention" with-backdrop style="z-index: 9007;">
+        <paper-dropdown-menu style="margin-top: 0px; width: 300px" label="Select a custom intervention">
+          <paper-listbox id="intervention_selector" class="dropdown-content" selected="0">
+            <template is="dom-repeat" items="{{intervention_list}}" as="interventions">
+              <paper-item intervention_name="{{interventions}}">{{interventions.displayname}}</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <paper-input id="intervention_name" label="Intervention Name" value=""></paper-input>
+        <paper-input id="intervention_description" label="Intervention Description" value="Describe your intervention here"></paper-input>
+        <paper-button id="upload_button" on-click="upload_intervention_clicked" class="button">Upload</paper-button>
+      </paper-dialog>
+
+      <paper-dialog id="remove_upload_custom_intervention" with-backdrop style="z-index: 9007;">
+          <paper-dropdown-menu style="margin-top: 0px; width: 300px" label="Select a shared intervention">
+            <paper-listbox id="intervention_selector" class="dropdown-content" selected="0">
+                <template is="dom-repeat" items="{{intervention_list}}" as="interventions">
+                    <paper-item intervention_name="{{interventions}}">{{interventions.name}}</paper-item>
+                  </template>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          <paper-button id="remove_button" on-click="remove_intervention_clicked" class="button"  style="color: red;">Stop Sharing It</paper-button>
+        </paper-dialog>
+
   </template>
   <script src="create-intervention-dialog.js"></script>
 </dom-module>

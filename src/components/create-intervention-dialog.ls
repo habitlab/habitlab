@@ -54,6 +54,10 @@ polymer_ext {
     this.$$('#create_new_intervention_dialog').open()
   open_existing_custom_intervention_dialog: ->
     this.$$('#open_existing_custom_intervention').open()
+  upload_existing_custom_intervention_dialog: ->
+    this.$$('#upload_existing_custom_intervention').open()
+  remove_upload_custom_intervention_dialog: ->
+    this.$$('#remove_upload_custom_intervention').open()
   open_edit_intervention_info_dialog: ->>
     intervention_info=await get_intervention_info(this.current_intervention)
     goal_name=intervention_info.goals[0]
@@ -128,6 +132,20 @@ polymer_ext {
       intervention_name:this.$.intervention_selector.selectedItem.intervention_name
     })
     this.$$('#open_existing_custom_intervention').close()
+  upload_intervention_clicked: ->>
+    self = this
+    self.fire('upload_intervention',{
+      intervention:self.$.intervention_selector.selectedItem.intervention_name,
+      intervention_description:self.$.intervention_description.value,
+      intervention_upload_name:self.$.intervention_name.value,
+    })
+    this.$$('#upload_existing_custom_intervention').close()
+  remove_intervention_clicked: ->>
+    self = this
+    self.fire('remove_intervention',{
+      intervention:self.$.intervention_selector.selectedItem.intervention_name
+    })
+    this.$$('#remove_upload_custom_intervention').close()
   goal_selector_changed: (change_info) ->
     goal_info=change_info.detail.item.goal_info
     this.preview_url = goal_info.preview ? goal_info.homepage ? 'https://' + goal_info.domain

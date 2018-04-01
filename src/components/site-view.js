@@ -104,7 +104,7 @@ polymer_ext({
   },
   rerender: async function() {
     let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
-    //console.log(intervention_name_to_info_map)
+    console.log(intervention_name_to_info_map)
     //console.log(goal_info_list[0])
     this.goal_info = goal_info_list[0];
     this.intervention_name_to_info_map = intervention_name_to_info_map;

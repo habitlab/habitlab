@@ -63,6 +63,14 @@ polymer_ext({
       self.S("#description").css("display", "none");
       self.S("#image").css("display", "inline-block");
     });
+    self.S(".description_area").click(
+      function(e) {
+      //alert("image is clicked!");
+      // here we are displaying a detail dialog of this intervention
+      create_intervention_dialog = document.createElement('create-intervention-dialog')
+      document.body.appendChild(create_intervention_dialog)
+      create_intervention_dialog.intervention_info_dialog()
+    })
     self.S(".buttonDownload").click(
       async function(e) {
         e.preventDefault();

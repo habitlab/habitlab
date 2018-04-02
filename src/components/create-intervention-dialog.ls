@@ -58,6 +58,8 @@ polymer_ext {
     this.$$('#upload_existing_custom_intervention').open()
   remove_upload_custom_intervention_dialog: ->
     this.$$('#remove_upload_custom_intervention').open()
+  intervention_info_dialog: ->
+    this.$$('#intervention_info').open()
   open_edit_intervention_info_dialog: ->>
     intervention_info=await get_intervention_info(this.current_intervention)
     goal_name=intervention_info.goals[0]
@@ -146,6 +148,12 @@ polymer_ext {
       intervention:self.$.intervention_selector.selectedItem.intervention_name
     })
     this.$$('#remove_upload_custom_intervention').close()
+  intervention_info_clicked: ->>
+    self = this
+    self.fire('intervention_info',{
+      
+    })
+    this.$$('#intervention_info').close()
   goal_selector_changed: (change_info) ->
     goal_info=change_info.detail.item.goal_info
     this.preview_url = goal_info.preview ? goal_info.homepage ? 'https://' + goal_info.domain

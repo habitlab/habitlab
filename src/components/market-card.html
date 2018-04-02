@@ -35,7 +35,9 @@
         ;
       }
 
-      img{}
+      .borders:hover{
+        box-shadow: 0 0 15px rgb(125, 174, 223);
+      }
 
       .borders{
         border: 2px solid white;
@@ -48,6 +50,7 @@
         align-items: center;
         text-align: center;
         justify-content: center;
+        cursor:pointer;
       }
       .checked {
         color: black;
@@ -56,7 +59,8 @@
       .cardSquare{
         height:160px;
         width:160px;
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.836);
+        
         padding: 10px;
       }
 
@@ -221,7 +225,10 @@
       <div class = "card">
         <img id= "image" class = "cardSquare borders" src = "{{get_custom_intervention_icon_url()}}">
         <div id= "description" class = "cardSquare borders">
-          <div style="height:calc(80%)">{{description}}</div>
+            <div class = "description_area" style="height:calc(70%)">
+            <div style="height:calc(20%)"><b>Description:</b></div>
+          <div style="height:calc(50%)">{{description}}</div>
+        </div>
             <a href="#{{location}}" class="buttonDownload"></a>
         </div>
         <br>

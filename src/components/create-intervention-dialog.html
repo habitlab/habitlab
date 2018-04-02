@@ -67,7 +67,7 @@
           <paper-dropdown-menu style="margin-top: 0px; width: 300px" label="Select a shared intervention">
             <paper-listbox id="intervention_selector" class="dropdown-content" selected="0">
                 <template is="dom-repeat" items="{{intervention_list}}" as="interventions">
-                    <paper-item intervention_name="{{interventions}}">{{interventions.name}}</paper-item>
+                    <paper-item intervention_name="{{interventions}}">{{interventions.displayname}}</paper-item>
                   </template>
             </paper-listbox>
           </paper-dropdown-menu>

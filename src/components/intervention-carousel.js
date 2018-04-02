@@ -9,6 +9,11 @@ const {
 } = require('libs_backend/goal_utils');
 
 const {
+  post_json
+} = require('libs_backend/ajax_utils')
+
+
+const {
   get_interventions,
   get_enabled_interventions
 } = require('libs_backend/intervention_utils');
@@ -120,8 +125,53 @@ polymer_ext({
           document.body.appendChild(create_intervention_dialog)
           create_intervention_dialog.intervention_list=li
           create_intervention_dialog.upload_existing_custom_intervention_dialog()
-          create_intervention_dialog.addEventListener('upload_intervention', function(event) {
+          create_intervention_dialog.addEventListener('upload_intervention', async function(event) {
             console.log(event);
+            intervention_2_upload = event.detail.intervention;
+            // upload to server
+            chrome.permissions.request({
+              permissions: ['identity', 'identity.email'],
+              origins: []
+            }, function(granted) {
+              //console.log('granted: ' + granted)
+              return
+            });
+            await chrome.identity.getProfileUserInfo(async function(author_info){
+                if (author_info.id == "") {
+                  alert("You have to sign-in in Chrome before sharing!")
+                  return
+                }
+                intervention_2_upload.author_email = author_info.email
+                intervention_2_upload.author_id = author_info.id
+                intervention_2_upload.is_sharing = true
+                intervention_2_upload.displayname = event.detail.intervention_upload_name
+                intervention_2_upload.description = event.detail.intervention_description
+                // Encoding with intervention II
+                intervention_2_upload.key = author_info.id + Date.now()
+                console.log(intervention_2_upload)
+                upload_successful = true
+                // upload to server
+                try {
+                  if (localStorage.getItem('local_logging_server') == 'true') {
+                    //console.log "posting to local server"
+                    logging_server_url = 'http://localhost:5000/'
+                  } else {
+                    logging_server_url = 'https://habitlab.herokuapp.com/'
+                  }
+                  response = await post_json(logging_server_url + 'sharedintervention', intervention_2_upload)
+                  console.log(response)
+                  if (response.success) {
+                    url = logging_server_url + "lookupintervention?share=y&id=" + intervention_2_upload.key
+                    alert("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + url)
+                  } else {
+                    alert("Fail to upload your code! Please open an ticket!")
+                  }
+                }
+                catch(err) {
+                  alert("Fail to upload your code! Please open an ticket!")
+                }                
+              });
+            
 
           })
         }

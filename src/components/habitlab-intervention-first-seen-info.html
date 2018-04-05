@@ -1,0 +1,43 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="habitlab-intervention-first-seen-info">
+  <template>
+    <style>
+      :host {
+        z-index: 9007199254740991;
+      }
+      .yellow-button {
+        text-transform: none;
+        color: #eeff41;
+      }
+
+      .intervention-icon {
+        align: center;
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+
+      #sample_toast {
+        width: 350px;
+        height: 320px;
+        z-index: 9007199254740991;
+        background-color: aliceblue;
+        color: black;
+      }      
+    </style>
+    <paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right">
+      <div>HabitLab rotates between different nudges each time you visit Facebook. The current nudge is called:</div>
+      <div style="display: flex; align-items: center; align-content:center;justify-content: center;">
+        <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
+        <h2 style="margin-right:25px;">{{intervention_name}}</h2>
+      </div>
+      <paper-button id="sample_toast_close_button" class="yellow-button">Close</paper-button>
+    </paper-toast>
+  </template>
+  <script src="habitlab-intervention-first-seen-info.js"></script>
+</dom-module>

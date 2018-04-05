@@ -8,10 +8,6 @@
       :host {
         z-index: 9007199254740991;
       }
-      .yellow-button {
-        text-transform: none;
-        color: #eeff41;
-      }
 
       .intervention-icon {
         align: center;
@@ -24,19 +20,30 @@
 
       #sample_toast {
         width: 350px;
-        height: 320px;
+        height: 210px;
         z-index: 9007199254740991;
         background-color: aliceblue;
         color: black;
-      }      
+      }
+
+      #ok_button {
+        height: 38px;
+        width: 100%;
+        text-transform: none;
+
+        background-color: #415D67;
+        color: white;
+        margin: 0 auto;
+        box-shadow: 2px 2px 2px #888888;
+      }
     </style>
     <paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right">
-      <div>HabitLab rotates between different nudges each time you visit Facebook. The current nudge is called:</div>
-      <div style="display: flex; align-items: center; align-content:center;justify-content: center;">
+      <div>HabitLab rotates between different nudges each time you visit Facebook. This is the first time you're seeing:</div>
+      <div style="display: flex; align-items: center; align-content:center;justify-content: center; padding-bottom: 10px">
         <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
         <h2 style="margin-right:25px;">{{intervention_name}}</h2>
       </div>
-      <paper-button id="sample_toast_close_button" class="yellow-button">Close</paper-button>
+      <paper-button id="ok_button" class="yellow-button">OK</paper-button>
     </paper-toast>
   </template>
   <script src="habitlab-intervention-first-seen-info.js"></script>

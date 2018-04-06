@@ -237,7 +237,7 @@ polymer_ext {
         page: 'onboarding-view'
         subpage: 'onboarding-badges'
         category: 'intervention_enabledisable'
-        now_enabled: false
+        now_enabled: true
         is_permanent: true
         manual: true
         url: window.location.href

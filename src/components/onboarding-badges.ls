@@ -6,6 +6,9 @@
   set_override_enabled_interventions_once
   set_intervention_enabled
   set_intervention_disabled
+  set_subinterventions_disabled_for_generic_intervention
+  set_subinterventions_enabled_for_generic_intervention
+  list_subinterventions_for_generic_intervention
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -223,11 +226,13 @@ polymer_ext {
 
   pill_button_selected: (evt) ->>
     buttonidx = evt.detail.buttonidx
+    intervention_name = this.dialog_intervention.name
+    is_generic = intervention_name.startsWith 'generic/'
     if buttonidx == 1 # enabled
       this.enabled = true
       prev_enabled_interventions = await get_enabled_interventions()
       await set_intervention_enabled this.dialog_intervention.name
-      add_log_interventions {
+      log_intervention_info = {
         type: 'intervention_set_smartly_managed'
         page: 'onboarding-view'
         subpage: 'onboarding-badges'
@@ -239,11 +244,16 @@ polymer_ext {
         intervention_name: this.dialog_intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
+      if is_generic
+        log_intervention_info.change_subinterventions = true
+        log_intervention_info.subinterventions_list = await list_subinterventions_for_generic_intervention(intervention_name)
+        await set_subinterventions_enabled_for_generic_intervention(intervention_name)
+      await add_log_interventions log_intervention_info
     else if buttonidx == 0 # never shown
       this.enabled = false
       prev_enabled_interventions = await get_enabled_interventions()
       await set_intervention_disabled this.dialog_intervention.name
-      add_log_interventions {
+      log_intervention_info = {
         type: 'intervention_set_always_disabled'
         page: 'onboarding-view'
         subpage: 'onboarding-badges'
@@ -255,6 +265,11 @@ polymer_ext {
         intervention_name: this.dialog_intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
+      if is_generic
+        log_intervention_info.change_subinterventions = true
+        log_intervention_info.subinterventions_list = await list_subinterventions_for_generic_intervention(intervention_name)
+        await set_subinterventions_disabled_for_generic_intervention(intervention_name)
+      await add_log_interventions log_intervention_info
   get_pill_button_idx: (enabled) ->
     if enabled
       return 1

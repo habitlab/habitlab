@@ -234,6 +234,28 @@ export is_video_domain = (domain) ->
     return true
   return false
 
+export set_subinterventions_enabled_for_generic_intervention = (generic_intervention_name) ->>
+  subinterventions_list = await list_subinterventions_for_generic_intervention(generic_intervention_name)
+  for intervention_name in subinterventions_list
+    await set_intervention_enabled(intervention_name)
+  return
+
+export set_subinterventions_disabled_for_generic_intervention = (generic_intervention_name) ->>
+  subinterventions_list = await list_subinterventions_for_generic_intervention(generic_intervention_name)
+  for intervention_name in subinterventions_list
+    await set_intervention_disabled(intervention_name)
+  return
+
+export list_subinterventions_for_generic_intervention = (generic_intervention_name) ->>
+  interventions_list = await list_all_interventions()
+  all_interventions = await get_interventions()
+  output = []
+  for intervention_name in interventions_list
+    intervention_info = all_interventions[intervention_name]
+    if intervention_info? and intervention_info.generic_intervention? and intervention_info.generic_intervention == generic_intervention_name
+      output.push(intervention_name)
+  return output
+
 export generate_interventions_for_domain = (domain) ->>
   goal_name = "custom/spend_less_time_#{domain}"
   goal_info = await goal_utils.get_goal_info(goal_name)

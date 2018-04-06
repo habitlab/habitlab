@@ -74,6 +74,7 @@ polymer_ext({
     localStorage.setItem('feedback_form_email', this.email);
   }, 1000),
   open: function() {
+    let self = this
     var saved_feedback = localStorage.getItem('feedback_form_feedback');
     if (saved_feedback && saved_feedback.length > 0) {
       this.feedback = saved_feedback;
@@ -82,7 +83,14 @@ polymer_ext({
     if (saved_email && saved_email.length > 0) {
       this.email = saved_email;
     }
-    this.$$('#feedback_dialog').open();
+    let dialog = this.$$('#feedback_dialog')
+    dialog.open();
+    setTimeout(function() {
+      const {make_checkbox_clickable} = require('libs_frontend/frontend_libs');
+      for (let x of dialog.querySelectorAll('paper-checkbox')) {
+        make_checkbox_clickable(x)
+      }
+    }, 1000)
   },
   submit_feedback: async function() {
     var data = {

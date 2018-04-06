@@ -7,11 +7,6 @@ const {
   get_enabled_interventions,
 } = require('libs_common/intervention_utils')
 
-const {
-  //make_checkbox_clickable,
-  make_togglebutton_clickable,
-} = require('libs_frontend/frontend_libs')
-
 const intervention = require('libs_common/intervention_info').get_intervention()
 
 Polymer({
@@ -48,6 +43,10 @@ Polymer({
     this.$$('#sample_toast').show()
     //show_toast('foobar')
     setTimeout(function() {
+      const {
+        //make_checkbox_clickable,
+        make_togglebutton_clickable,
+      } = require('libs_frontend/frontend_libs')
       // workaround since paper-checkbox seems to mysteriously not be checkable
       make_togglebutton_clickable(self.$$('#future_visits_checkbox'))
       //make_checkbox_clickable(self.$$('#future_visits_checkbox'))

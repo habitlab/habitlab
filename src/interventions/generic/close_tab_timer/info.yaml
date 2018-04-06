@@ -1,5 +1,5 @@
-description: Kills tab after 60 seconds
-displayname: 1Minute Assassin
+description: Closes tab after 60 seconds
+displayname: 1Min Assassin
 content_scripts:
   - path: frontend.js
     run_at: document_start

@@ -1,5 +1,5 @@
-description: Displays time spent on the goal site constantly on the top of your screen
-displayname: The Supervisor
+description: Shows time spent on site at the top of screen
+displayname: Supervisor
 content_scripts:
   - path: frontend.js
     run_at: document_start

@@ -21,6 +21,8 @@ lib_name_to_func_names_and_signatures =
     getkey_dictdict: ['name', 'key', 'key2']
     getdict_for_key_dictdict: ['name', 'key']
     getdict_for_key2_dictdict: ['name', 'key2']
+  intervention_first_impression_utils_backend:
+    show_firstimpression_message_for_intervention: 'intervention_name'
   intervention_utils:
     set_intervention_enabled: 'name'
     set_intervention_disabled: 'name'

@@ -1,4 +1,4 @@
-description: Shows a toast displaying time spent every minute
+description: Notifies you of time spent every minute
 displayname: Minute Watch
 content_scripts:
   - path: frontend.js

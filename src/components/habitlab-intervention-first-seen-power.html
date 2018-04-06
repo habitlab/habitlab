@@ -3,17 +3,12 @@
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
-<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
 <dom-module id="habitlab-intervention-first-seen-power">
   <template>
     <style>
       :host {
         z-index: 9007199254740991;
-      }
-
-      #intervention_name_display {
-        margin-top: 10px;
       }
 
       .intervention-icon {
@@ -27,7 +22,7 @@
 
       #sample_toast {
         width: 350px;
-        height: 240px;
+        height: 270px;
         z-index: 9007199254740991;
         background-color: aliceblue;
         color: black;
@@ -46,11 +41,15 @@
     </style>
     <paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right">
       <div>HabitLab rotates between different nudges each time you visit {{sitename}}. This is the first time you're seeing:</div>
-      <div id="intervention_name_display" style="display: flex; align-items: center; align-content:center;justify-content: center;">
-        <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
-        <h2 style="margin-right:25px; font-size: 24px">{{intervention_name}}</h2>
+      <div style="margin-top: 10px; background-color: #383838; border-radius: 5px; padding: 5px; color: white">
+        <div style="display: flex; align-items: center; align-content:center;justify-content: center;">
+          <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
+          <h2 style="margin-right:25px; font-size: 24px; color: white">{{intervention_name}}</h2>
+        </div>
+        <div style="display: flex; align-items: center; align-content:center;justify-content: center; padding-bottom: 5px">
+          <div style=" text-align: center; font-size: 11px; color: white">{{intervention_description}}</div>
+        </div>
       </div>
-      <paper-tooltip for="intervention_name_display" animation-delay="0">{{intervention_description}}</paper-tooltip>
       <div style="padding-top: 10px"></div>
       <div style="display: flex; align-items: center; align-content:center;justify-content: center">
         <paper-toggle-button id="future_visits_checkbox" checked="{{is_intervention_enabled}}">Show {{intervention_name}} on future visits</paper-toggle-button>

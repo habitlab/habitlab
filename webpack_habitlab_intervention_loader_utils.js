@@ -42,6 +42,7 @@ function preprocess_javascript(source) {
   let prefix_lines = []
   let suffix_lines = []
   suffix_lines.push('window.debugeval = x => eval(x);')
+  suffix_lines.push('require("libs_frontend/intervention_first_impression_utils").show_first_impression_notice_if_needed();')
   prefix_lines.push('window.Polymer = window.Polymer || {};')
   prefix_lines.push('window.Polymer.dom = "shadow";')
   prefix_lines.push(`
@@ -50,7 +51,6 @@ function preprocess_javascript(source) {
   }
   `)
   prefix_lines.push('require("enable-webcomponents-in-content-scripts");')
-  prefix_lines.push('require("libs_frontend/intervention_first_impression_utils").show_first_impression_notice_if_needed();')
   all_requires = list_requires(source, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
   function is_component_require(x) {
     if (x.endsWith('.deps') || x.endsWith('.deps.js')) {

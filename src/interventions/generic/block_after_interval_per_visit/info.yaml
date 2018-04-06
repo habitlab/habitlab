@@ -1,4 +1,4 @@
-description: Enters timer into the screen and bounces you off the tab after the timer ends
+description: Asks how long you want to spend on site this visit
 displayname: Bouncer
 content_scripts:
   - path: frontend.js

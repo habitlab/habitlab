@@ -156,10 +156,18 @@ do !->>
 
   set_intervention_selection_algorithm_firstinstall = ->
     # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
-    algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
+    # algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
+    algorithms = ['one_random_intervention_per_enabled_goal']
     chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
     setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
+    return
+
+  set_intervention_firstimpression_notice_firstinstall = ->
+    algorithms = ['none', 'info', 'power']
+    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
+    setvar_experiment('intervention_firstimpression_notice', chosen_algorithm)
     return
 
   do !->>
@@ -185,6 +193,7 @@ do !->>
     await set_default_generic_interventions_enabled()
     # set intervention selection algorithm - experiment
     set_intervention_selection_algorithm_firstinstall()
+    set_intervention_firstimpression_notice_firstinstall()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()

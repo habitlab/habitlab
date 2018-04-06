@@ -21,11 +21,13 @@ async function show_first_impression_notice_if_needed () {
       }
     }, 5000)
   } else {
-    if (notice_to_show == 'power') {
-      show_first_impression_notice_power()
-    } else if (notice_to_show == 'info') {
-      show_first_impression_notice_info()
-    }
+    setTimeout(function() {
+      if (notice_to_show == 'power') {
+        show_first_impression_notice_power()
+      } else if (notice_to_show == 'info') {
+        show_first_impression_notice_info()
+      }
+    }, 500)
   }
 }
 

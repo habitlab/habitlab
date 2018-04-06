@@ -139,7 +139,7 @@ export create_shadow_div = (options) ->
   default_options = {
     fontFamily: 'Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
     position: 'static'
-    zIndex: Number.MAX_SAFE_INTEGER
+    zIndex: 2147483646
     fontSize: '14px'
     lineHeight: 1
     padding: '0px'
@@ -204,4 +204,24 @@ export append_to_body_shadow = (elem, options) ->
   shadow_div.appendChild(elem)
   return shadow_div
 
-gexport_module 'common_libs', -> eval(it)
+export make_checkbox_clickable = (checkbox) ->
+  if not checkbox?
+    return
+  if not checkbox.shadowRoot?
+    return
+  label = checkbox.shadowRoot.querySelector('#checkboxLabel')
+  label.style.pointerEvents = 'none'
+  container = checkbox.shadowRoot.querySelector('#checkboxContainer')
+  container.style.pointerEvents = 'none'
+  return
+
+export make_togglebutton_clickable = (checkbox) ->
+  if not checkbox?
+    return
+  if not checkbox.shadowRoot?
+    return
+  container = checkbox.shadowRoot.querySelector('.toggle-container')
+  container.style.pointerEvents = 'none'
+  return
+
+gexport_module 'frontend_libs', -> eval(it)

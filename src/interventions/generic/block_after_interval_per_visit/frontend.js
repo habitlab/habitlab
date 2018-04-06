@@ -56,7 +56,7 @@ function addBeginDialog(message) {
               'height': '100%',
               'background-color': '#f2fcff',
               'opacity': 1,
-              'z-index': Number.MAX_SAFE_INTEGER
+              'z-index': 2147483646
   });
   shadow_div.append($whiteDiv)
 

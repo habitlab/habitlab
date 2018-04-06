@@ -234,9 +234,10 @@ export is_video_domain = (domain) ->
     return true
   return false
 
-export intervention_first_seen_power_enabledisable = (intervention_name_orig, is_enabled, url) ->>
+export intervention_first_seen_power_enabledisable = (intervention, is_enabled, url) ->>
   is_generic = false
-  intervention_name = intervention_name_orig
+  intervention_name_orig = intervention.name
+  intervention_name = intervention.name
   if intervention.generic_intervention?
     intervention_name = intervention.generic_intervention
     is_generic = true
@@ -269,7 +270,7 @@ export intervention_first_seen_power_enabledisable = (intervention_name_orig, is
       log_intervention_info.change_subinterventions = true
       log_intervention_info.subinterventions_list = await list_subinterventions_for_generic_intervention(intervention_name)
       await set_subinterventions_disabled_for_generic_intervention(intervention_name)
-  await add_log_interventions(log_intervention_info)
+  await log_utils.add_log_interventions(log_intervention_info)
   return
 
 export set_subinterventions_enabled_for_generic_intervention = (generic_intervention_name) ->>

@@ -7,6 +7,11 @@ const {
   get_enabled_interventions,
 } = require('libs_common/intervention_utils')
 
+const {
+  //make_checkbox_clickable,
+  make_togglebutton_clickable,
+} = require('libs_frontend/frontend_libs')
+
 const intervention = require('libs_common/intervention_info').get_intervention()
 
 Polymer({
@@ -39,14 +44,22 @@ Polymer({
       self.$.sample_toast.hide()
     })
     */
+    let self = this
     this.$$('#sample_toast').show()
     //show_toast('foobar')
+    setTimeout(function() {
+      // workaround since paper-checkbox seems to mysteriously not be checkable
+      make_togglebutton_clickable(self.$$('#future_visits_checkbox'))
+      //make_checkbox_clickable(self.$$('#future_visits_checkbox'))
+    }, 1000)
     let enabled_interventions = await get_enabled_interventions()
-    if (enabled_interventions != null && enabled_interventions[this.intervention_name] != null && enabled_interventions[this.intervention_name] == false) {
+    if (enabled_interventions != null && enabled_interventions[intervention.name] != null && enabled_interventions[intervention.name] == false) {
       this.is_intervention_enabled = false
     }
+    console.log('finished ready')
   },
   is_intervention_enabled_changed: async function(is_enabled, prev_value) {
+    console.log('is_intervention_enabled_changed')
     if (prev_value == null) {
       return
     }
@@ -56,8 +69,7 @@ Polymer({
     if (intervention == null) {
       return
     }
-    let intervention_name = this.intervention_name
-    await intervention_first_seen_power_enabledisable(intervention_name, is_enabled, window.location.href)
+    await intervention_first_seen_power_enabledisable(intervention, is_enabled, window.location.href)
   },
   ok_button_clicked: function() {
     this.$$('#sample_toast').hide()

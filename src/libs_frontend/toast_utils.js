@@ -21,7 +21,7 @@ function show_toast(options) {
   }
   let $toast = $('<paper-toast>')
   $toast.css({
-    'z-index': Number.MAX_SAFE_INTEGER,
+    'z-index': 2147483646,
     'margin': '12px',
     'padding': '16px 24px',
     'box-sizing': 'content-box',

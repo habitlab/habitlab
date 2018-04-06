@@ -15,6 +15,7 @@ $ = require 'jquery'
 
 require_component('fb-scroll-block-display')
 
+
 window.scrolling_allowed = true
 nscrolls = 0
 NSCROLLS_THRESHOLD = parameters.scrollevents

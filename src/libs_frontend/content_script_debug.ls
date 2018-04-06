@@ -66,7 +66,7 @@ export insert_console = (eval_func, options) ->
     right: '0px'
     width: '400px'
     height: '200px'
-    'z-index': Number.MAX_SAFE_INTEGER
+    'z-index': 2147483646
     #'background-color': 'blue'
   }
   lang = switch options.lang

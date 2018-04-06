@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-themes/ice.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
@@ -8,6 +9,10 @@
     <style>
       :host {
         z-index: 9007199254740991;
+      }
+
+      #intervention_name_display {
+        margin-top: 10px;
       }
 
       .intervention-icon {
@@ -21,7 +26,7 @@
 
       #sample_toast {
         width: 350px;
-        height: 210px;
+        height: 205px;
         z-index: 9007199254740991;
         background-color: aliceblue;
         color: black;
@@ -42,7 +47,7 @@
       <div>HabitLab rotates between different nudges each time you visit {{sitename}}. This is the first time you're seeing:</div>
       <div id="intervention_name_display" style="display: flex; align-items: center; align-content:center;justify-content: center;">
         <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
-        <h2 style="margin-right:25px;">{{intervention_name}}</h2>
+        <h2 style="margin-right:25px; font-size: 24px">{{intervention_name}}</h2>
       </div>
       <paper-tooltip for="intervention_name_display" animation-delay="0">{{intervention_description}}</paper-tooltip>
       <div style="padding-top: 10px"></div>

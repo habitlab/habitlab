@@ -239,6 +239,7 @@ polymer_ext {
         category: 'intervention_enabledisable'
         now_enabled: true
         is_permanent: true
+        is_generic: is_generic
         manual: true
         url: window.location.href
         intervention_name: this.dialog_intervention.name
@@ -260,6 +261,7 @@ polymer_ext {
         category: 'intervention_enabledisable'
         now_enabled: false
         is_permanent: true
+        is_generic: is_generic
         manual: true
         url: window.location.href
         intervention_name: this.dialog_intervention.name

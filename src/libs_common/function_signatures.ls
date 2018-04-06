@@ -26,6 +26,7 @@ lib_name_to_func_names_and_signatures =
     set_intervention_disabled: 'name'
     set_intervention_disabled_permanently: 'name'
     get_intervention_info: 'intervention_name'
+    intervention_first_seen_power_enabledisable: ['intervention_name', 'is_enabled', 'url']
   tab_utils:
     close_selected_tab: []
     open_url_in_new_tab: 'url'

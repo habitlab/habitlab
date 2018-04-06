@@ -234,6 +234,44 @@ export is_video_domain = (domain) ->
     return true
   return false
 
+export intervention_first_seen_power_enabledisable = (intervention_name_orig, is_enabled, url) ->>
+  is_generic = false
+  intervention_name = intervention_name_orig
+  if intervention.generic_intervention?
+    intervention_name = intervention.generic_intervention
+    is_generic = true
+  prev_enabled_interventions = await get_enabled_interventions()
+  log_intervention_info = {
+    page: 'habitlab-intervention-first-seen-power',
+    subpage: 'habitlab-intervention-first-seen-power',
+    category: 'intervention_enabledisable',
+    is_permanent: true,
+    is_generic: is_generic,
+    manual: true,
+    turned_off_for_visit: false,
+    url: url,
+    intervention_name: intervention_name_orig,
+    prev_enabled_interventions: prev_enabled_interventions,
+  }
+  if is_enabled
+    log_intervention_info.type = 'intervention_set_smartly_managed'
+    log_intervention_info.now_enabled = true
+    await set_intervention_enabled(intervention_name)
+    if is_generic
+      log_intervention_info.change_subinterventions = true
+      log_intervention_info.subinterventions_list = await list_subinterventions_for_generic_intervention(intervention_name)
+      await set_subinterventions_enabled_for_generic_intervention(intervention_name)
+  else
+    log_intervention_info.type = 'intervention_set_always_disabled'
+    log_intervention_info.now_enabled = false
+    await set_intervention_disabled(intervention_name)
+    if is_generic
+      log_intervention_info.change_subinterventions = true
+      log_intervention_info.subinterventions_list = await list_subinterventions_for_generic_intervention(intervention_name)
+      await set_subinterventions_disabled_for_generic_intervention(intervention_name)
+  await add_log_interventions(log_intervention_info)
+  return
+
 export set_subinterventions_enabled_for_generic_intervention = (generic_intervention_name) ->>
   subinterventions_list = await list_subinterventions_for_generic_intervention(generic_intervention_name)
   for intervention_name in subinterventions_list

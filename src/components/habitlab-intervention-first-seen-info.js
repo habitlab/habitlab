@@ -10,7 +10,15 @@ Polymer({
     intervention_name: {
       type: String,
       value: (intervention != null) ? intervention.displayname : ''
-    }
+    },
+    intervention_description: {
+      type: String,
+      value: (intervention != null) ? intervention.description : '',
+    },
+    sitename: {
+      type: String,
+      value: (intervention != null) ? intervention.sitename_printable : '',
+    },
   },
   ready: function() {
     /*

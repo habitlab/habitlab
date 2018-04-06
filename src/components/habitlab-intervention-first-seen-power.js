@@ -2,6 +2,11 @@ const {
   show_toast
 } = require('libs_frontend/toast_utils')
 
+const {
+  intervention_first_seen_power_enabledisable,
+  get_enabled_interventions,
+} = require('libs_common/intervention_utils')
+
 const intervention = require('libs_common/intervention_info').get_intervention()
 
 Polymer({
@@ -10,6 +15,10 @@ Polymer({
     intervention_name: {
       type: String,
       value: (intervention != null) ? intervention.displayname : '',
+    },
+    intervention_description: {
+      type: String,
+      value: (intervention != null) ? intervention.description : '',
     },
     sitename: {
       type: String,
@@ -21,7 +30,7 @@ Polymer({
       observer: 'is_intervention_enabled_changed',
     }
   },
-  ready: function() {
+  ready: async function() {
     /*
     let self = this
     //console.log('toast-test-widget ready')
@@ -30,24 +39,25 @@ Polymer({
       self.$.sample_toast.hide()
     })
     */
-   this.$$('#sample_toast').show()
+    this.$$('#sample_toast').show()
     //show_toast('foobar')
+    let enabled_interventions = await get_enabled_interventions()
+    if (enabled_interventions != null && enabled_interventions[this.intervention_name] != null && enabled_interventions[this.intervention_name] == false) {
+      this.is_intervention_enabled = false
+    }
   },
-  is_intervention_enabled_changed: function(cur_value, prev_value) {
-    if (prev_value == null) return
-    if (cur_value == prev_value) return
-    if (intervention == null) return
-    let real_intervention_name = intervention_name
-    if (intervention.generic_intervention != null) {
-      real_intervention_name = intervention.generic_intervention
+  is_intervention_enabled_changed: async function(is_enabled, prev_value) {
+    if (prev_value == null) {
+      return
     }
-    if (cur_value) { // enabled
-      console.log('enabled')
-      console.log(real_intervention_name)
-    } else {
-      console.log('disabled')
-      console.log(real_intervention_name)
+    if (is_enabled == prev_value) {
+      return
     }
+    if (intervention == null) {
+      return
+    }
+    let intervention_name = this.intervention_name
+    await intervention_first_seen_power_enabledisable(intervention_name, is_enabled, window.location.href)
   },
   ok_button_clicked: function() {
     this.$$('#sample_toast').hide()

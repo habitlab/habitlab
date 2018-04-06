@@ -1,8 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 
-<dom-module id="habitlab-intervention-first-seen-info">
+<dom-module id="habitlab-intervention-first-seen-power">
   <template>
     <style>
       :host {
@@ -20,7 +21,7 @@
 
       #sample_toast {
         width: 350px;
-        height: 210px;
+        height: 250px;
         z-index: 9007199254740991;
         background-color: aliceblue;
         color: black;
@@ -43,8 +44,12 @@
         <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
         <h2 style="margin-right:25px;">{{intervention_name}}</h2>
       </div>
-      <paper-button id="ok_button" class="yellow-button" on-click="ok_button_clicked">OK</paper-button>
+      <div style="display: flex; align-items: center; align-content:center;justify-content: center">
+        <paper-checkbox checked="{{is_intervention_enabled}}">Show {{intervention_name}} on future visits</paper-checkbox>
+      </div>
+      <br>
+      <paper-button id="ok_button" class="yellow-button">OK</paper-button>
     </paper-toast>
   </template>
-  <script src="habitlab-intervention-first-seen-info.js"></script>
+  <script src="habitlab-intervention-first-seen-power.js"></script>
 </dom-module>

@@ -5,11 +5,20 @@ const {
 const intervention = require('libs_common/intervention_info').get_intervention()
 
 Polymer({
-  is: 'habitlab-intervention-first-seen-info',
+  is: 'habitlab-intervention-first-seen-power',
   properties: {
     intervention_name: {
       type: String,
-      value: (intervention != null) ? intervention.displayname : ''
+      value: (intervention != null) ? intervention.displayname : '',
+    },
+    sitename: {
+      type: String,
+      value: (intervention != null) ? intervention.sitename_printable : '',
+    },
+    is_intervention_enabled: {
+      type: Boolean,
+      value: true,
+      observer: 'is_intervention_enabled_changed',
     }
   },
   ready: function() {
@@ -23,6 +32,22 @@ Polymer({
     */
    this.$$('#sample_toast').show()
     //show_toast('foobar')
+  },
+  is_intervention_enabled_changed: function(cur_value, prev_value) {
+    if (prev_value == null) return
+    if (cur_value == prev_value) return
+    if (intervention == null) return
+    let real_intervention_name = intervention_name
+    if (intervention.generic_intervention != null) {
+      real_intervention_name = intervention.generic_intervention
+    }
+    if (cur_value) { // enabled
+      console.log('enabled')
+      console.log(real_intervention_name)
+    } else {
+      console.log('disabled')
+      console.log(real_intervention_name)
+    }
   },
   ok_button_clicked: function() {
     this.$$('#sample_toast').hide()

@@ -1,0 +1,42 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-themes/ice.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="enabledisable-intervention-all-sites">
+  <template>
+    <style>
+      :host {
+        z-index: 9007199254740991;
+      }
+
+      #sample_toast {
+        width: 350px;
+        z-index: 9007199254740991;
+        background-color: aliceblue;
+        color: black;
+      }
+
+      .yesno-button {
+        height: 38px;
+        width: 50px;
+        margin-left: 5px;
+        margin-right: 5px;
+        text-transform: none;
+
+        background-color: #415D67;
+        color: white;
+        box-shadow: 2px 2px 2px #888888;
+      }
+    </style>
+    <paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right">
+      <div style="text-align: center">You have {{newstate_printable}} {{intervention.displayname}} on {{intervention.sitename_printable}}. Would you like to {{newaction_printable}} this nudge on all sites?</div>
+      <br>
+      <div style="text-align: center">
+        <paper-button id="yes_button" class="yesno-button" on-click="yes_button_clicked">Yes</paper-button>
+        <paper-button id="no_button" class="yesno-button" on-click="no_button_clicked">No</paper-button>
+      </div>
+    </paper-toast>
+  </template>
+  <script src="enabledisable-intervention-all-sites.js"></script>
+</dom-module>

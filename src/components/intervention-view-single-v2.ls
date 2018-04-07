@@ -162,7 +162,8 @@ polymer_ext {
   */
   pill_button_selected: (evt) ->>
     buttonidx = evt.detail.buttonidx
-    if buttonidx == 1 # enabled
+    is_enabled = buttonidx == 1
+    if is_enabled # enabled
       this.enabled = true
       prev_enabled_interventions = await get_enabled_interventions()
       await set_intervention_enabled this.intervention.name
@@ -178,7 +179,7 @@ polymer_ext {
         intervention_name: this.intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
-    else if buttonidx == 0 # never shown
+    else # never shown
       this.enabled = false
       prev_enabled_interventions = await get_enabled_interventions()
       await set_intervention_disabled this.intervention.name
@@ -194,6 +195,14 @@ polymer_ext {
         intervention_name: this.intervention.name
         prev_enabled_interventions: prev_enabled_interventions
       }
+    if this.intervention.generic_intervention?
+      generic_intervention_changed = document.querySelector('enabledisable-intervention-all-sites')
+      if not generic_intervention_changed?
+        generic_intervention_changed = document.createElement('enabledisable-intervention-all-sites')
+        document.body.appendChild(generic_intervention_changed)
+      generic_intervention_changed.intervention = this.intervention
+      generic_intervention_changed.is_enabled = is_enabled
+      generic_intervention_changed.show()
   get_pill_button_idx: (enabled) ->
     if enabled
       return 1

@@ -521,7 +521,7 @@ do !->>
           intervention_info_setter_lib.set_session_id(#{session_id});
           intervention_info_setter_lib.set_is_new_session(#{is_new_session});
           SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_debugging_code + content_script_code)))}');
-        })
+        });
         """
         /*
         SystemJS.import('libs_common/intervention_info').then(function(intervention_info_setter_lib) {
@@ -602,9 +602,9 @@ do !->>
                 sweetalert({
                   title: 'Reload page to turn off intervention',
                   text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
-                })
-              })
-            })
+                });
+              });
+            });
           }
           SystemJS.import('libs_frontend/intervention_log_utils').then(function(log_utils) {
             log_utils.log_disable();

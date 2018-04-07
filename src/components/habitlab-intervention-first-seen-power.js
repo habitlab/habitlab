@@ -1,8 +1,4 @@
 const {
-  show_toast
-} = require('libs_frontend/toast_utils')
-
-const {
   intervention_first_seen_power_enabledisable,
   get_enabled_interventions,
 } = require('libs_common/intervention_utils')

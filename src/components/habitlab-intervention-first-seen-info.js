@@ -1,7 +1,3 @@
-const {
-  show_toast
-} = require('libs_frontend/toast_utils')
-
 const intervention = require('libs_common/intervention_info').get_intervention()
 
 Polymer({

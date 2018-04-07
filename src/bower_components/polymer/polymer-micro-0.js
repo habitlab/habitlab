@@ -196,6 +196,7 @@ this.ensureRegisterFinished();
 }
 },
 createdCallback: function () {
+this.is_habitlab_element = true;
 if (settings.disableUpgradeEnabled) {
 if (this.hasAttribute('disable-upgrade')) {
 this._propertySetter = disableUpgradePropertySetter;

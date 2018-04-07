@@ -1,3 +1,21 @@
+window.check_if_is_habitlab_node = check_if_is_habitlab_node = function (node) {
+  while (node != null) {
+    if (node.is_habitlab_element) {
+      return true;
+    }
+    if (node.parentNode != null) {
+      node = node.parentNode
+    } else {
+      node = node.host
+    }
+  }
+  return false
+};
+
+window.have_other_copy_of_polymer_running = have_other_copy_of_polymer_running = function() {
+  return window.location.host == 'www.youtube.com'
+};
+
 (function () {
 Polymer.nar = [];
 var disableUpgradeEnabled = Polymer.Settings.disableUpgradeEnabled;
@@ -781,14 +799,14 @@ if (!gd) {
 gobj[dep] = gd = { _count: 0 };
 }
 if (gd._count === 0) {
-if (!window.habitlab_content_script || node.nodeName.startsWith('HABITLAB-') || node == window.document) {
+if (!window.habitlab_content_script || check_if_is_habitlab_node(node) || node == window.document) {
 node.addEventListener(dep, this.handleNative);
 }
 }
 gd[name] = (gd[name] || 0) + 1;
 gd._count = (gd._count || 0) + 1;
 }
-if (!window.habitlab_content_script || node.nodeName.startsWith('HABITLAB-')) {
+if (!window.habitlab_content_script || check_if_is_habitlab_node(node)) {
 node.addEventListener(evType, handler);
 }
 if (recognizer.touchAction) {
@@ -1136,7 +1154,10 @@ forward: function (e, preventer) {
 var dx = Math.abs(e.clientX - this.info.x);
 var dy = Math.abs(e.clientY - this.info.y);
 var t = Gestures.findOriginalTarget(e);
-if (window.habitlab_content_script && !t.nodeName.startsWith('HABITLAB-')) {
+if (have_other_copy_of_polymer_running()) {
+  return;
+}
+if (window.habitlab_content_script && !check_if_is_habitlab_node(t)) {
   return;
 }
 if (isNaN(dx) || isNaN(dy) || dx <= TAP_DISTANCE && dy <= TAP_DISTANCE || isSyntheticClick(e)) {

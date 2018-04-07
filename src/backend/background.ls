@@ -478,14 +478,14 @@ do !->>
       }
       #{debug_content_script_code}
       return;
-    })
+    });
     """
     open_debug_page_if_needed = ''
     if localstorage_getbool('open_debug_console_on_load')
       open_debug_page_if_needed = """
       SystemJS.import('libs_frontend/intervention_debug_console').then(function(intervention_debug_console) {
         intervention_debug_console.open_debug_page()
-      })
+      });
       """
     for options,idx in content_script_options
       content_script_code = content_script_codes[idx]
@@ -584,6 +584,34 @@ do !->>
       }
       #{content_script_code}
       #{debug_content_script_code_with_hlog}
+
+      (async function() {
+        while (document.body == null) {
+          await new Promise(function(cb) {
+            setTimeout(cb, 30);
+          });
+        }
+        document.body.addEventListener('disable_intervention', function() {
+          window.intervention_disabled = true;
+          if (typeof(window.on_intervention_disabled) == 'function') {
+            console.log('rinsitnrs');
+            window.on_intervention_disabled();
+          } else {
+            SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
+              content_script_utils.load_css_file('sweetalert2').then(function() {
+                sweetalert({
+                  title: 'Reload page to turn off intervention',
+                  text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
+                })
+              })
+            })
+          }
+          SystemJS.import('libs_frontend/intervention_log_utils').then(function(log_utils) {
+            log_utils.log_disable();
+          });
+        });
+      })();
+
       SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
         intervention_info_setter_lib.set_intervention(intervention);
         intervention_info_setter_lib.set_goal_info(goal_info);
@@ -592,31 +620,8 @@ do !->>
         intervention_info_setter_lib.set_is_new_session(is_new_session);
         intervention_info_setter_lib.set_is_preview_mode(is_preview_mode);
         log_utils.log_impression();
-        (async function() {
-          while (document.body == null) {
-            await new Promise(function(cb) {
-              setTimeout(cb, 30);
-            });
-          }
-          document.body.addEventListener('disable_intervention', function() {
-            window.intervention_disabled = true;
-            log_utils.log_disable();
-            if (typeof(window.on_intervention_disabled) == 'function') {
-              window.on_intervention_disabled();
-            } else {
-              SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
-                content_script_utils.load_css_file('sweetalert2').then(function() {
-                  sweetalert({
-                    title: 'Reload page to turn off intervention',
-                    text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
-                  })
-                })
-              })
-            }
-          })
-        })();
         #{open_debug_page_if_needed}
-      })
+      });
     }
   }
       """

@@ -807,7 +807,7 @@ gulp.task 'build', gulp.parallel('build_base', 'webpack_build', 'webpack_content
 
 gulp.task 'build_release', gulp.parallel(gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod')
 
-gulp.task 'mkzip', (done) ->
+mkzip_function = (actually_delete, done) ->
   mkdirp.sync 'releases'
   manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
   version = manifest_info.version
@@ -847,9 +847,19 @@ gulp.task 'mkzip', (done) ->
   for x in input_files
     fse.ensureFileSync(x.replace('dist/', 'mkzip_tmp/'))
     fse.copySync(x, x.replace('dist/', 'mkzip_tmp/'))
+  if not actually_delete
+    done()
+    return
   <- bestzip output_zip_file, ['mkzip_tmp/*']
   fse.removeSync('mkzip_tmp')
   done()
+  return
+
+gulp.task 'mkzip_fake', (done) ->
+  mkzip_function(false, done)
+
+gulp.task 'mkzip', (done) ->
+  mkzip_function(true, done)
 
 get_latest_published_version = ->>
   latest_published_version = '0.0.0'
@@ -972,6 +982,8 @@ gulp.task 'watch', ['build'], (done) ->
 */
 
 gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip'
+
+gulp.task 'fakerelease', gulp.series 'build', 'mkzip_fake'
 
 gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch', 'make_docs_markdown'))
 

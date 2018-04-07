@@ -37,7 +37,6 @@ Polymer({
     */
     let self = this
     this.$$('#sample_toast').show()
-    //show_toast('foobar')
     // setTimeout(function() {
     //   const {
     //     //make_checkbox_clickable,
@@ -46,7 +45,7 @@ Polymer({
     //   // workaround since paper-checkbox seems to mysteriously not be checkable
     //   make_togglebutton_clickable(self.$$('#future_visits_checkbox'))
     //   //make_checkbox_clickable(self.$$('#future_visits_checkbox'))
-    // }, 1000)
+    // }, 1000);
     let enabled_interventions = await get_enabled_interventions()
     if (enabled_interventions != null && enabled_interventions[intervention.name] != null && enabled_interventions[intervention.name] == false) {
       this.is_intervention_enabled = false

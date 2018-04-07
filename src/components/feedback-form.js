@@ -85,12 +85,12 @@ polymer_ext({
     }
     let dialog = this.$$('#feedback_dialog')
     dialog.open();
-    setTimeout(function() {
-      const {make_checkbox_clickable} = require('libs_frontend/frontend_libs');
-      for (let x of dialog.querySelectorAll('paper-checkbox')) {
-        make_checkbox_clickable(x)
-      }
-    }, 1000)
+    // setTimeout(function() {
+    //   const {make_checkbox_clickable} = require('libs_frontend/frontend_libs');
+    //   for (let x of dialog.querySelectorAll('paper-checkbox')) {
+    //     make_checkbox_clickable(x)
+    //   }
+    // }, 1000)
   },
   submit_feedback: async function() {
     var data = {

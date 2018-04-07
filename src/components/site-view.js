@@ -31,47 +31,6 @@ const {
   log_pageclick
 } = require('libs_backend/log_utils');
 
-async function view_more_interventions(site) {
-  alert("view more: " + site);
-  const result = await remoteget_json("https://habitlab.github.io/contributed_interventions.json");
-  console.log(result);
-}
-
-// //THIS MIGHT BE ENTIRELY OPTIONAL FOR THIS PARTICULAR CODE
-// var carouselOneByOne = {
-//   carousel: '#carousel-one-by-one',
-//   slide: '.slide',
-//   oneByOne: true
-// }
-// console.log(carouselOneByOne.brand);
-// console.log(carouselOneByOne.slide);
-// console.log(carouselOneByOne. oneByOne);
-//THIS MIGHT BE ENTIRELY OPTIONAL FOR THIS PARTICULAR CODE
-
-
-function test() {
-    console.log("hello 2");
-}
-
-// document.getElementById("view_more_button").addEventListener("click", test);
-
-function make_intervention_table(interventions) {
-  var rows = Object.keys(interventions).length;
-  var cols = 2;
-  var i=0;
-  var grid = document.createElement('table');
-  grid.className = 'grid';
-  for (var r = 1 ; r < rows; ++r){
-    var tr = grid.appendChild(document.createElement('tr'));
-    for (var c = 0; c < cols; ++c){
-      var cell = tr.appendChild(document.createElement('td'));
-      cell.innerHTML = "here be the intervention";
-      cell.setAttribute( 'class', 'custom_intervention' );
-    }
-  }
-  return grid;
-}
-
 polymer_ext({
   is: 'site-view',
   properties: {

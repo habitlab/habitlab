@@ -234,7 +234,7 @@ polymer_ext {
       this.is_habitlab_disabled = true
       disable_habitlab()
       tab_info = await get_active_tab_info()
-      loaded_interventions = await list_currently_loaded_interventions()
+      loaded_interventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
       add_log_habitlab_disabled({
         page: 'popup-view',
         reason: 'disable_button_slider_toggle'
@@ -247,7 +247,7 @@ polymer_ext {
       this.is_habitlab_disabled = false
       enable_habitlab()
       tab_info = await get_active_tab_info()
-      loaded_interventions = await list_currently_loaded_interventions()
+      loaded_interventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
       add_log_habitlab_enabled({
         page: 'popup-view',
         reason: 'disable_button_slider_toggle'
@@ -260,7 +260,7 @@ polymer_ext {
     this.is_habitlab_disabled = false
     enable_habitlab()
     tab_info = await get_active_tab_info()
-    loaded_interventions = await list_currently_loaded_interventions()
+    loaded_interventions = await list_currently_loaded_interventions_for_tabid(tab_info.id)
     add_log_habitlab_enabled({
       page: 'popup-view',
       reason: 'enable_habitlab_big_button_clicked'

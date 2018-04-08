@@ -475,7 +475,7 @@ do !->>
       window.uselib = uselib;
       window.localeval = function(command_to_evaluate) {
         return eval(command_to_evaluate);
-      }
+      };
       #{debug_content_script_code}
       return;
     });

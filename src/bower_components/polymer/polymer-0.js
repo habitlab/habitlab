@@ -12,10 +12,6 @@ window.check_if_is_habitlab_node = check_if_is_habitlab_node = function (node) {
   return false
 };
 
-window.have_other_copy_of_polymer_running = have_other_copy_of_polymer_running = function() {
-  return window.location.host == 'www.youtube.com'
-};
-
 (function () {
 Polymer.nar = [];
 var disableUpgradeEnabled = Polymer.Settings.disableUpgradeEnabled;
@@ -1154,9 +1150,6 @@ forward: function (e, preventer) {
 var dx = Math.abs(e.clientX - this.info.x);
 var dy = Math.abs(e.clientY - this.info.y);
 var t = Gestures.findOriginalTarget(e);
-if (have_other_copy_of_polymer_running()) {
-  return;
-}
 if (window.habitlab_content_script && !check_if_is_habitlab_node(t)) {
   return;
 }

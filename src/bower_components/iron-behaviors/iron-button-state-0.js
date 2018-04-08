@@ -89,7 +89,11 @@
 
     _mouseEventRe: /^mouse/,
 
-    _tapHandler: function() {
+    _tapHandler: function(evt) {
+      if (evt.detail == null) {
+        // GEZAFIX this is a fake tap event from youtube
+        return
+      }
       if (this.toggles) {
        // a tap is needed to toggle the active state
         this._userActivate(!this.active);

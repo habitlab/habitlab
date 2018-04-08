@@ -160,17 +160,11 @@ export eval_content_script_for_tabid = (tabid, script) ->>
   await chrome_tabs_sendmessage tabid, {type: 'eval_content_script', data: script}
 
 export list_currently_loaded_interventions = ->>
-  console.log 'list_currently_loaded_interventions'
   tab = await get_active_tab_info()
-  console.log 'tab'
-  console.log tab
   loaded_interventions = await eval_content_script_for_tabid tab.id, 'window.loaded_interventions'
-  console.log 'loaded_interventions'
-  console.log loaded_interventions
   return as_array(loaded_interventions)
 
 export list_currently_loaded_interventions_for_tabid = (tab_id) ->>
-  console.log 'list_currently_loaded_interventions_for_tabid'
   loaded_interventions = await eval_content_script_for_tabid tab_id, 'window.loaded_interventions'
   return as_array(loaded_interventions)
 

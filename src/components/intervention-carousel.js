@@ -145,6 +145,10 @@ polymer_ext({
                 intervention_2_upload.author_id = author_info.id
                 intervention_2_upload.is_sharing = true
                 intervention_2_upload.displayname = event.detail.intervention_upload_name
+                if (intervention_2_upload.displayname.trim() == "") {
+                  alert("Error: Upload intervention name cannot be empty!")
+                  return
+                }
                 intervention_2_upload.description = event.detail.intervention_description
                 // Encoding with intervention II
                 intervention_2_upload.key = author_info.id + Date.now()

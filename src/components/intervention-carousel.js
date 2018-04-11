@@ -114,7 +114,7 @@ polymer_ext({
           var li = []
           var displaynames = []
           for (let intervention_name of Object.keys(intervention_name_to_info_map)) {
-            if(intervention_name_to_info_map[intervention_name].sitename == site && !intervention_name_to_info_map[intervention_name].downloaded && intervention_name_to_info_map[intervention_name].custom) {
+            if(localStorage['uploaded_intervention_' + intervention_name] == null && intervention_name_to_info_map[intervention_name].sitename == site && !intervention_name_to_info_map[intervention_name].downloaded && intervention_name_to_info_map[intervention_name].custom) {
               // console.log(intervention_name_to_info_map[intervention_name])
               li.push(intervention_name_to_info_map[intervention_name])
               displaynames.push(intervention_name_to_info_map[intervention_name].displayname)
@@ -149,6 +149,11 @@ polymer_ext({
                   alert("Error: Upload intervention name cannot be empty!")
                   return
                 }
+                // check if upload already
+                if(localStorage['uploaded_intervention_' + intervention_2_upload.name] == intervention_2_upload.code) {
+                  alert("you have already shared your code.")
+                  return
+                }
                 intervention_2_upload.description = event.detail.intervention_description
                 // Encoding with intervention II
                 intervention_2_upload.key = author_info.id + Date.now()
@@ -167,6 +172,7 @@ polymer_ext({
                   if (response.success) {
                     url = logging_server_url + "lookupintervention?share=y&id=" + intervention_2_upload.key
                     alert("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + url)
+                    localStorage['uploaded_intervention_' + intervention_2_upload.name] = intervention_2_upload.code
                   } else {
                     alert("Fail to upload your code! Please open an ticket!")
                   }

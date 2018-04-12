@@ -88,11 +88,14 @@ polymer_ext {
       return "A 'Never Shown' intervention<br>is disabled and will not be shown."
   */
   compute_custom: (intervention) ->
-    return intervention.custom == true
+    if intervention?
+      return intervention.custom == true
+    return false
   compute_downloaded: (intervention) ->
-    if localStorage['downloaded_intervention_' + intervention.name]?
-      console.log "true"
-      return true
+    if intervention?
+      if localStorage['downloaded_intervention_' + intervention.name]?
+        console.log "true"
+        return true
     return false
   compute_sitename: (goal) ->
     return goal.sitename_printable
@@ -105,13 +108,16 @@ polymer_ext {
     this.enabled = intervention.enabled
 
   get_intervention_icon_url: (intervention) ->
-    if intervention.generic_intervention?
-      url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
-    else
-      if intervention.custom == true
-        url_path = 'icons/custom_intervention_icon.svg'
+    if intervention?
+      if intervention.generic_intervention?
+        url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
       else
-        url_path = 'interventions/'+ intervention.name + '/icon.svg'
+        if intervention.custom == true
+          url_path = 'icons/custom_intervention_icon.svg'
+        else
+          url_path = 'interventions/'+ intervention.name + '/icon.svg'
+      return (chrome.extension.getURL(url_path)).toString()
+    url_path = 'icons/custom_intervention_icon.svg'
     return (chrome.extension.getURL(url_path)).toString()
 
 

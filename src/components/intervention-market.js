@@ -7,9 +7,13 @@ polymer_ext({
     site: {
       type: String,
       observer: 'site_changed',
+    },
+    interrupt: {
+      type: Number
     }
   },
   site_changed: async function() {
+    self = this
     console.log('site in site_changed is:' + this.site)
     // fetch again for the uploaded data from this author
     // 1. Fetch shared interventions from the server
@@ -42,6 +46,7 @@ polymer_ext({
       });
 
       await chrome.identity.getProfileUserInfo(async function(author_info){
+            
             if (author_info.id == "") {
             alert("You have to sign-in in Chrome before sharing!")
            return
@@ -74,6 +79,14 @@ polymer_ext({
               console.log(response);
               if (response.success) {
                 alert("You code will be removed shortly!")
+                localStorage.removeItem('uploaded_intervention_' + event.detail.intervention.name)
+                localStorage.removeItem('saved_intervention_' + event.detail.intervention.name)
+                localStorage.removeItem('saved_intervention_time_' + event.detail.intervention.name)
+                localStorage.removeItem('saved_interventions_' + event.detail.intervention.name)
+                self.fire('intervention-added', {
+
+                })
+
               } else {
                 alert("Fail to remove your code! Please open an ticket!")
               }

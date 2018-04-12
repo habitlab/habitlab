@@ -30,6 +30,10 @@ polymer_ext({
     },
     uploaded_interventions: {
       type: Array,
+    },
+    interrupt: {
+      type: Number,
+      observer: 'site_changed'
     }
     },
     // listeners: {
@@ -41,6 +45,9 @@ polymer_ext({
     },
     ready: function() {
        this.addEventListener('intervention_removed', this.somemethod);
+    },
+    rerender: function() {
+      console.log("1.33")
     },
     get_list_of_uploadable: async function() {
     const [goal_info_list, intervention_name_to_info_map, enabled_interventions] = await Promise.all([
@@ -55,6 +62,7 @@ polymer_ext({
     return intervention_name_to_info_map
   },
     site_changed: async function() {
+      self = this
       //console.log("1.11")
         // 1. Fetch shared interventions from the server
         //console.log("Fetching from the server of shared interventions from: " + this.site);
@@ -126,7 +134,7 @@ polymer_ext({
           create_intervention_dialog.intervention_list=li
           create_intervention_dialog.upload_existing_custom_intervention_dialog()
           create_intervention_dialog.addEventListener('upload_intervention', async function(event) {
-            console.log(event);
+            //console.log(event);
             intervention_2_upload = event.detail.intervention;
             // upload to server
             chrome.permissions.request({
@@ -157,7 +165,7 @@ polymer_ext({
                 intervention_2_upload.description = event.detail.intervention_description
                 // Encoding with intervention II
                 intervention_2_upload.key = author_info.id + Date.now()
-                console.log(intervention_2_upload)
+                //console.log(intervention_2_upload)
                 upload_successful = true
                 // upload to server
                 try {
@@ -168,11 +176,15 @@ polymer_ext({
                     logging_server_url = 'https://habitlab.herokuapp.com/'
                   }
                   response = await post_json(logging_server_url + 'sharedintervention', intervention_2_upload)
-                  console.log(response)
+                  //console.log(response)
                   if (response.success) {
                     url = logging_server_url + "lookupintervention?share=y&id=" + intervention_2_upload.key
                     alert("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + url)
                     localStorage['uploaded_intervention_' + intervention_2_upload.name] = intervention_2_upload.code
+                    self.fire('intervention-added', {
+
+                    })
+                    //this.site_changed()
                   } else {
                     alert("Fail to upload your code! Please open an ticket!")
                   }

@@ -76,27 +76,65 @@
             width: 100%;
             margin-top: 0px;
             display: block;
-            min-height: 120px;
+            height: 120px;
+            overflow: hidden;
         }
-        .answer-leftside {
+        .answer-leftside-animate {
+            margin-top: 0px;
             margin-left: 8.54701%;
             width: 40.17094%;
             display: block;
-            min-height: 30px;
+            height: 120px;
             float: left;
+            overflow: hidden;
+            z-index: 0;
         }
-        .answer-rightside {
+        .answer-rightside-animate {
+            margin-top: 0px;
             width: 40.17094%;
             display: block;
-            min-height: 30px;
+            height: 120px;
             float: left;
             margin-left: 2.5641%;
+            overflow: hidden;
+            z-index: 0;
         }
         .answer_button {
             text-align: center;
             background-color: rgb(60, 90, 153);
             font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             height: 120px;
+            z-index: 1;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .animate_left {
+            background-color: rgb(60, 90, 153);
+        }
+
+        .animate_right {
+            background-color: rgb(60, 90, 153);
+        }
+
+        .answer-leftside-fix {
+            position: absolute;
+            width: 40.17094%;
+            display: block;
+            height: 120px;
+            margin-left: 8.54701%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .answer-rightside-fix {
+            position: absolute;
+            width: 40.17094%;
+            display: block;
+            height: 120px;
+            margin-left: 51.28205%;
+            overflow: hidden;
+            z-index: 1;
         }
 
         .opt-out-span {
@@ -159,16 +197,29 @@
                 <h2 class="vote-question">Which do you think is a better nudge?</h2>
             </div>
             <div class="answers-span">
-                <span class="answer-leftside">
-                    <paper-button class="answer_button">
+
+                <span class="answer-leftside-animate">
+                    <paper-button class="answer_button animate_left" id="animate_left_tx" on-click="">
                         {{msg("A nudge that hide friends comments from Facebook.")}}
                     </paper-button>
                 </span>
-                <span class="answer-rightside">
-                    <paper-button class="answer_button">
+                <span class="answer-leftside-fix">
+                    <paper-button class="answer_button" on-click="select_answer_leftside">
+                        {{msg("A nudge that hide friends comments from Facebook.")}}
+                    </paper-button>
+                </span>
+
+                <span class="answer-rightside-animate">
+                    <paper-button class="answer_button animate_right" id="animate_right_tx" on-click="">
                         {{msg("A nudge that displays the total time you spent on Facebook today.")}}
                     </paper-button>
                 </span>
+                <span class="answer-rightside-fix">
+                    <paper-button class="answer_button" on-click="select_answer_rightside">
+                        {{msg("A nudge that displays the total time you spent on Facebook today.")}}
+                    </paper-button>
+                </span>
+
             </div>
             <div class="opt-out-span">
                 <span class="answer-opt-out">

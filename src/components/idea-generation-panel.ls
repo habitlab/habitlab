@@ -66,8 +66,62 @@ polymer_ext {
     # properties
   }
   # functions
-
-
+  select_answer_leftside: (evt) ->
+    self = this
+    if this.animation_inprogress
+        return
+    # clicked left-side
+    this.SM('.animate_left').css("filter", "grayscale(0%)");
+    this.SM('.animate_left').css("background-color", "#0000FF");
+    this.$$('.animate_left').innerText = msg('This message will be copied from fix button')
+    this.SM('.answer-leftside-animate').css("margin-top", '0');
+    this.SM('.answer-leftside-animate').css("z-index", '1');
+    this.SM('.answer-leftside-fix').css("z-index", '0');
+    this.SM('.answer-leftside-animate').animate({
+        margin-top: '+120px'
+    }, 1000)
+    # non-clicked right-side
+    this.SM('.animate_right').css("background-color", "#0000FF");
+    this.SM('.animate_right').css("filter", "grayscale(30%)");
+    this.$$('.animate_right').innerText = msg('This message will be copied from fix button')
+    this.SM('.answer-rightside-animate').css("margin-top", '0');
+    this.SM('.answer-rightside-animate').css("z-index", '1');
+    this.SM('.answer-rightside-fix').css("z-index", '0');
+    this.SM('.answer-rightside-animate').animate({
+        margin-top: '+120px'
+    }, 1000)
+    this.animation_inprogress = true
+    setTimeout ->
+      self.animation_inprogress = false
+    , 1000
+  select_answer_rightside: (evt) ->
+    self = this
+    if this.animation_inprogress
+        return
+    # clicked right-side
+    this.SM('.animate_right').css("filter", "grayscale(0%)");
+    this.SM('.animate_right').css("background-color", "#0000FF");
+    this.$$('.animate_right').innerText = msg('This message will be copied from fix button')
+    this.SM('.answer-rightside-animate').css("margin-top", '0');
+    this.SM('.answer-rightside-animate').css("z-index", '1');
+    this.SM('.answer-rightside-fix').css("z-index", '0');
+    this.SM('.answer-rightside-animate').animate({
+        margin-top: '+120px'
+    }, 1000)
+    # non-clicked left-side
+    this.SM('.animate_left').css("background-color", "#0000FF");
+    this.SM('.animate_left').css("filter", "grayscale(30%)");
+    this.$$('.animate_left').innerText = msg('This message will be copied from fix button')
+    this.SM('.answer-leftside-animate').css("margin-top", '0');
+    this.SM('.answer-leftside-animate').css("z-index", '1');
+    this.SM('.answer-leftside-fix').css("z-index", '0');
+    this.SM('.answer-leftside-animate').animate({
+        margin-top: '+120px'
+    }, 1000)
+    this.animation_inprogress = true
+    setTimeout ->
+      self.animation_inprogress = false
+    , 1000
 }, [
   {
     source: require 'libs_common/localization_utils'

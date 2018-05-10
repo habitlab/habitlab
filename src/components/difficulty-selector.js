@@ -17,4 +17,3 @@ polymer_ext({
     'json_stringify'
   ]
 })
-

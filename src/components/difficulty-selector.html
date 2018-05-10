@@ -11,15 +11,7 @@
       }
     </style>
 
-    <div>This is the debug-view component</div>
-    <div>Components are all located under src/components</div>
-    <div>They should all be listed in src/components/components.html</div>
-    <div>The following components are available:</div>
-    <br><br>
-    <template is="dom-repeat" items="{{tags_with_info()}}" as="tag_with_info">
-      <h1><a href="{{tag_link_url(tag_with_info.is)}}" target="_blank">{{tag_with_info.is}}</a></h1>
-      <pre>{{json_stringify(tag_with_info)}}</pre>
-    </template>
+    <div>This is the difficulty selector</div>
 
   </template>
   <script src="difficulty-selector.js"></script>

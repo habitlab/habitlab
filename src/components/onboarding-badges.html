@@ -137,6 +137,15 @@
         /* box-shadow: 0px 0px 20px #346da3; */
       }
 
+      .interventionsdisabled {
+        opacity: 0.5;
+        width: 100px;
+        margin-right: 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        /* box-shadow: 0px 0px 20px #346da3; */
+      }
+
       .siteicons {
         width: 130px;
         margin: auto;
@@ -220,7 +229,7 @@
               <template is="dom-repeat" items="{{generic_interventions_info}}" as="intervention">
                 <div style="display:block;">
                   <div>
-                    <img class="interventions" intervention_info="{{intervention}}" goal_info="{{goal}}" src="{{get_intervention_icon_url(intervention)}}"
+                    <img class$="{{text_if_else(intervention.enabled, 'interventions', 'interventionsdisabled')}}" intervention_info="{{intervention}}" goal_info="{{goal}}" src="{{get_intervention_icon_url(intervention)}}"
                       on-click="openBy" />
                     <div style="position:relative; left:0px; top:8px; color: white;max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
                   </div>
@@ -266,7 +275,7 @@
                     as="intervention">
                     <div style="display:block">
                       <div>
-                        <img class="interventions" intervention_info="{{intervention}}" goal_info="{{goal}}" src="{{get_intervention_icon_url(intervention)}}"
+                        <img class$="{{text_if_else(intervention.enabled, 'interventions', 'interventionsdisabled')}}" intervention_info="{{intervention}}" goal_info="{{goal}}" src="{{get_intervention_icon_url(intervention)}}"
                           on-click="openBy" />
                         <div style="position:relative; left:0px; top:8px; color: white;max-width:105px; overflow: wrap; margin-bottom:15px;">{{intervention.displayname}}</div>
                       </div>

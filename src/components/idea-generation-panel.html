@@ -1,0 +1,254 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/l2t-context-menu/l2t-context-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+
+<dom-module id="idea-generation-panel">
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .panel-container {
+            max-width: 900px;
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .question-vote {
+            background-color:rgb(100, 177, 248);
+            padding: 2em 0;
+            border-radius: 7px;
+            position: relative;
+            display: block;
+        }
+
+        .idea-submitter {
+            margin-top: 20px;
+            background-color:rgb(100, 177, 248);
+            padding: 2em 0;
+            border-radius: 7px;
+            position: relative;
+            display: block;
+            min-height: 100px;
+        }
+
+        .vote-question {
+            background-color:rgb(100, 177, 248);
+            text-align: center;
+            padding: 5px 5px;
+            color: rgb(255, 255, 255);
+            border-radius: 7px;
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        }
+        h2 {
+            display: block;
+            font-size: 2em;
+            font-weight: bold;
+            margin:15px;
+        }
+        .question-span {
+            width: 780px;
+            display: block;
+            margin-left: 8.54701%;
+            width: 82.90598%;
+            box-sizing: border-box;
+            min-height: 30px;
+        }
+        .text-span {
+            width: 780px;
+            display: block;
+            margin-left: 8.54701%;
+            width: 82.90598%;
+            box-sizing: border-box;
+            min-height: 80px;
+            text-align:left;
+        }
+        .answers-span{
+            margin-left: 0;
+            width: 100%;
+            margin-top: 0px;
+            display: block;
+            height: 120px;
+            overflow: hidden;
+        }
+        .answer-leftside-animate {
+            margin-top: 0px;
+            margin-left: 8.54701%;
+            width: 40.17094%;
+            display: block;
+            height: 120px;
+            float: left;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .answer-rightside-animate {
+            margin-top: 0px;
+            width: 40.17094%;
+            display: block;
+            height: 120px;
+            float: left;
+            margin-left: 2.5641%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .answer_button {
+            text-align: center;
+            background-color: rgb(60, 90, 153);
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            height: 120px;
+            z-index: 1;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .animate_left {
+            background-color: rgb(60, 90, 153);
+        }
+
+        .animate_right {
+            background-color: rgb(60, 90, 153);
+        }
+
+        .answer-leftside-fix {
+            position: absolute;
+            width: 40.17094%;
+            display: block;
+            height: 120px;
+            margin-left: 8.54701%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .answer-rightside-fix {
+            position: absolute;
+            width: 40.17094%;
+            display: block;
+            height: 120px;
+            margin-left: 51.28205%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .opt-out-span {
+            margin-left: 0;
+            width: 100%;
+            margin-top: 30px;
+            display: block;
+            min-height: 30px;
+        }
+        .answer-opt-out {
+            margin-left: 34.18803%;
+            width: 31.62393%;
+            display: block;
+        }
+        .opt_out_button {
+            text-align: center;
+            background-color: rgb(136, 146, 168);
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            height: 30px;
+            display: block;
+        }
+        .idea_submit_button {
+            text-align: center;
+            background-color: rgb(60, 90, 153);
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            height: 30px;
+            display: block;
+        }
+        .vote_stats {
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            text-align: center;
+            color: #666666;
+            font-size: 12px;
+            clear: both;
+            display: block;
+            margin: 0 0 10px;
+        }
+        .idea-submit-span {
+            margin-left: 0;
+            width: 100%;
+            display: block;
+            min-height: 30px;
+        }
+        .idea-submit {
+            margin-left: 82%;
+            width: 10%;
+            display: block;
+        }
+      </style>
+    </custom-style>
+
+    <div style="position: relative">
+            <div style="margin-top: 30px;margin-bottom:13px; font-size: 35px;color:white;">Crowdsourced Intervention Idea Generation</div>
+            <div style="margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">Please select the answer based on your preference.</div>
+    </div>
+
+    <div class="panel-container">
+        <div class="question-vote">
+            <div class="question-span">
+                <h2 class="vote-question">Which do you think is a better nudge?</h2>
+            </div>
+            <div class="answers-span">
+
+                <span class="answer-leftside-animate">
+                    <paper-button class="answer_button animate_left" id="animate_left_tx" on-click="">
+                        {{msg("A nudge that hide friends comments from Facebook.")}}
+                    </paper-button>
+                </span>
+                <span class="answer-leftside-fix">
+                    <paper-button class="answer_button" on-click="select_answer_leftside">
+                        {{msg("A nudge that hide friends comments from Facebook.")}}
+                    </paper-button>
+                </span>
+
+                <span class="answer-rightside-animate">
+                    <paper-button class="answer_button animate_right" id="animate_right_tx" on-click="">
+                        {{msg("A nudge that displays the total time you spent on Facebook today.")}}
+                    </paper-button>
+                </span>
+                <span class="answer-rightside-fix">
+                    <paper-button class="answer_button" on-click="select_answer_rightside">
+                        {{msg("A nudge that displays the total time you spent on Facebook today.")}}
+                    </paper-button>
+                </span>
+
+            </div>
+            <div class="opt-out-span">
+                <span class="answer-opt-out">
+                    <paper-button class="opt_out_button" on-click="select_opt_out">
+                        {{msg("I cannot decide.")}}
+                    </paper-button>
+                </span>
+            </div>
+            <p class="vote_stats">
+                    <span id="votes_count">92727</span>
+                    votes on 
+                    <span id="item_count">268</span>
+                    ideas
+            </p>
+        </div>
+        <div class="idea-submitter">
+            <div class="text-span">
+                    <paper-input label="Add your own idea here..." char-counter maxlength="80"></paper-input>
+            </div>
+            <div class="idea-submit-span">
+                <span class="idea-submit">
+                    <paper-button class="idea_submit_button">
+                        {{msg("Submit")}}
+                    </paper-button>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+  </template>
+  <script src="idea-generation-panel.ls"></script>
+</dom-module>

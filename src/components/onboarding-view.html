@@ -195,28 +195,28 @@
       <p>This is the settings page, where you can manage your Nudges and track your progress.</p>
     </paper-dialog>
 
-    <div id="screen2" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
-      <div id="screen2_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
+    <div id="screen2" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
+      <div id="screen2_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
         <initial-goal-selector is_onboarding="true" id="goal_selector" on-goal_changed="rerender_onboarding_badges" />
       </div>
     </div>
 
-    <div id="screen2b" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
-      <div id="screen2b_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: hidden; overflow-x: hidden">
+    <div id="screen2b" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
+      <div id="screen2b_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
         <difficulty-selector is_onboarding="true" id="difficulty_selector" />
       </div>
     </div>
 
     <template is="dom-if" if="{{!positive_goals_disabled}}">
-      <div id="screen3" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
-        <div id="screen3_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
+      <div id="screen3" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
+        <div id="screen3_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
           <positive-goal-selector is_onboarding="true" id="positive_goal_selector" on-goal_changed="rerender_onboarding_badges" />
         </div>
       </div>
     </template>
 
-    <div id="screen4" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
-      <div id="screen4_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
+    <div id="screen4" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
+      <div id="screen4_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
         <div>
           <onboarding-badges id="badges_received" />
         </div>
@@ -224,8 +224,8 @@
       </div>
     </div>
 
-    <div id="screen5" class="slide" style="width: 100vw; height: 100vh; overflow: hidden; background-color:rgb(81, 167,249)">
-      <div id="screen5_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: scroll; overflow-x: hidden">
+    <div id="screen5" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
+      <div id="screen5_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
         <div>
           <idea-generation-panel />
         </div>

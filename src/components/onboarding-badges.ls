@@ -273,6 +273,7 @@ polymer_ext {
         log_intervention_info.subinterventions_list = await list_subinterventions_for_generic_intervention(intervention_name)
         await set_subinterventions_disabled_for_generic_intervention(intervention_name)
       await add_log_interventions log_intervention_info
+    await this.rerender()
   get_pill_button_idx: (enabled) ->
     if enabled
       return 1

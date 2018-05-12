@@ -1,5 +1,6 @@
 description: Shows time spent on site at the top of screen
 displayname: Supervisor
+difficulty: easy
 content_scripts:
   - path: frontend.js
     run_at: document_start

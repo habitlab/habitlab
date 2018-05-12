@@ -1,5 +1,6 @@
 description: Asks how long you want to spend on site this visit
 displayname: Bouncer
+difficulty: hard
 content_scripts:
   - path: frontend.js
     run_at: document_start

@@ -1,5 +1,6 @@
 description: Closes tab after 60 seconds
 displayname: 1Min Assassin
+difficulty: hard
 content_scripts:
   - path: frontend.js
     run_at: document_start

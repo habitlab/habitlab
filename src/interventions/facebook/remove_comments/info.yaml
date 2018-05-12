@@ -1,5 +1,6 @@
 description: Removes Facebook comments
 displayname: No Comment
+difficulty: medium
 matches:
   - www.facebook.com
 content_scripts:

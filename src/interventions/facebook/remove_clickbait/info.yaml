@@ -1,5 +1,6 @@
 description: Removes clickbait
 displayname: Clickbait Mosaic
+difficulty: easy
 matches:
   - www.facebook.com
 content_scripts:

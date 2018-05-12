@@ -1,5 +1,6 @@
 description: Injects timer into the Facebook feed
 displayname: Time Injector
+difficulty: easy
 matches:
   - www.facebook.com
 content_scripts:

@@ -1,5 +1,6 @@
 description: Removes the Facebook news feed
 displayname: Feed Eater
+difficulty: medium
 matches:
   - www.facebook.com
 content_scripts:

@@ -41,8 +41,8 @@ polymer_ext {
       value: do ->
         if (window.hashdata_unparsed == 'last')
           if localStorage.positive_goals_disabled == 'true'
-            return 1
-          return 2
+            return 3
+          return 4
         return 0
       observer: 'slide_changed'
     }
@@ -74,8 +74,8 @@ polymer_ext {
       type: Number
       value: do ->
         if localStorage.positive_goals_disabled == 'true'
-          return 1
-        return 2
+          return 3
+        return 4
     }
   }
   see_what_gets_loggged_clicked: (evt) ->

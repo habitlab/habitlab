@@ -1,5 +1,6 @@
 description: Notifies you of time spent in the corner of your desktop
 displayname: TimeKeeper
+difficulty: easy
 matches:
   - www.facebook.com
 content_scripts:

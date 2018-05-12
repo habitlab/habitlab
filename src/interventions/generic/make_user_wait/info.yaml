@@ -1,5 +1,6 @@
 description: Makes you wait a few seconds before visiting
 # description: Makes you wait a few seconds [and reminds you of a positive goal] before visiting.
+difficulty: hard
 displayname: GateKeeper
 content_scripts:
   - path: frontend.js

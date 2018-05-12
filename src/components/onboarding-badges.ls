@@ -189,8 +189,9 @@ polymer_ext {
       dialog_goal = 0
     this.dialog_intervention = dialog_intervention
     this.dialog_goal = dialog_goal
-    enabled_interventions = await get_enabled_interventions()
-    this.enabled = enabled_interventions[dialog_intervention.name]
+    #enabled_interventions = await get_enabled_interventions()
+    #this.enabled = enabled_interventions[dialog_intervention.name]
+    this.enabled = dialog_intervention.enabled
     # console.log(this.$$('#alignedDialog').dialog_intervention)
     # this.$$('#alignedDialog').positionTarget = evt.target
     this.$$('#alignedDialog').open()
@@ -272,6 +273,7 @@ polymer_ext {
         log_intervention_info.subinterventions_list = await list_subinterventions_for_generic_intervention(intervention_name)
         await set_subinterventions_disabled_for_generic_intervention(intervention_name)
       await add_log_interventions log_intervention_info
+    await this.rerender()
   get_pill_button_idx: (enabled) ->
     if enabled
       return 1
@@ -314,6 +316,7 @@ polymer_ext {
     generic_interventions_info = []
     for x in generic_interventions
       info = all_interventions[x]
+      info.enabled = enabled_interventions[info.name]
       generic_interventions_info.push info
     this.generic_interventions_info = generic_interventions_info
     goal_name_to_intervention_info_list = []
@@ -321,6 +324,7 @@ polymer_ext {
       intervention_info_list_for_goal = []
       for intervention_name in goal_info.interventions
         intervention_info = all_interventions[intervention_name]
+        intervention_info.enabled = enabled_interventions[intervention_info.name]
         if intervention_info.generic_intervention?
           continue
         intervention_info_list_for_goal.push intervention_info
@@ -345,5 +349,6 @@ polymer_ext {
     'S'
     'once_available'
     'first_elem'
+    'text_if_else'
   ]
 }

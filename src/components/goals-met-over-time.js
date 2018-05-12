@@ -84,6 +84,9 @@ polymer_ext ({
     return ''
   },
   get_description_of_goal_progress: function(day_info) {
+    let today = moment().startOf('date')
+    if (day_info.name == today.format("dddd"))
+      return 'You are so far meeting ' + day_info.goals_met + ' out of ' + day_info.goals_enabled + ' goals today.'
     return 'You met ' + day_info.goals_met + ' out of ' + day_info.goals_enabled + ' goals on this day.'
   },
   ready: async function() {

@@ -98,6 +98,14 @@ export set_enabled_interventions = (enabled_interventions) ->>
   return
 */
 
+is_between_times = (time, start, end) ->
+  if start > end
+    return start <= time or time <= end
+  return start <= time <= end
+
+count_as_yesterday = (time, start, end) ->
+  return time < end < start
+
 export is_it_outside_work_hours = ->
   {work_hours_only ? 'false', start_mins_since_midnight ? '0', end_mins_since_midnight ? '1440', activedaysarray} = localStorage
   work_hours_only = work_hours_only == 'true'
@@ -105,11 +113,14 @@ export is_it_outside_work_hours = ->
   end_mins_since_midnight = parseInt end_mins_since_midnight
   mins_since_midnight = moment().hours()*60 + moment().minutes()
   if work_hours_only
-    if not (start_mins_since_midnight <= mins_since_midnight <= end_mins_since_midnight)
+    if not is_between_times(mins_since_midnight, start_mins_since_midnight, end_mins_since_midnight)
       return true
     if activedaysarray?
       activedaysarray = JSON.parse activedaysarray
-      today_idx = moment().weekday()
+      day = moment()
+      if count_as_yesterday(mins_since_midnight, start_mins_since_midnight, end_mins_since_midnight)
+        day.subtract(1, 'day')
+      today_idx = day.weekday()
       if not activedaysarray.includes(today_idx)
         return true
   return false

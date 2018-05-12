@@ -253,7 +253,7 @@ polymer_ext {
 
   dismiss_dialog: (evt) ->
     console.log evt
-    if evt.detail.confirmed and (this.$$('#end-picker').rawValue - this.$$('#start-picker').rawValue > 0)
+    if evt.detail.confirmed
       if evt.target.id == 'start-dialog'
         @start_time_string = this.$$('#start-picker').time
         @start_time_mins = this.$$('#start-picker').rawValue

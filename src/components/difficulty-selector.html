@@ -27,7 +27,10 @@
       }
 
       .radiobuttons {
-        padding-left: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        padding-top: 20px;
         font-size: 20px;
         text-align: left;
         color: white;
@@ -36,16 +39,23 @@
       .radiobutton {
         color: white;
       }
+
+      .papercard {
+        margin-top: 30px;
+        border-radius: 30px;
+      }
     </style>
 
     <div class="title">How aggressive do you want HabitLab to be in helping you reduce your time spent online?</div>
 
-    <paper-radio-group class="radiobuttons">
-      <paper-radio-button class="radiobutton" name="nothing">Don't do anything. Just track time</paper-radio-button><br>
-      <paper-radio-button class="radiobutton" name="easy">Light touch. Eg. show a timer</paper-radio-button><br>
-      <paper-radio-button class="radiobutton" name="medium">Medium. Eg. remove your facebook feed until you click to show it</paper-radio-button><br>
-      <paper-radio-button class="radiobutton" name="hard">Heavy handed. Eg. close the site after 60 seconds</paper-radio-button><br>
-    </paper-radio-group>
+    <paper-card class="papercard">
+      <paper-radio-group class="radiobuttons">
+        <paper-radio-button class="radiobutton" name="nothing">Don't do anything. Just track time</paper-radio-button><br>
+        <paper-radio-button class="radiobutton" name="easy">Light touch. Eg. show a timer</paper-radio-button><br>
+        <paper-radio-button class="radiobutton" name="medium">Medium. Eg. remove your facebook feed until you click to show it</paper-radio-button><br>
+        <paper-radio-button class="radiobutton" name="hard">Heavy handed. Eg. close the site after 60 seconds</paper-radio-button><br>
+      </paper-radio-group>
+    </paper-card>
 
   </template>
   <script src="difficulty-selector.js"></script>

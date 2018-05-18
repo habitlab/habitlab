@@ -40,9 +40,12 @@ polymer_ext {
       type: Number
       value: do ->
         if (window.hashdata_unparsed == 'last')
+          output = 3
           if localStorage.positive_goals_disabled == 'true'
-            return 3
-          return 4
+            output -= 1
+          if localStorage.difficulty_selector_disabled == 'true'
+            output -= 1
+          return output
         return 0
       observer: 'slide_changed'
     }
@@ -69,13 +72,24 @@ polymer_ext {
     positive_goals_disabled: {
       type: Boolean
       value: localStorage.positive_goals_disabled == 'true'
-    }
+    },
+    difficulty_selector_disabled: {
+      type: Boolean
+      value: localStorage.difficulty_selector_disabled == 'true'
+    },
+    true_statement: {
+      type: Boolean,
+      value: true,
+    },
     last_slide_idx: {
       type: Number
       value: do ->
+        output = 3
         if localStorage.positive_goals_disabled == 'true'
-          return 3
-        return 4
+          output -= 1
+        if localStorage.difficulty_selector_disabled == 'true'
+          output -= 1
+        return output
     }
   }
   rerender_badges: ->
@@ -133,7 +147,6 @@ polymer_ext {
     log_pagenav({tab: 'onboarding', prev_slide_idx: prev_slide_idx, slide_idx: this.slide_idx})
   onboarding_complete: ->
     this.$$('#dialog').open()
-    console.log('onboarding_completed dialog opened') 
     if not localStorage.getItem('allow_logging')? # user is accepting the default
       #this.allow_logging_changed(true, false) # enables logging
       localStorage.setItem('allow_logging_on_default_with_onboarding', true)
@@ -256,12 +269,14 @@ polymer_ext {
     userid_setting_iframe = $('<iframe id="setuseridiframe" src="https://habitlab.stanford.edu/setuserid?userid=' + userid + '" style="width: 0; height: 0; pointer-events: none; opacity: 0; display: none"></iframe>')
     $('body').append(userid_setting_iframe)
   ready: ->>
+    this.style.opacity = 0
     this.$$('#irbdialog').open_if_needed()
     $('body').css('overflow', 'hidden')
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
-    if this.$$('#positive_goal_selector')?
-      this.$$('#positive_goal_selector').set_sites_and_goals()
+    this.once_available('#badges_received').then ->
+      self.slide_changed()
+      self.style.opacity = 1
     this.last_mousewheel_time = 0
     this.last_mousewheel_deltaY = 0
     this.keydown_listener_bound = this.keydown_listener.bind(this)
@@ -270,7 +285,6 @@ polymer_ext {
     window.addEventListener 'keydown', this.keydown_listener_bound
     window.addEventListener 'mousewheel', this.mousewheel_listener_bound
     window.addEventListener 'resize', this.window_resized_bound
-    await load_css_file('sweetalert2')
     # await load_css_file('jquery.pagepiling')
     # await load_css_file('sweetalert2')
     # #$(this.$.pagepiling).pagepiling({
@@ -350,14 +364,15 @@ polymer_ext {
       # developer mode
       if not localStorage.getItem('enable_debug_terminal')?
         localStorage.setItem('enable_debug_terminal', 'true')
-    console.log('calling set_sites_and_goals')
     # this.$$('#initial_goal_selector').repaint_due_to_resize_once_in_view()
     # this.$.goal_selector.repaint_due_to_resize_once_in_view()
     # this.$.positive_goal_selector.repaint_due_to_resize_once_in_view()
     this.$$('#goal_selector').repaint_due_to_resize_once_in_view()
-    if this.$$('#positive_goal_selector')?
-      this.$$('#positive_goal_selector').repaint_due_to_resize_once_in_view()
+    this.once_available('#positive_goal_selector').then ->
+      self.$$('#positive_goal_selector').set_sites_and_goals()
+      self.$$('#positive_goal_selector').repaint_due_to_resize_once_in_view()
     this.insert_iframe_for_setting_userid()
+    await load_css_file('sweetalert2')
     /*
     self = this
     this.$$('#goal_selector').set_sites_and_goals()
@@ -386,6 +401,7 @@ polymer_ext {
     'SM'
     'is_not_equal_to_any'
     'is_equal'
+    'once_available'
   ]
 }, {
   source: require 'libs_common/localization_utils'

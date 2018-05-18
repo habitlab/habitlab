@@ -164,10 +164,20 @@ do !->>
     return
 
   set_intervention_firstimpression_notice_firstinstall = ->
-    algorithms = ['none', 'info', 'power']
+    #algorithms = ['none', 'info', 'power']
+    algorithms = ['power']
     chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
     setvar_experiment('intervention_firstimpression_notice', chosen_algorithm)
+    return
+  
+  set_difficulty_selection_screen = ->
+    algorithms = ['none', 'nodefault_optional']
+    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'none'
+      localStorage.setItem('difficulty_selector_disabled', true)
+    localStorage.setItem('difficulty_selection_screen', chosen_algorithm)
+    setvar_experiment('difficulty_selection_screen', chosen_algorithm)
     return
 
   do !->>
@@ -194,6 +204,7 @@ do !->>
     # set intervention selection algorithm - experiment
     set_intervention_selection_algorithm_firstinstall()
     set_intervention_firstimpression_notice_firstinstall()
+    set_difficulty_selection_screen()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()

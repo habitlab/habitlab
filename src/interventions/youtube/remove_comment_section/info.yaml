@@ -1,5 +1,6 @@
 description: Removes comment section
 displayname: No Comment
+difficulty: easy
 matches:
   - www.youtube.com
 content_scripts:

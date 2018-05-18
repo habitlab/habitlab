@@ -78,6 +78,8 @@ polymer_ext {
         return 4
     }
   }
+  rerender_badges: ->
+    this.$$('#badges_received').rerender()
   see_what_gets_loggged_clicked: (evt) ->
     #evt.preventDefault()
     evt.stopPropagation()

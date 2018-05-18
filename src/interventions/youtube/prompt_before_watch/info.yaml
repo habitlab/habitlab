@@ -1,5 +1,6 @@
 description: Prompt the user before watching a video
 displayname: Think Twice
+difficulty: medium
 matches:
   - www.youtube.com
 content_scripts:

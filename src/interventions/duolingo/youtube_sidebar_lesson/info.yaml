@@ -1,5 +1,6 @@
 description: Replace the YouTube sidebar with my next Duolingo lesson
 displayname: Learn on the Side
+difficulty: easy
 matches:
   - www.youtube.com
 preview: https://www.youtube.com/watch?v=Km9-DiFaxpU

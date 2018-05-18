@@ -1,5 +1,6 @@
 description: Gives you a fact and links an article on the effect of TV
 displayname: Fun Facts
+difficulty: medium
 matches:
   - www.netflix.com
 content_scripts:

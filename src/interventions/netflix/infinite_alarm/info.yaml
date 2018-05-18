@@ -1,5 +1,6 @@
 description: Asks the user to set an alarm before watching a show
 displayname: Alarm Clock
+difficulty: medium
 matches:
   - www.netflix.com
 content_scripts:

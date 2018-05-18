@@ -1,5 +1,6 @@
 description: Insert my next Duolingo lesson into my Facebook feed
 displayname: Lesson Injector
+difficulty: easy
 matches:
   - www.facebook.com
 preview: https://www.facebook.com

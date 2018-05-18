@@ -1,5 +1,6 @@
 description: Remove sidebar links
 displayname: Sidekicker
+difficulty: medium
 matches:
   - www.iqiyi.com
 content_scripts:

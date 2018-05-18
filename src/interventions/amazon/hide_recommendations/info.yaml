@@ -1,5 +1,6 @@
 description: Hides recommendations
 displayname: No Recs
+difficulty: easy
 matches:
   - www.amazon.com
 content_scripts:

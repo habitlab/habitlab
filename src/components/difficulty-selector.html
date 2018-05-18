@@ -50,10 +50,10 @@
 
     <paper-card class="papercard">
       <paper-radio-group on-selected-changed="selectedchanged" class="radiobuttons">
-        <paper-radio-button class="radiobutton" name="nothing">Don't do anything. Just track time</paper-radio-button><br>
-        <paper-radio-button class="radiobutton" name="easy">Light touch. Eg. show a timer</paper-radio-button><br>
-        <paper-radio-button class="radiobutton" name="medium">Medium. Eg. remove your facebook feed until you click to show it</paper-radio-button><br>
-        <paper-radio-button class="radiobutton" name="hard">Heavy handed. Eg. close the site after 60 seconds</paper-radio-button><br>
+        <paper-radio-button on-keydown="ignore_keydown" class="radiobutton" name="nothing">Don't do anything. Just track time</paper-radio-button><br>
+        <paper-radio-button on-keydown="ignore_keydown" class="radiobutton" name="easy">Light touch. Eg. show a timer</paper-radio-button><br>
+        <paper-radio-button on-keydown="ignore_keydown" class="radiobutton" name="medium">Medium. Eg. remove your facebook feed until you click to show it</paper-radio-button><br>
+        <paper-radio-button on-keydown="ignore_keydown" class="radiobutton" name="hard">Heavy handed. Eg. close the site after 60 seconds</paper-radio-button><br>
       </paper-radio-group>
     </paper-card>
 

@@ -1,5 +1,6 @@
 description: Remove sidebar links
 displayname: Sidekicker
+difficulty: easy
 matches:
   - www.youtube.com
 content_scripts:

@@ -6,41 +6,74 @@ const {
 const {
   get_interventions,
   get_enabled_interventions,
+  set_intervention_enabled,
+  set_intervention_disabled,
 } = require('libs_backend/intervention_utils')
+
+const {
+  add_log_interventions,
+} = require('libs_backend/log_utils')
+
+const {
+  send_feature_option,
+} = require('libs_backend/logging_enabled_utils')
 
 polymer_ext({
   is: 'difficulty-selector',
   selectedchanged: async function(evt) {
     let difficulty = evt.detail.value
+    let difficulty_numeric_map = {
+      'nothing': 0,
+      'easy': 1,
+      'medium': 2,
+      'hard': 3,
+    }
+    let difficulty_numeric = difficulty_numeric_map[difficulty]
     let all_interventions = await get_interventions()
     let prev_enabled_interventions = await get_enabled_interventions()
     let new_enabled_interventions = {}
+    let changed_interventions = []
     for (let intervention_name of Object.keys(all_interventions)) {
       let intervention_info = all_interventions[intervention_name]
       let was_previously_enabled = prev_enabled_interventions[intervention_name] == true
-      //if (intervention_info.difficulty == null) {
-      //}
+      let now_enabled = was_previously_enabled
+      if (difficulty == 'nothing') {
+        now_enabled = false
+      }
+      if (intervention_info.difficulty != null && difficulty_numeric_map[intervention_info.difficulty] != null) {
+        now_enabled = difficulty_numeric_map[intervention_info.difficulty] <= difficulty_numeric
+      }
+      new_enabled_interventions[intervention_name] = now_enabled
+      if (now_enabled != was_previously_enabled) {
+        changed_interventions.push(intervention_name)
+      }
     }
-    //send_feature_option({feature: 'difficuty', page: 'onboarding-view', })
-    /*
+    for (let intervention_name of changed_interventions) {
+      let now_enabled = new_enabled_interventions[intervention_name]
+      if (now_enabled) {
+        await set_intervention_enabled(intervention_name)
+      } else {
+        await set_intervention_disabled(intervention_name)
+      }
+    }
+    send_feature_option({feature: 'difficuty', page: 'onboarding-view', difficulty: difficulty})
     let log_intervention_info = {
-      type: 'intervention_set_always_disabled',
+      type: 'difficulty_selector_changed_onboarding',
       page: 'onboarding-view',
       subpage: 'difficulty-selector',
-      category: 'intervention_enabledisable',
-      now_enabled: false,
-      is_permanent: true,
-      is_generic: is_generic,
+      category: 'difficulty_change',
       manual: true,
       url: window.location.href,
-      intervention_name: this.dialog_intervention.name,
       prev_enabled_interventions: prev_enabled_interventions,
     }
-    log_intervention_info.change_subinterventions = true
-    log_intervention_info.subinterventions_list = await list_subinterventions_for_generic_intervention(intervention_name)
-    await set_subinterventions_disabled_for_generic_intervention(intervention_name)
     await add_log_interventions(log_intervention_info)
-    */
+    this.fire('difficulty-changed', {difficulty: difficulty})
+  },
+  ignore_keydown: function(evt) {
+    console.log('ignore_keydown called')
+    evt.preventDefault()
+    //evt.stopPropagation()
+    return false
   },
 }, {
   source: require('libs_frontend/polymer_methods'),

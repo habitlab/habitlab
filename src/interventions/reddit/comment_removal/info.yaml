@@ -1,5 +1,6 @@
 description: Removes Reddit comments
 displayname: Comment Remover
+difficulty: medium
 matches:
   - www.reddit.com
 content_scripts:

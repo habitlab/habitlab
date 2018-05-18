@@ -1,5 +1,6 @@
 description: Replace Facebook sidebar ads with my next Duolingo lesson
 displayname: Swap Out Ads
+difficulty: easy
 matches:
   - www.facebook.com
 preview: https://www.facebook.com

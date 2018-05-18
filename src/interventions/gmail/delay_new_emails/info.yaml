@@ -1,5 +1,6 @@
 description: Delays the arrival of new emails
 displayname: Speedbump
+difficulty: medium
 matches:
   - www.gmail.com
 content_scripts:

@@ -1,5 +1,6 @@
 description: Periodically puts a call to action into the Facebook news feed
 displayname: Friendly Reminder
+difficulty: easy
 matches:
   - www.facebook.com
 preview: https://www.facebook.com

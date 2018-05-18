@@ -1,5 +1,6 @@
 description: Removes the Twitter news feed
 displayname: Feed Eater
+difficulty: medium
 matches:
   - twitter.com
 content_scripts:

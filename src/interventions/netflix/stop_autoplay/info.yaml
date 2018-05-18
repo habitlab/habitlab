@@ -1,5 +1,6 @@
 description: Stops the site from automatically playing the next video
 displayname: Stop Autoplay
+difficulty: medium
 matches:
   - www.netflix.com
 content_scripts:

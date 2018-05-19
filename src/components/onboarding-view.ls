@@ -169,6 +169,11 @@ polymer_ext {
   next_slide: (evt) ->
     if this.animation_inprogress
       return
+    if localStorage.difficulty_selector_forcedchoice == 'true'
+      if localStorage.difficulty_selector_disabled != 'true'
+        if this.slide_idx == 1 and not localStorage.user_chosen_difficulty?
+          swal('Please choose a difficulty level')
+          return
     last_slide_idx = this.SM('.slide').length - 1
     if this.slide_idx == last_slide_idx
       return

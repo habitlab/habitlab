@@ -18,9 +18,16 @@ const {
   send_feature_option,
 } = require('libs_backend/logging_enabled_utils')
 
+const {
+  setvar_experiment
+} = require('libs_backend/db_utils')
+
 polymer_ext({
   is: 'difficulty-selector',
   selectedchanged: async function(evt) {
+    if (this.ignoreselectedchanged == true) {
+      return
+    }
     let difficulty = evt.detail.value
     let difficulty_numeric_map = {
       'nothing': 0,
@@ -56,6 +63,8 @@ polymer_ext({
         await set_intervention_disabled(intervention_name)
       }
     }
+    localStorage.user_chosen_difficulty = difficulty
+    setvar_experiment('user_chosen_difficulty', difficulty)
     send_feature_option({feature: 'difficuty', page: 'onboarding-view', difficulty: difficulty})
     let log_intervention_info = {
       type: 'difficulty_selector_changed_onboarding',
@@ -75,9 +84,19 @@ polymer_ext({
     //evt.stopPropagation()
     return false
   },
+  ready: async function(evt) {
+    if (localStorage.user_chosen_difficulty != null) {
+      //await once_available('')
+      this.ignoreselectedchanged = true
+      await this.once_available('#difficultyradiogroup')
+      this.$$('#difficultyradiogroup').selected = localStorage.user_chosen_difficulty
+      this.ignoreselectedchanged = false
+    }
+  }
 }, {
   source: require('libs_frontend/polymer_methods'),
   methods: [
-    'json_stringify'
+    'json_stringify',
+    'once_available'
   ]
 })

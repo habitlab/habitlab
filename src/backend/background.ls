@@ -173,10 +173,12 @@ do !->>
     return
   
   set_difficulty_selection_screen = ->
-    algorithms = ['none', 'nodefault_optional']
+    algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
     chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'none'
       localStorage.setItem('difficulty_selector_disabled', true)
+    if chosen_algorithm == 'nodefault_forcedchoice'
+      localStorage.setItem('difficulty_selector_forcedchoice', true)
     localStorage.setItem('difficulty_selection_screen', chosen_algorithm)
     setvar_experiment('difficulty_selection_screen', chosen_algorithm)
     return

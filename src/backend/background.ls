@@ -92,6 +92,7 @@ do !->>
   {
     send_logging_enabled
     get_basic_client_data
+    send_feature_disabled
   } = require 'libs_backend/logging_enabled_utils'
 
   export make_tab_focused = (tab_id, window_id) ->>
@@ -180,6 +181,24 @@ do !->>
     setvar_experiment('difficulty_selection_screen', chosen_algorithm)
     return
 
+  set_daily_goal_reminders_abtest = ->
+    algorithms = ['on', 'off']
+    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('allow_daily_goal_notifications', false)
+      send_feature_disabled({page: 'background', feature: 'allow_daily_goal_notifications', manual: false, reason: 'daily_goal_reminders_abtest'})
+    setvar_experiment('daily_goal_reminders_abtest', chosen_algorithm)
+    return
+    
+  set_reward_gifs_abtest = ->
+    algorithms = ['on', 'off']
+    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('allow_reward_gifs', false)
+      send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})
+    setvar_experiment('reward_gifs_abtest', chosen_algorithm)
+    return
+
   do !->>
     {
       post_json
@@ -205,6 +224,8 @@ do !->>
     set_intervention_selection_algorithm_firstinstall()
     set_intervention_firstimpression_notice_firstinstall()
     set_difficulty_selection_screen()
+    set_daily_goal_reminders_abtest()
+    set_reward_gifs_abtest()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()

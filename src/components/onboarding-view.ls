@@ -40,10 +40,12 @@ polymer_ext {
       type: Number
       value: do ->
         if (window.hashdata_unparsed == 'last')
-          output = 3
+          output = 4
           if localStorage.positive_goals_disabled == 'true'
             output -= 1
           if localStorage.difficulty_selector_disabled == 'true'
+            output -= 1
+          if true # localStorage.idea_voting_disabled == 'true'
             output -= 1
           return output
         return 0
@@ -77,6 +79,10 @@ polymer_ext {
       type: Boolean
       value: localStorage.difficulty_selector_disabled == 'true'
     },
+    idea_voting_disabled: {
+      type: Boolean
+      value: true # localStorage.idea_voting_disabled == 'true'
+    },
     true_statement: {
       type: Boolean,
       value: true,
@@ -84,10 +90,12 @@ polymer_ext {
     last_slide_idx: {
       type: Number
       value: do ->
-        output = 3
+        output = 4
         if localStorage.positive_goals_disabled == 'true'
           output -= 1
         if localStorage.difficulty_selector_disabled == 'true'
+          output -= 1
+        if true # localStorage.idea_voting_disabled == 'true'
           output -= 1
         return output
     }

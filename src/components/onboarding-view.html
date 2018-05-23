@@ -49,9 +49,9 @@
         width: 100%;
         align-items: center;
         bottom: 0px;
-        left: 50%-100px;
+        /* left: 50%-100px; */
         /*left: 37%;*/
-        height: 120px;
+        height: 200px;
         background-color: transparent;
         z-index: 100;
       }
@@ -96,6 +96,7 @@
       }
 
       .prevnext_button {
+        font-size: 30px;
         text-align: center;
         background-color: rgb(60, 90, 153);
       }
@@ -198,14 +199,18 @@
 
       <div id="screen2" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
         <div id="screen2_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
-          <initial-goal-selector is_onboarding="true" id="goal_selector" on-goal_changed="rerender_onboarding_badges" />
+          <div style="margin-bottom: 50px">
+            <initial-goal-selector is_onboarding="true" id="goal_selector" on-goal_changed="rerender_onboarding_badges" />
+          </div>
         </div>
       </div>
 
     <template is="dom-if" if="{{!difficulty_selector_disabled}}">
       <div id="screen2b" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
         <div id="screen2b_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
-          <difficulty-selector on-difficulty-changed="rerender_badges" is_onboarding="true" id="difficulty_selector" />
+          <div style="margin-bottom: 200px">
+            <difficulty-selector on-difficulty-changed="rerender_badges" is_onboarding="true" id="difficulty_selector" />
+          </div>
         </div>
       </div>
     </template>
@@ -213,7 +218,9 @@
     <template is="dom-if" if="{{!positive_goals_disabled}}">
       <div id="screen3" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
         <div id="screen3_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
-          <positive-goal-selector is_onboarding="true" id="positive_goal_selector" on-goal_changed="rerender_onboarding_badges" />
+          <div style="margin-bottom: 100px">
+            <positive-goal-selector is_onboarding="true" id="positive_goal_selector" on-goal_changed="rerender_onboarding_badges" />
+          </div>
         </div>
       </div>
     </template>
@@ -221,10 +228,9 @@
     <template is="dom-if" if="{{true_statement}}">
       <div id="screen4" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
         <div id="screen4_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
-          <div>
+          <div style="margin-bottom: 170px">
             <onboarding-badges id="badges_received" />
           </div>
-
         </div>
       </div>
     </template>
@@ -233,7 +239,7 @@
       <div id="screen5" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
         <div id="screen5_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
           <div>
-            <idea-generation-panel />
+            <idea-generation-panel style="padding-bottom: 100px" />
           </div>
         </div>
       </div>
@@ -244,11 +250,11 @@
         <div style="display:inline-table; text-align: center;align-items:center; padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
           <div class="prevnext_button_container">
             <paper-button class="prevnext_button" on-click="prev_slide">
-              <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
+              <iron-icon icon="arrow-upward" style="color: white; height: 40px; width: 40px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
           </div>
           <div class="prevnext_button_container">
             <paper-button class="prevnext_button" on-click="next_slide">
-              <iron-icon icon="arrow-downward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Next")}}</paper-button>
+              <iron-icon icon="arrow-downward" style="color: white; height: 40px; width: 40px; padding-right: 5px"></iron-icon> {{msg("Next")}}</paper-button>
           </div>
         </div>
       </div>
@@ -259,11 +265,11 @@
         <div style="display:inline-table; text-align: center;align-items:center; padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
           <div class="prevnext_button_container">
             <paper-button class="prevnext_button" on-click="prev_slide" style="visibility:hidden; pointer-events:none">
-              <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
+              <iron-icon icon="arrow-upward" style="color: white; height: 40px; width: 40px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
           </div>
           <div class="prevnext_button_container">
             <paper-button class="prevnext_button" on-click="next_slide">
-              <iron-icon icon="arrow-downward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Next")}}</paper-button>
+              <iron-icon icon="arrow-downward" style="color: white; height: 40px; width: 40px; padding-right: 5px"></iron-icon> {{msg("Next")}}</paper-button>
           </div>
         </div>
       </div>
@@ -274,10 +280,12 @@
         <div style="display:inline-table; text-align: center;align-items:center; padding-right:20px;padding-left:0px;padding-bottom:20px; color: white; width: 100%; height: 100%">
           <div class="prevnext_button_container">
             <paper-button class="prevnext_button" on-click="prev_slide">
-              <iron-icon icon="arrow-upward" style="color: white; height: 20px; width: 20px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
+              <iron-icon icon="arrow-upward" style="color: white; height: 40px; width: 40px; padding-right: 5px"></iron-icon> {{msg("Previous")}}</paper-button>
           </div>
           <div class="prevnext_button_container">
-            <paper-button class="prevnext_button" style="color: white; height: 37px;" on-click="onboarding_complete">{{msg("Start Using HabitLab")}}</paper-button>
+            <paper-button class="prevnext_button" on-click="onboarding_complete">
+              <iron-icon icon="check" style="color: white; height: 40px; width: 40px; padding-right: 5px"></iron-icon> {{msg("Start Using HabitLab")}}
+            </paper-button>
           </div>
         </div>
       </div>

@@ -24,15 +24,15 @@
       <div>You are running HabitLab version {{current_version}}</div>
       <template is="dom-if" if="{{devmode}}">
         <div>You are running HabitLab in developer mode.</div>
-        <div>To get updates, uninstall HabitLab and <a href="https://habitlab.github.io/chrome">install the stable release</a></div>
+        <div>To get updates, uninstall HabitLab and <a href="https://habitlab.github.io/chrome" target="_blank" style="color: black; text-decoration: underline;">install the stable release</a></div>
       </template>
       <template is="dom-if" if="{{preview}}">
         <div>You are running a preview release of HabitLab.</div>
-        <div>If having issues, uninstall and switch to the <a href="https://habitlab.github.io/chrome">stable release</a></div>
+        <div>If having issues, uninstall and switch to the <a href="https://habitlab.github.io/chrome" target="_blank" style="color: black; text-decoration: underline;">stable release</a></div>
       </template>
       <template is="dom-if" if="{{unofficial}}">
         <div>You are running an unofficial release.</div>
-        <div>To get updates, uninstall HabitLab and <a href="https://habitlab.github.io/chrome">install the stable release</a></div>
+        <div>To get updates, uninstall HabitLab and <a href="https://habitlab.github.io/chrome" target="_blank" style="color: black; text-decoration: underline;">install the stable release</a></div>
       </template>
       <template is="dom-if" if="{{is_update_available_or_installable}}">
         <div>A new version of HabitLab is available ({{available_update_version}})</div>

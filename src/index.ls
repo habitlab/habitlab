@@ -181,10 +181,14 @@ start_page_index = ->>
     index_body.style.height = index_body_height
   if not index_background_color?
     if ['options-view-v2', 'options-view', 'popup-view-v2', 'popup-view'].indexOf(tagname) == -1
-      index_background_color = 'white'
+      if tag.index_background_color?
+        index_background_color = tag.index_background_color
+      else
+        index_background_color = 'white'
     else
-      index_background_color = '#1E8CD2'
+      index_background_color = 'rgb(81, 167,249)'
   if index_background_color?
+    console.log 'setting index background color to ' + index_background_color
     document.body.style.backgroundColor = index_background_color
   add_url_input_if_needed()
   window.basetag = tag

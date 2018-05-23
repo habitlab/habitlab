@@ -21,7 +21,8 @@
 <link rel="import" href="misc-options.html">
 <link rel="import" href="update-check.html">
 <link rel="import" href="advanced-features.html">
-<link rel="import" href="nudge-incubator.html">
+<!-- <link rel="import" href="nudge-incubator.html"> -->
+<link rel="import" href="idea-generation-panel.html">
 
 <dom-module id="options-interventions">
   <template>
@@ -393,11 +394,19 @@
       </div>
       -->
 
-      <div id="intro8" class="intro" style="display: none;">
+      <!-- <div id="intro8" class="intro" style="display: none;">
         <paper-card heading="Vote for New Nudges" style ="color:white;" class="papercard">
           <nudge-incubator id="nudge_incubator"></nudge-incubator>
         </paper-card>
+      </div> -->
+
+
+      <div id="intro8" class="intro" style="display: none;">
+        <paper-card style ="color:white;" class="papercard">
+          <idea-generation-panel></idea-generation-panel>
+        </paper-card>
       </div>
+      
 
       <div id="intro7" class="intro" style="display: none;">
         <paper-card heading="Nudge Editor" style ="color:white;" class="papercard">

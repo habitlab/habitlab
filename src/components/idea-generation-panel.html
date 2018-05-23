@@ -12,9 +12,10 @@
 
 <dom-module id="idea-generation-panel">
   <template>
-    <custom-style>
-      <style is="custom-style">
+    <style>
         .panel-container {
+            color: white;
+            font-size: 20px;
             max-width: 900px;
             margin-right: auto;
             margin-left: auto;
@@ -23,7 +24,7 @@
             padding-left: 20px;
         }
         .question-vote {
-            background-color:rgb(100, 177, 248);
+            /* background-color:rgb(100, 177, 248); */
             padding: 2em 0;
             border-radius: 7px;
             position: relative;
@@ -32,7 +33,7 @@
 
         .idea-submitter {
             margin-top: 20px;
-            background-color:rgb(100, 177, 248);
+            /* background-color:rgb(100, 177, 248); */
             padding: 2em 0;
             border-radius: 7px;
             position: relative;
@@ -41,12 +42,14 @@
         }
 
         .vote-question {
-            background-color:rgb(100, 177, 248);
+            /* background-color:rgb(100, 177, 248); */
             text-align: center;
             padding: 5px 5px;
             color: rgb(255, 255, 255);
             border-radius: 7px;
+            font-size: 30px;
             font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            margin-bottom: 20px;
         }
         h2 {
             display: block;
@@ -100,6 +103,9 @@
             z-index: 0;
         }
         .answer_button {
+            border-radius: 10px;
+            text-transform: none;
+            margin: 0;
             text-align: center;
             background-color: rgb(60, 90, 153);
             font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -140,9 +146,9 @@
         .opt-out-span {
             margin-left: 0;
             width: 100%;
-            margin-top: 30px;
+            margin-top: 20px;
             display: block;
-            min-height: 30px;
+            min-height: 20px;
         }
         .answer-opt-out {
             margin-left: 34.18803%;
@@ -150,10 +156,19 @@
             display: block;
         }
         .opt_out_button {
+            text-transform: none;
             text-align: center;
-            background-color: rgb(136, 146, 168);
+            background-color: #415D67;
+            border-radius: 10px;
             font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-            height: 30px;
+            display: block;
+        }
+        .add_own_idea_button {
+            text-transform: none;
+            text-align: center;
+            background-color: #415D67;
+            border-radius: 10px;
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             display: block;
         }
         .idea_submit_button {
@@ -183,40 +198,39 @@
             width: 10%;
             display: block;
         }
-      </style>
-    </custom-style>
+    </style>
 
-    <div style="position: relative">
+    <!-- <div style="position: relative">
             <div style="margin-top: 30px;margin-bottom:13px; font-size: 35px;color:white;">Crowdsourced Intervention Idea Generation</div>
             <div style="margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">Please select the answer based on your preference.</div>
-    </div>
+    </div> -->
 
     <div class="panel-container">
         <div class="question-vote">
             <div class="question-span">
-                <h2 class="vote-question">Which do you think is a better nudge?</h2>
+                <div class="vote-question">Which do you think would be a better nudge for Facebook?</div>
             </div>
             <div class="answers-span">
 
                 <span class="answer-leftside-animate">
                     <paper-button class="answer_button animate_left" id="animate_left_tx" on-click="">
-                        {{msg("A nudge that hide friends comments from Facebook.")}}
+                        A nudge that hide friends comments from Facebook
                     </paper-button>
                 </span>
                 <span class="answer-leftside-fix">
                     <paper-button class="answer_button" on-click="select_answer_leftside">
-                        {{msg("A nudge that hide friends comments from Facebook.")}}
+                        A nudge that hide friends comments from Facebook
                     </paper-button>
                 </span>
 
                 <span class="answer-rightside-animate">
                     <paper-button class="answer_button animate_right" id="animate_right_tx" on-click="">
-                        {{msg("A nudge that displays the total time you spent on Facebook today.")}}
+                        A nudge that displays the total time you spent on Facebook today
                     </paper-button>
                 </span>
                 <span class="answer-rightside-fix">
                     <paper-button class="answer_button" on-click="select_answer_rightside">
-                        {{msg("A nudge that displays the total time you spent on Facebook today.")}}
+                        A nudge that displays the total time you spent on Facebook today
                     </paper-button>
                 </span>
 
@@ -224,18 +238,28 @@
             <div class="opt-out-span">
                 <span class="answer-opt-out">
                     <paper-button class="opt_out_button" on-click="select_opt_out">
-                        {{msg("I cannot decide.")}}
+                        I cannot decide
                     </paper-button>
                 </span>
             </div>
-            <p class="vote_stats">
+
+            <div class="opt-out-span">
+                <span class="answer-opt-out">
+                    <paper-button class="add_own_idea_button" on-click="add_own_idea">
+                        Add your own idea
+                    </paper-button>
+                </span>
+            </div>
+
+            <!-- <p class="vote_stats">
                     <span id="votes_count">92727</span>
                     votes on 
                     <span id="item_count">268</span>
                     ideas
-            </p>
+            </p> -->
+
         </div>
-        <div class="idea-submitter">
+        <!-- <div class="idea-submitter">
             <div class="text-span">
                     <paper-input label="Add your own idea here..." char-counter maxlength="80"></paper-input>
             </div>
@@ -246,7 +270,7 @@
                     </paper-button>
                 </span>
             </div>
-        </div>
+        </div> -->
     </div>
     
   </template>

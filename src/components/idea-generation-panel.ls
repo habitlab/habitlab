@@ -64,6 +64,10 @@ polymer_ext {
   is: 'idea-generation-panel'
   properties: {
     # properties
+    index_background_color: {
+      type: String
+      value: 'rgb(81, 167,249)'
+    }
   }
   # functions
   select_answer_leftside: (evt) ->

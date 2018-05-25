@@ -85,6 +85,18 @@ polymer_ext {
       type: Array
       value: []
     }
+    current_site: {
+      type: String
+      value: ''
+    }
+    current_left_idea_id: {
+      type: String
+      value: ''
+    }
+    current_right_idea_id: {
+      type: String
+      value: ''
+    }
   }
   # TODO: remove this helper functions
   inject_site_ideas_mapping: (site_list) ->>
@@ -108,7 +120,7 @@ polymer_ext {
       for site in site_list
         for idea in ideas_placeholder
           # console.log("posting this site: " + site + " with this idea: " + idea)
-          site_idea_pair = { site : site, idea : idea }
+          site_idea_pair = { site : site, idea : idea , vote : 0}
           console.log(site_idea_pair)
           data = {} <<< site_idea_pair
           # 4. Send it
@@ -133,15 +145,39 @@ polymer_ext {
             dlog data
             console.log 'error thrown in postideas'
             # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
+  upvote_idea: (option) ->>
+    self = this
+    # call upvote for the current website with current option
+    upvote_idea = ''
+    if option == 'right'
+      upvote_idea = self.current_right_idea_id
+    else
+      upvote_idea = self.current_left_idea_id
+    console.log "Upvoting website: " + self.current_site + " for idea: " + upvote_idea + "."
+    ### TODO: remove for testing
+    localStorage.setItem('local_logging_server', true) 
+    ###
+    if localStorage.getItem('local_logging_server') == 'true'
+      console.log "posting to local server"
+      logging_server_url = 'http://localhost:5000/'
+    else
+      console.log "posting to cloud server"
+      logging_server_url = 'https://habitlab.herokuapp.com/'
+    request = logging_server_url + 'upvote_proposed_idea' + '?idea_id=' + upvote_idea;
+    data = await fetch(request).then (.json!)
+    console.log(data)
   # functions
-  select_answer_leftside: (evt) ->
+  select_answer_leftside: (evt) ->>
     self = this
     if this.animation_inprogress
         return
+    # upvote current
+    await self.upvote_idea('left')
     # clicked left-side
     this.SM('.animate_left').css("filter", "grayscale(0%)");
     this.SM('.animate_left').css("background-color", "#0000FF");
-    this.$$('.animate_left').innerText = msg('This message will be copied from fix button')
+    # temp = this.$$('.fix_left').innerText
+    this.$$('.animate_left').innerText = this.$$('.fix_left').innerText
     this.SM('.answer-leftside-animate').css("margin-top", '0');
     this.SM('.answer-leftside-animate').css("z-index", '1');
     this.SM('.answer-leftside-fix').css("z-index", '0');
@@ -151,25 +187,29 @@ polymer_ext {
     # non-clicked right-side
     this.SM('.animate_right').css("background-color", "#0000FF");
     this.SM('.animate_right').css("filter", "grayscale(30%)");
-    this.$$('.animate_right').innerText = msg('This message will be copied from fix button')
+    # temp = this.$$('.fix_right').innerText
+    this.$$('.animate_right').innerText = this.$$('.fix_right').innerText
     this.SM('.answer-rightside-animate').css("margin-top", '0');
     this.SM('.answer-rightside-animate').css("z-index", '1');
     this.SM('.answer-rightside-fix').css("z-index", '0');
     this.SM('.answer-rightside-animate').animate({
         margin-top: '+120px'
     }, 1000)
+    # change the fix test
+    await self.display_idea()
     this.animation_inprogress = true
     setTimeout ->
       self.animation_inprogress = false
     , 1000
-  select_answer_rightside: (evt) ->
+  select_answer_rightside: (evt) ->>
     self = this
     if this.animation_inprogress
         return
+    await self.upvote_idea('right')
     # clicked right-side
     this.SM('.animate_right').css("filter", "grayscale(0%)");
     this.SM('.animate_right').css("background-color", "#0000FF");
-    this.$$('.animate_right').innerText = msg('This message will be copied from fix button')
+    this.$$('.animate_right').innerText = this.$$('.fix_right').innerText
     this.SM('.answer-rightside-animate').css("margin-top", '0');
     this.SM('.answer-rightside-animate').css("z-index", '1');
     this.SM('.answer-rightside-fix').css("z-index", '0');
@@ -179,26 +219,28 @@ polymer_ext {
     # non-clicked left-side
     this.SM('.animate_left').css("background-color", "#0000FF");
     this.SM('.animate_left').css("filter", "grayscale(30%)");
-    this.$$('.animate_left').innerText = msg('This message will be copied from fix button')
+    this.$$('.animate_left').innerText = this.$$('.fix_left').innerText
     this.SM('.answer-leftside-animate').css("margin-top", '0');
     this.SM('.answer-leftside-animate').css("z-index", '1');
     this.SM('.answer-leftside-fix').css("z-index", '0');
     this.SM('.answer-leftside-animate').animate({
         margin-top: '+120px'
     }, 1000)
+    # change the fix test
+    await self.display_idea()
     this.animation_inprogress = true
     setTimeout ->
       self.animation_inprogress = false
     , 1000
-  select_opt_out: (evt) ->
-    console.log("cli!!")
+  select_opt_out: (evt) ->>
+    # console.log("cli!!")
     self = this
     if this.animation_inprogress
         return
     # clicked right-side
     this.SM('.animate_right').css("filter", "grayscale(30%)");
     this.SM('.animate_right').css("background-color", "#0000FF");
-    this.$$('.animate_right').innerText = msg('This message will be copied from fix button')
+    this.$$('.animate_right').innerText = this.$$('.fix_right').innerText
     this.SM('.answer-rightside-animate').css("margin-top", '0');
     this.SM('.answer-rightside-animate').css("z-index", '1');
     this.SM('.answer-rightside-fix').css("z-index", '0');
@@ -208,13 +250,16 @@ polymer_ext {
     # non-clicked left-side
     this.SM('.animate_left').css("filter", "grayscale(30%)");
     this.SM('.animate_left').css("background-color", "#0000FF");
-    this.$$('.animate_left').innerText = msg('This message will be copied from fix button')
+    this.$$('.animate_left').innerText = this.$$('.fix_left').innerText
     this.SM('.answer-leftside-animate').css("margin-top", '0');
     this.SM('.answer-leftside-animate').css("z-index", '1');
     this.SM('.answer-leftside-fix').css("z-index", '0');
     this.SM('.answer-leftside-animate').animate({
         margin-top: '+120px'
     }, 1000)
+    # change the fix test
+    await self.display_idea()
+
     this.animation_inprogress = true
     setTimeout ->
       self.animation_inprogress = false
@@ -231,6 +276,35 @@ polymer_ext {
     this.idea_text = ''
     console.log(idea_text)
     this.$$('#add_idea_dialog').close()
+  display_idea: ->>
+    self = this
+    # display initial choice
+    for site_ideas_pair in self.site_ideas_mapping
+      for site_counter_pair in self.site_ideas_mapping_counter
+        if site_ideas_pair.site == site_counter_pair.site
+          # check if all the pairs has been rotated, if not we display
+          if site_counter_pair.counter < site_ideas_pair.ideas.length/2
+            # corner case
+            self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge for " + site_ideas_pair.site + " ?")
+            self.current_site = site_ideas_pair.site
+            index = site_counter_pair.counter * 2
+            if site_counter_pair.counter == Math.floor(site_ideas_pair.ideas.length/2)
+              self.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
+              self.$$('.fix_right').innerText = msg(site_ideas_pair.ideas[0])
+              self.current_left_idea_id = site_ideas_pair.ideas_id[index]
+              self.current_right_idea_id = site_ideas_pair.ideas_id[0]
+            else
+              self.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
+              self.$$('.fix_right').innerText = msg(site_ideas_pair.ideas[index + 1])
+              self.current_left_idea_id = site_ideas_pair.ideas_id[index]
+              self.current_right_idea_id = site_ideas_pair.ideas_id[index + 1]
+            site_counter_pair.counter = site_counter_pair.counter + 1
+            # console.log self.site_ideas_mapping_counter
+            return
+    # if get to this point, then we should disable button
+    document.getElementById("disable_left").disabled = true; 
+    document.getElementById("disable_right").disabled = true;
+    document.getElementById("disable_opt_out").disabled = true;  
   ready: ->>
     self = this
     all_goals = await get_goals()
@@ -264,39 +338,21 @@ polymer_ext {
       console.log("Fetching from the server of shared interventions from: " + site_upper);
       data = await fetch(request).then (.json!)
       idea_temp = []
+      idea_id_temp = []
       for item in data
         idea_temp.push(item.idea)
+        idea_id_temp.push(item._id)
       self.site_ideas_mapping.push({
         site: site,
         ideas: idea_temp
+        ideas_id: idea_id_temp
       });
       self.site_ideas_mapping_counter.push({
         site: site,
         counter: 0
       });
     # console.log self.site_ideas_mapping
-    # display initial choice
-    for site_ideas_pair in self.site_ideas_mapping
-      for site_counter_pair in self.site_ideas_mapping_counter
-        if site_ideas_pair.site == site_counter_pair.site
-          # check if all the pairs has been rotated, if not we display
-          if site_counter_pair.counter < site_ideas_pair.ideas.length/2
-            # corner case
-            if site_counter_pair.counter == Math.floor(site_ideas_pair.ideas.length/2)
-              this.$$('.vote-question').innerText = "Which do you think would be a better nudge for " + site_ideas_pair.site
-              index = site_counter_pair.counter * 2
-              this.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
-              this.$$('.fix_right').innerText = msg(site_ideas_pair.ideas[0])
-              site_counter_pair.counter = site_counter_pair.counter + 1
-            else
-              this.$$('.vote-question').innerText = "Which do you think would be a better nudge for " + site_ideas_pair.site
-              index = site_counter_pair.counter * 2
-              this.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
-              this.$$('.fix_right').innerText = msg(site_ideas_pair.ideas[index + 1])
-              site_counter_pair.counter = site_counter_pair.counter + 1
-              break
-      break
-    console.log self.site_ideas_mapping_counter
+    await self.display_idea()
 }, [
   {
     source: require 'libs_common/localization_utils'

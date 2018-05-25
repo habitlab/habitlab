@@ -3,6 +3,9 @@ $ = require 'jquery'
 
 swal = require 'sweetalert2'
 
+{
+  post_json
+} = require 'libs_backend/ajax_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
 
@@ -74,7 +77,62 @@ polymer_ext {
     sites_list: {
       type: Array
     }
+    site_ideas_mapping: {
+      type: Array
+      value: []
+    }
+    site_ideas_mapping_counter: {
+      type: Array
+      value: []
+    }
   }
+  # TODO: remove this helper functions
+  inject_site_ideas_mapping: (site_list) ->>
+    # localStorage.setItem('testing_firsttime', true)
+    if localStorage.getItem('testing_firsttime') == 'true'
+      localStorage.setItem('testing_firsttime', false)
+      # inject site ideas mappings to db
+      # 1. get the server loc
+      ### TODO: remove for testing
+      localStorage.setItem('local_logging_server', true) 
+      ###
+      if localStorage.getItem('local_logging_server') == 'true'
+        console.log "posting to local server"
+        logging_server_url = 'http://localhost:5000/'
+      else
+        console.log "posting to cloud server"
+        logging_server_url = 'https://habitlab.herokuapp.com/'
+      # 2. Concat data to transmit
+      ### TODO: currently mannuly get from reddit
+      ideas_placeholder = ['placeholder_1', 'placeholder_2', 'placeholder_3', 'placeholder_4', 'placeholder_5', 'placeholder_6']
+      for site in site_list
+        for idea in ideas_placeholder
+          # console.log("posting this site: " + site + " with this idea: " + idea)
+          site_idea_pair = { site : site, idea : idea }
+          console.log(site_idea_pair)
+          data = {} <<< site_idea_pair
+          # 4. Send it
+          upload_successful = true
+          try
+            console.log 'Posting data to: ' + logging_server_url + 'postideas'
+            response = await post_json(logging_server_url + 'postideas', data)
+            if response.success
+                console.log 'success'
+                # return {status: 'success'}
+            else
+              upload_successful = false
+              dlog 'response from server was not successful in postideas'
+              dlog response
+              dlog data
+              console.log 'response from server was not successful in postideas'
+              # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
+          catch
+            upload_successful = false
+            dlog 'error thrown in postideas'
+            dlog e
+            dlog data
+            console.log 'error thrown in postideas'
+            # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
   # functions
   select_answer_leftside: (evt) ->
     self = this
@@ -174,6 +232,7 @@ polymer_ext {
     console.log(idea_text)
     this.$$('#add_idea_dialog').close()
   ready: ->>
+    self = this
     all_goals = await get_goals()
     goal_info_list = Object.values all_goals
     sites_list = goal_info_list.map (.sitename_printable)
@@ -181,6 +240,63 @@ polymer_ext {
     sites_list = unique sites_list
     sites_list.sort()
     this.sites_list = sites_list
+    ### TODO: remove this
+    self.inject_site_ideas_mapping(sites_list)
+    # getting the site ideas mapping
+    enabled_goals = await get_enabled_goals()
+    enabled_goals_keys = Object.keys(enabled_goals)
+    enabled_spend_less_site = []
+    for item in enabled_goals_keys
+      enabled_spend_less_site.push(item.split("/")[0])
+    console.log(enabled_spend_less_site)
+    ### TODO: remove for testing
+    localStorage.setItem('local_logging_server', true) 
+    ###
+    if localStorage.getItem('local_logging_server') == 'true'
+      console.log "posting to local server"
+      logging_server_url = 'http://localhost:5000/'
+    else
+      console.log "posting to cloud server"
+      logging_server_url = 'https://habitlab.herokuapp.com/'
+    for site in enabled_spend_less_site
+      site_upper = site.charAt(0).toUpperCase() + site.slice(1)
+      request = logging_server_url + 'getideas' + '?website=' + site_upper;
+      console.log("Fetching from the server of shared interventions from: " + site_upper);
+      data = await fetch(request).then (.json!)
+      idea_temp = []
+      for item in data
+        idea_temp.push(item.idea)
+      self.site_ideas_mapping.push({
+        site: site,
+        ideas: idea_temp
+      });
+      self.site_ideas_mapping_counter.push({
+        site: site,
+        counter: 0
+      });
+    # console.log self.site_ideas_mapping
+    # display initial choice
+    for site_ideas_pair in self.site_ideas_mapping
+      for site_counter_pair in self.site_ideas_mapping_counter
+        if site_ideas_pair.site == site_counter_pair.site
+          # check if all the pairs has been rotated, if not we display
+          if site_counter_pair.counter < site_ideas_pair.ideas.length/2
+            # corner case
+            if site_counter_pair.counter == Math.floor(site_ideas_pair.ideas.length/2)
+              this.$$('.vote-question').innerText = "Which do you think would be a better nudge for " + site_ideas_pair.site
+              index = site_counter_pair.counter * 2
+              this.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
+              this.$$('.fix_right').innerText = msg(site_ideas_pair.ideas[0])
+              site_counter_pair.counter = site_counter_pair.counter + 1
+            else
+              this.$$('.vote-question').innerText = "Which do you think would be a better nudge for " + site_ideas_pair.site
+              index = site_counter_pair.counter * 2
+              this.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
+              this.$$('.fix_right').innerText = msg(site_ideas_pair.ideas[index + 1])
+              site_counter_pair.counter = site_counter_pair.counter + 1
+              break
+      break
+    console.log self.site_ideas_mapping_counter
 }, [
   {
     source: require 'libs_common/localization_utils'

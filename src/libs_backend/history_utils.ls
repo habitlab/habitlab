@@ -18,8 +18,8 @@ require! {
 } = require 'libs_common/time_spent_utils'
 
 {
-  getvar
-  setvar
+  getvar_history
+  setvar_history
   getdict
   setdict
 } = require 'libs_backend/db_utils'
@@ -273,11 +273,11 @@ export get_baseline_session_time_on_domain = (domain) ->>
 export ensure_history_utils_data_cached = ->>
   date_now = Date.now()
   if localStorage.cached_pages_list != 'true'
-    pages_list_compressed = await getvar 'pages_list_compressed'
+    pages_list_compressed = await getvar_history 'pages_list_compressed'
     if not pages_list_compressed?
       pages_list = await new Promise -> chrome.history.search {text: '', startTime: 0, endTime: date_now, maxResults: 2**31-1}, it
       pages_list_compressed = lzstring.compressToEncodedURIComponent JSON.stringify pages_list
-      await setvar 'pages_list_compressed', pages_list_compressed
+      await setvar_history 'pages_list_compressed', pages_list_compressed
     localStorage.cached_pages_list = 'true'
   if localStorage.cached_domain_baseline_times != 'true'
     baseline_session_time_on_domains = await getdict 'baseline_session_time_on_domains'

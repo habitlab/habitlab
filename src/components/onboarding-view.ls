@@ -114,6 +114,7 @@ polymer_ext {
     prev_slide_idx = this.prev_slide_idx
     this.prev_slide_idx = this.slide_idx
     slide = this.SM('.slide').eq(this.slide_idx)
+    this.current_slide = slide
     if slide.find('.scroll_wrapper').length > 0
       slide.find('.scroll_wrapper')[0].scrollTop = 0
     if prev_slide_idx == this.slide_idx - 1 # scrolling forward
@@ -190,7 +191,7 @@ polymer_ext {
 
     this.slide_idx = Math.min(last_slide_idx, this.slide_idx + 1)
     last_slide_idx = this.SM('.slide').length - 1
-    if this.slide_idx == last_slide_idx-1
+    if this.slide_idx == last_slide_idx - 1
       return
     this.SM('.onboarding_complete').show()
 
@@ -220,7 +221,17 @@ polymer_ext {
     if this.animation_inprogress
       evt.preventDefault()
       return
-    last_slide_idx = this.SM('.slide').length - 1
+    scroll_wrapper = this?current_slide?find('.scroll_wrapper')?[0]
+    if scroll_wrapper?
+      if evt.deltaY > 0 and scroll_wrapper.clientHeight + scroll_wrapper.scrollTop == scroll_wrapper.scrollHeight # at bottom
+        last_slide_idx = this.SM('.slide').length - 1
+        if this.slide_idx < last_slide_idx
+          evt.preventDefault()
+          this.next_slide()
+      else if evt.deltaY < 0 and scroll_wrapper.scrollTop == 0
+        if this.slide_idx > 0
+          evt.preventDefault()
+          this.prev_slide()
     return
     /*
     if this.slide_idx == 1

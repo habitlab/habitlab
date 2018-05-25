@@ -212,7 +212,7 @@ polymer_ext {
   get_icon: (img_path) ->
     return chrome.extension.getURL('icons/' + img_path)
   keydown_listener: (evt) ->
-    if evt.which == 39 or evt.which == 40
+    if evt.which == 39 or evt.which == 40 or evt.which == 13
       this.next_slide()
     else if evt.which == 37 or evt.which == 38
       this.prev_slide()

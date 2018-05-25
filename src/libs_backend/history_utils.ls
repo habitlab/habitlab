@@ -18,11 +18,15 @@ require! {
 } = require 'libs_common/time_spent_utils'
 
 {
+  getvar
+  setvar
   getdict
   setdict
 } = require 'libs_backend/db_utils'
 
 prelude = require 'prelude-ls'
+
+lzstring = require 'lz-string'
 
 export get_pages_visited_today = ->>
   yesterday = Date.now() - 24*3600*1000
@@ -51,6 +55,21 @@ export get_work_pages_visited_today = ->>
 
 export get_url_to_visits = (start_time, end_time) ->>
   pages_list = await new Promise -> chrome.history.search {text: '', startTime: start_time, endTime: end_time, maxResults: 2**31-1}, it
+  url_list = []
+  seen_urls = {}
+  for page in pages_list
+    {url} = page
+    if not url? or url == ''
+      continue
+    seen_urls[url] = true
+    url_list.push url
+  url_to_visits = {}
+  for url in url_list
+    visits = await new Promise -> chrome.history.getVisits {url: url}, it
+    url_to_visits[url] = visits
+  return url_to_visits
+
+export get_url_to_visits_from_pages_list = (pages_list) ->>
   url_list = []
   seen_urls = {}
   for page in pages_list
@@ -252,15 +271,26 @@ export get_baseline_session_time_on_domain = (domain) ->>
   return 0
 
 export ensure_history_utils_data_cached = ->>
-  baseline_session_time_on_domains = await getdict 'baseline_session_time_on_domains'
-  baseline_time_on_domains = await getdict 'baseline_time_on_domains'
-  if not (baseline_session_time_on_domains? and baseline_time_on_domains? and Object.keys(baseline_session_time_on_domains).length > 0 and Object.keys(baseline_time_on_domains).length > 0)
-    date_now = Date.now()
-    url_to_visits = await get_url_to_visits(0, date_now)
-    baseline_session_time_on_domains = await get_baseline_session_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, date_now)
-    await setdict 'baseline_session_time_on_domains', baseline_session_time_on_domains
-    baseline_time_on_domains = await get_baseline_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, date_now)
-    await setdict 'baseline_time_on_domains', baseline_time_on_domains
+  date_now = Date.now()
+  if localStorage.cached_pages_list != 'true'
+    pages_list_compressed = await getvar 'pages_list_compressed'
+    if not pages_list_compressed?
+      pages_list = await new Promise -> chrome.history.search {text: '', startTime: 0, endTime: date_now, maxResults: 2**31-1}, it
+      pages_list_compressed = lzstring.compressToEncodedURIComponent JSON.stringify pages_list
+      await setvar 'pages_list_compressed', pages_list_compressed
+    localStorage.cached_pages_list = 'true'
+  if localStorage.cached_domain_baseline_times != 'true'
+    baseline_session_time_on_domains = await getdict 'baseline_session_time_on_domains'
+    baseline_time_on_domains = await getdict 'baseline_time_on_domains'
+    if not (baseline_session_time_on_domains? and baseline_time_on_domains? and Object.keys(baseline_session_time_on_domains).length > 0 and Object.keys(baseline_time_on_domains).length > 0)
+      if not pages_list?
+        pages_list = await new Promise -> chrome.history.search {text: '', startTime: 0, endTime: date_now, maxResults: 2**31-1}, it
+      url_to_visits = await get_url_to_visits_from_pages_list(pages_list)
+      baseline_session_time_on_domains = await get_baseline_session_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, date_now)
+      await setdict 'baseline_session_time_on_domains', baseline_session_time_on_domains
+      baseline_time_on_domains = await get_baseline_time_on_domains_real_passing_url_to_visits_and_time(url_to_visits, date_now)
+      await setdict 'baseline_time_on_domains', baseline_time_on_domains
+    localStorage.cached_domain_baseline_times = 'true'
 
 export list_all_domains_in_history = ->>
   start_time = 0

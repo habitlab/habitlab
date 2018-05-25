@@ -1,14 +1,12 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../bower_components/l2t-context-menu/l2t-context-menu.html">
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="idea-generation-panel">
   <template>
@@ -198,12 +196,48 @@
             width: 10%;
             display: block;
         }
+
+        .submitideabutton {
+            color: white;
+            background-color: #415D67;
+            font-size: 20px;
+            border-radius: 10px;
+            padding: 10px;
+            text-transform: none;
+            -webkit-font-smoothing: subpixel-antialiased;
+            text-align: center;
+            width: fit-content;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+        }
+
+        #add_idea_dialog {
+            width: 600px;
+        }
     </style>
 
     <!-- <div style="position: relative">
             <div style="margin-top: 30px;margin-bottom:13px; font-size: 35px;color:white;">Crowdsourced Intervention Idea Generation</div>
             <div style="margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">Please select the answer based on your preference.</div>
     </div> -->
+
+    <paper-dialog id="add_idea_dialog" with-backdrop style="z-index: 9007199254740991;">
+        <div style="padding: 30px; width: 540px;">
+          <paper-dropdown-menu label="Site which this nudge will be used on" style="width: 540px">
+              <paper-listbox selected="0" class="dropdown-content" style="width: 540px">
+                <template is="dom-repeat" items="[[sites_list]]" as="site">
+                    <paper-item>{{site}}</paper-item>
+                </template>
+              </paper-listbox>
+          </paper-dropdown-menu>
+          <paper-textarea id="nudge_typing_area" autofocus required maxlength="80" placeholder="Describe your idea for a nudge" on-value-changed="user_typing_idea"></paper-textarea>
+          <div style="width: 100%">
+            <paper-button class="submitideabutton" on-click="submit_idea">Submit your idea</paper-button>
+          </div>
+        </div>
+    </paper-dialog>
 
     <div class="panel-container">
         <div class="question-vote">

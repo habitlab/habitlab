@@ -23,6 +23,9 @@ swal = require 'sweetalert2'
   set_intervention_disabled
 } = require 'libs_backend/intervention_utils'
 
+{
+  unique
+} = require 'libs_common/array_utils'
 
 {
   enable_interventions_because_goal_was_enabled
@@ -67,6 +70,9 @@ polymer_ext {
     index_background_color: {
       type: String
       value: 'rgb(81, 167,249)'
+    }
+    sites_list: {
+      type: Array
     }
   }
   # functions
@@ -155,6 +161,26 @@ polymer_ext {
     setTimeout ->
       self.animation_inprogress = false
     , 1000
+  user_typing_idea: (evt) ->
+    this.idea_text = this.$$('#nudge_typing_area').value
+  add_own_idea: ->
+    this.$$('#add_idea_dialog').open()
+    if this.idea_text? and this.idea_text.length > 0
+      this.$$('#nudge_typing_area').value = this.idea_text
+  submit_idea: ->
+    idea_text = this.$$('#nudge_typing_area').value
+    this.$$('#nudge_typing_area').value = ''
+    this.idea_text = ''
+    console.log(idea_text)
+    this.$$('#add_idea_dialog').close()
+  ready: ->>
+    all_goals = await get_goals()
+    goal_info_list = Object.values all_goals
+    sites_list = goal_info_list.map (.sitename_printable)
+    sites_list = sites_list.filter -> it?
+    sites_list = unique sites_list
+    sites_list.sort()
+    this.sites_list = sites_list
 }, [
   {
     source: require 'libs_common/localization_utils'

@@ -185,7 +185,6 @@ export start_syncing_all_db_collections = ->>
     'seconds_on_domain_per_session'
     'custom_measurements_each_day'
     'visits_to_domain_per_day'
-    'history_vars'
   ]
   sync_nums = {}
   for collection_name in infrequently_synced

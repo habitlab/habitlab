@@ -6,6 +6,10 @@ require_component('interstitial-screen')
 const $ = require('jquery')
 
 const {
+  get_is_new_session
+} = require('libs_common/intervention_info')
+
+const {
   append_to_body_shadow,
   once_body_available
 } = require('libs_frontend/frontend_libs')
@@ -39,12 +43,16 @@ var countdown = setInterval(function() {
     interst_screen[0].showButton();
 
   }
-}, 50)
+}, 50);
 
-once_body_available().then(function() {
+(async function() {
+  const is_new_session = get_is_new_session();
+  if (!is_new_session) {
+    return;
+  }
+  await once_body_available();
   shadow_div = append_to_body_shadow(interst_screen);
-})
-
+})();
 
 window.on_intervention_disabled = () => {
   $(shadow_div).remove();

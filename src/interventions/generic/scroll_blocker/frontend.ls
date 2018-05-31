@@ -9,9 +9,12 @@ set_default_parameters({
 {
   append_to_body_shadow
   once_body_available
+  sleep
 } = require 'libs_frontend/frontend_libs'
 
-$ = require 'jquery'
+$= require 'jquery'
+attr= require 'jquery'
+
 
 require_component('fb-scroll-block-display')
 
@@ -19,15 +22,24 @@ require_component('fb-scroll-block-display')
 window.scrolling_allowed = true
 nscrolls = 0
 NSCROLLS_THRESHOLD = parameters.scrollevents
+keyIsDown = 0;
 
 window.onwheel = (evt) ->
   if !window.intervention_disabled
+    if !window.scrolling_allowed
+      scroll_block_display.attr('clr', 'rgb(255, 102, 102);')
     nscrolls := nscrolls+1
     if nscrolls % NSCROLLS_THRESHOLD == 0
       disable_scrolling_and_show_scroll_block()
     return window.scrolling_allowed
 
 
+changeColorBack = (e) -> 
+  if (!window.scrolling_allowed)
+      scroll_block_display.attr('clr', 'rgb(149, 203, 238);')   
+    
+
+window.setInterval(changeColorBack, 750)
 
 enable_scrolling_and_hide_scroll_block = ->
   window.scrolling_allowed = true
@@ -45,10 +57,12 @@ disable_scrolling_and_show_scroll_block = ->
 
 block_arrows = (e) ->
   if (e.keyCode == 38) or (e.keyCode == 40)
+    scroll_block_display.attr('clr', 'rgb(255, 102, 102);')
+    keyIsDown = 1;
     console.log 'key blocked'
     return false
 
-scroll_block_display = $('<fb-scroll-block-display>')
+scroll_block_display = $('<fb-scroll-block-display clr="#95CBEE">')
 shadow_div = null
 
 enable_scrolling_and_hide_scroll_block()

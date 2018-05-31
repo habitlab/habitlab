@@ -23,6 +23,7 @@ const {
   get_intervention
 } = require('libs_common/intervention_info');
 
+
 polymer_ext({
   is: 'fb-scroll-block-display',
   doc: 'Block facebook scrolling',
@@ -38,6 +39,10 @@ polymer_ext({
     },
     visits: {
       type: Number,
+    }, 
+    clr: {
+      type: String, 
+      value: "#95CBEE;",
     }
   },
   listeners: {
@@ -60,10 +65,13 @@ polymer_ext({
       get_seconds_spent_on_current_domain_today().then(function(seconds_spent) {
         self.minutes = Math.floor(seconds_spent/60);
         self.seconds = seconds_spent % 60;
+
       });
     };
     update_time();
     setInterval(update_time, 1000);
   },
+
+
 });
 

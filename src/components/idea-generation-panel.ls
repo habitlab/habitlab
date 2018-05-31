@@ -378,7 +378,7 @@ polymer_ext {
       logging_server_url = 'https://habitlab.herokuapp.com/'
     for site in enabled_spend_less_site
       site_upper = site.charAt(0).toUpperCase() + site.slice(1)
-      request = logging_server_url + 'getideas' + '?website=' + site_upper;
+      request = logging_server_url + 'getideas_vote' + '?website=' + site_upper;
       console.log("Fetching from the server of shared interventions from: " + site_upper);
       data = await fetch(request).then (.json!)
       idea_temp = []

@@ -153,7 +153,10 @@ polymer_ext {
       slide.show()
       slide.css('top', '0px')
       this.animation_inprogress = false
-    log_pagenav({tab: 'onboarding', prev_slide_idx: prev_slide_idx, slide_idx: this.slide_idx})
+    slidename = ''
+    if slide?[0]?getAttribute('slide-name')?
+      slidename = slide[0].getAttribute('slide-name')
+    log_pagenav({tab: 'onboarding', prev_slide_idx: prev_slide_idx, slide_idx: this.slide_idx, slidename: slidename})
   onboarding_complete: ->
     this.$$('#dialog').open()
     if not localStorage.getItem('allow_logging')? # user is accepting the default
@@ -181,7 +184,8 @@ polymer_ext {
     if localStorage.difficulty_selector_forcedchoice == 'true'
       if localStorage.difficulty_selector_disabled != 'true'
         if this.slide_idx == 1 and not localStorage.user_chosen_difficulty?
-          swal('Please choose a difficulty level')
+          if evt?
+            swal('Please choose a difficulty level')
           return
     last_slide_idx = this.SM('.slide').length - 1
     if this.slide_idx == last_slide_idx
@@ -214,7 +218,7 @@ polymer_ext {
     return chrome.extension.getURL('icons/' + img_path)
   keydown_listener: (evt) ->
     if evt.which == 39 or evt.which == 40 or evt.which == 13
-      this.next_slide()
+      this.next_slide(true)
     else if evt.which == 37 or evt.which == 38
       this.prev_slide()
   mousewheel_listener: (evt) ->

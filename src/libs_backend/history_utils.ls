@@ -270,15 +270,36 @@ export get_baseline_session_time_on_domain = (domain) ->>
     return baseline_time_on_domains[domain]
   return 0
 
+export get_domain_visit_info = (pages_list) ->
+  output = {} # domain -> [num unique urls, num unique urls typed, total visits, total typed, first visit time, last visit time]
+  for x in pages_list
+    url = x.url
+    if not (url.startsWith('https://') or url.startsWith('http://'))
+      continue
+    domain = url_to_domain(url)
+    curitem = output[domain]
+    if not curitem?
+      output[domain] = [0, 0, 0, 0, x.lastVisitTime, x.lastVisitTime]
+      curitem = output[domain]
+    else
+      curitem[4] = Math.min(curitem[4], x.lastVisitTime)
+      curitem[5] = Math.max(curitem[5], x.lastVisitTime)
+    curitem[0] += 1
+    curitem[2] += x.visitCount
+    if x.typedCount > 0
+      curitem[1] += 1
+      curitem[3] += x.typedCount
+  return output
+
 export ensure_history_utils_data_cached = ->>
   date_now = Date.now()
-  if localStorage.cached_pages_list != 'true'
-    pages_list_compressed = await getvar_history 'pages_list_compressed'
-    if not pages_list_compressed?
+  if localStorage.cached_domain_visit_info != 'true'
+    domain_visit_info_compressed = await getvar_history 'domain_visit_info'
+    if not domain_visit_info_compressed?
       pages_list = await new Promise -> chrome.history.search {text: '', startTime: 0, endTime: date_now, maxResults: 2**31-1}, it
-      pages_list_compressed = lzstring.compressToEncodedURIComponent JSON.stringify pages_list
-      await setvar_history 'pages_list_compressed', pages_list_compressed
-    localStorage.cached_pages_list = 'true'
+      domain_visit_info_compressed = lzstring.compressToEncodedURIComponent(JSON.stringify(get_domain_visit_info(pages_list)))
+      await setvar_history 'domain_visit_info', domain_visit_info_compressed
+    localStorage.cached_domain_visit_info = 'true'
   if localStorage.cached_domain_baseline_times != 'true'
     baseline_session_time_on_domains = await getdict 'baseline_session_time_on_domains'
     baseline_time_on_domains = await getdict 'baseline_time_on_domains'

@@ -153,7 +153,10 @@ polymer_ext {
       slide.show()
       slide.css('top', '0px')
       this.animation_inprogress = false
-    log_pagenav({tab: 'onboarding', prev_slide_idx: prev_slide_idx, slide_idx: this.slide_idx})
+    slidename = ''
+    if slide?[0]?getAttribute('slide-name')?
+      slidename = slide[0].getAttribute('slide-name')
+    log_pagenav({tab: 'onboarding', prev_slide_idx: prev_slide_idx, slide_idx: this.slide_idx, slidename: slidename})
   onboarding_complete: ->
     this.$$('#dialog').open()
     if not localStorage.getItem('allow_logging')? # user is accepting the default

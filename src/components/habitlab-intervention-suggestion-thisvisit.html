@@ -3,7 +3,7 @@
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
-<dom-module id="habitlab-intervention-suggestion">
+<dom-module id="habitlab-intervention-suggestion-thisvisit">
   <template>
     <style>
       :host {
@@ -55,7 +55,7 @@
       }
     </style>
     <paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right">
-      <div>Here's a nudge you haven't yet tried. Would you like to try it on a future visit?</div>
+      <div>Here's a nudge you haven't yet tried. Would you like to try it this visit?</div>
       <div style="margin-top: 10px; background-color: #383838; border-radius: 5px; padding: 5px; color: white">
         <div style="display: flex; align-items: center; align-content:center;justify-content: center;">
           <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
@@ -70,10 +70,10 @@
       </div>
       <div style="padding-top: 10px"></div>
       <div>
-        <paper-button id="ok_button" class="yellow-button" on-click="ok_button_clicked">Yes, enable this nudge</paper-button>
+        <paper-button id="ok_button" class="yellow-button" on-click="ok_button_clicked">Yes, try this nudge right now</paper-button>
         <paper-button id="no_button" class="yellow-button" on-click="no_button_clicked">No, I don't want this nudge</paper-button>
       </div>
     </paper-toast>
   </template>
-  <script src="habitlab-intervention-suggestion.js"></script>
+  <script src="habitlab-intervention-suggestion-thisvisit.js"></script>
 </dom-module>

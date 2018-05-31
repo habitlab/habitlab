@@ -6,6 +6,10 @@ const {
 } = require('libs_common/time_spent_utils')
 
 const {
+  get_is_new_session
+} = require('libs_common/intervention_info')
+
+const {
   append_to_body_shadow,
   once_body_available
 } = require('libs_frontend/frontend_libs')
@@ -21,6 +25,10 @@ const {
 var shadow_div;
 
 (async function() {
+  const is_new_session = get_is_new_session();
+  if (!is_new_session) {
+    return;
+  }
   var domain = url_to_domain(window.location.href)
   var numMins = await get_minutes_spent_on_domain_today(domain)
   var numVisits = await get_visits_to_domain_today(domain)
@@ -37,10 +45,9 @@ var shadow_div;
   interst_screen.attr('visits', numVisits);
   interst_screen.attr('seconds', 0);
 
-  once_body_available().then(function() {
-    shadow_div = append_to_body_shadow(interst_screen);
-  })
-})()
+  await once_body_available();
+  shadow_div = append_to_body_shadow(interst_screen);
+})();
 
 window.on_intervention_disabled = () => {
   $(shadow_div).remove();

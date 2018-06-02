@@ -106,7 +106,7 @@ polymer_ext {
       # inject site ideas mappings to db
       # 1. get the server loc
       ### TODO: remove for testing
-      localStorage.setItem('local_logging_server', true) 
+      #localStorage.setItem('local_logging_server', true) 
       ###
       if localStorage.getItem('local_logging_server') == 'true'
         console.log "posting to local server"
@@ -155,7 +155,7 @@ polymer_ext {
       upvote_idea = self.current_left_idea_id
     console.log "Upvoting website: " + self.current_site + " for idea: " + upvote_idea + "."
     ### TODO: remove for testing
-    localStorage.setItem('local_logging_server', true) 
+    #localStorage.setItem('local_logging_server', true) 
     ###
     if localStorage.getItem('local_logging_server') == 'true'
       console.log "posting to local server"
@@ -324,7 +324,7 @@ polymer_ext {
       enabled_spend_less_site.push(item.split("/")[0])
     console.log(enabled_spend_less_site)
     ### TODO: remove for testing
-    localStorage.setItem('local_logging_server', true) 
+    #localStorage.setItem('local_logging_server', true) 
     ###
     if localStorage.getItem('local_logging_server') == 'true'
       console.log "posting to local server"

@@ -11,10 +11,33 @@ Polymer({
       type: String,
       value: (intervention != null) ? intervention.description : '',
     },
+    intervention_difficulty: {
+      type: String,
+      value: (intervention != null) ? intervention.difficulty : 'medium'
+    },
+    intervention_difficulty_printable: {
+      type: String,
+      computed: 'compute_intervention_difficulty_printable(intervention_difficulty)',
+    },
     sitename: {
       type: String,
       value: (intervention != null) ? intervention.sitename_printable : '',
     },
+  },
+  compute_intervention_difficulty_printable: function(intervention_difficulty) {
+    let output = 'Medium'
+    switch (intervention_difficulty) {
+      case 'easy':
+        output = 'Easy';
+        break
+      case 'medium':
+        output = 'Medium';
+        break
+      case 'hard':
+        output = 'Hard';
+        break
+    }
+    return output
   },
   ready: function() {
     /*

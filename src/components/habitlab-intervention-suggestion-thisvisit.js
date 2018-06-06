@@ -23,6 +23,15 @@ Polymer({
       type: String,
       value: (intervention != null) ? intervention.sitename_printable : '',
     },
+    isdemo: {
+      type: Boolean,
+      observer: 'isdemo_changed',
+    },
+  },
+  isdemo_changed: function() {
+    if (this.isdemo) {
+      this.show();
+    }
   },
   compute_intervention_difficulty_printable: function(intervention_difficulty) {
     let output = 'Medium'
@@ -48,14 +57,18 @@ Polymer({
       self.$.sample_toast.hide()
     })
     */
-   this.$$('#sample_toast').show()
     //show_toast('foobar')
+  },
+  show: function() {
+    this.$$('#sample_toast').show()
   },
   ok_button_clicked: function() {
     this.$$('#sample_toast').hide()
+    this.fire('intervention_suggestion_accepted', {})
   },
   no_button_clicked: function() {
     this.$$('#sample_toast').hide()
+    this.fire('intervention_suggestion_rejected', {})
   },
   get_intervention_icon_url: function() {
     let url_path

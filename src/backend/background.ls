@@ -392,6 +392,8 @@ do !->>
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode) ->>
     {content_script_options, name} = intervention_info
 
+    is_suggestion_mode = localStorage.test_suggestion_mode == 'true'
+
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
 
@@ -603,6 +605,7 @@ do !->>
       const session_id = #{session_id};
       const is_new_session = #{is_new_session};
       const is_preview_mode = #{is_preview_mode};
+      const is_suggestion_mode = #{is_suggestion_mode};
       const dlog = function(...args) { console.log(...args); };
       const set_default_parameters = function(parameter_object) {
         for (let parameter_name of Object.keys(parameter_object)) {
@@ -653,6 +656,7 @@ do !->>
         intervention_info_setter_lib.set_session_id(session_id);
         intervention_info_setter_lib.set_is_new_session(is_new_session);
         intervention_info_setter_lib.set_is_preview_mode(is_preview_mode);
+        intervention_info_setter_lib.set_is_suggestion_mode(is_suggestion_mode);
         log_utils.log_impression();
         #{open_debug_page_if_needed}
       });

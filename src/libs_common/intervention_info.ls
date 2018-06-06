@@ -61,6 +61,18 @@ export get_is_preview_mode = ->
     return is_preview_mode
   return false
 
+is_suggestion_mode_cached = null
+
+export set_is_suggestion_mode = (new_is_suggestion_mode) ->
+  is_suggestion_mode_cached := new_is_suggestion_mode
+
+export get_is_suggestion_mode = ->
+  if is_suggestion_mode_cached?
+    return is_suggestion_mode_cached
+  if is_suggestion_mode?
+    return is_suggestion_mode
+  return false
+
 session_id_cached = null
 
 export set_session_id = (new_session_id) ->

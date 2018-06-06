@@ -51,6 +51,36 @@ function preprocess_javascript(source) {
   }
   `)
   prefix_lines.push('require("enable-webcomponents-in-content-scripts");')
+  prefix_lines.push('async function habitlab_intervention_main_function(){')
+  suffix_lines.push(`
+	  }
+
+	(async function() {
+
+		let {get_is_suggestion_mode} = require('libs_common/intervention_info')
+
+		if (get_is_suggestion_mode()) {
+		  require('components/habitlab-intervention-suggestion-thisvisit.deps');
+
+		  let {
+		    append_to_body_shadow,
+		    once_body_available
+		  } = require('libs_frontend/frontend_libs');
+		  
+		  await once_body_available();
+		  let intervention_suggestion_display = document.createElement('habitlab-intervention-suggestion-thisvisit');
+		  let shadow_intervention_suggestion_display = append_to_body_shadow(intervention_suggestion_display);
+		  intervention_suggestion_display.show();
+		  
+		  intervention_suggestion_display.addEventListener('intervention_suggestion_accepted', function() {
+		    habitlab_intervention_main_function();
+		  });
+		} else {
+		  habitlab_intervention_main_function();
+		}
+
+	})();
+  `)
   all_requires = list_requires(source, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
   function is_component_require(x) {
     if (x.endsWith('.deps') || x.endsWith('.deps.js')) {

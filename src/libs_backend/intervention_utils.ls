@@ -235,7 +235,7 @@ export is_intervention_enabled = (intervention_name) ->>
 
 export list_interventions_and_num_log_items = ->>
   all_interventions = await get_interventions()
-  intervention_log_db = await getInterventionLogDb()
+  intervention_log_db = await log_utils.getInterventionLogDb()
   intervention_names = []
   intervention_count_promises = []
   for intervention_name,intervention_info of all_interventions
@@ -268,7 +268,7 @@ export list_possible_intervention_suggestions = ->>
   # unenabled interventions, not seen, for goals that are enabled
   interventions_not_seen = await list_interventions_that_have_not_been_seen()
   enabled_interventions = await get_enabled_interventions()
-  enabled_goals = await get_enabled_goals()
+  enabled_goals = await goal_utils.get_enabled_goals()
   all_interventions = await get_interventions()
   output = []
   for intervention_name in interventions_not_seen

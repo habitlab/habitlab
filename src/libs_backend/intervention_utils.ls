@@ -233,6 +233,59 @@ export is_intervention_enabled = (intervention_name) ->>
     return false
   return true
 
+export list_interventions_and_num_log_items = ->>
+  all_interventions = await get_interventions()
+  intervention_log_db = await getInterventionLogDb()
+  intervention_names = []
+  intervention_count_promises = []
+  for intervention_name,intervention_info of all_interventions
+    intervention_names.push(intervention_name)
+    intervention_log_collection = intervention_log_db[intervention_name]
+    if not intervention_log_collection?
+      intervention_count_promises.push(Promise.resolve(0))
+    else
+      intervention_count_promises.push(intervention_log_collection.count())
+  intervention_counts = await Promise.all(intervention_count_promises)
+  return prelude.zip(intervention_names, intervention_counts)
+
+export list_interventions_that_have_been_seen = ->>
+  interventions_and_num_log_items = await list_interventions_and_num_log_items()
+  output = []
+  for [intervention_name, num_log_items] in interventions_and_num_log_items
+    if num_log_items > 0
+      output.push(intervention_name)
+  return output
+
+export list_interventions_that_have_not_been_seen = ->>
+  interventions_and_num_log_items = await list_interventions_and_num_log_items()
+  output = []
+  for [intervention_name, num_log_items] in interventions_and_num_log_items
+    if num_log_items == 0
+      output.push(intervention_name)
+  return output
+
+export list_possible_intervention_suggestions = ->>
+  # unenabled interventions, not seen, for goals that are enabled
+  interventions_not_seen = await list_interventions_that_have_not_been_seen()
+  enabled_interventions = await get_enabled_interventions()
+  enabled_goals = await get_enabled_goals()
+  all_interventions = await get_interventions()
+  output = []
+  for intervention_name in interventions_not_seen
+    if enabled_interventions[intervention_name] != true
+      continue
+    intervention_info = all_interventions[intervention_name]
+    goal_for_intervention = intervention_info?goals?[0]
+    if not goal_for_intervention?
+      continue
+    if enabled_goals[goal_for_intervention] != true
+      continue
+    output.push(intervention_name)
+  return output
+
+# export get_suggested_intervention_if_needed_for_url = (url) ->>
+  
+
 export is_video_domain = (domain) ->
   video_domains = {
     'www.iqiyi.com': true

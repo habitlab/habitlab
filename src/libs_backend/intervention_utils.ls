@@ -266,6 +266,7 @@ export list_interventions_that_have_not_been_seen = ->>
 
 export list_possible_intervention_suggestions = ->>
   # unenabled interventions, not seen, for goals that are enabled
+  # returns a list of suggestions
   interventions_not_seen = await list_interventions_that_have_not_been_seen()
   enabled_interventions = await get_enabled_interventions()
   enabled_goals = await goal_utils.get_enabled_goals()
@@ -283,8 +284,10 @@ export list_possible_intervention_suggestions = ->>
     output.push(intervention_name)
   return output
 
-# export get_suggested_intervention_if_needed_for_url = (url) ->>
-  
+export get_suggested_intervention_if_needed_for_url = (url) ->>
+  # todo implement
+  # returns null if no intervention should be suggested
+  return null
 
 export is_video_domain = (domain) ->
   video_domains = {

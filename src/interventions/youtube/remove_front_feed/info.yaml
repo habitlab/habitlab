@@ -1,0 +1,8 @@
+description: Hide the front page feed of recommendations
+displayname: Feed Diet
+difficulty: medium
+matches:
+  - www.youtube.com
+content_scripts:
+  - path: frontend.js
+    run_at: document_start

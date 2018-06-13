@@ -2,6 +2,11 @@ require! {
   moment
 }
 
+{
+  gexport
+  gexport_module
+} = require 'libs_common/gexport'
+
 export get_days_since_epoch = ->
   start_of_epoch = moment().year(2016).month(0).date(1).hours(0).minutes(0).seconds(0).milliseconds(0)
   return moment().diff(start_of_epoch, 'days')
@@ -52,3 +57,5 @@ export printable_time_spent_long = (seconds) ->
   else if remaining_seconds >= 0
     output.push (remaining_seconds + ' seconds')
   return output.join(' ')
+
+gexport_module 'time_utils', -> eval(it)

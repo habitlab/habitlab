@@ -15,6 +15,8 @@ prelude = require 'prelude-ls'
   setkey_dictdict
   getkey_dictdict
   getdict_for_key_dictdict
+  getvar
+  setvar
 } = require 'libs_backend/db_utils'
 
 {
@@ -29,6 +31,10 @@ prelude = require 'prelude-ls'
   gexport
   gexport_module
 } = require 'libs_common/gexport'
+
+{
+  get_days_since_epoch
+} = require 'libs_common/time_utils'
 
 {
   as_dictset
@@ -284,10 +290,38 @@ export list_possible_intervention_suggestions = ->>
     output.push(intervention_name)
   return output
 
+export list_possible_intervention_suggestions_for_url = (url) ->>
+  available_interventions = await list_available_interventions_for_location(url)
+  available_interventions_set = new Set(available_interventions)
+  possible_intervention_suggestions = await list_possible_intervention_suggestions()
+  return possible_intervention_suggestions.filter ->
+    available_interventions_set.has(it)
+
 export get_suggested_intervention_if_needed_for_url = (url) ->>
+  if localStorage.suggest_interventions != 'true'
+    return null
+  cur_epoch = get_days_since_epoch()
+  intervention_suggestion_frequency_days_options = [1,3,5,7]
+  intervention_suggestion_frequency_days = intervention_suggestion_frequency_days_options[Math.floor(Math.random() * intervention_suggestion_frequency_days_options.length)]
+  last_epoch_intervention_suggested = await getvar('last_epoch_intervention_suggested')
+  if not (last_epoch_intervention_suggested? and isFinite(last_epoch_intervention_suggested))
+    last_epoch_intervention_suggested = 0
+  last_epoch_new_intervention_seen = await getvar('last_epoch_new_intervention_seen')
+  if not (last_epoch_new_intervention_seen? and isFinite(last_epoch_new_intervention_seen))
+    last_epoch_new_intervention_seen = 0
+  last_epoch_new_intervention_suggested_or_seen = Math.max(last_epoch_intervention_suggested, last_epoch_new_intervention_seen)
+  if (Math.abs(cur_epoch - last_epoch_intervention_suggested) < intervention_suggestion_frequency_days)
+    # already suggested an intervention recently
+    return null
+  possible_suggestions = await list_possible_intervention_suggestions_for_url(url)
+  if possible_suggestions.length == 0
+    return null
+  random_intervention = possible_suggestions[Math.floor(Math.random() * possible_suggestions.length)]
+  return random_intervention
   # todo implement
   # returns null if no intervention should be suggested
-  return null
+  #available_interventions = await list_available_interventions_for_location(url)
+  #possible_intervention_suggestions = await list_possible_intervention_suggestions()
 
 export is_video_domain = (domain) ->
   video_domains = {

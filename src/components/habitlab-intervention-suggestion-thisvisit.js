@@ -1,4 +1,9 @@
-const intervention = require('libs_common/intervention_info').get_intervention()
+const intervention = require('libs_common/intervention_info').get_intervention();
+
+const {
+  log_intervention_suggestion_action,
+  log_impression,
+} = require('libs_frontend/intervention_log_utils');
 
 Polymer({
   is: 'habitlab-intervention-suggestion-thisvisit',
@@ -62,13 +67,17 @@ Polymer({
   show: function() {
     this.$$('#sample_toast').show()
   },
-  ok_button_clicked: function() {
+  ok_button_clicked: async function() {
     this.$$('#sample_toast').hide()
     this.fire('intervention_suggestion_accepted', {})
+    await log_intervention_suggestion_action({'action': 'accepted', 'accepted': 'true'})
+    await log_impression({'suggestion': 'true'})
+    // TODO enable the intervention for future use
   },
-  no_button_clicked: function() {
-    this.$$('#sample_toast').hide()
+  no_button_clicked: async function() {
+    this.$$('#sample_toast').hide();
     this.fire('intervention_suggestion_rejected', {})
+    await log_intervention_suggestion_action({'action': 'rejected', 'accepted': 'false'})
   },
   get_intervention_icon_url: function() {
     let url_path

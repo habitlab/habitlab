@@ -26,6 +26,10 @@ export log_intervention_suggested = (data) ->>
   data = make_basic_data data
   await log_utils.log_intervention_suggested_internal get_intervention().name, data
 
+export log_intervention_suggestion_action = (data) ->>
+  data = make_basic_data data
+  await log_utils.log_intervention_suggestion_action_internal get_intervention().name, data
+
 export log_disable = (data) ->>
   data = make_basic_data data
   await log_utils.log_disable_internal get_intervention().name, data

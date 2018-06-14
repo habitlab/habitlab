@@ -7,6 +7,7 @@ lib_name_to_func_names_and_signatures =
     add_log_interventions: ['data']
     log_impression_internal: ['name', 'data']
     log_intervention_suggested_internal: ['name', 'data']
+    log_intervention_suggestion_action_internal: ['name', 'data']
     log_disable_internal: ['name', 'data']
     log_action_internal: ['name', 'data']
     log_upvote_internal: ['name', 'data']

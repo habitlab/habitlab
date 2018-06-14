@@ -80,6 +80,10 @@ function addBeginDialog(message) {
   $contentContainer.append($logo);
 
   const $input = $('<paper-input label="objective"></paper-input>')
+  $input.on('keydown', function(evt) {
+    console.log("Key pressed!")
+    evt.stopPropagation();
+  })
 
   //const $okButton = $('<button>');
   const $okButton = $('<paper-button>');

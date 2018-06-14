@@ -244,7 +244,10 @@ export list_interventions_and_num_log_items = ->>
   intervention_log_db = await log_utils.getInterventionLogDb()
   intervention_names = []
   intervention_count_promises = []
+  intervention_to_generic_name = {}
   for intervention_name,intervention_info of all_interventions
+    if intervention_info.generic_intervention?
+      intervention_to_generic_name[intervention_name] = intervention_info.generic_intervention
     intervention_names.push(intervention_name)
     intervention_log_collection = intervention_log_db[intervention_name]
     if not intervention_log_collection?
@@ -252,7 +255,26 @@ export list_interventions_and_num_log_items = ->>
     else
       intervention_count_promises.push(intervention_log_collection.count())
   intervention_counts = await Promise.all(intervention_count_promises)
-  return prelude.zip(intervention_names, intervention_counts)
+  intervention_name_to_count = {}
+  intervention_names_and_counts = prelude.zip(intervention_names, intervention_counts)
+  for [intervention_name, intervention_count] in intervention_names_and_counts
+    generic_name = intervention_to_generic_name[intervention_name]
+    if generic_name?
+      if intervention_name_to_count[generic_name]?
+        intervention_name_to_count[generic_name] += intervention_count
+      else
+        intervention_name_to_count[generic_name] = intervention_count
+  for [intervention_name, intervention_count] in intervention_names_and_counts
+    generic_name = intervention_to_generic_name[intervention_name]
+    if generic_name?
+      generic_count = intervention_name_to_count[generic_name]
+      intervention_name_to_count[intervention_name] = generic_count
+    else
+      intervention_name_to_count[intervention_name] = intervention_count
+  output = []
+  for [intervention_name, intervention_count] in intervention_names_and_counts
+    output.push [intervention_name, intervention_name_to_count[intervention_name]]
+  return output
 
 export list_interventions_that_have_been_seen = ->>
   interventions_and_num_log_items = await list_interventions_and_num_log_items()

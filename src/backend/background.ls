@@ -659,9 +659,10 @@ do !->>
         intervention_info_setter_lib.set_is_new_session(is_new_session);
         intervention_info_setter_lib.set_is_preview_mode(is_preview_mode);
         intervention_info_setter_lib.set_is_suggestion_mode(is_suggestion_mode);
-        log_utils.log_impression();
         if (is_suggestion_mode) {
           log_utils.log_intervention_suggested();
+        } else {
+          log_utils.log_impression();
         }
         #{open_debug_page_if_needed}
       });

@@ -116,6 +116,8 @@ export check_if_intervention_has_been_seen_and_record_as_seen_if_not = (interven
   return false
 
 export check_if_intervention_has_been_seen = (intervention_name) ->>
+  if seen_interventions_cache[intervention_name]
+    return true
   intervention_log_db = await getInterventionLogDb()
   intervention_log_collection = intervention_log_db[intervention_name]
   if not intervention_log_collection?

@@ -323,8 +323,15 @@ export get_suggested_intervention_if_needed_for_url = (url) ->>
   if localStorage.suggest_interventions != 'true'
     return null
   cur_epoch = get_days_since_epoch()
-  intervention_suggestion_frequency_days_options = [1,3,5,7]
-  intervention_suggestion_frequency_days = intervention_suggestion_frequency_days_options[Math.floor(Math.random() * intervention_suggestion_frequency_days_options.length)]
+  intervention_suggestion_frequency_days = switch localStorage.intervention_suggestion_algorithm
+  | '1day' => 1
+  | '3day' => 3
+  | '5day' => 5
+  | '7day' => 7
+  | 'always' => 0
+  | _ => 0
+  #intervention_suggestion_frequency_days_options = [1,3,5,7]
+  #intervention_suggestion_frequency_days = intervention_suggestion_frequency_days_options[Math.floor(Math.random() * intervention_suggestion_frequency_days_options.length)]
   last_epoch_intervention_suggested = await getvar('last_epoch_intervention_suggested')
   if not (last_epoch_intervention_suggested? and isFinite(last_epoch_intervention_suggested))
     last_epoch_intervention_suggested = 0

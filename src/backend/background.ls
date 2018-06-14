@@ -184,6 +184,17 @@ do !->>
     setvar_experiment('difficulty_selection_screen', chosen_algorithm)
     return
 
+  set_intervention_suggestion_algorithm = ->
+    algorithms = ['off', 'always', '1day', '3day', '5day', '7day']
+    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('suggest_interventions', false)
+    else
+      localStorage.setItem('suggest_interventions', true)
+    localStorage.setItem('intervention_suggestion_algorithm', chosen_algorithm)
+    setvar_experiment('intervention_suggestion_algorithm', chosen_algorithm)
+    return
+
   set_daily_goal_reminders_abtest = ->
     algorithms = ['on', 'off']
     chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
@@ -227,6 +238,7 @@ do !->>
     set_intervention_selection_algorithm_firstinstall()
     set_intervention_firstimpression_notice_firstinstall()
     set_difficulty_selection_screen()
+    set_intervention_suggestion_algorithm()
     set_daily_goal_reminders_abtest()
     set_reward_gifs_abtest()
     user_id = await get_user_id()

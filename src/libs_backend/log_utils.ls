@@ -90,6 +90,39 @@ export getInterventionLogDb = ->>
   intervention_logdb_cache := output
   return intervention_logdb_cache
 
+seen_interventions_cache = localStorage.getItem('seen_interventions_cache')
+if seen_interventions_cache?
+  seen_interventions_cache = JSON.parse(seen_interventions_cache)
+else
+  seen_interventions_cache = {}
+
+export check_if_intervention_has_been_seen_and_record_as_seen_if_not = (intervention_name) ->>
+  if seen_interventions_cache[intervention_name]
+    return true
+  seen_interventions_cache[intervention_name] = true
+  intervention_log_db = await getInterventionLogDb()
+  intervention_log_collection = intervention_log_db[intervention_name]
+  intervention_seen = false
+  if intervention_log_collection?
+    num_items_in_log = await intervention_log_collection.count()
+    if num_items_in_log > 0
+      intervention_seen = true
+  if intervention_seen
+    return true
+  seen_interventions_cache[intervention_name] = true
+  localStorage.setItem('seen_interventions_cache', JSON.stringify(seen_interventions_cache))
+  cur_epoch = get_days_since_epoch()
+  await db_utils.setvar('last_epoch_new_intervention_seen', cur_epoch)
+  return false
+
+export check_if_intervention_has_been_seen = (intervention_name) ->>
+  intervention_log_db = await getInterventionLogDb()
+  intervention_log_collection = intervention_log_db[intervention_name]
+  if not intervention_log_collection?
+    return false
+  num_items_in_log = await intervention_log_collection.count()
+  return num_items_in_log > 0
+
 getInterventionLogDb_uncached = ->>
   await delete_db_if_outdated_interventionlogdb()
   log_names = await get_log_names()
@@ -288,6 +321,7 @@ export log_impression_internal = (name, data) ->>
     data = {}
   data.type = 'impression'
   data.intervention = name
+  await check_if_intervention_has_been_seen_and_record_as_seen_if_not(name)
   await addtolog name, data
 
 export log_disable_internal = (name, data) ->>
@@ -343,5 +377,6 @@ export log_feedback_internal = (name, data) ->>
 
 intervention_utils = require 'libs_backend/intervention_utils'
 goal_utils = require 'libs_backend/goal_utils'
+db_utils = require 'libs_backend/db_utils'
 
 gexport_module 'log_utils_backend', -> eval(it)

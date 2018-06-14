@@ -156,26 +156,29 @@ do !->>
           last_visit_timestamp = search_result.lastVisitTime
     return last_visit_timestamp
 
-  set_intervention_selection_algorithm_firstinstall = ->
-    # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
-    # algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
-    algorithms = ['one_random_intervention_per_enabled_goal']
-    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+  set_intervention_selection_algorithm_firstinstall = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
+      # algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
+      algorithms = ['one_random_intervention_per_enabled_goal']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
     setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
     return
 
-  set_intervention_firstimpression_notice_firstinstall = ->
-    #algorithms = ['none', 'info', 'power']
-    algorithms = ['power']
-    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+  set_intervention_firstimpression_notice_firstinstall = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      #algorithms = ['none', 'info', 'power']
+      algorithms = ['power']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
     setvar_experiment('intervention_firstimpression_notice', chosen_algorithm)
     return
   
-  set_difficulty_selection_screen = ->
-    algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
-    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+  set_difficulty_selection_screen = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'none'
       localStorage.setItem('difficulty_selector_disabled', true)
     if chosen_algorithm == 'nodefault_forcedchoice'
@@ -184,9 +187,10 @@ do !->>
     setvar_experiment('difficulty_selection_screen', chosen_algorithm)
     return
 
-  set_intervention_suggestion_algorithm = ->
-    algorithms = ['off', 'always', '1day', '3day', '5day', '7day']
-    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+  set_intervention_suggestion_algorithm = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['off', 'always', '1day', '3day', '5day', '7day']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('suggest_interventions', false)
     else
@@ -195,18 +199,20 @@ do !->>
     setvar_experiment('intervention_suggestion_algorithm', chosen_algorithm)
     return
 
-  set_daily_goal_reminders_abtest = ->
-    algorithms = ['on', 'off']
-    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+  set_daily_goal_reminders_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('allow_daily_goal_notifications', false)
       send_feature_disabled({page: 'background', feature: 'allow_daily_goal_notifications', manual: false, reason: 'daily_goal_reminders_abtest'})
     setvar_experiment('daily_goal_reminders_abtest', chosen_algorithm)
     return
     
-  set_reward_gifs_abtest = ->
-    algorithms = ['on', 'off']
-    chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+  set_reward_gifs_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('allow_reward_gifs', false)
       send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})

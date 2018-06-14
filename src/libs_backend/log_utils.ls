@@ -326,6 +326,20 @@ export log_impression_internal = (name, data) ->>
   await check_if_intervention_has_been_seen_and_record_as_seen_if_not(name)
   await addtolog name, data
 
+export log_intervention_suggested_internal = (name, data) ->>
+  # name = intervention name
+  # ex: facebook/notification_hijacker
+  if data?
+    data = {} <<< data
+  else
+    data = {}
+  data.type = 'suggestion'
+  data.intervention = name
+  await check_if_intervention_has_been_seen_and_record_as_seen_if_not(name)
+  cur_epoch = get_days_since_epoch()
+  await db_utils.setvar('last_epoch_intervention_suggested', cur_epoch)
+  await addtolog name, data
+
 export log_disable_internal = (name, data) ->>
   # name = intervention name
   # ex: facebook/notification_hijacker

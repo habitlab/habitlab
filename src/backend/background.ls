@@ -77,6 +77,7 @@ do !->>
     get_intervention_parameters
     is_it_outside_work_hours
     set_default_generic_interventions_enabled
+    get_suggested_intervention_if_needed_for_url
   } = require 'libs_backend/intervention_utils'
 
   {
@@ -389,10 +390,11 @@ do !->>
 
   cached_systemjs_code = null
 
-  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode) ->>
+  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
     {content_script_options, name} = intervention_info
 
-    is_suggestion_mode = localStorage.test_suggestion_mode == 'true'
+    if localStorage.test_suggestion_mode == 'true'
+      is_suggestion_mode = true
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
@@ -658,6 +660,9 @@ do !->>
         intervention_info_setter_lib.set_is_preview_mode(is_preview_mode);
         intervention_info_setter_lib.set_is_suggestion_mode(is_suggestion_mode);
         log_utils.log_impression();
+        if (is_suggestion_mode) {
+          log_utils.log_intervention_suggested();
+        }
         #{open_debug_page_if_needed}
       });
     }
@@ -666,7 +671,7 @@ do !->>
       await new Promise -> chrome.tabs.executeScript tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, it
     return
 
-  load_intervention_list = (intervention_list, tabId, is_new_session, session_id, is_preview_mode) ->>
+  load_intervention_list = (intervention_list, tabId, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
     if intervention_list.length == 0
       return
 
@@ -688,7 +693,7 @@ do !->>
 
     # load content scripts
     for intervention_info in intervention_info_list
-      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode
+      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode
     return
 
   #load_intervention = (intervention_name, tabId) ->>
@@ -721,6 +726,7 @@ do !->>
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
 
+    is_suggestion_mode = false
     domain = url_to_domain(location)
     override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
     has_enabled_spend_less_time_goal = await site_has_enabled_spend_less_time_goal(domain)
@@ -789,6 +795,11 @@ do !->>
         else
           possible_interventions = await list_enabled_nonconflicting_interventions_for_location(location)
         intervention = possible_interventions[0]
+        intervention_suggestion = await get_suggested_intervention_if_needed_for_url(location)
+        if intervention_suggestion?
+          intervention = intervention_suggestion
+          is_suggestion_mode = true
+
         #domain_to_session_id_to_intervention[domain][session_id] = intervention
         if intervention?
           await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
@@ -816,7 +827,7 @@ do !->>
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
     dlog 'interventions to load is:'
     dlog interventions_to_load
-    await load_intervention_list interventions_to_load, tabId, is_new_session, session_id, override_enabled_interventions?
+    await load_intervention_list interventions_to_load, tabId, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
     if interventions_to_load.length > 0
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
     else

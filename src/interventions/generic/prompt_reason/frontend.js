@@ -117,7 +117,7 @@ function addBeginDialog(message) {
 
 
 
-//Adds a dialog that prompts user for the amount of time they would like to be on Facebook
+// Keeping this in case we add a time question to it as well (for a "I'll do this for this long" type thing)
 function addBeginDialogWithSlider(message) {
   if (window.intervention_disabled) {
     return
@@ -293,7 +293,7 @@ function displayPurpose(purpose) {
 
 
 function main() {
-  addBeginDialog("I am visiting " + intervention.sitename_printable + " in order to...");
+  addBeginDialog("I am visiting " + intervention.sitename_printable + " in order to");
   // addBeginDialog("How many minutes would you like to spend on " + intervention.sitename_printable + " this visit?");
 }
 

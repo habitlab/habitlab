@@ -5,6 +5,10 @@ const {
   log_impression,
 } = require('libs_frontend/intervention_log_utils');
 
+const {
+  set_intervention_enabled
+} = require('libs_frontend/intervention_utils');
+
 Polymer({
   is: 'habitlab-intervention-suggestion-thisvisit',
   properties: {
@@ -72,7 +76,7 @@ Polymer({
     this.fire('intervention_suggestion_accepted', {})
     await log_intervention_suggestion_action({'action': 'accepted', 'accepted': 'true'})
     await log_impression({'suggestion': 'true'})
-    // TODO enable the intervention for future use
+    await set_intervention_enabled(intervention.name)
   },
   no_button_clicked: async function() {
     this.$$('#sample_toast').hide();

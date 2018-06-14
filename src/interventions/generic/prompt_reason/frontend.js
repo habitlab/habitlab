@@ -81,7 +81,6 @@ function addBeginDialog(message) {
 
   const $input = $('<paper-input label="objective"></paper-input>')
   $input.on('keydown', function(evt) {
-    console.log("Key pressed!")
     evt.stopPropagation();
   })
 

@@ -18,6 +18,7 @@ interventions:
   - generic/make_user_wait
   - generic/close_tab_timer
   - generic/block_after_interval_per_visit
+  - generic/prompt_reason
 default_interventions:
   - facebook/feed_injection_timer
   - facebook/remove_news_feed

@@ -156,7 +156,7 @@ do !->>
           last_visit_timestamp = search_result.lastVisitTime
     return last_visit_timestamp
 
-  set_intervention_selection_algorithm_firstinstall = (chosen_algorithm) ->
+  export set_intervention_selection_algorithm_firstinstall = (chosen_algorithm) ->
     if not chosen_algorithm?
       # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
       # algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
@@ -166,7 +166,7 @@ do !->>
     setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
     return
 
-  set_intervention_firstimpression_notice_firstinstall = (chosen_algorithm) ->
+  export set_intervention_firstimpression_notice_firstinstall = (chosen_algorithm) ->
     if not chosen_algorithm?
       #algorithms = ['none', 'info', 'power']
       algorithms = ['power']
@@ -175,7 +175,7 @@ do !->>
     setvar_experiment('intervention_firstimpression_notice', chosen_algorithm)
     return
   
-  set_difficulty_selection_screen = (chosen_algorithm) ->
+  export set_difficulty_selection_screen = (chosen_algorithm) ->
     if not chosen_algorithm?
       algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
@@ -187,7 +187,7 @@ do !->>
     setvar_experiment('difficulty_selection_screen', chosen_algorithm)
     return
 
-  set_intervention_suggestion_algorithm = (chosen_algorithm) ->
+  export set_intervention_suggestion_algorithm = (chosen_algorithm) ->
     if not chosen_algorithm?
       algorithms = ['off', 'always', '1day', '3day', '5day', '7day']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
@@ -199,7 +199,7 @@ do !->>
     setvar_experiment('intervention_suggestion_algorithm', chosen_algorithm)
     return
 
-  set_daily_goal_reminders_abtest = (chosen_algorithm) ->
+  export set_daily_goal_reminders_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
       algorithms = ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
@@ -209,7 +209,7 @@ do !->>
     setvar_experiment('daily_goal_reminders_abtest', chosen_algorithm)
     return
     
-  set_reward_gifs_abtest = (chosen_algorithm) ->
+  export set_reward_gifs_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
       algorithms = ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
@@ -776,6 +776,10 @@ do !->>
       else
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
       intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
+      intervention_suggestion = await get_suggested_intervention_if_needed_for_url(location)
+      if intervention_suggestion?
+        intervention = intervention_suggestion
+        is_suggestion_mode = true
       if intervention?
         await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
       else

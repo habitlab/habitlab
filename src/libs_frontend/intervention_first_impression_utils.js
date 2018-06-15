@@ -1,6 +1,14 @@
 async function show_first_impression_notice_if_needed () {
-  let {get_intervention, get_is_preview_mode} = require('libs_common/intervention_info')
+  const {
+    get_intervention,
+    get_is_preview_mode,
+    get_is_suggestion_mode
+  } = require('libs_common/intervention_info')
   const intervention = get_intervention()
+  const is_suggestion_mode = get_is_suggestion_mode()
+  if (is_suggestion_mode) {
+    return
+  }
   const is_preview_mode = get_is_preview_mode()
   if (is_preview_mode) {
     return

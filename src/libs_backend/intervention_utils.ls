@@ -296,13 +296,13 @@ export list_possible_intervention_suggestions = ->>
   # unenabled interventions, not seen, for goals that are enabled
   # returns a list of suggestions
   interventions_not_seen = await list_interventions_that_have_not_been_seen()
-  enabled_interventions = await get_enabled_interventions()
+  #enabled_interventions = await get_enabled_interventions()
   enabled_goals = await goal_utils.get_enabled_goals()
   all_interventions = await get_interventions()
   output = []
   for intervention_name in interventions_not_seen
-    if enabled_interventions[intervention_name] != true
-      continue
+    #if enabled_interventions[intervention_name] != true
+    #  continue
     intervention_info = all_interventions[intervention_name]
     goal_for_intervention = intervention_info?goals?[0]
     if not goal_for_intervention?

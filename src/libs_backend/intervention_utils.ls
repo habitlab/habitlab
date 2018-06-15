@@ -259,21 +259,23 @@ export list_interventions_and_num_log_items = ->>
   intervention_names_and_counts = prelude.zip(intervention_names, intervention_counts)
   for [intervention_name, intervention_count] in intervention_names_and_counts
     generic_name = intervention_to_generic_name[intervention_name]
-    if generic_name?
-      if intervention_name_to_count[generic_name]?
-        intervention_name_to_count[generic_name] += intervention_count
-      else
-        intervention_name_to_count[generic_name] = intervention_count
+    if not generic_name?
+      continue
+    if not intervention_name_to_count[generic_name]?
+      intervention_name_to_count[generic_name] = intervention_count
+    else
+      intervention_name_to_count[generic_name] += intervention_count
+  intervention_name_to_count_all = {}
   for [intervention_name, intervention_count] in intervention_names_and_counts
     generic_name = intervention_to_generic_name[intervention_name]
-    if generic_name?
-      generic_count = intervention_name_to_count[generic_name]
-      intervention_name_to_count[intervention_name] = generic_count
+    if not generic_name?
+      intervention_name_to_count_all[intervention_name] = intervention_count
     else
-      intervention_name_to_count[intervention_name] = intervention_count
+      generic_count = intervention_name_to_count[generic_name]
+      intervention_name_to_count_all[intervention_name] = generic_count      
   output = []
   for [intervention_name, intervention_count] in intervention_names_and_counts
-    output.push [intervention_name, intervention_name_to_count[intervention_name]]
+    output.push [intervention_name, intervention_name_to_count_all[intervention_name]]
   return output
 
 export list_interventions_that_have_been_seen = ->>
@@ -312,6 +314,16 @@ export list_possible_intervention_suggestions = ->>
     output.push(intervention_name)
   return output
 
+export get_enabled_interventions_for_url_that_have_not_been_seen = (url) ->>
+  output = []
+  enabled_interventions = await get_enabled_interventions()
+  possible_suggestions = await list_possible_intervention_suggestions_for_url(url)
+  for intervention_name in possible_suggestions
+    if enabled_interventions[intervention_name]
+      # have not yet tried all existing enabled interventions
+      output.push intervention_name
+  return output
+
 export list_possible_intervention_suggestions_for_url = (url) ->>
   available_interventions = await list_available_interventions_for_location(url)
   available_interventions_set = new Set(available_interventions)
@@ -345,6 +357,11 @@ export get_suggested_intervention_if_needed_for_url = (url) ->>
   possible_suggestions = await list_possible_intervention_suggestions_for_url(url)
   if possible_suggestions.length == 0
     return null
+  enabled_interventions = await get_enabled_interventions()
+  for intervention_name in possible_suggestions
+    if enabled_interventions[intervention_name]
+      # have not yet tried all existing enabled interventions
+      return null
   random_intervention = possible_suggestions[Math.floor(Math.random() * possible_suggestions.length)]
   return random_intervention
   # todo implement

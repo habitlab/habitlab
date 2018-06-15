@@ -73,6 +73,18 @@ export get_is_suggestion_mode = ->
     return is_suggestion_mode
   return false
 
+is_previously_seen_cached = null
+
+export set_is_previously_seen = (new_is_previously_seen) ->
+  is_previously_seen_cached := new_is_previously_seen
+
+export get_is_previously_seen = ->
+  if is_previously_seen_cached?
+    return is_previously_seen_cached
+  if is_previously_seen?
+    return is_previously_seen
+  return false
+
 session_id_cached = null
 
 export set_session_id = (new_session_id) ->

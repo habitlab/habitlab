@@ -2,7 +2,8 @@ async function show_first_impression_notice_if_needed () {
   const {
     get_intervention,
     get_is_preview_mode,
-    get_is_suggestion_mode
+    get_is_suggestion_mode,
+    get_is_previously_seen,
   } = require('libs_common/intervention_info')
   const intervention = get_intervention()
   const is_suggestion_mode = get_is_suggestion_mode()
@@ -11,6 +12,10 @@ async function show_first_impression_notice_if_needed () {
   }
   const is_preview_mode = get_is_preview_mode()
   if (is_preview_mode) {
+    return
+  }
+  const is_previously_seen = get_is_previously_seen()
+  if (is_previously_seen) {
     return
   }
   let intervention_name = intervention.name

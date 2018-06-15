@@ -4,6 +4,8 @@
   get_session_id
   get_is_new_session
   get_is_preview_mode
+  get_is_suggestion_mode
+  get_is_previously_seen
 } = require 'libs_common/intervention_info'
 
 log_utils = require 'libs_frontend/log_utils'
@@ -16,6 +18,8 @@ make_basic_data = (data) ->
   data.session_id = get_session_id()
   data.is_new_session = get_is_new_session()
   data.is_preview_mode = get_is_preview_mode()
+  data.is_suggestion_mode = get_is_suggestion_mode()
+  data.is_previously_seen = get_is_previously_seen()
   return data
 
 export log_impression = (data) ->>

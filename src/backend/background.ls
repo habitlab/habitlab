@@ -441,6 +441,13 @@ do !->>
       ...content_script_codes_promises
     ]
 
+    is_previously_seen = false
+    seen_interventions_cache = localStorage.getItem('seen_interventions_cache')
+    if seen_interventions_cache?
+      seen_interventions_cache = JSON.parse(seen_interventions_cache)
+      if seen_interventions_cache[name]
+        is_previously_seen = true
+
     if not cached_systemjs_code?
       cached_systemjs_code := systemjs_content_script_code
     intervention_info_copy = JSON.parse JSON.stringify intervention_info
@@ -576,6 +583,8 @@ do !->>
           intervention_info_setter_lib.set_tab_id(#{tabId});
           intervention_info_setter_lib.set_session_id(#{session_id});
           intervention_info_setter_lib.set_is_new_session(#{is_new_session});
+          intervention_info_setter_lib.set_is_suggestion_mode(#{is_suggestion_mode});
+          intervention_info_setter_lib.set_is_previously_seen(#{is_previously_seen});
           SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_debugging_code + content_script_code)))}');
         });
         """
@@ -626,6 +635,7 @@ do !->>
       const is_new_session = #{is_new_session};
       const is_preview_mode = #{is_preview_mode};
       const is_suggestion_mode = #{is_suggestion_mode};
+      const is_previously_seen = #{is_previously_seen};
       const dlog = function(...args) { console.log(...args); };
       const set_default_parameters = function(parameter_object) {
         for (let parameter_name of Object.keys(parameter_object)) {

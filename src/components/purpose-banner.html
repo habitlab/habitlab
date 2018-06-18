@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="purpose-banner">
+  <template>
+    <style>
+       :host {
+        height: 20px;
+        font-size: 20px;
+        line-height: 20px;
+        width: 100%;
+        text-align: center;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        pointer-events: none;
+        z-index: 9007199254740991;
+      }
+
+      #purposebannercontainer {
+        height: 20px;
+        font-size: 20px;
+        line-height: 20px;
+        width: 100%;
+        text-align: center;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        pointer-events: none;
+        z-index: 9007199254740991;
+      }
+
+      #purposebannermessagediv {
+        background-color: black;
+        color: white;
+        display: inline-block;
+        cursor: default;
+        opacity: 1;
+        padding: 5px;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    </style>
+    <div id="purposebannercontainer">
+      <div id="purposebannermessagediv">Objective: {{purpose}}
+        <!--  <br> (Once complete, I'll get off {{sitename_printable}}) -->
+      </div>
+    </div>
+  </template>
+  <script src="purpose-banner.js"></script>
+</dom-module>

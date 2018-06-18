@@ -1,0 +1,8 @@
+description: Asks what you aim to do this visit and puts a reminder up
+displayname: Mission Objective
+difficulty: hard
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+categories:
+  - interstitial

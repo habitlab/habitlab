@@ -12,6 +12,7 @@ interventions:
   - generic/make_user_wait
   - generic/close_tab_timer
   - generic/block_after_interval_per_visit
+  - generic/prompt_reason
 default_interventions:
   - generic/toast_notifications
   - generic/show_timer_banner

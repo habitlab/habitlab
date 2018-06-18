@@ -11,6 +11,7 @@ interventions:
   - generic/make_user_wait
   - generic/close_tab_timer
   - generic/block_after_interval_per_visit
+  - generic/prompt_reason
   #- gmail/no_new_emails
   #- gmail/time_writing_email
 default_interventions:

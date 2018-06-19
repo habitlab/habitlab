@@ -226,9 +226,9 @@
     <paper-dialog id="add_idea_dialog" with-backdrop style="z-index: 9007199254740991;">
         <div style="padding: 30px; width: 540px;">
           <paper-dropdown-menu label="Site which this nudge will be used on" style="width: 540px">
-              <paper-listbox selected="0" class="dropdown-content" style="width: 540px">
+              <paper-listbox selected="0" class="dropdown-content" id="idea_site_selector" style="width: 540px">
                 <template is="dom-repeat" items="[[sites_list]]" as="site">
-                    <paper-item>{{site}}</paper-item>
+                    <paper-item >{{site}}</paper-item>
                 </template>
               </paper-listbox>
           </paper-dropdown-menu>

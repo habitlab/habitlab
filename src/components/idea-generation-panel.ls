@@ -106,7 +106,7 @@ polymer_ext {
       # inject site ideas mappings to db
       # 1. get the server loc
       ### TODO: remove for testing
-      #localStorage.setItem('local_logging_server', true) 
+      # localStorage.setItem('local_logging_server', true) 
       ###
       if localStorage.getItem('local_logging_server') == 'true'
         console.log "posting to local server"
@@ -155,7 +155,7 @@ polymer_ext {
       upvote_idea = self.current_left_idea_id
     console.log "Upvoting website: " + self.current_site + " for idea: " + upvote_idea + "."
     ### TODO: remove for testing
-    #localStorage.setItem('local_logging_server', true) 
+    # localStorage.setItem('local_logging_server', true) 
     ###
     if localStorage.getItem('local_logging_server') == 'true'
       console.log "posting to local server"
@@ -270,11 +270,55 @@ polymer_ext {
     this.$$('#add_idea_dialog').open()
     if this.idea_text? and this.idea_text.length > 0
       this.$$('#nudge_typing_area').value = this.idea_text
-  submit_idea: ->
+  submit_idea: ->>
+    idea_site = this.$$('#idea_site_selector').selected
+    idea_site = this.sites_list[idea_site]
+    # console.log this.sites_list[idea_site]
     idea_text = this.$$('#nudge_typing_area').value
     this.$$('#nudge_typing_area').value = ''
     this.idea_text = ''
-    console.log(idea_text)
+    # console.log(idea_text)
+    
+    # submit to server as candidate for idea
+    # it will need admin approval for showing up on the list
+    # to avoid flush of bad ideas, etc..
+    ### TODO: remove for testing
+    # localStorage.setItem('local_logging_server', true) 
+    ###
+    if localStorage.getItem('local_logging_server') == 'true'
+      console.log "posting to local server"
+      logging_server_url = 'http://localhost:5000/'
+    else
+      console.log "posting to cloud server"
+      logging_server_url = 'https://habitlab.herokuapp.com/'
+    # console.log("posting this site: " + site + " with this idea: " + idea)
+    site_idea_pair = { site : idea_site, idea : idea_text}
+    console.log(site_idea_pair)
+    data = {} <<< site_idea_pair
+    console.log data
+    # 4. Send it
+    upload_successful = true
+    try
+      console.log 'Posting data to: ' + logging_server_url + 'postidea_candidate'
+      response = await post_json(logging_server_url + 'postidea_candidate', data)
+      if response.success
+          console.log 'success'
+          # return {status: 'success'}
+      else
+        upload_successful = false
+        dlog 'response from server was not successful in postidea_candidate'
+        dlog response
+        dlog data
+        console.log 'response from server was not successful in postidea_candidate'
+        # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
+    catch
+      upload_successful = false
+      dlog 'error thrown in postidea_candidate'
+      dlog e
+      dlog data
+      console.log 'error thrown in postidea_candidate'
+      # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
+
     this.$$('#add_idea_dialog').close()
   display_idea: ->>
     self = this
@@ -324,7 +368,7 @@ polymer_ext {
       enabled_spend_less_site.push(item.split("/")[0])
     console.log(enabled_spend_less_site)
     ### TODO: remove for testing
-    #localStorage.setItem('local_logging_server', true) 
+    # localStorage.setItem('local_logging_server', true) 
     ###
     if localStorage.getItem('local_logging_server') == 'true'
       console.log "posting to local server"

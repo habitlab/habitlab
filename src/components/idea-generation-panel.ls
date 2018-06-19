@@ -100,51 +100,53 @@ polymer_ext {
   }
   # TODO: remove this helper functions
   inject_site_ideas_mapping: (site_list) ->>
+    if not site_list?
+      site_list = this.site_list
     # localStorage.setItem('testing_firsttime', true)
-    if localStorage.getItem('testing_firsttime') == 'true'
-      localStorage.setItem('testing_firsttime', false)
-      # inject site ideas mappings to db
-      # 1. get the server loc
-      ### TODO: remove for testing
-      # localStorage.setItem('local_logging_server', true) 
-      ###
-      if localStorage.getItem('local_logging_server') == 'true'
-        console.log "posting to local server"
-        logging_server_url = 'http://localhost:5000/'
-      else
-        console.log "posting to cloud server"
-        logging_server_url = 'https://habitlab.herokuapp.com/'
-      # 2. Concat data to transmit
-      ### TODO: currently mannuly get from reddit
-      ideas_placeholder = ['placeholder_1', 'placeholder_2', 'placeholder_3', 'placeholder_4', 'placeholder_5', 'placeholder_6']
-      for site in site_list
-        for idea in ideas_placeholder
-          # console.log("posting this site: " + site + " with this idea: " + idea)
-          site_idea_pair = { site : site, idea : idea , vote : 0}
-          console.log(site_idea_pair)
-          data = {} <<< site_idea_pair
-          # 4. Send it
-          upload_successful = true
-          try
-            console.log 'Posting data to: ' + logging_server_url + 'postideas'
-            response = await post_json(logging_server_url + 'postideas', data)
-            if response.success
-                console.log 'success'
-                # return {status: 'success'}
-            else
-              upload_successful = false
-              dlog 'response from server was not successful in postideas'
-              dlog response
-              dlog data
-              console.log 'response from server was not successful in postideas'
-              # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
-          catch
+    #if localStorage.getItem('testing_firsttime') == 'true'
+    #  localStorage.setItem('testing_firsttime', false)
+    # inject site ideas mappings to db
+    # 1. get the server loc
+    ### TODO: remove for testing
+    # localStorage.setItem('local_logging_server', true) 
+    ###
+    if localStorage.getItem('local_logging_server') == 'true'
+      console.log "posting to local server"
+      logging_server_url = 'http://localhost:5000/'
+    else
+      console.log "posting to cloud server"
+      logging_server_url = 'https://habitlab.herokuapp.com/'
+    # 2. Concat data to transmit
+    ### TODO: currently mannuly get from reddit
+    ideas_placeholder = ['placeholder_1', 'placeholder_2', 'placeholder_3', 'placeholder_4', 'placeholder_5', 'placeholder_6']
+    for site in site_list
+      for idea in ideas_placeholder
+        # console.log("posting this site: " + site + " with this idea: " + idea)
+        site_idea_pair = { site : site, idea : idea , vote : 0}
+        console.log(site_idea_pair)
+        data = {} <<< site_idea_pair
+        # 4. Send it
+        upload_successful = true
+        try
+          console.log 'Posting data to: ' + logging_server_url + 'postideas'
+          response = await post_json(logging_server_url + 'postideas', data)
+          if response.success
+              console.log 'success'
+              # return {status: 'success'}
+          else
             upload_successful = false
-            dlog 'error thrown in postideas'
-            dlog e
+            dlog 'response from server was not successful in postideas'
+            dlog response
             dlog data
-            console.log 'error thrown in postideas'
+            console.log 'response from server was not successful in postideas'
             # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
+        catch
+          upload_successful = false
+          dlog 'error thrown in postideas'
+          dlog e
+          dlog data
+          console.log 'error thrown in postideas'
+          # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
   upvote_idea: (option) ->>
     self = this
     # call upvote for the current website with current option

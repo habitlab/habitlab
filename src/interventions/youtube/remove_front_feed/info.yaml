@@ -6,3 +6,6 @@ matches:
 content_scripts:
   - path: frontend.js
     run_at: document_start
+styles:
+  - "#home-page-skeleton { display: none !important; }"
+  - "ytd-browse[role='main'][page-subtype='home'] #contents { visibility: hidden !important; }"

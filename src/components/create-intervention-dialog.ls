@@ -77,7 +77,7 @@ polymer_ext {
     this.$$('#create_new_intervention_dialog').open()
   validate_intervention_name: ->>
     self=this
-    proposed_intervention_name=this.$.intervention_name.value
+    proposed_intervention_name=this.$.intervention_name_new.value
     proposed_intervention_name = proposed_intervention_name.split(' ').join('_')
     #if proposed_intervention_name.indexOf(' ') != -1
     #  self.$$('#hint').innerHTML = 'Cannot contain spaces'
@@ -140,6 +140,11 @@ polymer_ext {
       intervention:self.$.intervention_selector.selectedItem.intervention_name,
       intervention_description:self.$.intervention_description.value,
       intervention_upload_name:self.$.intervention_name.value,
+    })
+    this.$$('#upload_existing_custom_intervention').close()
+  create_you_own_intervention_clicked: ->>
+    self = this
+    self.fire('create_you_own_intervention',{
     })
     this.$$('#upload_existing_custom_intervention').close()
   remove_intervention_clicked: ->>

@@ -12,6 +12,9 @@ const {
   post_json
 } = require('libs_backend/ajax_utils')
 
+const {
+  log_pageclick
+} = require('libs_backend/log_utils');
 
 const {
   get_interventions,
@@ -128,11 +131,33 @@ polymer_ext({
               displaynames.push(intervention_name_to_info_map[intervention_name].displayname)
             }
           }
+          // if there is nothing to upload, we pop up the creation window
+          if (li.length == 0) {
+            // create_intervention_dialog = document.createElement('create-intervention-dialog')
+            // document.body.appendChild(create_intervention_dialog)
+            // var all_goals=await get_goals()
+            // var goals_list= await list_all_goals()
+            // var li_temp = []
+            // for (let x of goals_list) {
+            //   li_temp.push(all_goals[x])
+            // }
+            // create_intervention_dialog.goal_info_list = li_temp
+            // create_intervention_dialog.open_create_new_intervention_dialog()
+            // open the edit page
+            chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});
+            log_pageclick({from: 'site-view', tab: this.site, to: 'intervention-editor'});   
+            return
+          }
           //console.log(li)
           create_intervention_dialog = document.createElement('create-intervention-dialog')
           document.body.appendChild(create_intervention_dialog)
           create_intervention_dialog.intervention_list=li
           create_intervention_dialog.upload_existing_custom_intervention_dialog()
+          create_intervention_dialog.addEventListener('create_you_own_intervention', async function(event) {
+            chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});
+            log_pageclick({from: 'site-view', tab: this.site, to: 'intervention-editor'});   
+            return
+          })
           create_intervention_dialog.addEventListener('upload_intervention', async function(event) {
             //console.log(event);
             intervention_2_upload = event.detail.intervention;
@@ -245,7 +270,7 @@ polymer_ext({
         //card.addEventListener('click', this.onClick);
         //Makes sure to insert cards at the front so add button is last
         containerElement.insertAdjacentElement('afterend', card);
-      },
+      }
     }, {
       source: require('libs_frontend/polymer_methods'),
       methods: [

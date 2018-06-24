@@ -22,6 +22,9 @@
         box-shadow: 2px 2px 2px #888888;
         font-weight: bold;
       }
+      #create_you_own_button {
+        color: red;
+      }
       .ratings {
         font-style: bold;
         font-size: 20px;
@@ -129,7 +132,7 @@ body {
       <template is="dom-if" if="{{is_edit_mode}}">
         <paper-input id="preview_url" label="Preview url" value="{{preview_url}}"></paper-input>
       </template>
-      <paper-input id="intervention_name" label="Intervention Name" value="{{proposed_intervention_name}}"></paper-input>
+      <paper-input id="intervention_name_new" label="Intervention Name" value="{{proposed_intervention_name}}"></paper-input>
       <em id="hint" style="color:red;"></em><br>
       <paper-button id="dialog_button" on-click="validate_intervention_name" class="button">Add</paper-button>
     </paper-dialog>
@@ -156,6 +159,7 @@ body {
         <paper-input id="intervention_name" label="Intervention Name" value=""></paper-input>
         <paper-input id="intervention_description" label="Intervention Description" value="Describe your intervention here"></paper-input>
         <paper-button id="upload_button" on-click="upload_intervention_clicked" class="button">Upload</paper-button>
+        <paper-button id="create_you_own_button" on-click="create_you_own_intervention_clicked" class="button">Create One</paper-button>
       </paper-dialog>
 
       <paper-dialog id="remove_upload_custom_intervention" with-backdrop style="z-index: 9007;">

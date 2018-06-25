@@ -1,10 +1,23 @@
 {
+  gexport
+  gexport_module
+} = require 'libs_common/gexport'
+
+{
   as_array
 } = require 'libs_common/collection_utils'
 
 {
   bandits
 } = require 'percipio'
+
+{
+  get_seconds_spent_on_domain_for_each_intervention
+} = require 'libs_backend/intervention_utils'
+
+{
+  get_goals
+} = require 'libs_backend/goal_utils'
 
 /*
 to_training_data_for_single_intervention = (list_of_seconds_spent) ->
@@ -26,8 +39,8 @@ to_training_data_for_all_interventions = (intervention_to_seconds_spent) ->
 */
 
 export train_multi_armed_bandit_for_data = (data_list, intervention_names) ->
-  # intervention_names: list of the intervention namnes
-  # data_list: a list of {intervention, day, reward}
+  # intervention_names: list of the intervention names
+  # data_list: a list of {intervention, reward}
   # returns: an instance of percipio.bandits.Predictor
   bandit_arms = []
   bandit_arms_dict = {}
@@ -50,32 +63,22 @@ export get_next_intervention_to_test_for_data = (data_list, intervention_names) 
   arm = predictor.predict()
   return arm.reward
 
+/**
+ * Trains predictor for choosing which intervention to use given a goal using Thompson Sampling.
+ * Each sample is the session length using an intervention.
+ */
 export train_multi_armed_bandit_for_goal = (goal_name, intervention_names) ->>
   if not intervention_names?
     intervention_names = await intervention_utils.list_available_interventions_for_goal(goal_name)
-  days_before_today_to_intervention = {}
-  days_before_today_to_reward = {}
-  days_to_exclude = {}
-  for intervention_name in intervention_names
-    days_deployed = await intervention_manager.get_days_before_today_on_which_intervention_was_deployed intervention_name
-    progress_list = []
-    for day in days_deployed
-      if days_to_exclude[day]
-        continue
-      if days_before_today_to_intervention[day]?
-        days_to_exclude[day] = true
-        continue
-      days_before_today_to_intervention[day] = intervention_name
-      progress_info = await goal_progress.get_progress_on_goal_days_before_today goal_name, day
-      days_before_today_to_reward[day] = progress_info.reward
-  allowed_days = [parseInt(day) for day in Object.keys(days_before_today_to_intervention) when not days_to_exclude[day]]
-  allowed_days.sort()
-  allowed_days.reverse()
+  # We need the goal info to get the domain name.
+  goals = await get_goals()
+  interventions = await get_seconds_spent_on_domain_for_each_intervention(goals[goal_name].domain)
   data_list = []
-  for day in allowed_days # oldest [highest # days since today] to newest
-    intervention = days_before_today_to_intervention[day]
-    reward = days_before_today_to_reward[day]
-    data_list.push {intervention, reward}
+  # console.log(interventions)
+  for intervention_name of interventions
+    # We need to ensure reward is between 0 and 1 - let's use tanh. To allow for sufficient granularity, 
+    # let's divide the number of seconds by the number of seconds in an hour.    
+    data_list.push({intervention: intervention_name, reward: 1 - Math.tanh(interventions[intervention_name]/3600)})
   return train_multi_armed_bandit_for_data(data_list, intervention_names)
 
 export get_next_intervention_to_test_for_goal = (goal_name, intervention_names) ->>
@@ -92,3 +95,5 @@ export __get__ = (name) ->
 
 export __set__ = (name, val) ->
   eval(name + ' = val')
+
+gexport_module 'multi_armed_bandit_thompson', -> eval(it)

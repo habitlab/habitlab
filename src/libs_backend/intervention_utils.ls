@@ -1182,6 +1182,27 @@ export get_seconds_spent_on_domain_for_each_intervention = (domain) ->>
     output[intervention] = median session_lengths
   return output
 
+export get_seconds_spent_on_domain_for_each_session_per_intervention = (domain) ->>
+  session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
+  intervention_to_session_lengths = {}
+  for session_id,interventions of session_id_to_interventions
+    interventions = JSON.parse interventions
+    if interventions.length != 1
+      # cannot currently deal with multiple simultaneous interventions
+      continue
+    intervention = interventions[0]
+    seconds_spent = session_id_to_seconds[session_id]
+    if not seconds_spent?
+      continue
+    if not intervention_to_session_lengths[intervention]?
+      intervention_to_session_lengths[intervention] = []
+    intervention_to_session_lengths[intervention].push seconds_spent
+  output = {}
+  for intervention,session_lengths of intervention_to_session_lengths
+    output[intervention] = session_lengths
+  return output
+
 export get_seconds_saved_per_session_for_each_intervention_for_goal = (goal_name) ->>
   goal_info = await goal_utils.get_goal_info(goal_name)
   output = {}

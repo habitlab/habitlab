@@ -57,24 +57,28 @@ function preprocess_javascript(source) {
 
 	(async function() {
 
-		let {get_is_suggestion_mode} = require('libs_common/intervention_info')
+		let {get_is_suggestion_mode, get_is_new_session} = require('libs_common/intervention_info')
 
 		if (get_is_suggestion_mode()) {
-		  require('components/habitlab-intervention-suggestion-thisvisit.deps');
-
-		  let {
-		    append_to_body_shadow,
-		    once_body_available
-		  } = require('libs_frontend/frontend_libs');
-		  
-		  await once_body_available();
-		  let intervention_suggestion_display = document.createElement('habitlab-intervention-suggestion-thisvisit');
-		  let shadow_intervention_suggestion_display = append_to_body_shadow(intervention_suggestion_display);
-		  intervention_suggestion_display.show();
-		  
-		  intervention_suggestion_display.addEventListener('intervention_suggestion_accepted', function() {
-		    habitlab_intervention_main_function();
-		  });
+			if (get_is_new_session()) {
+				require('components/habitlab-intervention-suggestion-thisvisit.deps');
+        
+			  let {
+			    append_to_body_shadow,
+			    once_body_available
+			  } = require('libs_frontend/frontend_libs');
+			  
+			  await once_body_available();
+			  let intervention_suggestion_display = document.createElement('habitlab-intervention-suggestion-thisvisit');
+			  let shadow_intervention_suggestion_display = append_to_body_shadow(intervention_suggestion_display);
+			  intervention_suggestion_display.show();
+			  
+			  intervention_suggestion_display.addEventListener('intervention_suggestion_accepted', function() {
+			    habitlab_intervention_main_function();
+			  });
+			} else {
+				
+			}
 		} else {
 		  habitlab_intervention_main_function();
 		}

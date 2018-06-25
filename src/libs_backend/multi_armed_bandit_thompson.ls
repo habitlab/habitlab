@@ -72,7 +72,7 @@ export train_multi_armed_bandit_for_goal = (goal_name, intervention_names) ->>
     intervention_names = await intervention_utils.list_available_interventions_for_goal(goal_name)
   # We need the goal info to get the domain name.
   goals = await get_goals()
-  interventions = await get_seconds_spent_on_domain_for_each_intervention(goals[goal_name].domain)
+  interventions = await get_seconds_spent_on_domain_for_each_session_per_intervention(goals[goal_name].domain)
   data_list = []
   # console.log(interventions)
   for intervention_name of interventions

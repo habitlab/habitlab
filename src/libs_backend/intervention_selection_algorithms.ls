@@ -488,7 +488,7 @@ export thompsonsampling = (enabled_goals) ->>
   enabled_interventions = await get_enabled_interventions()
   goals = await get_goals()
   output = []
-  for goal_name,goal_enabled of enabled_goals
+  for goal_name of enabled_goals
     goal_info = goals[goal_name]
     if (not goal_info?) or (not goal_info.interventions?)
       continue
@@ -503,6 +503,8 @@ export thompsonsampling = (enabled_goals) ->>
     selected_intervention = predictor.predict()
     output.push selected_intervention.reward
   return output
+    
+
 
 selection_algorithms_for_visit = {
   'thompsonsampling': thompsonsampling

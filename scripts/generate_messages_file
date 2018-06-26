@@ -1,0 +1,100 @@
+#!/usr/bin/env node
+
+// for all html and js files in src/**
+// parse it, look for the msg() things and generate a messages.json file
+
+const glob = require('glob');
+let htmlfiles = glob.sync('src/**/*.html')
+let jsfiles = glob.sync('src_gen/**/*.js')
+
+let fs = require('fs')
+let list_requires_multi = require('list_requires_multi')
+
+let messages = { }
+
+for (let file of jsfiles) {
+  if (file.startsWith('src_gen/bower_components/')) {
+    continue
+  }
+  if (file.startsWith('src_gen/jspm_packages/')) {
+    continue
+  }
+  stats = fs.statSync(file)
+  if(stats.isFile()) {
+    console.log(file)
+    contents = fs.readFileSync(file, 'utf-8')
+    //console.log(list_requires_multi(contents, ['msg']))
+    argument = list_requires_multi(contents, ['msg'])   
+    console.log(argument)
+    //console.log(to_ascii_localization_keyname(argument))
+
+    
+    for (let argumentString of argument['msg']) {
+      keyname = to_ascii_localization_keyname(argumentString)
+      //console.log(keyname)
+      messages[keyname] = { message: argumentString }
+    }
+  }
+  
+}
+
+for (let file of htmlfiles) {
+  if (file.startsWith('src/bower_components/')) {
+    continue
+  }
+  if (file.startsWith('src/jspm_packages/')) {
+    continue
+  }
+  stats = fs.statSync(file)
+  if(stats.isFile()) {
+    console.log(file)
+    contents = fs.readFileSync(file, 'utf-8')
+    //console.log(list_requires_multi(contents, ['msg']))
+    argument = getMsgArgs(contents)   
+    console.log(argument)
+    //console.log(to_ascii_localization_keyname(argument))
+
+    for (let argumentString of argument['msg']) {
+      keyname = to_ascii_localization_keyname(argumentString)
+      //console.log(keyname)
+      messages[keyname] = { message: argumentString }
+    }
+  }
+  
+}
+
+console.log(JSON.stringify(messages, null, 2))
+fs.writeFileSync('src/_locales/en/messages.json', JSON.stringify(messages, null, 2))
+
+function getMsgArgs(contents) {
+  msgArgs = []
+  let htmlparser = require("htmlparser2");
+  let parser = new htmlparser.Parser({
+    
+    ontext: function(text){
+      msgReg = /\{\{msg\(.*\)\}\}/
+      if(msgReg.test(text)) {
+        console.log(text)
+        args = list_requires_multi(text, ['msg'])['msg'][0]
+        console.log(args)
+        msgArgs.push(args)
+      }
+      
+    }
+  }, {decodeEntities: true});
+  parser.write(contents);
+  parser.end();
+  return { 'msg': msgArgs }
+}
+
+function to_ascii_localization_keyname(text) {
+  var output = [];
+  for (let c of text) {
+    if (c == ' ') {
+      output.push('_');
+    } else if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.indexOf(c) != -1) {
+      output.push(c);
+    }
+  }
+  return output.join('');
+}

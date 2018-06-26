@@ -1,0 +1,12 @@
+description: Gives you a fact and links an article on the effect of TV
+displayname: Fun Facts banner
+difficulty: medium
+matches:
+  - www.netflix.com
+content_scripts:
+  - frontend.js
+parameters:
+  - name: seconds
+    description: Seconds that the user must wait before the page loads
+    default: 0
+    type: int

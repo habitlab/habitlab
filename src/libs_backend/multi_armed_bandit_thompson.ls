@@ -12,7 +12,7 @@
 } = require 'percipio'
 
 {
-  get_seconds_spent_on_domain_for_each_intervention
+  get_seconds_spent_on_domain_for_each_session_per_intervention
   list_enabled_interventions_for_goal
 } = require 'libs_backend/intervention_utils'
 
@@ -71,7 +71,6 @@ export get_next_intervention_to_test_for_data = (data_list, intervention_names) 
 export train_multi_armed_bandit_for_goal = (goal_name, intervention_names) ->>
   if not intervention_names?
     intervention_names = await intervention_utils.list_enabled_interventions_for_goal(goal_name)
-  console.log(intervention_names)
   # We need the goal info to get the domain name.
   goals = await get_goals()
   interventions = await get_seconds_spent_on_domain_for_each_session_per_intervention(goals[goal_name].domain)

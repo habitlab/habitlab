@@ -489,7 +489,6 @@ export thompsonsampling = (enabled_goals) ->>
   goals = await get_goals()
   output = []
   for goal_name of enabled_goals
-    console.log('Trying out ' + goal_name)
     goal_info = goals[goal_name]
     if (not goal_info?) or (not goal_info.interventions?)
       continue
@@ -502,7 +501,6 @@ export thompsonsampling = (enabled_goals) ->>
     predictor = await train_multi_armed_bandit_for_goal(goal_name, available_interventions)
     # Predict selected intervention using predictor.
     selected_intervention = predictor.predict()
-    console.log(selected_intervention)
     output.push selected_intervention.reward
   return output
     

@@ -19,6 +19,20 @@
 
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
+fetchjson = (url) ->>
+  if localStorage.getItem('local_logging_server') == 'true'
+    logging_server_url = 'http://localhost:5000/'
+  else
+    logging_server_url = 'https://habitlab.herokuapp.com/'
+  return await fetch(logging_server_url + url).then((.json!))
+
+postjson = (url, data) ->>
+  if localStorage.getItem('local_logging_server') == 'true'
+    logging_server_url = 'http://localhost:5000/'
+  else
+    logging_server_url = 'https://habitlab.herokuapp.com/'
+  return await post_json(logging_server_url + url).then((.json!))
+
 polymer_ext {
   is: 'idea-generation-panel'
   properties: {
@@ -63,12 +77,6 @@ polymer_ext {
     ### TODO: remove for testing
     # localStorage.setItem('local_logging_server', true) 
     ###
-    if localStorage.getItem('local_logging_server') == 'true'
-      console.log "posting to local server"
-      logging_server_url = 'http://localhost:5000/'
-    else
-      console.log "posting to cloud server"
-      logging_server_url = 'https://habitlab.herokuapp.com/'
     # 2. Concat data to transmit
     ### TODO: currently mannuly get from reddit
     ideas_placeholder = ['placeholder_1', 'placeholder_2', 'placeholder_3', 'placeholder_4', 'placeholder_5', 'placeholder_6']
@@ -81,11 +89,11 @@ polymer_ext {
         # 4. Send it
         upload_successful = true
         try
-          console.log 'Posting data to: ' + logging_server_url + 'postideas'
-          response = await post_json(logging_server_url + 'postideas', data)
+          console.log 'Posting data to: postideas'
+          response = await postjson('postideas', data)
           if response.success
-              console.log 'success'
-              # return {status: 'success'}
+            dlog 'success'
+            # return {status: 'success'}
           else
             upload_successful = false
             dlog 'response from server was not successful in postideas'
@@ -112,14 +120,7 @@ polymer_ext {
     ### TODO: remove for testing
     # localStorage.setItem('local_logging_server', true) 
     ###
-    if localStorage.getItem('local_logging_server') == 'true'
-      console.log "posting to local server"
-      logging_server_url = 'http://localhost:5000/'
-    else
-      console.log "posting to cloud server"
-      logging_server_url = 'https://habitlab.herokuapp.com/'
-    request = logging_server_url + 'upvote_proposed_idea' + '?idea_id=' + upvote_idea;
-    data = await fetch(request).then (.json!)
+    data = await fetchjson('upvote_proposed_idea?idea_id=' + upvote_idea)
     console.log(data)
   # functions
   select_answer_leftside: (evt) ->>
@@ -240,12 +241,6 @@ polymer_ext {
     ### TODO: remove for testing
     # localStorage.setItem('local_logging_server', true) 
     ###
-    if localStorage.getItem('local_logging_server') == 'true'
-      console.log "posting to local server"
-      logging_server_url = 'http://localhost:5000/'
-    else
-      console.log "posting to cloud server"
-      logging_server_url = 'https://habitlab.herokuapp.com/'
     # console.log("posting this site: " + site + " with this idea: " + idea)
     site_idea_pair = { site : idea_site, idea : idea_text}
     console.log(site_idea_pair)
@@ -254,11 +249,10 @@ polymer_ext {
     # 4. Send it
     upload_successful = true
     try
-      console.log 'Posting data to: ' + logging_server_url + 'postidea_candidate'
-      response = await post_json(logging_server_url + 'postidea_candidate', data)
+      response = await postjson('postidea_candidate', data)
       if response.success
-          console.log 'success'
-          # return {status: 'success'}
+        dlog 'success'
+        # return {status: 'success'}
       else
         upload_successful = false
         dlog 'response from server was not successful in postidea_candidate'
@@ -277,15 +271,16 @@ polymer_ext {
     this.$$('#add_idea_dialog').close()
   display_idea: ->>
     self = this
+    all_goals = await get_goals()
     # display initial choice
     for site_ideas_pair in self.site_ideas_mapping
       for site_counter_pair in self.site_ideas_mapping_counter
-        if site_ideas_pair.site == site_counter_pair.site
+        if site_ideas_pair.goal == site_counter_pair.goal
           # check if all the pairs has been rotated, if not we display
           if site_counter_pair.counter < site_ideas_pair.ideas.length/2
             # corner case
-            self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge for " + site_ideas_pair.site + " ?")
-            self.current_site = site_ideas_pair.site
+            self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge for " + all_goals[site_ideas_pair.goal].sitename_printable + " ?")
+            self.current_site = site_ideas_pair.goal
             index = site_counter_pair.counter * 2
             if site_counter_pair.counter == Math.floor(site_ideas_pair.ideas.length/2)
               self.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
@@ -307,6 +302,44 @@ polymer_ext {
   ready: ->>
     self = this
     all_goals = await get_goals()
+    goal_info_list = Object.values(all_goals)
+    self.goal_info_list = goal_info_list
+    goals_list = goal_info_list.map (.name)
+    enabled_goals = await get_enabled_goals()
+    allideas = await fetchjson('getideas_vote_all')
+    goal_to_idea_info = {}
+    for idea_info in allideas
+      goal = idea_info.goal
+      if not goal_to_idea_info[goal]?
+        goal_to_idea_info[goal] = []
+      goal_to_idea_info[goal].push(idea_info)
+    console.log allideas
+    site_ideas_mapping = []
+    site_ideas_mapping_counter = []
+    for goal in goals_list
+      idea_temp = []
+      idea_id_temp = []
+      idea_info_list = goal_to_idea_info[goal]
+      if idea_info_list?
+        for idea_info in idea_info_list
+          idea_temp.push(idea_info.idea)
+          idea_id_temp.push(idea_info._id)
+      site_ideas_mapping.push({
+        goal: goal
+        ideas: idea_temp
+        ideas_id: idea_id_temp
+        counter: 0
+      })
+      site_ideas_mapping_counter.push({
+        goal: goal,
+        counter: 0
+      })
+    self.site_ideas_mapping = site_ideas_mapping
+    self.site_ideas_mapping_counter = site_ideas_mapping_counter
+    await self.display_idea()
+  oldready: ->>
+    self = this
+    all_goals = await get_goals()
     goal_info_list = Object.values all_goals
     sites_list = goal_info_list.map (.sitename_printable)
     sites_list = sites_list.filter -> it?
@@ -325,26 +358,20 @@ polymer_ext {
     ### TODO: remove for testing
     # localStorage.setItem('local_logging_server', true) 
     ###
-    if localStorage.getItem('local_logging_server') == 'true'
-      console.log "posting to local server"
-      logging_server_url = 'http://localhost:5000/'
-    else
-      console.log "posting to cloud server"
-      logging_server_url = 'https://habitlab.herokuapp.com/'
     for site in enabled_spend_less_site
       site_upper = site.charAt(0).toUpperCase() + site.slice(1)
-      request = logging_server_url + 'getideas_vote' + '?website=' + site_upper;
       console.log("Fetching from the server of shared interventions from: " + site_upper);
-      data = await fetch(request).then (.json!)
+      data = await fetchjson('getideas_vote?website=' + site_upper)
       idea_temp = []
       idea_id_temp = []
       for item in data
         idea_temp.push(item.idea)
         idea_id_temp.push(item._id)
       self.site_ideas_mapping.push({
-        site: site,
+        site: site
         ideas: idea_temp
         ideas_id: idea_id_temp
+        counter: 0
       });
       self.site_ideas_mapping_counter.push({
         site: site,

@@ -30,6 +30,10 @@ prelude = require 'prelude-ls'
 } = require 'libs_common/collection_utils'
 
 {
+  train_multi_armed_bandit_for_goal
+} = require 'libs_backend/multi_armed_bandit_thompson'
+
+{
   gexport
   gexport_module
 } = require 'libs_common/gexport'
@@ -475,7 +479,51 @@ export experiment_alternate_between_same_vs_random_varlength_deterministic_latin
     output_set[selected_intervention] = true
   return prelude.sort(output)
 
+/**
+ * This selection algorithm recommends an intervention for each goal using the Thompson Sampling Algorithm.
+ */
+export thompsonsampling = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
+  goals = await get_goals()
+  output = []
+  for goal_name of enabled_goals
+    goal_info = goals[goal_name]
+    if (not goal_info?) or (not goal_info.interventions?)
+      continue
+    interventions = goal_info.interventions
+    # what interventions are available that have not been disabled?
+    available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
+    if available_interventions.length == 0
+      continue
+    # Train MAB using Thompson Sampling
+    predictor = await train_multi_armed_bandit_for_goal(goal_name, available_interventions)
+    # Predict selected intervention using predictor.
+    selected_intervention = predictor.predict()
+    output.push selected_intervention.reward
+  return output
+    
+/**
+ * This selection algorithm ranks the interventions from lowest to highest novelty, prioritizing 
+ * the newest interventions over the old interventions. This will be compared against
+ * the thompson sampling selection algorithm.
+ * TODO: Implement this algorithm.
+ */
+export novelty = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions
+  goals = await get_goals()
+  output = []
+  for goal_name in enabled_goals
+    # Find the least used intervention (smallest # of sessions) for each goal.
+    hi = []
+  return output
+
+
 selection_algorithms_for_visit = {
+  'thompsonsampling': thompsonsampling
   'random': one_random_intervention_per_enabled_goal
   'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal
   'default': one_random_intervention_per_enabled_goal

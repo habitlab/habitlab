@@ -1,0 +1,132 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="habitlab-logo-v2.html">
+<link rel="import" href="close-tab-button.html">
+<link rel="import" href="../bower_components/polymer-themes/ice.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+
+<dom-module id="banner-screen-num-visits">
+  <template>
+    <style>
+       :host {
+        z-index: 9007199254740991;
+        text-align: center;
+        width: 350px;
+        height: 270px;
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;  
+        font-size: 7px;
+        /*position: fixed;
+        bottom: 0%;
+        left: 0%;
+        height: 300;
+        width: 300;*/
+
+        --call-to-action-button-height: 38px;
+        /*--call-to-action-button-font-size: 14px;*/
+        --call-to-action-button-padding: 5px;
+        --call-to-action-button-margin: 0px 0px 10px 0px;
+      }
+
+
+      .contentContainer {
+        margin-top: 20x;
+      }
+
+      .titleText {
+
+        font-size: 0.75em;
+        text-align: center;
+      }
+
+      #messagetext {
+        font-size: 0.65em;
+        text-align: center;
+      }
+
+      .whiteDiv {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        bottom: 0%;
+        left: 0%;
+        width: 350px;
+        height: 270px;
+        background-color: #f2fcff;
+        opacity: 1;
+        z-index: 35000000;
+      }
+
+      .okButton {
+        cursor: pointer;
+        padding: 5px;
+        background-color: #415D67;
+        color: white;
+        font-size: 7px;
+        height: 38px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+
+      #logo {
+        margin-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .message-block {
+        padding-top: 20px;
+        align-self: center;
+      }
+
+      #paperprogress {
+        display: none;
+        margin-bottom: 10px;
+      }
+
+      #block_container {
+        text-align: center;
+      }
+
+      #today,
+      #visits,
+      #spent,
+      #min,
+      #sec,
+      #browsing {
+        display: inline;
+      }
+      #sample_toast {
+        width: 350px;
+        height: 280px;
+        z-index: 9007199254740991;
+        background-color: aliceblue;
+        color: black;
+      }
+    </style>
+
+
+<!----><paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right" opened><!---->
+    <div class="whiteDiv">
+      <div id="block_container" style="margin-top: 20px">
+        <div id="today" class="timer-text" style="text-align:left; color: #415D67; font-size: 10px; line-height: 200%">Today you have spent <b>{{minutes}}</b> minutes on {{sitenamePrintable}}.
+          <br>You have visited it <b>{{visits}}</b> times.
+        </div>
+      </div>
+      <center>
+        <habitlab-logo-v2 id="logo"></habitlab-logo-v2>
+        <center>
+          <center>
+            <close-tab-button id="calltoactionbutton" />
+          </center>
+          <div class="contentContainer">
+            <center><paper-button id="okbutton" class="okButton" on-click="continueclicked">{{continue_button_text}}</paper-button></center>
+          </div>
+        </center>
+      </center>
+    </div>
+
+  <!----></paper-toast><!---->
+  </template>
+
+  <script src="banner-screen-num-visits.js"></script>
+
+</dom-module>

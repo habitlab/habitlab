@@ -14,10 +14,15 @@ prelude = require 'prelude-ls'
 {
   setkey_dictdict
   getkey_dictdict
+  getkey_dict
   getdict_for_key_dictdict
   getvar
   setvar
 } = require 'libs_backend/db_utils'
+
+{
+  getlog
+} = require 'libs_backend/log_utils'
 
 {
   get_baseline_session_time_on_domain
@@ -1312,6 +1317,23 @@ export get_goals_and_interventions = ->>
       intervention.automatic = (manually_managed_interventions[intervention.name] != true)
     list_of_goals_and_interventions.push current_item
   return list_of_goals_and_interventions
+
+/**
+ * Gets the time in milliseconds since the intervention was most recently given.
+ * If this intervention corresponds to a generic intervention, then we choose
+ * the most recent intervention across the generic one. 
+ * Returns -1 if the intervention has not been used yet.
+ */
+export get_time_since_intervention = (intervention_name) ->>
+  name = intervention_name
+  intervention = await get_intervention_info(intervention_name)
+  if intervention.generic_intervention?
+    name = intervention.generic_intervention
+  time = await getkey_dict('time_intervention_most_recently_seen', name)
+  if time?
+    return Date.now() - time
+  return -1
+ 
 
 /*
 export get_goals_and_interventions = ->>

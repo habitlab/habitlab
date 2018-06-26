@@ -13,6 +13,9 @@ prelude = require 'prelude-ls'
   get_enabled_interventions
   get_number_sessions_for_each_intervention
   is_intervention_enabled
+  get_time_since_intervention
+  get_intervention_info
+  get_intersection
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -483,6 +486,7 @@ export experiment_alternate_between_same_vs_random_varlength_deterministic_latin
 
 /**
  * This selection algorithm recommends an intervention for each goal using the Thompson Sampling Algorithm.
+  * @return List of intervention names (strings), one intervention for each user goal.
  */
 export thompsonsampling = (enabled_goals) ->>
   if not enabled_goals?
@@ -508,32 +512,28 @@ export thompsonsampling = (enabled_goals) ->>
     
 /**
  * This selection algorithm ranks the interventions from lowest to highest novelty, prioritizing 
- * the least used interventions over the most used interventions. This will be compared against
- * the thompson sampling selection algorithm.
+ * the least recently seen interventions over the most recently seen interventions.
+ * @return List of intervention names (strings), one intervention for each user goal.
  */
 export novelty = (enabled_goals) ->>
   if not enabled_goals?
     enabled_goals = await get_enabled_goals()
   enabled_interventions = await get_enabled_interventions()
-  goals = await get_goals()
+  # Make map of candidate interventions, one for each goal
+  novel_interventions = {}
   output = []
+  for intervention_name, enabled of enabled_interventions
+    intervention = await get_intervention_info(intervention_name)
+    time = await get_time_since_intervention(intervention_name)
+    for goal_name in intervention.goals
+      # Check if this intervention is less recent than the specified intervention for that goal.
+      if goal_name of enabled_goals and
+          (!novel_interventions[goal_name]? or time == -1 or 
+              (novel_interventions[goal_name].time != -1 and novel_interventions[goal_name].time < time))
+        novel_interventions[goal_name] = {intervention: intervention_name, time: time}
+  # We now need to convert this into a list.
   for goal_name of enabled_goals
-    # Find the least used intervention (smallest # of sessions) for each goal.
-    goal_interventions = await get_number_sessions_for_each_intervention(goals[goal_name].domain)
-    goal_interventions["blah"] = 3
-    min_intervention = {}
-    for intervention in goals[goal_name].interventions
-      if !is_intervention_enabled(intervention) # Let's skip this option if disabled.
-        continue
-      if !goal_interventions[intervention]? # This intervention hasn't been used yet! Let's use it
-        # and be done searching.
-        min_intervention.intervention = intervention
-        min_intervention.sessions = goal_interventions[intervention]
-        break
-      else if !min_intervention.intervention? or goal_interventions[intervention] < min_intervention.sessions
-        min_intervention.intervention = intervention
-        min_intervention.sessions = goal_interventions[intervention]
-    output.push(min_intervention.intervention)
+    output.push(novel_interventions[goal_name].intervention)
   return output
 
 selection_algorithms_for_visit = {

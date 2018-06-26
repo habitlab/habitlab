@@ -1,59 +1,44 @@
 {
-  "Close_Facebook": {
-    "message": "Close Facebook"
-  },
   "Close_Tab": {
     "message": "Close Tab"
   },
-  "Feedback": {
-    "message": "Feedback"
+  "Below_are_some_popular_options_along_with_how_much_time_you_spend_on_them_per_day_on_average": {
+    "message": "Below are some popular options, along with how much time you spend on them per day (on average)."
   },
-  "HabitLab_Settings": {
-    "message": "HabitLab Settings"
-  },
-  "HabitLab_helps_you_achieve_your_goals_by_showing_you_different_interventions_each_time_you_visit_your_goal_sites": {
-    "message": "HabitLab helps you achieve your goals by showing you different interventions each time you visit your goal sites"
-  },
-  "HabitLab_lets_you_set_goals_to_limit_your_usage_of_selected_sites": {
-    "message": "HabitLab lets you set goals to limit your usage of selected sites"
+  "Which_sites_would_you_like_to_spend_less_time_on": {
+    "message": "Which sites would you like to spend less time on?"
   },
   "Help__FAQ": {
     "message": "Help / FAQ"
   },
-  "Lets_do_a_quick_tutorial_and_get_you_set_up": {
-    "message": "Let's do a quick tutorial and get you set up."
-  },
-  "Next": {
-    "message": "Next"
-  },
   "Overview": {
     "message": "Overview"
-  },
-  "Previous": {
-    "message": "Previous"
-  },
-  "Scroll_Down": {
-    "message": "Scroll Down"
   },
   "Settings": {
     "message": "Settings"
   },
+  "What_sites_would_you_like_to_use_more": {
+    "message": "What sites would you like to use more?"
+  },
   "Spend_less_time_on_the_following_sites": {
     "message": "Spend less time on the following sites:"
+  },
+  "Spend_more_time_on_the_following_sites": {
+    "message": "Spend more time on the following sites:"
+  },
+  "Turn_off": {
+    "message": "Turn off"
+  },
+  "Previous": {
+    "message": "Previous"
+  },
+  "Next": {
+    "message": "Next"
   },
   "Start_Using_HabitLab": {
     "message": "Start Using HabitLab"
   },
-  "Welcome_to_HabitLab": {
-    "message": "Welcome to HabitLab"
-  },
-  "Were_here_to_help_you_build_better_habits_online": {
-    "message": "We're here to help you build better habits online."
-  },
-  "What_goals_should_HabitLab_help_me_achieve": {
-    "message": "What goals should HabitLab help me achieve?"
-  },
-  "You_can_track_your_progress_to_see_which_interventions_work_best_for_you_and_how_much_time_youve_saved": {
-    "message": "You can track your progress to see which interventions work best for you and how much time you've saved!"
+  "Feedback": {
+    "message": "Feedback"
   }
 }

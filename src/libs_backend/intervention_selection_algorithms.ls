@@ -533,26 +533,7 @@ export novelty = (enabled_goals) ->>
         novel_interventions[goal_name] = {intervention: intervention_name, time: time}
   # We now need to convert this into a list.
   for goal_name of enabled_goals
-<<<<<<< HEAD
     output.push(novel_interventions[goal_name].intervention)
-=======
-    # Find the least used intervention (smallest # of sessions) for each goal.
-    goal_interventions = await get_number_sessions_for_each_intervention(goals[goal_name].domain)
-    min_intervention = {}
-    for intervention in goals[goal_name].interventions
-      if !is_intervention_enabled(intervention) # Let's skip this option if disabled.
-        continue
-      if !goal_interventions[intervention]? # This intervention hasn't been used yet! Let's use it
-        # and be done searching.
-        min_intervention.intervention = intervention
-        min_intervention.sessions = goal_interventions[intervention]
-        break
-      else if !min_intervention.intervention? or goal_interventions[intervention] < min_intervention.sessions
-        min_intervention.intervention = intervention
-        min_intervention.sessions = goal_interventions[intervention]
-    if min_intervention.intervention?
-      output.push(min_intervention.intervention)
->>>>>>> origin/master
   return output
 
 selection_algorithms_for_visit = {

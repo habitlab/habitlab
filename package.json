@@ -14,6 +14,7 @@
     "enable-webcomponents-in-content-scripts": "^1.0.7",
     "eslint": "^4.8.0",
     "getsecret": "^1.0.2",
+    "htmlparser2": "^3.9.2",
     "jquery": "^3.0.0",
     "js-yaml": "^3.6.1",
     "jspm": "beta",

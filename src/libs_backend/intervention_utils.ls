@@ -1099,6 +1099,17 @@ export list_available_interventions_for_goal = (goal_name) ->>
 
 export list_enabled_interventions_for_goal = (goal_name) ->>
   # outputs a list of intervention names
+  goal_info = await goal_utils.get_goal_info(goal_name)
+  output = []
+  if goal_info.interventions?
+    for intervention in goal_info.interventions?
+      # Only return interventions that are enabled
+      if intervention.enabled
+        output.push(intervention)
+  return output
+
+export list_enabled_interventions_for_goal = (goal_name) ->>
+  # outputs a list of intervention names
   enabled_interventions = await get_enabled_interventions()
   available_interventions_for_goal = await list_available_interventions_for_goal(goal_name)
   return available_interventions_for_goal.filter(-> enabled_interventions[it])
@@ -1187,6 +1198,7 @@ export get_seconds_spent_on_domain_for_each_session_per_intervention = (domain) 
   session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
   intervention_to_session_lengths = {}
   for session_id,interventions of session_id_to_interventions
+    console.log(session_id + " " + interventions)
     interventions = JSON.parse interventions
     if interventions.length != 1
       # cannot currently deal with multiple simultaneous interventions
@@ -1198,9 +1210,12 @@ export get_seconds_spent_on_domain_for_each_session_per_intervention = (domain) 
     if not intervention_to_session_lengths[intervention]?
       intervention_to_session_lengths[intervention] = []
     intervention_to_session_lengths[intervention].push seconds_spent
+    console.log(session_id + " " + interventions + "pushing")
   output = {}
   for intervention,session_lengths of intervention_to_session_lengths
+    console.log(session_lengths + " " + intervention)
     output[intervention] = session_lengths
+  console.log('about to return')
   return output
 
 export get_seconds_saved_per_session_for_each_intervention_for_goal = (goal_name) ->>

@@ -489,6 +489,7 @@ export thompsonsampling = (enabled_goals) ->>
   goals = await get_goals()
   output = []
   for goal_name of enabled_goals
+    console.log('Trying out ' + goal_name)
     goal_info = goals[goal_name]
     if (not goal_info?) or (not goal_info.interventions?)
       continue
@@ -501,9 +502,26 @@ export thompsonsampling = (enabled_goals) ->>
     predictor = await train_multi_armed_bandit_for_goal(goal_name, available_interventions)
     # Predict selected intervention using predictor.
     selected_intervention = predictor.predict()
+    console.log(selected_intervention)
     output.push selected_intervention.reward
   return output
     
+/**
+ * This selection algorithm ranks the interventions from lowest to highest novelty, prioritizing 
+ * the newest interventions over the old interventions. This will be compared against
+ * the thompson sampling selection algorithm.
+ * TODO: Implement this algorithm.
+ */
+export novelty = (enabled_goals) ->>
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions
+  goals = await get_goals()
+  output = []
+  for goal_name in enabled_goals
+    # Find the least used intervention (smallest # of sessions) for each goal.
+    hi = []
+  return output
 
 
 selection_algorithms_for_visit = {

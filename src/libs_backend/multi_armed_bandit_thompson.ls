@@ -13,6 +13,7 @@
 
 {
   get_seconds_spent_on_domain_for_each_intervention
+  list_enabled_interventions_for_goal
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -69,16 +70,17 @@ export get_next_intervention_to_test_for_data = (data_list, intervention_names) 
  */
 export train_multi_armed_bandit_for_goal = (goal_name, intervention_names) ->>
   if not intervention_names?
-    intervention_names = await intervention_utils.list_available_interventions_for_goal(goal_name)
+    intervention_names = await intervention_utils.list_enabled_interventions_for_goal(goal_name)
+  console.log(intervention_names)
   # We need the goal info to get the domain name.
   goals = await get_goals()
   interventions = await get_seconds_spent_on_domain_for_each_session_per_intervention(goals[goal_name].domain)
   data_list = []
-  # console.log(interventions)
   for intervention_name of interventions
-    # We need to ensure reward is between 0 and 1 - let's use tanh. To allow for sufficient granularity, 
-    # let's divide the number of seconds by the number of seconds in an hour.    
-    data_list.push({intervention: intervention_name, reward: 1 - Math.tanh(interventions[intervention_name]/3600)})
+    for time in interventions[intervention_name]
+      # We need to ensure reward is between 0 and 1 - let's use tanh. To allow for sufficient granularity, 
+      # let's divide the number of seconds by the number of seconds in an hour.    
+      data_list.push({intervention: intervention_name, reward: 1 - Math.tanh(time/3600)})
   return train_multi_armed_bandit_for_data(data_list, intervention_names)
 
 export get_next_intervention_to_test_for_goal = (goal_name, intervention_names) ->>

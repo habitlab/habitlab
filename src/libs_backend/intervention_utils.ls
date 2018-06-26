@@ -1161,6 +1161,22 @@ export get_intervention_parameters = (intervention_name) ->>
     output[k] = cast_to_type(parameter_value, parameter_type)
   return output
 
+/**
+ * Returns a dictionary with keys being the intervention, values being the number of sessions.
+ * NOTE: These interventions are not necessarily enabled by the user.
+ */
+export get_number_sessions_for_each_intervention = (domain) ->>
+  session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
+  interventions = {}
+  for id, intervention of session_id_to_interventions
+    # Need to cut of brackets and quotations from string. 
+    intervention_name = intervention.substr(2,intervention.length - 4)
+    if interventions[intervention_name]?
+      interventions[intervention_name]++
+    else
+      interventions[intervention_name] = 1
+  return interventions
+
 export get_seconds_spent_on_domain_for_each_intervention = (domain) ->>
   session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
   session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)

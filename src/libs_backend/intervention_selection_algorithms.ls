@@ -11,6 +11,8 @@ prelude = require 'prelude-ls'
   get_manually_managed_interventions_localstorage
   list_all_interventions
   get_enabled_interventions
+  get_number_sessions_for_each_intervention
+  is_intervention_enabled
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -506,23 +508,36 @@ export thompsonsampling = (enabled_goals) ->>
     
 /**
  * This selection algorithm ranks the interventions from lowest to highest novelty, prioritizing 
- * the newest interventions over the old interventions. This will be compared against
+ * the least used interventions over the most used interventions. This will be compared against
  * the thompson sampling selection algorithm.
- * TODO: Implement this algorithm.
  */
 export novelty = (enabled_goals) ->>
   if not enabled_goals?
     enabled_goals = await get_enabled_goals()
-  enabled_interventions = await get_enabled_interventions
+  enabled_interventions = await get_enabled_interventions()
   goals = await get_goals()
   output = []
-  for goal_name in enabled_goals
+  for goal_name of enabled_goals
     # Find the least used intervention (smallest # of sessions) for each goal.
-    hi = []
+    goal_interventions = await get_number_sessions_for_each_intervention(goals[goal_name].domain)
+    goal_interventions["blah"] = 3
+    min_intervention = {}
+    for intervention in goals[goal_name].interventions
+      if !is_intervention_enabled(intervention) # Let's skip this option if disabled.
+        continue
+      if !goal_interventions[intervention]? # This intervention hasn't been used yet! Let's use it
+        # and be done searching.
+        min_intervention.intervention = intervention
+        min_intervention.sessions = goal_interventions[intervention]
+        break
+      else if !min_intervention.intervention? or goal_interventions[intervention] < min_intervention.sessions
+        min_intervention.intervention = intervention
+        min_intervention.sessions = goal_interventions[intervention]
+    output.push(min_intervention.intervention)
   return output
 
-
 selection_algorithms_for_visit = {
+  'novelty': novelty
   'thompsonsampling': thompsonsampling
   'random': one_random_intervention_per_enabled_goal
   'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal

@@ -1,4 +1,4 @@
-require('livescript')
+require('livescript-async')
 
 webpack_config = require('./webpack_config_test.ls')
 

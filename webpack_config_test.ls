@@ -19,7 +19,7 @@ webpack_config = require('./webpack.config.ls')
 webpack_config.module.loaders = [
   {
     test: /\.ls$/
-    loader: 'livescript-loader'
+    loader: 'livescript-async-loader'
     include: [fromcwd('test'), fromcwd('src')]
     exclude: [
       fromcwd('src/components_skate')

@@ -149,7 +149,7 @@ polymer_ext {
     return output
   choose_intervention: ->>
     # Preset scores: all of them are really small except last one.
-    console.log('choosing new intervention helllsodf')
+    console.log('choosing new intervention')
     counter = 0
     intervention_names = await intervention_utils.list_enabled_interventions_for_goal(this.goal)
     console.log(intervention_names)

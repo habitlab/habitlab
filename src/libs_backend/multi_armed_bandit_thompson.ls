@@ -26,9 +26,10 @@ gaussian = require 'gaussian'
 /**
  * This algorithm recommends interventions using the Generalized Thompson Sampling Algorithm.
  * This Thompson Sampling Algorithm draws inspiration from:
-Daniel J. Russo, Benjamin Van Roy, Abbas Kazerouni, Ian
-Osband and Zheng Wen (2018), “A Tutorial on Thompson Sampling”, Foundations and
-Trends in Machine Learning: Vol. 11, No. 1, pp 1–96. DOI: 10.1561/2200000070.
+ * Daniel J. Russo, Benjamin Van Roy, Abbas Kazerouni, Ian
+ * Osband and Zheng Wen (2018), “A Tutorial on Thompson Sampling”, Foundations and
+ * Trends in Machine Learning: Vol. 11, No. 1, pp 1–96. DOI: 10.1561/2200000070.
+ * This ThompsonSampling is designed solely for sampling a multi-armbed-bandit problem with TIME observations.
  * Currently, we will train the algorithm with all previous sessions on each instance of the extension
  * TODO: Investigate whether this will cause a performance bottleneck and rewrite the algorithm to 
  * maintain the posterior and only train with one new instance each time.
@@ -59,19 +60,18 @@ export class ThompsonMAB
   learn: (arm, observation) ->
     # Update parameters based on this observation. 
     # This uses the "conjugacy properties" of the log-Gaussian distribution.
+    # We use log(observation), so let's make sure it is positive. After all, time can't be negative!
+    if observation <= 0
+      observation = 1
     intervention_name = arm
     old_std = @posterior_params[intervention_name][1]
     old_mean = @posterior_params[intervention_name][0]
     old_precision = 1.0 / (old_std**2)
     noise_precision = 1.0 / (@sigma_tilde**2)
     new_precision = old_precision + noise_precision
-    console.log("Observation: " + observation)
-    
     new_mean = (noise_precision * (Math.log(observation) + 0.5 / noise_precision) +
                     old_precision * old_mean) / new_precision
-    new_std = Math.sqrt(1.0 / new_precision)
-    if Number.isNaN(new_mean) or Number.isNaN(new_std)
-      console.log("LOOK HERE LEARNING" + " " + new_mean + new_std )
+    new_std = Math.sqrt(1.0 / new_precision)sampling
     @posterior_params[intervention_name] = [new_mean, new_std]
 
   /**

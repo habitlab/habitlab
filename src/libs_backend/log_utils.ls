@@ -27,10 +27,15 @@ require! {
 
 {generate_random_id} = require 'libs_common/generate_random_id'
 
-chrome_manifest = chrome.runtime.getManifest()
-habitlab_version = chrome_manifest.version
-developer_mode = not chrome_manifest.update_url?
-unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
+if chrome?runtime?getManifest?
+  chrome_manifest = chrome.runtime.getManifest()
+  habitlab_version = chrome_manifest.version
+  developer_mode = not chrome_manifest.update_url?
+  unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
+else
+  habitlab_version = 'test'
+  developer_mode = true
+  unofficial_version = true
 
 export get_db_major_version_interventionlogdb = -> '8'
 export get_db_minor_version_interventionlogdb = -> '1'

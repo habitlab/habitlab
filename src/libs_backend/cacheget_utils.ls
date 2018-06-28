@@ -7,9 +7,14 @@ require! {
   gexport_module
 } = require 'libs_common/gexport'
 
-manifest = chrome.runtime.getManifest()
-habitlab_version = manifest.version.split('.').join('-')
-is_production = manifest.update_url? or localStorage.getItem('devmode_use_cache') == 'true'
+if chrome?runtime?getManifest?
+  manifest = chrome.runtime.getManifest()
+  habitlab_version = manifest.version.split('.').join('-')
+  is_production = manifest.update_url? or localStorage.getItem('devmode_use_cache') == 'true'
+else
+  habitlab_version = 'test'
+  is_production = false
+
 localforage_store = null
 get_store = ->
   if not localforage_store?

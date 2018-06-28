@@ -27,10 +27,15 @@
   gexport_module
 } = require 'libs_common/gexport'
 
-chrome_manifest = chrome.runtime.getManifest()
-habitlab_version = chrome_manifest.version
-developer_mode = not chrome_manifest.update_url?
-unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
+if chrome?runtime?getManifest?
+  chrome_manifest = chrome.runtime.getManifest()
+  habitlab_version = chrome_manifest.version
+  developer_mode = not chrome_manifest.update_url?
+  unofficial_version = chrome.runtime.id != 'obghclocpdgcekcognpkblghkedcpdgd'
+else
+  habitlab_version = 'test'
+  developer_mode = true
+  unofficial_version = true
 
 export start_syncing_all_data = ->
   if localStorage.getItem('allow_logging') != 'true'

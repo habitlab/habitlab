@@ -7,9 +7,9 @@ describe 'libs_backend/canonical_url_utils', ->
   describe 'get_canonical_url', ->
     specify 'test 1', ->>
       this.timeout 10000
-      url = 'http://naver.com/'
+      url = 'https://naver.com/'
       result = await get_canonical_url url
-      result.should.equal 'http://www.naver.com/'
+      result.should.equal 'https://www.naver.com/'
       return
     specify 'test 2', ->>
       this.timeout 10000

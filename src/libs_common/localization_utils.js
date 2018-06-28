@@ -1,5 +1,9 @@
-const chrome_manifest = chrome.runtime.getManifest()
-const developer_mode = chrome_manifest.update_url == null;
+if (chrome != null && chrome.runtime != null && chrome.runtime.getManifest != null) {
+  const chrome_manifest = chrome.runtime.getManifest()
+  const developer_mode = chrome_manifest.update_url == null;
+} else {
+  const developer_mode = true;
+}
 
 function make_substitutions (text, substitutions) {
   if (substitutions == null) {

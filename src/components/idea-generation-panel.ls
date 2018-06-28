@@ -5,6 +5,11 @@
 {load_css_file} = require 'libs_common/content_script_utils'
 
 {
+  get_user_id
+  get_install_id
+} = require 'libs_backend/background_common'
+
+{
   get_enabled_goals
   get_goals
 } = require 'libs_backend/goal_utils'
@@ -23,14 +28,14 @@ fetchjson = (url) ->>
   if localStorage.getItem('local_logging_server') == 'true'
     logging_server_url = 'http://localhost:5000/'
   else
-    logging_server_url = 'https://habitlab.herokuapp.com/'
+    logging_server_url = 'https://habitlab-intervention.herokuapp.com/'
   return await fetch(logging_server_url + url).then((.json!))
 
 postjson = (url, data) ->>
   if localStorage.getItem('local_logging_server') == 'true'
     logging_server_url = 'http://localhost:5000/'
   else
-    logging_server_url = 'https://habitlab.herokuapp.com/'
+    logging_server_url = 'https://habitlab-intervention.herokuapp.com/'
   return await post_json(logging_server_url + url).then((.json!))
 
 polymer_ext {
@@ -65,7 +70,8 @@ polymer_ext {
       value: ''
     }
   }
-  # TODO: remove this helper functions
+  # TODO: remove this helper function
+  /*
   inject_site_ideas_mapping: (site_list) ->>
     if not site_list?
       site_list = this.site_list
@@ -108,6 +114,7 @@ polymer_ext {
           dlog data
           console.log 'error thrown in postideas'
           # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
+  */
   upvote_idea: (option) ->>
     self = this
     # call upvote for the current website with current option
@@ -126,7 +133,7 @@ polymer_ext {
   select_answer_leftside: (evt) ->>
     self = this
     if this.animation_inprogress
-        return
+      return
     # upvote current
     await self.upvote_idea('left')
     # clicked left-side
@@ -138,7 +145,7 @@ polymer_ext {
     this.SM('.answer-leftside-animate').css("z-index", '1');
     this.SM('.answer-leftside-fix').css("z-index", '0');
     this.SM('.answer-leftside-animate').animate({
-        margin-top: '+120px'
+      margin-top: '+120px'
     }, 1000)
     # non-clicked right-side
     this.SM('.animate_right').css("background-color", "#0000FF");
@@ -149,7 +156,7 @@ polymer_ext {
     this.SM('.answer-rightside-animate').css("z-index", '1');
     this.SM('.answer-rightside-fix').css("z-index", '0');
     this.SM('.answer-rightside-animate').animate({
-        margin-top: '+120px'
+      margin-top: '+120px'
     }, 1000)
     # change the fix test
     await self.display_idea()
@@ -160,7 +167,7 @@ polymer_ext {
   select_answer_rightside: (evt) ->>
     self = this
     if this.animation_inprogress
-        return
+      return
     await self.upvote_idea('right')
     # clicked right-side
     this.SM('.animate_right').css("filter", "grayscale(0%)");
@@ -170,7 +177,7 @@ polymer_ext {
     this.SM('.answer-rightside-animate').css("z-index", '1');
     this.SM('.answer-rightside-fix').css("z-index", '0');
     this.SM('.answer-rightside-animate').animate({
-        margin-top: '+120px'
+      margin-top: '+120px'
     }, 1000)
     # non-clicked left-side
     this.SM('.animate_left').css("background-color", "#0000FF");
@@ -180,7 +187,7 @@ polymer_ext {
     this.SM('.answer-leftside-animate').css("z-index", '1');
     this.SM('.answer-leftside-fix').css("z-index", '0');
     this.SM('.answer-leftside-animate').animate({
-        margin-top: '+120px'
+      margin-top: '+120px'
     }, 1000)
     # change the fix test
     await self.display_idea()
@@ -227,12 +234,14 @@ polymer_ext {
     if this.idea_text? and this.idea_text.length > 0
       this.$$('#nudge_typing_area').value = this.idea_text
   submit_idea: ->>
-    idea_site = this.$$('#idea_site_selector').selected
-    idea_site = this.sites_list[idea_site]
+    selected_goal_idx = this.$$('#idea_site_selector').selected
+    goal_info = this.goal_info_list[selected_goal_idx]
     # console.log this.sites_list[idea_site]
     idea_text = this.$$('#nudge_typing_area').value
     this.$$('#nudge_typing_area').value = ''
     this.idea_text = ''
+    userid = await get_user_id()
+    install_id = await get_install_id()
     # console.log(idea_text)
     
     # submit to server as candidate for idea
@@ -241,8 +250,8 @@ polymer_ext {
     ### TODO: remove for testing
     # localStorage.setItem('local_logging_server', true) 
     ###
-    # console.log("posting this site: " + site + " with this idea: " + idea)
-    site_idea_pair = { site : idea_site, idea : idea_text}
+    # console.log("posting this site: " + site + " with this idea: " + idea) 
+    site_idea_pair = { goal : goal_info.name, idea : idea_text, userid: userid, install_id: install_id}
     console.log(site_idea_pair)
     data = {} <<< site_idea_pair
     console.log data
@@ -337,6 +346,7 @@ polymer_ext {
     self.site_ideas_mapping = site_ideas_mapping
     self.site_ideas_mapping_counter = site_ideas_mapping_counter
     await self.display_idea()
+  /*
   oldready: ->>
     self = this
     all_goals = await get_goals()
@@ -379,6 +389,7 @@ polymer_ext {
       });
     # console.log self.site_ideas_mapping
     await self.display_idea()
+    */
 }, [
   {
     source: require 'libs_common/localization_utils'

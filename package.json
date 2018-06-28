@@ -13,6 +13,7 @@
     "documentation-habitlab": "^4.0.0-beta.19.4",
     "enable-webcomponents-in-content-scripts": "^1.0.7",
     "eslint": "^4.8.0",
+    "gaussian": "^1.1.0",
     "getsecret": "^1.0.2",
     "htmlparser2": "^3.9.2",
     "jquery": "^3.0.0",

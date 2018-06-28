@@ -16,6 +16,7 @@ prelude = require 'prelude-ls'
   get_time_since_intervention
   get_intervention_info
   get_intersection
+  list_enabled_interventions_for_goal
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -36,6 +37,7 @@ prelude = require 'prelude-ls'
 
 {
   train_multi_armed_bandit_for_goal
+  ThompsonMAB
 } = require 'libs_backend/multi_armed_bandit_thompson'
 
 {
@@ -491,23 +493,21 @@ export experiment_alternate_between_same_vs_random_varlength_deterministic_latin
 export thompsonsampling = (enabled_goals) ->>
   if not enabled_goals?
     enabled_goals = await get_enabled_goals()
-  enabled_interventions = await get_enabled_interventions()
-  goals = await get_goals()
+  enabled_goals = [goal_name for goal_name, value of enabled_goals]
   output = []
-  for goal_name of enabled_goals
-    goal_info = goals[goal_name]
-    if (not goal_info?) or (not goal_info.interventions?)
-      continue
-    interventions = goal_info.interventions
+  for goal_name in enabled_goals
     # what interventions are available that have not been disabled?
-    available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
-    if available_interventions.length == 0
+    enabled_interventions = await list_enabled_interventions_for_goal(goal_name)
+    if enabled_interventions.length == 0
+      # We're adding an empty string because we cannot recommend an intervention, but we have to maintain
+      # the index correspondance between goals and interventions.
+      output.push ""
       continue
     # Train MAB using Thompson Sampling
-    predictor = await train_multi_armed_bandit_for_goal(goal_name, available_interventions)
+    mab = await train_multi_armed_bandit_for_goal(goal_name, enabled_interventions)
     # Predict selected intervention using predictor.
-    selected_intervention = predictor.predict()
-    output.push selected_intervention.reward
+    selected_intervention = mab.predict()
+    output.push selected_intervention
   return output
     
 /**

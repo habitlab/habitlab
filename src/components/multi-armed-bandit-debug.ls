@@ -91,8 +91,8 @@ polymer_ext {
     return total_regret / total_rounds_played
   retrain_multi_armed_bandit: ->>
     goal_name = this.goal
-    intervention_names = await intervention_utils.list_available_interventions_for_goal(goal_name)
-    intervention_names = [x for x in intervention_names when this.simulations_disabled[x] != true]
+    intervention_names = await intervention_utils.list_enabled_interventions_for_goal(goal_name)
+    intervention_names = [x for x in intervention_names when this.simulations_disabled[x] != true]  
     this.multi_armed_bandit = await this.mab_algorithm.train_multi_armed_bandit_for_goal(goal_name, intervention_names)
     this.update_rewards_info()
   goal_changed: ->>
@@ -110,20 +110,12 @@ polymer_ext {
   is_simulation_enabled: (intervention, simulations_disabled) ->
      return simulations_disabled[intervention] != true
   update_rewards_info: ->
+    # TODO: Rewrite this since we are no longer using Precipio:
     new_rewards_info = []
-    for arm in this.multi_armed_bandit.arms_list
-      intervention = arm.reward
-      if arm.trials == 0
-        average_score = 0
-      else
-        average_score = arm.wins / arm.trials
-      num_trials = arm.trials
+    for intervention in this.multi_armed_bandit.arms_list
       new_rewards_info.push {
         intervention
-        average_score
-        num_trials
       }
-    console.log new_rewards_info
     this.rewards_info = new_rewards_info
   slider_changed: (evt) ->
     score_ranges = {}
@@ -144,35 +136,49 @@ polymer_ext {
       reward_value = score_range.min + Math.random()*(score_range.max - score_range.min)
       output[intervention] = reward_value
     return output
+  get_times_for_all_interventions: ->
+    output = {}
+    for intervention,score_range of this.intervention_score_ranges
+      reward_value = score_range.min + Math.random()*(score_range.max - score_range.min)
+      time = 3600 * Math.atanh(1 - reward_value)
+      output[intervention] = time
+    return output
   to_id: (intervention_name) ->
     alphabet = ['a' to 'z'].concat ['A' to 'Z'].concat ['0' to '9']
     output = intervention_name.split('').filter(-> alphabet.indexOf(it) != -1).join('')
-    console.log output
     return output
   choose_intervention: ->>
-    console.log 'choose intervention button clicked'
-    goal_name = this.goal
-    if not this.multi_armed_bandit?
-      this.total_rounds_played = 0
-      this.total_regret = 0
-      await this.retrain_multi_armed_bandit()
-    arm = this.multi_armed_bandit.predict()
-    intervention = arm.reward
-    score_range = this.intervention_score_ranges[intervention]
-    all_reward_values = this.get_reward_values_for_all_interventions()
-    best_reward_value = prelude.maximum [v for k,v of all_reward_values]
-    reward_value = all_reward_values[intervention]
-    this.chosen_intervention = intervention
-    this.chosen_intervention_reward_value = reward_value
-    this.total_rounds_played += 1
-    this.regret_this_round = best_reward_value - reward_value
-    this.total_regret += this.regret_this_round
-    this.multi_armed_bandit.learn(arm, reward_value)
-    this.update_rewards_info()
-    this.SM('.intervention_name').css 'background-color', 'white'
-    #console.log this.S("#{this.to_id(intervention)}")
-    this.S('#' + this.to_id(intervention)).css 'background-color', 'yellow'
-    #this.$$("#{this.to_id(intervention)}").style.backgroundColor = 'red'
+    # Preset scores: all of them are really small except last one.
+    console.log('choosing new intervention')
+    counter = 0
+    intervention_names = await intervention_utils.list_enabled_interventions_for_goal(this.goal)
+    console.log(intervention_names)
+    console.log("intervention score length" + Object.keys(this.intervention_score_ranges).length)
+    console.log("Intervention names length" + intervention_names.length)
+    for i from 1 to 50 by 1
+      goal_name = this.goal
+      if not this.multi_armed_bandit?
+        this.total_rounds_played = 0
+        this.total_regret = 0
+        await this.retrain_multi_armed_bandit()
+      intervention = this.multi_armed_bandit.predict()
+      score_range = this.intervention_score_ranges[intervention]
+      all_reward_values = this.get_reward_values_for_all_interventions()
+      best_reward_value = prelude.maximum [v for k,v of all_reward_values]
+      all_times_values = this.get_times_for_all_interventions()
+      time_value = all_times_values[intervention]
+      reward_value = all_reward_values[intervention]
+      this.chosen_intervention = intervention
+      this.chosen_intervention_reward_value = reward_value
+      this.total_rounds_played += 1
+      this.regret_this_round = best_reward_value - reward_value
+      this.total_regret += this.regret_this_round
+      this.multi_armed_bandit.learn(intervention, time_value)    
+      this.update_rewards_info()
+      this.SM('.intervention_name').css 'background-color', 'white'
+      #console.log this.S("#{this.to_id(intervention)}")
+      this.S('#' + this.to_id(intervention)).css 'background-color', 'yellow'
+      #this.$$("#{this.to_id(intervention)}").style.backgroundColor = 'red'
   ready: ->
     self = this
     self.once_available '.intervention_score_range', ->
@@ -186,3 +192,4 @@ polymer_ext {
     'once_available'
   ]
 }
+

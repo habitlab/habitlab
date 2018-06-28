@@ -1097,7 +1097,7 @@ export list_available_interventions_for_enabled_goals = ->>
 export list_available_interventions_for_goal = (goal_name) ->>
   # outputs a list of intervention names
   goal_info = await goal_utils.get_goal_info(goal_name)
-  if goal_info.interventions?
+  if goal_info? and goal_info.interventions?
     return goal_info.interventions
   else
     return []
@@ -1203,7 +1203,7 @@ export get_seconds_spent_on_domain_for_each_intervention = (domain) ->>
     output[intervention] = median session_lengths
   return output
 
-export get_seconds_spent_on_domain_for_each_session_per_intervention = (domain) ->>
+export get_seconds_spent_for_each_session_per_intervention = (domain) ->>
   session_id_to_interventions = await getdict_for_key_dictdict('interventions_active_for_domain_and_session', domain)
   session_id_to_seconds = await getdict_for_key_dictdict('seconds_on_domain_per_session', domain)
   intervention_to_session_lengths = {}

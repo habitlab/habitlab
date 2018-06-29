@@ -234,6 +234,19 @@ polymer_ext {
     self = this
     if this.animation_inprogress
         return
+    
+    goal = this.current_site
+    userid = await get_user_id()
+    install_id = await get_install_id()
+    leftidea = self.current_left_idea
+    rightidea = self.current_right_idea
+    leftideaid = self.current_left_idea_id
+    rightideaid = self.current_right_idea_id
+
+    this.pairs_voted.add(this.current_site + '|||' + self.current_left_idea_id + '|||' + self.current_right_idea_id)
+    postjson('opt_out_nudgeidea', {goal: goal, leftidea: leftidea, rightidea: rightidea, leftideaid: leftideaid, rightideaid: rightideaid, userid: userid, installid: install_id})
+    addtolist('idea_pairs_voted', this.current_site + '|||' + self.current_left_idea_id + '|||' + self.current_right_idea_id)
+    
     # clicked right-side
     this.SM('.animate_right').css("filter", "grayscale(30%)");
     this.SM('.animate_right').css("background-color", "#0000FF");
@@ -375,14 +388,14 @@ polymer_ext {
     document.getElementById("disable_opt_out").disabled = true;
   ready: ->>
     allideas = await fetchjson('getideas_vote_all')
-    this.pairs_voted = new Set()
-    idea_pairs_voted_list = await getlist('idea_pairs_voted')
-    for item in idea_pairs_voted_list
-      this.pairs_voted.add(item)
     this.allideas = allideas
     this.rerender()
   rerender: ->>
     allideas = this.allideas
+    this.pairs_voted = new Set()
+    idea_pairs_voted_list = await getlist('idea_pairs_voted')
+    for item in idea_pairs_voted_list
+      this.pairs_voted.add(item)
     self = this
     all_goals = await get_goals()
     goal_info_list = Object.values(all_goals)

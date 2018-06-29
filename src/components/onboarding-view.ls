@@ -45,7 +45,7 @@ polymer_ext {
             output -= 1
           if localStorage.difficulty_selector_disabled == 'true'
             output -= 1
-          if true # localStorage.idea_voting_disabled == 'true'
+          if localStorage.idea_voting_disabled == 'true'
             output -= 1
           return output
         return 0
@@ -81,7 +81,7 @@ polymer_ext {
     },
     idea_voting_disabled: {
       type: Boolean
-      value: true # localStorage.idea_voting_disabled == 'true'
+      value: localStorage.idea_voting_disabled == 'true'
     },
     true_statement: {
       type: Boolean,
@@ -95,7 +95,7 @@ polymer_ext {
           output -= 1
         if localStorage.difficulty_selector_disabled == 'true'
           output -= 1
-        if true # localStorage.idea_voting_disabled == 'true'
+        if localStorage.idea_voting_disabled == 'true'
           output -= 1
         return output
     }

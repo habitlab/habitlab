@@ -226,6 +226,10 @@ polymer_ext {
       self.$$('#settings_tab')?rerender_privacy_options?
     , ->
       self.$$('#settings_tab').rerender_privacy_options()
+    once_true ->
+      self.$$('#settings_tab')?rerender_idea_generation?
+    , ->
+      self.$$('#settings_tab').rerender_idea_generation()
     do !->>
       goal_name_to_icon_changed = false
       goal_name_to_new_icon_promises = {}

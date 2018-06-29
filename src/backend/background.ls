@@ -199,6 +199,18 @@ do !->>
     setvar_experiment('intervention_suggestion_algorithm', chosen_algorithm)
     return
 
+  export set_onboarding_ideavoting_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('idea_voting_disabled', true)
+    else
+      localStorage.setItem('idea_voting_disabled', false)
+    localStorage.setItem('onboarding_ideavoting_abtest', chosen_algorithm)
+    setvar_experiment('onboarding_ideavoting_abtest', chosen_algorithm)
+    return
+
   export set_daily_goal_reminders_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
       algorithms = ['on', 'off']

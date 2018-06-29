@@ -306,6 +306,8 @@ polymer_ext {
       #confirmButtonText: 'Visit Facebook to see an intervention in action'
       #cancelButtonText: 'Close'
     }
+  rerender_idea_generation: ->
+    this.$.idea_generation.rerender()
   rerender_privacy_options: ->
     this.$.privacy_options.rerender()
   rerender: ->>

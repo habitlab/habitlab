@@ -22,6 +22,17 @@
   msg
 } = require 'libs_common/localization_utils'
 
+{
+  addtolist
+  getlist
+} = require 'libs_backend/db_utils'
+
+prelude = require 'prelude-ls'
+
+require! {
+  shuffled
+}
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 fetchjson = (url) ->>
@@ -149,6 +160,8 @@ polymer_ext {
     ###
     #data = await fetchjson('upvote_proposed_idea?idea_id=' + upvote_idea)
     data = await postjson('upvote_proposed_idea', {goal: goal, winnerid: upvote_idea, loserid: downvote_idea, winner: winner, loser: loser, userid: userid, installid: install_id})
+    this.pairs_voted.add(this.current_site + '|||' + self.current_left_idea_id + '|||' + self.current_right_idea_id)
+    await addtolist('idea_pairs_voted', this.current_site + '|||' + self.current_left_idea_id + '|||' + self.current_right_idea_id)
     #console.log(data)
   # functions
   select_answer_leftside: (evt) ->>
@@ -297,6 +310,7 @@ polymer_ext {
       # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
 
     this.$$('#add_idea_dialog').close()
+  /*
   display_idea: ->>
     self = this
     all_goals = await get_goals()
@@ -333,9 +347,38 @@ polymer_ext {
     document.getElementById("disable_left").disabled = true; 
     document.getElementById("disable_right").disabled = true;
     document.getElementById("disable_opt_out").disabled = true;
+  */
+  display_idea: ->>
+    self = this
+    all_goals = await get_goals()
+    # display initial choice
+    for site_ideas_pair in self.site_ideas_mapping
+      goal = site_ideas_pair.goal
+      for [leftidea, leftidea_id] in shuffled(prelude.zip(site_ideas_pair.ideas, site_ideas_pair.ideas_id))
+        for [rightidea, rightidea_id] in shuffled(prelude.zip(site_ideas_pair.ideas, site_ideas_pair.ideas_id))
+          if this.pairs_voted.has(goal + '|||' + leftidea + '|||' + rightidea) or this.pairs_voted.has(goal + '|||' + rightidea + '|||' + leftidea)
+            continue
+          self.current_site = site_ideas_pair.goal
+          self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge for " + all_goals[site_ideas_pair.goal].sitename_printable + "?")
+          self.$$('.fix_left').innerText = leftidea
+          self.$$('.fix_right').innerText = rightidea
+          self.current_left_idea = leftidea
+          self.current_left_idea_id = leftidea_id
+          self.current_right_idea = rightidea
+          self.current_right_idea_id = rightidea_id
+          return
+    # if get to this point, then we should disable button
+    self.$$('.fix_left').innerText = 'No more nudge ideas to vote on'
+    self.$$('.fix_right').innerText = 'No more nudge ideas to vote on'
+    document.getElementById("disable_left").disabled = true; 
+    document.getElementById("disable_right").disabled = true;
+    document.getElementById("disable_opt_out").disabled = true;
   ready: ->>
     allideas = await fetchjson('getideas_vote_all')
     this.pairs_voted = new Set()
+    idea_pairs_voted_list = await getlist('idea_pairs_voted')
+    for item in idea_pairs_voted_list
+      this.pairs_voted.add(item)
     this.allideas = allideas
     this.rerender()
   rerender: ->>

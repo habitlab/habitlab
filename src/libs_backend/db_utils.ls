@@ -75,6 +75,7 @@ current_schema_for_collections = {
   intervention_downvote_timestamps: '++,key,synced'
   intervention_upvote_timestamps: '++,key,synced'
   intervention_feedback: '++,key,synced'
+  idea_pairs_voted: '++'
 }
 
 export get_current_collections = ->

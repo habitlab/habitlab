@@ -8,6 +8,10 @@
   get_requires_for_component_list
 } = require 'libs_backend/require_utils'
 
+{
+  setkey_dict
+} = require 'libs_backend/db_utils'
+
 swal = require 'sweetalert2'
 
 get_list_requires = memoizeSingleAsync ->>
@@ -18,6 +22,7 @@ get_sweetjs_utils = memoizeSingleAsync ->>
 
 export compile_intervention_code = (intervention_info) ->>
   sweetjs_utils = await get_sweetjs_utils()
+  intervention_name = intervention_info.name
   code = intervention_info.code
   try
     /*
@@ -30,7 +35,18 @@ export compile_intervention_code = (intervention_info) ->>
     })();
     """
     */
-    compiled_code = await sweetjs_utils.compile(code)
+    request = require 'request-promise'
+    
+    #compiled_code = await sweetjs_utils.compile(code)
+    options = 
+      method: 'POST'
+      uri: 'http://hnudge.dynu.net:47914/'
+      body: {js: code }
+      json: true 
+    
+    
+    compiled_code = await request(options)
+      .then( (parsedBody) -> parsedBody ).catch((err) -> throw err)
     /*
     compiled_code = """
     SystemJS.import('co').then(function(co) {
@@ -47,12 +63,15 @@ export compile_intervention_code = (intervention_info) ->>
       type: 'error'
     }
     return false
+  setkey_dict('custom_intervention_code', intervention_name, compiled_code)
   intervention_info.content_scripts = [
     {
-      code: compiled_code
+      code: code # pre-compilation
+      #code: compiled_code
       #run_at: 'document_start'
       run_at: 'document_end'
-      jspm_require: true
+      #jspm_require: true
+      fetch_from_db: intervention_name
     }
   ]
   return true

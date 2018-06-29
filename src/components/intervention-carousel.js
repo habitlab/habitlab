@@ -94,7 +94,8 @@ polymer_ext({
           element = document.getElementById("cardAccess");
         }
         for (var i = 0; i < data.length; i++) {
-          if (data[i].displayname && !localStorage['saved_intervention_' + data[i].name]) {
+          //  && !localStorage['saved_intervention_' + data[i].name]
+          if (data[i].displayname) {
           this.buildProjectCard(data[i].code, data[i].name, 
                                 data[i].displayname, data[i].description, 
                                 data[i].domain, data[i].preview, data[i].sitename, 
@@ -250,13 +251,14 @@ polymer_ext({
       buildProjectCard: function(code, name, displayname, description, 
         domain, preview, sitename, sitename_printable,
         goals, stars, author_email){
-        let containerElement = document.querySelector(".addCard");
+          let selectString = "#siteview_" + this.site + " .addCard"
+        let containerElement = document.querySelector(selectString);
+        //console.log(containerElement)
         //Project holder space
         let card = document.createElement('market-card');
         card.setAttribute("code", code);
         // card.setAttribute("date", date);
         card.setAttribute("name", name);
-        console.log(name + " " + displayname)
         card.setAttribute("displayname", displayname);
         card.setAttribute("description", description);
         card.setAttribute("domain", domain);

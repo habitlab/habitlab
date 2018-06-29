@@ -36,7 +36,7 @@ postjson = (url, data) ->>
     logging_server_url = 'http://localhost:5000/'
   else
     logging_server_url = 'https://habitlab-intervention.herokuapp.com/'
-  return await post_json(logging_server_url + url).then((.json!))
+  return await post_json(logging_server_url + url, data)
 
 polymer_ext {
   is: 'idea-generation-panel'
@@ -66,6 +66,14 @@ polymer_ext {
       value: ''
     }
     current_right_idea_id: {
+      type: String
+      value: ''
+    }
+    current_left_idea: {
+      type: String
+      value: ''
+    }
+    current_right_idea: {
       type: String
       value: ''
     }
@@ -118,24 +126,37 @@ polymer_ext {
   upvote_idea: (option) ->>
     self = this
     # call upvote for the current website with current option
+    goal = this.current_site
+    userid = await get_user_id()
+    install_id = await get_install_id()
+    downvote_idea = ''
     upvote_idea = ''
+    winner = ''
+    loser = ''
     if option == 'right'
       upvote_idea = self.current_right_idea_id
+      downvote_idea = self.current_left_idea_id
+      winner = self.current_right_idea
+      loser = self.current_left_idea
     else
       upvote_idea = self.current_left_idea_id
-    console.log "Upvoting website: " + self.current_site + " for idea: " + upvote_idea + "."
+      downvote_idea = self.current_right_idea_id
+      winner = self.current_left_idea
+      loser = self.current_right_idea
+    #console.log "Upvoting website: " + self.current_site + " for idea: " + upvote_idea + "."
     ### TODO: remove for testing
     # localStorage.setItem('local_logging_server', true) 
     ###
-    data = await fetchjson('upvote_proposed_idea?idea_id=' + upvote_idea)
-    console.log(data)
+    #data = await fetchjson('upvote_proposed_idea?idea_id=' + upvote_idea)
+    data = await postjson('upvote_proposed_idea', {goal: goal, winnerid: upvote_idea, loserid: downvote_idea, winner: winner, loser: loser, userid: userid, installid: install_id})
+    #console.log(data)
   # functions
   select_answer_leftside: (evt) ->>
     self = this
     if this.animation_inprogress
       return
     # upvote current
-    await self.upvote_idea('left')
+    self.upvote_idea('left')
     # clicked left-side
     this.SM('.animate_left').css("filter", "grayscale(0%)");
     this.SM('.animate_left').css("background-color", "#0000FF");
@@ -168,7 +189,7 @@ polymer_ext {
     self = this
     if this.animation_inprogress
       return
-    await self.upvote_idea('right')
+    self.upvote_idea('right')
     # clicked right-side
     this.SM('.animate_right').css("filter", "grayscale(0%)");
     this.SM('.animate_right').css("background-color", "#0000FF");
@@ -251,7 +272,7 @@ polymer_ext {
     # localStorage.setItem('local_logging_server', true) 
     ###
     # console.log("posting this site: " + site + " with this idea: " + idea) 
-    site_idea_pair = { goal : goal_info.name, idea : idea_text, userid: userid, install_id: install_id}
+    site_idea_pair = { goal : goal_info.name, idea : idea_text, userid: userid, installid: install_id}
     console.log(site_idea_pair)
     data = {} <<< site_idea_pair
     console.log data
@@ -259,7 +280,7 @@ polymer_ext {
     upload_successful = true
     try
       response = await postjson('postidea_candidate', data)
-      if response.success
+      if response.response == 'success'
         dlog 'success'
         # return {status: 'success'}
       else
@@ -267,14 +288,12 @@ polymer_ext {
         dlog 'response from server was not successful in postidea_candidate'
         dlog response
         dlog data
-        console.log 'response from server was not successful in postidea_candidate'
         # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
     catch
       upload_successful = false
       dlog 'error thrown in postidea_candidate'
       dlog e
       dlog data
-      console.log 'error thrown in postidea_candidate'
       # return {status: 'failure', url: 'https://habitlab.stanford.edu'}
 
     this.$$('#add_idea_dialog').close()
@@ -288,41 +307,51 @@ polymer_ext {
           # check if all the pairs has been rotated, if not we display
           if site_counter_pair.counter < site_ideas_pair.ideas.length/2
             # corner case
-            self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge for " + all_goals[site_ideas_pair.goal].sitename_printable + " ?")
+            self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge for " + all_goals[site_ideas_pair.goal].sitename_printable + "?")
             self.current_site = site_ideas_pair.goal
             index = site_counter_pair.counter * 2
             if site_counter_pair.counter == Math.floor(site_ideas_pair.ideas.length/2)
               self.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
               self.$$('.fix_right').innerText = msg(site_ideas_pair.ideas[0])
+              self.current_left_idea = site_ideas_pair.ideas[index]
+              self.current_right_idea = site_ideas_pair.ideas[0]
               self.current_left_idea_id = site_ideas_pair.ideas_id[index]
               self.current_right_idea_id = site_ideas_pair.ideas_id[0]
             else
               self.$$('.fix_left').innerText = msg(site_ideas_pair.ideas[index])
               self.$$('.fix_right').innerText = msg(site_ideas_pair.ideas[index + 1])
+              self.current_left_idea = site_ideas_pair.ideas[index]
+              self.current_right_idea = site_ideas_pair.ideas[index + 1]
               self.current_left_idea_id = site_ideas_pair.ideas_id[index]
               self.current_right_idea_id = site_ideas_pair.ideas_id[index + 1]
             site_counter_pair.counter = site_counter_pair.counter + 1
             # console.log self.site_ideas_mapping_counter
             return
     # if get to this point, then we should disable button
+    self.$$('.fix_left').innerText = 'No more nudge ideas to vote on'
+    self.$$('.fix_right').innerText = 'No more nudge ideas to vote on'
     document.getElementById("disable_left").disabled = true; 
     document.getElementById("disable_right").disabled = true;
-    document.getElementById("disable_opt_out").disabled = true;  
+    document.getElementById("disable_opt_out").disabled = true;
   ready: ->>
+    allideas = await fetchjson('getideas_vote_all')
+    this.pairs_voted = new Set()
+    this.allideas = allideas
+    this.rerender()
+  rerender: ->>
+    allideas = this.allideas
     self = this
     all_goals = await get_goals()
     goal_info_list = Object.values(all_goals)
     self.goal_info_list = goal_info_list
     goals_list = goal_info_list.map (.name)
     enabled_goals = await get_enabled_goals()
-    allideas = await fetchjson('getideas_vote_all')
     goal_to_idea_info = {}
     for idea_info in allideas
       goal = idea_info.goal
       if not goal_to_idea_info[goal]?
         goal_to_idea_info[goal] = []
       goal_to_idea_info[goal].push(idea_info)
-    console.log allideas
     site_ideas_mapping = []
     site_ideas_mapping_counter = []
     for goal in goals_list

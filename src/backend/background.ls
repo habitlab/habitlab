@@ -21,6 +21,7 @@ do !->>
   {
     addtokey_dictdict
     getkey_dictdict
+    getkey_dict
     getDb
     setvar_experiment
   } = require 'libs_backend/db_utils'
@@ -431,7 +432,9 @@ do !->>
 
     content_script_codes_promises = []
     for content_script_option in content_script_options
-      if content_script_option.code?
+      if content_script_option.fetch_from_db?
+        content_script_codes_promises.push getkey_dict('custom_intervention_code', content_script_option.fetch_from_db)
+      else if content_script_option.code?
         content_script_codes_promises.push Promise.resolve(content_script_option.code)
       else
         content_script_codes_promises.push localget(content_script_option.path)

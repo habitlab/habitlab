@@ -63,6 +63,7 @@ current_schema_for_collections = {
   seconds_on_domain_per_session: '[key+key2],key,key2,synced'
   interventions_active_for_domain_and_session: '[key+key2],key,key2,synced'
   domain_to_last_session_id: 'key,synced'
+  custom_intervention_code: 'key,synced'
   interventions_currently_disabled: 'key,synced'
   goal_targets: 'key,synced'
   time_intervention_most_recently_seen: 'key,synced'

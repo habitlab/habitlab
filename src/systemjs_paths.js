@@ -741,7 +741,7 @@ SystemJS.config({
     "npm:eslint-scope@3.7.1/lib/scope-manager.js",
     "npm:brace@0.10.0/theme/monokai.js",
     "npm:brace@0.10.0.json",
-    "npm:brace@0.10.0/mode/livescript.js",
+    "npm:brace@0.10.0/mode/jsx.js",
     "npm:brace@0.10.0/mode/javascript.js",
     "npm:brace@0.10.0/worker/javascript.js",
     "npm:brace@0.10.0/mode/html.js",

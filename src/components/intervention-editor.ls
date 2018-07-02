@@ -610,7 +610,7 @@ script.parentNode.removeChild(script);
       js_editor.getSession().setUseSoftTabs(true)
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
-      js_editor.setValue('(async function() {' + intervention_info.code + '})();' ) 
+      js_editor.setValue('(async function() {\n' + intervention_info.code + '\n})();' ) 
 
       clicked_fn = ->>
         alert('hi')

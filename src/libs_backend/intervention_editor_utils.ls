@@ -14,6 +14,8 @@
 
 swal = require 'sweetalert2'
 
+$ = require 'jquery'
+
 get_list_requires = memoizeSingleAsync ->>
   await SystemJS.import('list_requires_multi')
 
@@ -35,10 +37,33 @@ export compile_intervention_code = (intervention_info) ->>
     })();
     """
     */
+
+    compiled_code = await new Promise (resolve, reject) ->
+      $.ajax({
+        type: 'POST'
+        url: 'http://hnudge.dynu.net:47914/'
+        data: {js: '(async function() {' + code + '})();' }
+        #dataType: 'json'
+        success: (data, textStatus, jqXHR) ->
+          resolve(data)
+        error: (jqXHR, textStatus, errorThrown) ->
+          reject(errorThrown)
+      })
+    /*
+    compiled_code = await $.ajax({
+      type: 'POST'
+      url: 'http://hnudge.dynu.net:47914/'
+      data: {js: '(async function() {' + code + '})();' }
+      dataType: 'json'
+    })
+    compiled_code = compiled_code.responseText
+    */
+
+    /*
     request = require 'request-promise'
     
     #compiled_code = await sweetjs_utils.compile(code)
-    options = 
+    options =
       method: 'POST'
       uri: 'http://hnudge.dynu.net:47914/'
       body: {js: '(async function() {' + code + '})();' }
@@ -47,6 +72,9 @@ export compile_intervention_code = (intervention_info) ->>
     
     compiled_code = await request(options)
       .then( (parsedBody) -> parsedBody ).catch((err) -> throw err)
+    */
+
+
     /*
     compiled_code = """
     SystemJS.import('co').then(function(co) {
@@ -57,6 +85,7 @@ export compile_intervention_code = (intervention_info) ->>
     """
     */
   catch err
+    console.log err
     swal {
       title: 'syntax error in your code'
       text: err

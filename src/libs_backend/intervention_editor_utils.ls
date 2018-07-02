@@ -41,7 +41,7 @@ export compile_intervention_code = (intervention_info) ->>
     options = 
       method: 'POST'
       uri: 'http://hnudge.dynu.net:47914/'
-      body: {js: code }
+      body: {js: '(async function() {' + code + '})();' }
       json: true 
     
     

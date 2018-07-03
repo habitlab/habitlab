@@ -1,0 +1,15 @@
+{
+  "main": "babel.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "src/babel-package-shim.js": {
+      "format": "esm"
+    }
+  },
+  "map": {
+    "./src": "./src/index.js"
+  }
+}

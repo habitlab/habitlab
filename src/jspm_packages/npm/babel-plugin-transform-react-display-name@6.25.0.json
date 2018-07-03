@@ -1,0 +1,12 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js"
+  }
+}

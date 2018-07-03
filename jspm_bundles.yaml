@@ -40,3 +40,5 @@
   - brace/ext/language_tools
   - eslint
   - espree
+  - babel-standalone
+  - babel-preset-react

@@ -1,0 +1,9 @@
+{
+  "main": "runtime-module.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

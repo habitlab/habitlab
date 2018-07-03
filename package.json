@@ -111,6 +111,8 @@
       "jspm": "jspm.config.js"
     },
     "dependencies": {
+      "babel-preset-react": "npm:babel-preset-react@^6.24.1",
+      "babel-standalone": "npm:babel-standalone@^6.26.0",
       "brace": "npm:brace@^0.10.0",
       "cfy": "npm:cfy@^1.0.20",
       "cheerio": "npm:cheerio@^0.22.0",
@@ -200,7 +202,7 @@
       "npm:jquery@3.1.1": {
         "format": "amd"
       },
-      "npm:lodash@4.17.4": {
+      "npm:lodash@4.17.10": {
         "map": {
           "buffer": "@empty",
           "process": "@empty"

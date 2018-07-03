@@ -7,12 +7,14 @@ module.exports = function (config) {
     basePath: '',
     frameworks: ['mocha', 'chai', 'sinon'],
     files: [
-      'test/**/*.ls'
+      'test/**/*.ls',
+      'test/**/*.js'
     ],
     exclude: [
     ],
     preprocessors: {
-      'test/**/*.ls': ['webpack']
+      'test/**/*.ls': ['webpack'],
+      'test/**/*.js': ['webpack']
     },
     webpack: webpack_config,
     reporters: ['progress'],

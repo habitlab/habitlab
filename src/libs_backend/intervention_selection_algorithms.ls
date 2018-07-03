@@ -17,6 +17,7 @@ prelude = require 'prelude-ls'
   get_intervention_info
   get_intersection
   list_enabled_interventions_for_goal
+  get_novelty
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -508,7 +509,7 @@ export thompsonsampling = (enabled_goals) ->>
     # Predict selected intervention using predictor.
     selected_intervention = mab.predict()
     output.push selected_intervention
-  return output
+  return prelude.sort(output)
     
 /**
  * This selection algorithm ranks the interventions from lowest to highest novelty, prioritizing 
@@ -528,15 +529,51 @@ export novelty = (enabled_goals) ->>
     for goal_name in intervention.goals
       # Check if this intervention is less recent than the specified intervention for that goal.
       if goal_name of enabled_goals and
-          (!novel_interventions[goal_name]? or time == -1 or 
-              (novel_interventions[goal_name].time != -1 and novel_interventions[goal_name].time < time))
+          (!novel_interventions[goal_name]? or novel_interventions[goal_name].time < time)
         novel_interventions[goal_name] = {intervention: intervention_name, time: time}
   # We now need to convert this into a list.
   for goal_name of enabled_goals
     output.push(novel_interventions[goal_name].intervention)
-  return output
+  return prelude.sort(output)
+
+/**
+ * Generates thompson-novely combo algorithm given weight (% of reward that should be from sampling)
+ * Precondition: @param weight must be between 0 and 1, inclusive.
+ */
+export thompson_novelty = (weight) ->
+  # We need to convert this weight (fraction/ratio) into coefficients. Ideally, we want these
+  # coefficients to be greater than 1 to avoid underflow (the normalized values could already be small)
+  denominator = 0
+  if weight < 0.5 and weight > 0 # don't want 1/0
+    denominator = 1/weight
+  else if weight > 0 and weight < 1 # don't want 1/0
+    denominator = 1/(1-weight)
+  else # weight is outside bounds (0,1)
+    denominator = 1
+  sample_coefficient = weight * denominator
+  novelty_coefficient = (1- weight) * denominator
+  return (enabled_goals) ->>
+    if not enabled_goals?
+      enabled_goals = await get_enabled_goals()
+    enabled_goals = [goal_name for goal_name, value of enabled_goals]
+    output = []
+    for goal_name in enabled_goals
+      # what interventions are available that have not been disabled?
+      enabled_interventions = await list_enabled_interventions_for_goal(goal_name)
+      if enabled_interventions.length == 0
+        continue
+      # Train MAB using Thompson Sampling
+      mab = await train_multi_armed_bandit_for_goal(goal_name, enabled_interventions, sample_coefficient, novelty_coefficient)
+      novelty = await get_novelty(enabled_interventions)
+      # Predict selected intervention using predictor.
+      selected_intervention = mab.predict(novelty)
+      output.push selected_intervention
+    return prelude.sort(output)
 
 selection_algorithms_for_visit = {
+  'thompsonnovelty05': thompson_novelty(0.5)
+  'thompsonnovelty075': thompson_novelty(0.75)
+  'thompsonnovelty09': thompson_novelty(0.9)
   'novelty': novelty
   'thompsonsampling': thompsonsampling
   'random': one_random_intervention_per_enabled_goal

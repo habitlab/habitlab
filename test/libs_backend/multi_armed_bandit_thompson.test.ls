@@ -1,3 +1,5 @@
+/** 
+ * Note: This is old thompson code.
 describe 'libs_backend/multi_armed_bandit_thompson', ->
   sandbox = null
   multi_armed_bandit = null
@@ -59,3 +61,4 @@ describe 'libs_backend/multi_armed_bandit_thompson', ->
         'b'
       ]
       next_intervention.should.equal 'b'
+    */

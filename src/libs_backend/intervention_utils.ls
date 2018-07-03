@@ -1327,13 +1327,25 @@ export get_goals_and_interventions = ->>
 export get_time_since_intervention = (intervention_name) ->>
   name = intervention_name
   intervention = await get_intervention_info(intervention_name)
+  console.log(intervention.generic_intervention)
   if intervention.generic_intervention?
     name = intervention.generic_intervention
   time = await getkey_dict('time_intervention_most_recently_seen', name)
   if time?
     return Date.now() - time
-  return -1
- 
+  return 60 * 60 * 1000 * 24 * 365 # number of milliseconds in a year. TODO: Visualize novelty data to find upper bound. 
+
+/**
+ * Currently, novelty is just the time since the intervention was last used.
+ * TODO: Consider some other function of that time to better represent the novelty curve. [Currently assuming linear]
+ * @param intervention_names list of strings
+ * @return dictionary {<intervention_name>: novelty}
+ */
+export get_novelty = (intervention_names) ->>
+  novelty = {}
+  for intervention_name in intervention_names
+    novelty[intervention_name] = await get_time_since_intervention(intervention_name) # TODO: see function docs
+  return novelty
 
 /*
 export get_goals_and_interventions = ->>

@@ -1,0 +1,43 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-range-slider/paper-range-slider.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<dom-module id="thompson-novelty-debug">
+    <template>
+        <style>
+           :host {
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+        </style>
+        <h3 id="Weight Selector" class="intervention_name">Choose weight: {{weight}}</h3>
+        NOTE: Once you choose the "simulate choose intervention" button, only the original weight is used.<br>
+        Novelty-Heavy<paper-slider always-show-pin id="weight_slider" class="intervention_weight_range" intervention="{{reward_info.intervention}}" on-change="slider_changed"
+          min="0" max="1" step="0.01" value="{{weight}}" style="width: 100%"></paper-slider>Sampling-Heavy
+        <table style="border:1">
+          <tr>
+            <td>Name</td><td>Time Min</td><td>Time Max</td><td>Novelty</td><td>Choice Frequency</td>
+          </tr>
+          <template is="dom-repeat" items="{{interventions}}" as="intervention">
+            <tr class="{{to_id(intervention.name)}}">
+              <td id="{{to_id(intervention.name)}}">{{intervention.name}}</td>
+              <td><paper-input always-float-label label="Time Min" value="{{intervention.time_min}}"></paper-input></td>
+              <td><paper-input always-float-label label="Time Max" value="{{intervention.time_max}}"></paper-input></td>
+              <td><paper-input always-float-label label="Novelty" value="{{intervention.novelty}}"></paper-input></td>
+              <td>{{intervention.choice_freq}}</td>
+            </tr>
+          </template>
+        </table>
+        <paper-button on-click="choose_intervention">Simulate choosing a new intervention</paper-button>
+        <paper-button on-click="choose_50_interventions">Simulate choosing 50 interventions</paper-button>
+        <br>Regret this round: {{regret_this_round}}
+        <br>Cumulative regret: {{total_regret}}
+        <br>Average Regret: {{average_regret}}
+    </template>
+  <script src="thompson-novelty-debug.js"></script>
+</dom-module>
+

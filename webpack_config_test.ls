@@ -26,6 +26,16 @@ webpack_config.module.loaders = [
       fromcwd('node_modules')
       fromcwd('bower_components')
     ]
+  },
+  {
+    test: /\.js$/
+    #loader: 'null-loader'
+    include: [fromcwd('test'), fromcwd('src')]
+    exclude: [
+      fromcwd('src/components_skate')
+      fromcwd('node_modules')
+      fromcwd('bower_components')
+    ]
   }
 ]
 

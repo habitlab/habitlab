@@ -347,6 +347,9 @@ export log_intervention_suggested_internal = (name, data) ->>
   await check_if_intervention_has_been_seen_and_record_as_seen_if_not(name)
   cur_epoch = get_days_since_epoch()
   await db_utils.setvar('last_epoch_intervention_suggested', cur_epoch)
+  intervention_info = await intervention_utils.get_intervention_info(name)
+  if intervention_info.generic_intervention?
+    name = intervention_info.generic_intervention
   await db_utils.setkey_dict('time_intervention_most_recently_seen', name, Date.now())
   await addtolog name, data
 

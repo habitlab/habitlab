@@ -29,7 +29,7 @@ gaussian = require 'gaussian'
  * Daniel J. Russo, Benjamin Van Roy, Abbas Kazerouni, Ian
  * Osband and Zheng Wen (2018), “A Tutorial on Thompson Sampling”, Foundations and
  * Trends in Machine Learning: Vol. 11, No. 1, pp 1–96. DOI: 10.1561/2200000070.
- * This ThompsonSampling is designed solely for sampling a multi-armbed-bandit problem with TIME observations.
+ * This Thompson Sampling is designed solely for handling a multi-armbed-bandit problem with TIME observations.
  * Currently, we will train the algorithm with all previous sessions on each instance of the extension
  * TODO: Investigate whether this will cause a performance bottleneck and rewrite the algorithm to 
  * maintain the posterior and only train with one new instance each time.
@@ -38,17 +38,26 @@ export class ThompsonMAB
   /**
    * Instantiates Thompson Multi Armed Bandit with Prior Distribution Parameters.
    * Note, our observations are time, so we can assume that our observations are log-Gaussian distributed.
-   * For each arm (intervention), we will have parameters.
-   * We will choose our prior parameters to be $$\mu_e=-1/2$$ and $$\sigma_e^2=1$$ so $$E[\theta_e]=1$$
+   * For each arm (intervention), we will have (mu, sigma) parameters.
+   * We will choose our prior parameters to be $$\mu_i=-1/2$$ and $$\sigma_i^2=1$$ so $$E[\theta_i]=1$$
+   * for each intervention $$i$$.
    * We will also assume that our sigma_tilde (Gaussian Noise) is 1. TODO: Investigate this assumption.
    * @param arms_list: a list of intervention names.
+   * @param sampling_factor: coefficient that represents degree to which the Thompson Sampling is considered
+   * relative to novelty factor. If higher than novelty factor, sampling factor is considered more.
+   * @param novelty_factor: coefficient that represents degree to which the novelty of an intervention
+   * is considered relative to the sampling_factor for recommending an intervention.
    */
-  (@arms_list) -> 
+  (@arms_list, @sampling_factor, @novelty_factor) ->
+    if !(@sampling_factor?)
+      @sampling_factor = 1 # Assume they only want sampling.
+    if !(@novelty_factor?)
+      @novelty_factor = 0 # Assume they only want sampling.
     @sigma_tilde = 1
     mu = -1/2
     sigma = 1
     @posterior_params = {}
-    for intervention_name in arms_list
+    for intervention_name in @arms_list
       @posterior_params[intervention_name] = [mu, sigma]
     @norm_distribution = gaussian(0,1) # We need a standard normal for sampling.
   
@@ -71,17 +80,14 @@ export class ThompsonMAB
     new_precision = old_precision + noise_precision
     new_mean = (noise_precision * (Math.log(observation) + 0.5 / noise_precision) +
                     old_precision * old_mean) / new_precision
-    new_std = Math.sqrt(1.0 / new_precision)sampling
+    new_std = Math.sqrt(1.0 / new_precision)
     @posterior_params[intervention_name] = [new_mean, new_std]
 
   /**
-   * Based on our posterior parameters, predict which intervention to choose to minimize time spent.
-   * @return: the name of the intervention we recommend.
+   * @return dictionary of {intervention_name: time}
    */
-  predict: ->
-    # Our goal is to do argmax of these rewards.
-    best_intervention = {}
-    console.log(@posterior_params)
+  sample_times: ->
+    dictionary = {}
     for intervention_name in @arms_list
       # Now, sample the amount of time the user would spend with this intervention.
       params = @posterior_params[intervention_name]
@@ -90,20 +96,56 @@ export class ThompsonMAB
       # We sample an estimate (our prediction) of the time the user will spend on the site. 
       # We then negate it so that the maximum is the smallest time.
       Z = @norm_distribution.ppf(Math.random())
-      reward = -(Math.exp(omean + std*Z))
-      console.log(intervention_name + " w/ reward " + reward)
+      dictionary[intervention_name] = (Math.exp(omean + std*Z))
+    return dictionary
+
+  /**
+   * @param dictionary: {intervention_name: number}
+   * @return normalized dictionary.
+   */
+  normalize: (dictionary) ->
+    total = 0
+    for key of dictionary
+      total += dictionary[key]
+    for key of dictionary
+      dictionary[key] /= total
+    return dictionary
+
+  /**
+    * Based on our posterior parameters, recommend which intervention to choose to minimize time spent.
+    * @param novelty: dictionary formatted like {<intervention_name>: <novelty>} 
+    * where novelty is the time since that intervention was used. Optional.
+    * @return: the name of the intervention we recommend.
+    */
+  predict: (novelty) ->
+    # Our goal is to do argmax of these rewards.
+    # To allow for a balanced comparison, we will need to sample all of our time predictions and novelties
+    # and normalize both sets.
+    console.log("Our novelty: ")
+    console.log(novelty)
+    sample = @normalize(@sample_times())
+    if novelty?
+      novelty = @normalize(novelty)   
+    best_intervention = {}
+    for intervention_name in @arms_list
+      novelty_value = 0
+      if novelty?
+        novelty_value = novelty[intervention_name]
+      reward = -1 * @sampling_factor * sample[intervention_name] + @novelty_factor * (novelty_value)
       if !best_intervention.intervention_name? or best_intervention.reward < reward
         best_intervention.intervention_name = intervention_name
         best_intervention.reward = reward
+    console.log("Best reward:" + best_intervention.reward)
     return best_intervention.intervention_name
 
 /**
  * Trains predictor for choosing which intervention to use given a goal using Thompson Sampling.
  * Each sample is the session length using an intervention.
+ * @param sample_coefficient, novelty_coefficient: see ThompsonMAB
  * @return A predictor for which intervention to choose.
  */
-export train_multi_armed_bandit_for_goal = (goal_name, intervention_names) ->>
-  bandit = new ThompsonMAB(intervention_names)  
+export train_multi_armed_bandit_for_goal = (goal_name, intervention_names, sample_coefficient, novelty_coefficient) ->>
+  bandit = new ThompsonMAB(intervention_names, sample_coefficient, novelty_coefficient)  
   if not intervention_names?
     intervention_names = await intervention_utils.list_enabled_interventions_for_goal(goal_name)
   # We need the goal info to get the domain name.

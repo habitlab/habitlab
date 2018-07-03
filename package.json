@@ -16,6 +16,7 @@
     "gaussian": "^1.1.0",
     "getsecret": "^1.0.2",
     "htmlparser2": "^3.9.2",
+    "is-installed": "^2.0.1",
     "jquery": "^3.0.0",
     "js-yaml": "^3.6.1",
     "jspm": "beta",
@@ -30,20 +31,26 @@
     "mathjs": "^3.9.0",
     "moment": "^2.13.0",
     "msgpack-lite": "^0.1.26",
+    "net": "^1.0.2",
     "netlify": "^1.2.0",
     "octokat": "^0.9.2",
     "percipio": "^0.1.2",
     "prelude-ls": "^1.1.2",
     "promise-debounce": "^1.0.1",
+    "raw-loader": "^0.5.1",
     "remove": "^0.1.5",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2",
     "shelljs": "^0.7.8",
     "shuffled": "^1.0.0",
     "sortablejs": "^1.5.0-rc1",
     "sweetalert2": "^6.3.2",
     "systemjs": "github:gkovacs/systemjs",
+    "tls": "^0.0.1",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1",
-    "webpack2-stream-watch": "^3.2.2"
+    "webpack2-stream-watch": "^3.2.2",
+    "yarn-api": "^1.1.0"
   },
   "devDependencies": {
     "babel-minify-webpack-plugin": "^0.2.0",
@@ -104,6 +111,8 @@
       "jspm": "jspm.config.js"
     },
     "dependencies": {
+      "babel-preset-react": "npm:babel-preset-react@^6.24.1",
+      "babel-standalone": "npm:babel-standalone@^6.26.0",
       "brace": "npm:brace@^0.10.0",
       "cfy": "npm:cfy@^1.0.20",
       "cheerio": "npm:cheerio@^0.22.0",
@@ -193,7 +202,7 @@
       "npm:jquery@3.1.1": {
         "format": "amd"
       },
-      "npm:lodash@4.17.4": {
+      "npm:lodash@4.17.10": {
         "map": {
           "buffer": "@empty",
           "process": "@empty"

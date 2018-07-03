@@ -592,7 +592,7 @@ script.parentNode.removeChild(script);
         return
       brace = await SystemJS.import('brace')
       aceRange = brace.acequire('ace/range').Range
-      await SystemJS.import('brace/mode/javascript')
+      await SystemJS.import('brace/mode/jsx')
       await SystemJS.import('brace/ext/language_tools')
       brace.acequire('ace/ext/language_tools')
       self.js_editors[intervention_name] = js_editor = brace.edit(editor_div)
@@ -603,14 +603,14 @@ script.parentNode.removeChild(script);
         #wrap: 80
         #autoScrollEditorIntoView: true
       });
-      js_editor.getSession().setMode('ace/mode/javascript')
+      js_editor.getSession().setMode('ace/mode/jsx')
       js_editor.getSession().setUseWrapMode(true)
       js_editor.getSession().setOption("useWorker", false) # disables built in annotation
       js_editor.getSession().setTabSize(2)
       js_editor.getSession().setUseSoftTabs(true)
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
-      js_editor.setValue(intervention_info.code) 
+      js_editor.setValue('(async function() {\n' + intervention_info.code + '\n})();' ) 
 
       clicked_fn = ->>
         alert('hi')

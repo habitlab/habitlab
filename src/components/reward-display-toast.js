@@ -89,7 +89,7 @@ Polymer({
     //console.log results
     //console.log results.data.image_url
     //this.img_url = results.data.image_url
-    console.log(results.data)
+    //console.log(results.data)
     if (results.data.image_url.startsWith('http:')) {
       results.data.image_url = results.data.image_url.replace(/^http:/, 'https:')
     }

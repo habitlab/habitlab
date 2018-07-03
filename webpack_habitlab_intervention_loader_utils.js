@@ -86,6 +86,9 @@ function preprocess_javascript(source) {
 	})();
   `)
   all_requires = list_requires(source, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
+  if (all_requires.define_component) {
+    prefix_lines.push("var define_component = require('libs_frontend/polymer_utils').polymer_ext;")
+  }
   function is_component_require(x) {
     if (x.endsWith('.deps') || x.endsWith('.deps.js')) {
       return true

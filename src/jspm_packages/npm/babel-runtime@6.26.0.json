@@ -1,0 +1,11 @@
+{
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./regenerator": "./regenerator/index.js"
+  }
+}

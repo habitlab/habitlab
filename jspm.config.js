@@ -10,6 +10,8 @@ SystemJS.config({
   ],
   map: {
     "ajv": "npm:ajv@5.2.3",
+    "babel-preset-react": "npm:babel-preset-react@6.24.1",
+    "babel-standalone": "npm:babel-standalone@6.26.0",
     "bcrypt-pbkdf": "npm:bcrypt-pbkdf@1.0.1",
     "brace": "npm:brace@0.10.0",
     "cheerio": "npm:cheerio@0.22.0",
@@ -729,7 +731,7 @@ SystemJS.config({
     },
     "npm:xmlbuilder@4.2.1": {
       "map": {
-        "lodash": "npm:lodash@4.17.4"
+        "lodash": "npm:lodash@4.17.10"
       }
     },
     "npm:min-document@2.19.0": {
@@ -822,7 +824,7 @@ SystemJS.config({
         "debug": "npm:debug@3.1.0",
         "espree": "npm:espree@3.5.1",
         "js-yaml": "npm:js-yaml@3.10.0",
-        "lodash": "npm:lodash@4.17.4",
+        "lodash": "npm:lodash@4.17.10",
         "ajv": "npm:ajv@5.2.3"
       }
     },
@@ -862,7 +864,7 @@ SystemJS.config({
     "npm:table@4.0.2": {
       "map": {
         "chalk": "npm:chalk@2.1.0",
-        "lodash": "npm:lodash@4.17.4",
+        "lodash": "npm:lodash@4.17.10",
         "slice-ansi": "npm:slice-ansi@1.0.0",
         "string-width": "npm:string-width@2.1.1",
         "ajv-keywords": "npm:ajv-keywords@2.1.0",
@@ -873,7 +875,7 @@ SystemJS.config({
       "map": {
         "chalk": "npm:chalk@2.1.0",
         "strip-ansi": "npm:strip-ansi@4.0.0",
-        "lodash": "npm:lodash@4.17.4",
+        "lodash": "npm:lodash@4.17.10",
         "string-width": "npm:string-width@2.1.1",
         "cli-cursor": "npm:cli-cursor@2.1.0",
         "mute-stream": "npm:mute-stream@0.0.7",
@@ -1301,6 +1303,72 @@ SystemJS.config({
     "npm:jspm-nodelibs-string_decoder@0.2.2": {
       "map": {
         "string_decoder": "npm:string_decoder@0.10.31"
+      }
+    },
+    "npm:babel-preset-react@6.24.1": {
+      "map": {
+        "babel-plugin-transform-react-jsx-self": "npm:babel-plugin-transform-react-jsx-self@6.22.0",
+        "babel-plugin-syntax-jsx": "npm:babel-plugin-syntax-jsx@6.18.0",
+        "babel-preset-flow": "npm:babel-preset-flow@6.23.0",
+        "babel-plugin-transform-react-jsx": "npm:babel-plugin-transform-react-jsx@6.24.1",
+        "babel-plugin-transform-react-display-name": "npm:babel-plugin-transform-react-display-name@6.25.0",
+        "babel-plugin-transform-react-jsx-source": "npm:babel-plugin-transform-react-jsx-source@6.22.0"
+      }
+    },
+    "npm:babel-plugin-transform-react-jsx-self@6.22.0": {
+      "map": {
+        "babel-plugin-syntax-jsx": "npm:babel-plugin-syntax-jsx@6.18.0",
+        "babel-runtime": "npm:babel-runtime@6.26.0"
+      }
+    },
+    "npm:babel-plugin-transform-react-jsx@6.24.1": {
+      "map": {
+        "babel-plugin-syntax-jsx": "npm:babel-plugin-syntax-jsx@6.18.0",
+        "babel-helper-builder-react-jsx": "npm:babel-helper-builder-react-jsx@6.26.0",
+        "babel-runtime": "npm:babel-runtime@6.26.0"
+      }
+    },
+    "npm:babel-plugin-transform-react-jsx-source@6.22.0": {
+      "map": {
+        "babel-plugin-syntax-jsx": "npm:babel-plugin-syntax-jsx@6.18.0",
+        "babel-runtime": "npm:babel-runtime@6.26.0"
+      }
+    },
+    "npm:babel-preset-flow@6.23.0": {
+      "map": {
+        "babel-plugin-transform-flow-strip-types": "npm:babel-plugin-transform-flow-strip-types@6.22.0"
+      }
+    },
+    "npm:babel-plugin-transform-react-display-name@6.25.0": {
+      "map": {
+        "babel-runtime": "npm:babel-runtime@6.26.0"
+      }
+    },
+    "npm:babel-plugin-transform-flow-strip-types@6.22.0": {
+      "map": {
+        "babel-runtime": "npm:babel-runtime@6.26.0",
+        "babel-plugin-syntax-flow": "npm:babel-plugin-syntax-flow@6.18.0"
+      }
+    },
+    "npm:babel-helper-builder-react-jsx@6.26.0": {
+      "map": {
+        "babel-runtime": "npm:babel-runtime@6.26.0",
+        "esutils": "npm:esutils@2.0.2",
+        "babel-types": "npm:babel-types@6.26.0"
+      }
+    },
+    "npm:babel-runtime@6.26.0": {
+      "map": {
+        "regenerator-runtime": "npm:regenerator-runtime@0.11.1",
+        "core-js": "npm:core-js@2.5.7"
+      }
+    },
+    "npm:babel-types@6.26.0": {
+      "map": {
+        "esutils": "npm:esutils@2.0.2",
+        "babel-runtime": "npm:babel-runtime@6.26.0",
+        "to-fast-properties": "npm:to-fast-properties@1.0.3",
+        "lodash": "npm:lodash@4.17.10"
       }
     }
   }

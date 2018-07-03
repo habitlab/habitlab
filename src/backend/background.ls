@@ -21,6 +21,7 @@ do !->>
   {
     addtokey_dictdict
     getkey_dictdict
+    getkey_dict
     getDb
     setvar_experiment
   } = require 'libs_backend/db_utils'
@@ -160,7 +161,7 @@ do !->>
     if not chosen_algorithm?
       # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
       # algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
-      algorithms = ['one_random_intervention_per_enabled_goal', 'thompsonsampling'] # 'novelty'
+      algorithms = ['one_random_intervention_per_enabled_goal'] # 'thompsonsampling', 'novelty'
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
     setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
@@ -197,6 +198,18 @@ do !->>
       localStorage.setItem('suggest_interventions', true)
     localStorage.setItem('intervention_suggestion_algorithm', chosen_algorithm)
     setvar_experiment('intervention_suggestion_algorithm', chosen_algorithm)
+    return
+
+  export set_onboarding_ideavoting_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('idea_voting_disabled', true)
+    else
+      localStorage.setItem('idea_voting_disabled', false)
+    localStorage.setItem('onboarding_ideavoting_abtest', chosen_algorithm)
+    setvar_experiment('onboarding_ideavoting_abtest', chosen_algorithm)
     return
 
   export set_daily_goal_reminders_abtest = (chosen_algorithm) ->
@@ -419,7 +432,9 @@ do !->>
 
     content_script_codes_promises = []
     for content_script_option in content_script_options
-      if content_script_option.code?
+      if content_script_option.fetch_from_db?
+        content_script_codes_promises.push getkey_dict('custom_intervention_code', content_script_option.fetch_from_db)
+      else if content_script_option.code?
         content_script_codes_promises.push Promise.resolve(content_script_option.code)
       else
         content_script_codes_promises.push localget(content_script_option.path)

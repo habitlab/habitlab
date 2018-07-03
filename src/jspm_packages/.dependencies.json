@@ -1638,10 +1638,6 @@
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
   },
-  "npm:esutils@2.0.2": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:progress@2.0.0": {
     "deps": {},
     "peerDeps": {
@@ -1944,10 +1940,6 @@
     "peerDeps": {
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
-  },
-  "npm:lodash@4.17.4": {
-    "deps": {},
-    "peerDeps": {}
   },
   "npm:resolve-from@1.0.1": {
     "deps": {},
@@ -2409,14 +2401,6 @@
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
   },
-  "npm:jspm-nodelibs-fs@0.2.0": {
-    "deps": {},
-    "peerDeps": {}
-  },
-  "npm:jspm-nodelibs-process@0.2.0": {
-    "deps": {},
-    "peerDeps": {}
-  },
   "npm:jspm-nodelibs-buffer@0.2.3": {
     "deps": {
       "buffer": "npm:buffer@^5.0.6"
@@ -2819,12 +2803,6 @@
     "deps": {},
     "peerDeps": {}
   },
-  "npm:jspm-nodelibs-path@0.2.1": {
-    "deps": {},
-    "peerDeps": {
-      "process": "npm:jspm-nodelibs-process@^0.2.0"
-    }
-  },
   "npm:minimalistic-assert@1.0.0": {
     "deps": {},
     "peerDeps": {}
@@ -2922,5 +2900,135 @@
     "peerDeps": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0"
     }
+  },
+  "npm:babel-standalone@6.26.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:babel-preset-react@6.24.1": {
+    "deps": {
+      "babel-preset-flow": "npm:babel-preset-flow@^6.23.0",
+      "babel-plugin-syntax-jsx": "npm:babel-plugin-syntax-jsx@^6.3.13",
+      "babel-plugin-transform-react-display-name": "npm:babel-plugin-transform-react-display-name@^6.23.0",
+      "babel-plugin-transform-react-jsx": "npm:babel-plugin-transform-react-jsx@^6.24.1",
+      "babel-plugin-transform-react-jsx-source": "npm:babel-plugin-transform-react-jsx-source@^6.22.0",
+      "babel-plugin-transform-react-jsx-self": "npm:babel-plugin-transform-react-jsx-self@^6.22.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-transform-react-jsx-self@6.22.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-plugin-syntax-jsx": "npm:babel-plugin-syntax-jsx@^6.8.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-syntax-jsx@6.18.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:babel-preset-flow@6.23.0": {
+    "deps": {
+      "babel-plugin-transform-flow-strip-types": "npm:babel-plugin-transform-flow-strip-types@^6.22.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-transform-react-jsx@6.24.1": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-helper-builder-react-jsx": "npm:babel-helper-builder-react-jsx@^6.24.1",
+      "babel-plugin-syntax-jsx": "npm:babel-plugin-syntax-jsx@^6.8.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-transform-react-display-name@6.25.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0"
+    },
+    "peerDeps": {
+      "path": "npm:jspm-nodelibs-path@^0.2.0"
+    }
+  },
+  "npm:babel-plugin-transform-react-jsx-source@6.22.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-plugin-syntax-jsx": "npm:babel-plugin-syntax-jsx@^6.8.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-transform-flow-strip-types@6.22.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-plugin-syntax-flow": "npm:babel-plugin-syntax-flow@^6.18.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-helper-builder-react-jsx@6.26.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.26.0",
+      "babel-types": "npm:babel-types@^6.26.0",
+      "esutils": "npm:esutils@^2.0.2"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-runtime@6.26.0": {
+    "deps": {
+      "core-js": "npm:core-js@^2.4.0",
+      "regenerator-runtime": "npm:regenerator-runtime@^0.11.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:regenerator-runtime@0.11.1": {
+    "deps": {},
+    "peerDeps": {
+      "path": "npm:jspm-nodelibs-path@^0.2.0"
+    }
+  },
+  "npm:babel-types@6.26.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.26.0",
+      "esutils": "npm:esutils@^2.0.2",
+      "lodash": "npm:lodash@^4.17.4",
+      "to-fast-properties": "npm:to-fast-properties@^1.0.3"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-syntax-flow@6.18.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:esutils@2.0.2": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:to-fast-properties@1.0.3": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:core-js@2.5.7": {
+    "deps": {},
+    "peerDeps": {
+      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
+      "path": "npm:jspm-nodelibs-path@^0.2.0",
+      "process": "npm:jspm-nodelibs-process@^0.2.0"
+    }
+  },
+  "npm:jspm-nodelibs-path@0.2.1": {
+    "deps": {},
+    "peerDeps": {
+      "process": "npm:jspm-nodelibs-process@^0.2.0"
+    }
+  },
+  "npm:lodash@4.17.10": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:jspm-nodelibs-process@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:jspm-nodelibs-fs@0.2.0": {
+    "deps": {},
+    "peerDeps": {}
   }
 }

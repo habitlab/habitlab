@@ -34,9 +34,11 @@
   - list_requires_multi
   - brace
   - brace/mode/javascript
-  - brace/mode/livescript
+  - brace/mode/jsx
   - brace/mode/html
   - brace/theme/monokai
   - brace/ext/language_tools
   - eslint
   - espree
+  - babel-standalone
+  - babel-preset-react

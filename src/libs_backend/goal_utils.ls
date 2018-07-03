@@ -168,7 +168,7 @@ export set_goal_disabled_manual = (goal_name) ->>
   await set_enabled_goals enabled_goals
   log_utils.add_log_goals {
     type: 'goal_disabled'
-    manual: false
+    manual: true
     goal_name: goal_name
     prev_enabled_goals: prev_enabled_goals
   }

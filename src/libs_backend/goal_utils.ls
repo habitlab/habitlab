@@ -620,6 +620,10 @@ export get_goals_for_intervention = (intervention_name) ->>
   goals_for_intervention = interventions_to_goals[intervention_name] ? []
   return goals_for_intervention
 
+/**
+ * Gets the target time spent in seconds for the specified goal
+ * @return {Promise.<Number>} The target in seconds
+ */
 export get_goal_target = (goal_name) ->>
   result = await getkey_dict 'goal_targets', goal_name
   if result?

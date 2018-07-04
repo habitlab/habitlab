@@ -178,7 +178,8 @@ do !->>
   
   export set_difficulty_selection_screen = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
+      #algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
+      algorithms = ['nodefault_optional']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'none'
       localStorage.setItem('difficulty_selector_disabled', true)
@@ -260,6 +261,7 @@ do !->>
     set_intervention_suggestion_algorithm()
     set_daily_goal_reminders_abtest()
     set_reward_gifs_abtest()
+    set_onboarding_ideavoting_abtest()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()

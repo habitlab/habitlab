@@ -18,15 +18,21 @@ const remove_feed_once_available = run_only_one_at_a_time((callback) => {
     return
   }
 
-  const feed_selector = 'ytd-browse[role="main"][page-subtype="home"] #contents'
-  once_available_fast(feed_selector, () => {
-    show_buttons(feed_selector)
+  const front_feed_selector = 'ytd-browse[role="main"][page-subtype="home"] #contents'
+  once_available_fast(front_feed_selector, () => {
+    show_buttons('ytd_browse')
+    callback()
+  })
+
+  const side_feed_selector = 'ytd-watch-next-secondary-results-renderer'
+  once_available_fast(side_feed_selector, () => {
+    show_buttons('#related')
     callback()
   })
 })
 
 
-function show_buttons(feed_selector) {
+function show_buttons(target_selector) {
   if (window.intervention_disabled) {
     return
   }
@@ -41,7 +47,7 @@ function show_buttons(feed_selector) {
   habitlab_div.append(showFeedButton)
   let habitlab_div_wrapper = $(wrap_in_shadow(habitlab_div))
       .addClass('habitlab_inserted_div').css('margin-top', '20px')
-  $('ytd-browse').prepend(habitlab_div_wrapper);
+  $(target_selector).prepend(habitlab_div_wrapper);
 }
 
 remove_feed_once_available()
@@ -62,6 +68,9 @@ function disable_intervention() {
     .prop('type', 'text/css')
     .html('\
     ytd-browse[role="main"][page-subtype="home"] #contents {\
+      visibility: visible !important;\
+    }\
+    ytd-watch-next-secondary-results-renderer {\
       visibility: visible !important;\
     }\
     ')

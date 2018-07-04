@@ -344,14 +344,16 @@ export get_suggested_intervention_if_needed_for_url = (url) ->>
   | _ => 0
   #intervention_suggestion_frequency_days_options = [1,3,5,7]
   #intervention_suggestion_frequency_days = intervention_suggestion_frequency_days_options[Math.floor(Math.random() * intervention_suggestion_frequency_days_options.length)]
-  last_epoch_intervention_suggested = await getvar('last_epoch_intervention_suggested')
-  if not (last_epoch_intervention_suggested? and isFinite(last_epoch_intervention_suggested))
-    last_epoch_intervention_suggested = 0
+  #last_epoch_intervention_suggested = await getvar('last_epoch_intervention_suggested')
+  #if not (last_epoch_intervention_suggested? and isFinite(last_epoch_intervention_suggested))
+  #  last_epoch_intervention_suggested = 0
   last_epoch_new_intervention_seen = await getvar('last_epoch_new_intervention_seen')
+  last_epoch_new_intervention_seen = parseInt(last_epoch_new_intervention_seen)
   if not (last_epoch_new_intervention_seen? and isFinite(last_epoch_new_intervention_seen))
     last_epoch_new_intervention_seen = 0
-  last_epoch_new_intervention_suggested_or_seen = Math.max(last_epoch_intervention_suggested, last_epoch_new_intervention_seen)
-  if (Math.abs(cur_epoch - last_epoch_intervention_suggested) < intervention_suggestion_frequency_days)
+  last_epoch_new_intervention_suggested_or_seen = last_epoch_new_intervention_seen
+  #last_epoch_new_intervention_suggested_or_seen = Math.max(last_epoch_intervention_suggested, last_epoch_new_intervention_seen)
+  if (Math.abs(cur_epoch - last_epoch_new_intervention_suggested_or_seen) < intervention_suggestion_frequency_days)
     # already suggested an intervention recently
     return null
   possible_suggestions = await list_possible_intervention_suggestions_for_url(url)

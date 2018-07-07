@@ -1,0 +1,14 @@
+description: Hide recommended videos on front page and sidebar
+displayname: Feed Diet
+difficulty: medium
+matches:
+  - www.youtube.com
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+styles:
+  - "#home-page-skeleton { display: none !important; }"
+  - "ytd-browse[role='main'][page-subtype='home'] #contents { visibility: hidden !important; }"
+  - "#related-skeleton, .watch-skeleton { display: none !important; }"
+  - "ytd-watch-next-secondary-results-renderer { visibility: hidden !important; }"
+preview: https://www.youtube.com/

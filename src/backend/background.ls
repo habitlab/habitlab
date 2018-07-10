@@ -662,12 +662,10 @@ do !->>
         }
       };
       window.intervention_disabled = false;
-
       if (!window.SystemJS) {
         #{systemjs_content_script_code}
       }
       #{content_script_code}
-      #{debug_content_script_code_with_hlog}
 
       (async function() {
         while (document.body == null) {
@@ -681,36 +679,9 @@ do !->>
             console.log('rinsitnrs');
             window.on_intervention_disabled();
           } else {
-            SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
-              content_script_utils.load_css_file('sweetalert2').then(function() {
-                sweetalert({
-                  title: 'Reload page to turn off intervention',
-                  text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
-                });
-              });
-            });
           }
-          SystemJS.import('libs_frontend/intervention_log_utils').then(function(log_utils) {
-            log_utils.log_disable();
-          });
         });
       })();
-
-      SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
-        intervention_info_setter_lib.set_intervention(intervention);
-        intervention_info_setter_lib.set_goal_info(goal_info);
-        intervention_info_setter_lib.set_tab_id(tab_id);
-        intervention_info_setter_lib.set_session_id(session_id);
-        intervention_info_setter_lib.set_is_new_session(is_new_session);
-        intervention_info_setter_lib.set_is_preview_mode(is_preview_mode);
-        intervention_info_setter_lib.set_is_suggestion_mode(is_suggestion_mode);
-        if (is_suggestion_mode) {
-          log_utils.log_intervention_suggested();
-        } else {
-          log_utils.log_impression();
-        }
-        #{open_debug_page_if_needed}
-      });
     }
   }
       """

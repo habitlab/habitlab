@@ -44,13 +44,21 @@ function preprocess_javascript(source) {
   suffix_lines.push('window.debugeval = x => eval(x);')
   suffix_lines.push('require("libs_frontend/intervention_first_impression_utils").show_first_impression_notice_if_needed();')
   prefix_lines.push('window.Polymer = window.Polymer || {};')
-  prefix_lines.push('window.Polymer.dom = "shadow";')
+  //prefix_lines.push('window.Polymer.dom = "shadow";')
+  prefix_lines.push('window.Polymer.dom = "shady";')
   prefix_lines.push(`
   if (typeof(window.wrap) != 'function') {
     window.wrap = null;
   }
   `)
+  prefix_lines.push('console.log("loading enable-webcomponents-in-content-scripts");')
   prefix_lines.push('require("enable-webcomponents-in-content-scripts");')
+  prefix_lines.push('console.log("done loading enable-webcomponents-in-content-scripts");')
+
+  //prefix_lines.push('console.log("loading webcomponentsjs-shadow-dom-v0");')
+  //prefix_lines.push('require("webcomponentsjs-shadow-dom-v0");')
+  //prefix_lines.push('console.log("done loading webcomponentsjs-shadow-dom-v0");')
+
   prefix_lines.push('async function habitlab_intervention_main_function(){')
   suffix_lines.push(`
 	  }

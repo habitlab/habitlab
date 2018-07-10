@@ -3,6 +3,8 @@
   "private": true,
   "description": "",
   "dependencies": {
+    "babel-preset-react": "^6.24.1",
+    "babel-standalone": "^6.26.0",
     "base64-js": "^1.2.0",
     "bounce.js": "^0.8.2",
     "brace": "^0.10.0",
@@ -11,6 +13,7 @@
     "css-element-queries": "^0.4.0",
     "dexie": "^1.4.1",
     "documentation-habitlab": "^4.0.0-beta.19.4",
+    "enable-webcomponents-and-shadow-dom-in-content-scripts": "^1.0.8",
     "enable-webcomponents-in-content-scripts": "^1.0.7",
     "eslint": "^4.8.0",
     "gaussian": "^1.1.0",
@@ -49,6 +52,7 @@
     "tls": "^0.0.1",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1",
+    "webcomponentsjs-shadow-dom-v0": "^1.0.2",
     "webpack2-stream-watch": "^3.2.2",
     "yarn-api": "^1.1.0"
   },

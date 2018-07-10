@@ -1416,7 +1416,7 @@ babel-preset-minify@^0.3.0:
     babel-plugin-transform-undefined-to-void "^6.9.0"
     lodash.isplainobject "^4.0.6"
 
-babel-preset-react@^6.16.0:
+babel-preset-react@^6.16.0, babel-preset-react@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-preset-react/-/babel-preset-react-6.24.1.tgz#ba69dfaea45fc3ec639b6a4ecea6e17702c91380"
   dependencies:
@@ -1499,6 +1499,10 @@ babel-runtime@^6.2.0, babel-runtime@^6.22.0:
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
+
+babel-standalone@^6.26.0:
+  version "6.26.0"
+  resolved "https://registry.yarnpkg.com/babel-standalone/-/babel-standalone-6.26.0.tgz#15fb3d35f2c456695815ebf1ed96fe7f015b6886"
 
 babel-template@^6.22.0, babel-template@^6.3.0:
   version "6.22.0"
@@ -3057,6 +3061,13 @@ emoji-regex@^6.0.0:
 emojis-list@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-2.1.0.tgz#4daa4d9db00f9819880c79fa457ae5b09a1fd389"
+
+enable-webcomponents-and-shadow-dom-in-content-scripts@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/enable-webcomponents-and-shadow-dom-in-content-scripts/-/enable-webcomponents-and-shadow-dom-in-content-scripts-1.0.8.tgz#6608d7a0d61e8a9290b9fb5ab6b8f338eca55f77"
+  dependencies:
+    webcomponentsjs-custom-element-v0 "^1.0.2"
+    webcomponentsjs-shadow-dom-v0 "^1.0.2"
 
 enable-webcomponents-in-content-scripts@^1.0.7:
   version "1.0.7"
@@ -9272,6 +9283,14 @@ watchpack@^1.5.0:
 webcomponentsjs-custom-element-v0@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/webcomponentsjs-custom-element-v0/-/webcomponentsjs-custom-element-v0-1.0.1.tgz#78dc420fb172bef60b8d6c288728a844cbe0255e"
+
+webcomponentsjs-custom-element-v0@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/webcomponentsjs-custom-element-v0/-/webcomponentsjs-custom-element-v0-1.0.2.tgz#3cd13aba3222680b1b1da823719c8d3cc3d594ee"
+
+webcomponentsjs-shadow-dom-v0@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/webcomponentsjs-shadow-dom-v0/-/webcomponentsjs-shadow-dom-v0-1.0.2.tgz#5a342f3e2f7b9f253c77b3e60aebf792f00f656a"
 
 webidl-conversions@^2.0.0:
   version "2.0.1"

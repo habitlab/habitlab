@@ -641,12 +641,10 @@ do !->>
         }
       };
       window.intervention_disabled = false;
-
       if (!window.SystemJS) {
         #{systemjs_content_script_code}
       }
       #{content_script_code}
-      #{debug_content_script_code_with_hlog}
 
       (async function() {
         while (document.body == null) {
@@ -659,21 +657,10 @@ do !->>
           if (typeof(window.on_intervention_disabled) == 'function') {
             window.on_intervention_disabled();
           } else {
-            SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
-              content_script_utils.load_css_file('sweetalert2').then(function() {
-                sweetalert({
-                  title: 'Reload page to turn off intervention',
-                  text: 'This intervention has not implemented support for disabling itself. Reload the page to disable it.'
-                });
-              });
-            });
           }
-          SystemJS.import('libs_frontend/intervention_log_utils').then(function(log_utils) {
-            log_utils.log_disable();
-          });
         });
       })();
-
+/* commented out for firefox support. TODO just conditionally run this if UA isn't firefox.
       SystemJS.import_multi(['libs_common/intervention_info', 'libs_frontend/intervention_log_utils'], function(intervention_info_setter_lib, log_utils) {
         intervention_info_setter_lib.set_intervention(intervention);
         intervention_info_setter_lib.set_goal_info(goal_info);
@@ -695,6 +682,7 @@ do !->>
         }
         #{open_debug_page_if_needed}
       });
+*/
     }
   }
       """

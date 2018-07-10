@@ -135,6 +135,7 @@ export create_shadow_div = (options) ->
     delete options.shadow_div
   else
     shadow_div = document.createElement('div')
+  console.log('got past if else')
   options = to_camelcase_dict(options)
   default_options = {
     fontFamily: 'Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
@@ -149,11 +150,62 @@ export create_shadow_div = (options) ->
   }
   for k,v of default_options
     options[k] = options[k] ? v
+  console.log('making shadow host and shadow root')
   shadow_host = document.createElement('div')
-  #shadow_root = shadow_host.attachShadow({mode: 'open'})
-  shadow_root = shadow_host.createShadowRoot()
+  console.log('made shadow host')
+  if shadow_host.createShadowRoot?
+    console.log('using createShadowRoot')
+    shadow_root = shadow_host.createShadowRoot()
+  else
+    console.log('using attachShadow')
+    shadow_root = shadow_host.attachShadow({mode: 'open'})
+  console.log('made shadow root')
   for k,v of options
     shadow_div.style[k] = v
+  console.log('appending onto shadow root')
+  shadow_root.appendChild(shadow_div)
+  shadow_div.shadow_root = shadow_root
+  shadow_div.shadow_host = shadow_host
+  shadow_host.shadow_root = shadow_root
+  shadow_host.shadow_div = shadow_div
+  return shadow_div
+
+/**
+* Creates a div in the shadow dom to protect the div styling from outside CSS
+* @param options - css styling which should be applied to shadow div
+* @return the created shadow div
+*/
+export create_shadow_div_fake = (options) ->
+  if not options?
+    options = {}
+  if options.shadow_div?
+    shadow_div = options.shadow_div
+    delete options.shadow_div
+  else
+    shadow_div = document.createElement('div')
+  console.log('got past if else')
+  options = to_camelcase_dict(options)
+  default_options = {
+    fontFamily: 'Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
+    position: 'static'
+    zIndex: 2147483646
+    fontSize: '14px'
+    lineHeight: 1
+    padding: '0px'
+    margin: '0px'
+    opacity: 1
+    boxSizing: 'content-box'
+  }
+  for k,v of default_options
+    options[k] = options[k] ? v
+  console.log('making shadow host and shadow root')
+  shadow_host = shadow_div
+  console.log('made shadow host')
+  shadow_root = document.createElement('div')
+  console.log('made shadow root')
+  for k,v of options
+    shadow_div.style[k] = v
+  console.log('appending onto shadow root')
   shadow_root.appendChild(shadow_div)
   shadow_div.shadow_root = shadow_root
   shadow_div.shadow_host = shadow_host
@@ -184,8 +236,14 @@ export create_shadow_div_on_body = (options) ->
   if not options?
     options = {}
   options.position = options.position ? 'fixed'
-  shadow_div = create_shadow_div(options)
+  console.log('making shadow div create')
+  #shadow_div = create_shadow_div(options)
+  shadow_div = create_shadow_div_fake(options)
+  #shadow_div.shadow_host = document.createElement('div')
+  console.log('made shadow div')
   document.body.appendChild(shadow_div.shadow_host)
+  #document.body.appendChild(shadow_div.shadow_host)
+  console.log('appended shadow_div.shadow_host')
   return shadow_div
 
 /**
@@ -195,12 +253,17 @@ export create_shadow_div_on_body = (options) ->
  * @return {HTMLElement} The created div in the shadow dom
  */
 export append_to_body_shadow = (elem, options) ->
+  console.log('in append')
   if not options?
     options = {}
   options.position = options.position ? 'fixed'
+  console.log('making append shadow div')
   shadow_div = create_shadow_div_on_body(options)
+  console.log('set append shadow div')
   if elem.length? and elem.length > 0
     elem = elem[0]
+  console.log('shadow_div')
+  console.log(shadow_div)
   shadow_div.appendChild(elem)
   return shadow_div
 

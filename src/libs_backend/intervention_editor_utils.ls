@@ -17,13 +17,15 @@ swal = require 'sweetalert2'
 $ = require 'jquery'
 
 get_list_requires = memoizeSingleAsync ->>
-  await SystemJS.import('list_requires_multi')
+  #await SystemJS.import('list_requires_multi')
+  return require('list_requires_multi')
 
 get_sweetjs_utils = memoizeSingleAsync ->>
   await SystemJS.import('libs_backend/sweetjs_utils')
 
 get_babel = memoizeSingleAsync ->>
-  await SystemJS.import('babel-standalone')
+  #await SystemJS.import('babel-standalone')
+  return require('babel-standalone')
 
 export compile_intervention_code = (intervention_info) ->>
   sweetjs_utils = await get_sweetjs_utils()

@@ -728,6 +728,7 @@
     fse.copySync('doc/API.md', 'dist/API.md');
     return done();
   });
+  gulp.task('make_docs', gulp.series('livescript_srcgen', 'js_srcgen', 'make_docs_markdown'));
   gulp.task('build', gulp.parallel('build_base', 'webpack_build', 'webpack_content_scripts'));
   gulp.task('build_release', gulp.parallel(gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod'));
   mkzip_function = function(actually_delete, done){

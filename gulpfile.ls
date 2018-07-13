@@ -802,6 +802,8 @@ gulp.task 'make_docs_markdown', (done) ->
   fse.copySync 'doc/API.md', 'dist/API.md'
   done()
 
+gulp.task 'make_docs', gulp.series('livescript_srcgen', 'js_srcgen', 'make_docs_markdown')
+
 #gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
 gulp.task 'build', gulp.parallel('build_base', 'webpack_build', 'webpack_content_scripts')
 

@@ -23,6 +23,7 @@ require! {
   'chrome-web-store-item-property'
   'livereload'
   'semver'
+  'deepmerge'
 }
 
 is_debug_build = false
@@ -79,6 +80,7 @@ do ->
 
 yamlpattern_manifest = [
   'src/manifest.yaml'
+  'src/manifest_extra.yaml'
 ]
 
 yamlpattern_base = [
@@ -398,6 +400,9 @@ gulp.task 'yaml_build_manifest', (done) ->
   manifest_file_contents = js-yaml.safeLoad fs.readFileSync('src/manifest.yaml')
   if is_debug_build
     manifest_file_contents.devtools_page = 'devtools.html'
+  if fs.existsSync 'src/manifest_extra.yaml'
+    manifest_file_extra = js-yaml.safeLoad fs.readFileSync 'src/manifest_extra.yaml'
+    manifest_file_contents = deepmerge(manifest_file_contents, manifest_file_extra)
   fs.writeFileSync 'dist/manifest.json', JSON.stringify(manifest_file_contents, null, 2)
   done()
 

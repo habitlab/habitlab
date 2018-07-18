@@ -1,0 +1,67 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-themes/ice.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="habitlab-goal-suggestion-total">
+  <template>
+    <style>
+      :host {
+        z-index: 9007199254740991;
+      }
+
+      #intervention_name_display {
+        margin-top: 10px;
+      }
+
+      .intervention-icon {
+        align: center;
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+
+      #sample_toast {
+        width: 350px;
+        height: 190px;
+        z-index: 9007199254740991;
+        background-color: aliceblue;
+        color: black;
+      }
+
+      #ok_button {
+        height: 38px;
+        width: 100%;
+        text-transform: none;
+
+        background-color: #415D67;
+        color: white;
+        margin: 0 auto;
+        box-shadow: 2px 2px 2px #888888;
+        margin-bottom: 10px;
+      }
+
+      #no_button {
+        height: 38px;
+        width: 100%;
+        text-transform: none;
+
+        background-color: #415D67;
+        color: white;
+        margin: 0 auto;
+        box-shadow: 2px 2px 2px #888888;
+      }
+    </style>
+    <paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right">
+      <div>You've spent a total of 0 hours on this site. Would you like HabitLab to help you reduce your time on this site?</div>
+      <div style="padding-top: 10px"></div>
+      <div>
+        <paper-button id="ok_button" class="yellow-button" on-click="ok_button_clicked">Yes, help me spend less time here</paper-button>
+        <paper-button id="no_button" class="yellow-button" on-click="no_button_clicked">No, I don't want to reduce time here</paper-button>
+      </div>
+    </paper-toast>
+  </template>
+  <script src="habitlab-goal-suggestion-total.js"></script>
+</dom-module>

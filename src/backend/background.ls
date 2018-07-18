@@ -774,6 +774,11 @@ do !->>
 
     is_suggestion_mode = false
     domain = url_to_domain(location)
+    [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(tabId, domain)
+    dlog 'session_id is:'
+    dlog session_id
+    dlog 'is_new_session is:'
+    dlog is_new_session
     override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
     has_enabled_spend_less_time_goal = await site_has_enabled_spend_less_time_goal(domain)
     if (not has_enabled_spend_less_time_goal) and (not override_enabled_interventions?)
@@ -787,11 +792,6 @@ do !->>
       return
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
-    [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(tabId, domain)
-    dlog 'session_id is:'
-    dlog session_id
-    dlog 'is_new_session is:'
-    dlog is_new_session
     active_interventions = await getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
     dlog 'active_interventions is'
     dlog active_interventions
@@ -1246,7 +1246,7 @@ do !->>
     has_enabled_goal = await site_has_enabled_spend_less_time_goal(current_domain)
     if not has_enabled_goal
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
-      return
+      #return
     domain_to_session_id = tab_id_to_domain_to_session_id[active_tab.id]
     if not domain_to_session_id?
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})

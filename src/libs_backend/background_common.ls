@@ -80,7 +80,7 @@ get_user_id_real = ->>
     cached_user_id := userid
     return userid
   items = await new Promise -> chrome_storage_sync.get 'userid', it
-  userid = items.userid
+  userid = items?userid
   if userid?
     cached_user_id := userid
     localStorage.setItem('userid', userid)

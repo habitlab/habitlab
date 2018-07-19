@@ -2,6 +2,8 @@
 
 window.global_exports = {}
 
+require('enable-webcomponents-in-content-scripts')
+
 window.addEventListener "unhandledrejection", (evt) ->
   throw evt.reason
 

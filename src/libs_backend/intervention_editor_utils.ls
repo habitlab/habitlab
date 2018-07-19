@@ -22,6 +22,9 @@ get_list_requires = memoizeSingleAsync ->>
 get_sweetjs_utils = memoizeSingleAsync ->>
   await SystemJS.import('libs_backend/sweetjs_utils')
 
+get_babel = memoizeSingleAsync ->>
+  await SystemJS.import('babel-standalone')
+
 export compile_intervention_code = (intervention_info) ->>
   sweetjs_utils = await get_sweetjs_utils()
   intervention_name = intervention_info.name
@@ -37,18 +40,25 @@ export compile_intervention_code = (intervention_info) ->>
     })();
     """
     */
+    babel = await get_babel()
 
-    compiled_code = await new Promise (resolve, reject) ->
+    js_code = babel.transform('function require_style() {}; function require_css() {}; function require_package() {}; (async function() {\n' + code + '\n})();', { presets: ['react'] }).code
+
+    
+
+    compiled_intervention_info = await new Promise (resolve, reject) ->
       $.ajax({
         type: 'POST'
         url: 'http://hnudge.dynu.net:47914/'
-        data: {js: '(async function() {' + code + '})();' }
+        data: {js: js_code }
         #dataType: 'json'
         success: (data, textStatus, jqXHR) ->
           resolve(data)
         error: (jqXHR, textStatus, errorThrown) ->
           reject(errorThrown)
       })
+
+    compiled_code = compiled_intervention_info.generated
     /*
     compiled_code = await $.ajax({
       type: 'POST'
@@ -93,6 +103,10 @@ export compile_intervention_code = (intervention_info) ->>
     }
     return false
   setkey_dict('custom_intervention_code', intervention_name, compiled_code)
+  intervention_info.styles = compiled_intervention_info.styles
+  # todo: make sure tis is enough, or do I have to do more
+  intervention_info.css_files = compiled_intervention_info.css_files
+  # 
   intervention_info.content_scripts = [
     {
       code: code # pre-compilation

@@ -78,6 +78,7 @@ Polymer({
   },
   close: function() {
     this.$.irb_dialog.close()
+    this.fire('irb-dialog-closed', {})
   },
   open_if_needed: function() {
     if (localStorage.getItem('allow_logging') == null && localStorage.getItem('irb_accepted') != 'true')

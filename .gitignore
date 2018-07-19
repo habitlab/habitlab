@@ -3,6 +3,7 @@ npm-debug.log
 .DS_Store
 /node_modules
 /dist
+/src/manifest_extra.yaml
 /src_gen
 /src_vulcanize
 *.deps.js

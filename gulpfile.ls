@@ -23,6 +23,7 @@ require! {
   'chrome-web-store-item-property'
   'livereload'
   'semver'
+  'deepmerge'
 }
 
 is_debug_build = false
@@ -79,6 +80,7 @@ do ->
 
 yamlpattern_manifest = [
   'src/manifest.yaml'
+  'src/manifest_extra.yaml'
 ]
 
 yamlpattern_base = [
@@ -398,6 +400,9 @@ gulp.task 'yaml_build_manifest', (done) ->
   manifest_file_contents = js-yaml.safeLoad fs.readFileSync('src/manifest.yaml')
   if is_debug_build
     manifest_file_contents.devtools_page = 'devtools.html'
+  if fs.existsSync 'src/manifest_extra.yaml'
+    manifest_file_extra = js-yaml.safeLoad fs.readFileSync 'src/manifest_extra.yaml'
+    manifest_file_contents = deepmerge(manifest_file_contents, manifest_file_extra)
   fs.writeFileSync 'dist/manifest.json', JSON.stringify(manifest_file_contents, null, 2)
   done()
 
@@ -801,6 +806,8 @@ gulp.task 'make_docs_markdown', (done) ->
   exec('node ./node_modules/documentation-habitlab/bin/documentation.js build src_gen/libs_frontend/*.js src_gen/libs_backend/*.js src_gen/libs_common/*.js src/flowtypes/*.js -f md -o doc/API.md --github')
   fse.copySync 'doc/API.md', 'dist/API.md'
   done()
+
+gulp.task 'make_docs', gulp.series('livescript_srcgen', 'js_srcgen', 'make_docs_markdown')
 
 #gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
 gulp.task 'build', gulp.parallel('build_base', 'webpack_build', 'webpack_content_scripts')

@@ -232,6 +232,16 @@ do !->>
       send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})
     setvar_experiment('reward_gifs_abtest', chosen_algorithm)
     return
+  
+  export set_nongoal_timer_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('allow_nongoal_timer', false)
+      send_feature_disabled({page: 'background', feature: 'allow_nongoal_timer', manual: false, reason: 'nongoal_timer_abtest'})
+    setvar_experiment('allow_nongoal_timer', chosen_algorithm)
+    return
 
   do !->>
     {
@@ -262,6 +272,7 @@ do !->>
     set_daily_goal_reminders_abtest()
     set_reward_gifs_abtest()
     set_onboarding_ideavoting_abtest()
+    set_nongoal_timer_abtest()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()
@@ -1244,7 +1255,7 @@ do !->>
       current_domain = url_to_domain(active_tab.url)
     current_day = get_days_since_epoch()
     has_enabled_goal = await site_has_enabled_spend_less_time_goal(current_domain)
-    if not has_enabled_goal
+    if ((not has_enabled_goal) and (localStorage.allow_nongoal_timer == 'false'))
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
       #return
     domain_to_session_id = tab_id_to_domain_to_session_id[active_tab.id]
@@ -1260,7 +1271,7 @@ do !->>
     # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
     addtokey_dictdict('seconds_on_domain_per_session', current_domain, session_id, 1)
     addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->
-      if has_enabled_goal
+      if has_enabled_goal or (localStorage.allow_nongoal_timer != 'false')
         chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
     #  dlog "total seconds spent on #{current_domain} today is #{total_seconds}"

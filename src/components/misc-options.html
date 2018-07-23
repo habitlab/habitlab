@@ -8,13 +8,17 @@
         font-size: 20px;
       }
     </style>
-    <div class="card-content"> Here are some features that are on by default, but you may turn off if you find them distracting.<br><br>
+    <div class="card-content">
       <paper-checkbox checked="{{allow_reward_gifs}}">
         <span class="checkbox_span">Display "You saved X time" messages after you close a site you want to spend less time on</span>
       </paper-checkbox>
       <br>
       <paper-checkbox checked="{{allow_daily_goal_notifications}}">
         <span class="checkbox_span">Show me a notification of how many goals I met each day at midnight</span>
+      </paper-checkbox>
+      <br>
+      <paper-checkbox checked="{{allow_daily_goal_notifications}}">
+        <span class="checkbox_span">Display timer for time spent on sites other than goal sites in </span>
       </paper-checkbox>
     </div>
   </template>

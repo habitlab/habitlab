@@ -12,52 +12,29 @@ const {
 Polymer({
   is: 'habitlab-goal-suggestion',
   properties: {
-    intervention_name: {
+    time_spent_printable: {
       type: String,
-      value: (intervention != null) ? intervention.displayname : ''
+      computed: 'compute_time_spent_printable(seconds_spent)',
     },
-    intervention_description: {
-      type: String,
-      value: (intervention != null) ? intervention.description : '',
-    },
-    intervention_difficulty: {
-      type: String,
-      value: (intervention != null) ? intervention.difficulty : 'medium'
-    },
-    intervention_difficulty_printable: {
-      type: String,
-      computed: 'compute_intervention_difficulty_printable(intervention_difficulty)',
-    },
-    sitename: {
-      type: String,
-      value: (intervention != null) ? intervention.sitename_printable : '',
+    seconds_spent: {
+      type: Number,
+      value: 0,
     },
     isdemo: {
       type: Boolean,
       observer: 'isdemo_changed',
     },
   },
+  compute_time_spent_printable: function(seconds_spent) {
+    return Math.round(seconds_spent / 60).toString() + ' minutes'
+  },
   isdemo_changed: function() {
     if (this.isdemo) {
       this.show();
     }
   },
-  compute_intervention_difficulty_printable: function(intervention_difficulty) {
-    let output = 'Medium'
-    switch (intervention_difficulty) {
-      case 'easy':
-        output = 'Easy';
-        break
-      case 'medium':
-        output = 'Medium';
-        break
-      case 'hard':
-        output = 'Hard';
-        break
-    }
-    return output
-  },
   ready: function() {
+    this.seconds_spent = 120
     /*
     let self = this
     //console.log('toast-test-widget ready')
@@ -83,17 +60,4 @@ Polymer({
     this.fire('intervention_suggestion_rejected', {})
     await log_intervention_suggestion_action({'action': 'rejected', 'accepted': 'false'})
   },
-  get_intervention_icon_url: function() {
-    let url_path
-    if (intervention.generic_intervention != null)
-      url_path = 'interventions/'+ intervention.generic_intervention + '/icon.svg'
-    else {
-      if (intervention.custom == true) {
-        url_path = 'icons/custom_intervention_icon.svg'
-      } else {
-        url_path = 'interventions/'+ intervention.name + '/icon.svg'
-      }
-    }
-    return (chrome.extension.getURL(url_path)).toString()
-  }
 })

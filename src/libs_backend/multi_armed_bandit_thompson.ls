@@ -20,9 +20,6 @@
   get_goals
 } = require 'libs_backend/goal_utils'
 
-gaussian = require 'gaussian'
-
-
 /**
  * This algorithm recommends interventions using the Generalized Thompson Sampling Algorithm.
  * This Thompson Sampling Algorithm draws inspiration from:
@@ -59,6 +56,7 @@ export class ThompsonMAB
     @posterior_params = {}
     for intervention_name in @arms_list
       @posterior_params[intervention_name] = [mu, sigma]
+    gaussian = require 'gaussian'
     @norm_distribution = gaussian(0,1) # We need a standard normal for sampling.
   
   /**

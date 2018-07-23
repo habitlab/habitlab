@@ -79,6 +79,7 @@ do !->>
     is_it_outside_work_hours
     set_default_generic_interventions_enabled
     get_suggested_intervention_if_needed_for_url
+    enabledisable_interventions_based_on_difficulty
   } = require 'libs_backend/intervention_utils'
 
   {
@@ -176,11 +177,26 @@ do !->>
     setvar_experiment('intervention_firstimpression_notice', chosen_algorithm)
     return
   
-  export set_difficulty_selection_screen = (chosen_algorithm) ->
+  export set_difficulty_selection_screen = (chosen_algorithm) ->>
     if not chosen_algorithm?
       #algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
-      algorithms = ['nodefault_optional']
+      algorithms = ['nodefault_optional', 'nochoice_easy', 'nochoice_medium', 'nochoice_hard']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'nochoice_easy'
+      localStorage.setItem('difficulty_selector_disabled', true)
+      localStorage.user_chosen_difficulty = 'easy'
+      setvar_experiment('user_chosen_difficulty', 'easy')
+      await enabledisable_interventions_based_on_difficulty('easy')
+    if chosen_algorithm == 'nochoice_medium'
+      localStorage.setItem('difficulty_selector_disabled', true)
+      localStorage.user_chosen_difficulty = 'medium'
+      setvar_experiment('user_chosen_difficulty', 'medium')
+      await enabledisable_interventions_based_on_difficulty('medium')
+    if chosen_algorithm == 'nochoice_hard'
+      localStorage.setItem('difficulty_selector_disabled', true)
+      localStorage.user_chosen_difficulty = 'hard'
+      setvar_experiment('user_chosen_difficulty', 'hard')
+      await enabledisable_interventions_based_on_difficulty('hard')
     if chosen_algorithm == 'none'
       localStorage.setItem('difficulty_selector_disabled', true)
     if chosen_algorithm == 'nodefault_forcedchoice'
@@ -267,7 +283,7 @@ do !->>
     # set intervention selection algorithm - experiment
     set_intervention_selection_algorithm_firstinstall()
     set_intervention_firstimpression_notice_firstinstall()
-    set_difficulty_selection_screen()
+    await set_difficulty_selection_screen()
     set_intervention_suggestion_algorithm()
     set_daily_goal_reminders_abtest()
     set_reward_gifs_abtest()

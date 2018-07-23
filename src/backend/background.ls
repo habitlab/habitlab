@@ -180,8 +180,13 @@ do !->>
   export set_difficulty_selection_screen = (chosen_algorithm) ->>
     if not chosen_algorithm?
       #algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
-      algorithms = ['nodefault_optional', 'nochoice_easy', 'nochoice_medium', 'nochoice_hard']
+      algorithms = ['nodefault_optional', 'nochoice_nothing', 'nochoice_easy', 'nochoice_medium', 'nochoice_hard']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'nochoice_nothing'
+      localStorage.setItem('difficulty_selector_disabled', true)
+      localStorage.user_chosen_difficulty = 'nothing'
+      setvar_experiment('user_chosen_difficulty', 'nothing')
+      await enabledisable_interventions_based_on_difficulty('nothing')
     if chosen_algorithm == 'nochoice_easy'
       localStorage.setItem('difficulty_selector_disabled', true)
       localStorage.user_chosen_difficulty = 'easy'

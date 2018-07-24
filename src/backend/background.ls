@@ -270,6 +270,8 @@ do !->>
     } = require('libs_backend/ajax_utils')
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
+      if not localStorage.intervention_suggestion_algorithm?
+        set_intervention_suggestion_algorithm()
       return
     #  if not localStorage.getItem('allow_logging')? # user did not complete onboarding
     #    show_finish_configuring_notification_if_needed()

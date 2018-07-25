@@ -17,7 +17,7 @@ default_interventions:
   - generic/show_timer_banner
   - generic/scroll_blocker
 measurement: time_spent_on_domain
-domain: buzzfeed.com
+domain: www.buzzfeed.com
 target:
   default: 20
   units: minutes

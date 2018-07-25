@@ -79,6 +79,7 @@ do !->>
     is_it_outside_work_hours
     set_default_generic_interventions_enabled
     get_suggested_intervention_if_needed_for_url
+    enabledisable_interventions_based_on_difficulty
   } = require 'libs_backend/intervention_utils'
 
   {
@@ -176,11 +177,31 @@ do !->>
     setvar_experiment('intervention_firstimpression_notice', chosen_algorithm)
     return
   
-  export set_difficulty_selection_screen = (chosen_algorithm) ->
+  export set_difficulty_selection_screen = (chosen_algorithm) ->>
     if not chosen_algorithm?
       #algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
-      algorithms = ['nodefault_optional']
+      algorithms = ['nodefault_optional', 'nochoice_nothing', 'nochoice_easy', 'nochoice_medium', 'nochoice_hard']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'nochoice_nothing'
+      localStorage.setItem('difficulty_selector_disabled', true)
+      localStorage.user_chosen_difficulty = 'nothing'
+      setvar_experiment('user_chosen_difficulty', 'nothing')
+      await enabledisable_interventions_based_on_difficulty('nothing')
+    if chosen_algorithm == 'nochoice_easy'
+      localStorage.setItem('difficulty_selector_disabled', true)
+      localStorage.user_chosen_difficulty = 'easy'
+      setvar_experiment('user_chosen_difficulty', 'easy')
+      await enabledisable_interventions_based_on_difficulty('easy')
+    if chosen_algorithm == 'nochoice_medium'
+      localStorage.setItem('difficulty_selector_disabled', true)
+      localStorage.user_chosen_difficulty = 'medium'
+      setvar_experiment('user_chosen_difficulty', 'medium')
+      await enabledisable_interventions_based_on_difficulty('medium')
+    if chosen_algorithm == 'nochoice_hard'
+      localStorage.setItem('difficulty_selector_disabled', true)
+      localStorage.user_chosen_difficulty = 'hard'
+      setvar_experiment('user_chosen_difficulty', 'hard')
+      await enabledisable_interventions_based_on_difficulty('hard')
     if chosen_algorithm == 'none'
       localStorage.setItem('difficulty_selector_disabled', true)
     if chosen_algorithm == 'nodefault_forcedchoice'
@@ -232,6 +253,16 @@ do !->>
       send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})
     setvar_experiment('reward_gifs_abtest', chosen_algorithm)
     return
+  
+  export set_nongoal_timer_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('allow_nongoal_timer', false)
+      send_feature_disabled({page: 'background', feature: 'allow_nongoal_timer', manual: false, reason: 'nongoal_timer_abtest'})
+    setvar_experiment('allow_nongoal_timer', chosen_algorithm)
+    return
 
   do !->>
     {
@@ -239,6 +270,8 @@ do !->>
     } = require('libs_backend/ajax_utils')
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
+      if not localStorage.intervention_suggestion_algorithm?
+        set_intervention_suggestion_algorithm()
       return
     #  if not localStorage.getItem('allow_logging')? # user did not complete onboarding
     #    show_finish_configuring_notification_if_needed()
@@ -257,11 +290,12 @@ do !->>
     # set intervention selection algorithm - experiment
     set_intervention_selection_algorithm_firstinstall()
     set_intervention_firstimpression_notice_firstinstall()
-    set_difficulty_selection_screen()
+    await set_difficulty_selection_screen()
     set_intervention_suggestion_algorithm()
     set_daily_goal_reminders_abtest()
     set_reward_gifs_abtest()
     set_onboarding_ideavoting_abtest()
+    set_nongoal_timer_abtest()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()
@@ -774,6 +808,11 @@ do !->>
 
     is_suggestion_mode = false
     domain = url_to_domain(location)
+    [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(tabId, domain)
+    dlog 'session_id is:'
+    dlog session_id
+    dlog 'is_new_session is:'
+    dlog is_new_session
     override_enabled_interventions = localStorage.getItem('override_enabled_interventions_once')
     has_enabled_spend_less_time_goal = await site_has_enabled_spend_less_time_goal(domain)
     if (not has_enabled_spend_less_time_goal) and (not override_enabled_interventions?)
@@ -787,11 +826,6 @@ do !->>
       return
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
-    [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(tabId, domain)
-    dlog 'session_id is:'
-    dlog session_id
-    dlog 'is_new_session is:'
-    dlog is_new_session
     active_interventions = await getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
     dlog 'active_interventions is'
     dlog active_interventions
@@ -1244,9 +1278,9 @@ do !->>
       current_domain = url_to_domain(active_tab.url)
     current_day = get_days_since_epoch()
     has_enabled_goal = await site_has_enabled_spend_less_time_goal(current_domain)
-    if not has_enabled_goal
+    if ((not has_enabled_goal) and (localStorage.allow_nongoal_timer == 'false'))
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
-      return
+      #return
     domain_to_session_id = tab_id_to_domain_to_session_id[active_tab.id]
     if not domain_to_session_id?
       chrome.browserAction.setBadgeText({text: '', tabId: active_tab.id})
@@ -1260,7 +1294,8 @@ do !->>
     # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
     addtokey_dictdict('seconds_on_domain_per_session', current_domain, session_id, 1)
     addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->
-      chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
+      if has_enabled_goal or (localStorage.allow_nongoal_timer != 'false')
+        chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
     #  dlog "total seconds spent on #{current_domain} today is #{total_seconds}"
   ), 1000

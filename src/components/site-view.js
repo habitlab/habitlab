@@ -126,8 +126,10 @@ polymer_ext({
   //   });
   // }
   vote_for_nudge_clicked: function() {
-    chrome.tabs.create({url: 'https://www.reddit.com/r/habitlab/'});
-    log_pageclick({from: 'site-view', tab: this.site, to: 'https://www.reddit.com/r/habitlab/'});    
+    //chrome.tabs.create({url: 'https://www.reddit.com/r/habitlab/'});
+    //log_pageclick({from: 'site-view', tab: this.site, to: 'https://www.reddit.com/r/habitlab/'});    
+    console.log('nudge vote clicked')
+    this.fire('go_to_voting', {})
   },
   code_custom_nudge_clicked: function() {
     chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});

@@ -28,7 +28,6 @@ function post_json(url, data) {
 }
 
 function get_json(url, params) {
-  console.log(url+"?"+params)
   return new Promise(function(resolve, reject) {
     let xhr = new XMLHttpRequest()
     xhr.open('GET', url+"?"+params, true)

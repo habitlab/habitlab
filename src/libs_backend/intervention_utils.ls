@@ -388,6 +388,37 @@ export is_video_domain = (domain) ->
     return true
   return false
 
+export enabledisable_interventions_based_on_difficulty = (difficulty) ->>
+  difficulty_numeric_map = {
+    'nothing': 0,
+    'easy': 1,
+    'medium': 2,
+    'hard': 3,
+  }
+  difficulty_numeric = difficulty_numeric_map[difficulty]
+  all_interventions = await get_interventions()
+  prev_enabled_interventions = await get_enabled_interventions()
+  new_enabled_interventions = {}
+  changed_interventions = []
+  for intervention_name in Object.keys(all_interventions)
+    intervention_info = all_interventions[intervention_name]
+    was_previously_enabled = prev_enabled_interventions[intervention_name] == true
+    now_enabled = was_previously_enabled
+    if difficulty == 'nothing'
+      now_enabled = false
+    if (intervention_info.difficulty != null && difficulty_numeric_map[intervention_info.difficulty] != null)
+      now_enabled = difficulty_numeric_map[intervention_info.difficulty] <= difficulty_numeric
+    new_enabled_interventions[intervention_name] = now_enabled
+    if now_enabled != was_previously_enabled
+      changed_interventions.push(intervention_name)
+  for intervention_name in changed_interventions
+    now_enabled = new_enabled_interventions[intervention_name]
+    if now_enabled
+      await set_intervention_enabled(intervention_name)
+    else
+      await set_intervention_disabled(intervention_name)
+  return
+
 export intervention_first_seen_power_enabledisable = (intervention, is_enabled, url) ->>
   is_generic = false
   intervention_name_orig = intervention.name

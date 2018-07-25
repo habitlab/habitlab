@@ -22,7 +22,7 @@ const removeSidebarOnceAvailable = run_only_one_at_a_time((callback) => {
     removeSidebarOld('#watch7-sidebar-contents')
     callback()
   })
-  once_available_fast('#related', () => {
+  once_available_fast('ytd-watch-next-secondary-results-renderer', () => {
     removeSidebar('#related')
     callback()
   })

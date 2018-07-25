@@ -99,7 +99,6 @@ polymer_ext {
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
   on_go_to_voting: (evt) ->
-    console.log 'on_go_to_voting'
     this.set_selected_tab_by_name('settings')
     settings_tab = this.$$('#settings_tab')
     offset_top = settings_tab.$.intro8.offsetTop

@@ -622,6 +622,7 @@ export get_goals_for_intervention = (intervention_name) ->>
 
 /**
  * Gets the target time spent in seconds for the specified goal
+ * @param {GoalName} goal_name - The name of the goal
  * @return {Promise.<Number>} The target in seconds
  */
 export get_goal_target = (goal_name) ->>

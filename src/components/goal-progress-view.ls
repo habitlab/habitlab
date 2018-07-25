@@ -19,12 +19,23 @@
 } = require 'libs_backend/goal_progress'
 
 {
+  post_json
+} = require 'libs_backend/ajax_utils'
+
+{
+  chrome_get_token
+} = require 'libs_backend/background_common'
+
+{
   reverse
 } = require 'prelude-ls'
 
 require! {
   moment
 }
+
+getSum = (total, num) ->
+  return total + num
 
 polymer_ext {
   is: 'goal-progress-view'
@@ -37,10 +48,79 @@ polymer_ext {
       type: String
       observer: 'goalChanged'
     }
+    browser: {
+      type: Array
+    }
+    mobile: {
+      type: Array
+    }
+    total: {
+      type: Object
+    }
+    selected: {
+      type: Number
+    }
+    data: {
+      type: Object
+    }
+    sync: {
+      type: Boolean
+      value: localStorage.sync_with_mobile == 'true'
+    }
   }
+  compute_data: (chart, goal_progress, goal_info, goal_target) ->
+    
+    #target = await get_goal_target this.goal
+    goal_data = []
+    for i from 0 to 7
+      goal_data.push this.goal_target
+
+    chart = chart.days
+    chart = chart.map((/60)).map((.toFixed(1)))
+    progress_labels = [0 til chart.length]
+
+    progress_labels.forEach (element, index, array) ->
+      array[index] = (moment!.subtract array[index], 'day').format 'ddd MM/D'
+      return
+    output = {
+      labels: reverse progress_labels
+      datasets: [
+        {
+          label: 'minutes'
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(75,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          pointBorderColor: "rgba(75,192,192,1)",
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          data: reverse chart
+        },
+        {
+          label: 'Daily goal'
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(0,255,0,0.4)",
+          borderColor: "rgba(0,255,0,1)",
+          pointBorderColor: "rgba(0,255,0,1)",
+          pointBackgroundColor: '#00ff00',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(0,255,0,1)",
+          pointHoverBorderColor: "rgba(0,255,0,1)",
+          data: goal_data
+        }
+      ]
+    }
+    return output
   goalChanged: (goal) ->>
     goal_info = await get_goal_info(goal)
     goal_progress = await get_progress_on_goal_this_week(goal)
+    this.goal_progress = goal_progress
+    this.goal_info = goal_info
     progress_values = goal_progress.map (.progress)
     progress_values = progress_values.map (it) ->
       Math.round(it * 10)/10
@@ -89,23 +169,57 @@ polymer_ext {
         }
       ]
     }
-    this.options = {
-      scales: {
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Day'
-          }
-        }],
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: goal_info.units ? goal_info.target.units ? 'minutes'
-          }
-        }]        
-      }
-    }
+    # this.options = {
+    #   scales: {
+    #     xAxes: [{
+    #       scaleLabel: {
+    #         display: true,
+    #         labelString: 'Day'
+    #       }
+    #     }],
+    #     yAxes: [{
+    #       scaleLabel: {
+    #         display: true,
+    #         labelString: goal_info.units ? goal_info.target.units ? 'minutes'
+    #       }
+    #     }]        
+    #   }
+    # }
     this.loaded = true
+  ready: ->>
+    if this.sync
+      this.goal_target = await get_goal_target this.goal
+      goal_info = await get_goal_info this.goal
+      domain = goal_info.domain
+      source = 'browser'
+      id_token = await chrome_get_token()
+      data = await post_json('https://habitlab-mobile-website.herokuapp.com/account_external_stats', {
+        domain: domain
+        from: source
+        token: id_token
+        timestamp: Date.now()
+      })
+
+
+      browser = []
+      mobile = []
+
+      for browser_id in Object.keys(data.browser)
+        if data.browser.hasOwnProperty(browser_id)
+          if data.browser[browser_id].weeks.reduce(getSum) != 0
+            browser.push(data.browser[browser_id])
+
+      for android_id in Object.keys(data.android)
+        if data.android.hasOwnProperty(android_id)
+          if data.android[android_id].weeks.reduce(getSum) != 0
+            mobile.push(data.android[android_id])
+      
+      this.browser = browser
+      this.mobile = mobile
+
+      this.total = data.total
+
+      this.selected = 0
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

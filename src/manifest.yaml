@@ -15,11 +15,11 @@ permissions:
   - history
   - idle
   - notifications
+  - identity
   - <all_urls>
   - 'http://*/'
   - 'https://*/'
 optional_permissions:
-  - identity
   - identity.email
 content_security_policy: >-
   script-src 'self' 'unsafe-eval'

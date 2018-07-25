@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-themes/ice.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="sync-view">
+  <template>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        --paper-radio-button-label-color: white;
+        --paper-radio-button: {
+          color: white;
+        };
+      }
+      
+      .title {
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-size: 30px;
+        padding-top: 30px;
+        padding-bottom: 20px;
+        text-align: center;
+        font-weight: 400;
+        /*text-shadow: 1px 1px 2px #346da3; */
+      }
+
+      .papercard {
+        margin-top: 30px;
+        border-radius: 30px;
+      }
+
+      .permission-button-title {
+        padding: 10px;
+      }
+
+      .permission-button {
+        margin: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        padding-top: 20px;
+        font-size: 20px;
+        text-align: center;
+        color: white;
+        background-color: rgb(60, 90, 153);
+      }
+      
+      .permission-box {
+        color: black;
+        padding: 20px;
+        font-size: 20px;
+        max-width: 40vw;
+        margin-bottom: 30px;
+      }
+
+      .store-link {
+        color: white;
+      }
+    </style>
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <div class="title">To sync your usage between your devices, please sign in. We won't send you anything.</div>
+
+    <paper-card class="papercard permission-box">
+      <paper-button class="permission-button" on-click="ask_permission">Sign In to Sync</paper-button>
+      <paper-button class="permission-button" on-click="deny_permission">I don't want to sync</paper-button>
+      <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+      <br>
+      <template is="dom-if" if="{{!should_sync}}">
+        Okay, we won't sync your data
+      </template>
+      <template is="dom-if" if="{{should_sync}}">
+        Okay, we'll sync your data for you
+      </template>
+    </paper-card>
+
+    <br>
+    <div class="title"><a on-click="go_to_store" class="store-link">To track and improve your mobile habits, click here to try our Android app</a></div>
+    <a href='https://play.google.com/store/apps/details?id=com.stanfordhci.habitlab&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' target="_blank"><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+    
+  </template>
+  
+  <script src="sync-view.js"></script>
+</dom-module>

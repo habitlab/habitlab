@@ -3,7 +3,7 @@
 <link rel="import" href="../bower_components/chart-elements/chart-horizontal-bar.html">
 <link rel="import" href="../bower_components/chart-elements/chart-line.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
-
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
 <dom-module id="goal-progress-view">
@@ -13,12 +13,42 @@
         display: block;
         height: 100%;
         width: 100%;
+
+        --paper-tabs: {
+          color: black;
+        };
       }
     </style>
     <template is="dom-if" if="{{!loaded}}">
       <paper-spinner id="loading-spinner" active></paper-spinner>
+    </template>    
+
+    <template is="dom-if" if="{{sync}}">
+      <paper-tabs selected="{{selected}}">
+        <paper-tab>Total</paper-tab>
+        <template is="dom-repeat" items="{{browser}}" as="tab">
+          <paper-tab>Browser</paper-tab>
+        </template>
+        <template is="dom-repeat" items="{{mobile}}" as="tab">
+          <paper-tab>Mobile</paper-tab>
+        </template>
+      </paper-tabs>
+      
+      <iron-pages selected="{{selected}}">
+        <div><chart-line data="{{compute_data(total, goal_progress, goal_info, goal_target)}}" options="[[options]]" style="width: 100%"></chart-line></div>
+        <template is="dom-repeat" items="{{browser}}" as="chart">
+          <div><chart-line data="{{compute_data(chart, goal_progress, goal_info, goal_target)}}" options="[[options]]" style="width: 100%"></chart-line></div>
+        </template>
+        <template is="dom-repeat" items="{{mobile}}" as="chart">
+          <div><chart-line data="{{compute_data(chart, goal_progress, goal_info, goal_target)}}" options="[[options]]" style="width: 100%"></chart-line></div>
+        </template>
+      </iron-pages>
     </template>
-    <chart-line data="[[data]]" options="[[options]]" style="width: 100%"></chart-line>
+    <template is="dom-if" if="{{!sync}}">
+      <chart-line data="[[data]]" options="[[options]]" style="width: 100%"></chart-line>
+    </template>
+
+
   </template>
   <script src="goal-progress-view.js"></script>
 </dom-module>

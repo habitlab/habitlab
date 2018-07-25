@@ -369,6 +369,8 @@ polymer_ext {
       goal = site_ideas_pair.goal
       for [leftidea, leftidea_id] in shuffled(prelude.zip(site_ideas_pair.ideas, site_ideas_pair.ideas_id))
         for [rightidea, rightidea_id] in shuffled(prelude.zip(site_ideas_pair.ideas, site_ideas_pair.ideas_id))
+          if leftidea == rightidea
+            continue
           if this.pairs_voted.has(goal + '|||' + leftidea + '|||' + rightidea) or this.pairs_voted.has(goal + '|||' + rightidea + '|||' + leftidea)
             continue
           self.current_site = site_ideas_pair.goal

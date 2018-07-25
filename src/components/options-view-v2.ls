@@ -75,6 +75,7 @@ polymer_ext {
     goal_changed: 'on_goal_changed'
     need_rerender: 'rerender'
     need_tab_change: 'on_need_tab_change'
+    go_to_voting: 'on_go_to_voting'
   }
   compute_sidebar_items: (enabled_goal_info_list, goal_name_to_icon) ->
     default_icon = chrome.extension.getURL('icons/loading.gif')
@@ -97,6 +98,11 @@ polymer_ext {
     })
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
+  on_go_to_voting: (evt) ->
+    this.set_selected_tab_by_name('settings')
+    settings_tab = this.$$('#settings_tab')
+    offset_top = settings_tab.$.intro8.offsetTop
+    window.scrollTo({left: 0, top: offset_top})
   on_need_tab_change: (evt) ->
     if evt?detail?newtab?
       this.set_selected_tab_by_name(evt.detail.newtab)

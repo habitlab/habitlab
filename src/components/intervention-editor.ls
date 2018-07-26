@@ -581,7 +581,7 @@ script.parentNode.removeChild(script);
     #       })
     #     catch
     #       console.log 'not sharing this time'
-    #       # TODO remove_intervention(intervention_name)
+    #       # TODO client remove_intervention(intervention_name)
     #   return
     chrome.tabs.create {url: 'https://github.com/habitlab/habitlab/wiki/Share-Interventions'}
   make_javascript_editor: (editor_div) ->>
@@ -610,7 +610,7 @@ script.parentNode.removeChild(script);
       js_editor.getSession().setUseSoftTabs(true)
       js_editor.$blockScrolling = Infinity
       self.intervention_info = intervention_info = await get_intervention_info(intervention_name)
-      js_editor.setValue('(async function() {\n' + intervention_info.code + '\n})();' ) 
+      js_editor.setValue(intervention_info.code) 
 
       clicked_fn = ->>
         alert('hi')

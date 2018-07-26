@@ -14,6 +14,7 @@
 <link rel="import" href="irb-dialog.html">
 <link rel="import" href="idea-generation-panel.html">
 <link rel="import" href="difficulty-selector.html">
+<link rel="import" href="sync-view.html">
 
 <dom-module id="onboarding-view">
   <template>
@@ -230,6 +231,16 @@
         <div id="screen4_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
           <div style="margin-bottom: 170px">
             <onboarding-badges id="badges_received" />
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template is="dom-if" if="{{true_statement}}">
+      <div id="screen4b" slide-name="sync-view" class="slide" style="width: 100vw; height: 100vh; overflow: auto; background-color:rgb(81, 167,249)">
+        <div id="screen4b_scroll_wrapper" class="scroll_wrapper" style="width: 100vw; height: 100vh; overflow-y: auto; overflow-x: hidden">
+          <div style="margin-bottom: 200px">
+            <sync-view on-difficulty-changed="rerender_badges" is_onboarding="true" id="difficulty_selector2" />
           </div>
         </div>
       </div>

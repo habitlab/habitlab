@@ -399,6 +399,7 @@ export get_have_suggested_domain_as_goal_and_record_as_suggested = (domain) ->>
   if cached_domains_suggested_as_goal[domain]?
     return true
   cached_domains_suggested_as_goal[domain] = true
+  # TODO we need to also store and check this in persistent storage
   return false
 
 /**

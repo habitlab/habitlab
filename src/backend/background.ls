@@ -1343,6 +1343,9 @@ do !->>
       if has_enabled_goal or (localStorage.allow_nongoal_timer != 'false')
         chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
       #return
+      # TODO we should check if the domain is an unproductive one, only reduce time on unproductive domains
+      # TODO we should ab test with differing thresholds for when we suggest a domain
+      # TODO for a given session id we should only suggest once
       if ((not has_enabled_goal) and total_seconds > 3600) or (localStorage.test_goal_suggestion == 'true')
         have_suggested = await get_have_suggested_domain_as_goal_and_record_as_suggested(current_domain)
         if (not have_suggested) or (localStorage.test_goal_suggestion == 'true')

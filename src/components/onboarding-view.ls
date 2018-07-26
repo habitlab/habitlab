@@ -40,7 +40,7 @@ polymer_ext {
       type: Number
       value: do ->
         if (window.hashdata_unparsed == 'last')
-          output = 4
+          output = 5
           if localStorage.positive_goals_disabled == 'true'
             output -= 1
           if localStorage.difficulty_selector_disabled == 'true'
@@ -90,7 +90,7 @@ polymer_ext {
     last_slide_idx: {
       type: Number
       value: do ->
-        output = 4
+        output = 5
         if localStorage.positive_goals_disabled == 'true'
           output -= 1
         if localStorage.difficulty_selector_disabled == 'true'
@@ -158,6 +158,8 @@ polymer_ext {
       slidename = slide[0].getAttribute('slide-name')
     log_pagenav({tab: 'onboarding', prev_slide_idx: prev_slide_idx, slide_idx: this.slide_idx, slidename: slidename})
   onboarding_complete: ->
+    if localStorage.sync_with_mobile != 'true'
+      localStorage.sync_with_mobile = 'false'
     this.$$('#dialog').open()
     if not localStorage.getItem('allow_logging')? # user is accepting the default
       #this.allow_logging_changed(true, false) # enables logging

@@ -3,6 +3,10 @@ intervention_info_cached = null
 export set_intervention = (new_intervention_info) ->
   intervention_info_cached := new_intervention_info
 
+/**
+ * Gets the name of the current goal
+ * @return {string} The current goal name
+ */
 export get_goal_name = ->
   return get_intervention().goals[0]
 

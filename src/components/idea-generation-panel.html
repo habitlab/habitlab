@@ -216,6 +216,14 @@
         #add_idea_dialog {
             width: 600px;
         }
+
+        .idea-box {
+            margin: 30px;
+            display: block;
+            color: black;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 
     <!-- <div style="position: relative">
@@ -223,7 +231,7 @@
             <div style="margin-top: 0px;margin-bottom:15px; font-size: 16px;color:white;">Please select the answer based on your preference.</div>
     </div> -->
 
-    <paper-dialog id="add_idea_dialog" with-backdrop style="z-index: 9007199254740991;">
+    <!-- <paper-dialog id="add_idea_dialog" with-backdrop style="z-index: 9007199254740991;">
         <div style="padding: 30px; width: 540px;">
           <paper-dropdown-menu label="Site which this nudge will be used on" style="width: 540px">
               <paper-listbox selected="0" class="dropdown-content" id="idea_site_selector" style="width: 540px">
@@ -237,7 +245,7 @@
             <paper-button class="submitideabutton" on-click="submit_idea">Submit your idea</paper-button>
           </div>
         </div>
-    </paper-dialog>
+    </paper-dialog> -->
 
     <div class="panel-container">
         <div class="question-vote">
@@ -277,13 +285,35 @@
                 </span>
             </div>
 
-            <div class="opt-out-span">
+            <!-- <div class="opt-out-span">
                 <span class="answer-opt-out">
                     <paper-button class="add_own_idea_button" on-click="add_own_idea">
                         Add your own idea
                     </paper-button>
                 </span>
-            </div>
+            </div> -->
+
+            <paper-card class="idea-box" id="add_idea_dialog">
+                <div style="padding: 30px; width: 540px;">
+                    Or add your own idea
+                    <paper-dropdown-menu label="Site which this nudge will be used on" style="width: 540px">
+                        <paper-listbox selected="0" class="dropdown-content" id="idea_site_selector" style="width: 540px">
+                          <template is="dom-repeat" items="[[goal_info_list]]" as="goal_info">
+                              <paper-item >{{goal_info.sitename_printable}}</paper-item>
+                          </template>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                    <paper-textarea id="nudge_typing_area" autofocus required maxlength="80" placeholder="Describe your idea for a nudge" on-value-changed="user_typing_idea"></paper-textarea>
+                    <template is="dom-if" if="{{idea_contribution_money}}">
+                      <paper-textarea id="email_typing_area" autofocus maxlength="80" label="If we use your idea, we'll send you a $50 Amazon gift card." placeholder="Enter your email (Optional)" on-value-changed="user_typing_idea"></paper-textarea>
+                    </template>
+
+                    <div style="width: 100%">
+                      <paper-button class="submitideabutton" on-click="submit_idea">Submit your idea</paper-button>
+                    </div>
+                </div>
+            </paper-card>
+            
 
             <!-- <p class="vote_stats">
                     <span id="votes_count">92727</span>

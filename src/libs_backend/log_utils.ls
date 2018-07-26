@@ -177,6 +177,24 @@ export add_log_goals = (data) ->>
     data.enabled_goals = await goal_utils.get_enabled_goals()
   await addtolog 'logs/goals', data
 
+export log_goal_suggestion = (data) ->>
+  data = {} <<< data
+  data.type = 'goal_suggestion'
+  if not data.enabled_interventions?
+    data.enabled_interventions = await intervention_utils.get_enabled_interventions()
+  if not data.enabled_goals?
+    data.enabled_goals = await goal_utils.get_enabled_goals()
+  await addtolog 'logs/goals', data
+
+export log_goal_suggestion_action = (data) ->>
+  data = {} <<< data
+  data.type = 'goal_suggestion_action'
+  if not data.enabled_interventions?
+    data.enabled_interventions = await intervention_utils.get_enabled_interventions()
+  if not data.enabled_goals?
+    data.enabled_goals = await goal_utils.get_enabled_goals()
+  await addtolog 'logs/goals', data
+
 export add_log_interventions = (data) ->>
   data = {} <<< data
   if not data.enabled_interventions?

@@ -1,13 +1,11 @@
-const intervention = require('libs_common/intervention_info').get_intervention();
+const {
+  get_seconds_spent_on_current_domain_today
+} = require('libs_common/time_spent_utils')
 
 const {
-  log_intervention_suggestion_action,
-  log_impression,
-} = require('libs_frontend/intervention_log_utils');
-
-const {
-  set_intervention_enabled
-} = require('libs_frontend/intervention_utils');
+  accept_domain_as_goal_and_record,
+  reject_domain_as_goal_and_record,
+} = require('libs_frontend/goal_utils')
 
 Polymer({
   is: 'habitlab-goal-suggestion',
@@ -33,8 +31,9 @@ Polymer({
       this.show();
     }
   },
-  ready: function() {
-    this.seconds_spent = 120
+  ready: async function() {
+    this.seconds_spent = await get_seconds_spent_on_current_domain_today()
+    //this.seconds_spent = 120
     /*
     let self = this
     //console.log('toast-test-widget ready')
@@ -50,14 +49,29 @@ Polymer({
   },
   ok_button_clicked: async function() {
     this.$$('#sample_toast').hide()
+    await accept_domain_as_goal_and_record(window.location.host)
+    /*
+    await record_have_suggested_domain_as_goal(window.location.host)
+    await log_goal_suggestion_action({'action': 'accepted', 'accepted': 'true', 'type': 'spend_less_time', 'domain': window.location.host})
+    await add_enable_custom_goal_reduce_time_on_domain(window.location.host)
+    */
+    /*
     this.fire('intervention_suggestion_accepted', {})
     await log_intervention_suggestion_action({'action': 'accepted', 'accepted': 'true'})
     await log_impression({'suggestion': 'true'})
     await set_intervention_enabled(intervention.name)
+    */
   },
   no_button_clicked: async function() {
     this.$$('#sample_toast').hide();
+    await reject_domain_as_goal_and_record(window.location.host)
+    /*
+    await record_have_suggested_domain_as_goal(window.location.host)
+    await log_goal_suggestion_action({'action': 'rejected', 'accepted': 'false', 'type': 'spend_less_time', 'domain': window.location.host})
+    */
+    /*
     this.fire('intervention_suggestion_rejected', {})
     await log_intervention_suggestion_action({'action': 'rejected', 'accepted': 'false'})
+    */
   },
 })

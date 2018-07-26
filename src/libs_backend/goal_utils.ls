@@ -395,12 +395,36 @@ export get_positive_enabled_goals = ->>
 
 cached_domains_suggested_as_goal = {}
 
-export get_have_suggested_domain_as_goal_and_record_as_suggested = (domain) ->>
+export get_have_suggested_domain_as_goal = (domain) ->>
   if cached_domains_suggested_as_goal[domain]?
     return true
   cached_domains_suggested_as_goal[domain] = true
   # TODO we need to also store and check this in persistent storage
   return false
+
+export record_have_suggested_domain_as_goal = (domain) ->>
+  # TODO need to store in database
+  return
+
+export accept_domain_as_goal_and_record = (domain) ->>
+  await record_have_suggested_domain_as_goal(domain)
+  await log_utils.log_goal_suggestion_action({'action': 'accepted', 'accepted': 'true', 'goal_type': 'spend_less_time', 'domain': domain})
+  await add_enable_custom_goal_reduce_time_on_domain(domain)
+  /*
+  await record_have_suggested_domain_as_goal(window.location.host)
+  await log_goal_suggestion_action({'action': 'accepted', 'accepted': 'true', 'type': 'spend_less_time', 'domain': window.location.host})
+  await add_enable_custom_goal_reduce_time_on_domain(window.location.host)
+  */
+  return
+
+export reject_domain_as_goal_and_record = (domain) ->>
+  await record_have_suggested_domain_as_goal(domain)
+  await log_utils.log_goal_suggestion_action({'action': 'rejected', 'accepted': 'false', 'goal_type': 'spend_less_time', 'domain': domain})
+  /*
+  await record_have_suggested_domain_as_goal(window.location.host)
+  await log_goal_suggestion_action({'action': 'rejected', 'accepted': 'false', 'type': 'spend_less_time', 'domain': window.location.host})
+  */
+  return
 
 /**
  * Gets the goal info for all goals where is_positive set to true and that have not yet been completed

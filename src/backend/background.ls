@@ -72,7 +72,7 @@ do !->>
     set_default_goals_enabled
     get_random_positive_goal
     site_has_enabled_spend_less_time_goal
-    get_have_suggested_domain_as_goal_and_record_as_suggested
+    get_have_suggested_domain_as_goal
   } = require 'libs_backend/goal_utils'
 
   {
@@ -1305,7 +1305,7 @@ do !->>
   ), 30000
 
   suggest_goal_base_code = null
-
+  domain_to_time_last_suggested_goal = {}
 
   setInterval (->>
     if !prev_browser_focused
@@ -1347,10 +1347,16 @@ do !->>
       # TODO we should ab test with differing thresholds for when we suggest a domain
       # TODO for a given session id we should only suggest once
       if ((not has_enabled_goal) and total_seconds > 3600) or (localStorage.test_goal_suggestion == 'true')
-        have_suggested = await get_have_suggested_domain_as_goal_and_record_as_suggested(current_domain)
+        last_time_suggested_goal = domain_to_time_last_suggested_goal[current_domain]
+        if (last_time_suggested_goal?) and (Date.now() - last_time_suggested_goal <= 3600*1000)
+          return
+        domain_to_time_last_suggested_goal[current_domain] = Date.now()
+        console.log 'domain to time last suggested test passed'
+        have_suggested = await get_have_suggested_domain_as_goal(current_domain)
         if (not have_suggested) or (localStorage.test_goal_suggestion == 'true')
           if suggest_goal_base_code == null
             suggest_goal_base_code := await fetch('frontend_utils/suggest_goal_prompt.js').then (.text!)
+          console.log 'executing script for suggesting goal'
           chrome.tabs.executeScript active_tab.id, {code: suggest_goal_base_code}
           #console.log 'show user goal prompt here' # todo
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->

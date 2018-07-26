@@ -59,6 +59,10 @@ do !->>
   require 'libs_backend/systemjs'
 
   {
+      post_json
+  } = require('libs_backend/ajax_utils')
+
+  {
     get_goals
     get_goal_info
     get_enabled_goals
@@ -139,7 +143,7 @@ do !->>
     notification.onclick = ->
       chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding')})
       close_notification()
-
+ 
   export get_last_visit_to_website_timestamp = ->>
     history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
     last_visit_timestamp = -1
@@ -265,9 +269,7 @@ do !->>
     return
 
   do !->>
-    {
-      post_json
-    } = require('libs_backend/ajax_utils')
+    
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       if not localStorage.intervention_suggestion_algorithm?
@@ -1262,6 +1264,33 @@ do !->>
       dlog output
   */
 
+  updates_to_sync = []
+
+  setInterval (->>
+    if localStorage.sync_with_mobile != 'true'
+      return
+    user_id = await get_user_id();
+    timestamp = Date.now()
+
+    if updates_to_sync.length == 0
+      return
+    domain_to_num_seconds_to_increment = {}
+    for {domain, seconds} in updates_to_sync
+      if not domain_to_num_seconds_to_increment[domain]?
+        domain_to_num_seconds_to_increment[domain] = 0
+      domain_to_num_seconds_to_increment[domain] += seconds
+    updates_to_sync.length = 0
+    post_json('https://habitlab-mobile-website.herokuapp.com/addsessiontototal', {
+      userid: user_id
+      timestamp: timestamp
+      domains_time: domain_to_num_seconds_to_increment
+    })
+    #if updates_to_sync.length > 0
+    #  data = updates_to_sync.shift()
+    #  console.log(data)
+    #  #post_json('https://habitlab-mobile-website.herokuapp.com/addsessiontototal', data)
+  ), 30000
+
   setInterval (->>
     if !prev_browser_focused
       return
@@ -1292,7 +1321,8 @@ do !->>
     # dlog "currently browsing #{url_to_domain(active_tab.url)} on day #{get_days_since_epoch()}"
     # [session_id, is_new_session] = await get_session_id_for_tab_id_and_domain(active_tab.id, current_domain)
     # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
-    addtokey_dictdict('seconds_on_domain_per_session', current_domain, session_id, 1)
+    seconds_spent_this_session = await addtokey_dictdict('seconds_on_domain_per_session', current_domain, session_id, 1)
+    updates_to_sync.push({domain: current_domain, seconds: 1})
     addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->
       if has_enabled_goal or (localStorage.allow_nongoal_timer != 'false')
         chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})

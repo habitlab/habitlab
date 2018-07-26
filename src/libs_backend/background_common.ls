@@ -310,6 +310,62 @@ export list_jspm_libraries_as_markdown = ->>
     output.push '* [libs_common/' + libname + '](https://github.com/habitlab/habitlab/blob/master/src/libs_backend/' + filename + ')'
   return output.join('\n')
 
+export chrome_get_token = ->>
+
+  manifest = chrome.runtime.getManifest()
+
+  #clientId = encodeURIComponent(manifest.oauth2.client_id)
+  clientId = manifest.oauth2.client_id
+  scopes = encodeURIComponent(manifest.oauth2.scopes.join(' '))
+  #scopes = 'https://www.googleapis.com/auth/userinfo.profile'
+  #redirectUri = encodeURIComponent('https://' + chrome.runtime.id + '.chromiumapp.org')
+  #redirectUri =  encodeURIComponent(chrome.identity.getRedirectURL())
+  redirectUri =  chrome.identity.getRedirectURL('oauth2')
+  #redirectUri = 'chrome-extension://bleifeoekkfhicamkpadfoclfhfmmina'
+
+  url = 'https://accounts.google.com/o/oauth2/auth' + 
+            #'&response_type=id_token' + 
+            #'&response_type=code' +
+            '?response_type=id_token' +
+            #'?response_type=code' +
+            '&access_type=offline' + 
+            '&client_id=' + clientId +
+            #'&redirect_uri=urn:ietf:wg:oauth:2.0:oob:auto' +
+            #'&redirect_uri=urn:ietf:wg:oauth:2.0:oob' +
+            '&redirect_uri=' + redirectUri + 
+            #'&redirect_uri=http://localhost:3000/_oauth/google' +
+            #'&redirect_uri=postmessage' +
+            '&scope=' + scopes
+
+
+  
+  result = await new Promise (resolve, reject) -> chrome.identity.launchWebAuthFlow(
+    {
+      'url': url
+      'interactive':true
+    },
+    (redirectedTo) ->
+      if (chrome.runtime.lastError) 
+        console.log 'have error'
+        # Example: Authorization page could not be loaded.
+        console.log chrome.runtime.lastError.message
+        reject 'error'
+      else 
+        response = redirectedTo.split('#', 2)[1];
+        # Example: id_token=<YOUR_BELOVED_ID_TOKEN>&authuser=0&hd=<SOME.DOMAIN.PL>&session_state=<SESSION_SATE>&prompt=<PROMPT>
+        resolve response
+  )
+
+  result = result.split('&')[0]
+  result = result.split('=')[1]
+
+  return result
+
+  #console.log 'getting token'
+  #chrome.identity.getAuthToken {interactive: true}, (token) ->
+  #  console.log 'got token'
+  #  return token
+
 export printcb = (x) -> console.log(x)
 
 export printcb_json = (x) -> console.log(JSON.stringify(x, 0, 2))

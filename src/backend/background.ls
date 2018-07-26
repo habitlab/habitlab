@@ -72,6 +72,7 @@ do !->>
     set_default_goals_enabled
     get_random_positive_goal
     site_has_enabled_spend_less_time_goal
+    get_have_suggested_domain_as_goal_and_record_as_suggested
   } = require 'libs_backend/goal_utils'
 
   {
@@ -1303,6 +1304,9 @@ do !->>
     #  #post_json('https://habitlab-mobile-website.herokuapp.com/addsessiontototal', data)
   ), 30000
 
+  suggest_goal_base_code = null
+
+
   setInterval (->>
     if !prev_browser_focused
       return
@@ -1335,11 +1339,17 @@ do !->>
     # dlog "session id #{session_id} current_domain #{current_domain} tab_id #{active_tab.id}"
     seconds_spent_this_session = await addtokey_dictdict('seconds_on_domain_per_session', current_domain, session_id, 1)
     updates_to_sync.push({domain: current_domain, seconds: 1})
-    addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->
+    addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->>
       if has_enabled_goal or (localStorage.allow_nongoal_timer != 'false')
         chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
-      if (not has_enabled_goal) and total_seconds > 3600
-        console.log 'show user goal prompt here' # todo
+      #return
+      if ((not has_enabled_goal) and total_seconds > 3600) or (localStorage.test_goal_suggestion == 'true')
+        have_suggested = await get_have_suggested_domain_as_goal_and_record_as_suggested(current_domain)
+        if (not have_suggested) or (localStorage.test_goal_suggestion == 'true')
+          if suggest_goal_base_code == null
+            suggest_goal_base_code := await fetch('frontend_utils/suggest_goal_prompt.js').then (.text!)
+          chrome.tabs.executeScript active_tab.id, {code: suggest_goal_base_code}
+          #console.log 'show user goal prompt here' # todo
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
     #  dlog "total seconds spent on #{current_domain} today is #{total_seconds}"
   ), 1000

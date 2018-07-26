@@ -393,6 +393,14 @@ export get_positive_enabled_goals = ->>
       output[goal] = goal_info
   return output
 
+cached_domains_suggested_as_goal = {}
+
+export get_have_suggested_domain_as_goal_and_record_as_suggested = (domain) ->>
+  if cached_domains_suggested_as_goal[domain]?
+    return true
+  cached_domains_suggested_as_goal[domain] = true
+  return false
+
 /**
  * Gets the goal info for all goals where is_positive set to true and that have not yet been completed
  * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info

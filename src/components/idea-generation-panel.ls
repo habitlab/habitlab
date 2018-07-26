@@ -53,6 +53,10 @@ polymer_ext {
   is: 'idea-generation-panel'
   properties: {
     # properties
+    idea_contribution_money: {
+      type: Boolean
+      value: localStorage.idea_contribution_money == 'true'
+    }
     index_background_color: {
       type: String
       value: 'rgb(81, 167,249)'
@@ -300,7 +304,7 @@ polymer_ext {
     # localStorage.setItem('local_logging_server', true) 
     ###
     # console.log("posting this site: " + site + " with this idea: " + idea) 
-    site_idea_pair = { goal : goal_info.name, idea : idea_text, userid: userid, installid: install_id, email: }
+    site_idea_pair = { goal : goal_info.name, idea : idea_text, userid: userid, installid: install_id, email: idea_email}
     console.log(site_idea_pair)
     data = {} <<< site_idea_pair
     console.log data

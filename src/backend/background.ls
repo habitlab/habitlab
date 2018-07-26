@@ -264,6 +264,17 @@ do !->>
     setvar_experiment('allow_nongoal_timer', chosen_algorithm)
     return
 
+  export set_idea_contribution_money_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('idea_contribution_money', false)
+    else
+      localStorage.setItem('idea_contribution_money', true)
+    setvar_experiment('idea_contribution_money', chosen_algorithm)
+    return
+
   do !->>
     {
       post_json
@@ -296,6 +307,7 @@ do !->>
     set_reward_gifs_abtest()
     set_onboarding_ideavoting_abtest()
     set_nongoal_timer_abtest()
+    set_idea_contribution_money_abtest()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()

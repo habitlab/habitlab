@@ -71,7 +71,8 @@ Polymer({
   //},
   buttonclicked: function() {
     log_action({'negative': 'Continued to site.'})
-    $(this).hide()
+    //$(this).hide()
+    this.$.sample_toast.hide()
   },
   hideButton: function() {
     this.$.okbutton.hidden = true
@@ -97,7 +98,8 @@ Polymer({
 
   },
   disableIntervention: function() {
-    $(this).hide()
+    //$(this).hide()
+    this.$.sample_toast.hide()
   },
   
   attributeChanged: function() {
@@ -107,7 +109,8 @@ Polymer({
   },
   continueclicked: function() {
     log_action({'negative': 'Continued to site.'})
-    $(this).hide()
+    //$(this).hide()
+    this.$.sample_toast.hide()
   }
 });
 

@@ -47,6 +47,8 @@ polymer_ext {
             output -= 1
           if localStorage.idea_voting_disabled == 'true'
             output -= 1
+          if localStorage.signin_disabled == 'true'
+            output -= 1
           return output
         return 0
       observer: 'slide_changed'
@@ -75,6 +77,10 @@ polymer_ext {
       type: Boolean
       value: localStorage.positive_goals_disabled == 'true'
     },
+    signin_disabled: {
+      type: Boolean
+      value: localStorage.signin_disabled == 'true'
+    },
     difficulty_selector_disabled: {
       type: Boolean
       value: localStorage.difficulty_selector_disabled == 'true'
@@ -96,6 +102,8 @@ polymer_ext {
         if localStorage.difficulty_selector_disabled == 'true'
           output -= 1
         if localStorage.idea_voting_disabled == 'true'
+          output -= 1
+        if localStorage.signin_disabled == 'true'
           output -= 1
         return output
     }

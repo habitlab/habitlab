@@ -4,6 +4,8 @@ npm-debug.log
 /node_modules
 /dist
 /src/manifest_extra.yaml
+/src/manifest_extra_beta.yaml
+/src/manifest_extra_release.yaml
 /src_gen
 /src_vulcanize
 *.deps.js

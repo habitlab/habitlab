@@ -814,11 +814,13 @@ gulp.task 'build', gulp.parallel('build_base', 'webpack_build', 'webpack_content
 
 gulp.task 'build_release', gulp.parallel(gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod')
 
-mkzip_function = (actually_delete, done) ->
+mkzip_function = (actually_delete, suffix, done) ->
   mkdirp.sync 'releases'
   manifest_info = js-yaml.safeLoad(fs.readFileSync('src/manifest.yaml'))
   version = manifest_info.version
   output_zip_file = path.join('releases', "habitlab_#{version}.zip")
+  if suffix? and suffix.length > 0
+    output_zip_file = path.join('releases', "habitlab_#{version}_#{suffix}.zip")
   if fs.existsSync('mkzip_tmp')
     fse.removeSync('mkzip_tmp')
   mkdirp.sync 'mkzip_tmp'
@@ -863,10 +865,40 @@ mkzip_function = (actually_delete, done) ->
   return
 
 gulp.task 'mkzip_fake', (done) ->
-  mkzip_function(false, done)
+  mkzip_function(false, null, done)
 
 gulp.task 'mkzip', (done) ->
-  mkzip_function(true, done)
+  mkzip_function(true, null, done)
+
+gulp.task 'mkzip_beta', (done) ->
+  mkzip_function(true, 'beta', done)
+
+gulp.task 'mkzip_release', (done) ->
+  mkzip_function(true, 'release', done)
+
+gulp.task 'buildmanifest_beta', (done) ->
+  manifest_file_contents = js-yaml.safeLoad fs.readFileSync('src/manifest.yaml')
+  if is_debug_build
+    manifest_file_contents.devtools_page = 'devtools.html'
+  if fs.existsSync 'src/manifest_extra_beta.yaml'
+    manifest_file_extra = js-yaml.safeLoad fs.readFileSync 'src/manifest_extra_beta.yaml'
+    manifest_file_contents = deepmerge(manifest_file_contents, manifest_file_extra)
+  fs.writeFileSync 'dist/manifest.json', JSON.stringify(manifest_file_contents, null, 2)
+  done()
+
+gulp.task 'buildmanifest_release', (done) ->
+  manifest_file_contents = js-yaml.safeLoad fs.readFileSync('src/manifest.yaml')
+  if is_debug_build
+    manifest_file_contents.devtools_page = 'devtools.html'
+  if fs.existsSync 'src/manifest_extra_release.yaml'
+    manifest_file_extra = js-yaml.safeLoad fs.readFileSync 'src/manifest_extra_release.yaml'
+    manifest_file_contents = deepmerge(manifest_file_contents, manifest_file_extra)
+  fs.writeFileSync 'dist/manifest.json', JSON.stringify(manifest_file_contents, null, 2)
+  done()
+
+gulp.task 'mkzip_beta', gulp.series('buildmanifest_beta', 'mkzip_beta')
+
+gulp.task 'mkzip_release', gulp.series('buildmanifest_release', 'mkzip_release')
 
 get_latest_published_version = ->>
   latest_published_version = '0.0.0'
@@ -988,7 +1020,7 @@ gulp.task 'watch', ['build'], (done) ->
   done()
 */
 
-gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip'
+gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip_beta', 'mkzip_release'
 
 gulp.task 'fakerelease', gulp.series 'build', 'mkzip_fake'
 

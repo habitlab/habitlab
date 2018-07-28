@@ -1345,7 +1345,8 @@ do !->>
       #return
       # TODO we should check if the domain is an unproductive one, only reduce time on unproductive domains
       # TODO we should ab test with differing thresholds for when we suggest a domain
-      # TODO for a given session id we should only suggest once
+      # TODO for a given session id we should only suggest once - done
+      /*
       if ((not has_enabled_goal) and total_seconds > 3600) or (localStorage.test_goal_suggestion == 'true')
         last_time_suggested_goal = domain_to_time_last_suggested_goal[current_domain]
         if (last_time_suggested_goal?) and (Date.now() - last_time_suggested_goal <= 3600*1000)
@@ -1359,6 +1360,7 @@ do !->>
           console.log 'executing script for suggesting goal'
           chrome.tabs.executeScript active_tab.id, {code: suggest_goal_base_code}
           #console.log 'show user goal prompt here' # todo
+      */
     #addtokey_dictdict 'seconds_on_domain_per_day', current_domain, current_day, 1, (total_seconds) ->
     #  dlog "total seconds spent on #{current_domain} today is #{total_seconds}"
   ), 1000

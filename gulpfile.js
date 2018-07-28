@@ -736,12 +736,15 @@
   gulp.task('make_docs', gulp.series('livescript_srcgen', 'js_srcgen', 'make_docs_markdown'));
   gulp.task('build', gulp.parallel('build_base', 'webpack_build', 'webpack_content_scripts'));
   gulp.task('build_release', gulp.parallel(gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod'));
-  mkzip_function = function(actually_delete, done){
+  mkzip_function = function(actually_delete, suffix, done){
     var manifest_info, version, output_zip_file, files_to_skip, input_files, i$, ref$, len$, filename, skip_file, x, j$, ref1$, len1$, extra_folder;
     mkdirp.sync('releases');
     manifest_info = jsYaml.safeLoad(fs.readFileSync('src/manifest.yaml'));
     version = manifest_info.version;
     output_zip_file = path.join('releases', "habitlab_" + version + ".zip");
+    if (suffix != null && suffix.length > 0) {
+      output_zip_file = path.join('releases', "habitlab_" + version + "_" + suffix + ".zip");
+    }
     if (fs.existsSync('mkzip_tmp')) {
       fse.removeSync('mkzip_tmp');
     }
@@ -787,11 +790,45 @@
     });
   };
   gulp.task('mkzip_fake', function(done){
-    return mkzip_function(false, done);
+    return mkzip_function(false, null, done);
   });
   gulp.task('mkzip', function(done){
-    return mkzip_function(true, done);
+    return mkzip_function(true, null, done);
   });
+  gulp.task('mkzip_beta', function(done){
+    return mkzip_function(true, 'beta', done);
+  });
+  gulp.task('mkzip_release', function(done){
+    return mkzip_function(true, 'release', done);
+  });
+  gulp.task('buildmanifest_beta', function(done){
+    var manifest_file_contents, manifest_file_extra;
+    manifest_file_contents = jsYaml.safeLoad(fs.readFileSync('src/manifest.yaml'));
+    if (is_debug_build) {
+      manifest_file_contents.devtools_page = 'devtools.html';
+    }
+    if (fs.existsSync('src/manifest_extra_beta.yaml')) {
+      manifest_file_extra = jsYaml.safeLoad(fs.readFileSync('src/manifest_extra_beta.yaml'));
+      manifest_file_contents = deepmerge(manifest_file_contents, manifest_file_extra);
+    }
+    fs.writeFileSync('dist/manifest.json', JSON.stringify(manifest_file_contents, null, 2));
+    return done();
+  });
+  gulp.task('buildmanifest_release', function(done){
+    var manifest_file_contents, manifest_file_extra;
+    manifest_file_contents = jsYaml.safeLoad(fs.readFileSync('src/manifest.yaml'));
+    if (is_debug_build) {
+      manifest_file_contents.devtools_page = 'devtools.html';
+    }
+    if (fs.existsSync('src/manifest_extra_release.yaml')) {
+      manifest_file_extra = jsYaml.safeLoad(fs.readFileSync('src/manifest_extra_release.yaml'));
+      manifest_file_contents = deepmerge(manifest_file_contents, manifest_file_extra);
+    }
+    fs.writeFileSync('dist/manifest.json', JSON.stringify(manifest_file_contents, null, 2));
+    return done();
+  });
+  gulp.task('mkzip_beta', gulp.series('buildmanifest_beta', 'mkzip_beta'));
+  gulp.task('mkzip_release', gulp.series('buildmanifest_release', 'mkzip_release'));
   get_latest_published_version = async function(){
     var latest_published_version, i$, ref$, len$, extension_id, chrome_store_item, published_version;
     latest_published_version = '0.0.0';
@@ -885,7 +922,7 @@
     gulp-util.log 'run-sequence done'
     done()
   */
-  gulp.task('release', gulp.series('newver', 'clean', 'build_release', 'mkzip'));
+  gulp.task('release', gulp.series('newver', 'clean', 'build_release', 'mkzip_beta', 'mkzip_release'));
   gulp.task('fakerelease', gulp.series('build', 'mkzip_fake'));
   gulp.task('watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch', 'make_docs_markdown')));
   gulp.task('livereload', function(){

@@ -42,6 +42,118 @@ const {
 var shadow_root;
 var shadow_div;
 
+/*
+define_component(`
+  <style>
+    .beginBox{
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      width: 100vw;
+      height: 100vw;
+      background-color: #f2fcff;
+      opacity: 1;
+      z-index: 2147483646;
+    }
+    .contentContainer {
+      
+    }
+    .titleText {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    .timeSelect {
+      font-size: 1.3em;
+    }
+    .timeOption {
+      display: inline;
+    }
+    .okButton {
+      cursor: pointer;
+      padding: 10px;
+      background-color: #415D67;
+      color: white;
+      font-weight: normal;
+      box-shadow: 2px 2px 2px #888888;
+    }
+    .logo {
+      margin-bottom: 80px;
+    }
+  </style>
+  <template>
+    <div class="beginBox">
+      <div class="contentContainer">
+        
+        <center class="logo"><habitlab-logo-v2 class="logo"></habitlab-logo-v2></center>
+        <center>
+          
+          <div class="titleText">How many minutes would you like to spend on {{message}} this visit?</div>
+          <p>
+          <div class="timeSelect">
+            <paper-button on-click="minutes_one" class="timeOption" raised>1</paper-button>
+            <paper-button on-click="minutes_two" class="timeOption" raised>2</paper-button>
+            <paper-button on-click="minutes_three" class="timeOption" raised>3</paper-button>
+            <paper-button on-click="minutes_four" class="timeOption" raised>4</paper-button>
+            <paper-button on-click="minutes_five" class="timeOption" raised>5</paper-button>
+            <paper-button on-click="setCustomMinutes" class="timeOption" raised>Custom Time: </paper-button>
+            <paper-input auto-validate allowed-pattern="[0-9]" label="custom time" class="timeOption" id="custom_time_value"></paper-input>
+          </div>
+          <p>
+          <paper-button class="okButton" on-click="okClick"> Restrict me to {{time}} minutes!</paper-button>
+        </center>
+      </div>
+    </div>
+  </template>
+`, {
+  is: 'begin-dialog',
+  properties: {
+    time: {
+      type: Number,
+      value: 3
+    },
+    message: {
+      type: String,
+      value: intervention.sitename_printable
+    },
+    test: {
+      type: Number,
+      value: 7
+    }
+  },
+  ready: function() {  
+  },
+  minutes_one: function() {
+    this.time = 1
+  },
+  minutes_two: function() {
+    this.time = 2
+  },
+  minutes_three: function() {
+    this.time = 3
+  },
+  minutes_four: function() {
+    this.time = 4
+  },
+  minutes_five: function() {
+    this.time = 5
+  },
+  setCustomMinutes: function() {
+    let custom_time = this.$$('#custom_time_value').value
+    this.time = custom_time
+  },
+  okClick: async function() {
+    this.remove()
+    console.log(this.time)
+    let current_time_spent = await get_seconds_spent_on_current_domain_in_current_session()
+    set_intervention_session_var('seconds_spent_at_most_recent_start', current_time_spent)
+    set_intervention_session_var('seconds_selected', this.time*60)
+    console.log(current_time_spent)
+    displayCountdown(this.time * 60, current_time_spent)
+  }
+});
+*/
 //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
 function addBeginDialog(message) {
   if (window.intervention_disabled) {
@@ -79,7 +191,7 @@ function addBeginDialog(message) {
   $contentContainer.append($logo);
 
   const $slider = $('<paper-slider id="ratings" pin snaps min="1" max="5" max-markers="5" step="1" value="3" style="width: 500px" editable></paper-slider>')
-
+  
   //const $okButton = $('<button>');
   const $okButton = $('<paper-button>');
   $okButton.text("Restrict My Minutes!");
@@ -205,7 +317,12 @@ function displayCountdown(timeLimitThisVisit, seconds_spent_at_most_recent_start
 }
 
 function main() {
-  addBeginDialog("How many minutes would you like to spend on " + intervention.sitename_printable + " this visit?");
+  //addBeginDialog("How many minutes would you like to spend on " + intervention.sitename_printable + " this visit?");
+  var custom_component = $('<begin-dialog>');
+  shadow_div.append(custom_component);
+  //shadow_div.append(custom_component);
+  console.log('appended')
+  console.log(custom_component)
 }
 
 (async function() {

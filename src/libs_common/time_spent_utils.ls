@@ -70,6 +70,11 @@ export get_seconds_spent_on_current_domain_today = ->>
   result = await get_seconds_spent_on_domain_today current_domain
   return result ? 0
 
+/**
+* Return visits to the given domain today
+* @param {domain} the doain
+* @return {integer} seconds spent
+*/
 export get_visits_to_domain_today = (domain) ->>
   current_day = get_days_since_epoch()
   result = await getkey_dictdict 'visits_to_domain_per_day', domain, current_day
@@ -80,6 +85,10 @@ export get_visits_to_domain_days_before_today = (domain, days_ago) ->>
   result = await getkey_dictdict 'visits_to_domain_per_day', domain, (current_day - days_ago)
   return result ? 0
 
+/**
+* Return visits to the given domain today
+* @return {integer} seconds spent
+*/
 export get_visits_to_current_domain_today = ->>
   current_domain = window.location.hostname
   result = await get_visits_to_domain_today current_domain
@@ -115,6 +124,9 @@ export get_seconds_spent_on_domain_in_session = (domain, session_id) ->>
 export get_seconds_spent_on_current_domain_in_current_session = ->>
   session_id = get_session_id()
   current_domain = window.location.hostname
+  console.log 'in get_seconds_spend_on_current_domain_in_current_session'
+  console.log session_id
+  console.log current_domain
   result = await get_seconds_spent_on_domain_in_session current_domain, session_id
   return result ? 0
 

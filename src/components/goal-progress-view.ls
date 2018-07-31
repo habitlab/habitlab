@@ -69,7 +69,7 @@ polymer_ext {
     }
   }
   compute_data: (chart, goal_progress, goal_info, goal_target) ->
-    
+
     #target = await get_goal_target this.goal
     goal_data = []
     for i from 0 to 7
@@ -152,7 +152,7 @@ polymer_ext {
           pointHoverBackgroundColor: "rgba(75,192,192,1)",
           pointHoverBorderColor: "rgba(220,220,220,1)",
           data: reverse progress_values
-        }, 
+        },
         {
           label: 'Daily goal'
           fill: false,
@@ -182,10 +182,9 @@ polymer_ext {
     #         display: true,
     #         labelString: goal_info.units ? goal_info.target.units ? 'minutes'
     #       }
-    #     }]        
+    #     }]
     #   }
     # }
-    this.loaded = true
   ready: ->>
     if this.sync
       this.goal_target = await get_goal_target this.goal
@@ -213,13 +212,15 @@ polymer_ext {
         if data.android.hasOwnProperty(android_id)
           if data.android[android_id].weeks.reduce(getSum) != 0
             mobile.push(data.android[android_id])
-      
+
       this.browser = browser
       this.mobile = mobile
 
       this.total = data.total
 
       this.selected = 0
+    this.loaded = true
+
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

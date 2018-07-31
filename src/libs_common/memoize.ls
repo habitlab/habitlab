@@ -1,13 +1,10 @@
-debounce = require('promise-debounce')
-
 export memoizeSingleAsync = (func) ->
-  debounced_func = debounce func
-  cached_val = null
-  return ->>
-    if cached_val?
-      return cached_val
-    result = await debounced_func()
-    cached_val := result
+  cached_promise = null
+  return ->
+    if cached_promise?
+      return cached_promise
+    result = func()
+    cached_promise := result
     return result
 
 export memoize = (func) ->

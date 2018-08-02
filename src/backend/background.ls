@@ -895,7 +895,7 @@ do !->>
       #    need_new_session_id = true
       if enabled_intervention_set_changed
         need_new_session_id = true
-      if need_new_session_id
+      if need_new_session_id and is_new_session
         # the intervention is no longer enabled. need to choose a new session id
         dlog 'intervention is no longer enabled. choosing new session id'
         dlog 'tabid is ' + tabId
@@ -1092,7 +1092,7 @@ do !->>
         update_duolingo_progress()
   ), 5min * 60s_per_min * 1000ms_per_s
 
-  navigation_occurred = (url, tabId, is_from_history) ->
+  navigation_occurred = (url, tabId, is_from_history, changeInfo) ->
     new_domain = url_to_domain(url)
 
     if prev_domain == "www.duolingo.com"
@@ -1116,15 +1116,16 @@ do !->>
     #  chrome.pageAction.hide(tabId)
     #send_pageupdate_to_tab(tabId)
     #dlog "navigation_occurred to #{url}"
-    load_intervention_for_location(url, tabId).then ->
-      loaded_interventions = tab_id_to_loaded_interventions[tabId]
-      if loaded_interventions? and loaded_interventions.length > 0
-        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
-      else
-        if is_habitlab_enabled_sync() and !is_it_outside_work_hours()
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+    if (not is_from_history) and (changeInfo?) and (changeInfo.status == 'loading')
+      load_intervention_for_location(url, tabId).then ->
+        loaded_interventions = tab_id_to_loaded_interventions[tabId]
+        if loaded_interventions? and loaded_interventions.length > 0
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         else
-          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
+          if is_habitlab_enabled_sync() and !is_it_outside_work_hours()
+            chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon.svg')}
+          else
+            chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
 
   # A bit naive and over-conservative, but a start
   chrome.windows.onFocusChanged.addListener (windowId) ->
@@ -1157,7 +1158,7 @@ do !->>
         tabId: tabId
         is_from_history: false
       }
-      navigation_occurred tab.url, tabId, false
+      navigation_occurred tab.url, tabId, false, changeInfo
   reward_display_base_code_cached = null
 
   chrome.tabs.onActivated.addListener (activeInfo) ->>
@@ -1224,7 +1225,7 @@ do !->>
       tabId: info.tabId
       is_from_history: true
     }
-    navigation_occurred info.url, info.tabId, true
+    navigation_occurred info.url, info.tabId, true, {}
 
   message_handlers_requiring_tab = {
     'load_css_file': true

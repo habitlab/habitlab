@@ -8,6 +8,7 @@ const $ = require('jquery')
 require_component('paper-slider')
 require_component('paper-input')
 require_component('paper-button')
+require_component('paper-card')
 
 require_component('interstitial-screen')
 require_component('timespent-view')
@@ -42,7 +43,6 @@ const {
 var shadow_root;
 var shadow_div;
 
-/*
 define_component(`
   <style>
     .beginBox{
@@ -56,19 +56,30 @@ define_component(`
       z-index: 2147483646;
     }
     .contentContainer {
-      
+      margin: auto; 
     }
     .titleText {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%);
+      margin-bottom: 10px;
+      margin-top: 40vh;
     }
     .timeSelect {
       font-size: 1.3em;
+      width: 80%;
     }
     .timeOption {
-      display: inline;
+      display: inline-block;
+      width: 20px;
+      background-color: #415D67;
+      color: white;
+    }
+    .customButton{
+      display: inline-block;
+      background-color: #415D67;
+      color: white;
+    }
+    .customBox {
+      display: inline-block;
+      color: white;
     }
     .okButton {
       cursor: pointer;
@@ -77,16 +88,17 @@ define_component(`
       color: white;
       font-weight: normal;
       box-shadow: 2px 2px 2px #888888;
+      margin-top: 30px;
     }
     .logo {
-      margin-bottom: 80px;
+
     }
   </style>
   <template>
     <div class="beginBox">
       <div class="contentContainer">
         
-        <center class="logo"><habitlab-logo-v2 class="logo"></habitlab-logo-v2></center>
+        <center class="logo"></center>
         <center>
           
           <div class="titleText">How many minutes would you like to spend on {{message}} this visit?</div>
@@ -97,11 +109,10 @@ define_component(`
             <paper-button on-click="minutes_three" class="timeOption" raised>3</paper-button>
             <paper-button on-click="minutes_four" class="timeOption" raised>4</paper-button>
             <paper-button on-click="minutes_five" class="timeOption" raised>5</paper-button>
-            <paper-button on-click="setCustomMinutes" class="timeOption" raised>Custom Time: </paper-button>
-            <paper-input auto-validate allowed-pattern="[0-9]" label="custom time" class="timeOption" id="custom_time_value"></paper-input>
+            <paper-input on-input="setCustomMinutes" auto-validate allowed-pattern="[0-9]" label="custom time" class="customBox" id="custom_time_value"></paper-input>
           </div>
           <p>
-          <paper-button class="okButton" on-click="okClick"> Restrict me to {{time}} minutes!</paper-button>
+          <paper-button class="okButton" on-click="okClick"> Restrict me to {{time}} minutes!</paper-button><div class="logo"><habitlab-logo-v2 class="logo"></habitlab-logo-v2></ddiv>
         </center>
       </div>
     </div>
@@ -126,22 +137,29 @@ define_component(`
   },
   minutes_one: function() {
     this.time = 1
+    this.$$('#custom_time_value').value = 0
   },
   minutes_two: function() {
     this.time = 2
+    this.$$('#custom_time_value').value = 0
   },
   minutes_three: function() {
     this.time = 3
+    this.$$('#custom_time_value').value = 0
   },
   minutes_four: function() {
     this.time = 4
+    this.$$('#custom_time_value').value = 0
   },
   minutes_five: function() {
     this.time = 5
+    this.$$('#custom_time_value').value = 0
   },
   setCustomMinutes: function() {
     let custom_time = this.$$('#custom_time_value').value
-    this.time = custom_time
+    if(custom_time != 0){
+      this.time = custom_time
+    }
   },
   okClick: async function() {
     this.remove()
@@ -153,7 +171,7 @@ define_component(`
     displayCountdown(this.time * 60, current_time_spent)
   }
 });
-*/
+
 //Adds a dialog that prompts user for the amount of time they would like to be on Facebook
 function addBeginDialog(message) {
   if (window.intervention_disabled) {

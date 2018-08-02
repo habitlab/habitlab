@@ -121,12 +121,13 @@ export get_seconds_spent_on_domain_in_session = (domain, session_id) ->>
   result = await getkey_dictdict 'seconds_on_domain_per_session', domain, session_id
   return result ? 0
 
+/**
+* Return seconds spent on current domain this session
+* @return {integer} seconds spent
+*/
 export get_seconds_spent_on_current_domain_in_current_session = ->>
   session_id = get_session_id()
   current_domain = window.location.hostname
-  console.log 'in get_seconds_spend_on_current_domain_in_current_session'
-  console.log session_id
-  console.log current_domain
   result = await get_seconds_spent_on_domain_in_session current_domain, session_id
   return result ? 0
 

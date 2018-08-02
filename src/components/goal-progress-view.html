@@ -19,9 +19,7 @@
         };
       }
     </style>
-    <template is="dom-if" if="{{!loaded}}">
-      <paper-spinner id="loading-spinner" active></paper-spinner>
-    </template>    
+       
 
     <template is="dom-if" if="{{sync}}">
       <paper-tabs selected="{{selected}}">
@@ -33,7 +31,7 @@
           <paper-tab>Mobile</paper-tab>
         </template>
       </paper-tabs>
-      
+
       <iron-pages selected="{{selected}}">
         <div><chart-line data="{{compute_data(total, goal_progress, goal_info, goal_target)}}" options="[[options]]" style="width: 100%"></chart-line></div>
         <template is="dom-repeat" items="{{browser}}" as="chart">
@@ -47,6 +45,10 @@
     <template is="dom-if" if="{{!sync}}">
       <chart-line data="[[data]]" options="[[options]]" style="width: 100%"></chart-line>
     </template>
+
+    <template is="dom-if" if="{{!loaded}}">
+      <paper-spinner id="loading-spinner" active></paper-spinner>
+    </template> 
 
 
   </template>

@@ -14,6 +14,11 @@ const {
   get_progress_on_goal_days_before_today
 } = require('libs_backend/goal_progress')
 
+/**
+ * Returns the length  of the streak for the given goal
+ * @param {<GoalInfo>} goal_info of the goal 
+ * @return {Promise.<Number>} length of streak
+ */
 get_streak = (goal_info) ->>
   goal_name = goal_info.name
   if goal_name == 'duolingo/complete_lesson_each_day'

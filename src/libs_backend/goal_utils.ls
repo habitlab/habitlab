@@ -603,15 +603,44 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   #  delete goal_info.icon
   await add_custom_goal_info goal_info
   return
-  
+
+export get_spend_less_time_goals_for_domain = (domain) ->>
+  output = []
+  all_goals = await get_goals()
+  for goal_name,goal_info of all_goals
+    if goal_info.is_positive
+      continue
+    if goal_info.domain == domain
+      output.push(goal_name)
+  return output
+
+export get_spend_more_time_goals_for_domain = (domain) ->>
+  output = []
+  all_goals = await get_goals()
+  for goal_name,goal_info of all_goals
+    if not goal_info.is_positive
+      continue
+    if goal_info.domain == domain
+      output.push(goal_name)
+  return output
 
 export add_enable_custom_goal_reduce_time_on_domain = (domain) ->>
+  existing_goals = await get_spend_less_time_goals_for_domain(domain)
+  if existing_goals.length > 0
+    goal_name = existing_goals[0]
+    await set_goal_enabled(goal_name)
+    return goal_name
   await add_custom_goal_reduce_time_on_domain(domain)
   await set_goal_enabled("custom/spend_less_time_#{domain}")
   await intervention_utils.generate_interventions_for_domain domain
   return "custom/spend_less_time_#{domain}"
 
 export add_enable_custom_goal_increase_time_on_domain = (domain) ->>
+  existing_goals = await get_spend_more_time_goals_for_domain(domain)
+  if existing_goals.length > 0
+    goal_name = existing_goals[0]
+    await set_goal_enabled(goal_name)
+    return goal_name
   await add_custom_goal_involving_time_on_domain(domain, true)
   await set_goal_enabled("custom/spend_more_time_#{domain}")
   await intervention_utils.generate_interventions_for_positive_domain domain

@@ -185,20 +185,27 @@ polymer_ext {
     #     }]
     #   }
     # }
+    
   ready: ->>
     if this.sync
       this.goal_target = await get_goal_target this.goal
       goal_info = await get_goal_info this.goal
       domain = goal_info.domain
+      console.log 'post request for'
+      console.log domain
       source = 'browser'
-      id_token = await chrome_get_token()
-      data = await post_json('https://habitlab-mobile-website.herokuapp.com/account_external_stats', {
+      console.log localStorage.id_secret
+      data = await post_json('http://habitlab-mobile-website.herokuapp.com/account_external_stats', {
         domain: domain
         from: source
-        token: id_token
+        secret: localStorage.id_secret
         timestamp: Date.now()
+        utcOffset: moment().utcOffset()
       })
-
+      
+      console.log 'finished post request for'
+      console.log domain
+      console.log data
 
       browser = []
       mobile = []
@@ -220,7 +227,6 @@ polymer_ext {
 
       this.selected = 0
     this.loaded = true
-
 }, {
   source: require 'libs_frontend/polymer_methods'
   methods: [

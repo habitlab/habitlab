@@ -62,6 +62,10 @@ do !->>
       post_json
   } = require('libs_backend/ajax_utils')
 
+  require! {
+    moment
+  }
+
   {
     get_goals
     get_goal_info
@@ -1311,6 +1315,7 @@ do !->>
       userid: user_id
       timestamp: timestamp
       domains_time: domain_to_num_seconds_to_increment
+      utcOffset: moment().utcOffset()
     })
     #if updates_to_sync.length > 0
     #  data = updates_to_sync.shift()

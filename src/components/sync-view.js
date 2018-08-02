@@ -57,9 +57,12 @@ polymer_ext({
         dataType: 'json',
         success: function(data, textStatus, jqXHR) {
           localStorage.sync_with_mobile = 'true'
+          localStorage.id_secret = data.secret
           self.should_sync = localStorage.sync_with_mobile == 'true'
         },
         error: function(jqXHR, textStatus, errorThrown) {
+          console.log('error')
+          console.log(jqXHR)
           reject(errorThrown) }
       });
     });

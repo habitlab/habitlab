@@ -1,3 +1,9 @@
+fakevariable = null
+
+/**
+* Return a randomly selected quote from a set list of quotes
+* @return {Object} Object containing three strings: text, source, and category
+*/
 export get_random_quote = ->
   index = Math.floor Math.random! * builtinQuotes.length
   return builtinQuotes[index]

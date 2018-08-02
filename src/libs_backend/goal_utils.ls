@@ -415,6 +415,11 @@ export get_have_suggested_domain_as_goal = (domain) ->>
   cached_domains_suggested_as_goal[domain] = has_been_suggested
   return has_been_suggested
 
+export remove_have_suggested_domain_as_goal = (domain) ->>
+  cached_domains_suggested_as_goal[domain] = false
+  await setkey_dict 'domains_suggested_as_goals', domain, false
+  return
+
 export record_have_suggested_domain_as_goal = (domain) ->>
   cached_domains_suggested_as_goal[domain] = true
   await setkey_dict 'domains_suggested_as_goals', domain, true

@@ -228,6 +228,14 @@ do !->>
     setvar_experiment('intervention_suggestion_algorithm', chosen_algorithm)
     return
 
+  export set_goal_suggestion_threshold = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = [0, 600, 1200, 1800, 3600]
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    localStorage.setItem('goal_suggestion_threshold', chosen_algorithm)
+    setvar_experiment('goal_suggestion_threshold', chosen_algorithm)
+    return
+
   export set_onboarding_ideavoting_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
       algorithms = ['on', 'off']
@@ -287,6 +295,8 @@ do !->>
     if localStorage.getItem('notfirstrun')
       if not localStorage.intervention_suggestion_algorithm?
         set_intervention_suggestion_algorithm()
+      if not localStorage.goal_suggestion_threshold?
+        set_goal_suggestion_threshold()
       return
     #  if not localStorage.getItem('allow_logging')? # user did not complete onboarding
     #    show_finish_configuring_notification_if_needed()
@@ -313,6 +323,7 @@ do !->>
     set_onboarding_ideavoting_abtest()
     set_nongoal_timer_abtest()
     set_idea_contribution_money_abtest()
+    set_goal_suggestion_threshold()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()
@@ -1307,6 +1318,7 @@ do !->>
     #  #post_json('https://habitlab-mobile-website.herokuapp.com/addsessiontototal', data)
   ), 30000
 
+  goal_suggestion_threshold = parseInt(localStorage.goal_suggestion_threshold)
   suggest_goal_base_code = null
   domain_to_time_last_suggested_goal = {}
 
@@ -1345,24 +1357,20 @@ do !->>
     addtokey_dictdict('seconds_on_domain_per_day', current_domain, current_day, 1).then (total_seconds) ->>
       if has_enabled_goal or (localStorage.allow_nongoal_timer != 'false')
         chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
-      #return
-      # TODO we should check if the domain is an unproductive one, only reduce time on unproductive domains - done
-      # TODO we should ab test with differing thresholds for when we suggest a domain
-      # TODO for a given session id we should only suggest once - done
-      if ((not has_enabled_goal) and total_seconds > 3600) or (localStorage.test_goal_suggestion == 'true')
+      if (not goal_suggestion_threshold?) or (goal_suggestion_threshold <= 0) or (not isFinite(goal_suggestion_threshold))
+        return
+      if ((not has_enabled_goal) and total_seconds > goal_suggestion_threshold)
         last_time_suggested_goal = domain_to_time_last_suggested_goal[current_domain]
-        if (last_time_suggested_goal?) and (Date.now() - last_time_suggested_goal <= 3600*1000)
+        if (last_time_suggested_goal?) and (Date.now() - last_time_suggested_goal <= goal_suggestion_threshold*1000)
           return
         domain_to_time_last_suggested_goal[current_domain] = Date.now()
-        console.log 'domain to time last suggested test passed'
         have_suggested = await get_have_suggested_domain_as_goal(current_domain)
-        if (not have_suggested) or (localStorage.test_goal_suggestion == 'true')
+        if (not have_suggested)
           is_unproductive = await is_domain_unproductive(current_domain)
           if not is_unproductive
             return
           if suggest_goal_base_code == null
             suggest_goal_base_code := await fetch('frontend_utils/suggest_goal_prompt.js').then (.text!)
-          console.log 'executing script for suggesting goal'
           log_goal_suggestion({'action': 'suggested', 'goal_type': 'spend_less_time', 'domain': current_domain})
           chrome.tabs.executeScript active_tab.id, {code: suggest_goal_base_code}
           #console.log 'show user goal prompt here' # todo

@@ -380,6 +380,19 @@ export get_goals = ->>
       goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
   return output
 
+export get_unproductive_domains_set = memoizeSingleAsync ->>
+  unproductive_domains_list = await fetch('/unproductive_domains.json').then((.json!))
+  unproductive_domains_set = new Set()
+  for x in unproductive_domains_list
+    unproductive_domains_set.add(x)
+  return unproductive_domains_set
+
+export is_domain_unproductive = (domain) ->>
+  unproductive_domains_set = await get_unproductive_domains_set()
+  if unproductive_domains_set.has(domain)
+    return true
+  return false
+
 /**
  * Gets the goal info for all goals where is_positive set to true, in the form of an object mapping goal names to goal info
  * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info

@@ -73,6 +73,7 @@ do !->>
     get_random_positive_goal
     site_has_enabled_spend_less_time_goal
     get_have_suggested_domain_as_goal
+    is_domain_unproductive
   } = require 'libs_backend/goal_utils'
 
   {
@@ -1345,7 +1346,7 @@ do !->>
       if has_enabled_goal or (localStorage.allow_nongoal_timer != 'false')
         chrome.browserAction.setBadgeText({text: printable_time_spent_short(total_seconds), tabId: active_tab.id})
       #return
-      # TODO we should check if the domain is an unproductive one, only reduce time on unproductive domains
+      # TODO we should check if the domain is an unproductive one, only reduce time on unproductive domains - done
       # TODO we should ab test with differing thresholds for when we suggest a domain
       # TODO for a given session id we should only suggest once - done
       if ((not has_enabled_goal) and total_seconds > 3600) or (localStorage.test_goal_suggestion == 'true')
@@ -1356,6 +1357,9 @@ do !->>
         console.log 'domain to time last suggested test passed'
         have_suggested = await get_have_suggested_domain_as_goal(current_domain)
         if (not have_suggested) or (localStorage.test_goal_suggestion == 'true')
+          is_unproductive = await is_domain_unproductive(current_domain)
+          if not is_unproductive
+            return
           if suggest_goal_base_code == null
             suggest_goal_base_code := await fetch('frontend_utils/suggest_goal_prompt.js').then (.text!)
           console.log 'executing script for suggesting goal'

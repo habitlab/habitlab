@@ -380,6 +380,19 @@ export get_goals = ->>
       goal_info.icon = chrome.runtime.getURL('goals/' + goal_name + '/' + goal_info.icon)
   return output
 
+export get_unproductive_domains_set = memoizeSingleAsync ->>
+  unproductive_domains_list = await fetch('/unproductive_domains.json').then((.json!))
+  unproductive_domains_set = new Set()
+  for x in unproductive_domains_list
+    unproductive_domains_set.add(x)
+  return unproductive_domains_set
+
+export is_domain_unproductive = (domain) ->>
+  unproductive_domains_set = await get_unproductive_domains_set()
+  if unproductive_domains_set.has(domain)
+    return true
+  return false
+
 /**
  * Gets the goal info for all goals where is_positive set to true, in the form of an object mapping goal names to goal info
  * @return {Promise.<Object.<GoalName, GoalInfo>>} Object mapping goal names to goal info
@@ -397,13 +410,14 @@ cached_domains_suggested_as_goal = {}
 
 export get_have_suggested_domain_as_goal = (domain) ->>
   if cached_domains_suggested_as_goal[domain]?
-    return true
-  cached_domains_suggested_as_goal[domain] = true
-  # TODO we need to also store and check this in persistent storage
-  return false
+    return cached_domains_suggested_as_goal[domain]
+  has_been_suggested = await getkey_dict 'domains_suggested_as_goals', domain
+  cached_domains_suggested_as_goal[domain] = has_been_suggested
+  return has_been_suggested
 
 export record_have_suggested_domain_as_goal = (domain) ->>
-  # TODO need to store in database
+  cached_domains_suggested_as_goal[domain] = true
+  await setkey_dict 'domains_suggested_as_goals', domain, true
   return
 
 export accept_domain_as_goal_and_record = (domain) ->>

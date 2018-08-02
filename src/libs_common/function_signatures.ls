@@ -54,6 +54,8 @@ lib_name_to_func_names_and_signatures =
     get_positive_enabled_uncompleted_goals: []
     get_goal_info: ['goal_name']
     get_goal_statement: ['goal_info']
+    accept_domain_as_goal_and_record: ['domain']
+    reject_domain_as_goal_and_record: ['domain']
   goal_progress:
     get_progress_on_enabled_goals_this_week: []
     get_whether_goal_achieved_today: []

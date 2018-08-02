@@ -410,13 +410,14 @@ cached_domains_suggested_as_goal = {}
 
 export get_have_suggested_domain_as_goal = (domain) ->>
   if cached_domains_suggested_as_goal[domain]?
-    return true
-  cached_domains_suggested_as_goal[domain] = true
-  # TODO we need to also store and check this in persistent storage
-  return false
+    return cached_domains_suggested_as_goal[domain]
+  has_been_suggested = await getkey_dict 'domains_suggested_as_goals', domain
+  cached_domains_suggested_as_goal[domain] = has_been_suggested
+  return has_been_suggested
 
 export record_have_suggested_domain_as_goal = (domain) ->>
-  # TODO need to store in database
+  cached_domains_suggested_as_goal[domain] = true
+  await setkey_dict 'domains_suggested_as_goals', domain, true
   return
 
 export accept_domain_as_goal_and_record = (domain) ->>

@@ -508,6 +508,14 @@ export clear_cache_all_goals = ->
   clear_cache_list_all_goals()
   return
 
+export get_weeks_on_which_goal_is_frequent = (goal_name) ->>
+  # TODO if it is not in the database then store the pattern. at the moment we probably just want to store a 1 or 0 meaning even or odd weeks
+  return []
+
+export get_is_goal_frequent = (goal_name) ->>
+  # TODO implement. get weeks on which goal is frequent, get current week, if it is in the list of frequent weeks then return true
+  return true
+
 export add_custom_goal_info = (goal_info) ->>
   extra_get_goals_text = localStorage.getItem 'extra_get_goals'
   if extra_get_goals_text?

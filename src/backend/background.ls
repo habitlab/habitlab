@@ -235,7 +235,7 @@ do !->>
 
   export set_goal_suggestion_threshold = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = [0, 300, 600, 1200, 1800, 3600]
+      algorithms = [0, 600, 1200, 1800, 3600]
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('goal_suggestion_threshold', chosen_algorithm)
     setvar_experiment('goal_suggestion_threshold', chosen_algorithm)

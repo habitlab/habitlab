@@ -67,6 +67,7 @@ current_schema_for_collections = {
   custom_intervention_code: 'key,synced'
   interventions_currently_disabled: 'key,synced'
   goal_targets: 'key,synced'
+  goal_frequencies: 'key,synced'
   time_intervention_most_recently_seen: 'key,synced'
   seconds_saved_for_intervention: 'key,synced'
   seconds_saved_for_domain: 'key,synced'

@@ -35,6 +35,10 @@
   remove_cached_favicon_for_domain
 } = require 'libs_backend/favicon_utils'
 
+require! {
+  moment
+}
+
 getAllInterventionsGoalInfo = ->>
   goal_info = {
     name: 'debug/all_interventions'
@@ -508,13 +512,29 @@ export clear_cache_all_goals = ->
   clear_cache_list_all_goals()
   return
 
-export get_weeks_on_which_goal_is_frequent = (goal_name) ->>
-  # TODO if it is not in the database then store the pattern. at the moment we probably just want to store a 1 or 0 meaning even or odd weeks
-  return []
+export make_goal_frequency_info = ->
+  output = {}
+  output.algorithm = 'isoweek_alternating'
+  output.onweeks = Math.round(Math.random()) # either 0 or 1
+  output.timestamp = Date.now()
+  return output
+
+export get_is_goal_frequent_from_frequency_info = (goal_frequency_info) ->
+  algorithm = goal_frequency_info.algorithm
+  if algorithm == 'isoweek_alternating'
+    isoweek = moment().isoWeek()
+    onweeks = goal_frequency_info.onweeks
+    return (isoweek % 2) == onweeks
+  throw new Error('goal frequency algorithm not implemented')
 
 export get_is_goal_frequent = (goal_name) ->>
-  # TODO implement. get weeks on which goal is frequent, get current week, if it is in the list of frequent weeks then return true
-  return true
+  goal_frequency_info = await getkey_dict 'goal_frequencies', goal_name
+  if goal_frequency_info?
+    goal_frequency_info = JSON.parse goal_frequency_info
+  else
+    goal_frequency_info = make_goal_frequency_info()
+    await setkey_dict 'goal_frequencies', goal_name, JSON.stringify(goal_frequency_info)
+  return get_is_goal_frequent_from_frequency_info goal_frequency_info
 
 export add_custom_goal_info = (goal_info) ->>
   extra_get_goals_text = localStorage.getItem 'extra_get_goals'

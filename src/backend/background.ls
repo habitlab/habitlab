@@ -1298,6 +1298,10 @@ do !->>
 
   updates_to_sync = []
 
+  mobile_server = 'https://habitlab-mobile-website.herokuapp.com'
+  if localStorage.local_logging_server == 'true'
+     mobile_server =  'http://localhost:5000'
+
   setInterval (->>
     if localStorage.sync_with_mobile != 'true'
       return
@@ -1312,7 +1316,7 @@ do !->>
         domain_to_num_seconds_to_increment[domain] = 0
       domain_to_num_seconds_to_increment[domain] += seconds
     updates_to_sync.length = 0
-    post_json('https://habitlab-mobile-website.herokuapp.com/addsessiontototal', {
+    post_json(mobile_server + '/addsessiontototal', {
       userid: user_id
       timestamp: timestamp
       domains_time: domain_to_num_seconds_to_increment
@@ -1321,7 +1325,7 @@ do !->>
     #if updates_to_sync.length > 0
     #  data = updates_to_sync.shift()
     #  console.log(data)
-    #  #post_json('https://habitlab-mobile-website.herokuapp.com/addsessiontototal', data)
+    #  #post_json(mobile_server '/addsessiontototal', data)
   ), 30000
 
   goal_suggestion_threshold = parseInt(localStorage.goal_suggestion_threshold)

@@ -95,6 +95,10 @@ polymer_ext {
       type: Boolean
       value: localStorage.positive_goals_disabled == 'true'
     }
+    sync_enabled: {
+      type: Boolean
+      value: localStorage.sync_with_mobile? && localStorage.sync_with_mobile == 'true'
+    }
   }
   select_new_interventions: (evt) ->
     self = this
@@ -208,7 +212,6 @@ polymer_ext {
   ready: ->
     this.rerender()
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
-
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->

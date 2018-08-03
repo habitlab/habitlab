@@ -45,10 +45,14 @@ polymer_ext({
     let self = this
     let id_token = await chrome_get_token();
     let user_id = await get_user_id();
+    let mobile_server = 'https://habitlab-mobile-website.herokuapp.com'
+    if (localStorage.local_logging_server == 'true') {
+      mobile_server = 'http://localhost:5000'
+    }
     let result = new Promise( function(resolve, reject) {
       $.ajax({
         type: 'POST',
-        url: 'https://habitlab-mobile-website.herokuapp.com/register_user_with_email',
+        url: mobile_server + '/register_user_with_email',
         data: {
           from: "browser",
           token: id_token,
@@ -80,7 +84,7 @@ polymer_ext({
     chrome.tabs.create({url: 'https://play.google.com/store/apps/details?id=com.stanfordhci.habitlab'});
   },
   ready: async function(evt) {
-    
+
   }
 }, {
   source: require('libs_frontend/polymer_methods'),

@@ -195,7 +195,10 @@ polymer_ext {
       console.log domain
       source = 'browser'
       console.log localStorage.id_secret
-      data = await post_json('http://habitlab-mobile-website.herokuapp.com/account_external_stats', {
+      mobile_server = 'https://habitlab-mobile-website.herokuapp.com'
+      if localStorage.local_logging_server ==  'true'
+        mobile_server = 'http://localhost:5000'
+      data = await post_json(mobile_server + '/account_external_stats', {
         domain: domain
         from: source
         secret: localStorage.id_secret

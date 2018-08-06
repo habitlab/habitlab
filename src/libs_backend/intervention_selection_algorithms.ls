@@ -85,7 +85,7 @@ export one_random_intervention_per_enabled_goal_with_frequency = (enabled_goals)
     if available_interventions.length == 0
       continue
     is_frequent = await get_is_goal_frequent(goal_name)
-    if (not is_frequent) and (Math.random() < 0.2)
+    if (not is_frequent) and (Math.random() > 0.2)
       continue
     selected_intervention = shuffled(available_interventions)[0]
     output.push selected_intervention

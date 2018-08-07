@@ -48,21 +48,21 @@ Polymer({
           }, 1000);
         '''
         show_sw_dialog_editor: '''
-          var sweetalert = require_package('sweetalert2');      
+          var sweetalert = require('sweetalert2');      
           sweetalert({
             title: 'Hello World',
             text: 'This is a sample intervention'
           })        
         '''
         display_time_spent_editor:'''
-          var sweetalert = require_package('sweetalert2');
+          var sweetalert = require('sweetalert2');
           var {get_seconds_spent_on_current_domain_today} = require('libs_common/time_spent_utils');         
           var seconds_spent = await get_seconds_spent_on_current_domain_today();
           sweetalert('You have spent ' + seconds_spent + ' seconds here today');
         '''
         insert_msg_jquery_editor:'''
           var $ = require('jquery');
-          var sweetalert = require_package('sweetalert2');
+          var sweetalert = require('sweetalert2');
           
           var mydiv = $('<div>').text('Hello world').css({
             'background-color': 'red',
@@ -83,7 +83,7 @@ Polymer({
           require_component('paper-button');
           
           var $ = require('jquery');
-          var sweetalert = require_package('sweetalert2');
+          var sweetalert = require('sweetalert2');
           
           var button = $('<paper-button>').text('Click me').css({
             'background-color': 'red',
@@ -104,7 +104,7 @@ Polymer({
           require_component('paper-button');
           
           var $ = require('jquery');
-          var sweetalert = require_package('sweetalert2');
+          var sweetalert = require('sweetalert2');
           
           define_component(`
             <style>

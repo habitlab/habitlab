@@ -469,8 +469,7 @@ script.parentNode.removeChild(script);
     Click the 'Run this Nudge' button to see it run.
     To learn how to write HabitLab interventions, see
     https://habitlab.github.io/devdocs
-    require_package: returns an NPM module, and ensures that the CSS it uses is loaded
-    https://habitlab.github.io/devdocs?q=require_package
+    
     */"""+'\n'
     display_name=new_intervention_name.replace new RegExp('_', 'g'), ' '
     intervention_info={
@@ -484,7 +483,7 @@ script.parentNode.removeChild(script);
       sitename_printable: goal_info.sitename_printable
       custom: true
       code: comment_section + '''
-    var swal = require_package('sweetalert2');
+    var swal = require('sweetalert2');
     swal({
       title: 'Hello World',
       text: 'This is a sample intervention'
@@ -492,7 +491,7 @@ script.parentNode.removeChild(script);
     '''
       content_scripts:{
           code: comment_section + '''
-    var swal = require_package('sweetalert2');
+    var swal = require('sweetalert2');
     swal({
       title: 'Hello World',
       text: 'This is a sample intervention'

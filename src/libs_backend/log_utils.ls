@@ -78,7 +78,7 @@ export get_interventions_seen_today = ->>
 
 export get_log_names = ->>
   interventions_list = await intervention_utils.list_all_interventions()
-  logs_list = ['goals', 'interventions', 'feedback', 'pages', 'enabledisable'].map -> 'logs/'+it
+  logs_list = ['goals', 'interventions', 'feedback', 'pages', 'enabledisable', 'history'].map -> 'logs/'+it
   return interventions_list.concat(logs_list)
 
 intervention_logdb_cache = null

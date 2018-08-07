@@ -515,7 +515,8 @@ export experiment_alternate_between_same_vs_random_varlength_deterministic_latin
 
 /**
  * This selection algorithm recommends an intervention for each goal using the Thompson Sampling Algorithm.
-  * @return List of intervention names (strings), one intervention for each user goal.
+ * Now has frequency support!
+ * @return List of intervention names (strings), one intervention for each user goal.
  */
 export thompsonsampling = (enabled_goals) ->>
   if not enabled_goals?
@@ -523,6 +524,10 @@ export thompsonsampling = (enabled_goals) ->>
   enabled_goals = [goal_name for goal_name, value of enabled_goals]
   output = []
   for goal_name in enabled_goals
+    # check if the goal is infrequent. If so, we should skip it.
+    is_frequent = await get_is_goal_frequent(goal_name)
+    if (not is_frequent) and (Math.random() > 0.2)
+      continue
     # what interventions are available that have not been disabled?
     enabled_interventions = await list_enabled_interventions_for_goal(goal_name)
     if enabled_interventions.length == 0

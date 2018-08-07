@@ -119,8 +119,6 @@ export class ThompsonMAB
     # Our goal is to do argmax of these rewards.
     # To allow for a balanced comparison, we will need to sample all of our time predictions and novelties
     # and normalize both sets.
-    console.log("Our novelty: ")
-    console.log(novelty)
     sample = @normalize(@sample_times())
     if novelty?
       novelty = @normalize(novelty)   
@@ -133,7 +131,6 @@ export class ThompsonMAB
       if !best_intervention.intervention_name? or best_intervention.reward < reward
         best_intervention.intervention_name = intervention_name
         best_intervention.reward = reward
-    console.log("Best reward:" + best_intervention.reward)
     return best_intervention.intervention_name
 
 /**

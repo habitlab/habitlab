@@ -35,6 +35,10 @@
   remove_cached_favicon_for_domain
 } = require 'libs_backend/favicon_utils'
 
+require! {
+  moment
+}
+
 getAllInterventionsGoalInfo = ->>
   goal_info = {
     name: 'debug/all_interventions'
@@ -415,6 +419,11 @@ export get_have_suggested_domain_as_goal = (domain) ->>
   cached_domains_suggested_as_goal[domain] = has_been_suggested
   return has_been_suggested
 
+export remove_have_suggested_domain_as_goal = (domain) ->>
+  cached_domains_suggested_as_goal[domain] = false
+  await setkey_dict 'domains_suggested_as_goals', domain, false
+  return
+
 export record_have_suggested_domain_as_goal = (domain) ->>
   cached_domains_suggested_as_goal[domain] = true
   await setkey_dict 'domains_suggested_as_goals', domain, true
@@ -502,6 +511,30 @@ export clear_cache_all_goals = ->
   clear_cache_get_goals()
   clear_cache_list_all_goals()
   return
+
+export make_goal_frequency_info = ->
+  output = {}
+  output.algorithm = 'isoweek_alternating'
+  output.onweeks = Math.round(Math.random()) # either 0 or 1
+  output.timestamp = Date.now()
+  return output
+
+export get_is_goal_frequent_from_frequency_info = (goal_frequency_info) ->
+  algorithm = goal_frequency_info.algorithm
+  if algorithm == 'isoweek_alternating'
+    isoweek = moment().isoWeek()
+    onweeks = goal_frequency_info.onweeks
+    return (isoweek % 2) == onweeks
+  throw new Error('goal frequency algorithm not implemented')
+
+export get_is_goal_frequent = (goal_name) ->>
+  goal_frequency_info = await getkey_dict 'goal_frequencies', goal_name
+  if goal_frequency_info?
+    goal_frequency_info = JSON.parse goal_frequency_info
+  else
+    goal_frequency_info = make_goal_frequency_info()
+    await setkey_dict 'goal_frequencies', goal_name, JSON.stringify(goal_frequency_info)
+  return get_is_goal_frequent_from_frequency_info goal_frequency_info
 
 export add_custom_goal_info = (goal_info) ->>
   extra_get_goals_text = localStorage.getItem 'extra_get_goals'
@@ -603,15 +636,44 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
   #  delete goal_info.icon
   await add_custom_goal_info goal_info
   return
-  
+
+export get_spend_less_time_goals_for_domain = (domain) ->>
+  output = []
+  all_goals = await get_goals()
+  for goal_name,goal_info of all_goals
+    if goal_info.is_positive
+      continue
+    if goal_info.domain == domain
+      output.push(goal_name)
+  return output
+
+export get_spend_more_time_goals_for_domain = (domain) ->>
+  output = []
+  all_goals = await get_goals()
+  for goal_name,goal_info of all_goals
+    if not goal_info.is_positive
+      continue
+    if goal_info.domain == domain
+      output.push(goal_name)
+  return output
 
 export add_enable_custom_goal_reduce_time_on_domain = (domain) ->>
+  existing_goals = await get_spend_less_time_goals_for_domain(domain)
+  if existing_goals.length > 0
+    goal_name = existing_goals[0]
+    await set_goal_enabled(goal_name)
+    return goal_name
   await add_custom_goal_reduce_time_on_domain(domain)
   await set_goal_enabled("custom/spend_less_time_#{domain}")
   await intervention_utils.generate_interventions_for_domain domain
   return "custom/spend_less_time_#{domain}"
 
 export add_enable_custom_goal_increase_time_on_domain = (domain) ->>
+  existing_goals = await get_spend_more_time_goals_for_domain(domain)
+  if existing_goals.length > 0
+    goal_name = existing_goals[0]
+    await set_goal_enabled(goal_name)
+    return goal_name
   await add_custom_goal_involving_time_on_domain(domain, true)
   await set_goal_enabled("custom/spend_more_time_#{domain}")
   await intervention_utils.generate_interventions_for_positive_domain domain

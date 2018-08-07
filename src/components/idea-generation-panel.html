@@ -303,9 +303,9 @@
                           </template>
                         </paper-listbox>
                     </paper-dropdown-menu>
-                    <paper-textarea id="nudge_typing_area" autofocus required maxlength="80" placeholder="Describe your idea for a nudge" on-value-changed="user_typing_idea"></paper-textarea>
+                    <paper-textarea id="nudge_typing_area" required maxlength="80" placeholder="Describe your idea for a nudge" on-value-changed="user_typing_idea"></paper-textarea>
                     <template is="dom-if" if="{{idea_contribution_money}}">
-                      <paper-textarea id="email_typing_area" autofocus maxlength="80" label="If we use your idea, we'll send you a $50 Amazon gift card." placeholder="Enter your email (Optional)" on-value-changed="user_typing_idea"></paper-textarea>
+                      <paper-textarea id="email_typing_area" maxlength="80" label="If we use your idea, we'll send you a $50 Amazon gift card." placeholder="Enter your email (Optional)" on-value-changed="user_typing_idea"></paper-textarea>
                     </template>
 
                     <div style="width: 100%">

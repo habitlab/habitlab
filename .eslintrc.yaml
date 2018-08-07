@@ -23,6 +23,7 @@ globals:
   'require': true
   'require_package': true
   'require_component': true
+  'define_component': true
   'exports': true
   'module': true
   'Polymer': true

@@ -21,6 +21,7 @@
 <link rel="import" href="misc-options.html">
 <link rel="import" href="update-check.html">
 <link rel="import" href="advanced-features.html">
+<link rel="import" href="sync-view.html">
 <!-- <link rel="import" href="nudge-incubator.html"> -->
 <link rel="import" href="idea-generation-panel.html">
 
@@ -332,6 +333,12 @@
         <paper-button id="positive-goals-button" class="next-button" on-click="goals_set">Next</paper-button>
       </paper-card>
     </template>
+    <template is="dom-if" if="{{!sync_enabled}}" class="intro" style="display: none">
+      <paper-card style="color:white" class="papercard">
+        <div style="color:white; padding-top: 30px; padding-bottom: 16px; font-size: 30px">Sync Data Across Devices</div>
+        <sync-view id="sync_data"></sync-view>
+      </paper-card>
+    </template>
 
       <!--<div id="intro3" class="intro" style="display:none;">
         <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
@@ -436,7 +443,7 @@
           <privacy-options id="privacy_options"></privacy-options>
         </paper-card>
       </div>
-
+      
     </div>
   </template>
   <script src="options-interventions.js"></script>

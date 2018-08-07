@@ -172,7 +172,8 @@ do !->>
     if not chosen_algorithm?
       # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
       # algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
-      algorithms = ['one_random_intervention_per_enabled_goal'] # 'thompsonsampling', 'novelty'
+      #algorithms = ['one_random_intervention_per_enabled_goal'] # 'thompsonsampling', 'novelty'
+      algorithms = ['one_random_intervention_per_enabled_goal', 'one_random_intervention_per_enabled_goal_with_frequency']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
     setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
@@ -234,7 +235,7 @@ do !->>
 
   export set_goal_suggestion_threshold = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = [0, 600, 1200, 1800, 3600]
+      algorithms = [0, 180, 300, 600, 1200, 1800, 3600]
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('goal_suggestion_threshold', chosen_algorithm)
     setvar_experiment('goal_suggestion_threshold', chosen_algorithm)
@@ -440,6 +441,7 @@ do !->>
   {
     log_impression_internal
     log_goal_suggestion
+    add_log_history
   } = require 'libs_backend/log_utils'
 
   {
@@ -1217,6 +1219,9 @@ do !->>
   #  console.log 'tab activated'
   #  console.log info
 
+  chrome.history.onVisited.addListener (info) ->
+    add_log_history info
+
   chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
     #if info.tabId? and info.url?
     #  tab_id_to_url[info.tabId] = info.url
@@ -1298,6 +1303,10 @@ do !->>
 
   updates_to_sync = []
 
+  mobile_server = 'https://habitlab-mobile-website.herokuapp.com'
+  if localStorage.local_logging_server == 'true'
+     mobile_server =  'http://localhost:5000'
+
   setInterval (->>
     if localStorage.sync_with_mobile != 'true'
       return
@@ -1312,7 +1321,7 @@ do !->>
         domain_to_num_seconds_to_increment[domain] = 0
       domain_to_num_seconds_to_increment[domain] += seconds
     updates_to_sync.length = 0
-    post_json('https://habitlab-mobile-website.herokuapp.com/addsessiontototal', {
+    post_json(mobile_server + '/addsessiontototal', {
       userid: user_id
       timestamp: timestamp
       domains_time: domain_to_num_seconds_to_increment
@@ -1321,7 +1330,7 @@ do !->>
     #if updates_to_sync.length > 0
     #  data = updates_to_sync.shift()
     #  console.log(data)
-    #  #post_json('https://habitlab-mobile-website.herokuapp.com/addsessiontototal', data)
+    #  #post_json(mobile_server '/addsessiontototal', data)
   ), 30000
 
   goal_suggestion_threshold = parseInt(localStorage.goal_suggestion_threshold)

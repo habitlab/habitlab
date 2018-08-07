@@ -387,19 +387,24 @@ polymer_ext {
           self.current_left_idea_id = leftidea_id
           self.current_right_idea = rightidea
           self.current_right_idea_id = rightidea_id
+          document.getElementById("disable_left").disabled = false
+          document.getElementById("disable_right").disabled = false
+          document.getElementById("disable_opt_out").disabled = false
           return
     # if get to this point, then we should disable button
     self.$$('.fix_left').innerText = 'No more nudge ideas to vote on'
     self.$$('.fix_right').innerText = 'No more nudge ideas to vote on'
-    document.getElementById("disable_left").disabled = true; 
-    document.getElementById("disable_right").disabled = true;
-    document.getElementById("disable_opt_out").disabled = true;
+    document.getElementById("disable_left").disabled = true
+    document.getElementById("disable_right").disabled = true
+    document.getElementById("disable_opt_out").disabled = true
   ready: ->>
     allideas = await fetchjson('getideas_vote_all')
     this.allideas = allideas
     this.rerender()
   rerender: ->>
     allideas = this.allideas
+    if not allideas?
+      return
     this.pairs_voted = new Set()
     idea_pairs_voted_list = await getlist('idea_pairs_voted')
     for item in idea_pairs_voted_list
@@ -419,6 +424,8 @@ polymer_ext {
     site_ideas_mapping = []
     site_ideas_mapping_counter = []
     for goal in goals_list
+      if not enabled_goals[goal]
+        continue
       idea_temp = []
       idea_id_temp = []
       idea_info_list = goal_to_idea_info[goal]

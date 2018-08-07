@@ -441,6 +441,7 @@ do !->>
   {
     log_impression_internal
     log_goal_suggestion
+    add_log_history
   } = require 'libs_backend/log_utils'
 
   {
@@ -1217,6 +1218,9 @@ do !->>
   #chrome.tabs.onActivated.addListener (info) ->
   #  console.log 'tab activated'
   #  console.log info
+
+  chrome.history.onVisited.addListener (info) ->
+    add_log_history info
 
   chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
     #if info.tabId? and info.url?

@@ -169,6 +169,9 @@ export getInterventionLogCollection = (name) ->>
   db = await getInterventionLogDb()
   return db[name]
 
+export add_log_history = (data) ->>
+  await addtolog 'logs/history', data
+
 export add_log_goals = (data) ->>
   data = {} <<< data
   if not data.enabled_interventions?

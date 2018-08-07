@@ -1,5 +1,3 @@
-const intervention = require('libs_common/intervention_info').get_intervention();
-
 const {
   get_seconds_spent_on_current_domain_today
 } = require('libs_common/time_spent_utils')
@@ -32,12 +30,26 @@ Polymer({
     },
     intervention_name: {
       type: String,
-      value: (intervention != null) ? intervention.displayname : ''
+      //value: (intervention != null) ? intervention.displayname : ''
+      computed: 'compute_intervention_name(intervention_info)'
     },
     intervention_description: {
       type: String,
-      value: (intervention != null) ? intervention.description : '',
+      //value: (intervention != null) ? intervention.description : '',
+      computed: 'compute_intervention_description(intervention_info)'
     },
+  },
+  compute_intervention_name: function(intervention_info) {
+    if (intervention_info != null) {
+      return intervention_info.displayname
+    }
+    return ''
+  },
+  compute_intervention_description: function(intervention_info) {
+    if (intervention_info != null) {
+      return intervention_info.description
+    }
+    return ''
   },
   compute_time_spent_printable: function(seconds_spent) {
     return Math.round(seconds_spent / 60).toString() + ' minutes'
@@ -49,6 +61,7 @@ Polymer({
   },
   ready: async function() {
     this.seconds_spent = await get_seconds_spent_on_current_domain_today()
+    this.intervention_info = require('libs_common/intervention_info').get_intervention();
     //this.seconds_spent = 120
     /*
     let self = this

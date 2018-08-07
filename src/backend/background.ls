@@ -173,7 +173,7 @@ do !->>
       # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
       # algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
       #algorithms = ['one_random_intervention_per_enabled_goal'] # 'thompsonsampling', 'novelty'
-      algorithms = ['one_random_intervention_per_enabled_goal', 'one_random_intervention_per_enabled_goal_with_frequency']
+      algorithms = ['one_random_intervention_per_enabled_goal_with_frequency'] # ['one_random_intervention_per_enabled_goal', 'one_random_intervention_per_enabled_goal_with_frequency']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
     setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
@@ -243,7 +243,7 @@ do !->>
 
   export set_onboarding_ideavoting_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['on'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('idea_voting_disabled', true)
@@ -255,7 +255,7 @@ do !->>
 
   export set_daily_goal_reminders_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['off'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('allow_daily_goal_notifications', false)
@@ -265,7 +265,7 @@ do !->>
     
   export set_reward_gifs_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['off'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('allow_reward_gifs', false)
@@ -275,7 +275,7 @@ do !->>
   
   export set_nongoal_timer_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['off'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('allow_nongoal_timer', false)
@@ -285,7 +285,7 @@ do !->>
 
   export set_idea_contribution_money_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['on'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('idea_contribution_money', false)

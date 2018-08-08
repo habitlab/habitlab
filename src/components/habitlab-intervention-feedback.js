@@ -1,11 +1,6 @@
 const {
-  get_seconds_spent_on_current_domain_today
-} = require('libs_common/time_spent_utils')
-
-const {
-  accept_domain_as_goal_and_record,
-  reject_domain_as_goal_and_record,
-} = require('libs_frontend/goal_utils')
+  log_feedback
+} = require('libs_frontend/intervention_log_utils')
 
 Polymer({
   is: 'habitlab-intervention-feedback',
@@ -59,19 +54,26 @@ Polymer({
       this.show();
     }
   },
-  ready: async function() {
-    this.seconds_spent = await get_seconds_spent_on_current_domain_today()
-    this.intervention_info = require('libs_common/intervention_info').get_intervention();
-    //this.seconds_spent = 120
-    /*
-    let self = this
-    //console.log('toast-test-widget ready')
-    this.$.sample_toast.show()
-    this.$.sample_toast_close_button.addEventListener('click', function() {
-      self.$.sample_toast.hide()
+  too_intense_clicked: async function() {
+    log_feedback({
+      feedback_type: 'intensity',
+      intensity: 'too_intense'
     })
-    */
-    //show_toast('foobar')
+    this.close()
+  },
+  not_intense_clicked: async function() {
+    log_feedback({
+      feedback_type: 'intensity',
+      intensity: 'not_intense'
+    })
+    this.close()
+  },
+  just_right_clicked: async function() {
+    log_feedback({
+      feedback_type: 'intensity',
+      intensity: 'just_right'
+    })
+    this.close()
   },
   get_intervention_icon_url: function() {
     let url_path
@@ -86,34 +88,13 @@ Polymer({
     }
     return (chrome.extension.getURL(url_path)).toString()
   },
-  show: function() {
-    this.$$('#sample_toast').show()
-  },
-  ok_button_clicked: async function() {
+  close: function() {
     this.$$('#sample_toast').hide()
-    await accept_domain_as_goal_and_record(window.location.host)
-    /*
-    await record_have_suggested_domain_as_goal(window.location.host)
-    await log_goal_suggestion_action({'action': 'accepted', 'accepted': 'true', 'type': 'spend_less_time', 'domain': window.location.host})
-    await add_enable_custom_goal_reduce_time_on_domain(window.location.host)
-    */
-    /*
-    this.fire('intervention_suggestion_accepted', {})
-    await log_intervention_suggestion_action({'action': 'accepted', 'accepted': 'true'})
-    await log_impression({'suggestion': 'true'})
-    await set_intervention_enabled(intervention.name)
-    */
   },
-  no_button_clicked: async function() {
-    this.$$('#sample_toast').hide();
-    await reject_domain_as_goal_and_record(window.location.host)
-    /*
-    await record_have_suggested_domain_as_goal(window.location.host)
-    await log_goal_suggestion_action({'action': 'rejected', 'accepted': 'false', 'type': 'spend_less_time', 'domain': window.location.host})
-    */
-    /*
-    this.fire('intervention_suggestion_rejected', {})
-    await log_intervention_suggestion_action({'action': 'rejected', 'accepted': 'false'})
-    */
+  show: function() {
+    if (this.intervention_info == null) {
+      this.intervention_info = require('libs_common/intervention_info').get_intervention();
+    }
+    this.$$('#sample_toast').show()
   },
 })

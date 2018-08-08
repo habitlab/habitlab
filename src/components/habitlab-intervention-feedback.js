@@ -1,4 +1,8 @@
 const {
+  record_intensity_level_for_intervention
+} = require('libs_common/intervention_utils')
+
+const {
   log_feedback
 } = require('libs_frontend/intervention_log_utils')
 
@@ -59,24 +63,31 @@ Polymer({
     }
   },
   too_intense_clicked: async function() {
-    log_feedback({
-      feedback_type: 'intensity',
-      intensity: 'too_intense'
-    })
+    let generic_name = this.intervention_info.generic_intervention
+    if (generic_name == null) {
+      generic_name = this.intervention_info.name
+    }
+    record_intensity_level_for_intervention(this.intervention_info.name, generic_name, 'too_intense')
     this.close()
   },
   not_intense_clicked: async function() {
-    log_feedback({
-      feedback_type: 'intensity',
-      intensity: 'not_intense'
-    })
+    let generic_name = this.intervention_info.generic_intervention
+    if (generic_name == null) {
+      generic_name = this.intervention_info.name
+    }
+    record_intensity_level_for_intervention(this.intervention_info.name, generic_name, 'not_intense')
     this.close()
   },
   just_right_clicked: async function() {
-    log_feedback({
-      feedback_type: 'intensity',
-      intensity: 'just_right'
-    })
+    let generic_name = this.intervention_info.generic_intervention
+    if (generic_name == null) {
+      generic_name = this.intervention_info.name
+    }
+    console.log('intervention_info is')
+    console.log(this.intervention_info)
+    console.log('generic name is ' + generic_name)
+    console.log('intervention name is ' + this.intervention_info.name)
+    record_intensity_level_for_intervention(this.intervention_info.name, generic_name, 'just_right')
     this.close()
   },
   compute_intervention_icon: function(intervention_info) {
@@ -100,5 +111,14 @@ Polymer({
       this.intervention_info = require('libs_common/intervention_info').get_intervention();
     }
     this.$$('#sample_toast').show()
+    let generic_name = this.intervention_info.generic_intervention
+    if (generic_name == null) {
+      generic_name = this.intervention_info.name
+    }
+    log_feedback({
+      feedback_type: 'intensity_prompt_shown',
+      generic_name: generic_name,
+      intervention_name: this.intervention_info.name,
+    })
   },
 })

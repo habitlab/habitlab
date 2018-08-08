@@ -91,6 +91,7 @@ do !->>
     set_default_generic_interventions_enabled
     get_suggested_intervention_if_needed_for_url
     enabledisable_interventions_based_on_difficulty
+    get_intensity_level_for_intervention
   } = require 'libs_backend/intervention_utils'
 
   {
@@ -456,6 +457,7 @@ do !->>
     log_impression_internal
     log_goal_suggestion
     add_log_history
+    log_feedback_internal
   } = require 'libs_backend/log_utils'
 
   {
@@ -1218,13 +1220,27 @@ do !->>
       return
     if localStorage.getItem('intervention_intensity_polling') == 'true'
       interventions_active = JSON.parse(interventions_active)
+      if not interventions_active[0]?
+        return
       intervention_info = await get_intervention_info(interventions_active[0])
+      if not intervention_info?
+        return
+      intervention_name = intervention_info.name
+      generic_name = intervention_info.generic_intervention ? intervention_name
+      existing_rating = await get_intensity_level_for_intervention(generic_name)
+      if existing_rating?
+        return
       reward_display_code = [
         #'window.reward_display_seconds_saved = ' + seconds_saved
         'window.reward_display_intervention_info = ' + JSON.stringify(intervention_info)
         reward_display_base_code_cached
       ].join('\n\n;\n\n')
       chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
+      await log_feedback_internal(intervention_name, {
+        feedback_type: 'intensity_prompt_shown',
+        generic_name: generic_name,
+        intervention_name: intervention_name,
+      })
 
   /*
   setInterval ->>

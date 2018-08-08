@@ -14,6 +14,7 @@ prelude = require 'prelude-ls'
 {
   setkey_dictdict
   getkey_dictdict
+  setkey_dict
   getkey_dict
   getdict_for_key_dictdict
   getvar
@@ -243,6 +244,18 @@ export is_intervention_enabled = (intervention_name) ->>
   if is_disabled == true
     return false
   return true
+
+export record_intensity_level_for_intervention = (intervention_name, generic_name, intensity) ->>
+  await setkey_dict 'interventions_to_intensity_ratings', generic_name, intensity
+  await log_utils.log_feedback_internal(intervention_name, {
+    feedback_type: 'intensity',
+    intensity: intensity,
+    generic_name: generic_name,
+    intervention_name: intervention_name,
+  })
+
+export get_intensity_level_for_intervention = (intervention_name) ->>
+  return await getkey_dict 'interventions_to_intensity_ratings', intervention_name
 
 export list_interventions_and_num_log_items = ->>
   all_interventions = await get_interventions()

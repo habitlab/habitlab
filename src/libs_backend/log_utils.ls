@@ -170,6 +170,11 @@ export getInterventionLogCollection = (name) ->>
   return db[name]
 
 export add_log_history = (data) ->>
+  data = {} <<< data
+  if data.id?
+    history_id = data.id
+    data.history_id = history_id
+    delete data.id
   await addtolog 'logs/history', data
 
 export add_log_goals = (data) ->>

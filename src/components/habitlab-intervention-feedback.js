@@ -33,6 +33,10 @@ Polymer({
       //value: (intervention != null) ? intervention.description : '',
       computed: 'compute_intervention_description(intervention_info)'
     },
+    intervention_icon: {
+      type: String,
+      computed: 'compute_intervention_icon(intervention_info)'
+    }
   },
   compute_intervention_name: function(intervention_info) {
     if (intervention_info != null) {
@@ -75,15 +79,15 @@ Polymer({
     })
     this.close()
   },
-  get_intervention_icon_url: function() {
+  compute_intervention_icon: function(intervention_info) {
     let url_path
-    if (intervention.generic_intervention != null)
-      url_path = 'interventions/'+ intervention.generic_intervention + '/icon.svg'
+    if (intervention_info.generic_intervention != null)
+      url_path = 'interventions/'+ intervention_info.generic_intervention + '/icon.svg'
     else {
-      if (intervention.custom == true) {
+      if (intervention_info.custom == true) {
         url_path = 'icons/custom_intervention_icon.svg'
       } else {
-        url_path = 'interventions/'+ intervention.name + '/icon.svg'
+        url_path = 'interventions/'+ intervention_info.name + '/icon.svg'
       }
     }
     return (chrome.extension.getURL(url_path)).toString()

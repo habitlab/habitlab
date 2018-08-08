@@ -82,6 +82,7 @@ do !->>
 
   {
     get_interventions
+    get_intervention_info
     list_enabled_nonconflicting_interventions_for_location
     list_all_enabled_interventions_for_location
     list_available_interventions_for_location
@@ -1202,7 +1203,13 @@ do !->>
       return
     if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
       return
-    reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
+    interventions_active = JSON.parse(interventions_active)
+    intervention_info = await get_intervention_info(interventions_active[0])
+    reward_display_code = [
+      'window.reward_display_seconds_saved = ' + seconds_saved
+      'window.reward_display_intervention_info = ' + JSON.stringify(intervention_info)
+      reward_display_base_code_cached
+    ].join('\n\n;\n\n')
     if localStorage.getItem('allow_reward_gifs') != 'false'
       chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
 

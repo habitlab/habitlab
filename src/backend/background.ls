@@ -294,6 +294,17 @@ do !->>
     setvar_experiment('idea_contribution_money', chosen_algorithm)
     return
 
+  export set_ideavoting_submit_prompt_abtest = (chosen_algorithm) ->
+      if not chosen_algorithm?
+        algorithms = ['on', 'off']
+        chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+      if chosen_algorithm == 'off'
+        localStorage.setItem('ideavoting_submit_prompt', true)
+      else
+        localStorage.setItem('ideavoting_submit_prompt', false)
+      setvar_experiment('ideavoting_submit_prompt', chosen_algorithm)
+      return
+
   do !->>
     
     # open the options page on first run
@@ -328,6 +339,7 @@ do !->>
     set_onboarding_ideavoting_abtest()
     set_nongoal_timer_abtest()
     set_idea_contribution_money_abtest()
+    set_ideavoting_submit_prompt_abtest()
     set_goal_suggestion_threshold()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()

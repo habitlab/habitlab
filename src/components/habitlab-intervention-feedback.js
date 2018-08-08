@@ -1,13 +1,10 @@
-const intervention = require('libs_common/intervention_info').get_intervention();
+const {
+  record_intensity_level_for_intervention
+} = require('libs_common/intervention_utils')
 
 const {
-  get_seconds_spent_on_current_domain_today
-} = require('libs_common/time_spent_utils')
-
-const {
-  accept_domain_as_goal_and_record,
-  reject_domain_as_goal_and_record,
-} = require('libs_frontend/goal_utils')
+  log_feedback
+} = require('libs_frontend/intervention_log_utils')
 
 Polymer({
   is: 'habitlab-intervention-feedback',
@@ -32,12 +29,30 @@ Polymer({
     },
     intervention_name: {
       type: String,
-      value: (intervention != null) ? intervention.displayname : ''
+      //value: (intervention != null) ? intervention.displayname : ''
+      computed: 'compute_intervention_name(intervention_info)'
     },
     intervention_description: {
       type: String,
-      value: (intervention != null) ? intervention.description : '',
+      //value: (intervention != null) ? intervention.description : '',
+      computed: 'compute_intervention_description(intervention_info)'
     },
+    intervention_icon: {
+      type: String,
+      computed: 'compute_intervention_icon(intervention_info)'
+    }
+  },
+  compute_intervention_name: function(intervention_info) {
+    if (intervention_info != null) {
+      return intervention_info.displayname
+    }
+    return ''
+  },
+  compute_intervention_description: function(intervention_info) {
+    if (intervention_info != null) {
+      return intervention_info.description
+    }
+    return ''
   },
   compute_time_spent_printable: function(seconds_spent) {
     return Math.round(seconds_spent / 60).toString() + ' minutes'
@@ -47,60 +62,63 @@ Polymer({
       this.show();
     }
   },
-  ready: async function() {
-    this.seconds_spent = await get_seconds_spent_on_current_domain_today()
-    //this.seconds_spent = 120
-    /*
-    let self = this
-    //console.log('toast-test-widget ready')
-    this.$.sample_toast.show()
-    this.$.sample_toast_close_button.addEventListener('click', function() {
-      self.$.sample_toast.hide()
-    })
-    */
-    //show_toast('foobar')
+  too_intense_clicked: async function() {
+    let generic_name = this.intervention_info.generic_intervention
+    if (generic_name == null) {
+      generic_name = this.intervention_info.name
+    }
+    record_intensity_level_for_intervention(this.intervention_info.name, generic_name, 'too_intense')
+    this.close()
   },
-  get_intervention_icon_url: function() {
+  not_intense_clicked: async function() {
+    let generic_name = this.intervention_info.generic_intervention
+    if (generic_name == null) {
+      generic_name = this.intervention_info.name
+    }
+    record_intensity_level_for_intervention(this.intervention_info.name, generic_name, 'not_intense')
+    this.close()
+  },
+  just_right_clicked: async function() {
+    let generic_name = this.intervention_info.generic_intervention
+    if (generic_name == null) {
+      generic_name = this.intervention_info.name
+    }
+    console.log('intervention_info is')
+    console.log(this.intervention_info)
+    console.log('generic name is ' + generic_name)
+    console.log('intervention name is ' + this.intervention_info.name)
+    record_intensity_level_for_intervention(this.intervention_info.name, generic_name, 'just_right')
+    this.close()
+  },
+  compute_intervention_icon: function(intervention_info) {
     let url_path
-    if (intervention.generic_intervention != null)
-      url_path = 'interventions/'+ intervention.generic_intervention + '/icon.svg'
+    if (intervention_info.generic_intervention != null)
+      url_path = 'interventions/'+ intervention_info.generic_intervention + '/icon.svg'
     else {
-      if (intervention.custom == true) {
+      if (intervention_info.custom == true) {
         url_path = 'icons/custom_intervention_icon.svg'
       } else {
-        url_path = 'interventions/'+ intervention.name + '/icon.svg'
+        url_path = 'interventions/'+ intervention_info.name + '/icon.svg'
       }
     }
     return (chrome.extension.getURL(url_path)).toString()
   },
-  show: function() {
-    this.$$('#sample_toast').show()
-  },
-  ok_button_clicked: async function() {
+  close: function() {
     this.$$('#sample_toast').hide()
-    await accept_domain_as_goal_and_record(window.location.host)
-    /*
-    await record_have_suggested_domain_as_goal(window.location.host)
-    await log_goal_suggestion_action({'action': 'accepted', 'accepted': 'true', 'type': 'spend_less_time', 'domain': window.location.host})
-    await add_enable_custom_goal_reduce_time_on_domain(window.location.host)
-    */
-    /*
-    this.fire('intervention_suggestion_accepted', {})
-    await log_intervention_suggestion_action({'action': 'accepted', 'accepted': 'true'})
-    await log_impression({'suggestion': 'true'})
-    await set_intervention_enabled(intervention.name)
-    */
   },
-  no_button_clicked: async function() {
-    this.$$('#sample_toast').hide();
-    await reject_domain_as_goal_and_record(window.location.host)
-    /*
-    await record_have_suggested_domain_as_goal(window.location.host)
-    await log_goal_suggestion_action({'action': 'rejected', 'accepted': 'false', 'type': 'spend_less_time', 'domain': window.location.host})
-    */
-    /*
-    this.fire('intervention_suggestion_rejected', {})
-    await log_intervention_suggestion_action({'action': 'rejected', 'accepted': 'false'})
-    */
+  show: function() {
+    if (this.intervention_info == null) {
+      this.intervention_info = require('libs_common/intervention_info').get_intervention();
+    }
+    this.$$('#sample_toast').show()
+    let generic_name = this.intervention_info.generic_intervention
+    if (generic_name == null) {
+      generic_name = this.intervention_info.name
+    }
+    log_feedback({
+      feedback_type: 'intensity_prompt_shown',
+      generic_name: generic_name,
+      intervention_name: this.intervention_info.name,
+    })
   },
 })

@@ -47,7 +47,7 @@
       <div>How <strong>intense</strong> was this nudge you just saw?</div>
       <div style="margin-top: 10px; background-color: #383838; border-radius: 5px; padding: 5px; color: white">
         <div style="display: flex; align-items: center; align-content:center;justify-content: center;">
-          <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
+          <img class="intervention-icon" src="{{intervention_icon}}" />
           <h2 style="margin-right:25px; font-size: 24px; color: white">{{intervention_name}}</h2>
         </div>
         <div style="display: flex; align-items: center; align-content:center;justify-content: center; padding-bottom: 5px">
@@ -57,9 +57,9 @@
       
       <div style="padding-top: 10px"></div>
       <div>
-        <paper-button id="too_intense_button" class="yellow-button" on-click="ok_button_clicked">Too intense</paper-button>
-        <paper-button id="not_intense_enough_button" class="yellow-button" on-click="ok_button_clicked">Not intense enough</paper-button>
-        <paper-button id="just_right_button_button" class="yellow-button" on-click="no_button_clicked">Just right</paper-button>
+        <paper-button id="too_intense_button" class="yellow-button" on-click="too_intense_clicked">Too intense</paper-button>
+        <paper-button id="not_intense_button" class="yellow-button" on-click="not_intense_clicked">Not intense enough</paper-button>
+        <paper-button id="just_right_button_button" class="yellow-button" on-click="just_right_clicked">Just right</paper-button>
       </div>
     </paper-toast>
   </template>

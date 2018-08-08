@@ -82,6 +82,7 @@ do !->>
 
   {
     get_interventions
+    get_intervention_info
     list_enabled_nonconflicting_interventions_for_location
     list_all_enabled_interventions_for_location
     list_available_interventions_for_location
@@ -90,6 +91,7 @@ do !->>
     set_default_generic_interventions_enabled
     get_suggested_intervention_if_needed_for_url
     enabledisable_interventions_based_on_difficulty
+    get_intensity_level_for_intervention
   } = require 'libs_backend/intervention_utils'
 
   {
@@ -243,7 +245,7 @@ do !->>
 
   export set_onboarding_ideavoting_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['on'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('idea_voting_disabled', true)
@@ -255,7 +257,7 @@ do !->>
 
   export set_daily_goal_reminders_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['off'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('allow_daily_goal_notifications', false)
@@ -265,17 +267,29 @@ do !->>
     
   export set_reward_gifs_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['off'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('allow_reward_gifs', false)
       send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})
     setvar_experiment('reward_gifs_abtest', chosen_algorithm)
     return
-  
+
+  export set_intervention_intensity_polling_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on'] # ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('intervention_intensity_polling', false)
+      send_feature_disabled({page: 'background', feature: 'intervention_intensity_polling', manual: false, reason: 'intervention_intensity_polling_abtest'})
+    else
+      localStorage.setItem('intervention_intensity_polling', true)
+    setvar_experiment('intervention_intensity_polling_abtest', chosen_algorithm)
+    return
+
   export set_nongoal_timer_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['off'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('allow_nongoal_timer', false)
@@ -285,7 +299,7 @@ do !->>
 
   export set_idea_contribution_money_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
-      algorithms = ['on', 'off']
+      algorithms = ['on'] # ['on', 'off']
       chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
     if chosen_algorithm == 'off'
       localStorage.setItem('idea_contribution_money', false)
@@ -336,6 +350,7 @@ do !->>
     set_intervention_suggestion_algorithm()
     set_daily_goal_reminders_abtest()
     set_reward_gifs_abtest()
+    set_intervention_intensity_polling_abtest()
     set_onboarding_ideavoting_abtest()
     set_nongoal_timer_abtest()
     set_idea_contribution_money_abtest()
@@ -454,6 +469,7 @@ do !->>
     log_impression_internal
     log_goal_suggestion
     add_log_history
+    log_feedback_internal
   } = require 'libs_backend/log_utils'
 
   {
@@ -1214,9 +1230,29 @@ do !->>
       return
     if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
       return
-    reward_display_code = "window.reward_display_seconds_saved = " + seconds_saved + ";\n\n" + reward_display_base_code_cached
-    if localStorage.getItem('allow_reward_gifs') != 'false'
+    if localStorage.getItem('intervention_intensity_polling') == 'true'
+      interventions_active = JSON.parse(interventions_active)
+      if not interventions_active[0]?
+        return
+      intervention_info = await get_intervention_info(interventions_active[0])
+      if not intervention_info?
+        return
+      intervention_name = intervention_info.name
+      generic_name = intervention_info.generic_intervention ? intervention_name
+      existing_rating = await get_intensity_level_for_intervention(generic_name)
+      if existing_rating?
+        return
+      reward_display_code = [
+        #'window.reward_display_seconds_saved = ' + seconds_saved
+        'window.reward_display_intervention_info = ' + JSON.stringify(intervention_info)
+        reward_display_base_code_cached
+      ].join('\n\n;\n\n')
       chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
+      await log_feedback_internal(intervention_name, {
+        feedback_type: 'intensity_prompt_shown',
+        generic_name: generic_name,
+        intervention_name: intervention_name,
+      })
 
   /*
   setInterval ->>

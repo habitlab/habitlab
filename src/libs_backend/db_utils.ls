@@ -64,6 +64,7 @@ current_schema_for_collections = {
   interventions_active_for_domain_and_session: '[key+key2],key,key2,synced'
   domain_to_last_session_id: 'key,synced'
   domains_suggested_as_goals: 'key,synced'
+  interventions_to_intensity_ratings: 'key,synced'
   custom_intervention_code: 'key,synced'
   interventions_currently_disabled: 'key,synced'
   goal_targets: 'key,synced'

@@ -32,6 +32,7 @@ lib_name_to_func_names_and_signatures =
     get_intervention_info: 'intervention_name'
     intervention_first_seen_power_enabledisable: ['intervention', 'is_enabled', 'url']
     get_enabled_interventions: []
+    record_intensity_level_for_intervention: ['intervention_name', 'generic_name', 'intensity']
   tab_utils:
     close_selected_tab: []
     open_url_in_new_tab: 'url'

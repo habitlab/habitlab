@@ -309,15 +309,15 @@ do !->>
     return
 
   export set_ideavoting_submit_prompt_abtest = (chosen_algorithm) ->
-      if not chosen_algorithm?
-        algorithms = ['on', 'off']
-        chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-      if chosen_algorithm == 'off'
-        localStorage.setItem('ideavoting_submit_prompt', true)
-      else
-        localStorage.setItem('ideavoting_submit_prompt', false)
-      setvar_experiment('ideavoting_submit_prompt', chosen_algorithm)
-      return
+    if not chosen_algorithm?
+      algorithms = ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('ideavoting_submit_prompt', true)
+    else
+      localStorage.setItem('ideavoting_submit_prompt', false)
+    setvar_experiment('ideavoting_submit_prompt', chosen_algorithm)
+    return
 
   do !->>
     

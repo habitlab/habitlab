@@ -57,6 +57,14 @@ polymer_ext {
       type: Boolean
       value: localStorage.idea_contribution_money == 'true'
     }
+    ideavoting_submit_prompt: {
+      type: Boolean
+      value: localStorage.ideavoting_submit_prompt == 'true'
+    }
+    display_suggest_idea: {
+      type: Boolean
+      value: false
+    }
     index_background_color: {
       type: String
       value: 'rgb(81, 167,249)'
@@ -91,6 +99,14 @@ polymer_ext {
     current_right_idea: {
       type: String
       value: ''
+    }
+    num_votes: {
+      type: Number
+      value: 0
+    }
+    max_votes: {
+      type: Number
+      value: 3
     }
   }
   # TODO: remove this helper function
@@ -142,6 +158,7 @@ polymer_ext {
     self = this
     # call upvote for the current website with current option
     goal = this.current_site
+    this.num_votes++
     userid = await get_user_id()
     install_id = await get_install_id()
     downvote_idea = ''
@@ -370,6 +387,15 @@ polymer_ext {
   display_idea: ->>
     self = this
     all_goals = await get_goals()
+    # If they've submitted max-votes votes, prompt them to suggest an idea
+    console.log this.num_votes
+    console.log this.max_votes
+    console.log self.ideavoting_submit_prompt
+    if this.num_votes == this.max_votes and self.ideavoting_submit_prompt
+      console.log self.ideavoting_submit_prompt
+      console.log 'should display prompt'
+      self.display_suggest_idea = true
+    console.log self.display_suggest_idea
     # display initial choice
     for site_ideas_pair in self.site_ideas_mapping
       goal = site_ideas_pair.goal
@@ -392,6 +418,7 @@ polymer_ext {
           document.getElementById("disable_opt_out").disabled = false
           return
     # if get to this point, then we should disable button
+    console.log 'disabling'
     self.$$('.fix_left').innerText = 'No more nudge ideas to vote on'
     self.$$('.fix_right').innerText = 'No more nudge ideas to vote on'
     document.getElementById("disable_left").disabled = true
@@ -399,8 +426,11 @@ polymer_ext {
     document.getElementById("disable_opt_out").disabled = true
   ready: ->>
     allideas = await fetchjson('getideas_vote_all')
+    # console.log allideas
     this.allideas = allideas
     this.rerender()
+  continue_voting: ->
+    this.display_suggest_idea = false
   rerender: ->>
     allideas = this.allideas
     if not allideas?
@@ -411,8 +441,12 @@ polymer_ext {
       this.pairs_voted.add(item)
     self = this
     all_goals = await get_goals()
+    # console.log all_goals
     goal_info_list = Object.values(all_goals)
+    # console.log goal_info_list
+    goal_info_list.unshift({name: "generic/spend_less_time", sitename_printable: "Any Website"})
     self.goal_info_list = goal_info_list
+    # console.log self.goal_info_list
     goals_list = goal_info_list.map (.name)
     enabled_goals = await get_enabled_goals()
     goal_to_idea_info = {}
@@ -421,6 +455,7 @@ polymer_ext {
       if not goal_to_idea_info[goal]?
         goal_to_idea_info[goal] = []
       goal_to_idea_info[goal].push(idea_info)
+    # console.log goal_to_idea_info
     site_ideas_mapping = []
     site_ideas_mapping_counter = []
     for goal in goals_list
@@ -443,6 +478,8 @@ polymer_ext {
         goal: goal,
         counter: 0
       })
+    # console.log site_ideas_mapping
+    # console.log site_ideas_mapping_counter
     self.site_ideas_mapping = site_ideas_mapping
     self.site_ideas_mapping_counter = site_ideas_mapping_counter
     await self.display_idea()

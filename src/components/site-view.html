@@ -18,7 +18,7 @@
 <link rel="import" href="goal-target-input.html">
 <!--
 <link rel="import" href="intervention-carousel.html">
--->
+ -->
 
 <dom-module id="site-view">
   <template>
@@ -69,6 +69,7 @@
         font-size: 20px;
         text-transform: none;
         -webkit-font-smoothing: subpixel-antialiased;
+        margin-top: 3px;
       }
 
       hr {
@@ -103,6 +104,7 @@
       <paper-card class="paper-card">
 
         <paper-button class="button" on-click="vote_for_nudge_clicked">Vote for new nudges</paper-button>
+        <paper-button class="button" on-click="vote_for_nudge_clicked">Submit new nudge ideas</paper-button>
         <br> <br>
         <paper-button class="button" on-click="code_custom_nudge_clicked">Code your own nudge</paper-button>
         <br> <br> <br>

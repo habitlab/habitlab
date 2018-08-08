@@ -224,6 +224,35 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .max_votes_reached_card_holder {
+            position: absolute;
+            top: 80px;
+            width: 100%;
+            z-index: 98984239;
+            
+        }
+
+        .max_votes_reached_card {
+            margin: 0 auto;
+            width: 50%;
+            padding: 20px;
+        }
+
+        .suggest_idea {
+            color: black;
+        }
+
+        .card-button {
+            border-radius: 10px;
+            text-transform: none;
+            margin: 0;
+            text-align: center;
+            background-color: rgb(60, 90, 153);
+            font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            overflow: hidden;
+
+        }
     </style>
 
     <!-- <div style="position: relative">
@@ -249,6 +278,19 @@
 
     <div class="panel-container">
         <div class="question-vote">
+            <template is="dom-if" if="{{display_suggest_idea}}">
+                <center>
+                    <div class="max_votes_reached_card_holder">
+                        <paper-card class="max_votes_reached_card">
+                            <div class="suggest_idea">
+                                Wow, that's a lot of votes! How about helping us out by contributing an idea for a nudge?
+                            </div>
+                            <br>
+                            <paper-button class="card-button" on-click="continue_voting">Continue Voting</paper-button>
+                        </paper-card>
+                    </div>
+                </center>
+            </template>
             <div class="question-span">
                 <div class="vote-question">Which do you think would be a better nudge for Facebook?</div>
             </div>
@@ -314,7 +356,7 @@
                 </div>
             </paper-card>
             
-
+            
             <!-- <p class="vote_stats">
                     <span id="votes_count">92727</span>
                     votes on 

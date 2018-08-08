@@ -273,7 +273,19 @@ do !->>
       send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})
     setvar_experiment('reward_gifs_abtest', chosen_algorithm)
     return
-  
+
+  export set_intervention_intensity_polling_abtest = (chosen_algorithm) ->
+    if not chosen_algorithm?
+      algorithms = ['on'] # ['on', 'off']
+      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
+    if chosen_algorithm == 'off'
+      localStorage.setItem('intervention_intensity_polling', false)
+      send_feature_disabled({page: 'background', feature: 'intervention_intensity_polling', manual: false, reason: 'intervention_intensity_polling_abtest'})
+    else
+      localStorage.setItem('intervention_intensity_polling', true)
+    setvar_experiment('intervention_intensity_polling_abtest', chosen_algorithm)
+    return
+
   export set_nongoal_timer_abtest = (chosen_algorithm) ->
     if not chosen_algorithm?
       algorithms = ['off'] # ['on', 'off']
@@ -326,6 +338,7 @@ do !->>
     set_intervention_suggestion_algorithm()
     set_daily_goal_reminders_abtest()
     set_reward_gifs_abtest()
+    set_intervention_intensity_polling_abtest()
     set_onboarding_ideavoting_abtest()
     set_nongoal_timer_abtest()
     set_idea_contribution_money_abtest()
@@ -1203,14 +1216,14 @@ do !->>
       return
     if not (current_tab_info.url.startsWith('http://') or current_tab_info.url.startsWith('https://'))
       return
-    interventions_active = JSON.parse(interventions_active)
-    intervention_info = await get_intervention_info(interventions_active[0])
-    reward_display_code = [
-      'window.reward_display_seconds_saved = ' + seconds_saved
-      'window.reward_display_intervention_info = ' + JSON.stringify(intervention_info)
-      reward_display_base_code_cached
-    ].join('\n\n;\n\n')
-    if localStorage.getItem('allow_reward_gifs') != 'false'
+    if localStorage.getItem('intervention_intensity_polling') == 'true'
+      interventions_active = JSON.parse(interventions_active)
+      intervention_info = await get_intervention_info(interventions_active[0])
+      reward_display_code = [
+        #'window.reward_display_seconds_saved = ' + seconds_saved
+        'window.reward_display_intervention_info = ' + JSON.stringify(intervention_info)
+        reward_display_base_code_cached
+      ].join('\n\n;\n\n')
       chrome.tabs.executeScript current_tab_info.id, {code: reward_display_code}
 
   /*

@@ -526,9 +526,9 @@ export thompsonsampling = (enabled_goals) ->>
     # what interventions are available that have not been disabled?
     enabled_interventions = await list_enabled_interventions_for_goal(goal_name)
     if enabled_interventions.length == 0
-      # We're adding an empty string because we cannot recommend an intervention, but we have to maintain
-      # the index correspondance between goals and interventions.
-      output.push ""
+      continue
+    is_frequent = await get_is_goal_frequent(goal_name)
+    if (not is_frequent) and (Math.random() > 0.2)
       continue
     # Train MAB using Thompson Sampling
     mab = await train_multi_armed_bandit_for_goal(goal_name, enabled_interventions)

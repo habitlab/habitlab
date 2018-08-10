@@ -79,7 +79,7 @@ add_abtest 'internal_special_user', ['off', 'stanford_august2018_meeting'], (cho
   setvar_experiment('internal_special_user', chosen_algorithm)
   return
 
-add_abtest 'selection_algorithm_for_visit', ['one_random_intervention_per_enabled_goal', 'one_random_intervention_per_enabled_goal_with_frequency'], (chosen_algorithm) ->>
+add_abtest 'selection_algorithm_for_visit', ['one_random_intervention_per_enabled_goal_with_frequency'], (chosen_algorithm) ->>
   localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
   setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
   return

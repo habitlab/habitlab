@@ -5,6 +5,7 @@
 
 {
   setvar_experiment
+  getvar_experiment
 } = require 'libs_backend/db_utils'
 
 {
@@ -37,8 +38,21 @@ is_blocking_abtest = (name) ->
 is_nondefault_abtest = (name) ->
   return nondefault_abtest_set.has(name)
 
-export get_abtest_conditions = (name) ->
+export get_available_abtest_conditions = (name) ->
   return abtest_conditions[name]
+
+export get_abtest_list = ->
+  return abtest_list
+
+export get_assigned_abtest_conditions = ->>
+  output = {}
+  abtest_list = get_abtest_list()
+  for abtest in abtest_list
+    experiment_val = await getvar_experiment(abtest)
+    if not experiment_val?
+      continue
+    output[abtest] = experiment_val
+  return output
 
 export add_abtest = (name, conditions, func) ->
   abtest_list.push name

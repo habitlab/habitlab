@@ -1079,6 +1079,8 @@ do !->>
       intervention_info = await get_intervention_info(interventions_active[0])
       if not intervention_info?
         return
+      if intervention_info.custom
+        return
       intervention_name = intervention_info.name
       generic_name = intervention_info.generic_intervention ? intervention_name
       existing_rating = await get_intensity_level_for_intervention(generic_name)

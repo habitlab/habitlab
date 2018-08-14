@@ -15,6 +15,7 @@ Polymer({
   ready: async function() {
     let url_parameters = getUrlParameters()
     let abtest_set = get_abtest_set()
+    let newly_set_parameters = []
     for (let key of Object.keys(url_parameters)) {
       if (key == 'tag') {
         continue
@@ -25,6 +26,11 @@ Polymer({
       }
       let val = url_parameters[key]
       await setvar_experiment(key, val)
+      newly_set_parameters.push({
+        key: key,
+        val: val,
+      })
     }
+    this.newly_set_parameters = newly_set_parameters
   }
 })

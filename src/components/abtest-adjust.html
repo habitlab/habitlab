@@ -17,7 +17,13 @@
         -webkit-font-smoothing: subpixel-antialiased;
       }
     </style>
-    You have made the following adjustments to your experiments
+    <div>You have made the following adjustments to your experiments:</div>
+    <br>
+    <template is="dom-repeat" items="{{newly_set_parameters}}" as="param">
+      <div><strong>{{param.key}}</strong> set to <strong>{{param.val}}</strong></div>
+    </template>
+    <br>
+    <div>You can close this window now</div>
   </template>
   <script src="abtest-adjust.js"></script>
 </dom-module>

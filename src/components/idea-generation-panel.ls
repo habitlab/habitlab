@@ -397,7 +397,7 @@ polymer_ext {
       self.display_suggest_idea = true
     console.log self.display_suggest_idea
     # display initial choice
-    for site_ideas_pair in self.site_ideas_mapping
+    for site_ideas_pair in shuffled(self.site_ideas_mapping)
       goal = site_ideas_pair.goal
       for [leftidea, leftidea_id] in shuffled(prelude.zip(site_ideas_pair.ideas, site_ideas_pair.ideas_id))
         for [rightidea, rightidea_id] in shuffled(prelude.zip(site_ideas_pair.ideas, site_ideas_pair.ideas_id))

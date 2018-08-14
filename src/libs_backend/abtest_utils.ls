@@ -44,6 +44,9 @@ export get_available_abtest_conditions = (name) ->
 export get_abtest_list = ->
   return abtest_list
 
+export get_abtest_set = ->
+  return new Set(abtest_list)
+
 export get_assigned_abtest_conditions = ->>
   output = {}
   abtest_list = get_abtest_list()

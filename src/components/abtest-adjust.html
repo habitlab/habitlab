@@ -1,0 +1,29 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="abtest-adjust">
+  <template>
+    <style>
+      .card-content {
+        font-size: 20px;
+      }
+
+      .open-intervention-editor-button {
+        color: white;
+        background-color: #415D67;
+        border-radius: 10px;
+        font-size: 20px;
+        text-transform: none;
+        -webkit-font-smoothing: subpixel-antialiased;
+      }
+    </style>
+    <div>You have made the following adjustments to your experiments:</div>
+    <br>
+    <template is="dom-repeat" items="{{newly_set_parameters}}" as="param">
+      <div><strong>{{param.key}}</strong> set to <strong>{{param.val}}</strong></div>
+    </template>
+    <br>
+    <div>You can close this window now</div>
+  </template>
+  <script src="abtest-adjust.js"></script>
+</dom-module>

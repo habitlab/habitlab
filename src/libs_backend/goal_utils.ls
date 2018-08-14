@@ -512,10 +512,19 @@ export clear_cache_all_goals = ->
   clear_cache_list_all_goals()
   return
 
+/*
 export make_goal_frequency_info = ->
   output = {}
   output.algorithm = 'isoweek_alternating'
   output.onweeks = Math.round(Math.random()) # either 0 or 1
+  output.timestamp = Date.now()
+  return output
+*/
+
+export make_goal_frequency_info = ->
+  output = {}
+  output.algorithm = 'isoweek_random'
+  output.onweeks = [Math.round(Math.random()) for x from 0 to 53] # either 0 or 1. 54 entries total since isoweek ranges from 1 to 53, ignore 0th entry
   output.timestamp = Date.now()
   return output
 
@@ -525,12 +534,20 @@ export get_is_goal_frequent_from_frequency_info = (goal_frequency_info) ->
     isoweek = moment().isoWeek()
     onweeks = goal_frequency_info.onweeks
     return (isoweek % 2) == onweeks
+  if algorithm == 'isoweek_random'
+    isoweek = moment().isoWeek()
+    onweeks = goal_frequency_info.onweeks
+    return onweeks[isoweek] == 1
   throw new Error('goal frequency algorithm not implemented')
 
 export get_is_goal_frequent = (goal_name) ->>
   goal_frequency_info = await getkey_dict 'goal_frequencies', goal_name
   if goal_frequency_info?
     goal_frequency_info = JSON.parse goal_frequency_info
+    if goal_frequency_info.algorithm == 'isoweek_alternating'
+      if (moment().year() == 2018) and (moment().isoWeek() > 32) # august 13, 2018 or after
+        goal_frequency_info = make_goal_frequency_info()
+        await setkey_dict 'goal_frequencies', goal_name, JSON.stringify(goal_frequency_info)
   else
     goal_frequency_info = make_goal_frequency_info()
     await setkey_dict 'goal_frequencies', goal_name, JSON.stringify(goal_frequency_info)

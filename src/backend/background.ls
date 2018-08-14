@@ -28,10 +28,6 @@ do !->>
 
   await getDb()
 
-  require! {
-    localforage
-  }
-
   chrome_manifest = chrome.runtime.getManifest()
   habitlab_version = chrome_manifest.version
   developer_mode = not chrome_manifest.update_url?
@@ -40,21 +36,24 @@ do !->>
   if (not developer_mode) or localStorage.getItem('devmode_use_cache') == 'true'
     need_to_clear_cache = localStorage.getItem('devmode_clear_cache_on_reload') == 'true'
     if need_to_clear_cache or (not developer_mode) # installed from chrome web store
-      store = localforage.createInstance({
-        name: 'localget'
-      })
-      storesystemjs = localforage.createInstance({
-        name: 'systemjsget'
-      })
       if not need_to_clear_cache
         if (not developer_mode)
-          version_cached = await store.getItem('habitlab_version')
+          version_cached = localStorage.getItem('habitlab_version')
           if version_cached != habitlab_version
             need_to_clear_cache = true
       if need_to_clear_cache
+        require! {
+          localforage
+        }
+        store = localforage.createInstance({
+          name: 'localget'
+        })
+        storesystemjs = localforage.createInstance({
+          name: 'systemjsget'
+        })
         await store.clear()
-        await store.setItem('habitlab_version', habitlab_version)
         await storesystemjs.clear()
+        localStorage.setItem('habitlab_version', habitlab_version)
 
   require 'libs_backend/systemjs'
 
@@ -109,6 +108,11 @@ do !->>
     get_basic_client_data
     send_feature_disabled
   } = require 'libs_backend/logging_enabled_utils'
+
+  {
+    setup_abtest_newuser
+    setup_abtest_olduser
+  } = require 'libs_backend/abtest_utils'
 
   export make_tab_focused = (tab_id, window_id) ->>
     await new Promise -> chrome.windows.update(window_id, {focused: true}, it)
@@ -170,163 +174,11 @@ do !->>
           last_visit_timestamp = search_result.lastVisitTime
     return last_visit_timestamp
 
-  export set_intervention_selection_algorithm_firstinstall = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      # algorithms = ['one_random_intervention_per_enabled_goal', 'experiment_always_same', 'experiment_oneperday', 'experiment_onepertwodays', 'experiment_oneperthreedays']
-      # algorithms = ['experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare']
-      #algorithms = ['one_random_intervention_per_enabled_goal'] # 'thompsonsampling', 'novelty'
-      algorithms = ['one_random_intervention_per_enabled_goal', 'one_random_intervention_per_enabled_goal_with_frequency']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
-    setvar_experiment('selection_algorithm_for_visit', chosen_algorithm)
-    return
-
-  export set_intervention_firstimpression_notice_firstinstall = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      #algorithms = ['none', 'info', 'power']
-      algorithms = ['power']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
-    setvar_experiment('intervention_firstimpression_notice', chosen_algorithm)
-    return
-  
-  export set_difficulty_selection_screen = (chosen_algorithm) ->>
-    if not chosen_algorithm?
-      #algorithms = ['none', 'nodefault_optional', 'nodefault_forcedchoice']
-      algorithms = ['nodefault_optional', 'nochoice_nothing', 'nochoice_easy', 'nochoice_medium', 'nochoice_hard']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    if chosen_algorithm == 'nochoice_nothing'
-      localStorage.setItem('difficulty_selector_disabled', true)
-      localStorage.user_chosen_difficulty = 'nothing'
-      setvar_experiment('user_chosen_difficulty', 'nothing')
-      await enabledisable_interventions_based_on_difficulty('nothing')
-    if chosen_algorithm == 'nochoice_easy'
-      localStorage.setItem('difficulty_selector_disabled', true)
-      localStorage.user_chosen_difficulty = 'easy'
-      setvar_experiment('user_chosen_difficulty', 'easy')
-      await enabledisable_interventions_based_on_difficulty('easy')
-    if chosen_algorithm == 'nochoice_medium'
-      localStorage.setItem('difficulty_selector_disabled', true)
-      localStorage.user_chosen_difficulty = 'medium'
-      setvar_experiment('user_chosen_difficulty', 'medium')
-      await enabledisable_interventions_based_on_difficulty('medium')
-    if chosen_algorithm == 'nochoice_hard'
-      localStorage.setItem('difficulty_selector_disabled', true)
-      localStorage.user_chosen_difficulty = 'hard'
-      setvar_experiment('user_chosen_difficulty', 'hard')
-      await enabledisable_interventions_based_on_difficulty('hard')
-    if chosen_algorithm == 'none'
-      localStorage.setItem('difficulty_selector_disabled', true)
-    if chosen_algorithm == 'nodefault_forcedchoice'
-      localStorage.setItem('difficulty_selector_forcedchoice', true)
-    localStorage.setItem('difficulty_selection_screen', chosen_algorithm)
-    setvar_experiment('difficulty_selection_screen', chosen_algorithm)
-    return
-
-  export set_intervention_suggestion_algorithm = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      algorithms = ['off', 'always', '1day', '3day', '5day', '7day']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    if chosen_algorithm == 'off'
-      localStorage.setItem('suggest_interventions', false)
-    else
-      localStorage.setItem('suggest_interventions', true)
-    localStorage.setItem('intervention_suggestion_algorithm', chosen_algorithm)
-    setvar_experiment('intervention_suggestion_algorithm', chosen_algorithm)
-    return
-
-  export set_goal_suggestion_threshold = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      algorithms = [0, 180, 300, 600, 1200, 1800, 3600]
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    localStorage.setItem('goal_suggestion_threshold', chosen_algorithm)
-    setvar_experiment('goal_suggestion_threshold', chosen_algorithm)
-    return
-
-  export set_onboarding_ideavoting_abtest = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      algorithms = ['on'] # ['on', 'off']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    if chosen_algorithm == 'off'
-      localStorage.setItem('idea_voting_disabled', true)
-    else
-      localStorage.setItem('idea_voting_disabled', false)
-    localStorage.setItem('onboarding_ideavoting_abtest', chosen_algorithm)
-    setvar_experiment('onboarding_ideavoting_abtest', chosen_algorithm)
-    return
-
-  export set_daily_goal_reminders_abtest = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      algorithms = ['off'] # ['on', 'off']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    if chosen_algorithm == 'off'
-      localStorage.setItem('allow_daily_goal_notifications', false)
-      send_feature_disabled({page: 'background', feature: 'allow_daily_goal_notifications', manual: false, reason: 'daily_goal_reminders_abtest'})
-    setvar_experiment('daily_goal_reminders_abtest', chosen_algorithm)
-    return
-    
-  export set_reward_gifs_abtest = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      algorithms = ['off'] # ['on', 'off']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    if chosen_algorithm == 'off'
-      localStorage.setItem('allow_reward_gifs', false)
-      send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})
-    setvar_experiment('reward_gifs_abtest', chosen_algorithm)
-    return
-
-  export set_intervention_intensity_polling_abtest = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      algorithms = ['on'] # ['on', 'off']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    if chosen_algorithm == 'off'
-      localStorage.setItem('intervention_intensity_polling', false)
-      send_feature_disabled({page: 'background', feature: 'intervention_intensity_polling', manual: false, reason: 'intervention_intensity_polling_abtest'})
-    else
-      localStorage.setItem('intervention_intensity_polling', true)
-    setvar_experiment('intervention_intensity_polling_abtest', chosen_algorithm)
-    return
-
-  export set_nongoal_timer_abtest = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      algorithms = ['off'] # ['on', 'off']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    if chosen_algorithm == 'off'
-      localStorage.setItem('allow_nongoal_timer', false)
-      send_feature_disabled({page: 'background', feature: 'allow_nongoal_timer', manual: false, reason: 'nongoal_timer_abtest'})
-    setvar_experiment('allow_nongoal_timer', chosen_algorithm)
-    return
-
-  export set_idea_contribution_money_abtest = (chosen_algorithm) ->
-    if not chosen_algorithm?
-      algorithms = ['on'] # ['on', 'off']
-      chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-    if chosen_algorithm == 'off'
-      localStorage.setItem('idea_contribution_money', false)
-    else
-      localStorage.setItem('idea_contribution_money', true)
-    setvar_experiment('idea_contribution_money', chosen_algorithm)
-    return
-
-  export set_ideavoting_submit_prompt_abtest = (chosen_algorithm) ->
-      if not chosen_algorithm?
-        algorithms = ['on', 'off']
-        chosen_algorithm = algorithms[Math.floor(Math.random() * algorithms.length)]
-      if chosen_algorithm == 'off'
-        localStorage.setItem('ideavoting_submit_prompt', true)
-      else
-        localStorage.setItem('ideavoting_submit_prompt', false)
-      setvar_experiment('ideavoting_submit_prompt', chosen_algorithm)
-      return
-
   do !->>
     
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
-      if not localStorage.intervention_suggestion_algorithm?
-        set_intervention_suggestion_algorithm()
-      if not localStorage.goal_suggestion_threshold?
-        set_goal_suggestion_threshold()
+      await setup_abtest_olduser()
       return
     #  if not localStorage.getItem('allow_logging')? # user did not complete onboarding
     #    show_finish_configuring_notification_if_needed()
@@ -344,18 +196,7 @@ do !->>
     await set_default_goals_enabled()
     await set_default_generic_interventions_enabled()
     # set intervention selection algorithm - experiment
-    set_intervention_selection_algorithm_firstinstall()
-    set_intervention_firstimpression_notice_firstinstall()
-    await set_difficulty_selection_screen()
-    set_intervention_suggestion_algorithm()
-    set_daily_goal_reminders_abtest()
-    set_reward_gifs_abtest()
-    set_intervention_intensity_polling_abtest()
-    set_onboarding_ideavoting_abtest()
-    set_nongoal_timer_abtest()
-    set_idea_contribution_money_abtest()
-    set_ideavoting_submit_prompt_abtest()
-    set_goal_suggestion_threshold()
+    await setup_abtest_newuser()
     user_id = await get_user_id()
     tab_info = await get_active_tab_info()
     last_visit_to_website_timestamp = await get_last_visit_to_website_timestamp()
@@ -1236,6 +1077,8 @@ do !->>
         return
       intervention_info = await get_intervention_info(interventions_active[0])
       if not intervention_info?
+        return
+      if intervention_info.custom
         return
       intervention_name = intervention_info.name
       generic_name = intervention_info.generic_intervention ? intervention_name

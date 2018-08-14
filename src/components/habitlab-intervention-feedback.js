@@ -83,10 +83,6 @@ Polymer({
     if (generic_name == null) {
       generic_name = this.intervention_info.name
     }
-    console.log('intervention_info is')
-    console.log(this.intervention_info)
-    console.log('generic name is ' + generic_name)
-    console.log('intervention name is ' + this.intervention_info.name)
     record_intensity_level_for_intervention(this.intervention_info.name, generic_name, 'just_right')
     this.close()
   },

@@ -1,0 +1,62 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-themes/ice.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+
+<dom-module id="difficulty-selector-survey">
+  <template>
+    <style>
+       :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        --paper-radio-button-label-color: white;
+        --paper-radio-button: {
+          color: white;
+        };
+      }
+      
+      .title {
+        font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-size: 30px;
+        padding-top: 30px;
+        padding-bottom: 20px;
+        text-align: center;
+        font-weight: 400;
+        /*text-shadow: 1px 1px 2px #346da3; */
+      }
+
+      .radiobuttons {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        padding-top: 20px;
+        font-size: 20px;
+        text-align: left;
+        color: white;
+      }
+
+      .radiobutton {
+        color: white;
+      }
+
+      .papercard {
+        margin-top: 30px;
+        border-radius: 30px;
+      }
+    </style>
+
+    <div class="title">How aggressive do you want HabitLab to be in helping you reduce your time spent online?</div>
+
+    <paper-card class="papercard">
+      <paper-radio-group on-selected-changed="selectedchanged" class="radiobuttons" id="difficultyradiogroup">
+        <paper-radio-button on-keydown="ignore_keydown" class="radiobutton" name="nothing"><strong>Don't do anything</strong> - just track time.</paper-radio-button><br>
+        <paper-radio-button on-keydown="ignore_keydown" class="radiobutton" name="easy"><strong>Light touch</strong> - e.g., show a timer when you visit Facebook.</paper-radio-button><br>
+        <paper-radio-button on-keydown="ignore_keydown" class="radiobutton" name="medium"><strong>Medium</strong> - e.g., remove your Facebook feed until you click to show it.</paper-radio-button><br>
+        <paper-radio-button on-keydown="ignore_keydown" class="radiobutton" name="hard"><strong>Heavy handed</strong> - e.g., close the site after 60 seconds.</paper-radio-button><br>
+      </paper-radio-group>
+    </paper-card>
+
+  </template>
+  <script src="difficulty-selector-survey.js"></script>
+</dom-module>

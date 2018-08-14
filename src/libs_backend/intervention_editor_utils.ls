@@ -30,6 +30,8 @@ export compile_intervention_code = (intervention_info) ->>
   intervention_name = intervention_info.name
   code = intervention_info.code
   try
+    setkey_dict('custom_intervention_code_original', intervention_name, code)
+
     /*
     wrapped_code = """
     var intervention = require('libs_common/intervention_info').get_intervention();

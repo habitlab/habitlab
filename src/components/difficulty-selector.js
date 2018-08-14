@@ -37,6 +37,7 @@ polymer_ext({
       page: 'onboarding-view',
       subpage: 'difficulty-selector',
       category: 'difficulty_change',
+      difficulty: difficulty,
       manual: true,
       url: window.location.href,
       prev_enabled_interventions: prev_enabled_interventions,
@@ -61,7 +62,6 @@ polymer_ext({
 }, {
   source: require('libs_frontend/polymer_methods'),
   methods: [
-    'json_stringify',
     'once_available'
   ]
 })

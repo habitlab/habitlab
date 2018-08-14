@@ -28,10 +28,6 @@ do !->>
 
   await getDb()
 
-  require! {
-    localforage
-  }
-
   chrome_manifest = chrome.runtime.getManifest()
   habitlab_version = chrome_manifest.version
   developer_mode = not chrome_manifest.update_url?
@@ -40,21 +36,24 @@ do !->>
   if (not developer_mode) or localStorage.getItem('devmode_use_cache') == 'true'
     need_to_clear_cache = localStorage.getItem('devmode_clear_cache_on_reload') == 'true'
     if need_to_clear_cache or (not developer_mode) # installed from chrome web store
-      store = localforage.createInstance({
-        name: 'localget'
-      })
-      storesystemjs = localforage.createInstance({
-        name: 'systemjsget'
-      })
       if not need_to_clear_cache
         if (not developer_mode)
-          version_cached = await store.getItem('habitlab_version')
+          version_cached = localStorage.getItem('habitlab_version')
           if version_cached != habitlab_version
             need_to_clear_cache = true
       if need_to_clear_cache
+        require! {
+          localforage
+        }
+        store = localforage.createInstance({
+          name: 'localget'
+        })
+        storesystemjs = localforage.createInstance({
+          name: 'systemjsget'
+        })
         await store.clear()
-        await store.setItem('habitlab_version', habitlab_version)
         await storesystemjs.clear()
+        localStorage.setItem('habitlab_version', habitlab_version)
 
   require 'libs_backend/systemjs'
 

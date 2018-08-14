@@ -1,14 +1,11 @@
 const {
-  get_abtest_set
+  get_abtest_set,
+  set_abtest,
 } = require('libs_backend/abtest_utils')
 
 const {
   getUrlParameters
 } = require('libs_frontend/frontend_libs')
-
-const {
-  setvar_experiment
-} = require('libs_backend/db_utils')
 
 Polymer({
   is: 'abtest-adjust',
@@ -25,7 +22,7 @@ Polymer({
         continue
       }
       let val = url_parameters[key]
-      await setvar_experiment(key, val)
+      await set_abtest(key, val)
       newly_set_parameters.push({
         key: key,
         val: val,

@@ -406,7 +406,10 @@ polymer_ext {
           if this.pairs_voted.has(goal + '|||' + leftidea + '|||' + rightidea) or this.pairs_voted.has(goal + '|||' + rightidea + '|||' + leftidea)
             continue
           self.current_site = site_ideas_pair.goal
-          self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge for " + all_goals[site_ideas_pair.goal].sitename_printable + "?")
+          if all_goals[site_ideas_pair.goal].sitename_printable == 'Any Website'
+            self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge?")
+          else
+            self.$$('.vote-question').innerText = msg("Which do you think would be a better nudge for " + all_goals[site_ideas_pair.goal].sitename_printable + "?")
           self.$$('.fix_left').innerText = leftidea
           self.$$('.fix_right').innerText = rightidea
           self.current_left_idea = leftidea

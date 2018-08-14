@@ -14,15 +14,18 @@ Polymer({
     
   },
   ready: async function() {
-    console.log('abtest-view')
     let abtest_list = get_abtest_list()
     let abtest_assignments = await get_assigned_abtest_conditions()
+    let condition_info_list = []
     for (let abtest of abtest_list) {
       if (abtest_assignments[abtest] == null) {
         continue
       }
-      console.log(abtest)
-      console.log(abtest_assignments[abtest])
+      condition_info_list.push({
+        key: abtest,
+        val: abtest_assignments[abtest],
+      })
     }
+    this.condition_info_list = condition_info_list
   }
 })

@@ -17,7 +17,11 @@
         -webkit-font-smoothing: subpixel-antialiased;
       }
     </style>
-    You have the following a/b test conditions
+    <div>You are assigned to the following a/b test conditions:</div>
+    <br>
+    <template is="dom-repeat" items="{{condition_info_list}}" as="condition_info">
+      <div><strong>{{condition_info.key}}</strong> is set to <strong>{{condition_info.val}}</strong></div>
+    </template>
   </template>
   <script src="abtest-view.js"></script>
 </dom-module>

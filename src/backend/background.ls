@@ -23,7 +23,6 @@ do !->>
     getkey_dictdict
     getkey_dict
     getDb
-    setvar_experiment
   } = require 'libs_backend/db_utils'
 
   await getDb()

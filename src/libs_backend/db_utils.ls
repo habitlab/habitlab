@@ -208,9 +208,12 @@ export printvar = (key) ->>
   console.log result
   return result
 
-export setvar_experiment = (key, val) ->>
+export setvar_experiment = (key, val, conditions) ->>
   data = await getCollection('experiment_vars')
-  await data.put({key: key, val: val, synced: 0, timestamp: Date.now()})
+  if conditions?
+    await data.put({key: key, val: val, conditions: conditions, synced: 0, timestamp: Date.now()})
+  else
+    await data.put({key: key, val: val, synced: 0, timestamp: Date.now()})
   return val
 
 export getvar_experiment = (key) ->>
@@ -220,6 +223,11 @@ export getvar_experiment = (key) ->>
     return result.val
   else
     return null
+
+export getvar_experiment_info = (key) ->>
+  data = await getCollection('experiment_vars')
+  result = await data.get(key)
+  return result
 
 export clearvar_experiment = (key) ->>
   data = await getCollection('experiment_vars')

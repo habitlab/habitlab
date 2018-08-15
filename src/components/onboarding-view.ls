@@ -93,6 +93,10 @@ polymer_ext {
       type: Boolean,
       value: true,
     },
+    regular_difficulty_selector: {
+      type: Boolean,
+      value: localStorage.difficulty_selector_survey != 'true',
+    },
     last_slide_idx: {
       type: Number
       value: do ->

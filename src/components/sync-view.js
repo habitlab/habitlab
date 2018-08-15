@@ -19,10 +19,6 @@ const {
 } = require('libs_backend/logging_enabled_utils')
 
 const {
-  setvar_experiment
-} = require('libs_backend/db_utils')
-
-const {
   chrome_get_token,
   get_user_id
 } = require('libs_backend/background_common')

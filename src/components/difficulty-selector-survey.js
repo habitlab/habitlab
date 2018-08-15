@@ -22,7 +22,7 @@ polymer_ext({
       type: 'difficulty_selector_survey_changed_onboarding',
       page: 'onboarding-view',
       subpage: 'difficulty-selector-survey',
-      category: 'difficulty_change',
+      category: 'difficulty_change_survey',
       difficulty: difficulty,
       manual: true,
       url: window.location.href,

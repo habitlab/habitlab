@@ -27,6 +27,8 @@ webpack_config = {
   #devtool: 'linked-src'
   #devtool: null
   #debug: true
+  #mode: 'production'
+  mode: 'development'
   watch: false
   plugins: [
     # new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
@@ -34,7 +36,7 @@ webpack_config = {
     # new webpack.optimize.DedupePlugin()
   ]
   module: {
-    loaders: [
+    rules: [
         {
           test: /\.html$/
           loader: 'html-loader?attrs=false&minimize=true'

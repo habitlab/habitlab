@@ -30,7 +30,7 @@
   BabiliPlugin = require('babel-minify-webpack-plugin');
   HabitLabComponentRenamePlugin = require('./webpack_habitlab_component_rename_plugin');
   fse = require('fs-extra');
-  webpackStream = require('webpack2-stream-watch');
+  webpackStream = require('webpack4-stream-watch');
   process.on('unhandledRejection', function(reason, p){
     throw new Error(reason);
   });

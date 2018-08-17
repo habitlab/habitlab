@@ -33,7 +33,7 @@ BabiliPlugin = require 'babel-minify-webpack-plugin'
 HabitLabComponentRenamePlugin = require './webpack_habitlab_component_rename_plugin'
 
 fse = require 'fs-extra'
-webpack-stream = require 'webpack2-stream-watch'
+webpack-stream = require 'webpack4-stream-watch'
 
 process.on 'unhandledRejection', (reason, p) ->
   throw new Error(reason)

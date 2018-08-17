@@ -50,7 +50,7 @@
     "tls": "^0.0.1",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1",
-    "webpack2-stream-watch": "^3.2.2",
+    "webpack4-stream-watch": "^3.2.3",
     "yarn-api": "^1.1.0"
   },
   "devDependencies": {
@@ -97,7 +97,7 @@
     "sinon": "^1.17.7",
     "upath": "^0.2.0",
     "vinyl-named": "^1.1.0",
-    "webpack": "^2.2.1",
+    "webpack": "^4.16.5",
     "webpack-stream": "^3.2.0"
   },
   "jspm": {

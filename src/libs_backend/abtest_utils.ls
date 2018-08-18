@@ -184,7 +184,7 @@ add_abtest 'reward_gifs_abtest', ['off'], (chosen_algorithm) ->>
     send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})
   return
 
-add_abtest 'intervention_intensity_polling_abtest', ['on'], (chosen_algorithm) ->>
+add_abtest 'intervention_intensity_polling_abtest', ['on', 'off'], (chosen_algorithm) ->>
   if chosen_algorithm == 'off'
     localStorage.setItem('intervention_intensity_polling', false)
     send_feature_disabled({page: 'background', feature: 'intervention_intensity_polling', manual: false, reason: 'intervention_intensity_polling_abtest'})

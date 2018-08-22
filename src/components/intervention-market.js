@@ -14,17 +14,17 @@ polymer_ext({
   },
   site_changed: async function() {
     self = this
-    console.log('site in site_changed is:' + this.site)
+    // onsole.log('site in site_changed is:' + this.site)
     // fetch again for the uploaded data from this author
     // 1. Fetch shared interventions from the server
-    console.log("Fetching from the server of shared interventions from: " + this.site);
+    // console.log("Fetching from the server of shared interventions from: " + this.site);
     // TODO: remove for testing
     // localStorage.setItem('local_logging_server', true) 
     if (localStorage.getItem('local_logging_server') == 'true') {
-      console.log("posting to local server")
+      // console.log("posting to local server")
       logging_server_url = 'http://localhost:5000/'
     } else {
-      console.log("posting to local server")
+      // console.log("posting to local server")
       logging_server_url = 'https://habitlab.herokuapp.com/'
     }
     let request = logging_server_url + 'get_sharedinterventions_for_site' + '?website=' + this.site;
@@ -51,8 +51,8 @@ polymer_ext({
             alert("You have to sign-in in Chrome before sharing!")
            return
             }
-              console.log("author_info ",author_info);
-              console.log(data);
+              // console.log("author_info ",author_info);
+              // console.log(data);
               var li = []
               // get the list of this author's intervention
               for (var i = 0; i < data.length; i++) {
@@ -65,7 +65,7 @@ polymer_ext({
               create_intervention_dialog.intervention_list=li
               create_intervention_dialog.remove_upload_custom_intervention_dialog()
               create_intervention_dialog.addEventListener('remove_intervention', async function(event) {
-              console.log(event);
+              // console.log(event);
               // delete on the server side
               if (localStorage.getItem('local_logging_server') == 'true') {
                 //console.log("posting to local server")
@@ -76,7 +76,7 @@ polymer_ext({
               }
               let request = logging_server_url + 'delete_shared_intervention' + '?key=' + event.detail.intervention.key;
               let response = await fetch(request).then(x => x.json());
-              console.log(response);
+              // console.log(response);
               if (response.success) {
                 localStorage.removeItem('uploaded_intervention_' + event.detail.intervention.name)
                 localStorage.removeItem('saved_intervention_' + event.detail.intervention.name)

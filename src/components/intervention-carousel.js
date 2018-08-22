@@ -81,7 +81,7 @@ polymer_ext({
         let request = logging_server_url + 'get_sharedinterventions_for_site' + '?website=' + this.site;
         //console.log(request);
         let data = await fetch(request).then(x => x.json());
-        console.log(data);
+        // console.log(data);
         //console.log(this.interventions);
 
 
@@ -237,7 +237,7 @@ polymer_ext({
         }
 
         let button = this.S(".buttonDownload");
-    console.log(button)
+    // console.log(button)
     // button.onclick = function() {
     //   confirm("fuck!!!!")
     // }

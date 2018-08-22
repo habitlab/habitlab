@@ -42,8 +42,8 @@ polymer_ext({
   },
   site_changed: async function() {
     this.button_disable = false
-    console.log('site is:')
-    console.log(this.site)
+    // console.log('site is:')
+    // console.log(this.site)
     let [intervention_name_to_info_map, goal_info_list] = await this.get_list_of_uploadable()
     // console.log(intervention_name_to_info_map)
     var li = []

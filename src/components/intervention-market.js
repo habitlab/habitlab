@@ -78,7 +78,6 @@ polymer_ext({
               let response = await fetch(request).then(x => x.json());
               console.log(response);
               if (response.success) {
-                alert("You code will be removed shortly!")
                 localStorage.removeItem('uploaded_intervention_' + event.detail.intervention.name)
                 localStorage.removeItem('saved_intervention_' + event.detail.intervention.name)
                 localStorage.removeItem('saved_intervention_time_' + event.detail.intervention.name)

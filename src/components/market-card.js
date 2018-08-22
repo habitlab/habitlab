@@ -47,6 +47,9 @@ polymer_ext({
     author:{
       type: String
     },
+    key:{
+      type: String
+    }
   },
   get_custom_intervention_icon_url: function() {
     //return chrome.extension.getURL('icons/habitlab_gear_with_text.svg');
@@ -67,9 +70,36 @@ polymer_ext({
       function(e) {
       //alert("image is clicked!");
       // here we are displaying a detail dialog of this intervention
-      create_intervention_dialog = document.createElement('create-intervention-dialog')
+      create_intervention_dialog = document.createElement('market-card-detail-dialog')
       document.body.appendChild(create_intervention_dialog)
       create_intervention_dialog.intervention_info_dialog()
+      create_intervention_dialog.addEventListener('remove_intervention_card', async function(event) {
+        // delete the intervention from the market
+        // console.log(event);
+        // delete on the server side
+        if (localStorage.getItem('local_logging_server') == 'true') {
+          //console.log("posting to local server")
+          logging_server_url = 'http://localhost:5000/'
+        } else {
+          //console.log("posting to local server")
+          logging_server_url = 'https://habitlab.herokuapp.com/'
+        }
+        let request = logging_server_url + 'delete_shared_intervention' + '?key=' + self.key;
+        let response = await fetch(request).then(x => x.json());
+        console.log(response);
+        if (response.success) {
+          localStorage.removeItem('uploaded_intervention_' + self.name)
+          localStorage.removeItem('saved_intervention_' + self.name)
+          localStorage.removeItem('saved_intervention_time_' + self.name)
+          localStorage.removeItem('saved_interventions_' + self.name)
+          self.fire('intervention-added', {
+
+          })
+
+        } else {
+          alert("Fail to remove your code! Please open an ticket!")
+        }
+      })
     })
     self.S(".buttonDownload").click(
       async function(e) {

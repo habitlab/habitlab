@@ -183,7 +183,7 @@ body {
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star"></span>
-                  <p>4.1 average based on 254 reviews.</p>
+                  <p>4.1 average based on all reviews.</p>
                   <hr style="border:3px solid #f1f1f1">
 
                   <div class="row">
@@ -196,7 +196,7 @@ body {
                       </div>
                     </div>
                     <div class="side right">
-                      <div>150</div>
+                      <div id="5_star_count">150</div>
                     </div>
                     <div class="side">
                       <div>4 star</div>
@@ -207,7 +207,7 @@ body {
                       </div>
                     </div>
                     <div class="side right">
-                      <div>63</div>
+                      <div id="4_star_count">63</div>
                     </div>
                     <div class="side">
                       <div>3 star</div>
@@ -218,7 +218,7 @@ body {
                       </div>
                     </div>
                     <div class="side right">
-                      <div>15</div>
+                      <div id="3_star_count">15</div>
                     </div>
                     <div class="side">
                       <div>2 star</div>
@@ -229,7 +229,7 @@ body {
                       </div>
                     </div>
                     <div class="side right">
-                      <div>6</div>
+                      <div id="2_star_count">6</div>
                     </div>
                     <div class="side">
                       <div>1 star</div>
@@ -240,7 +240,7 @@ body {
                       </div>
                     </div>
                     <div class="side right">
-                      <div>20</div>
+                      <div id="1_star_count">20</div>
                     </div>
                   </div>
                   <div>_________________________________</div>
@@ -250,7 +250,7 @@ body {
                 </div>
               </paper-dialog-scrollable>
               <paper-button id="intervention_info_button" on-click="intervention_info_clicked" class="button"  style="color: rgb(255, 255, 255);">Got It!</paper-button>
-              <paper-button id="intervention_info_button" on-click="intervention_info_clicked" class="button"  style="color: red;margin-left:150px;">Delete</paper-button>
+              <paper-button id="intervention_info_button" on-click="remove_intervention_card_clicked" class="button"  style="color: red;margin-left:150px;">Stop Sharing!</paper-button>
           </paper-dialog>
 
   </template>

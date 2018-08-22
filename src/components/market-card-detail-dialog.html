@@ -1,0 +1,258 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="feedback-button.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome Icon Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<dom-module id="market-card-detail-dialog">
+  <template>
+    <style>
+      .button {
+        color: white;
+        background-color: #50E3C2;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 30px;
+        box-shadow: 2px 2px 2px #888888;
+        font-weight: bold;
+      }
+      .vote-button {
+        color: white;
+        background-color: #50E3C2;
+        margin-left: 2px;
+        margin-right: 2px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        height: 18px;
+        box-shadow: 1px 1px 1px #888888;
+        font-weight: bold;
+      }
+      #create_you_own_button {
+        color: red;
+      }
+      .ratings {
+        font-style: bold;
+        font-size: 20px;
+        margin-right: 25px;
+      }
+      .commentsheader {
+        font-style: bold;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .comments {
+        font-style: italic;
+      }
+      .overview {
+        
+        font-style: bolder;
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+      * {
+    box-sizing: border-box;
+}
+
+    .single-row {
+        margin-right: 25px;
+        width: 100%;
+        height: 38px;
+        display:block
+    }
+
+body {
+    font-family: Arial;
+    margin: 0 auto; /* Center website */
+    max-width: 800px; /* Max width */
+    padding: 20px;
+}
+
+.heading {
+    font-size: 15px;
+    margin-right: 25px;
+    font-style: bold;
+}
+
+.fa {
+    font-size: 25px;
+}
+
+.checked {
+    color: orange;
+}
+
+/* Three column layout */
+.side {
+    float: left;
+    width: 15%;
+    margin-top:10px;
+}
+
+.middle {
+    margin-top:10px;
+    float: left;
+    width: 50%;
+    margin-right:10px;
+}
+
+.middle-left {
+    margin-top:10px;
+    float: left;
+    width: 20%;
+    
+}
+
+/* Place text to the right */
+.right {
+    margin-top:10px;
+    width: 10%;
+    float: left;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* The bar container */
+.bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+}
+
+/* Individual bars */
+.bar-5 {width: 60%; height: 18px; background-color: #4CAF50;}
+.bar-4 {width: 30%; height: 18px; background-color: #2196F3;}
+.bar-3 {width: 10%; height: 18px; background-color: #00bcd4;}
+.bar-2 {width: 4%; height: 18px; background-color: #ff9800;}
+.bar-1 {width: 15%; height: 18px; background-color: #f44336;}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+    .side, .middle {
+        width: 100%;
+    }
+    .right {
+        display: none;
+    }
+}
+    </style>
+
+        <paper-dialog id="intervention_info" with-backdrop style="z-index: 9007;">
+            <paper-dialog-scrollable>
+                <div>
+                  <div class="overview">Overview</div>
+                  <span class="ratings">User Rating</span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                  <p>4.1 average based on all reviews.</p>
+                  <span class="single-row"><b>Description: </b>Hide Comments!</span>
+                  <hr style="border:3px solid #f1f1f1">
+
+                  <div class="row">
+                      <span class="single-row">
+                            <div class="side">
+                                <div>5 star</div>
+                            </div>
+                            <div class="middle">
+                                <div class="bar-container">
+                                    <div class="bar-5" id="bar-5-width"></div>
+                                </div>
+                            </div>
+                            <div class="middle-left"> 
+                                <paper-button class="vote-button" style="color: rgb(21, 180, 21);">vote</paper-button>
+                            </div>
+                            <div class="right">
+                                <div id="5_star_count">{{star_count_5}}</div>
+                            </div>
+                      </span>
+                      <span class="single-row">
+                            <div class="side">
+                                    <div>4 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                        <div class="bar-4" id="bar-4-width"></div>
+                                    </div>
+                                </div>
+                                <div class="middle-left"> 
+                                    <paper-button class="vote-button" style="color: rgb(21, 180, 21);">vote</paper-button>
+                                </div>
+                                <div class="right">
+                                    <div id="4_star_count">{{star_count_4}}</div>
+                                </div>
+                      </span>
+                      <span class="single-row">
+                            <div class="side">
+                                    <div>3 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                        <div class="bar-3" id="bar-3-width"></div>
+                                    </div>
+                                </div>
+                                <div class="middle-left"> 
+                                    <paper-button class="vote-button" style="color: rgb(21, 180, 21);">vote</paper-button>
+                                </div>
+                                <div class="right">
+                                    <div id="3_star_count">{{star_count_3}}</div>
+                                </div>
+                      </span>
+                      <span class="single-row">
+                            <div class="side">
+                                    <div>2 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                        <div class="bar-2" id="bar-2-width"></div>
+                                    </div>
+                                </div>
+                                <div class="middle-left"> 
+                                    <paper-button class="vote-button" style="color: rgb(21, 180, 21);">vote</paper-button>
+                                </div>
+                                <div class="right">
+                                    <div id="2_star_count">{{star_count_2}}</div>
+                                </div>
+                      </span>
+                      <span class="single-row">
+                            <div class="side">
+                                    <div>1 star</div>
+                                </div>
+                                <div class="middle">
+                                    <div class="bar-container">
+                                        <div class="bar-1" id="bar-1-width"></div>
+                                    </div>
+                                </div>
+                                <div class="middle-left"> 
+                                    <paper-button class="vote-button" style="color: rgb(21, 180, 21);">vote</paper-button>
+                                </div>
+                                <div class="right">
+                                    <div id="1_star_count">{{star_count_1}}</div>
+                                </div>
+                      </span>
+                  </div>
+                  <div>_________________________________</div>
+                  <div class="commentsheader">User Comments</div>
+                  <div class="comments"> User_1: This app is great to use!</div>
+                </div>
+              </paper-dialog-scrollable>
+              <paper-button id="intervention_info_button" on-click="intervention_info_clicked" class="button"  style="color: rgb(255, 255, 255);">Got It!</paper-button>
+              <paper-button id="intervention_info_button" on-click="remove_intervention_card_clicked" class="button"  style="color: red;margin-left:150px;">Stop Sharing!</paper-button>
+          </paper-dialog>
+
+  </template>
+  <script src="market-card-detail-dialog.js"></script>
+</dom-module>

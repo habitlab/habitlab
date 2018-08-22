@@ -81,7 +81,7 @@ polymer_ext({
         let request = logging_server_url + 'get_sharedinterventions_for_site' + '?website=' + this.site;
         //console.log(request);
         let data = await fetch(request).then(x => x.json());
-        //console.log(data);
+        console.log(data);
         //console.log(this.interventions);
 
 
@@ -100,7 +100,7 @@ polymer_ext({
                                 data[i].displayname, data[i].description, 
                                 data[i].domain, data[i].preview, data[i].sitename, 
                                 data[i].sitename_printable, data[i].goals, 
-                                data[i].stars, data[i].author_email)
+                                data[i].stars, data[i].author_email, data[i].key)
           }
         }
 
@@ -250,7 +250,7 @@ polymer_ext({
       },
       buildProjectCard: function(code, name, displayname, description, 
         domain, preview, sitename, sitename_printable,
-        goals, stars, author_email){
+        goals, stars, author_email, key){
           let selectString = "#siteview_" + this.site + " .addCard"
         let containerElement = document.querySelector(selectString);
         //console.log(containerElement)
@@ -268,6 +268,7 @@ polymer_ext({
         card.setAttribute("goals", goals);
         card.setAttribute("starCount", stars);
         card.setAttribute("author", author_email);
+        card.setAttribute("key", key);
         card.id = "cardAccess"
         //card.addEventListener('click', this.onClick);
         //Makes sure to insert cards at the front so add button is last

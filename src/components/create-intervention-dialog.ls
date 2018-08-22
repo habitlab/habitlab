@@ -59,6 +59,8 @@ polymer_ext {
   remove_upload_custom_intervention_dialog: ->
     this.$$('#remove_upload_custom_intervention').open()
   intervention_info_dialog: ->
+    # get the count numbers, currently, it is random
+    
     this.$$('#intervention_info').open()
   open_edit_intervention_info_dialog: ->>
     intervention_info=await get_intervention_info(this.current_intervention)
@@ -153,6 +155,12 @@ polymer_ext {
       intervention:self.$.intervention_selector.selectedItem.intervention_name
     })
     this.$$('#remove_upload_custom_intervention').close()
+  remove_intervention_card_clicked: ->>
+    self = this
+    self.fire('remove_intervention_card',{
+      
+    })
+    this.$$('#intervention_info').close()
   intervention_info_clicked: ->>
     self = this
     self.fire('intervention_info',{

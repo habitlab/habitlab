@@ -90,6 +90,7 @@ do !->>
     get_suggested_intervention_if_needed_for_url
     enabledisable_interventions_based_on_difficulty
     get_intensity_level_for_intervention
+    is_video_domain
   } = require 'libs_backend/intervention_utils'
 
   {
@@ -1230,8 +1231,6 @@ do !->>
   setInterval (->>
     if !prev_browser_focused
       return
-    if current_idlestate != 'active'
-      return
     active_tab = await get_active_tab_info()
     if not active_tab?
       return
@@ -1241,6 +1240,8 @@ do !->>
       current_domain = iframed_domain_to_track
     else
       current_domain = url_to_domain(active_tab.url)
+    if (current_idlestate != 'active') and (not is_video_domain(current_domain))
+      return
     current_day = get_days_since_epoch()
     has_enabled_goal = await site_has_enabled_spend_less_time_goal(current_domain)
     if ((not has_enabled_goal) and (localStorage.allow_nongoal_timer == 'false'))

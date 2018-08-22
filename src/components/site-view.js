@@ -50,6 +50,10 @@ polymer_ext({
     isdemo: {
       type: Boolean,
       observer: 'isdemo_changed'
+    },
+    interrupt_0: {
+      type: Number,
+      value: 0
     }
   },
   /*
@@ -86,6 +90,10 @@ polymer_ext({
       //cancelButtonText: 'Close'
     })
   },
+  somemethod: function() {
+    
+    this.rerender()
+  },
   rerender1: async function() {
     const [goal_info_list, intervention_name_to_info_map, enabled_interventions] = await Promise.all([
       list_goals_for_site(this.site),
@@ -102,6 +110,12 @@ polymer_ext({
     let [intervention_name_to_info_map, goal_info_list] = await this.rerender1()
     this.goal_info = goal_info_list[0];
     this.intervention_name_to_info_map = intervention_name_to_info_map;
+    this.interrupt_0 += 1
+    if (this.interrupt_0 == 100) {
+      this.interrupt_0 = 0;
+    }
+    //console.log("1.2222222")
+    //console.log("Number: " + this.interrupt_0)
   },
   site_changed: async function(site) {
     /*

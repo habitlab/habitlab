@@ -49,6 +49,7 @@
 {
   get_active_tab_id
   list_currently_loaded_interventions
+  enable_syncing
 } = require 'libs_backend/background_common'
 
 {
@@ -557,32 +558,84 @@ script.parentNode.removeChild(script);
     this.is_tutorial_shown=true
     this.selected_tab_idx=0
   share_clicked: ->>
-    # self=this
-    # chrome.permissions.request {
-    #   permissions: ['identity', 'identity.email']
-    #   origins: []
-    # }, (granted) -> 
-    #   console.log 'granted: ' + granted
-    #   return
-    # intervention_name=self.get_intervention_name()
-    # intervention_info = await get_intervention_info(intervention_name)
-    # chrome.identity.getProfileUserInfo (author_info) ->>
-    #   upload_result = await upload_intervention(intervention_info, author_info)
-    #   if upload_result.status=='success'
-    #     try
-    #       await swal({
-    #         title: 'Copy the url below to privately share your nudge. \n Click Submit for HabitLab developers to publish your nudge to all users.'
-    #         text: upload_result.url
-    #         type: 'info'
-    #         showCancelButton: true
-    #         confirmButtonText: 'Submit'
-    #         cancelButtonText: 'No'
-    #       })
-    #     catch
-    #       console.log 'not sharing this time'
-    #       # TODO client remove_intervention(intervention_name)
-    #   return
-    chrome.tabs.create {url: 'https://github.com/habitlab/habitlab/wiki/Share-Interventions'}
+    # get permission of user identity
+    self=this
+    chrome.permissions.request {
+      permissions: ['identity', 'identity.email']
+      origins: []
+    }, (granted) -> 
+      console.log 'granted: ' + granted
+      return
+    # sanity checks before sharing
+    # 1. saved check
+    intervention_name=self.get_intervention_name()
+    intervention_info = await get_intervention_info(intervention_name)
+    js_editor = this.js_editors[intervention_name]
+    temp_code=js_editor.getSession().getValue().trim()
+    intervention_info_code = intervention_info.code
+    if temp_code != intervention_info_code
+      swal("please save your code before sharing.")
+      return
+    # 2. double sharing case avoid
+    # nit: we are doing a over-simplified quick local check
+    # this might be deprecated due to local storage restore,
+    # but this will save server side bottleneck. In the server,
+    # a background thread for de-dup should be implemented for
+    # scalability concern.
+    if localStorage['uploaded_intervention_' + intervention_name] == temp_code
+      swal("You have already shared your code.")
+      return
+    # 3. error check
+    errors = await run_all_checks(js_editor.getSession(), temp_code)
+    if errors.length > 0
+      swal("Please fix your code before sharing.")
+      return
+    # Avoid to use swal because I cannot press the button    
+    # sharing
+    chrome.identity.getProfileUserInfo (author_info) ->>
+        console.log(author_info)
+        console.log 'syncing: '
+        console.log localStorage.sync_with_mobile
+        if (!localStorage.sync_with_mobile)
+          result = await swal({
+            text: "You must allow cross device syncing to share"
+            buttons: [true, "Enable Syncing"]})
+          if(result.value)
+            enable_syncing()
+          return
+
+        user_info = {
+            id: localStorage.id_secret
+            email: ""
+        }
+        result = await swal(
+          title: "Share with private link or publicly available:"
+          showCancelButton: true
+          confirmButtonText: 'Public'
+          cancelButtonText: 'Private'
+          type: 'question'
+        )
+        console.log result
+
+        # TODO hard coded false for testing
+        if (false)
+          upload_result = await upload_intervention(intervention_info, user_info, true)
+          if upload_result.status=='success'
+              swal("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + upload_result.url, "success")
+              # record this last save of the intervention
+              localStorage['uploaded_intervention_' + intervention_name] = temp_code
+          else
+              swal("Fail to upload your code 1! Please open an ticket!", "error")
+        else
+          upload_result = await upload_intervention(intervention_info, user_info, false)
+          if upload_result.status=='success'
+            swal("Here is a link you can share your code in private:\n" + upload_result.url, "success")
+            # record this last save of the intervention
+            localStorage['uploaded_intervention_' + intervention_name] = temp_code
+          else
+            swal("Fail to upload your code 2! Please open an ticket!", "error")
+             
+    # chrome.tabs.create {url: 'https://github.com/habitlab/habitlab/wiki/Share-Interventions'}
   make_javascript_editor: (editor_div) ->>
     intervention_name = editor_div.intervention_tab_name
     if intervention_name?

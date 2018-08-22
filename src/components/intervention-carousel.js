@@ -1,859 +1,368 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils')
-
-polymer_ext({
-  is: 'intervention-carousel',
-  properties: {
-  },
-  ready: async function() {
-
-  }
-})
-
-/*
-const {polymer_ext} = require('libs_frontend/polymer_utils')
 const screenshot_utils = require('libs_common/screenshot_utils')
-const $ = require('jquery')
+var $ = require('jquery');
+const {
+  list_site_info_for_sites_for_which_goals_are_enabled,
+  list_goals_for_site,
+  get_goals,
+  list_all_goals,
+} = require('libs_backend/goal_utils');
+
+const {
+  post_json
+} = require('libs_backend/ajax_utils')
+
+const {
+  log_pageclick
+} = require('libs_backend/log_utils');
+
+const {
+  get_interventions,
+  get_enabled_interventions
+} = require('libs_backend/intervention_utils');
+
 polymer_ext({
   is: 'intervention-carousel',
   properties: {
-  },
-  ready: async function() {
-    let carousel = document.querySelector(settings.carousel);
-    let sett = new {
-      carousel          : settings.carousel,
-      slides            : carousel.querySelector(settings.slide),
-      btnNext           : carousel.querySelector(settings.btnNext),
-      btnPrev           : carousel.querySelector(settings.btnPrev),
+    interventions: {
+      type: Array,
+    },
+    site: {
+      type: String,
+      observer: 'site_changed'
+    },
+    uploaded_interventions: {
+      type: Array,
+    },
+    interrupt: {
+      type: Number,
+      observer: 'site_changed'
     }
-    var commander = new PureJSCarousel(sett);
-
-
-    //this.init(settings);
-  },
-
-  init(settings) {
-    this.carousel          = document.querySelector(settings.carousel);
-    console.log("-------");
-    console.log(this.carousel);
-    this.slides            = this.carousel.querySelector(settings.slide);
-    this.btnNext           = this.carousel.querySelector(settings.btnNext) || null;
-    this.btnPrev           = this.carousel.querySelector(settings.btnPrev) || null;
-    this.activeIndex       = settings.activeIndex || 0;
-    this.oneByOne          = settings.oneByOne || false;
-    this.speed             = settings.speed || 400;
-    this.delay             = settings.delay || 0;
-    this.effect            = settings.effect || 'linear';
-    this.infinite          = settings.infinite || false;
-    this.autoplay          = settings.autoplay || false;
-    this.autoplayDelay     = settings.autoplayDelay || 400;
-    this.autoplayDirection = settings.autoplayDirection || 'next';
-    this.autoplayTimer     = null;
-    this.minPos            = null;
-    this.slidesToShow      = null;
-    this.maxIndex          = null;
-    this.isEnabled         = null;
-    this.build();
-  },
-
-  build() {
-    var _                    = this,
-        dotsLength,
-        i,
-        windowResizeTimeout,
-        windowWidth          = window.innerWidth,
-        windowHeight         = window.innerHeight;
-
-    _.minPos       = (_.carousel.offsetWidth - (_.slides.length * _.slides[0].offsetWidth));
-    _.slidesToShow = Math.round(_.carousel.offsetWidth / _.slides[0].offsetWidth);
-    _.maxIndex     = 0;
-    _.isEnabled    = 1;
-
-    _.carousel.className += ' purejscarousel';
-
-    //create slides container
-    _.slidesContainer = document.createElement('div');
-    _.carousel.insertBefore(_.slidesContainer, _.slides[0]);
-    _.slidesContainer.className += ' purejscarousel-slides-container';
-    if (_.infinite === true) {
-      _.slidesContainer.style.marginLeft = - (_.slides[0].offsetWidth * _.slides.length) + 'px';
-      _.slidesContainer.style.width = (_.slides[0].offsetWidth * _.slides.length * 3) + 'px';
-    } else {
-      _.slidesContainer.style.marginLeft = '0px';
-      _.slidesContainer.style.width = (_.slides[0].offsetWidth * _.slides.length) + 'px';
+    },
+    // listeners: {
+    //   'modal_close': 'closeModal',
+    // },
+    somemethod: function() {
+      // alert('somemethod called in carousel-alert')
+      this.site_changed()
+    },
+    ready: function() {
+       this.addEventListener('intervention_removed', this.somemethod);
+    },
+    rerender: function() {
+      console.log("1.33")
+    },
+    get_list_of_uploadable: async function() {
+    const [goal_info_list, intervention_name_to_info_map, enabled_interventions] = await Promise.all([
+      list_goals_for_site(this.site),
+      get_interventions(),
+      get_enabled_interventions()
+    ])
+    for (let intervention_name of Object.keys(intervention_name_to_info_map)) {
+      const intervention_info = intervention_name_to_info_map[intervention_name];
+      intervention_info.enabled = (enabled_interventions[intervention_name] == true);
     }
-
-    if ('ontouchstart' in window || navigator.maxTouchPoints) {
-      _.slidesContainer.addEventListener('touchstart', function (event) {
-        this.setAttribute('data-start-touch-x', event.targetTouches[0].pageX);
-        this.setAttribute('data-start-margin', parseInt(this.style.marginLeft));
-      });
-      _.slidesContainer.addEventListener('touchmove', function (event) {
-        this.setAttribute('data-active-touch-x', event.targetTouches[0].pageX);
-        this.style.marginLeft = parseInt(this.getAttribute('data-start-margin')) + (parseInt(this.getAttribute('data-active-touch-x')) - parseInt(this.getAttribute('data-start-touch-x'))) + 'px';
-      });
-      _.slidesContainer.addEventListener('touchend', function () {
-        var direction  = parseInt(this.getAttribute('data-active-touch-x')) - parseInt(this.getAttribute('data-start-touch-x')) > 0 ? 'prev' : 'next',
-            blockWidth = _.oneByOne === true ? _.slidesContainer[0].offsetWidth : _.carousel.offsetWidth;
-        if (Math.abs(parseInt(this.getAttribute('data-active-touch-x')) - parseInt(this.getAttribute('data-start-touch-x'))) >= blockWidth / 2) {
-          if (_.infinite === true) {
-            direction === 'next' ? _.goToNextSlide() : _.goToPrevSlide();
-          } else {
-            if ((direction === 'next' && _.activeIndex < _.maxIndex) || (direction === 'prev' && _.activeIndex >  0)) {
-              direction === 'next' ? _.goToNextSlide() : _.goToPrevSlide();
-            } else {
-              if (_.slidesContainer.style.transition !== 'undefined') {
-                _.slidesContainer.style.transition = 'margin-left ' + _.speed + 'ms' + ' ' + _.effect + ' ' + _.delay + 'ms';
-              }
-              _.slidesContainer.style.marginLeft = parseInt(this.getAttribute('data-start-margin')) + 'px';
-              if (_.slidesContainer.style.transition === 'undefined') {
-                if (_.slidesContainer.style.transition !== 'undefined') {
-                  _.slidesContainer.style.transition = null;
-                }
-              } else {
-                setTimeout(function() {
-                  if (_.slidesContainer.style.transition !== 'undefined') {
-                    _.slidesContainer.style.transition = null;
-                  }
-                }, _.speed + _.delay);
-              }
-            }
-          }
+    return intervention_name_to_info_map
+  },
+    site_changed: async function() {
+      let self = this
+      //console.log("1.11")
+        // 1. Fetch shared interventions from the server
+        //console.log("Fetching from the server of shared interventions from: " + this.site);
+        // TODO: remove for testing
+        // localStorage.setItem('local_logging_server', true) 
+        if (localStorage.getItem('local_logging_server') == 'true') {
+          //console.log("posting to local server")
+          logging_server_url = 'http://localhost:5000/'
         } else {
-          if (_.slidesContainer.style.transition !== 'undefined') {
-            _.slidesContainer.style.transition = 'margin-left ' + _.speed + 'ms' + ' ' + _.effect + ' ' + _.delay + 'ms';
+          //console.log("posting to local server")
+          logging_server_url = 'https://habitlab.herokuapp.com/'
+        }
+        let request = logging_server_url + 'get_sharedinterventions_for_site' + '?website=' + this.site;
+        //console.log(request);
+        let data = await fetch(request).then(x => x.json());
+        //console.log(data);
+        //console.log(this.interventions);
+
+
+        // remove current cards
+        var element = document.getElementById("cardAccess");
+        while (element) {
+          element.outerHTML = "";
+          var a = {x : element}
+          delete a.x;
+          element = document.getElementById("cardAccess");
+        }
+        for (var i = 0; i < data.length; i++) {
+          //  && !localStorage['saved_intervention_' + data[i].name]
+          if (data[i].displayname) {
+          this.buildProjectCard(data[i].code, data[i].name, 
+                                data[i].displayname, data[i].description, 
+                                data[i].domain, data[i].preview, data[i].sitename, 
+                                data[i].sitename_printable, data[i].goals, 
+                                data[i].stars, data[i].author_email)
           }
-          _.slidesContainer.style.marginLeft = parseInt(this.getAttribute('data-start-margin')) + 'px';
-          if (_.slidesContainer.style.transition === 'undefined') {
-            if (_.slidesContainer.style.transition !== 'undefined') {
-              _.slidesContainer.style.transition = null;
+        }
+
+        // upload functionality
+        let modal = this.S('#myModal')[0];
+        let addCard = this.S(".addCard")[0];
+        let span = this.S(".close")[0];
+        // console.log("-----");
+        // console.log(addCard);
+        // console.log(modal);
+        // console.log(span);
+        // console.log("-----");
+        // Get the <span> element that closes the modal
+        // When the user clicks the button, open the modal
+        var map = await this.get_list_of_uploadable()
+        var s = this.site
+        //console.log(map);
+        addCard.onclick = async function(event, site = s, intervention_name_to_info_map = map) {
+          // modal.style.display = "block";
+          //console.log(site);
+          //console.log(intervention_name_to_info_map);
+          // here we display a dialog
+          var li = []
+          var displaynames = []
+          for (let intervention_name of Object.keys(intervention_name_to_info_map)) {
+            if(localStorage['uploaded_intervention_' + intervention_name] == null && intervention_name_to_info_map[intervention_name].sitename == site && !intervention_name_to_info_map[intervention_name].downloaded && intervention_name_to_info_map[intervention_name].custom) {
+              // console.log(intervention_name_to_info_map[intervention_name])
+              li.push(intervention_name_to_info_map[intervention_name])
+              displaynames.push(intervention_name_to_info_map[intervention_name].displayname)
             }
-          } else {
-            setTimeout(function() {
-              if (_.slidesContainer.style.transition !== 'undefined') {
-                _.slidesContainer.style.transition = null;
-              }
-            }, _.speed + _.delay);
           }
-        }
-      });
-    }
-
-    //create slides dots
-    _.dotsContainer = document.createElement('div');
-    _.carousel.insertBefore(_.dotsContainer, _.slides[0]);
-    _.dotsContainer.className += ' purejscarousel-dots-container';
-    _.dots = [];
-    if (_.oneByOne === true) {
-      if (_.infinite === true) {
-        dotsLength = _.slides.length;
-      } else {
-        dotsLength = ((_.slidesContainer.offsetWidth - _.carousel.offsetWidth) / _.slides[0].offsetWidth) + 1;
-      }
-    } else {
-      if (_.infinite === true) {
-        dotsLength = Math.ceil(_.slidesContainer.offsetWidth / _.carousel.offsetWidth / 3);
-      } else {
-        dotsLength = Math.ceil(_.slidesContainer.offsetWidth / _.carousel.offsetWidth);
-      }
-    }
-    for (i = 0; i < dotsLength; i++) {
-      var dot = document.createElement('button');
-      dot.className = 'purejscarousel-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('data-index', i);
-      dot.setAttribute('type', 'button');
-      addDotEventListener(dot, _);
-      _.dots.push(dot);
-      _.dotsContainer.appendChild(dot);
-    }
-
-    _.maxIndex = dotsLength - 1;
-
-    //create carousel btn-prev
-    if (!_.btnPrev) {
-      _.btnPrev = document.createElement('button');
-      _.btnPrev.setAttribute('class', '');
-      _.btnPrev.setAttribute('type', 'button');
-      _.btnPrev.setAttribute('data-is-native', 0);
-      _.carousel.insertBefore(_.btnPrev, _.slides[0]);
-    } else {
-      _.btnPrev.setAttribute('data-is-native', 1);
-    }
-    _.btnPrev.className += ' purejscarousel-btn purejscarousel-btn-prev';
-    if (window.addEventListener) {
-      _.btnPrev.addEventListener('click', function() {
-        _.goToPrevSlide();
-      });
-    } else if (window.attachEvent) {
-      _.btnPrev.attachEvent('onclick', function() {
-        _.goToPrevSlide();
-      });
-    } else {
-      _.btnPrev.onclick = function() {
-        _.goToPrevSlide();
-      };
-    }
-
-    if (_.activeIndex === 0) {
-      _.btnPrev.disabled = true;
-    }
-    //create carousel btn-next
-    if (!_.btnNext) {
-      _.btnNext = document.createElement('button');
-      _.btnNext.setAttribute('class', '');
-      _.btnNext.setAttribute('type', 'button');
-      _.btnNext.setAttribute('data-is-native', 0);
-      _.carousel.insertBefore(_.btnNext, _.slides[0]);
-    } else {
-      _.btnNext.setAttribute('data-is-native', 1);
-    }
-    _.btnNext.className += ' purejscarousel-btn purejscarousel-btn-next';
-    if (window.addEventListener) {
-      _.btnNext.addEventListener('click', function() {
-        _.goToNextSlide();
-      });
-    } else if (window.attachEvent) {
-      _.btnNext.attachEvent('onclick', function() {
-        _.goToNextSlide();
-      });
-    } else {
-      _.btnNext.onclick = function() {
-        _.goToNextSlide();
-      };
-    }
-    if (_.activeIndex === _.maxIndex) {
-      _.btnNext.disabled = true;
-    }
-
-    //build slides
-    for (i = 0; i < _.slides.length; i++) {
-      _.slides[i].className += ' purejscarousel-slide';
-      _.slidesContainer.appendChild(_.slides[i]);
-    }
-    if (_.infinite === true) {
-      for (i = 0; i < _.slides.length; i++) {
-        let slideClone = _.slides[i].cloneNode(true);
-        slideClone.className += ' purejscarousel-slide-clone';
-        _.slidesContainer.appendChild(slideClone);
-      }
-      for (i = 0; i < _.slides.length; i++) {
-        let slideClone = _.slides[i].cloneNode(true);
-        slideClone.className += ' purejscarousel-slide-clone';
-        _.slidesContainer.insertBefore(slideClone, _.slidesContainer.querySelectorAll('.purejscarousel-slide')[i]);
-      }
-    }
-
-    if (window.addEventListener) {
-      window.addEventListener('resize', windowResize);
-    } else if (window.attachEvent) {
-      window.attachEvent('onresize', windowResize);
-    } else {
-      window.onresize = windowResize;
-    }
-
-    _.autoplayTimer = _.autoplay === true ? (_.autoplayDirection === 'next' ? setTimeout(function(){_.goToNextSlide()}, _.autoplayDelay) : setTimeout(function(){_.goToPrevSlide()}, _.autoplayDelay)) : null;
-
-    function addDotEventListener(d, c) {
-      if (window.addEventListener) {
-        d.addEventListener('click', function() {
-          c.goToSlide(parseInt(this.getAttribute('data-index')));
-        });
-      } else if (window.attachEvent) {
-        d.attachEvent('onclick', function() {
-          c.goToSlide(parseInt(this.getAttribute('data-index')));
-        });
-      } else {
-        d.onclick = function() {
-          c.goToSlide(parseInt(this.getAttribute('data-index')));
-        };
-      }
-    }
-
-    function windowResize() {
-      if (window.innerWidth !== windowWidth || window.innerHeight !== windowHeight) {
-        clearTimeout(windowResizeTimeout);
-        windowResizeTimeout = setTimeout(function() {
-          _.destroy();
-          _.build();
-        }, 400);
-      }
-    }
-  },
-
-  enableControl() {
-    var i;
-    this.btnNext.disabled = false;
-    this.btnPrev.disabled = false;
-    for (i = 0; i < this.dots.length; i++) {
-      this.dots[i].disabled = false;
-    }
-    this.dots[this.activeIndex].disabled = true;
-    if (this.infinite === false) {
-      if (this.activeIndex === this.maxIndex) {
-        this.btnNext.disabled = true;
-      }
-      if (this.activeIndex === 0) {
-        this.btnPrev.disabled = true;
-      }
-    }
-    if ('ontouchstart' in window || navigator.maxTouchPoints) {
-      this.slidesContainer.disabled = false;
-    }
-  },
-
-  disableControl() {
-    var i;
-    this.btnNext.disabled = true;
-    this.btnPrev.disabled = true;
-    for (i = 0; i < this.dots.length; i++) {
-      this.dots[i].disabled = true;
-    }
-    if ('ontouchstart' in window || navigator.maxTouchPoints) {
-      this.slidesContainer.disabled = true;
-    }
-  },
-
-  goToNextSlide() {
-    var newActiveIndex;
-    if (this.btnNext.disabled === false) {
-      if (this.infinite === true) {
-        newActiveIndex = this.activeIndex + 1 > this.maxIndex ? 0 : this.activeIndex + 1;
-      } else {
-        newActiveIndex = this.activeIndex + 1;
-      }
-      this.goToSlide(newActiveIndex, 'next', 'dirBtn');
-    }
-  },
-
-  goToPrevSlide() {
-    var newActiveIndex;
-    if (this.btnPrev.disabled === false) {
-      if (this.infinite === true) {
-        newActiveIndex = this.activeIndex - 1 < 0 ? this.maxIndex : this.activeIndex - 1;
-      } else {
-        newActiveIndex = this.activeIndex - 1;
-      }
-      this.goToSlide(newActiveIndex, 'prev', 'dirBtn');
-    }
-  },
-
-  goToSlide(n, dir, trigger) {
-    var _                    = this,
-        direction            = dir ? dir : n > this.activeIndex ? 'next' : 'prev',
-        slidesContainerWidth = this.slidesContainer.offsetWidth / (this.infinite === true ? 3 : 1),
-        blockWidth           = this.oneByOne === true ? this.slides[0].offsetWidth : this.carousel.offsetWidth,
-        currentPos           = this.infinite === true ? - slidesContainerWidth : Math.max(-blockWidth * this.activeIndex, this.minPos),
-        scrollWidth          = trigger === 'dirBtn' ? blockWidth : Math.abs(blockWidth * (this.activeIndex - n)),
-        slidesCount,
-        newPos;
-
-    if (this.oneByOne === false && ((direction === 'next' && n === this.maxIndex) || (direction === 'prev' && this.activeIndex === this.maxIndex))) {
-      scrollWidth = scrollWidth + slidesContainerWidth - ((this.maxIndex + 1) * blockWidth);
-    }
-    slidesCount = scrollWidth / this.slides[0].offsetWidth;
-    if (this.infinite === true) {
-      newPos = direction === 'next' ? currentPos - scrollWidth : currentPos + scrollWidth;
-    } else {
-      newPos = direction === 'next' ? Math.max(this.minPos, currentPos - scrollWidth) : Math.min(0, currentPos + scrollWidth);
-    }
-
-    this.disableControl();
-    if ('transition' in document.body.style) {
-      this.slidesContainer.style.transition = 'margin-left ' + this.speed + 'ms' + ' ' + this.effect + ' ' + this.delay + 'ms';
-    }
-    this.slidesContainer.style.marginLeft = newPos + 'px';
-    if ('transition' in document.body.style) {
-      this.slidesContainer.addEventListener('transitionend', scrollEnd);
-    } else {
-      scrollEnd();
-    }
-
-    function scrollEnd() {
-      var i;
-      if ('transition' in document.body.style) {
-        _.slidesContainer.style.transition = null;
-        _.slidesContainer.removeEventListener('transitionend', scrollEnd);
-      }
-
-      _.dots[_.activeIndex].className = _.dots[_.activeIndex].className.replace(' active', '');
-      _.activeIndex = n;
-      _.dots[_.activeIndex].className += ' active';
-
-      if (_.infinite === true) {
-        for (i = 0; i < slidesCount; i++) {
-          if (direction === 'next') {
-            _.slidesContainer.appendChild(_.slidesContainer.children[0]);
-          } else {
-            _.slidesContainer.insertBefore(_.slidesContainer.lastElementChild, _.slidesContainer.children[0]);
+          // if there is nothing to upload, we pop up the creation window
+          if (li.length == 0) {
+            // create_intervention_dialog = document.createElement('create-intervention-dialog')
+            // document.body.appendChild(create_intervention_dialog)
+            // var all_goals=await get_goals()
+            // var goals_list= await list_all_goals()
+            // var li_temp = []
+            // for (let x of goals_list) {
+            //   li_temp.push(all_goals[x])
+            // }
+            // create_intervention_dialog.goal_info_list = li_temp
+            // create_intervention_dialog.open_create_new_intervention_dialog()
+            // open the edit page
+            chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});
+            log_pageclick({from: 'site-view', tab: this.site, to: 'intervention-editor'});   
+            return
           }
-        }
-        _.slidesContainer.style.marginLeft = - _.slidesContainer.offsetWidth / 3 + 'px';
-      }
-      _.enableControl();
-      _.autoplayTimer = _.autoplay === true ? (_.autoplayDirection === 'next' ? setTimeout(function(){_.goToNextSlide()}, _.autoplayDelay) : setTimeout(function(){_.goToPrevSlide()}, _.autoplayDelay)) : null;
-    }
-  },
-
-  destroy() {
-    var slideClones,
-        i;
-
-    if (this.isEnabled === 1) {
-      this.isEnabled = 0;
-
-      this.carousel.className = this.carousel.className.replace(' purejscarousel', '');
-      this.carousel.removeChild(this.dotsContainer);
-
-      if (this.btnNext.getAttribute('data-is-native').toString() === '1') {
-        this.btnNext.className = this.btnNext.className.replace(' purejscarousel-btn purejscarousel-btn-next', '');
-      } else {
-        this.carousel.removeChild(this.btnNext);
-        this.btnNext = null;
-      }
-      if (this.btnPrev.getAttribute('data-is-native').toString() === '1') {
-        this.btnPrev.className = this.btnPrev.className.replace(' purejscarousel-btn purejscarousel-btn-prev', '');
-      } else {
-        this.carousel.removeChild(this.btnPrev);
-        this.btnPrev = null;
-      }
-
-      if (this.infinite === true) {
-        slideClones = this.carousel.querySelectorAll('.purejscarousel-slide-clone');
-        for (i = 0; i < slideClones.length; i++) {
-          slideClones[i].parentNode.removeChild(slideClones[i]);
-        }
-      }
-      for (i = 0; i < this.slides.length; i++) {
-        this.slides[i].className = this.slides[i].className.replace(' pure-js-carousel-slide', '');
-        this.carousel.insertBefore(this.slides[i], this.slidesContainer);
-      }
-      this.carousel.removeChild(this.slidesContainer);
-
-      this.minPos       = null;
-      this.slidesToShow = null;
-      this.maxIndex     = null;
-      this.isEnabled    = null;
-      if (this.autoplay === true) {
-        clearTimeout(this.autoplayTimer);
-        this.autoplayTimer = null;
-      }
-    }
-  }
-})
-
-var settings = {
-  carousel:".carousel",
-  slides:".slide",
-  btnNext:".purejscarousel-btn-next",
-  btnPrev:".purejscarousel-btn-prev",
-}
-
-class PureJSCarousel{
-
-  constructor(settings) {
-    this.carousel          = settings.carousel;
-    this.slides            = settings.slide;
-    this.btnNext           = settings.btnNext || null;
-    this.btnPrev           = settings.btnPrev || null;
-    this.activeIndex       = settings.activeIndex || 0;
-    this.oneByOne          = settings.oneByOne || false;
-    this.speed             = settings.speed || 400;
-    this.delay             = settings.delay || 0;
-    this.effect            = settings.effect || 'linear';
-    this.infinite          = settings.infinite || false;
-    this.autoplay          = settings.autoplay || false;
-    this.autoplayDelay     = settings.autoplayDelay || 400;
-    this.autoplayDirection = settings.autoplayDirection || 'next';
-    this.autoplayTimer     = null;
-    this.minPos            = null;
-    this.slidesToShow      = null;
-    this.maxIndex          = null;
-    this.isEnabled         = null;
-    this.build();
-  }
-
-  build() {
-    var _                    = this,
-        dotsLength,
-        i,
-        windowResizeTimeout,
-        windowWidth          = window.innerWidth,
-        windowHeight         = window.innerHeight;
-
-    _.minPos       = (_.carousel.offsetWidth - (_.slides.length * _.slides[0].offsetWidth));
-    _.slidesToShow = Math.round(_.carousel.offsetWidth / _.slides[0].offsetWidth);
-    _.maxIndex     = 0;
-    _.isEnabled    = 1;
-
-    _.carousel.className += ' purejscarousel';
-
-    //create slides container
-    _.slidesContainer = document.createElement('div');
-    _.carousel.insertBefore(_.slidesContainer, _.slides[0]);
-    _.slidesContainer.className += ' purejscarousel-slides-container';
-    if (_.infinite === true) {
-      _.slidesContainer.style.marginLeft = - (_.slides[0].offsetWidth * _.slides.length) + 'px';
-      _.slidesContainer.style.width = (_.slides[0].offsetWidth * _.slides.length * 3) + 'px';
-    } else {
-      _.slidesContainer.style.marginLeft = '0px';
-      _.slidesContainer.style.width = (_.slides[0].offsetWidth * _.slides.length) + 'px';
-    }
-
-    if ('ontouchstart' in window || navigator.maxTouchPoints) {
-      _.slidesContainer.addEventListener('touchstart', function (event) {
-        this.setAttribute('data-start-touch-x', event.targetTouches[0].pageX);
-        this.setAttribute('data-start-margin', parseInt(this.style.marginLeft));
-      });
-      _.slidesContainer.addEventListener('touchmove', function (event) {
-        this.setAttribute('data-active-touch-x', event.targetTouches[0].pageX);
-        this.style.marginLeft = parseInt(this.getAttribute('data-start-margin')) + (parseInt(this.getAttribute('data-active-touch-x')) - parseInt(this.getAttribute('data-start-touch-x'))) + 'px';
-      });
-      _.slidesContainer.addEventListener('touchend', function () {
-        var direction  = parseInt(this.getAttribute('data-active-touch-x')) - parseInt(this.getAttribute('data-start-touch-x')) > 0 ? 'prev' : 'next',
-            blockWidth = _.oneByOne === true ? _.slidesContainer[0].offsetWidth : _.carousel.offsetWidth;
-        if (Math.abs(parseInt(this.getAttribute('data-active-touch-x')) - parseInt(this.getAttribute('data-start-touch-x'))) >= blockWidth / 2) {
-          if (_.infinite === true) {
-            direction === 'next' ? _.goToNextSlide() : _.goToPrevSlide();
-          } else {
-            if ((direction === 'next' && _.activeIndex < _.maxIndex) || (direction === 'prev' && _.activeIndex >  0)) {
-              direction === 'next' ? _.goToNextSlide() : _.goToPrevSlide();
-            } else {
-              if (_.slidesContainer.style.transition !== 'undefined') {
-                _.slidesContainer.style.transition = 'margin-left ' + _.speed + 'ms' + ' ' + _.effect + ' ' + _.delay + 'ms';
-              }
-              _.slidesContainer.style.marginLeft = parseInt(this.getAttribute('data-start-margin')) + 'px';
-              if (_.slidesContainer.style.transition === 'undefined') {
-                if (_.slidesContainer.style.transition !== 'undefined') {
-                  _.slidesContainer.style.transition = null;
+          //console.log(li)
+          create_intervention_dialog = document.createElement('create-intervention-dialog')
+          document.body.appendChild(create_intervention_dialog)
+          create_intervention_dialog.intervention_list=li
+          create_intervention_dialog.upload_existing_custom_intervention_dialog()
+          create_intervention_dialog.addEventListener('create_you_own_intervention', async function(event) {
+            chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=intervention-editor')});
+            log_pageclick({from: 'site-view', tab: this.site, to: 'intervention-editor'});   
+            return
+          })
+          create_intervention_dialog.addEventListener('upload_intervention', async function(event) {
+            //console.log(event);
+            intervention_2_upload = event.detail.intervention;
+            // upload to server
+            chrome.permissions.request({
+              permissions: ['identity', 'identity.email'],
+              origins: []
+            }, function(granted) {
+              //console.log('granted: ' + granted)
+              return
+            });
+            await chrome.identity.getProfileUserInfo(async function(author_info){
+                if (author_info.id == "") {
+                  alert("You have to sign-in in Chrome before sharing!")
+                  return
                 }
-              } else {
-                setTimeout(function() {
-                  if (_.slidesContainer.style.transition !== 'undefined') {
-                    _.slidesContainer.style.transition = null;
+                intervention_2_upload.author_email = author_info.email
+                intervention_2_upload.author_id = author_info.id
+                intervention_2_upload.is_sharing = true
+                intervention_2_upload.displayname = event.detail.intervention_upload_name
+                if (intervention_2_upload.displayname.trim() == "") {
+                  alert("Error: Upload intervention name cannot be empty!")
+                  return
+                }
+                // check if upload already
+                if(localStorage['uploaded_intervention_' + intervention_2_upload.name] == intervention_2_upload.code) {
+                  alert("you have already shared your code.")
+                  return
+                }
+                intervention_2_upload.description = event.detail.intervention_description
+                // Encoding with intervention II
+                intervention_2_upload.key = author_info.id + Date.now()
+                //console.log(intervention_2_upload)
+                upload_successful = true
+                // upload to server
+                try {
+                  if (localStorage.getItem('local_logging_server') == 'true') {
+                    //console.log "posting to local server"
+                    logging_server_url = 'http://localhost:5000/'
+                  } else {
+                    logging_server_url = 'https://habitlab.herokuapp.com/'
                   }
-                }, _.speed + _.delay);
-              }
-            }
-          }
-        } else {
-          if (_.slidesContainer.style.transition !== 'undefined') {
-            _.slidesContainer.style.transition = 'margin-left ' + _.speed + 'ms' + ' ' + _.effect + ' ' + _.delay + 'ms';
-          }
-          _.slidesContainer.style.marginLeft = parseInt(this.getAttribute('data-start-margin')) + 'px';
-          if (_.slidesContainer.style.transition === 'undefined') {
-            if (_.slidesContainer.style.transition !== 'undefined') {
-              _.slidesContainer.style.transition = null;
-            }
-          } else {
-            setTimeout(function() {
-              if (_.slidesContainer.style.transition !== 'undefined') {
-                _.slidesContainer.style.transition = null;
-              }
-            }, _.speed + _.delay);
+                  response = await post_json(logging_server_url + 'sharedintervention', intervention_2_upload)
+                  //console.log(response)
+                  if (response.success) {
+                    url = logging_server_url + "lookupintervention?share=y&id=" + intervention_2_upload.key
+                    alert("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + url)
+                    localStorage['uploaded_intervention_' + intervention_2_upload.name] = intervention_2_upload.code
+                    self.fire('intervention-added', {
+
+                    })
+                    //this.site_changed()
+                  } else {
+                    alert("Fail to upload your code! Please open an ticket!")
+                  }
+                }
+                catch(err) {
+                  alert("Fail to upload your code! Please open an ticket!")
+                }                
+              });
+            
+
+          })
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
           }
         }
-      });
-    }
 
-    //create slides dots
-    _.dotsContainer = document.createElement('div');
-    _.carousel.insertBefore(_.dotsContainer, _.slides[0]);
-    _.dotsContainer.className += ' purejscarousel-dots-container';
-    _.dots = [];
-    if (_.oneByOne === true) {
-      if (_.infinite === true) {
-        dotsLength = _.slides.length;
-      } else {
-        dotsLength = ((_.slidesContainer.offsetWidth - _.carousel.offsetWidth) / _.slides[0].offsetWidth) + 1;
+        let button = this.S(".buttonDownload");
+    console.log(button)
+    // button.onclick = function() {
+    //   confirm("fuck!!!!")
+    // }
+      },
+      startAdd: function() {
+        this.S("#addScreen").css("display", "block");
+      },
+      closeModal: function() {
+        this.S("#addScreen").css("display", "none");
+      },
+      buildProjectCard: function(code, name, displayname, description, 
+        domain, preview, sitename, sitename_printable,
+        goals, stars, author_email){
+          let selectString = "#siteview_" + this.site + " .addCard"
+        let containerElement = document.querySelector(selectString);
+        //console.log(containerElement)
+        //Project holder space
+        let card = document.createElement('market-card');
+        card.setAttribute("code", code);
+        // card.setAttribute("date", date);
+        card.setAttribute("name", name);
+        card.setAttribute("displayname", displayname);
+        card.setAttribute("description", description);
+        card.setAttribute("domain", domain);
+        card.setAttribute("preview", preview);
+        card.setAttribute("sitename", sitename);
+        card.setAttribute("sitename_printable", sitename_printable);
+        card.setAttribute("goals", goals);
+        card.setAttribute("starCount", stars);
+        card.setAttribute("author", author_email);
+        card.id = "cardAccess"
+        //card.addEventListener('click', this.onClick);
+        //Makes sure to insert cards at the front so add button is last
+        containerElement.insertAdjacentElement('afterend', card);
       }
-    } else {
-      if (_.infinite === true) {
-        dotsLength = Math.ceil(_.slidesContainer.offsetWidth / _.carousel.offsetWidth / 3);
-      } else {
-        dotsLength = Math.ceil(_.slidesContainer.offsetWidth / _.carousel.offsetWidth);
-      }
+    }, {
+      source: require('libs_frontend/polymer_methods'),
+      methods: [
+        'S'
+      ]
     }
-    for (i = 0; i < dotsLength; i++) {
-      var dot = document.createElement('button');
-      dot.className = 'purejscarousel-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('data-index', i);
-      dot.setAttribute('type', 'button');
-      addDotEventListener(dot, _);
-      _.dots.push(dot);
-      _.dotsContainer.appendChild(dot);
-    }
-
-    _.maxIndex = dotsLength - 1;
-
-    //create carousel btn-prev
-    if (!_.btnPrev) {
-      _.btnPrev = document.createElement('button');
-      _.btnPrev.setAttribute('class', '');
-      _.btnPrev.setAttribute('type', 'button');
-      _.btnPrev.setAttribute('data-is-native', 0);
-      _.carousel.insertBefore(_.btnPrev, _.slides[0]);
-    } else {
-      _.btnPrev.setAttribute('data-is-native', 1);
-    }
-    _.btnPrev.className += ' purejscarousel-btn purejscarousel-btn-prev';
-    if (window.addEventListener) {
-      _.btnPrev.addEventListener('click', function() {
-        _.goToPrevSlide();
-      });
-    } else if (window.attachEvent) {
-      _.btnPrev.attachEvent('onclick', function() {
-        _.goToPrevSlide();
-      });
-    } else {
-      _.btnPrev.onclick = function() {
-        _.goToPrevSlide();
-      };
-    }
-
-    if (_.activeIndex === 0) {
-      _.btnPrev.disabled = true;
-    }
-    //create carousel btn-next
-    if (!_.btnNext) {
-      _.btnNext = document.createElement('button');
-      _.btnNext.setAttribute('class', '');
-      _.btnNext.setAttribute('type', 'button');
-      _.btnNext.setAttribute('data-is-native', 0);
-      _.carousel.insertBefore(_.btnNext, _.slides[0]);
-    } else {
-      _.btnNext.setAttribute('data-is-native', 1);
-    }
-    _.btnNext.className += ' purejscarousel-btn purejscarousel-btn-next';
-    if (window.addEventListener) {
-      _.btnNext.addEventListener('click', function() {
-        _.goToNextSlide();
-      });
-    } else if (window.attachEvent) {
-      _.btnNext.attachEvent('onclick', function() {
-        _.goToNextSlide();
-      });
-    } else {
-      _.btnNext.onclick = function() {
-        _.goToNextSlide();
-      };
-    }
-    if (_.activeIndex === _.maxIndex) {
-      _.btnNext.disabled = true;
-    }
-
-    //build slides
-    for (i = 0; i < _.slides.length; i++) {
-      _.slides[i].className += ' purejscarousel-slide';
-      _.slidesContainer.appendChild(_.slides[i]);
-    }
-    if (_.infinite === true) {
-      for (i = 0; i < _.slides.length; i++) {
-        let slideClone = _.slides[i].cloneNode(true);
-        slideClone.className += ' purejscarousel-slide-clone';
-        _.slidesContainer.appendChild(slideClone);
-      }
-      for (i = 0; i < _.slides.length; i++) {
-        let slideClone = _.slides[i].cloneNode(true);
-        slideClone.className += ' purejscarousel-slide-clone';
-        _.slidesContainer.insertBefore(slideClone, _.slidesContainer.querySelectorAll('.purejscarousel-slide')[i]);
-      }
-    }
-
-    if (window.addEventListener) {
-      window.addEventListener('resize', windowResize);
-    } else if (window.attachEvent) {
-      window.attachEvent('onresize', windowResize);
-    } else {
-      window.onresize = windowResize;
-    }
-
-    _.autoplayTimer = _.autoplay === true ? (_.autoplayDirection === 'next' ? setTimeout(function(){_.goToNextSlide()}, _.autoplayDelay) : setTimeout(function(){_.goToPrevSlide()}, _.autoplayDelay)) : null;
-
-    function addDotEventListener(d, c) {
-      if (window.addEventListener) {
-        d.addEventListener('click', function() {
-          c.goToSlide(parseInt(this.getAttribute('data-index')));
-        });
-      } else if (window.attachEvent) {
-        d.attachEvent('onclick', function() {
-          c.goToSlide(parseInt(this.getAttribute('data-index')));
-        });
-      } else {
-        d.onclick = function() {
-          c.goToSlide(parseInt(this.getAttribute('data-index')));
-        };
-      }
-    }
-
-    function windowResize() {
-      if (window.innerWidth !== windowWidth || window.innerHeight !== windowHeight) {
-        clearTimeout(windowResizeTimeout);
-        windowResizeTimeout = setTimeout(function() {
-          _.destroy();
-          _.build();
-        }, 400);
-      }
-    }
-  }
-
-  enableControl() {
-    var i;
-    this.btnNext.disabled = false;
-    this.btnPrev.disabled = false;
-    for (i = 0; i < this.dots.length; i++) {
-      this.dots[i].disabled = false;
-    }
-    this.dots[this.activeIndex].disabled = true;
-    if (this.infinite === false) {
-      if (this.activeIndex === this.maxIndex) {
-        this.btnNext.disabled = true;
-      }
-      if (this.activeIndex === 0) {
-        this.btnPrev.disabled = true;
-      }
-    }
-    if ('ontouchstart' in window || navigator.maxTouchPoints) {
-      this.slidesContainer.disabled = false;
-    }
-  }
-
-  disableControl() {
-    var i;
-    this.btnNext.disabled = true;
-    this.btnPrev.disabled = true;
-    for (i = 0; i < this.dots.length; i++) {
-      this.dots[i].disabled = true;
-    }
-    if ('ontouchstart' in window || navigator.maxTouchPoints) {
-      this.slidesContainer.disabled = true;
-    }
-  }
-
-  goToNextSlide() {
-    var newActiveIndex;
-    if (this.btnNext.disabled === false) {
-      if (this.infinite === true) {
-        newActiveIndex = this.activeIndex + 1 > this.maxIndex ? 0 : this.activeIndex + 1;
-      } else {
-        newActiveIndex = this.activeIndex + 1;
-      }
-      this.goToSlide(newActiveIndex, 'next', 'dirBtn');
-    }
-  }
-
-  goToPrevSlide() {
-    var newActiveIndex;
-    if (this.btnPrev.disabled === false) {
-      if (this.infinite === true) {
-        newActiveIndex = this.activeIndex - 1 < 0 ? this.maxIndex : this.activeIndex - 1;
-      } else {
-        newActiveIndex = this.activeIndex - 1;
-      }
-      this.goToSlide(newActiveIndex, 'prev', 'dirBtn');
-    }
-  }
-
-  goToSlide(n, dir, trigger) {
-    var _                    = this,
-        direction            = dir ? dir : n > this.activeIndex ? 'next' : 'prev',
-        slidesContainerWidth = this.slidesContainer.offsetWidth / (this.infinite === true ? 3 : 1),
-        blockWidth           = this.oneByOne === true ? this.slides[0].offsetWidth : this.carousel.offsetWidth,
-        currentPos           = this.infinite === true ? - slidesContainerWidth : Math.max(-blockWidth * this.activeIndex, this.minPos),
-        scrollWidth          = trigger === 'dirBtn' ? blockWidth : Math.abs(blockWidth * (this.activeIndex - n)),
-        slidesCount,
-        newPos;
-
-    if (this.oneByOne === false && ((direction === 'next' && n === this.maxIndex) || (direction === 'prev' && this.activeIndex === this.maxIndex))) {
-      scrollWidth = scrollWidth + slidesContainerWidth - ((this.maxIndex + 1) * blockWidth);
-    }
-    slidesCount = scrollWidth / this.slides[0].offsetWidth;
-    if (this.infinite === true) {
-      newPos = direction === 'next' ? currentPos - scrollWidth : currentPos + scrollWidth;
-    } else {
-      newPos = direction === 'next' ? Math.max(this.minPos, currentPos - scrollWidth) : Math.min(0, currentPos + scrollWidth);
-    }
-
-    this.disableControl();
-    if ('transition' in document.body.style) {
-      this.slidesContainer.style.transition = 'margin-left ' + this.speed + 'ms' + ' ' + this.effect + ' ' + this.delay + 'ms';
-    }
-    this.slidesContainer.style.marginLeft = newPos + 'px';
-    if ('transition' in document.body.style) {
-      this.slidesContainer.addEventListener('transitionend', scrollEnd);
-    } else {
-      scrollEnd();
-    }
-
-    function scrollEnd() {
-      var i;
-      if ('transition' in document.body.style) {
-        _.slidesContainer.style.transition = null;
-        _.slidesContainer.removeEventListener('transitionend', scrollEnd);
-      }
-
-      _.dots[_.activeIndex].className = _.dots[_.activeIndex].className.replace(' active', '');
-      _.activeIndex = n;
-      _.dots[_.activeIndex].className += ' active';
-
-      if (_.infinite === true) {
-        for (i = 0; i < slidesCount; i++) {
-          if (direction === 'next') {
-            _.slidesContainer.appendChild(_.slidesContainer.children[0]);
-          } else {
-            _.slidesContainer.insertBefore(_.slidesContainer.lastElementChild, _.slidesContainer.children[0]);
+    );
+      /*{
+        "name": "block_gif_links",
+        "img": "source URL"
+        "website":"www.reddit.com"
+        "goal": "spend_less_time",
+        "description": "Blocks links to gifs",
+        "numusers": 200,
+        "stars": 4.5,
+        "comments": [
+          {
+            "author": "geza",
+            "text": "awesome intervention"
+          },
+          {
+            "author": "lewin",
+            "text": "doubleplusgood"
           }
+        ],
+        "code":"NA"
+      }*/
+
+
+
+
+
+      // save_intervention: ->>
+      //   self=this
+      //   intervention_name = self.get_intervention_name()
+      //   js_editor = this.js_editors[intervention_name]
+      //   code = js_editor.getSession().getValue().trim()
+      //   intervention_info = await get_intervention_info(intervention_name)
+      //   display_name=intervention_name.replace new RegExp('_', 'g'), ' '
+      //   new_intervention_info = {
+      //     code: code
+      //     name: intervention_name
+      //     displayname: display_name
+      //     description: intervention_info.description
+      //     domain: intervention_info.domain
+      //     preview: intervention_info.preview
+      //     matches: [intervention_info.domain]
+      //     sitename: intervention_info.sitename
+      //     sitename_printable: intervention_info.sitename_printable
+      //     goals: intervention_info.goals
+      //     custom: true
+      //   }
+      //   if not (await compile_intervention_code(new_intervention_info))
+      //     return false
+
+
+
+
+
+      // let response = await fetch("");
+      // let data = await response.json();
+      /*this.interventions = [
+        {
+          name: 'foo'
+        },
+        {
+          name: 'bar'
         }
-        _.slidesContainer.style.marginLeft = - _.slidesContainer.offsetWidth / 3 + 'px';
-      }
-      _.enableControl();
-      _.autoplayTimer = _.autoplay === true ? (_.autoplayDirection === 'next' ? setTimeout(function(){_.goToNextSlide()}, _.autoplayDelay) : setTimeout(function(){_.goToPrevSlide()}, _.autoplayDelay)) : null;
-    }
-  }
-
-  destroy() {
-    var slideClones,
-        i;
-
-    if (this.isEnabled === 1) {
-      this.isEnabled = 0;
-
-      this.carousel.className = this.carousel.className.replace(' purejscarousel', '');
-      this.carousel.removeChild(this.dotsContainer);
-
-      if (this.btnNext.getAttribute('data-is-native').toString() === '1') {
-        this.btnNext.className = this.btnNext.className.replace(' purejscarousel-btn purejscarousel-btn-next', '');
-      } else {
-        this.carousel.removeChild(this.btnNext);
-        this.btnNext = null;
-      }
-      if (this.btnPrev.getAttribute('data-is-native').toString() === '1') {
-        this.btnPrev.className = this.btnPrev.className.replace(' purejscarousel-btn purejscarousel-btn-prev', '');
-      } else {
-        this.carousel.removeChild(this.btnPrev);
-        this.btnPrev = null;
-      }
-
-      if (this.infinite === true) {
-        slideClones = this.carousel.querySelectorAll('.purejscarousel-slide-clone');
-        for (i = 0; i < slideClones.length; i++) {
-          slideClones[i].parentNode.removeChild(slideClones[i]);
-        }
-      }
-      for (i = 0; i < this.slides.length; i++) {
-        this.slides[i].className = this.slides[i].className.replace(' pure-js-carousel-slide', '');
-        this.carousel.insertBefore(this.slides[i], this.slidesContainer);
-      }
-      this.carousel.removeChild(this.slidesContainer);
-
-      this.minPos       = null;
-      this.slidesToShow = null;
-      this.maxIndex     = null;
-      this.isEnabled    = null;
-      if (this.autoplay === true) {
-        clearTimeout(this.autoplayTimer);
-        this.autoplayTimer = null;
-      }
-    }
-  }
-}
-
-*/
+      ]*/
+      // let list = data.projects;
+      //
+      // for(let project of list){
+      //  this.buildProjectCard(project["title"],
+      //  project["description"],
+      //  project["imgUrl"],
+      //  project["date"],
+      //  project["starCount"]);
+   //},
+  // buildProjectCard: function(title, description, imgUrl, date, starCount){
+  //   let containerElement = document.querySelector(".container");
+  //   //Project holder space
+  //   let card = document.createElement('market-card');
+  //   card.setAttribute("name", title);
+  //   card.setAttribute("date", date);
+  //   card.setAttribute("description", description);
+  //   card.setAttribute("starCount", starCount);
+  //   card.addEventListener('click', this.onClick);
+  //   //Makes sure to insert cards at the front so add button is last
+  //   containerElement.insert(card);
+  // },
+  // onClick: function(){
+  //     //Will Open overlay view with additional info
+  // }

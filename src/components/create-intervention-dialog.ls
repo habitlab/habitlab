@@ -54,6 +54,12 @@ polymer_ext {
     this.$$('#create_new_intervention_dialog').open()
   open_existing_custom_intervention_dialog: ->
     this.$$('#open_existing_custom_intervention').open()
+  upload_existing_custom_intervention_dialog: ->
+    this.$$('#upload_existing_custom_intervention').open()
+  remove_upload_custom_intervention_dialog: ->
+    this.$$('#remove_upload_custom_intervention').open()
+  intervention_info_dialog: ->
+    this.$$('#intervention_info').open()
   open_edit_intervention_info_dialog: ->>
     intervention_info=await get_intervention_info(this.current_intervention)
     goal_name=intervention_info.goals[0]
@@ -71,7 +77,7 @@ polymer_ext {
     this.$$('#create_new_intervention_dialog').open()
   validate_intervention_name: ->>
     self=this
-    proposed_intervention_name=this.$.intervention_name.value
+    proposed_intervention_name=this.$.intervention_name_new.value
     proposed_intervention_name = proposed_intervention_name.split(' ').join('_')
     #if proposed_intervention_name.indexOf(' ') != -1
     #  self.$$('#hint').innerHTML = 'Cannot contain spaces'
@@ -128,6 +134,31 @@ polymer_ext {
       intervention_name:this.$.intervention_selector.selectedItem.intervention_name
     })
     this.$$('#open_existing_custom_intervention').close()
+  upload_intervention_clicked: ->>
+    self = this
+    self.fire('upload_intervention',{
+      intervention:self.$.intervention_selector.selectedItem.intervention_name,
+      intervention_description:self.$.intervention_description.value,
+      intervention_upload_name:self.$.intervention_name.value,
+    })
+    this.$$('#upload_existing_custom_intervention').close()
+  create_you_own_intervention_clicked: ->>
+    self = this
+    self.fire('create_you_own_intervention',{
+    })
+    this.$$('#upload_existing_custom_intervention').close()
+  remove_intervention_clicked: ->>
+    self = this
+    self.fire('remove_intervention',{
+      intervention:self.$.intervention_selector.selectedItem.intervention_name
+    })
+    this.$$('#remove_upload_custom_intervention').close()
+  intervention_info_clicked: ->>
+    self = this
+    self.fire('intervention_info',{
+      
+    })
+    this.$$('#intervention_info').close()
   goal_selector_changed: (change_info) ->
     goal_info=change_info.detail.item.goal_info
     this.preview_url = goal_info.preview ? goal_info.homepage ? 'https://' + goal_info.domain

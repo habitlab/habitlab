@@ -652,6 +652,11 @@ export remove_custom_intervention = (intervention_name) ->
   goal_utils.clear_cache_get_goals()
   remove_key_from_localstorage_dict 'extra_get_interventions', intervention_name
   remove_item_from_localstorage_list 'extra_list_all_interventions', intervention_name
+  localStorage.removeItem 'saved_intervention_' + intervention_name
+  localStorage.removeItem 'saved_interventions_' + intervention_name
+  localStorage.removeItem 'saved_intervention_time_' + intervention_name
+  # if it is downloaded
+  localStorage.removeItem 'downloaded_intervention_' + intervention_name
   return
 
 export list_generic_interventions = memoizeSingleAsync ->>

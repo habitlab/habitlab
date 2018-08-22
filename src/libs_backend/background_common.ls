@@ -310,6 +310,36 @@ export list_jspm_libraries_as_markdown = ->>
     output.push '* [libs_common/' + libname + '](https://github.com/habitlab/habitlab/blob/master/src/libs_backend/' + filename + ')'
   return output.join('\n')
 
+export enable_syncing = ->>
+  
+  id_token = await chrome_get_token()
+  user_id = await get_user_id()
+  mobile_server = 'https://habitlab-mobile-website.herokuapp.com'
+  if (localStorage.local_logging_server == 'true')
+    mobile_server = 'http://localhost:5000'
+  result = new Promise( (resolve, reject) ->
+    $.ajax({
+      type: 'POST'
+      url: mobile_server + '/register_user_with_email'
+      data: {
+        from: "browser",
+        token: id_token,
+        userid: user_id
+      }
+
+      dataType: 'json'
+      success: (data, textStatus, jqXHR) ->
+        localStorage.sync_with_mobile = 'true'
+        localStorage.id_secret = data.secret
+        self.should_sync = localStorage.sync_with_mobile == 'true'
+      
+      error: (jqXHR, textStatus, errorThrown) ->
+        console.log('error')
+        console.log(jqXHR)
+        reject(errorThrown) 
+    
+    }))
+
 export chrome_get_token = ->>
 
   manifest = chrome.runtime.getManifest()

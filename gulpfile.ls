@@ -328,6 +328,7 @@ webpack_config_nosrcmap_nowatch = with_created_object webpack_config_backend, (o
   o.devtool = false
 
 webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
+  o.mode = 'production'
   o.watch = false
   o.devtool = false
   o.plugins.push new webpack.LoaderOptionsPlugin {
@@ -349,6 +350,7 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   # }
 
 webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
+  o.mode = 'production'
   o.watch = false
   o.devtool = false
   o.plugins.push new webpack.LoaderOptionsPlugin {

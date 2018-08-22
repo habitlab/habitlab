@@ -113,9 +113,12 @@ function get_youtube_video_id_from_url() {
 }
 
 function get_youtube_video_id_from_page() {
-  if ($('ytd-watch').length > 0 ) {
+  if ($('ytd-watch').length > 0 && $('ytd-watch').attr('video-id') != null) {
     // new youtube
     return $('ytd-watch').attr('video-id')
+  }
+  if ($('ytd-watch-flexy').length > 0 && $('ytd-watch-flexy').attr('video-id') != null) {
+    return $('ytd-watch-flexy').attr('video-id')
   }
   var $page = $('#page')
   if ($page.length == 0) {

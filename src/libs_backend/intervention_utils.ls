@@ -389,17 +389,28 @@ export get_suggested_intervention_if_needed_for_url = (url) ->>
   #available_interventions = await list_available_interventions_for_location(url)
   #possible_intervention_suggestions = await list_possible_intervention_suggestions()
 
+video_domains_set = new Set([
+  'www.iqiyi.com'
+  'v.youku.com'
+  'vimeo.com'
+  'www.youtube.com'
+  'www.netflix.com'
+  'www.hulu.com'
+  'www.dailymotion.com'
+  'www.iqiyi.com'
+  'www.youku.com'
+  'www.bilibili.com'
+  'www.nicovideo.jp'
+  'metacafe.com'
+  'www.veoh.com'
+  'www.sonycrackle.com'
+  'www.screenjunkies.com'
+  '9gag.com'
+  'www.ted.com'
+])
+
 export is_video_domain = (domain) ->
-  video_domains = {
-    'www.iqiyi.com': true
-    'v.youku.com': true
-    'vimeo.com': true
-    'www.youtube.com': true
-    'www.netflix.com': true
-  }
-  if video_domains[domain]
-    return true
-  return false
+  return video_domains_set.has(domain)
 
 export enabledisable_interventions_based_on_difficulty = (difficulty) ->>
   difficulty_numeric_map = {

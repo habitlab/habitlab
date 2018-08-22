@@ -139,6 +139,11 @@ webpack_config = {
   node: {
     fs: 'empty'
   }
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  }
 }
 
 /*

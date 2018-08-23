@@ -70,13 +70,14 @@ polymer_ext({
       function(e) {
       //alert("image is clicked!");
       // here we are displaying a detail dialog of this intervention
-      create_intervention_dialog = document.createElement('market-card-detail-dialog')
+      var create_intervention_dialog = document.createElement('market-card-detail-dialog')
       document.body.appendChild(create_intervention_dialog)
       create_intervention_dialog.intervention_info_dialog()
       create_intervention_dialog.addEventListener('remove_intervention_card', async function(event) {
         // delete the intervention from the market
         // console.log(event);
         // delete on the server side
+      var logging_server_url = ""
         if (localStorage.getItem('local_logging_server') == 'true') {
           //console.log("posting to local server")
           logging_server_url = 'http://localhost:5000/'
@@ -106,9 +107,9 @@ polymer_ext({
         e.preventDefault();
         // check if local has same name intervention
         // need to loop through _new as well in fixed try amount (e.g. 1000)
-        temp_name = self.name
-        temp_display_name = self.displayname
-        for (i = 0; i < 1000; i++) {
+        let temp_name = self.name
+        let temp_display_name = self.displayname
+        for (var i = 0; i < 1000; i++) {
           if(localStorage['saved_intervention_' + temp_name]) {
             if (localStorage['saved_intervention_' + temp_name].trim() == self.code) {
               alert("You already have the code in " + temp_name + "! Nothing has changed!");
@@ -132,7 +133,7 @@ polymer_ext({
           // try to download the intervention
           console.log("Downloading the intervention...")
           // save to local intervention database
-          new_intervention_info = {
+          var new_intervention_info = {
             code: self.code,
             name: temp_name,
             displayname: temp_display_name,
@@ -150,7 +151,7 @@ polymer_ext({
           //   return false
           // }
           console.log("Compiling the downloaded code...")
-          debug_code = await localget('libs_frontend/intervention_debug_support.js')
+          var debug_code = await localget('libs_frontend/intervention_debug_support.js')
           /*
           """
           //alert('hello world! debug code version 2');

@@ -13,13 +13,14 @@ polymer_ext({
     }
   },
   site_changed: async function() {
-    self = this
+    var self = this
     // onsole.log('site in site_changed is:' + this.site)
     // fetch again for the uploaded data from this author
     // 1. Fetch shared interventions from the server
     // console.log("Fetching from the server of shared interventions from: " + this.site);
     // TODO: remove for testing
-    // localStorage.setItem('local_logging_server', true) 
+    // localStorage.setItem('local_logging_server', true)
+    var  logging_server_url = ""
     if (localStorage.getItem('local_logging_server') == 'true') {
       // console.log("posting to local server")
       logging_server_url = 'http://localhost:5000/'
@@ -60,7 +61,7 @@ polymer_ext({
                   li.push(data[i])
                 }
               }
-              create_intervention_dialog = document.createElement('create-intervention-dialog')
+              var create_intervention_dialog = document.createElement('create-intervention-dialog')
               document.body.appendChild(create_intervention_dialog)
               create_intervention_dialog.intervention_list=li
               create_intervention_dialog.remove_upload_custom_intervention_dialog()

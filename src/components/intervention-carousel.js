@@ -65,12 +65,13 @@ polymer_ext({
     return intervention_name_to_info_map
   },
     site_changed: async function() {
-      self = this
+      var self = this
       //console.log("1.11")
         // 1. Fetch shared interventions from the server
         //console.log("Fetching from the server of shared interventions from: " + this.site);
         // TODO: remove for testing
         // localStorage.setItem('local_logging_server', true) 
+        var logging_server_url = ""
         if (localStorage.getItem('local_logging_server') == 'true') {
           //console.log("posting to local server")
           logging_server_url = 'http://localhost:5000/'
@@ -150,7 +151,7 @@ polymer_ext({
             return
           }
           //console.log(li)
-          create_intervention_dialog = document.createElement('create-intervention-dialog')
+          let create_intervention_dialog = document.createElement('create-intervention-dialog')
           document.body.appendChild(create_intervention_dialog)
           create_intervention_dialog.intervention_list=li
           create_intervention_dialog.upload_existing_custom_intervention_dialog()
@@ -161,7 +162,7 @@ polymer_ext({
           })
           create_intervention_dialog.addEventListener('upload_intervention', async function(event) {
             //console.log(event);
-            intervention_2_upload = event.detail.intervention;
+            let intervention_2_upload = event.detail.intervention;
             // upload to server
             chrome.permissions.request({
               permissions: ['identity', 'identity.email'],
@@ -192,7 +193,7 @@ polymer_ext({
                 // Encoding with intervention II
                 intervention_2_upload.key = author_info.id + Date.now()
                 //console.log(intervention_2_upload)
-                upload_successful = true
+                let upload_successful = true
                 // upload to server
                 try {
                   if (localStorage.getItem('local_logging_server') == 'true') {
@@ -201,10 +202,10 @@ polymer_ext({
                   } else {
                     logging_server_url = 'https://habitlab.herokuapp.com/'
                   }
-                  response = await post_json(logging_server_url + 'sharedintervention', intervention_2_upload)
+                  let response = await post_json(logging_server_url + 'sharedintervention', intervention_2_upload)
                   //console.log(response)
                   if (response.success) {
-                    url = logging_server_url + "lookupintervention?share=y&id=" + intervention_2_upload.key
+                    let url = logging_server_url + "lookupintervention?share=y&id=" + intervention_2_upload.key
                     alert("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + url)
                     localStorage['uploaded_intervention_' + intervention_2_upload.name] = intervention_2_upload.code
                     self.fire('intervention-added', {

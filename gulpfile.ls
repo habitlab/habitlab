@@ -30,6 +30,7 @@ is_debug_build = false
 
 #UglifyJSPlugin = require 'uglifyjs-webpack-plugin'
 BabiliPlugin = require 'babel-minify-webpack-plugin'
+UglifyJsPlugin = require 'uglifyjs-webpack-plugin'
 HabitLabComponentRenamePlugin = require './webpack_habitlab_component_rename_plugin'
 
 fse = require 'fs-extra'
@@ -335,9 +336,28 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
     debug: false
   }
   o.plugins.push new HabitLabComponentRenamePlugin()
-  o.plugins.push new BabiliPlugin {}, {
-    comments: false
-  }
+  # o.plugins.push new BabiliPlugin {}, {
+  #   comments: false
+  # }
+
+  o.optimization.push minimizer: [
+      new UglifyJsPlugin()
+    ]
+  # o.optimization.push {
+  #   runtimeChunk: false,
+  #   splitChunks: {
+  #     cacheGroups: {
+  #       default: false,
+  #       commons: {
+  #         test: /[\\/]node_modules[\\/]/,
+  #         name: 'vendor_app',
+  #         chunks: 'all',
+  #         minChunks: 2
+  #       }
+  #     }
+  #   }
+  # }
+
   # o.plugins.push new UglifyJSPlugin {
   #   uglifyOptions: {
   #     ie8: false

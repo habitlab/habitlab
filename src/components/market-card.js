@@ -146,9 +146,9 @@ polymer_ext({
             custom: true,
             downloaded: true
           }
-          if (await compile_intervention_code(new_intervention_info) == false) {
-            return false
-          }
+          // if (await compile_intervention_code(new_intervention_info) == false) {
+          //   return false
+          // }
           console.log("Compiling the downloaded code...")
           debug_code = await localget('libs_frontend/intervention_debug_support.js')
           /*

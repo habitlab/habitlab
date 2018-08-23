@@ -16,9 +16,7 @@
 <link rel="import" href="graph-intervention-effectiveness-comparison.html">
 <link rel="import" href="create-intervention-dialog.html">
 <link rel="import" href="goal-target-input.html">
-<!--
-<link rel="import" href="intervention-carousel.html">
- -->
+<link rel="import" href="intervention-market.html">
 
 <dom-module id="site-view">
   <template>
@@ -28,8 +26,7 @@
         width: 100%;
         height: 100%;
         --paper-card: {
-          width: 90%;
-          padding: 10px 20px;
+          width: 100%;
           margin-top: 10px;
         }
         ;
@@ -117,14 +114,14 @@
         </div>
 
         <template is="dom-repeat" items="{{goal_info.interventions}}" as="intervention_name">
-          <intervention-view-single-v2 goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
+          <intervention-view-single-v2 on-download-deleted="somemethod" goal="{{goal_info}}" intervention="{{intervention_name_to_info(intervention_name, intervention_name_to_info_map)}}"></intervention-view-single-v2>
           <br> <br>
         </template>
       </paper-card>
 
-      <!--
-      <intervention-carousel style="width: 100%; height: 400px"></intervention-carousel>
-      -->
+
+      <intervention-market on-intervention-added="somemethod" site="{{goal_info.sitename}}" interrupt="{{interrupt_0}}"></intervention-market>
+
 
 
       <paper-card class="paper-card" style="font-size: 22px; color:#5a5a5a;">

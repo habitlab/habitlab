@@ -3,22 +3,140 @@
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-carousel/paper-carousel.html">
+<link rel="import" href="market-card.html">
+<link rel="import" href="market-upload.html">
 
 <dom-module id="intervention-carousel">
   <template>
     <style>
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 25px;
+        --paper-card: {
+          width: 100%;
+          margin-top: 0px;
+        }
+        ;
+      }
+      .addCard{
+        width: 208px;
+        height: 270px;
+        margin-right: 10px;
+        display:flex;
+        flex-direction: column;
+        justify-content: top;
+        cursor:pointer;
+      }
+
+      .imgContainer:hover{
+        box-shadow: 0 0 15px rgb(151, 194, 236);
+      }
+
+      .imgContainer{
+        width: 160px;
+        height: 160px;
+        background-color: white;
+        box-shadow: 0 0 15px #BEDEFD;
+        padding: 10px;
+        border-radius: 30px;
+        background-color: rgba(255, 255, 255, 0.2);
+        display:flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .center{
+        align-items: center;
+      }
+
+      img{
+        width: 35px;
+        height: 35px;
+      }
+
+      .card-container{
+        height: 245px;
+        width: 160px;
+        border: 2px solid #fff;
+      }
+
+      .container{
+        display:flex;
+        height:100%;
+        flex-wrap: wrap;
+      }
+
+      h2{
+          font-size: 14px;
+          color:white;
+          margin: 20px, 0px;
+      }
+
+      /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        border-radius:10px;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+
 
     </style>
 
-    <paper-carousel items="3" responsive="600:2, 460:1" controls="true" dots="true" dotText="false">
-      <div class="paper-carousel-demo-indigo" data-text="#1"></div>
-      <div class="paper-carousel-demo-pink" data-text="#2"></div>
-      <div class="paper-carousel-demo-teal" data-text="#3"></div>
-      <div class="paper-carousel-demo-amber" data-text="#4"></div>
-      <div class="paper-carousel-demo-blue" data-text="#5"></div>
-      <div class="paper-carousel-demo-green" data-text="#6"></div>
-    </paper-carousel>
+<div class="container">
+  <div class="addCard center">
+    <div class="imgContainer">
+      <img src="./icons/plus.png">
+    </div>
+    <br>
+    <h2>Add your Own!</h4>
+  </div>
+      <!-- <template is="dom-repeat" items="{{interventions}}" as="info">
+        <market-card  name = "{{info.name}}" starCount = "{{info.stars}}" description = "{{info.description}}"></market-card>
+      </template> -->
+    </div>
 
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <market-upload site = "{{site}}"></market-upload>
+      </div>
+    </div>
   </template>
   <script src="intervention-carousel.js"></script>
 </dom-module>

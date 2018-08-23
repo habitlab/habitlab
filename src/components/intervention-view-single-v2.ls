@@ -9,6 +9,7 @@
   set_override_enabled_interventions_once
   list_custom_interventions
   get_interventions
+  remove_custom_intervention  
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -67,6 +68,10 @@ polymer_ext {
       type: Boolean
       computed: 'compute_custom(intervention)'
     }
+    downloaded: {
+      type: Boolean
+      computed: 'compute_downloaded(intervention)'
+    }
     isdemo: {
       type: Boolean
       observer: 'isdemo_changed'
@@ -83,9 +88,19 @@ polymer_ext {
       return "A 'Never Shown' intervention<br>is disabled and will not be shown."
   */
   compute_custom: (intervention) ->
-    return intervention.custom == true
+    if intervention?
+      return intervention.custom == true
+    return false
+  compute_downloaded: (intervention) ->
+    if intervention?
+      if localStorage['downloaded_intervention_' + intervention.name]?
+        console.log "true"
+        return true
+    return false
   compute_sitename: (goal) ->
     return goal.sitename_printable
+  test_function: (isDownloaded, isCustom) ->
+    return !isDownloaded && isCustom;
   intervention_property_changed: (intervention, old_intervention) ->
     if not intervention?
       return
@@ -93,13 +108,16 @@ polymer_ext {
     this.enabled = intervention.enabled
 
   get_intervention_icon_url: (intervention) ->
-    if intervention.generic_intervention?
-      url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
-    else
-      if intervention.custom == true
-        url_path = 'icons/custom_intervention_icon.svg'
+    if intervention?
+      if intervention.generic_intervention?
+        url_path = 'interventions/'+ intervention.generic_intervention+ '/icon.svg'
       else
-        url_path = 'interventions/'+ intervention.name + '/icon.svg'
+        if intervention.custom == true
+          url_path = 'icons/custom_intervention_icon.svg'
+        else
+          url_path = 'interventions/'+ intervention.name + '/icon.svg'
+      return (chrome.extension.getURL(url_path)).toString()
+    url_path = 'icons/custom_intervention_icon.svg'
     return (chrome.extension.getURL(url_path)).toString()
 
 
@@ -227,6 +245,12 @@ polymer_ext {
   edit_custom_intervention: ->
     localStorage.setItem('intervention_editor_open_intervention_name',JSON.stringify(this.intervention.name))
     chrome.tabs.create url: chrome.extension.getURL('index.html?tag=intervention-editor')
+  delete_custom_intervention: ->
+    self = this
+    remove_custom_intervention this.intervention.name
+    self.fire('download-deleted', {
+
+    })
   #ready: ->>
   #  custom_interventions=await list_custom_interventions()
   #  if custom_interventions.includes this.intervention.name
@@ -337,7 +361,7 @@ polymer_ext {
   #    return
   #  get_intervention_parameters self.intervention.name, (parameters) ->
   #    self.$$('#options_input').value = JSON.stringify(parameters)
-  #ready: ->
-    
-  #  this.intervention_property_changed()
+  ready: ->
+    if this.intervention?
+      console.log "hello!!!"
 }

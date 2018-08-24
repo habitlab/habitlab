@@ -557,6 +557,9 @@ script.parentNode.removeChild(script);
     this.is_tutorial_shown=true
     this.selected_tab_idx=0
   share_clicked: ->>
+    if localStorage.show_market != 'true'
+      chrome.tabs.create {url: 'https://github.com/habitlab/habitlab/wiki/Share-Interventions'}
+      return
     # get permission of user identity
     self=this
     chrome.permissions.request {

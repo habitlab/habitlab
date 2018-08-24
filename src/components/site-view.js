@@ -54,7 +54,11 @@ polymer_ext({
     interrupt_0: {
       type: Number,
       value: 0
-    }
+    },
+    show_market: {
+      type: Boolean,
+      value: localStorage.show_market == 'true'
+    },
   },
   /*
   buttonAction1: ->

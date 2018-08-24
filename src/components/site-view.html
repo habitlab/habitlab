@@ -119,8 +119,9 @@
         </template>
       </paper-card>
 
-
-      <intervention-market on-intervention-added="somemethod" site="{{goal_info.sitename}}" interrupt="{{interrupt_0}}"></intervention-market>
+      <template is="dom-if" if="{{show_market}}">
+        <intervention-market on-intervention-added="somemethod" site="{{goal_info.sitename}}" interrupt="{{interrupt_0}}"></intervention-market>
+      </template>
 
 
 

@@ -45,6 +45,7 @@ var shadow_root;
 var shadow_div;
 
 function addBeginDialog(message) {
+  console.log('addBeginDialog called')
   if (window.intervention_disabled) {
     return
   }
@@ -81,7 +82,10 @@ function addBeginDialog(message) {
 
   const $input = $('<paper-input label="objective"></paper-input>')
   $input.on('keydown', function(evt) {
+    console.log(evt)
+    console.log('keydown')
     evt.stopPropagation();
+    //return false
   })
 
   //const $okButton = $('<button>');
@@ -91,7 +95,7 @@ function addBeginDialog(message) {
   //$okButton.click(() => {
   $okButton.on('click', async function() {
     var purpose = shadow_root.querySelector("paper-input").value
-    if (purpose === "") {
+    if (purpose === "" || typeof(purpose) != 'string') {
       if (shadow_div.find('.wrongInputText').length === 0) {
         const $wrongInputText = $('<div class="wrongInputText">').css({
           'color': 'red'
@@ -102,6 +106,7 @@ function addBeginDialog(message) {
     } else {
       set_intervention_session_var('purpose', purpose)
       shadow_div.find('.beginBox').remove()
+      console.log('this purpose is')
       console.log(purpose)
       displayPurpose(purpose)
     }
@@ -305,6 +310,7 @@ function main() {
   //if (on_same_domain_and_same_tab) {
   //  return
   //}
+  console.log('prompt for purpose code')
   const is_new_session = get_is_new_session();
   await once_body_available()
   shadow_div = create_shadow_div_on_body();
@@ -312,10 +318,12 @@ function main() {
   shadow_div = $(shadow_div);
   if (!is_new_session) {
     let purpose = await get_intervention_session_var('purpose')
-    displayPurpose(purpose)
-  } else {
-    main()
+    if (purpose != null) {
+      displayPurpose(purpose)
+      return
+    }
   }
+  main()
 })()
 
 window.on_intervention_disabled = () => {

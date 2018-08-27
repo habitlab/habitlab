@@ -1,6 +1,6 @@
 const {polymer_ext} = require('libs_frontend/polymer_utils')
 const screenshot_utils = require('libs_common/screenshot_utils')
-
+var swal = require('sweetalert2')
 polymer_ext({
   is: 'intervention-market',
   properties: {
@@ -49,7 +49,7 @@ polymer_ext({
       await chrome.identity.getProfileUserInfo(async function(author_info){
             
             if (author_info.id == "") {
-            alert("You have to sign-in in Chrome before sharing!")
+            swal("You have to sign-in in Chrome before sharing!")
            return
             }
               // console.log("author_info ",author_info);
@@ -88,7 +88,7 @@ polymer_ext({
                 })
 
               } else {
-                alert("Fail to remove your code! Please open an ticket!")
+                swal("Failed to remove nudge, please open an ticket!")
               }
           })
       });

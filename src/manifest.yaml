@@ -21,6 +21,7 @@ permissions:
   - 'https://*/'
 optional_permissions:
   - identity.email
+  - identity
 content_security_policy: >-
   script-src 'self' 'unsafe-eval'
   'sha256-llogd59gTcMY4UZWEuj+jeK8al0hVKblVHF2nYxVYEo='

@@ -21,6 +21,8 @@ const {
   get_enabled_interventions
 } = require('libs_backend/intervention_utils');
 
+var swal = require('sweetalert2');
+
 polymer_ext({
   is: 'intervention-carousel',
   properties: {
@@ -173,7 +175,7 @@ polymer_ext({
             });
             await chrome.identity.getProfileUserInfo(async function(author_info){
                 if (author_info.id == "") {
-                  alert("You have to sign-in in Chrome before sharing!")
+                  swal("You have to sign-in in Chrome before sharing!")
                   return
                 }
                 intervention_2_upload.author_email = author_info.email
@@ -181,12 +183,12 @@ polymer_ext({
                 intervention_2_upload.is_sharing = true
                 intervention_2_upload.displayname = event.detail.intervention_upload_name
                 if (intervention_2_upload.displayname.trim() == "") {
-                  alert("Error: Upload intervention name cannot be empty!")
+                  swal("Error: Upload intervention name cannot be empty!")
                   return
                 }
                 // check if upload already
                 if(localStorage['uploaded_intervention_' + intervention_2_upload.name] == intervention_2_upload.code) {
-                  alert("you have already shared your code.")
+                  swal("you have already shared your code.")
                   return
                 }
                 intervention_2_upload.description = event.detail.intervention_description
@@ -206,18 +208,19 @@ polymer_ext({
                   //console.log(response)
                   if (response.success) {
                     let url = logging_server_url + "lookupintervention?share=y&id=" + intervention_2_upload.key
-                    alert("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + url)
+                    //TODO fix the size of this
+                    swal("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + url)
                     localStorage['uploaded_intervention_' + intervention_2_upload.name] = intervention_2_upload.code
                     self.fire('intervention-added', {
 
                     })
                     //this.site_changed()
                   } else {
-                    alert("Fail to upload your code! Please open an ticket!")
+                    swal("Failed to upload nudge, please open an ticket!")
                   }
                 }
                 catch(err) {
-                  alert("Fail to upload your code! Please open an ticket!")
+                  swal("Failed to upload nudge, please open an ticket!", err)
                 }                
               });
             

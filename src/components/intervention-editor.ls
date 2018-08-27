@@ -138,6 +138,14 @@ polymer_ext {
       type: Object
       computed: 'compute_current_intervention_name(opened_intervention_list, selected_tab_idx)'
     }
+    share_public: {
+      type: Boolean
+      value: false
+    }
+    share_private: {
+      type: Boolean
+      value: false
+    }
   }
   compute_current_intervention_name: (opened_intervention_list, selected_tab_idx) ->
     return opened_intervention_list[selected_tab_idx - 1]
@@ -569,15 +577,14 @@ script.parentNode.removeChild(script);
       console.log 'granted: ' + granted
       return
 
-    # sanity checks before sharing
-    # 1. saved check
+
     intervention_name=self.get_intervention_name()
     intervention_info = await get_intervention_info(intervention_name)
     js_editor = this.js_editors[intervention_name]
     temp_code=js_editor.getSession().getValue().trim()
     intervention_info_code = intervention_info.code
     if temp_code != intervention_info_code
-      confirm("please save your code before sharing.")
+      swal("Please save your code before sharing.")
       return
     # 2. double sharing case avoid
     # nit: we are doing a over-simplified quick local check
@@ -586,39 +593,69 @@ script.parentNode.removeChild(script);
     # a background thread for de-dup should be implemented for
     # scalability concern.
     if localStorage['uploaded_intervention_' + intervention_name] == temp_code
-      confirm("you have already shared your code.")
+      swal("You have already shared your code.")
       return
     # 3. error check
     errors = await run_all_checks(js_editor.getSession(), temp_code)
     if errors.length > 0
-      confirm("please fix your code before sharing.")
+      swal("Errors found, please fix your code before sharing.", errors)
       return
 
-    # Avoid to use swal because I cannot press the button    
+       
+    this.$.public_private_dialog.open()
+
+  share: ->>
+    
+             
+    # chrome.tabs.create {url: 'https://github.com/habitlab/habitlab/wiki/Share-Interventions'}
+  make_public_share: ->>
+    console.log 'sharing publicly'
+    self = this
+    intervention_name=self.get_intervention_name()
+    intervention_info = await get_intervention_info(intervention_name)
+    js_editor = this.js_editors[intervention_name]
+    temp_code=js_editor.getSession().getValue().trim()
+    intervention_info_code = intervention_info.code
     # sharing
     chrome.identity.getProfileUserInfo (author_info) ->>
         console.log(author_info)
         if (author_info.id == "")
-          alert("You have to sign-in in Chrome before sharing!")
+          swal("You have to sign-in in Chrome before sharing!")
           return
-        if (confirm("Click OK to share your code to all users! Click No to share your code via private link."))
-          upload_result = await upload_intervention(intervention_info, author_info, true)
-          if upload_result.status=='success'
-              confirm("Thanks for sharing your code!\nHere is a link you can share your code in private:\n" + upload_result.url)
-              # record this last save of the intervention
-              localStorage['uploaded_intervention_' + intervention_name] = temp_code
-          else
-              confirm("Fail to upload your code! Please open an ticket!")
-        else
-          upload_result = await upload_intervention(intervention_info, author_info, false)
-          if upload_result.status=='success'
-            confirm("Here is a link you can share your code in private:\n" + upload_result.url)
+
+        upload_result = await upload_intervention(intervention_info, author_info, true)
+        if upload_result.status=='success'
+            # TODO fix the size on this
+            swal("Thanks for sharing your code publicly!\nHere is a link for sharing your code in private:\n", upload_result.url)
             # record this last save of the intervention
             localStorage['uploaded_intervention_' + intervention_name] = temp_code
-          else
-            confirm("Fail to upload your code! Please open an ticket!")
-             
-    # chrome.tabs.create {url: 'https://github.com/habitlab/habitlab/wiki/Share-Interventions'}
+        else
+            swal("Failed to upload nudge, please open an ticket!")
+
+  make_private_share: ->>
+    console.log 'sharing privately'
+    self = this
+    intervention_name=self.get_intervention_name()
+    intervention_info = await get_intervention_info(intervention_name)
+    js_editor = this.js_editors[intervention_name]
+    temp_code=js_editor.getSession().getValue().trim()
+    intervention_info_code = intervention_info.code
+    # sharing
+    chrome.identity.getProfileUserInfo (author_info) ->>
+        console.log(author_info)
+        if (author_info.id == "")
+          swal("You have to sign-in in Chrome before sharing!")
+          return
+
+        upload_result = await upload_intervention(intervention_info, author_info, false)
+        if upload_result.status=='success'
+          swal("Here is a link for sharing your code in private:\n", upload_result.url)
+          # record this last save of the intervention
+          localStorage['uploaded_intervention_' + intervention_name] = temp_code
+        else
+          swal("Failed to upload nudge, please open an ticket.")
+        
+    
   make_javascript_editor: (editor_div) ->>
     intervention_name = editor_div.intervention_tab_name
     if intervention_name?

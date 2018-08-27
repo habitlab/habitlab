@@ -10,6 +10,8 @@ const {
   localget
 } = require('libs_common/cacheget_utils')
 
+var swal = require('sweetalert2')
+
 
 polymer_ext({
   is: 'market-card',
@@ -98,7 +100,7 @@ polymer_ext({
           })
 
         } else {
-          alert("Fail to remove your code! Please open an ticket!")
+          swal("Failed to remove nudge, please open an ticket!")
         }
       })
     })
@@ -112,7 +114,7 @@ polymer_ext({
         for (var i = 0; i < 1000; i++) {
           if(localStorage['saved_intervention_' + temp_name]) {
             if (localStorage['saved_intervention_' + temp_name].trim() == self.code) {
-              alert("You already have the code in " + temp_name + "! Nothing has changed!");
+              swal("Nudge already found in " + temp_name + ", nothing changed.");
               return
             }
           } else {
@@ -123,10 +125,10 @@ polymer_ext({
         }
         if(localStorage['saved_intervention_' + self.name]) {
           if (localStorage['saved_intervention_' + self.name].trim() == self.code) {
-            alert("You already have the code! And nothing has changed!")
+            swal("Nudge already found, nothing changed.")
             return
           }
-          alert("You have a same name intervention! \n This will be saved with '_new' at the end of the file name");
+          swal("You already have an intervention with that name. This will be saved as " + self.name + "_new.");
           self.name = self.name + "_new";
         }
         try {
@@ -151,7 +153,7 @@ polymer_ext({
           //   return false
           // }
           console.log("Compiling the downloaded code...")
-          var debug_code = await localget('libs_frontend/intervention_debug_support.js')
+          // var debug_code = await localget('libs_frontend/intervention_debug_support.js')
           /*
           """
           //alert('hello world! debug code version 2');
@@ -205,8 +207,9 @@ polymer_ext({
           script.parentNode.removeChild(script);
           """
           */
-        localStorage.setItem('insert_debugging_code', true)
-        new_intervention_info.content_scripts[0].debug_code = debug_code
+
+        // localStorage.setItem('insert_debugging_code', true)
+        // new_intervention_info.content_scripts[0].debug_code = debug_code
         console.log(new_intervention_info)
         await add_new_intervention(new_intervention_info)
         localStorage['saved_intervention_' + new_intervention_info.name] = new_intervention_info.code
@@ -214,7 +217,7 @@ polymer_ext({
         localStorage['saved_intervention_time_' + new_intervention_info.name] = Date.now()
         }
         catch(err) {
-            confirm('Error: downloading failed (' + err + ')')
+            swal('Error: downloading failed (' + err + ')')
         }
         await list_custom_interventions()
        //alert("Thanks for downloading! Refresh and you can view the intervention at Nudges list!")

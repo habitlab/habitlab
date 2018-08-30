@@ -57,28 +57,52 @@ function preprocess_javascript(source) {
 
 	(async function() {
 
-		let {get_is_suggestion_mode, get_is_new_session} = require('libs_common/intervention_info')
+		let {get_is_suggestion_mode, get_is_suggestion_mode_optout, get_is_new_session} = require('libs_common/intervention_info')
 
 		if (get_is_suggestion_mode()) {
-			if (get_is_new_session()) {
-				require('components/habitlab-intervention-suggestion-thisvisit.deps');
-        
-			  let {
-			    append_to_body_shadow,
-			    once_body_available
-			  } = require('libs_frontend/frontend_libs');
-			  
-			  await once_body_available();
-			  let intervention_suggestion_display = document.createElement('habitlab-intervention-suggestion-thisvisit');
-			  let shadow_intervention_suggestion_display = append_to_body_shadow(intervention_suggestion_display);
-			  intervention_suggestion_display.show();
-			  
-			  intervention_suggestion_display.addEventListener('intervention_suggestion_accepted', function() {
-			    habitlab_intervention_main_function();
-			  });
-			} else {
-				
-			}
+      if (get_is_suggestion_mode_optout()) {
+        // opt out suggestions todo
+        if (get_is_new_session()) {
+          require('components/habitlab-intervention-suggestion-thisvisit-optout.deps');
+          
+          let {
+            append_to_body_shadow,
+            once_body_available
+          } = require('libs_frontend/frontend_libs');
+          
+          await once_body_available();
+          let intervention_suggestion_display = document.createElement('habitlab-intervention-suggestion-thisvisit-optout');
+          let shadow_intervention_suggestion_display = append_to_body_shadow(intervention_suggestion_display, {zIndex: 9007199254740991});
+          setTimeout(function() {
+            intervention_suggestion_display.show();
+          }, 5000)
+
+          habitlab_intervention_main_function();
+        } else {
+          
+        }
+      } else {
+        // opt in suggestions
+        if (get_is_new_session()) {
+          require('components/habitlab-intervention-suggestion-thisvisit.deps');
+          
+          let {
+            append_to_body_shadow,
+            once_body_available
+          } = require('libs_frontend/frontend_libs');
+          
+          await once_body_available();
+          let intervention_suggestion_display = document.createElement('habitlab-intervention-suggestion-thisvisit');
+          let shadow_intervention_suggestion_display = append_to_body_shadow(intervention_suggestion_display);
+          intervention_suggestion_display.show();
+          
+          intervention_suggestion_display.addEventListener('intervention_suggestion_accepted', function() {
+            habitlab_intervention_main_function();
+          });
+        } else {
+          
+        }
+      }
 		} else {
 		  habitlab_intervention_main_function();
 		}

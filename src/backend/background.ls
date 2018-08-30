@@ -369,6 +369,7 @@ do !->>
 
     if localStorage.test_suggestion_mode == 'true'
       is_suggestion_mode = true
+    is_suggestion_mode_optout = localStorage.getItem('suggestion_mode_optout') == 'true'
 
     # do not put here, because it may generate duplicates if the page causes the intervention to try to load multiple times
     # log_impression_internal(name)
@@ -542,6 +543,7 @@ do !->>
           intervention_info_setter_lib.set_session_id(#{session_id});
           intervention_info_setter_lib.set_is_new_session(#{is_new_session});
           intervention_info_setter_lib.set_is_suggestion_mode(#{is_suggestion_mode});
+          intervention_info_setter_lib.set_is_suggestion_mode_optout(#{is_suggestion_mode_optout});
           intervention_info_setter_lib.set_is_previously_seen(#{is_previously_seen});
           SystemJS.import('data:text/javascript;base64,#{btoa(unescape(encodeURIComponent(content_script_code_prequel + content_script_debugging_code + content_script_code)))}');
         });
@@ -593,6 +595,7 @@ do !->>
       const is_new_session = #{is_new_session};
       const is_preview_mode = #{is_preview_mode};
       const is_suggestion_mode = #{is_suggestion_mode};
+      const is_suggestion_mode_optout = #{is_suggestion_mode_optout};
       const is_previously_seen = #{is_previously_seen};
       const dlog = function(...args) { console.log(...args); };
       const set_default_parameters = function(parameter_object) {
@@ -645,8 +648,14 @@ do !->>
         intervention_info_setter_lib.set_is_new_session(is_new_session);
         intervention_info_setter_lib.set_is_preview_mode(is_preview_mode);
         intervention_info_setter_lib.set_is_suggestion_mode(is_suggestion_mode);
+        intervention_info_setter_lib.set_is_suggestion_mode_optout(is_suggestion_mode_optout);
         if (is_suggestion_mode) {
-          log_utils.log_intervention_suggested();
+          if (is_suggestion_mode_optout) {
+            log_utils.log_intervention_suggested({optout: true});
+            log_utils.log_intervention_suggestion_action({action: 'accepted', 'accepted': 'true', 'optout': 'true', 'accepted_default': 'true'})
+          } else {
+            log_utils.log_intervention_suggested();
+          }
         } else {
           log_utils.log_impression();
         }

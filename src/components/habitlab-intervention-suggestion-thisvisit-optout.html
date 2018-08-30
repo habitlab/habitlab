@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-themes/ice.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<dom-module id="habitlab-intervention-suggestion-thisvisit-optout">
+  <template>
+    <style>
+      :host {
+        z-index: 9007199254740991;
+      }
+
+      #intervention_name_display {
+        margin-top: 10px;
+      }
+
+      .intervention-icon {
+        align: center;
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #888888;
+      }
+
+      #sample_toast {
+        width: 350px;
+        height: 280px;
+        z-index: 9007199254740991;
+        background-color: aliceblue;
+        color: black;
+      }
+
+      #ok_button {
+        height: 38px;
+        width: 100%;
+        text-transform: none;
+
+        background-color: #415D67;
+        color: white;
+        margin: 0 auto;
+        box-shadow: 2px 2px 2px #888888;
+        margin-bottom: 10px;
+      }
+    </style>
+    <paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right">
+      <div>HabitLab rotates between different nudges each time you visit {{sitename}}. This is the first time you're seeing:</div>
+      <div style="margin-top: 10px; background-color: #383838; border-radius: 5px; padding: 5px; color: white">
+        <div style="display: flex; align-items: center; align-content:center;justify-content: center;">
+          <img class="intervention-icon" src="{{get_intervention_icon_url()}}" />
+          <h2 style="margin-right:25px; font-size: 24px; color: white">{{intervention_name}}</h2>
+        </div>
+        <div style="display: flex; align-items: center; align-content:center;justify-content: center; padding-bottom: 5px">
+          <div style="text-align: center; font-size: 11px; color: white">{{intervention_description}}</div>
+        </div>
+        <div style="display: flex; align-items: center; align-content:center;justify-content: center; padding-bottom: 5px">
+          <div style="text-align: center; font-size: 11px; color: white">Difficulty: {{intervention_difficulty_printable}}</div>
+        </div>
+      </div>
+      <div style="padding-top: 10px"></div>
+      <paper-button id="ok_button" class="yellow-button" on-click="no_button_clicked">No, I don't want this nudge</paper-button>
+      <br>
+      <paper-button id="ok_button" class="yellow-button" on-click="ok_button_clicked">OK</paper-button>
+    </paper-toast>
+  </template>
+  <script src="habitlab-intervention-suggestion-thisvisit-optout.js"></script>
+</dom-module>

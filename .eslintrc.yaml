@@ -35,6 +35,7 @@ globals:
   'is_new_session': true
   'is_preview_mode': true
   'is_suggestion_mode': true
+  'is_suggestion_mode_optout': true
   'is_previously_seen': true
   'Buffer': true
   'dlog': true

@@ -312,12 +312,12 @@ webpack_config_nowatch = with_created_object webpack_config_backend, (o) ->
 webpack_config_watch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = true
   o.devtool = false # comment out to generate source maps
-  o.plugins.push new HabitLabComponentRenamePlugin()
+  #o.plugins.push new HabitLabComponentRenamePlugin()
 
 webpack_config_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
   o.devtool = false # comment out to generate source maps
-  o.plugins.push new HabitLabComponentRenamePlugin()
+  #o.plugins.push new HabitLabComponentRenamePlugin()
 
 webpack_config_nosrcmap_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true

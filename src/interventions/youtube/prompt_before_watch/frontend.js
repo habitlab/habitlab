@@ -1,3 +1,5 @@
+require.ensure(['jquery', 'libs_frontend/tab_utils', 'libs_frontend/frontend_libs', 'libs_common/common_libs', 'libs_common/time_spent_utils', 'libs_frontend/intervention_log_utils', 'components/habitlab-logo-v2.deps', 'components/call-to-action-button.deps', 'components/positive-goal-site-button.deps', 'bower_components/paper-button/paper-button.deps'], async function(require){
+
 const $ = require('jquery')
 
 const {close_selected_tab} = require('libs_frontend/tab_utils')
@@ -20,10 +22,15 @@ const {
   log_action,
 } = require('libs_frontend/intervention_log_utils')
 
-require_component('habitlab-logo-v2')
-require_component('call-to-action-button')
-require_component('positive-goal-site-button')
-require_component('paper-button')
+// require_component('habitlab-logo-v2')
+// require_component('call-to-action-button')
+// require_component('positive-goal-site-button')
+// require_component('paper-button')
+
+require('components/habitlab-logo-v2.deps')
+require('components/call-to-action-button.deps')
+require('components/positive-goal-site-button.deps')
+require('bower_components/paper-button/paper-button.deps')
 
 
 //console.log('youtube prompt before watch loaded frontend')
@@ -397,3 +404,5 @@ window.addEventListener('resize', function(evt) {
 window.on_intervention_disabled = () => {
   removeDivAndPlay()
 }
+
+})

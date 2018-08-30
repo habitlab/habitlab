@@ -211,12 +211,12 @@
   webpack_config_watch_content_scripts = with_created_object(webpack_config_frontend, function(o){
     o.watch = true;
     o.devtool = false;
-    return o.plugins.push(new HabitLabComponentRenamePlugin());
+    //return o.plugins.push(new HabitLabComponentRenamePlugin());
   });
   webpack_config_nowatch_content_scripts = with_created_object(webpack_config_frontend, function(o){
     o.watch = false;
     o.devtool = false;
-    return o.plugins.push(new HabitLabComponentRenamePlugin());
+    //return o.plugins.push(new HabitLabComponentRenamePlugin());
   });
   webpack_config_nosrcmap_watch = with_created_object(webpack_config_backend, function(o){
     o.watch = true;

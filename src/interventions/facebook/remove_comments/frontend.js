@@ -1,14 +1,17 @@
-const $ = require('jquery')
 
-const {
-  wrap_in_shadow
-} = require('libs_frontend/frontend_libs')
+require.ensure(['jquery', 'libs_frontend/frontend_libs', 'components/habitlab-logo-v2.deps', 'components/call-to-action-button.deps', 'bower_components/paper-button/paper-button.deps', 'bower_components/polymer/polymer.deps', 'bower_components/paper-button/paper-button-0', 'bower_components/polymer/polymer.html'], async function(require){
+  const $ = require('jquery')
+  const {wrap_in_shadow} = require('libs_frontend/frontend_libs')
 
-require_component('habitlab-logo-v2')
-require_component('call-to-action-button')
+
+require('components/habitlab-logo-v2.deps')
+require('components/call-to-action-button.deps')
+require('bower_components/paper-button/paper-button.deps')
+//require_component('habitlab-logo-v2')
+//require_component('call-to-action-button')
 
 //Polymer button
-require_component('paper-button')
+//require_component('paper-button')
 
 var intervalID = window.setInterval(removeComments, 200);
 
@@ -53,3 +56,5 @@ window.on_intervention_disabled = () => {
   $('.habitlab_button_container').remove()
   showComments();
 }
+
+})

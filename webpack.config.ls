@@ -139,11 +139,19 @@ webpack_config = {
   node: {
     fs: 'empty'
   }
+<<<<<<< Updated upstream
   optimization: {
     splitChunks: {
       chunks: 'all'
     }
   }
+=======
+  # optimization: {
+  #   splitChunks: {
+  #     chunks: 'all'
+  #   }
+  # }
+>>>>>>> Stashed changes
 }
 
 /*

@@ -5,7 +5,9 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="feedback-button.html">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome Icon Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <dom-module id="create-intervention-dialog">
   <template>
     <style>
@@ -20,6 +22,102 @@
         box-shadow: 2px 2px 2px #888888;
         font-weight: bold;
       }
+      #create_you_own_button {
+        color: red;
+      }
+      .ratings {
+        font-style: bold;
+        font-size: 20px;
+        margin-right: 25px;
+      }
+      .commentsheader {
+        font-style: bold;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .comments {
+        font-style: italic;
+      }
+      .overview {
+        
+        font-style: bolder;
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+      * {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial;
+    margin: 0 auto; /* Center website */
+    max-width: 800px; /* Max width */
+    padding: 20px;
+}
+
+.heading {
+    font-size: 15px;
+    margin-right: 25px;
+    font-style: bold;
+}
+
+.fa {
+    font-size: 25px;
+}
+
+.checked {
+    color: orange;
+}
+
+/* Three column layout */
+.side {
+    float: left;
+    width: 15%;
+    margin-top:10px;
+}
+
+.middle {
+    margin-top:10px;
+    float: left;
+    width: 70%;
+}
+
+/* Place text to the right */
+.right {
+    text-align: right;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* The bar container */
+.bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+}
+
+/* Individual bars */
+.bar-5 {width: 60%; height: 18px; background-color: #4CAF50;}
+.bar-4 {width: 30%; height: 18px; background-color: #2196F3;}
+.bar-3 {width: 10%; height: 18px; background-color: #00bcd4;}
+.bar-2 {width: 4%; height: 18px; background-color: #ff9800;}
+.bar-1 {width: 15%; height: 18px; background-color: #f44336;}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+    .side, .middle {
+        width: 100%;
+    }
+    .right {
+        display: none;
+    }
+}
     </style>
 
     <paper-dialog id="create_new_intervention_dialog" with-backdrop style="z-index: 9007199254740991;">
@@ -34,7 +132,7 @@
       <template is="dom-if" if="{{is_edit_mode}}">
         <paper-input id="preview_url" label="Preview url" value="{{preview_url}}"></paper-input>
       </template>
-      <paper-input id="intervention_name" label="Intervention Name" value="{{proposed_intervention_name}}"></paper-input>
+      <paper-input id="intervention_name_new" label="Intervention Name" value="{{proposed_intervention_name}}"></paper-input>
       <em id="hint" style="color:red;"></em><br>
       <paper-button id="dialog_button" on-click="validate_intervention_name" class="button">Add</paper-button>
     </paper-dialog>
@@ -49,6 +147,111 @@
       </paper-dropdown-menu>
       <paper-button id="open_button" on-click="open_intervention_clicked" class="button">Open</paper-button>
     </paper-dialog>
+
+    <paper-dialog id="upload_existing_custom_intervention" with-backdrop style="z-index: 9007;">
+        <paper-dropdown-menu style="margin-top: 0px; width: 300px" label="Select a custom intervention">
+          <paper-listbox id="intervention_selector" class="dropdown-content" selected="0">
+            <template is="dom-repeat" items="{{intervention_list}}" as="interventions">
+              <paper-item intervention_name="{{interventions}}">{{interventions.displayname}}</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <paper-input id="intervention_name" label="Intervention Name" value=""></paper-input>
+        <paper-input id="intervention_description" label="Intervention Description" value="Describe your intervention here"></paper-input>
+        <paper-button id="upload_button" on-click="upload_intervention_clicked" class="button">Upload</paper-button>
+        <paper-button id="create_you_own_button" on-click="create_you_own_intervention_clicked" class="button">Create One</paper-button>
+      </paper-dialog>
+
+      <paper-dialog id="remove_upload_custom_intervention" with-backdrop style="z-index: 9007;">
+          <paper-dropdown-menu style="margin-top: 0px; width: 300px" label="Select a shared intervention">
+            <paper-listbox id="intervention_selector" class="dropdown-content" selected="0">
+                <template is="dom-repeat" items="{{intervention_list}}" as="interventions">
+                    <paper-item intervention_name="{{interventions}}">{{interventions.displayname}}</paper-item>
+                  </template>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          <paper-button id="remove_button" on-click="remove_intervention_clicked" class="button"  style="color: red;">Stop Sharing It</paper-button>
+        </paper-dialog>
+
+        <paper-dialog id="intervention_info" with-backdrop style="z-index: 9007;">
+            <paper-dialog-scrollable>
+                <div>
+                    <div class="overview">Overview</div>
+                  <span class="ratings">User Rating</span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                  <p>4.1 average based on all reviews.</p>
+                  <hr style="border:3px solid #f1f1f1">
+
+                  <div class="row">
+                    <div class="side">
+                      <div>5 star</div>
+                    </div>
+                    <div class="middle">
+                      <div class="bar-container">
+                        <div class="bar-5"></div>
+                      </div>
+                    </div>
+                    <div class="side right">
+                      <div id="5_star_count">150</div>
+                    </div>
+                    <div class="side">
+                      <div>4 star</div>
+                    </div>
+                    <div class="middle">
+                      <div class="bar-container">
+                        <div class="bar-4"></div>
+                      </div>
+                    </div>
+                    <div class="side right">
+                      <div id="4_star_count">63</div>
+                    </div>
+                    <div class="side">
+                      <div>3 star</div>
+                    </div>
+                    <div class="middle">
+                      <div class="bar-container">
+                        <div class="bar-3"></div>
+                      </div>
+                    </div>
+                    <div class="side right">
+                      <div id="3_star_count">15</div>
+                    </div>
+                    <div class="side">
+                      <div>2 star</div>
+                    </div>
+                    <div class="middle">
+                      <div class="bar-container">
+                        <div class="bar-2"></div>
+                      </div>
+                    </div>
+                    <div class="side right">
+                      <div id="2_star_count">6</div>
+                    </div>
+                    <div class="side">
+                      <div>1 star</div>
+                    </div>
+                    <div class="middle">
+                      <div class="bar-container">
+                        <div class="bar-1"></div>
+                      </div>
+                    </div>
+                    <div class="side right">
+                      <div id="1_star_count">20</div>
+                    </div>
+                  </div>
+                  <div>_________________________________</div>
+                  <div class="commentsheader">User Comments</div>
+                  <div class="comments"> frankaging: This app is great to use!</div>
+                  <div class="comments"> zxw0424: Thanks for contributing to the market!</div>
+                </div>
+              </paper-dialog-scrollable>
+              <paper-button id="intervention_info_button" on-click="intervention_info_clicked" class="button"  style="color: rgb(255, 255, 255);">Got It!</paper-button>
+              <paper-button id="intervention_info_button" on-click="remove_intervention_card_clicked" class="button"  style="color: red;margin-left:150px;">Stop Sharing!</paper-button>
+          </paper-dialog>
 
   </template>
   <script src="create-intervention-dialog.js"></script>

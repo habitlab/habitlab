@@ -149,6 +149,13 @@ add_abtest 'difficulty_selection_screen', ['nodefault_optional', 'survey_nochoic
   localStorage.setItem('difficulty_selection_screen', chosen_algorithm)
   return
 
+add_abtest 'intervention_suggestion_optout', ['off', 'on'], (chosen_algorithm) ->>
+  if chosen_algorithm == 'off'
+    localStorage.setItem('suggestion_mode_optout', false)
+  else
+    localStorage.setItem('suggestion_mode_optout', true)
+  return
+
 add_abtest 'intervention_suggestion_algorithm', ['off', 'always', '1day', '3day', '5day', '7day'], (chosen_algorithm) ->>
   if chosen_algorithm == 'off'
     localStorage.setItem('suggest_interventions', false)

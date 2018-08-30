@@ -1,0 +1,161 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="market-upload">
+  
+  <template>
+    <style>
+       :host {
+        width: 100%;
+        height: 100%;
+        display:block;
+        background-color: white;
+        margin-right: 10px;
+        --paper-card: {
+          width: 100%;
+          margin-top: 0px;
+        }
+        ;
+      }
+
+      .borders{
+        border: 2px solid gray;
+        border-radius: 10px;
+      }
+
+      .uplv {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+        width:100%;
+        height:100%;
+      }
+
+      .card{
+        display: block;
+        text-align: center;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      h2{
+        font-size: 25px;
+      }
+
+      
+      .dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 20px;
+    font: "Comic Sans MS", cursive, sans-serif;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    width: 300px;
+    border-radius: 25px;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+    border-radius: 25px;
+    outline:0;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    border-radius: 25px;
+}
+
+.dropdown-content {
+  border-radius: 25px;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    font: "Comic Sans MS", cursive, sans-serif;
+    min-width: 360px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+  border-radius: 25px;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #ddd; border-radius: 25px;}
+
+.show {display:block;}
+      
+p.dashed {
+  border-style: dashed;
+  height:300px;
+  width:400px;
+  text-align: center;
+  }
+p {
+  display: block;
+        text-align: center;
+        margin-right: auto;
+        margin-left: auto;
+        font: "Comic Sans MS", cursive, sans-serif;
+        font-size: 20px;
+}
+
+.submitButton {
+    background-color: #ddd ; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 70px;
+}
+.submitButton:hover {background-color: #4CAF50; border-radius: 50%;}
+.submitButton {
+  font-size: 20px;
+    font: "Comic Sans MS", cursive, sans-serif;
+    border-radius: 50%;}
+.submitButton:hover, .submitButton:focus {
+    background-color: rgb(51, 141, 54);
+    outline:0;
+}
+.submitButton[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+    </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <div class="uplv">
+          <div class="card">
+            <h2>Share You Code!</h2>
+            <p class="dashed">Drag you icon here</p>
+          </div>
+          <!-- <img src={{get_custom_intervention_icon_url()}} alt="upload"> -->
+          
+          <div class="dropdown">
+            <button class="dropbtn" on-tap="handleTap">Please select one</button>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="#home">Intervention 1</a>
+              <a href="#about">Intervention 2</a>
+              <a href="#contact">Intervention 3</a>
+            </div>
+          </div>
+          <button class="button submitButton" disabled$="{{button_disable}}" on-click="handle_submit">Submit</button>
+      </div>
+  </template>
+  <script src="market-upload.js"></script>
+  
+</dom-module>

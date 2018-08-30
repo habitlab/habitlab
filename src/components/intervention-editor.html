@@ -151,6 +151,18 @@
         margin-right: 10px;
       }
     </style>
+
+      <paper-dialog id="public_private_dialog">
+        <h2>Would you like to publicly share your nudge or share via private link?</h2>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm on-click="make_public_share">Public</paper-button>
+          <paper-button dialog-confirm autofocus on-click="make_private_share">Private</paper-button>
+        </div>
+      </paper-dialog>
+      
+    
+
     <template is="dom-if" if="{{is_apidoc_shown}}">
       <paper-icon-button on-click="hide_docs_clicked" icon="close" style="position: fixed; top: 50px; right: 65px; width: 40px; height: 40px; z-index: 100"></paper-icon-button>
       <marked-element class="marked-div" id="markdown_display" markdown="{{api_markdown_text}}">

@@ -77,6 +77,18 @@ export get_is_suggestion_mode = ->
     return is_suggestion_mode
   return false
 
+is_suggestion_mode_optout_cached = null
+
+export set_is_suggestion_mode_optout = (new_is_suggestion_mode_optout) ->
+  is_suggestion_mode_optout_cached := new_is_suggestion_mode_optout
+
+export get_is_suggestion_mode_optout = ->
+  if is_suggestion_mode_optout_cached?
+    return is_suggestion_mode_optout_cached
+  if is_suggestion_mode_optout?
+    return is_suggestion_mode_optout
+  return false
+
 is_previously_seen_cached = null
 
 export set_is_previously_seen = (new_is_previously_seen) ->

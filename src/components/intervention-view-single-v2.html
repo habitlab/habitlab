@@ -24,6 +24,15 @@
         margin-bottom: 5px;
       }
 
+      .uninstall-button {
+        text-align: center;
+        text-transform: none;
+        background-color: #415D67;
+        color: white;
+        -webkit-font-smoothing: subpixel-antialiased;
+        margin-bottom: 5px;
+      }
+
       .try-now-button {
         text-align: center;
         text-transform: none;
@@ -47,13 +56,18 @@
     </style>
     <div>
       <div style="width: 100%">
-        <div style='display: flex;justify-content: space-between; align-items:center; align-content: space-around; font-family:Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 8px'>
+        <div style='padding-left: 20px; padding-right: 20px; display: flex;justify-content: space-between; align-items:center; align-content: space-around; font-family:Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 16px; vertical-align: top; padding-top: 8px'>
           <!-- <div style = "display: table-row;"> -->
           <!-- <div style= 'display:flex; align-items:center; align-content:space-around;font-family:Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; display: inline-block; font-size: 16px; vertical-align: top; padding-left: 5px; padding-top: 8px'> -->
           <div style="display: flex;width: 200px;justify-content: flex-start; align-items:center;align-content:space-around">
             <img style="align-self: auto; width:50px; border: transparent;border-radius:5px;box-shadow: 3px 3px 3px rgba(31,31,31,0.1);"
               class="interventions" src="{{get_intervention_icon_url(intervention)}}" />
-            <div style="align-self:auto; width:150px;border: transparent;">{{intervention.displayname}} </div>
+              <template is="dom-if" if="{{downloaded}}">
+                  <div style="align-self:auto; width:150px;border: transparent;font-weight: bold">{{intervention.displayname}} </div>
+                </template>
+                <template is="dom-if" if="{{!downloaded}}">
+                    <div style="align-self:auto; width:150px;border: transparent;">{{intervention.displayname}} </div>
+                  </template>
           </div>
           <div style="align-self:auto; border:transparent; padding: 0px 10px 0px 10px;">{{intervention.description}} </div>
           <!-- <template is="dom-if" if="{{display_internal_names_for_interventions()}}">
@@ -68,7 +82,13 @@
               <pill-button-group id="pill_selector" selected_idx="{{pill_button_idx}}" on-pill-button-selected="pill_button_selected" buttons='["Off", "On"]'></pill-button-group>
               <paper-tooltip for="pill_selector" animation-delay="0">Each time you visit <span>{{sitename}}</span>,<br>HabitLab will show one of the<br>nudges turned 'On'.</paper-tooltip>
             </div>
-            <template is="dom-if" if="{{custom}}">
+            <template is="dom-if" if="{{downloaded}}">
+              <div style="align-self:auto; vertical-align:middle; width:75px; margin-right: 10px; border: transparent;">
+                <paper-button class="uninstall-button" style="height: 30px; min-width: 5.2em; font-weight: 380" on-click="delete_custom_intervention">Delete</paper-button>
+                <paper-button class="try-now-button" style="height: 30px; min-width: 5.2em; font-weight: 400" on-click="preview_intervention">Try now</paper-button>
+              </div>
+            </template>
+            <template is="dom-if" if="{{test_function(downloaded, custom)}}">
               <div style="align-self:auto; vertical-align:middle; width:75px; margin-right: 10px; border: transparent;">
                 <paper-button class="edit-button" style="height: 30px; min-width: 5.2em; font-weight: 400" on-click="edit_custom_intervention">Edit</paper-button>
                 <paper-button class="try-now-button" style="height: 30px; min-width: 5.2em; font-weight: 400" on-click="preview_intervention">Try now</paper-button>

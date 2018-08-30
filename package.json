@@ -48,13 +48,14 @@
     "sweetalert2": "^6.3.2",
     "systemjs": "github:gkovacs/systemjs",
     "tls": "^0.0.1",
+    "uglifyjs-webpack-plugin": "^1.3.0",
     "underscore": "^1.8.3",
     "webcomponentsjs-custom-element-v0": "^1.0.1",
     "webpack4-stream-watch": "^3.2.3",
     "yarn-api": "^1.1.0"
   },
   "devDependencies": {
-    "babel-minify-webpack-plugin": "^0.2.0",
+    "babel-minify-webpack-plugin": "^0.3.1",
     "bestzip": "^1.1.3",
     "chai": "^3.5.0",
     "cheerio": "^0.22.0",

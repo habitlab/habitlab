@@ -7,25 +7,22 @@
         display: block;
         width: 100%;
         height: 100%;
-        background-color: white;
+        background-color: #BEDEFD;
         --paper-card: {
           width: 100%;
-          padding: 10px 20px;
+          padding: 10px;
           margin-top: 0px;
-        }
-        ;
+        };
       }
-
       .container {
         text-align: center;
-        display: flex;
-        height:500px;
+        display: block;
+        height:100% ;
         width:100%;
         flex-direction: column;
         align-items: center;
         justify-content: center;
       }
-
       .title {
         background-color: #2E4053;
         width: 100%;
@@ -35,31 +32,66 @@
         padding-bottom:20px;
         padding-top: 20px;
       }
-
       .paper-card {
         background-color: white;
         width: 100%;
-        margin-left: 20px;
-        margin-right: 20px;
+        margin-left: 0px;
+        margin-right: 0px;
       }
-
       .card-content {
         font-size: 20px;
       }
-    </style>
+      body{
+        font-family: sans-serif;
+      }
+      paper-button{
+        color: #fff;
+        background-color: #415D67;
+        padding: 5px;
+        font-size: 16px;
+        text-transform: none;
+        -webkit-font-smoothing: subpixel-antialiased;
+      }
+      #icon{
+        width: 100px;
+        height: 100px;
+        margin-left: 20px;
+        position: absolute;
+        z-index: 1;
+      }
+      #settings{
+        margin-left: calc(50% - 50px);
+        margin-top: 3px;
+        width: 50px;
+        height: 50px;
+        position: absolute;
+      }
 
-    <div class="container">
+      .mySettings {
+        cursor:pointer;
+      }
 
-      <div class="title" style="color: #ffffff">{{site}} custom nudges</div>
-      <intervention-carousel></intervention-carousel>
-      <paper-card heading="user-made Interventions">
-        <!--<div class="card-content">
-        </div>-->
-      </paper-card>
+</style>
+
+<div class="container">
+    <div class="mySettings">
+      <img id = "settings" src="icons/settings_icon.png">
     </div>
 
-    <!-- <div style="margin-bottom: 20px"></div> -->
+  <div class="title" style="color: #ffffff">
+    {{site}} custom nudges
+    <img id = "icon" src="icons/store_icon.png">
+  </div>
 
-  </template>
+  <paper-card style="background-color:#BEDEFD">
+    <div style="width:90%; display:flex">
+        <!--Display Carousel-->
+        <intervention-carousel site = "{{site}}" interrupt="{{interrupt}}"></intervention-carousel>
+    </div>
+  </paper-card>
+</div>
+
+
+</template>
   <script src="intervention-market.js"></script>
 </dom-module>

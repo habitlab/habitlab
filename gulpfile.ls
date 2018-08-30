@@ -30,6 +30,7 @@ is_debug_build = false
 
 #UglifyJSPlugin = require 'uglifyjs-webpack-plugin'
 BabiliPlugin = require 'babel-minify-webpack-plugin'
+UglifyJsPlugin = require 'uglifyjs-webpack-plugin'
 HabitLabComponentRenamePlugin = require './webpack_habitlab_component_rename_plugin'
 
 fse = require 'fs-extra'
@@ -328,7 +329,7 @@ webpack_config_nosrcmap_nowatch = with_created_object webpack_config_backend, (o
   o.devtool = false
 
 webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
-  o.mode = 'production'
+  #o.mode = 'production'
   o.watch = false
   o.devtool = false
   o.plugins.push new webpack.LoaderOptionsPlugin {
@@ -338,6 +339,26 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.plugins.push new BabiliPlugin {}, {
     comments: false
   }
+  #if not o.optimization?
+  #  o.optimization = {}
+  #o.optimization.minimizer = [
+  #  new UglifyJsPlugin()
+  #]
+  # o.optimization.push {
+  #   runtimeChunk: false,
+  #   splitChunks: {
+  #     cacheGroups: {
+  #       default: false,
+  #       commons: {
+  #         test: /[\\/]node_modules[\\/]/,
+  #         name: 'vendor_app',
+  #         chunks: 'all',
+  #         minChunks: 2
+  #       }
+  #     }
+  #   }
+  # }
+
   # o.plugins.push new UglifyJSPlugin {
   #   uglifyOptions: {
   #     ie8: false
@@ -350,7 +371,7 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   # }
 
 webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
-  o.mode = 'production'
+  #o.mode = 'production'
   o.watch = false
   o.devtool = false
   o.plugins.push new webpack.LoaderOptionsPlugin {
@@ -360,6 +381,11 @@ webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config
   o.plugins.push new BabiliPlugin {}, {
     comments: false
   }
+  #if not o.optimization?
+  #  o.optimization = {}
+  #o.optimization.minimizer = [
+  #  new UglifyJsPlugin()
+  #]
   # o.plugins.push new UglifyJSPlugin {
   #   uglifyOptions: {
   #     ie8: false

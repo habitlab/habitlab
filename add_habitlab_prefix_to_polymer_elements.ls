@@ -183,35 +183,45 @@ add_habitlab_prefix_to_polymer_elements = (intervention_code) ->
   #   return output.join('')
 
   make_replacements = (text) ->
-    i = 0
     output = []
-    idx = 0
-    node = null
-    match_length = 0
-    matched_text = null
-    while i < text.length
-      idx = i
-      node = tree
+    text_lines = text.split('\n')
+    for line in text_lines
+      if line.endsWith(':') and (line.startsWith('/***/ "./src/bower_components/') or line.startsWith('/***/ "./src/components/'))
+        output.push(line)
+        continue
+      if line.indexOf('__webpack_require__') != -1
+        output.push(line)
+        continue
+      i = 0
+      idx = 0
+      node = null
       match_length = 0
-      while true
-        c = text[idx]
-        node = node[c]
-        if not node?
-          break
-        if node.ok == true
-          match_length = idx - i + 1
-          break
-        idx += 1
-      if match_length == 0
-        output.push(text[i])
-        i += 1
-      else
-        matched_text = text.substr(i, match_length)
-        output.push(element_to_replacement[matched_text])
-        #for ti from i til i + match_length
-        #  output.push(text[i])
-        i += match_length
-    return output.join('')
+      matched_text = null
+      output_lines = []
+      while i < line.length
+        idx = i
+        node = tree
+        match_length = 0
+        while true
+          c = line[idx]
+          node = node[c]
+          if not node?
+            break
+          if node.ok == true
+            match_length = idx - i + 1
+            break
+          idx += 1
+        if match_length == 0
+          output_lines.push(line[i])
+          i += 1
+        else
+          matched_text = line.substr(i, match_length)
+          output_lines.push(element_to_replacement[matched_text])
+          #for ti from i til i + match_length
+          #  output.push(text[i])
+          i += match_length
+      output.push(output_lines.join(''))
+    return output.join('\n')
   return make_replacements(intervention_code)
 
 module.exports = add_habitlab_prefix_to_polymer_elements

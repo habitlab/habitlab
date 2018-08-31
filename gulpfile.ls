@@ -32,6 +32,7 @@ is_debug_build = false
 BabiliPlugin = require 'babel-minify-webpack-plugin'
 UglifyJsPlugin = require 'uglifyjs-webpack-plugin'
 HabitLabComponentRenamePlugin = require './webpack_habitlab_component_rename_plugin'
+HabitLabComponentListPlugin = require './webpack_habitlab_component_list_plugin'
 
 fse = require 'fs-extra'
 webpack-stream = require 'webpack4-stream-watch'
@@ -313,12 +314,18 @@ webpack_config_nowatch = with_created_object webpack_config_backend, (o) ->
 webpack_config_watch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = true
   o.devtool = false # comment out to generate source maps
-  #o.plugins.push new HabitLabComponentRenamePlugin()
+  o.plugins.push new HabitLabComponentRenamePlugin()
 
 webpack_config_nowatch_content_scripts = with_created_object webpack_config_frontend, (o) ->
   o.watch = false
   o.devtool = false # comment out to generate source maps
-  #o.plugins.push new HabitLabComponentRenamePlugin()
+  o.plugins.push new HabitLabComponentRenamePlugin()
+
+webpack_config_nowatch_content_scripts_listcomponents = with_created_object webpack_config_frontend, (o) ->
+  o.watch = false
+  o.devtool = false # comment out to generate source maps
+  o.plugins.push new HabitLabComponentListPlugin()
+
 
 webpack_config_nosrcmap_watch = with_created_object webpack_config_backend, (o) ->
   o.watch = true
@@ -839,6 +846,18 @@ gulp.task 'make_docs', gulp.series('livescript_srcgen', 'js_srcgen', 'make_docs_
 
 #gulp.task 'build', ['webpack', 'webpack_content_scripts', 'webpack_vulcanize']
 gulp.task 'build', gulp.parallel('build_base', 'webpack_build', 'webpack_content_scripts')
+
+gulp.task 'listcomponents', ->
+  run_gulp_webpack webpack_config_nowatch_content_scripts_listcomponents, {
+    src_pattern: webpack_pattern_content_scripts
+  }
+
+gulp.task 'print_components_to_rename', (done) ->>
+  storage = require 'node-persist'
+  await storage.init()
+  components_list = await storage.keys()
+  console.log components_list
+  done()
 
 gulp.task 'build_release', gulp.parallel(gulp.series('build_base', 'make_docs_markdown'), 'webpack_prod', 'webpack_content_scripts_prod')
 

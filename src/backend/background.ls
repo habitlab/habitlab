@@ -667,7 +667,9 @@ do !->>
   }
       """
       promises = []
-      for chunknum in find_webpack_chunks(content_script_code)
+      chunks = find_webpack_chunks(content_script_code)
+      console.log(chunks)
+      for chunknum in chunks
         chunkname = chunknum + '.js'
         if cached_bundle_code[chunkname]?
           bundle_code = cached_bundle_code[chunkname]
@@ -692,13 +694,18 @@ do !->>
     index = 0
     end = cutCode.length
 
+    if index < 0
+      return
+
     while(index < end)
       
-      innerIndex = code.indexOf(".e(", index) + 3
-      numberEnd = code.indexOf(")", innerIndex)
-      # console.log(index + ' ' + innerIndex + ' ' + numberEnd + ' ' + end)
+      innerIndex = cutCode.indexOf(".e(", index) + 3
+      numberEnd = cutCode.indexOf(")", innerIndex)
+      if innerIndex < index
+        return chunks
+      console.log(index + ' ' + innerIndex + ' ' + numberEnd + ' ' + end)
       numberLength = numberEnd - innerIndex
-      number = code.substring(innerIndex, numberEnd)
+      number = cutCode.substring(innerIndex, numberEnd)
       chunks.push(parseInt(number,10))
       index = numberEnd
     

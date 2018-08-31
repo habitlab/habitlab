@@ -60,7 +60,58 @@ find_match_length_from_start_for_suffix_tree = (text, startpos, tree) ->
       return idx - startpos + 1
     idx += 1
 
-add_habitlab_prefix_to_polymer_elements = (intervention_code) ->
+find_next_index_from_pos = (text, startpos, char) ->
+  i = startpos
+  while i < text.length
+    if text[i] == char
+      return i
+    i += 1
+  return i
+
+# list_all_custom_polymer_elements = (input_text) ->
+#   i = 0
+#   input_text = input_text.split(' ').join('').split('\n').join('').split('\t').join('')
+#   output = []
+#   while i < input_text.length
+#     pattern = "Polymer({is:'"
+#     if input_text.substr(i, pattern.length) == pattern
+#       i += pattern.length
+#       word_end = find_next_index_from_pos(input_text, i, "'")
+#       word = input_text.substr(i, word_end - i)
+#       output.push word
+#       i = word_end
+#       continue
+#     i += 1
+#   return output
+
+list_all_custom_polymer_elements = (text) ->
+  i = 0
+  text = text.split(' ').join('').split('\n').join('').split('\t').join('')
+  output = []
+  while i < text.length - 13
+    if (text[i] == 'P' and
+        text[i+1] == 'o' and
+        text[i+2] == 'l' and
+        text[i+3] == 'y' and
+        text[i+4] == 'm' and
+        text[i+5] == 'e' and
+        text[i+6] == 'r' and
+        text[i+7] == '(' and
+        text[i+8] == '{' and
+        text[i+9] == 'i' and
+        text[i+10] == 's' and
+        text[i+11] == ':' and
+        text[i+12] == "'")
+      i += 13
+      word_end = find_next_index_from_pos(text, i, "'")
+      word = text.substr(i, word_end - i)
+      output.push word
+      i = word_end
+      continue
+    i += 1
+  return output
+
+add_habitlab_prefix_to_polymer_elements = (intervention_code, elements_to_replace) ->
 
   # elements_to_replace = [
   #   'paper-button'
@@ -84,58 +135,8 @@ add_habitlab_prefix_to_polymer_elements = (intervention_code) ->
   #   'paper-tooltip'
   # ]
 
-  find_next_index_from_pos = (text, startpos, char) ->
-    i = startpos
-    while i < text.length
-      if text[i] == char
-        return i
-      i += 1
-    return i
-
-  # list_all_custom_polymer_elements = (input_text) ->
-  #   i = 0
-  #   input_text = input_text.split(' ').join('').split('\n').join('').split('\t').join('')
-  #   output = []
-  #   while i < input_text.length
-  #     pattern = "Polymer({is:'"
-  #     if input_text.substr(i, pattern.length) == pattern
-  #       i += pattern.length
-  #       word_end = find_next_index_from_pos(input_text, i, "'")
-  #       word = input_text.substr(i, word_end - i)
-  #       output.push word
-  #       i = word_end
-  #       continue
-  #     i += 1
-  #   return output
-
-  list_all_custom_polymer_elements = (text) ->
-    i = 0
-    text = text.split(' ').join('').split('\n').join('').split('\t').join('')
-    output = []
-    while i < text.length - 13
-      if (text[i] == 'P' and
-          text[i+1] == 'o' and
-          text[i+2] == 'l' and
-          text[i+3] == 'y' and
-          text[i+4] == 'm' and
-          text[i+5] == 'e' and
-          text[i+6] == 'r' and
-          text[i+7] == '(' and
-          text[i+8] == '{' and
-          text[i+9] == 'i' and
-          text[i+10] == 's' and
-          text[i+11] == ':' and
-          text[i+12] == "'")
-        i += 13
-        word_end = find_next_index_from_pos(text, i, "'")
-        word = text.substr(i, word_end - i)
-        output.push word
-        i = word_end
-        continue
-      i += 1
-    return output
-
-  elements_to_replace = list_all_custom_polymer_elements(intervention_code)
+  #elements_to_replace = list_all_custom_polymer_elements(intervention_code)
+  
   elements_to_replace = elements_to_replace.concat [
     'dom-module'
   ]
@@ -186,12 +187,12 @@ add_habitlab_prefix_to_polymer_elements = (intervention_code) ->
     output = []
     text_lines = text.split('\n')
     for line in text_lines
-      if line.endsWith(':') and (line.startsWith('/***/ "./src/bower_components/') or line.startsWith('/***/ "./src/components/'))
-        output.push(line)
-        continue
-      if line.indexOf('__webpack_require__') != -1
-        output.push(line)
-        continue
+      #if line.endsWith(':') and (line.startsWith('/***/ "./src/bower_components/') or line.startsWith('/***/ "./src/components/'))
+      #  output.push(line)
+      #  continue
+      #if line.indexOf('__webpack_require__') != -1
+      #  output.push(line)
+      #  continue
       i = 0
       idx = 0
       node = null
@@ -224,4 +225,7 @@ add_habitlab_prefix_to_polymer_elements = (intervention_code) ->
     return output.join('\n')
   return make_replacements(intervention_code)
 
-module.exports = add_habitlab_prefix_to_polymer_elements
+module.exports = {
+  add_habitlab_prefix_to_polymer_elements: add_habitlab_prefix_to_polymer_elements,
+  list_all_custom_polymer_elements: list_all_custom_polymer_elements
+}

@@ -80,12 +80,15 @@ function addBeginDialog(message) {
   });
   $contentContainer.append($logo);
 
-  const $input = $('<paper-input label="objective"></paper-input>')
+  const $input = $('<paper-input autofocus label="objective"></paper-input>')
   $input.on('keydown', function(evt) {
-    console.log(evt)
-    console.log('keydown')
-    evt.stopPropagation();
-    //return false
+    evt.stopImmediatePropagation();
+  })
+  $input.on('keyup', function(evt) {
+    evt.stopImmediatePropagation();
+  })
+  $input.on('keypress', function(evt) {
+    evt.stopImmediatePropagation();
   })
 
   //const $okButton = $('<button>');

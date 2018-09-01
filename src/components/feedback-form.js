@@ -56,8 +56,14 @@ polymer_ext({
     }
   },
   textarea_keydown: function(evt) {
-    evt.stopPropagation();
+    evt.stopImmediatePropagation();
     this.textarea_changed();
+  },
+  textarea_keyup: function(evt) {
+    evt.stopImmediatePropagation();
+  },
+  textarea_keypress: function(evt) {
+    evt.stopImmediatePropagation();
   },
   textarea_changed: _.throttle(function() {
     this.$$('#feedback_dialog').notifyResize();
@@ -67,9 +73,16 @@ polymer_ext({
     localStorage.setItem('feedback_form_feedback', this.feedback);
   }, 1000),
   email_changed_keydown: function(evt) {
-    evt.stopPropagation();
-    this.save_email();
+    evt.stopImmediatePropagation();
+    this.save_email()
   },
+  email_changed_keyup: function(evt) {
+    evt.stopImmediatePropagation();
+  },
+  email_changed_keypress: function(evt) {
+    evt.stopImmediatePropagation();
+  },
+
   save_email: _.throttle(function() {
     localStorage.setItem('feedback_form_email', this.email);
   }, 1000),

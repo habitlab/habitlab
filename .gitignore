@@ -28,3 +28,4 @@ npm-debug.log
 /.netlify
 /.getsecret.yaml
 /mkzip_tmp
+.node-persist

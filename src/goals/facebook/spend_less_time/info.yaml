@@ -8,7 +8,6 @@ interventions:
   #- generic_positive/feed_injection_positive_goal_widget
   #- facebook/notification_hijacker
   - facebook/remove_news_feed
-  - facebook/remove_news_feed_splitting
   - facebook/rich_notifications
   - facebook/remove_comments
   - facebook/remove_clickbait

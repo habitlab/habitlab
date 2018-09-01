@@ -186,12 +186,12 @@ add_habitlab_prefix_to_polymer_elements = (intervention_code) ->
     output = []
     text_lines = text.split('\n')
     for line in text_lines
-      if line.endsWith(':') and (line.startsWith('/***/ "./src/bower_components/') or line.startsWith('/***/ "./src/components/'))
-        output.push(line)
-        continue
-      if line.indexOf('__webpack_require__') != -1
-        output.push(line)
-        continue
+      #if line.endsWith(':') and (line.startsWith('/***/ "./src/bower_components/') or line.startsWith('/***/ "./src/components/'))
+      #  output.push(line)
+      #  continue
+      #if line.indexOf('__webpack_require__') != -1
+      #  output.push(line)
+      #  continue
       i = 0
       idx = 0
       node = null

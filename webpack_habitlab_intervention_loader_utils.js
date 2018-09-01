@@ -109,7 +109,38 @@ function preprocess_javascript(source) {
 
 	})();
   `)
-  all_requires = list_requires(source, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
+  let all_requires = list_requires(source, ['require', 'require_component', 'require_css', 'require_style', 'require_package', 'require_remote', 'define_component'])
+  
+  
+  // Wrap the intervention in require.ensure for all require and require_component
+  console.log('=====================')
+  console.log(source)
+  console.log('=====================')
+  let required_components = []
+  required_components = required_components.concat(all_requires.require_component)
+  // if (required_components == null) {
+  //   required_components = []
+  // }
+  console.log(all_requires.require_component)
+  console.log(required_components)
+  let required = []
+  required = required.concat(all_requires.require)
+  console.log(required)
+  let requires_for_required_components_object = get_components_to_require_statements(required_components)
+  let requires_for_required_components = Object.values(requires_for_required_components_object)
+  console.log(get_components_to_require_statements(required_components))
+  console.log(requires_for_required_components)
+  required = required.concat(requires_for_required_components)
+  let dependency_string = required.join('\',\'')
+  let match_ensure_string = ''
+  if(dependency_string != '') {
+    let ensure_string = 'require.ensure([\'' + dependency_string + '\'], async function(require) { \n'
+    prefix_lines.push(ensure_string)
+    match_ensure_string = '}) \n'
+    console.log(ensure_string)
+  }
+  
+
   if (all_requires.define_component) {
     prefix_lines.push("var define_component = require('libs_frontend/polymer_utils').polymer_ext;")
   }
@@ -153,7 +184,7 @@ function preprocess_javascript(source) {
       source = newtext
     }
   }
-  return prefix_lines.join('\n') + '\n\n' + source + '\n\n' + suffix_lines.join('\n')
+  return prefix_lines.join('\n') + '\n\n' + source + '\n\n' + match_ensure_string + suffix_lines.join('\n')
 }
 
 module.exports = {

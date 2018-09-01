@@ -80,20 +80,27 @@ function addBeginDialog(message) {
   });
   $contentContainer.append($logo);
 
-  const $input = $('<paper-input label="objective"></paper-input>')
+  const $input = $('<paper-input autofocus label="objective"></paper-input>')
+  const $okButton = $('<paper-button>');
   $input.on('keydown', function(evt) {
-    console.log(evt)
-    console.log('keydown')
-    evt.stopPropagation();
-    //return false
+    evt.stopImmediatePropagation();
+    if (evt.which == 13) { // enter key
+      $okButton.click()
+    }
+  })
+  $input.on('keyup', function(evt) {
+    evt.stopImmediatePropagation();
+  })
+  $input.on('keypress', function(evt) {
+    evt.stopImmediatePropagation();
   })
 
   //const $okButton = $('<button>');
-  const $okButton = $('<paper-button>');
   $okButton.text("Continue");
   $okButton.css({'cursor': 'pointer', 'padding': '10px', 'background-color': '#415D67', 'color': 'white', 'font-weight': 'normal', 'box-shadow': '2px 2px 2px #888888'});
   //$okButton.click(() => {
-  $okButton.on('click', async function() {
+  $okButton.on('click', async function(evt) {
+    evt.stopImmediatePropagation()
     var purpose = shadow_root.querySelector("paper-input").value
     if (purpose === "" || typeof(purpose) != 'string') {
       if (shadow_div.find('.wrongInputText').length === 0) {
@@ -106,8 +113,6 @@ function addBeginDialog(message) {
     } else {
       set_intervention_session_var('purpose', purpose)
       shadow_div.find('.beginBox').remove()
-      console.log('this purpose is')
-      console.log(purpose)
       displayPurpose(purpose)
     }
   })

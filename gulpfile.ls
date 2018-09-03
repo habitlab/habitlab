@@ -342,15 +342,24 @@ webpack_config_prod_nowatch = with_created_object webpack_config_backend, (o) ->
   o.plugins.push new webpack.LoaderOptionsPlugin {
     debug: false
   }
-  o.plugins.push new HabitLabComponentRenamePlugin()
-  o.plugins.push new BabiliPlugin {}, {
-    comments: false
-  }
-  #if not o.optimization?
-  #  o.optimization = {}
-  #o.optimization.minimizer = [
-  #  new UglifyJsPlugin()
-  #]
+  #o.plugins.push new HabitLabComponentRenamePlugin()
+  #o.plugins.push new BabiliPlugin {}, {
+  #  comments: false
+  #}
+  if not o.optimization?
+    o.optimization = {}
+  o.optimization.minimizer = [
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        ie8: false,
+        ecma: 8,
+        output: {
+          comments: false,
+          beautify: false
+        }
+      }
+    })
+  ]
   # o.optimization.push {
   #   runtimeChunk: false,
   #   splitChunks: {
@@ -385,14 +394,23 @@ webpack_config_prod_nowatch_content_scripts = with_created_object webpack_config
     debug: false
   }
   o.plugins.push new HabitLabComponentRenamePlugin()
-  o.plugins.push new BabiliPlugin {}, {
-    comments: false
-  }
-  #if not o.optimization?
-  #  o.optimization = {}
-  #o.optimization.minimizer = [
-  #  new UglifyJsPlugin()
-  #]
+  #o.plugins.push new BabiliPlugin {}, {
+  #  comments: false
+  #}
+  if not o.optimization?
+    o.optimization = {}
+  o.optimization.minimizer = [
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        ie8: false,
+        ecma: 8,
+        output: {
+          comments: false,
+          beautify: false
+        }
+      }
+    })
+  ]
   # o.plugins.push new UglifyJSPlugin {
   #   uglifyOptions: {
   #     ie8: false

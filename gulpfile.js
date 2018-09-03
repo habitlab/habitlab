@@ -239,10 +239,19 @@
     o.plugins.push(new webpack.LoaderOptionsPlugin({
       debug: false
     }));
-    o.plugins.push(new HabitLabComponentRenamePlugin());
-    return o.plugins.push(new BabiliPlugin({}, {
-      comments: false
-    }));
+    if (o.optimization == null) {
+      o.optimization = {};
+    }
+    return o.optimization.minimizer = [new UglifyJsPlugin({
+      uglifyOptions: {
+        ie8: false,
+        ecma: 8,
+        output: {
+          comments: false,
+          beautify: false
+        }
+      }
+    })];
   });
   webpack_config_prod_nowatch_content_scripts = with_created_object(webpack_config_frontend, function(o){
     o.watch = false;
@@ -251,9 +260,19 @@
       debug: false
     }));
     o.plugins.push(new HabitLabComponentRenamePlugin());
-    return o.plugins.push(new BabiliPlugin({}, {
-      comments: false
-    }));
+    if (o.optimization == null) {
+      o.optimization = {};
+    }
+    return o.optimization.minimizer = [new UglifyJsPlugin({
+      uglifyOptions: {
+        ie8: false,
+        ecma: 8,
+        output: {
+          comments: false,
+          beautify: false
+        }
+      }
+    })];
   });
   gulp.task('webpack_vulcanize', function(){
     return run_gulp_webpack(webpack_config_nosrcmap_nowatch, {

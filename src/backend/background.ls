@@ -688,9 +688,21 @@ do !->>
     chunks = []
 
     # Get the range between which there will be requires
-    index = code.indexOf("Promise.all(/*! require.ensure */[") + 34
-    end = code.indexOf("]).then((async function(", index)
+    index = code.indexOf('async function habitlab_intervention_main_function(){')
+    if index == -1
+      return []
+    index += 'async function habitlab_intervention_main_function(){'.length
+    #index = code.indexOf("Promise.all(/*! require.ensure */[") + 34
+    end1 = code.indexOf("]).then((async function(", index)
+    end2 = code.indexOf("]).then(async function(", index)
+    if end1 == -1
+      end = end2
+    else if end2 == -1
+      end = end1
+    else
+      end = Math.min(end1, end2)
     cutCode = code.substring(index, end)
+    #console.log(cutCode)
     index = 0
     end = cutCode.length
 
@@ -701,9 +713,9 @@ do !->>
       
       innerIndex = cutCode.indexOf(".e(", index) + 3
       numberEnd = cutCode.indexOf(")", innerIndex)
-      if innerIndex < index
+      if innerIndex < index or innerIndex == -1 or numberEnd == -1
         return chunks
-      console.log(index + ' ' + innerIndex + ' ' + numberEnd + ' ' + end)
+      #console.log(index + ' ' + innerIndex + ' ' + numberEnd + ' ' + end)
       numberLength = numberEnd - innerIndex
       number = cutCode.substring(innerIndex, numberEnd)
       chunks.push(parseInt(number,10))

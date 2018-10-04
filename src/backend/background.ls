@@ -364,6 +364,8 @@ do !->>
 
   cached_systemjs_code = null
 
+  cached_bundle_code = {}
+
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
     {content_script_options, name} = intervention_info
 
@@ -664,8 +666,50 @@ do !->>
     }
   }
       """
+      promises = []
+      chunks = find_webpack_chunks(content_script_code)
+      console.log(chunks)
+      for chunknum in chunks
+        chunkname = chunknum + '.js'
+        if cached_bundle_code[chunkname]?
+          bundle_code = cached_bundle_code[chunkname]
+        else
+          bundle_code = await fetch(chunkname).then((.text!))
+          cached_bundle_code[chunkname] = bundle_code
+        promises.push new Promise -> chrome.tabs.executeScript tabId, {code: bundle_code, allFrames: options.all_frames, runAt: options.run_at}, it
+        #await new Promise -> chrome.tabs.executeScript tabId, {code: bundle_code, allFrames: options.all_frames, runAt: options.run_at}, it
+        #await sleep(1000)
+      await Promise.all promises
       await new Promise -> chrome.tabs.executeScript tabId, {code: content_script_code, allFrames: options.all_frames, runAt: options.run_at}, it
     return
+
+  find_webpack_chunks = (code) ->
+    # console.log(code.substring(0, 100))
+    chunks = []
+
+    # Get the range between which there will be requires
+    index = code.indexOf("Promise.all(/*! require.ensure */[") + 34
+    end = code.indexOf("]).then((async function(", index)
+    cutCode = code.substring(index, end)
+    index = 0
+    end = cutCode.length
+
+    if index < 0
+      return
+
+    while(index < end)
+      
+      innerIndex = cutCode.indexOf(".e(", index) + 3
+      numberEnd = cutCode.indexOf(")", innerIndex)
+      if innerIndex < index
+        return chunks
+      console.log(index + ' ' + innerIndex + ' ' + numberEnd + ' ' + end)
+      numberLength = numberEnd - innerIndex
+      number = cutCode.substring(innerIndex, numberEnd)
+      chunks.push(parseInt(number,10))
+      index = numberEnd
+    
+    return chunks
 
   load_intervention_list = (intervention_list, tabId, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
     if intervention_list.length == 0

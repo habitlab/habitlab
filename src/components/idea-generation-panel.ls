@@ -322,9 +322,9 @@ polymer_ext {
     ###
     # console.log("posting this site: " + site + " with this idea: " + idea) 
     site_idea_pair = { goal : goal_info.name, idea : idea_text, userid: userid, installid: install_id, email: idea_email}
-    console.log(site_idea_pair)
+    #console.log(site_idea_pair)
     data = {} <<< site_idea_pair
-    console.log data
+    #console.log data
     # 4. Send it
     upload_successful = true
     try
@@ -388,14 +388,14 @@ polymer_ext {
     self = this
     all_goals = await get_goals()
     # If they've submitted max-votes votes, prompt them to suggest an idea
-    console.log this.num_votes
-    console.log this.max_votes
-    console.log self.ideavoting_submit_prompt
+    #console.log this.num_votes
+    #console.log this.max_votes
+    #console.log self.ideavoting_submit_prompt
     if this.num_votes == this.max_votes and self.ideavoting_submit_prompt
-      console.log self.ideavoting_submit_prompt
-      console.log 'should display prompt'
+      #console.log self.ideavoting_submit_prompt
+      #console.log 'should display prompt'
       self.display_suggest_idea = true
-    console.log self.display_suggest_idea
+    #console.log self.display_suggest_idea
     # display initial choice
     for site_ideas_pair in shuffled(self.site_ideas_mapping)
       goal = site_ideas_pair.goal
@@ -421,7 +421,6 @@ polymer_ext {
           document.getElementById("disable_opt_out").disabled = false
           return
     # if get to this point, then we should disable button
-    console.log 'disabling'
     self.$$('.fix_left').innerText = 'No more nudge ideas to vote on'
     self.$$('.fix_right').innerText = 'No more nudge ideas to vote on'
     document.getElementById("disable_left").disabled = true

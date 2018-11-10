@@ -718,7 +718,9 @@ do !->>
       #console.log(index + ' ' + innerIndex + ' ' + numberEnd + ' ' + end)
       numberLength = numberEnd - innerIndex
       number = cutCode.substring(innerIndex, numberEnd)
-      chunks.push(parseInt(number,10))
+      number_parsed = parseInt(number, 10)
+      if isFinite(number_parsed)
+        chunks.push(number_parsed)
       index = numberEnd
     
     return chunks

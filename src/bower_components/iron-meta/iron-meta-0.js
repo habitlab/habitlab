@@ -2,6 +2,10 @@
 
   (function() {
 
+    if (Polymer.IronMeta) {
+      return
+    }
+
     // monostate data
     var metaDatas = {};
     var metaArrays = {};

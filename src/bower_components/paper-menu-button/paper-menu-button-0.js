@@ -2,6 +2,10 @@
     (function() {
       'use strict';
 
+      if (Polymer.PaperMenuButton) {
+        return
+      }
+
       var config = {
         ANIMATION_CUBIC_BEZIER: 'cubic-bezier(.3,.95,.5,1)',
         MAX_ANIMATION_TIME_MS: 400

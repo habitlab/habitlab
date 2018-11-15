@@ -3,6 +3,8 @@
   vaadin.elements = vaadin.elements || {};
   vaadin.elements.grid = vaadin.elements.grid || {};
 
+if (!window.vaadin.elements.grid.Templatizer) {
+
   vaadin.elements.grid.Templatizer = Polymer({
     is: 'vaadin-grid-templatizer',
 
@@ -106,3 +108,5 @@
       }
     }
   });
+
+}

@@ -1,3 +1,4 @@
+if (typeof(window.Polymer) != 'function') {
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -800,3 +801,4 @@ this._marshalHostAttributes();
 this._marshalBehaviors();
 }
 });
+}

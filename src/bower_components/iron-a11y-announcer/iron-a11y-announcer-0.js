@@ -3,6 +3,10 @@
     (function() {
       'use strict';
 
+      if (Polymer.IronA11yAnnouncer) {
+        return
+      }
+
       Polymer.IronA11yAnnouncer = Polymer({
         is: 'iron-a11y-announcer',
 
@@ -60,6 +64,7 @@
 
         document.body.appendChild(Polymer.IronA11yAnnouncer.instance);
       };
+      
     })();
 
   

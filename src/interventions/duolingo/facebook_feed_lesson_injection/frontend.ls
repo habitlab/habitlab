@@ -1,5 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
 window.feed_injection_active = true
 
 {

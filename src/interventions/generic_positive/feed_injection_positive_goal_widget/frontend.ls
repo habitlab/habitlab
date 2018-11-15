@@ -1,6 +1,3 @@
-window.Polymer = window.Polymer || {}
-window.Polymer.dom = 'shadow'
-
 {
   inject_into_feed
 } = require 'libs_frontend/facebook_utils'

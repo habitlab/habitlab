@@ -1,0 +1,6 @@
+description: Choose the difficulty of your intervention
+displayname: Your Choice
+difficulty: hard
+content_scripts:
+  - path: frontend.js
+    run_at: document_start

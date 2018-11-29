@@ -19,6 +19,7 @@ prelude = require 'prelude-ls'
   getdict_for_key_dictdict
   getvar
   setvar
+  setvar_experiment
 } = require 'libs_backend/db_utils'
 
 {
@@ -1095,6 +1096,67 @@ export list_available_interventions_for_location = (location) ->>
       possible_interventions.push intervention_name
   return possible_interventions
 
+export filter_interventions_by_temporary_difficulty = (intervention_list, all_interventions) ->
+  difficulty = localStorage.getItem('temporary_difficulty')
+  if not difficulty?
+    return intervention_list
+  return filter_interventions_to_best_match_difficulty(intervention_list, difficulty, all_interventions)
+
+export filter_interventions_to_best_match_difficulty = (intervention_list, difficulty, all_interventions) ->
+  console.log('filter_interventions_to_best_match_difficulty')
+  console.log(intervention_list)
+  console.log(difficulty)
+  console.log(all_interventions)
+  if not difficulty?
+    return intervention_list
+  difficulties = ['hard', 'medium', 'easy']
+  target_difficulty_idx = difficulties.indexOf(difficulty)
+  if target_difficulty_idx == -1
+    return intervention_list
+  easiest_allowed_difficulty_idx = target_difficulty_idx
+  while easiest_allowed_difficulty_idx < difficulties.length
+    output = []
+    for intervention_name in intervention_list
+      intervention_info = all_interventions[intervention_name]
+      if not intervention_info?difficulty?
+        continue
+      cur_difficulty = intervention_info.difficulty
+      cur_difficulty_idx = difficulties.indexOf(cur_difficulty)
+      if cur_difficulty_idx == -1
+        continue
+      if cur_difficulty_idx < target_difficulty_idx # too hard
+        continue
+      if cur_difficulty_idx > easiest_allowed_difficulty_idx # too easy
+        continue
+      output.push(intervention_name)
+    easiest_allowed_difficulty_idx += 1
+    if output.length > 0
+      return output
+  return intervention_list
+
+export set_temporary_difficulty = (difficulty) ->>
+  localStorage.setItem('temporary_difficulty', difficulty)
+  setvar_experiment('temporary_difficulty', difficulty)
+  return
+/*
+export get_enabled_intervention_for_goal_by_difficulty = (goal, difficulty) ->>
+  all_interventions = await get_interventions()
+  enabled_interventions = await get_enabled_interventions()
+  intervention_list = await list_all_interventions()
+  available_interventions = []
+  for intervention_name in intervention_list
+    if not enabled_interventions[intervention_name]
+      continue
+    intervention_info = all_interventions[intervention_name]
+    if not intervention_info?goals?indexOf?
+      continue
+    if intervention_info.goals.indexOf(goal) == -1
+      continue
+    if 
+    available_interventions.push(intervention_name)
+  return available_interventions
+*/
+
 export get_manually_managed_interventions_localstorage = ->>
   manually_managed_interventions_str = localStorage.getItem('manually_managed_interventions')
   if not manually_managed_interventions_str?
@@ -1435,6 +1497,28 @@ export get_goals_and_interventions = ->>
     list_of_goals_and_interventions.push current_item
   return list_of_goals_and_interventions
 */
+
+export choose_intervention_for_difficulty_level_and_goal = (difficulty, goal) ->>
+  # TODO in progress
+  available_interventions = await one_random_intervention_per_enabled_goal()
+  all_interventions = await get_interventions()
+  intervention_name_to_load = null
+  for intervention_name in available_interventions
+    intervention_info = all_interventions[intervention_name]
+    if intervention_info.goals?
+      if intervention_info.goals.indexOf(goal) != -1
+        intervention_name_to_load = intervention_name
+        break
+  all_interventions = await get_interventions()
+  await list_enabled_interventions_for_goal(goal)
+  filter_interventions_to_best_match_difficulty(intervention_list, difficulty, all_interventions)
+
+export chose_intervention_for_each_difficulty_level_and_goal = (goal) ->>
+  difficulty_levels = ['hard', 'medium', 'easy']
+  output = {}
+  for difficulty in difficulty_levels
+    output[difficulty] = await choose_intervention_for_difficulty_level(difficulty, goal)
+  return output
 
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'

@@ -1,9 +1,13 @@
+console.log('make_user_wait started')
+
 set_default_parameters({
   seconds: 5 // Seconds that the user must wait before the page loads
 })
 
 require_component('interstitial-screen')
 const $ = require('jquery')
+
+console.log('make_user_wait 2')
 
 const {
   get_is_new_session
@@ -15,6 +19,8 @@ const {
 } = require('libs_frontend/frontend_libs')
 
 var shadow_div;
+
+console.log('make_user_wait 3')
 
 var interst_screen = $('<interstitial-screen>')
 interst_screen.addClass('interst_screen')
@@ -32,6 +38,8 @@ interst_screen.attr('intervention', intervention.name)
 var value_counter = 0;
 var start_time = Date.now()
 
+console.log('make_user_wait 4')
+
 var countdown = setInterval(function() {
   var seconds_elapsed = (Date.now() - start_time) / 1000
   var progress_value = (seconds_elapsed / parameters.seconds) * 100
@@ -45,8 +53,12 @@ var countdown = setInterval(function() {
   }
 }, 50);
 
+console.log('make_user_wait 5');
+
 (async function() {
   const is_new_session = get_is_new_session();
+  console.log('make_user_wait is new session')
+  console.log(is_new_session)
   if (!is_new_session) {
     return;
   }

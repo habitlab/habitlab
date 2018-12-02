@@ -89,7 +89,7 @@ add_abtest 'internal_special_user', ['off'], (chosen_algorithm) ->>
   localStorage.setItem('internal_special_user', chosen_algorithm)
   return
 
-add_abtest 'selection_algorithm_for_visit', ['one_random_intervention_per_enabled_goal_with_frequency'], (chosen_algorithm) ->>
+add_abtest 'selection_algorithm_for_visit', ['one_random_intervention_per_enabled_goal'], (chosen_algorithm) ->>
   localStorage.setItem('selection_algorithm_for_visit', chosen_algorithm)
   return
 

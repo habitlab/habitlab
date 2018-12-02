@@ -94,6 +94,7 @@ do !->>
     enabledisable_interventions_based_on_difficulty
     get_intensity_level_for_intervention
     is_video_domain
+    set_temporary_difficulty
   } = require 'libs_backend/intervention_utils'
 
   {
@@ -325,6 +326,10 @@ do !->>
   } = require 'libs_common/time_utils'
   # require 'libs_common/measurement_utils'
 
+  {
+    one_random_intervention_per_enabled_goal
+  } = require 'libs_backend/intervention_selection_algorithms'
+
   # dlog 'weblab running in background'
   # alert('hello');
 
@@ -368,6 +373,9 @@ do !->>
 
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
     {content_script_options, name} = intervention_info
+
+    console.log('execute_content_scripts_for_intervention intervention_info')
+    console.log(intervention_info)
 
     if localStorage.test_suggestion_mode == 'true'
       is_suggestion_mode = true
@@ -572,8 +580,18 @@ do !->>
           })
         })
         */
+      console.log 'execution of content script in progress'
       content_script_code = """
-  if (!window.allowed_interventions) {
+  console.log('content script execution started')
+  console.log('intervention_list is')
+  console.log('#{intervention_list}')
+  if (window.allowed_interventions) {
+    console.log('window allowed_interventions is set')
+    console.log(window.allowed_interventions)
+  }
+  
+  //if (!window.allowed_interventions) {
+  if (true) {
     window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
 
     window.onunhandledrejection = function(evt) {
@@ -584,10 +602,20 @@ do !->>
     window.loaded_content_scripts = {};
   }
 
+  console.log('content script execution started 2')
+  console.log('allowed interventions is')
+  console.log(window.allowed_interventions)
+  console.log('loaded interventions')
+  console.log(window.loaded_interventions)
+
   if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.loaded_interventions['#{intervention_info_copy.name}']) {
     window.loaded_interventions['#{intervention_info_copy.name}'] = true;
 
-    if (!window.loaded_content_scripts['#{options.path}']) {
+  console.log('content script execution started 3')
+
+
+    //if (!window.loaded_content_scripts['#{options.path}']) {
+    if (true) {
       window.loaded_content_scripts['#{options.path}'] = true;
       const intervention = #{JSON.stringify(intervention_info_copy)};
       const goal_info = #{JSON.stringify(goal_info)};
@@ -609,9 +637,13 @@ do !->>
       };
       window.intervention_disabled = false;
 
+  console.log('content script execution started 4')
+
+
       if (!window.SystemJS) {
         #{systemjs_content_script_code}
       }
+      console.log('executing content script code proper')
       #{content_script_code}
       #{debug_content_script_code_with_hlog}
 
@@ -724,6 +756,17 @@ do !->>
       index = numberEnd
     
     return chunks
+
+  load_intervention_for_session_id = (intervention_name, tabId, session_id) ->>
+    is_new_session = false
+    is_preview_mode = false
+    is_suggestion_mode = false
+    intervention_list = [intervention_name]
+    console.log 'load_intervention_for_session_id called'
+    console.log 'intervention_name is'
+    console.log intervention_name
+    load_intervention_list(intervention_list, tabId, is_new_session, session_id, is_preview_mode, is_suggestion_mode)
+    return
 
   load_intervention_list = (intervention_list, tabId, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
     if intervention_list.length == 0
@@ -934,15 +977,42 @@ do !->>
   message_handlers = get_all_message_handlers()
 
   message_handlers <<< {
+    'print_message': (data) ->>
+      console.log data
+      return
     'getLocation': (data) ->>
       location = await getLocation()
       #dlog 'getLocation background page:'
       #dlog location
       return location
-    #'load_intervention': (data) ->>
-    #  {intervention_name, tabId} = data
-    #  await load_intervention intervention_name, tabId
-    #  return
+    'load_intervention': (data) ->>
+      {intervention_name, tabId} = data
+      console.log('load_intervention being called')
+      #await load_intervention intervention_name, tabId
+      await load_intervention_for_session_id intervention_name, tabId, 0
+      return
+    'load_intervention_by_difficulty_for_goal': (data) ->>
+      await load_intervention_for_session_id "generated_localhost:8080/make_user_wait", tabId, 0
+      return
+      # to do implement this
+      console.log('load_intervention_by_difficulty_for_goal')
+      {difficulty, goal, tabId} = data
+      await set_temporary_difficulty(difficulty)
+      available_interventions = await one_random_intervention_per_enabled_goal()
+      all_interventions = await get_interventions()
+      intervention_name_to_load = null
+      for intervention_name in available_interventions
+        intervention_info = all_interventions[intervention_name]
+        if intervention_info.goals?
+          if intervention_info.goals.indexOf(goal) != -1
+            intervention_name_to_load = intervention_name
+            break
+      #intervention_name = goal_to_selected_intervention[goal]
+      console.log('intervention_name is')
+      console.log(intervention_name_to_load)
+      #intervention_name = await get_enabled_intervention_for_goal_by_difficulty goal, difficulty
+      await load_intervention_for_session_id intervention_name_to_load, tabId, 0
+      return
     'load_intervention_for_location': (data) ->>
       {location, tabId} = data
       await load_intervention_for_location location, tabId

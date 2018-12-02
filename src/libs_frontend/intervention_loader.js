@@ -21,12 +21,13 @@ function load_intervention_by_name(intervention_name) {
   send_message_to_background('load_intervention', {tabId: tab_id, intervention_name: intervention_name})
 }
 
-function load_intervention_by_difficulty(difficulty) {
+function load_intervention_by_difficulty_for_goal(difficulty, goal) {
   console.log('load_intervention_by_difficulty sending message')
   let tab_id = get_tab_id()
-  send_message_to_background('load_intervention_by_difficulty', {tabId: tab_id, difficulty: difficulty})
+  send_message_to_background('load_intervention_by_difficulty_for_goal', {tabId: tab_id, difficulty: difficulty, goal: goal})
 }
 
 module.exports = {
-  load_intervention_by_name
+  load_intervention_by_name,
+  load_intervention_by_difficulty_for_goal,
 }

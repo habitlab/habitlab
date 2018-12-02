@@ -15,9 +15,11 @@ prelude = require 'prelude-ls'
   is_intervention_enabled
   get_time_since_intervention
   get_intervention_info
+  get_interventions
   get_intersection
   list_enabled_interventions_for_goal
   get_novelty
+  filter_interventions_by_temporary_difficulty
 } = require 'libs_backend/intervention_utils'
 
 {
@@ -52,6 +54,7 @@ export one_random_intervention_per_enabled_goal = (enabled_goals) ->>
     enabled_goals = await get_enabled_goals()
   enabled_interventions = await get_enabled_interventions()
   goals = await get_goals()
+  all_interventions = await get_interventions()
   output = []
   output_set = {}
   for goal_name,goal_enabled of enabled_goals
@@ -63,6 +66,11 @@ export one_random_intervention_per_enabled_goal = (enabled_goals) ->>
     available_interventions = [intervention for intervention in interventions when enabled_interventions[intervention]]
     if available_interventions.length == 0
       continue
+    console.log('one_random_intervention_per_enabled_goal')
+    console.log(available_interventions)
+    available_interventions = filter_interventions_by_temporary_difficulty(available_interventions, all_interventions)
+    console.log('after filtering')
+    console.log(available_interventions)
     selected_intervention = shuffled(available_interventions)[0]
     output.push selected_intervention
     output_set[selected_intervention] = true

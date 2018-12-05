@@ -14,6 +14,9 @@ Polymer({
   },
   difficulty_chosen: function(evt) {
     let difficulty = evt.target.getAttribute('difficulty')
+    console.log('difficulty_chosen event being fired')
+    console.log(evt.target)
+    console.log(difficulty)
     log_action({'difficulty': difficulty})
     this.fire('difficulty_chosen', {difficulty: difficulty})
   },

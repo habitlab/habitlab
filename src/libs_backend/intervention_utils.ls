@@ -1500,7 +1500,10 @@ export get_goals_and_interventions = ->>
 
 export choose_intervention_for_difficulty_level_and_goal = (difficulty, goal) ->>
   # TODO in progress
-  available_interventions = await one_random_intervention_per_enabled_goal()
+  console.log('choose_interenvion_for_difficulty_level_and_goal running')
+  console.log(difficulty)
+  console.log(goal)
+  available_interventions = await intervention_selection_algorithms.one_random_intervention_per_enabled_goal()
   all_interventions = await get_interventions()
   intervention_name_to_load = null
   for intervention_name in available_interventions
@@ -1510,8 +1513,8 @@ export choose_intervention_for_difficulty_level_and_goal = (difficulty, goal) ->
         intervention_name_to_load = intervention_name
         break
   all_interventions = await get_interventions()
-  await list_enabled_interventions_for_goal(goal)
-  filter_interventions_to_best_match_difficulty(intervention_list, difficulty, all_interventions)
+  intervention_list = await list_enabled_interventions_for_goal(goal)
+  return filter_interventions_to_best_match_difficulty(intervention_list, difficulty, all_interventions)
 
 export choose_intervention_for_each_difficulty_level_and_goal = (goal) ->>
   difficulty_levels = ['hard', 'medium', 'easy']
@@ -1523,5 +1526,6 @@ export choose_intervention_for_each_difficulty_level_and_goal = (goal) ->>
 intervention_manager = require 'libs_backend/intervention_manager'
 goal_utils = require 'libs_backend/goal_utils'
 log_utils = require 'libs_backend/log_utils'
+intervention_selection_algorithms = require 'libs_backend/intervention_selection_algorithms'
 
 gexport_module 'intervention_utils', -> eval(it)

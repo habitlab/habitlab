@@ -67,7 +67,7 @@
 
       .buttoncontainer {
         width: 100%;
-        height: 100%;
+        /* height: 100%; */
         text-align: center;
         padding: 10px;
       }
@@ -93,34 +93,34 @@
       <div>
       <div style="text-align: left; display: inline-block">
         <paper-button on-click="difficulty_chosen" class="difficultybutton" difficulty="nothing">
-          <div class="buttoncontainer">
-            <div class="buttontop">Don't do anything</div>
-            <br>
-            <div class="buttonbottom">just track time</div>
+          <div class="buttoncontainer" difficulty="nothing">
+            <div class="buttontop" difficulty="nothing">Don't do anything</div>
+            <br difficulty="nothing">
+            <div class="buttonbottom" difficulty="nothing">just track time</div>
           </div>
         </paper-button>
         <br><br>
         <paper-button on-click="difficulty_chosen" class="difficultybutton" difficulty="easy">
-          <div class="buttoncontainer">
-            <div class="buttontop">Light touch</div>
-            <br>
-            <div class="buttonbottom">e.g., show a timer when you visit Facebook</div>
+          <div class="buttoncontainer" difficulty="easy">
+            <div class="buttontop" difficulty="easy">Light touch</div>
+            <br difficulty="easy">
+            <div class="buttonbottom" difficulty="easy">e.g., show a timer when you visit Facebook</div>
           </div>
         </paper-button>
         <br><br>
         <paper-button on-click="difficulty_chosen" class="difficultybutton" difficulty="medium">
-          <div class="buttoncontainer">
-            <div class="buttontop">Medium</div>
-            <br>
-            <div class="buttonbottom">e.g., remove your Facebook feed until you click to show it</div>
+          <div class="buttoncontainer" difficulty="medium">
+            <div class="buttontop" difficulty="medium">Medium</div>
+            <br difficulty="medium">
+            <div class="buttonbottom" difficulty="medium">e.g., remove your Facebook feed until you click to show it</div>
           </div>
         </paper-button>
         <br><br>
         <paper-button on-click="difficulty_chosen" class="difficultybutton" difficulty="hard">
-          <div class="buttoncontainer">
-            <div class="buttontop">Heavy handed</div>
-            <br>
-            <div class="buttonbottom">e.g., close the site after 60 seconds</div>
+          <div class="buttoncontainer" difficulty="hard">
+            <div class="buttontop" difficulty="hard">Heavy handed</div>
+            <br difficulty="hard">
+            <div class="buttonbottom" difficulty="hard">e.g., close the site after 60 seconds</div>
           </div>
         </paper-button>
       </div>

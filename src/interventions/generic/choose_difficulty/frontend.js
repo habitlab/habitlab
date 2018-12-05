@@ -51,7 +51,7 @@ const {
 } = require('libs_frontend/intervention_session_vars')
 
 const {
-  chose_intervention_for_each_difficulty_level
+  choose_intervention_for_each_difficulty_level_and_goal
 } = require('libs_frontend/intervention_utils')
 
 console.log('choose difficulty intervention running 2')
@@ -66,7 +66,8 @@ var difficulty_to_chosen_intervention = null
 
 once_body_available().then(function() {
   shadow_div = append_to_body_shadow(interst_screen);
-  chose_intervention_for_each_difficulty_level().then(function(result) {
+  let goal_name = get_goal_name()
+  choose_intervention_for_each_difficulty_level_and_goal(goal_name).then(function(result) {
     difficulty_to_chosen_intervention = result
   })
   interst_screen[0].addEventListener('difficulty_chosen', function(evt) {
@@ -75,7 +76,7 @@ once_body_available().then(function() {
     let difficulty = evt.detail.difficulty
     $(shadow_div).remove()
     //load_intervention_by_name('generic/close_tab_timer')
-    let goal_name = get_goal_name()
+    
     console.log('goal_name is')
     console.log(goal_name)
     console.log('difficulty is')

@@ -986,33 +986,37 @@ do !->>
       #dlog location
       return location
     'load_intervention': (data) ->>
-      {intervention_name, tabId} = data
+      {intervention_name, tabId, session_id} = data
       console.log('load_intervention being called')
+      console.log('session id is ' + session_id)
       #await load_intervention intervention_name, tabId
-      await load_intervention_for_session_id intervention_name, tabId, 0
+      await load_intervention_for_session_id intervention_name, tabId, session_id
       return
-    'load_intervention_by_difficulty_for_goal': (data) ->>
-      await load_intervention_for_session_id "generated_localhost:8080/make_user_wait", tabId, 0
-      return
-      # to do implement this
-      console.log('load_intervention_by_difficulty_for_goal')
-      {difficulty, goal, tabId} = data
-      await set_temporary_difficulty(difficulty)
-      available_interventions = await one_random_intervention_per_enabled_goal()
-      all_interventions = await get_interventions()
-      intervention_name_to_load = null
-      for intervention_name in available_interventions
-        intervention_info = all_interventions[intervention_name]
-        if intervention_info.goals?
-          if intervention_info.goals.indexOf(goal) != -1
-            intervention_name_to_load = intervention_name
-            break
-      #intervention_name = goal_to_selected_intervention[goal]
-      console.log('intervention_name is')
-      console.log(intervention_name_to_load)
-      #intervention_name = await get_enabled_intervention_for_goal_by_difficulty goal, difficulty
-      await load_intervention_for_session_id intervention_name_to_load, tabId, 0
-      return
+    # 'load_intervention_by_difficulty_for_goal': (data) ->>
+    #   #await load_intervention_for_session_id "generated_localhost:8080/make_user_wait", tabId, 0
+    #   console.log 'load intervention by difficulty for goal'
+    #   console.log data
+    #   {goal, difficutly, tabId} = data
+    #   return
+    #   #to do implement this
+    #   console.log('load_intervention_by_difficulty_for_goal')
+    #   {difficulty, goal, tabId} = data
+    #   await set_temporary_difficulty(difficulty)
+    #   available_interventions = await one_random_intervention_per_enabled_goal()
+    #   all_interventions = await get_interventions()
+    #   intervention_name_to_load = null
+    #   for intervention_name in available_interventions
+    #     intervention_info = all_interventions[intervention_name]
+    #     if intervention_info.goals?
+    #       if intervention_info.goals.indexOf(goal) != -1
+    #         intervention_name_to_load = intervention_name
+    #         break
+    #   #intervention_name = goal_to_selected_intervention[goal]
+    #   console.log('intervention_name is')
+    #   console.log(intervention_name_to_load)
+    #   #intervention_name = await get_enabled_intervention_for_goal_by_difficulty goal, difficulty
+    #   await load_intervention_for_session_id intervention_name_to_load, tabId, 0
+    #   return
     'load_intervention_for_location': (data) ->>
       {location, tabId} = data
       await load_intervention_for_location location, tabId

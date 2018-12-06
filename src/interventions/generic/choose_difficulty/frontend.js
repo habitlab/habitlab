@@ -1,39 +1,12 @@
-/*
 const $ = require('jquery')
 
 const {
-  close_selected_tab
-} = require('libs_common/tab_utils')
-
-const {
-  append_to_body_shadow,
-  once_body_available
-} = require('libs_frontend/frontend_libs')
-
-require_component('habitlab-logo-v2')
-require_component('time-until-tab-autoclose-view')
-
-//Polymer button
-require_component('paper-button')
-
-var display_timespent_div = $('<time-until-tab-autoclose-view>');
-var shadow_div;
-once_body_available().then(function() {
-  shadow_div = append_to_body_shadow(display_timespent_div);
-})
-
-window.on_intervention_disabled = () => {
-  $(shadow_div).remove()
-}
-*/
-
-
-const $ = require('jquery')
-
-const {
-  load_intervention_by_name,
-  load_intervention_by_difficulty_for_goal,
+  load_intervention_by_name
 } = require('libs_frontend/intervention_loader')
+
+const {
+  log_action,
+} = require('libs_frontend/intervention_log_utils')
 
 const {
   append_to_body_shadow,
@@ -54,8 +27,6 @@ const {
   choose_intervention_for_each_difficulty_level_and_goal
 } = require('libs_frontend/intervention_utils')
 
-console.log('choose difficulty intervention running 2')
-
 require_component('interstitial-screen-choose-difficulty')
 
 var interst_screen = $('<interstitial-screen-choose-difficulty>')
@@ -64,44 +35,44 @@ var shadow_div = null
 
 var difficulty_to_chosen_intervention = null
 
-once_body_available().then(function() {
-  shadow_div = append_to_body_shadow(interst_screen);
-  let goal_name = get_goal_name()
-  choose_intervention_for_each_difficulty_level_and_goal(goal_name).then(function(result) {
-    difficulty_to_chosen_intervention = result
-  })
-  interst_screen[0].addEventListener('difficulty_chosen', function(evt) {
-    console.log('difficulty chosen')
-    console.log(evt)
-    let difficulty = evt.detail.difficulty
-    $(shadow_div).remove()
-    //load_intervention_by_name('generic/close_tab_timer')
-    
-    console.log('goal_name is')
-    console.log(goal_name)
-    console.log('difficulty is')
-    console.log(difficulty)
-    const is_new_session = get_is_new_session();
-    if (is_new_session) {
-      load_intervention_by_difficulty_for_goal(difficulty, goal_name)
-      //set_intervention_session_var('chosen_intervention', )
-    } else {
-      let intervention_name = 'generic/close_tab_timer' // todo get actual intervention name
+const is_new_session = get_is_new_session();
+if (is_new_session) {
+  once_body_available().then(function() {
+    shadow_div = append_to_body_shadow(interst_screen);
+    let goal_name = get_goal_name()
+    choose_intervention_for_each_difficulty_level_and_goal(goal_name).then(function(result) {
+      difficulty_to_chosen_intervention = result
+    })
+    interst_screen[0].addEventListener('difficulty_chosen', async function(evt) {
+      let difficulty = evt.detail.difficulty
+      $(shadow_div).remove()
+      
+      if (difficulty == 'nothing') {
+        log_action({'difficulty': difficulty, 'new_session': true})
+        set_intervention_session_var('chosen_intervention_info', JSON.stringify({difficulty: 'nothing'}))
+        return
+      }
+      let intervention_name = difficulty_to_chosen_intervention[difficulty]
+      log_action({'difficulty': difficulty, 'intervention_name': intervention_name, 'new_session': true})
+      set_intervention_session_var('chosen_intervention_info', JSON.stringify({name: intervention_name, difficulty: difficulty}))
       load_intervention_by_name(intervention_name)
-    }
+    })
   })
-})
-
-// setTimeout(function() {
-//   load_intervention_by_name('generic/close_tab_timer')
-// }, 5000)
-
-console.log('choose difficulty intervention done')
+} else {
+  get_intervention_session_var('chosen_intervention_info').then(function(chosen_intervention_info) {
+    if (chosen_intervention_info == null) {
+      return
+    }
+    chosen_intervention_info = JSON.parse(chosen_intervention_info)
+    if (chosen_intervention_info.name == null) {
+      log_action({'difficulty': chosen_intervention_info.difficulty, 'new_session': false})
+      return
+    }
+    log_action({'difficulty': chosen_intervention_info.difficulty, 'intervention_name': chosen_intervention_info.name, 'new_session': false})
+    load_intervention_by_name(chosen_intervention_info.name)
+  })
+}
 
 window.on_intervention_disabled = () => {
   $(shadow_div).remove()
 }
-
-//alert('choose difficulty intervention running 2');
-
-

@@ -1514,7 +1514,8 @@ export choose_intervention_for_difficulty_level_and_goal = (difficulty, goal) ->
         break
   all_interventions = await get_interventions()
   intervention_list = await list_enabled_interventions_for_goal(goal)
-  return filter_interventions_to_best_match_difficulty(intervention_list, difficulty, all_interventions)
+  output = filter_interventions_to_best_match_difficulty(intervention_list, difficulty, all_interventions)
+  return output[Math.floor(Math.random() * output.length)]
 
 export choose_intervention_for_each_difficulty_level_and_goal = (goal) ->>
   difficulty_levels = ['hard', 'medium', 'easy']

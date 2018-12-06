@@ -987,9 +987,6 @@ do !->>
       return location
     'load_intervention': (data) ->>
       {intervention_name, tabId, session_id} = data
-      console.log('load_intervention being called')
-      console.log('session id is ' + session_id)
-      #await load_intervention intervention_name, tabId
       await load_intervention_for_session_id intervention_name, tabId, session_id
       return
     # 'load_intervention_by_difficulty_for_goal': (data) ->>

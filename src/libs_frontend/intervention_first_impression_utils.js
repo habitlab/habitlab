@@ -27,6 +27,10 @@ async function show_first_impression_notice_if_needed () {
   if (intervention.generic_intervention != null) {
     intervention_name = intervention.generic_intervention
   }
+
+  if (intervention_name.startsWith('internal/')) {
+    return
+  }
   const {show_firstimpression_message_for_intervention} = require('libs_common/intervention_first_impression_utils_backend')
   let notice_to_show = await show_firstimpression_message_for_intervention(intervention_name)
 

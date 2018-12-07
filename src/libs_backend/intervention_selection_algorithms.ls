@@ -612,7 +612,7 @@ selection_algorithms_for_visit = {
   'thompsonsampling': thompsonsampling
   'random': one_random_intervention_per_enabled_goal
   'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal
-  'one_random_intervention_per_enabled_goal_with_frequency': one_random_intervention_per_enabled_goal_with_frequency
+  'one_random_intervention_per_enabled_goal_with_frequency': one_random_intervention_per_enabled_goal # one_random_intervention_per_enabled_goal_with_frequency
   'default': one_random_intervention_per_enabled_goal
   'experiment_always_same': experiment_always_same
   'experiment_oneperday': experiment_oneperday

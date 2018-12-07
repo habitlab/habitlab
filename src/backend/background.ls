@@ -79,6 +79,7 @@ do !->>
     site_has_enabled_spend_less_time_goal
     get_have_suggested_domain_as_goal
     is_domain_unproductive
+    list_goals_for_location
   } = require 'libs_backend/goal_utils'
 
   {
@@ -816,6 +817,8 @@ do !->>
   page_was_just_refreshed = false
 
   load_intervention_for_location = promise-debounce (location, tabId) ->>
+
+    console.log 'load_intervention_for_loaction'
     if is_it_outside_work_hours() and (not localStorage.getItem('override_enabled_interventions_once')?)
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
@@ -835,12 +838,14 @@ do !->>
     if (not has_enabled_spend_less_time_goal) and (not override_enabled_interventions?)
       return
 
+    console.log 'load_intervention_for_loaction 2'
     if not domain_to_prev_enabled_interventions[domain]?
       domain_to_prev_enabled_interventions[domain] = []
     prev_enabled_interventions = domain_to_prev_enabled_interventions[domain]
     all_enabled_interventions = await list_all_enabled_interventions_for_location(domain)
     if (all_enabled_interventions.length == 0) and (not override_enabled_interventions?)
       return
+    console.log 'load_intervention_for_loaction 2.5'
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
     active_interventions = await getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
@@ -851,10 +856,18 @@ do !->>
     if not active_interventions?
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
+        console.log 'possible interventions 1'
+        console.log possible_interventions
       else
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
+        console.log 'possible interventions 2'
+        console.log possible_interventions
       intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
       intervention_suggestion = await get_suggested_intervention_if_needed_for_url(location)
+      console.log 'intervention is'
+      console.log intervention
+      console.log 'intervention suggestion is'
+      console.log intervention_suggestion
       if intervention_suggestion?
         intervention = intervention_suggestion
         is_suggestion_mode = true
@@ -907,10 +920,28 @@ do !->>
         else
           await set_active_interventions_for_domain_and_session domain, session_id, []
         localStorage.removeItem('override_enabled_interventions_once')
+    console.log 'load_intervention_for_loaction 3'
     page_was_just_refreshed := false
     interventions_to_load = []
     if intervention?
       interventions_to_load.push intervention
+    if intervention? # todo this is where we auto deploy them
+      console.log 'auto deploy running'
+      all_interventions = await get_interventions()
+      interventions_to_load = ['internal/choose_difficulty']
+      intervention_info = all_interventions['internal/choose_difficulty']
+      goal_name = all_interventions[intervention]
+      intervention_info_new = {}
+      for k,v of intervention_info
+        if k == 'goals'
+          #v = ['reddit/spend_less_time'] # todo get goal for the site
+          v = await list_goals_for_location(location)
+        intervention_info_new[k] = v
+      console.log 'intervention_info_new'
+      console.log intervention_info_new
+      await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
+      console.log 'finished execute content scripts for intervention'
+      return
     #if not intervention?
     #  return
     #await load_intervention intervention, tabId

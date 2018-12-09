@@ -29,7 +29,7 @@ JSON file using [RawGit](https://rawgit.com/). It is recommended to replace
 JSON format may change in the future.
 
 ```
-https://cdn.rawgit.com/jshttp/mime-db/master/db.json
+https://cdn.jsdelivr.net/gh/jshttp/mime-db@master/db.json
 ```
 
 ## Usage

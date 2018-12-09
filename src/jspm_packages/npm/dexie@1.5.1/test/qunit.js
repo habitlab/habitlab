@@ -1302,7 +1302,7 @@ Test.prototype = {
         /*
 		if (config.polyfillIE && ![].slice.call(document.getElementsByTagName("script")).some(function (s) { return s.src.indexOf("idb-iegap") != -1; })) {
 		    var scriptTag = document.createElement('script');
-		    scriptTag.src = "https://rawgit.com/dfahlander/idb-iegap/master/idb-iegap.min.js";
+		    scriptTag.src = "https://cdn.jsdelivr.net/gh/dfahlander/idb-iegap@master/idb-iegap.min.js";
 		    document.head.appendChild(scriptTag);
 		}
 	    if (config.indexedDBShim && ![].slice.call(document.getElementsByTagName("script")).some(function(s) { return s.src.indexOf("IndexedDBShim") != -1; })) {
@@ -2332,8 +2332,8 @@ if ( typeof module !== "undefined" && module.exports ) {
 
 // Include optional polyfills
 if (window.location.search.indexOf('polyfillIE=true') != -1) {
-    document.write('<script src="https://rawgit.com/dfahlander/idb-iegap/master/idb-iegap.js">\x3C/script>');
+    document.write('<script src="https://cdn.jsdelivr.net/gh/dfahlander/idb-iegap@master/idb-iegap.js">\x3C/script>');
 }
 if (window.location.search.indexOf('indexedDBShim=true') != -1) {
-    document.write('<script src="https://rawgit.com/axemclion/IndexedDBShim/master/dist/indexeddbshim.js">\x3C/script>');
+    document.write('<script src="https://cdn.jsdelivr.net/gh/axemclion/IndexedDBShim@master/dist/indexeddbshim.js">\x3C/script>');
 }

@@ -1499,11 +1499,6 @@ export get_goals_and_interventions = ->>
 */
 
 export choose_intervention_for_difficulty_level_and_goal = (difficulty, goal) ->>
-  console.log('choose_intervention_for_difficulty_level_and_goal')
-  console.log('difficulty is')
-  console.log(difficulty)
-  console.log('goal is')
-  console.log(goal)
   available_interventions = await intervention_selection_algorithms.one_random_intervention_per_enabled_goal()
   all_interventions = await get_interventions()
   intervention_name_to_load = null

@@ -25,6 +25,7 @@ do !->>
     addtokey_dictdict
     getkey_dictdict
     getkey_dict
+    setkey_dictdict
     getDb
   } = require 'libs_backend/db_utils'
 
@@ -96,6 +97,7 @@ do !->>
     get_intensity_level_for_intervention
     is_video_domain
     set_temporary_difficulty
+    choose_intervention_for_difficulty_level_and_goal
   } = require 'libs_backend/intervention_utils'
 
   {

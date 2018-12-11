@@ -375,9 +375,6 @@ do !->>
   execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
     {content_script_options, name} = intervention_info
 
-    console.log('execute_content_scripts_for_intervention intervention_info')
-    console.log(intervention_info)
-
     if localStorage.test_suggestion_mode == 'true'
       is_suggestion_mode = true
     is_suggestion_mode_optout = localStorage.getItem('suggestion_mode_optout') == 'true'
@@ -581,16 +578,7 @@ do !->>
           })
         })
         */
-      console.log 'execution of content script in progress'
       content_script_code = """
-  console.log('content script execution started')
-  console.log('intervention_list is')
-  console.log('#{intervention_list}')
-  if (window.allowed_interventions) {
-    console.log('window allowed_interventions is set')
-    console.log(window.allowed_interventions)
-  }
-  
   //if (!window.allowed_interventions) {
   if (true) {
     window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
@@ -603,17 +591,8 @@ do !->>
     window.loaded_content_scripts = {};
   }
 
-  console.log('content script execution started 2')
-  console.log('allowed interventions is')
-  console.log(window.allowed_interventions)
-  console.log('loaded interventions')
-  console.log(window.loaded_interventions)
-
   if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.loaded_interventions['#{intervention_info_copy.name}']) {
     window.loaded_interventions['#{intervention_info_copy.name}'] = true;
-
-  console.log('content script execution started 3')
-
 
     //if (!window.loaded_content_scripts['#{options.path}']) {
     if (true) {
@@ -638,13 +617,9 @@ do !->>
       };
       window.intervention_disabled = false;
 
-  console.log('content script execution started 4')
-
-
       if (!window.SystemJS) {
         #{systemjs_content_script_code}
       }
-      console.log('executing content script code proper')
       #{content_script_code}
       #{debug_content_script_code_with_hlog}
 
@@ -657,7 +632,6 @@ do !->>
         document.body.addEventListener('disable_intervention', function() {
           window.intervention_disabled = true;
           if (typeof(window.on_intervention_disabled) == 'function') {
-            console.log('rinsitnrs');
             window.on_intervention_disabled();
           } else {
             SystemJS.import_multi(['libs_frontend/content_script_utils', 'sweetalert2'], function(content_script_utils, sweetalert) {
@@ -701,7 +675,6 @@ do !->>
       """
       promises = []
       chunks = find_webpack_chunks(content_script_code)
-      console.log(chunks)
       for chunknum in chunks
         chunkname = chunknum + '.js'
         if cached_bundle_code[chunkname]?
@@ -763,9 +736,6 @@ do !->>
     is_preview_mode = false
     is_suggestion_mode = false
     intervention_list = [intervention_name]
-    console.log 'load_intervention_for_session_id called'
-    console.log 'intervention_name is'
-    console.log intervention_name
     load_intervention_list(intervention_list, tabId, is_new_session, session_id, is_preview_mode, is_suggestion_mode)
     return
 
@@ -818,7 +788,6 @@ do !->>
 
   load_intervention_for_location = promise-debounce (location, tabId) ->>
 
-    console.log 'load_intervention_for_loaction'
     if is_it_outside_work_hours() and (not localStorage.getItem('override_enabled_interventions_once')?)
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
       return
@@ -838,14 +807,12 @@ do !->>
     if (not has_enabled_spend_less_time_goal) and (not override_enabled_interventions?)
       return
 
-    console.log 'load_intervention_for_loaction 2'
     if not domain_to_prev_enabled_interventions[domain]?
       domain_to_prev_enabled_interventions[domain] = []
     prev_enabled_interventions = domain_to_prev_enabled_interventions[domain]
     all_enabled_interventions = await list_all_enabled_interventions_for_location(domain)
     if (all_enabled_interventions.length == 0) and (not override_enabled_interventions?)
       return
-    console.log 'load_intervention_for_loaction 2.5'
     domain_to_prev_enabled_interventions[domain] = all_enabled_interventions
     enabled_intervention_set_changed = JSON.stringify(all_enabled_interventions) != JSON.stringify(prev_enabled_interventions)
     active_interventions = await getkey_dictdict 'interventions_active_for_domain_and_session', domain, session_id
@@ -857,18 +824,10 @@ do !->>
     if not active_interventions?
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
-        console.log 'possible interventions 1'
-        console.log possible_interventions
       else
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
-        console.log 'possible interventions 2'
-        console.log possible_interventions
       intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
       intervention_suggestion = await get_suggested_intervention_if_needed_for_url(location)
-      console.log 'intervention is'
-      console.log intervention
-      console.log 'intervention suggestion is'
-      console.log intervention_suggestion
       if intervention_suggestion?
         intervention = intervention_suggestion
         is_suggestion_mode = true
@@ -923,7 +882,6 @@ do !->>
         #  await set_active_interventions_for_domain_and_session domain, session_id, []
         should_set_active_interventions = true
         localStorage.removeItem('override_enabled_interventions_once')
-    console.log 'load_intervention_for_loaction 3'
     page_was_just_refreshed := false
     interventions_to_load = []
     if intervention?
@@ -954,16 +912,11 @@ do !->>
         chosen_intervention_name = await choose_intervention_for_difficulty_level_and_goal(temporary_difficulty, goals_list[0])
         interventions_to_load = [chosen_intervention_name]
         intervention_info_new = all_interventions[chosen_intervention_name]
-        console.log('chosen_intervention_name is')
-        console.log(chosen_intervention_name)
-        console.log('intervention info new is')
-        console.log(intervention_info_new)
         await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
         await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         return
       else
-        console.log 'auto deploy running'
         interventions_to_load = ['internal/choose_difficulty']
         intervention_info = all_interventions['internal/choose_difficulty']
         intervention_info_new = {}
@@ -972,9 +925,6 @@ do !->>
             #v = ['reddit/spend_less_time'] # todo get goal for the site
             v = goals_list
           intervention_info_new[k] = v
-        console.log 'intervention_info_new'
-        console.log intervention_info_new
-        console.log 'finished execute content scripts for intervention'
         await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
         await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
@@ -1063,31 +1013,6 @@ do !->>
       await load_intervention_for_session_id intervention_name, tabId, session_id
       await setkey_dictdict('interventions_active_for_domain_and_session', domain, session_id, JSON.stringify([intervention_name]))
       return
-    # 'load_intervention_by_difficulty_for_goal': (data) ->>
-    #   #await load_intervention_for_session_id "generated_localhost:8080/make_user_wait", tabId, 0
-    #   console.log 'load intervention by difficulty for goal'
-    #   console.log data
-    #   {goal, difficutly, tabId} = data
-    #   return
-    #   #to do implement this
-    #   console.log('load_intervention_by_difficulty_for_goal')
-    #   {difficulty, goal, tabId} = data
-    #   await set_temporary_difficulty(difficulty)
-    #   available_interventions = await one_random_intervention_per_enabled_goal()
-    #   all_interventions = await get_interventions()
-    #   intervention_name_to_load = null
-    #   for intervention_name in available_interventions
-    #     intervention_info = all_interventions[intervention_name]
-    #     if intervention_info.goals?
-    #       if intervention_info.goals.indexOf(goal) != -1
-    #         intervention_name_to_load = intervention_name
-    #         break
-    #   #intervention_name = goal_to_selected_intervention[goal]
-    #   console.log('intervention_name is')
-    #   console.log(intervention_name_to_load)
-    #   #intervention_name = await get_enabled_intervention_for_goal_by_difficulty goal, difficulty
-    #   await load_intervention_for_session_id intervention_name_to_load, tabId, 0
-    #   return
     'load_intervention_for_location': (data) ->>
       {location, tabId} = data
       await load_intervention_for_location location, tabId

@@ -853,6 +853,7 @@ do !->>
     dlog active_interventions
     dlog 'override_enabled_interventions is'
     dlog override_enabled_interventions
+    should_set_active_interventions = false
     if not active_interventions?
       if override_enabled_interventions?
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
@@ -871,10 +872,11 @@ do !->>
       if intervention_suggestion?
         intervention = intervention_suggestion
         is_suggestion_mode = true
-      if intervention?
-        await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
-      else
-        await set_active_interventions_for_domain_and_session domain, session_id, []
+      should_set_active_interventions = true
+      #if intervention?
+      #  await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+      #else
+      #  await set_active_interventions_for_domain_and_session domain, session_id, []
       localStorage.removeItem('override_enabled_interventions_once')
     else
       active_interventions = JSON.parse active_interventions
@@ -915,33 +917,65 @@ do !->>
           is_suggestion_mode = true
 
         #domain_to_session_id_to_intervention[domain][session_id] = intervention
-        if intervention?
-          await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
-        else
-          await set_active_interventions_for_domain_and_session domain, session_id, []
+        #if intervention?
+        #  await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+        #else
+        #  await set_active_interventions_for_domain_and_session domain, session_id, []
+        should_set_active_interventions = true
         localStorage.removeItem('override_enabled_interventions_once')
     console.log 'load_intervention_for_loaction 3'
     page_was_just_refreshed := false
     interventions_to_load = []
     if intervention?
       interventions_to_load.push intervention
-    if intervention? # todo this is where we auto deploy them
-      console.log 'auto deploy running'
+    #if not localStorage.frequency_of_choose_difficulty?
+    #  # todo set the abtest for this on existing users
+    #  await 
+    if is_new_session and intervention? and localStorage.frequency_of_choose_difficulty? # todo this is where we auto deploy them
+      frequency_of_choose_difficulty = localStorage.frequency_of_choose_difficulty # todo get this from localstorage
+      frequency_of_choose_difficulty = parseFloat(frequency_of_choose_difficulty)
+      temporary_difficulty = localStorage.getItem 'temporary_difficulty'
       all_interventions = await get_interventions()
-      interventions_to_load = ['internal/choose_difficulty']
-      intervention_info = all_interventions['internal/choose_difficulty']
-      goal_name = all_interventions[intervention]
-      intervention_info_new = {}
-      for k,v of intervention_info
-        if k == 'goals'
-          #v = ['reddit/spend_less_time'] # todo get goal for the site
-          v = await list_goals_for_location(location)
-        intervention_info_new[k] = v
-      console.log 'intervention_info_new'
-      console.log intervention_info_new
-      await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
-      console.log 'finished execute content scripts for intervention'
-      return
+      goals_list = await list_goals_for_location(location)
+      choose_by_temporary_difficulty = not (Math.random() < frequency_of_choose_difficulty)
+      #choose_by_temporary_difficulty = false # have this be by randomness
+      if not temporary_difficulty?
+        choose_by_temporary_difficulty = false
+      if choose_by_temporary_difficulty
+        if (goals_list.length == 0) or ['easy', 'medium', 'hard'].indexOf(temporary_difficulty) == -1 # temporary difficulty not set, or is nothing
+          await set_active_interventions_for_domain_and_session domain, session_id, []
+          return
+        chosen_intervention_name = await choose_intervention_for_difficulty_level_and_goal(temporary_difficulty, goals_list[0])
+        interventions_to_load = [chosen_intervention_name]
+        intervention_info_new = all_interventions[chosen_intervention_name]
+        console.log('chosen_intervention_name is')
+        console.log(chosen_intervention_name)
+        console.log('intervention info new is')
+        console.log(intervention_info_new)
+        await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
+        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
+        return
+      else
+        console.log 'auto deploy running'
+        interventions_to_load = ['internal/choose_difficulty']
+        intervention_info = all_interventions['internal/choose_difficulty']
+        intervention_info_new = {}
+        for k,v of intervention_info
+          if k == 'goals'
+            #v = ['reddit/spend_less_time'] # todo get goal for the site
+            v = goals_list
+          intervention_info_new[k] = v
+        console.log 'intervention_info_new'
+        console.log intervention_info_new
+        console.log 'finished execute content scripts for intervention'
+        await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
+        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
+        return
+    if should_set_active_interventions
+      if intervention?
+        await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+      else
+        await set_active_interventions_for_domain_and_session domain, session_id, []
     #if not intervention?
     #  return
     #await load_intervention intervention, tabId

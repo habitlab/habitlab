@@ -97,6 +97,10 @@ add_abtest 'intervention_firstimpression_notice', ['power'], (chosen_algorithm) 
   localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
   return
 
+add_abtest 'frequency_of_choose_difficulty', ['0.0', '0.25', '0.5', '1.0'], (chosen_algorithm) ->>
+  localStorage.setItem('frequency_of_choose_difficulty', chosen_algorithm)
+  return
+
 add_abtest 'difficulty_selection_screen', ['nodefault_optional', 'survey_nochoice_nothing', 'survey_nochoice_easy', 'survey_nochoice_medium', 'survey_nochoice_hard'], (chosen_algorithm) ->>
   if chosen_algorithm == 'survey_nochoice_nothing'
     localStorage.setItem('difficulty_selector_survey', true)

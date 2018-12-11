@@ -24,7 +24,8 @@ const {
 } = require('libs_frontend/intervention_session_vars')
 
 const {
-  choose_intervention_for_each_difficulty_level_and_goal
+  choose_intervention_for_each_difficulty_level_and_goal,
+  set_temporary_difficulty,
 } = require('libs_frontend/intervention_utils')
 
 require_component('interstitial-screen-choose-difficulty')
@@ -46,7 +47,8 @@ if (is_new_session) {
     interst_screen[0].addEventListener('difficulty_chosen', async function(evt) {
       let difficulty = evt.detail.difficulty
       $(shadow_div).remove()
-      
+
+      set_temporary_difficulty(difficulty)
       if (difficulty == 'nothing') {
         log_action({'difficulty': difficulty, 'new_session': true})
         set_intervention_session_var('chosen_intervention_info', JSON.stringify({difficulty: 'nothing'}))

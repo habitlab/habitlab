@@ -930,20 +930,26 @@ do !->>
       interventions_to_load.push intervention
     #if not localStorage.frequency_of_choose_difficulty?
     #  # todo set the abtest for this on existing users
-    #  await 
-    if is_new_session and intervention? and localStorage.frequency_of_choose_difficulty? # todo this is where we auto deploy them
+    #  await run_abtest('frequency_of_choose_difficulty')
+    #  await setvar_experiment('moved_into_choose_difficulty_experiment', 'true')
+    if is_new_session and intervention? and (not is_suggestion_mode) and localStorage.frequency_of_choose_difficulty? # todo this is where we auto deploy them
       frequency_of_choose_difficulty = localStorage.frequency_of_choose_difficulty # todo get this from localstorage
       frequency_of_choose_difficulty = parseFloat(frequency_of_choose_difficulty)
-      temporary_difficulty = localStorage.getItem 'temporary_difficulty'
       all_interventions = await get_interventions()
       goals_list = await list_goals_for_location(location)
       choose_by_temporary_difficulty = not (Math.random() < frequency_of_choose_difficulty)
+      temporary_difficulty = localStorage.getItem 'temporary_difficulty'
+      if not temporary_difficulty?
+        temporary_difficulty = localStorage.user_chosen_difficulty_survey
+      if not temporary_difficulty?
+        temporary_difficulty = localStorage.user_chosen_difficulty
       #choose_by_temporary_difficulty = false # have this be by randomness
       if not temporary_difficulty?
         choose_by_temporary_difficulty = false
       if choose_by_temporary_difficulty
         if (goals_list.length == 0) or ['easy', 'medium', 'hard'].indexOf(temporary_difficulty) == -1 # temporary difficulty not set, or is nothing
           await set_active_interventions_for_domain_and_session domain, session_id, []
+          chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
           return
         chosen_intervention_name = await choose_intervention_for_difficulty_level_and_goal(temporary_difficulty, goals_list[0])
         interventions_to_load = [chosen_intervention_name]
@@ -954,6 +960,7 @@ do !->>
         console.log(intervention_info_new)
         await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
         await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
+        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         return
       else
         console.log 'auto deploy running'
@@ -970,6 +977,7 @@ do !->>
         console.log 'finished execute content scripts for intervention'
         await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
         await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
+        chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         return
     if should_set_active_interventions
       if intervention?
@@ -1261,6 +1269,8 @@ do !->>
     delete tab_id_to_url[tabId]
     delete tab_id_to_loaded_interventions[tabId]
     interventions_active = await getkey_dictdict('interventions_active_for_domain_and_session', domain, session_id)
+    console.log('tab removed interventions active')
+    console.log(interventions_active)
     if (not interventions_active?) or (interventions_active.length == 0) or interventions_active == '[]'
       return
     if reward_display_base_code_cached == null

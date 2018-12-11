@@ -101,7 +101,8 @@ add_abtest 'frequency_of_choose_difficulty', ['0.0', '0.25', '0.5', '1.0'], (cho
   localStorage.setItem('frequency_of_choose_difficulty', chosen_algorithm)
   return
 
-add_abtest 'difficulty_selection_screen', ['nodefault_optional', 'survey_nochoice_nothing', 'survey_nochoice_easy', 'survey_nochoice_medium', 'survey_nochoice_hard'], (chosen_algorithm) ->>
+#add_abtest 'difficulty_selection_screen', ['nodefault_optional', 'survey_nochoice_nothing', 'survey_nochoice_easy', 'survey_nochoice_medium', 'survey_nochoice_hard'], (chosen_algorithm) ->>
+add_abtest 'difficulty_selection_screen', ['nodefault_forcedchoice'], (chosen_algorithm) ->>
   if chosen_algorithm == 'survey_nochoice_nothing'
     localStorage.setItem('difficulty_selector_survey', true)
     setvar_experiment('user_chosen_difficulty', 'nothing')

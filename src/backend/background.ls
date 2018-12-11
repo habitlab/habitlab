@@ -892,7 +892,8 @@ do !->>
     #  # todo set the abtest for this on existing users
     #  await run_abtest('frequency_of_choose_difficulty')
     #  await setvar_experiment('moved_into_choose_difficulty_experiment', 'true')
-    if is_new_session and intervention? and (not is_suggestion_mode) and localStorage.frequency_of_choose_difficulty? # todo this is where we auto deploy them
+    is_preview_mode = override_enabled_interventions?
+    if is_new_session and intervention? and (not is_preview_mode) and (not is_suggestion_mode) and localStorage.frequency_of_choose_difficulty? # todo this is where we auto deploy them
       frequency_of_choose_difficulty = localStorage.frequency_of_choose_difficulty # todo get this from localstorage
       frequency_of_choose_difficulty = parseFloat(frequency_of_choose_difficulty)
       all_interventions = await get_interventions()
@@ -1223,6 +1224,8 @@ do !->>
       if intervention_info.custom
         return
       intervention_name = intervention_info.name
+      if intervention_name.startsWith('internal/')
+        return
       generic_name = intervention_info.generic_intervention ? intervention_name
       existing_rating = await get_intensity_level_for_intervention(generic_name)
       if existing_rating?

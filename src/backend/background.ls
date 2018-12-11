@@ -1059,8 +1059,9 @@ do !->>
       #dlog location
       return location
     'load_intervention': (data) ->>
-      {intervention_name, tabId, session_id} = data
+      {domain, intervention_name, tabId, session_id} = data
       await load_intervention_for_session_id intervention_name, tabId, session_id
+      await setkey_dictdict('interventions_active_for_domain_and_session', domain, session_id, JSON.stringify([intervention_name]))
       return
     # 'load_intervention_by_difficulty_for_goal': (data) ->>
     #   #await load_intervention_for_session_id "generated_localhost:8080/make_user_wait", tabId, 0
@@ -1269,8 +1270,6 @@ do !->>
     delete tab_id_to_url[tabId]
     delete tab_id_to_loaded_interventions[tabId]
     interventions_active = await getkey_dictdict('interventions_active_for_domain_and_session', domain, session_id)
-    console.log('tab removed interventions active')
-    console.log(interventions_active)
     if (not interventions_active?) or (interventions_active.length == 0) or interventions_active == '[]'
       return
     if reward_display_base_code_cached == null

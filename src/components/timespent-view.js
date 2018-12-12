@@ -60,7 +60,6 @@ polymer_ext({
     return time_remaining
   },
   start: async function(seconds_spent_at_most_recent_start) {
-    console.log('in timer start')
     if (this.started) {
       return
     }
@@ -73,9 +72,6 @@ polymer_ext({
     self.time_spent_on_domain_now = await get_seconds_spent_on_current_domain_in_current_session()
     let was_time_remaining_previously_zero = false
     setInterval(async function() {
-      console.log(self.time_spent_on_domain_now)
-      console.log(self.seconds_remaining)
-      console.log(self.displayText)
       self.time_spent_on_domain_now = await get_seconds_spent_on_current_domain_in_current_session()
       if (self.seconds_remaining <= 0) {
         if (!was_time_remaining_previously_zero) {
@@ -88,7 +84,6 @@ polymer_ext({
     }, 1000)
   },
   startTimer: async function(seconds, seconds_spent_at_most_recent_start) {
-    console.log('starting timer')
     if (seconds_spent_at_most_recent_start == null) {
       seconds_spent_at_most_recent_start = 0
     }

@@ -163,11 +163,9 @@ define_component(`
   },
   okClick: async function() {
     this.remove()
-    console.log(this.time)
     let current_time_spent = await get_seconds_spent_on_current_domain_in_current_session()
     set_intervention_session_var('seconds_spent_at_most_recent_start', current_time_spent)
     set_intervention_session_var('seconds_selected', this.time*60)
-    console.log(current_time_spent)
     displayCountdown(this.time * 60, current_time_spent)
   }
 });
@@ -339,8 +337,6 @@ function main() {
   var custom_component = $('<begin-dialog>');
   shadow_div.append(custom_component);
   //shadow_div.append(custom_component);
-  console.log('appended')
-  console.log(custom_component)
 }
 
 (async function() {

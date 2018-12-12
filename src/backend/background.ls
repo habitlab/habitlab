@@ -733,8 +733,8 @@ do !->>
     
     return chunks
 
-  load_intervention_for_session_id = (intervention_name, tabId, session_id) ->>
-    is_new_session = false
+  load_intervention_for_session_id = (intervention_name, tabId, session_id, is_new_session) ->>
+    #is_new_session = false
     is_preview_mode = false
     is_suggestion_mode = false
     intervention_list = [intervention_name]
@@ -1012,8 +1012,8 @@ do !->>
       #dlog location
       return location
     'load_intervention': (data) ->>
-      {domain, intervention_name, tabId, session_id} = data
-      await load_intervention_for_session_id intervention_name, tabId, session_id
+      {domain, intervention_name, tabId, session_id, is_new_session} = data
+      await load_intervention_for_session_id intervention_name, tabId, session_id, is_new_session
       await setkey_dictdict('interventions_active_for_domain_and_session', domain, session_id, JSON.stringify([intervention_name]))
       return
     'load_intervention_for_location': (data) ->>

@@ -20,6 +20,7 @@ interventions:
   - generic/close_tab_timer
   - generic/block_after_interval_per_visit
   - generic/prompt_reason
+  - generic/prompt_antecedent
 default_interventions:
   - facebook/feed_injection_timer
   - facebook/remove_news_feed

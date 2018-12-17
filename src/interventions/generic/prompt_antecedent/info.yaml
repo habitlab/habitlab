@@ -1,0 +1,8 @@
+description: Asks what the antecedent to your visit was
+displayname: Antecedent Spotter
+difficulty: hard
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+categories:
+  - interstitial

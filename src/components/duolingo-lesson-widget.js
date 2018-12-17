@@ -9,6 +9,10 @@ const {
 } = require('libs_common/duolingo_utils')
 
 const {
+  log_action,
+} = require('libs_frontend/intervention_log_utils')
+
+const {
   set_alternative_url_to_track  
 } = require('libs_frontend/content_script_utils')
 
@@ -133,6 +137,10 @@ polymer_ext({
   onUnhovered: function(evt) {
     this.hovered = false;
     set_alternative_url_to_track(null)
+  },
+  goClicked: function() {
+    log_action({'positive': 'Went to duolingo lesson.'})
+    window.location.href = this.iframeURL
   },
   signinClicked: function(evt) {
     let login_timeout = 120 

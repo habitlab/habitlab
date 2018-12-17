@@ -49,7 +49,7 @@ $(window).resize ->
 #     #duolingo-lesson-div.style.top = offset.top
 
 component_generator = (numitems) ->
-  feed-item = $('<div class="duolingo-lesson-container" style="height: 645px; width: 500px; position: relative;"></div>')
+  feed-item = $('<div class="duolingo-lesson-container" style="height: 189px; width: 500px; position: relative;"></div>')
   feed-item.attr('items', window.itemsseen)
   view-trigger-top = $('<div style="width: 1px; height: 1px">')
   feed-item.append(view-trigger-top)

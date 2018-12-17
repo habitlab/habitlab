@@ -7,9 +7,22 @@
       <style is="custom-style">
           .lesson-container {
             /* min-height: 600px; */
-            width: var(--lesson-container-width, 100%);
+/*            width: var(--lesson-container-width, 100%);
             background-color: var(--lesson-container-bg-color, white);
-            text-align: center; 
+            text-align: center;*/
+
+            max-width: 519px;
+            min-width: 400px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-family: var(--trigger-font-family);
+            border-color: var(--trigger-border-color, #ffffff);
+            border-style: var(--trigger-border-style, none);
+            border-width: var(--trigger-border-width, 0px);
+            background-color: var(--trigger-bg-color, #ffffff); 
           }
           .call-to-action {
             padding: 20px 10px 0px 10px;
@@ -31,13 +44,38 @@
             align-items: center;
             justify-content: center;
           }
+
+          #trigger-button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 10px;
+            background-color: green;
+            color: white;
+            font-size: 14px;
+            box-shadow: 2px 2px 2px #888888;
+            height: 40px;
+            /* width: 140px; */
+            vertical-align: middle;
+          }
+
+          #trigger-button-div {
+            margin: 10px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            width: 100%
+          }
+
           .habitlab-logo {
-            margin-bottom: 20px;
+/*            margin-bottom: 20px;
             align-self: center;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            flex-shrink: 0;*/
           }
           #signin-button {
             cursor: pointer;
@@ -73,8 +111,13 @@
     
     <div class="lesson-container" on-mouseover="onHovered" on-mouseout="onUnhovered">
       <div class="call-to-action">{{callToAction}}</div>
-      <div class="lesson-hdr">{{lessonTitle}}</div>
-      <iframe class="duolingo-box" src="{{iframeURL}}"></iframe>
+
+      <paper-button id="trigger-button">
+        <div id="trigger-button-div">
+          <div on-click="goClicked">{{lessonTitle}}</div>
+        </div>
+      </paper-button>
+      <!-- <iframe class="duolingo-box" src="{{iframeURL}}"></iframe> -->
       <habitlab-logo-v2 class="habitlab-logo"></habitlab-logo-v2>
     </div>
     <div id="shadow"></div>

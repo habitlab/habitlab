@@ -581,9 +581,10 @@ do !->>
         })
         */
       content_script_code = """
+  
   //if (!window.allowed_interventions) {
-  if (true) {
-    window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
+  if (!window.loaded_interventions) {
+    //window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
 
     window.onunhandledrejection = function(evt) {
       throw evt.reason;
@@ -593,7 +594,7 @@ do !->>
     window.loaded_content_scripts = {};
   }
 
-  if (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.loaded_interventions['#{intervention_info_copy.name}']) {
+  if (/*window.allowed_interventions['#{intervention_info_copy.name}'] &&*/ !window.loaded_interventions['#{intervention_info_copy.name}']) {
     window.loaded_interventions['#{intervention_info_copy.name}'] = true;
 
     //if (!window.loaded_content_scripts['#{options.path}']) {

@@ -374,7 +374,7 @@ do !->>
 
   cached_bundle_code = {}
 
-  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
+  execute_content_scripts_for_intervention = (intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode, extra_parameter_values) ->>
     {content_script_options, name} = intervention_info
 
     if localStorage.test_suggestion_mode == 'true'
@@ -424,7 +424,16 @@ do !->>
       parameter = intervention_info_copy.parameters[i]
       parameter.value = parameter_values[parameter.name]
       intervention_info_copy.params[parameter.name].value = parameter_values[parameter.name]
-
+    if extra_parameter_values?
+      for k,v of extra_parameter_values
+        intervention_info_copy.params[k] = {
+          name: k,
+          description: k,
+          default: v,
+          value: v,
+          type: 'string',
+        }
+        parameter_values[k] = v
     debug_content_script_code = """
     content_script_debug.listen_for_eval(function(command_to_evaluate) {
       if (window.customeval) {
@@ -764,7 +773,7 @@ do !->>
 
     # load content scripts
     for intervention_info in intervention_info_list
-      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode
+      await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode, {'difficulty_selector_screen': ''}
     return
 
   #load_intervention = (intervention_name, tabId) ->>
@@ -917,7 +926,7 @@ do !->>
         interventions_to_load = [chosen_intervention_name]
         intervention_info_new = all_interventions[chosen_intervention_name]
         await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
-        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
+        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode, {'choose_difficulty_screen': 'foobar'}
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         return
       else
@@ -930,7 +939,10 @@ do !->>
             v = goals_list
           intervention_info_new[k] = v
         await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
-        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
+        choose_difficulty_interface = 'this_intervention'
+        if localStorage.choose_difficulty_interface?
+          choose_difficulty_interface = localStorage.choose_difficulty_interface
+        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode, {choose_difficulty_interface: choose_difficulty_interface}
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         return
     if should_set_active_interventions

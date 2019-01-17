@@ -13,8 +13,6 @@ const {
   get_tab_id
 } = require ('libs_common/intervention_info')
 
-const {get_intervention_info} = require('libs_common/intervention_utils')
-
 polymer_ext({
   is: 'call-to-action-button',
   properties: {

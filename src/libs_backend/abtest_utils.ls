@@ -97,11 +97,11 @@ add_abtest 'intervention_firstimpression_notice', ['power'], (chosen_algorithm) 
   localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
   return
 
-add_abtest 'choose_difficulty_interface', ['this_intervention', 'time_afford', 'settings_update'], (chosen_algorithm) ->>
+add_abtest 'choose_difficulty_interface', ['this_intervention'], (chosen_algorithm) ->>
   localStorage.setItem('choose_difficulty_interface', chosen_algorithm)
   return
 
-add_abtest 'frequency_of_choose_difficulty', ['0.0', '0.25', '0.5', '1.0'], (chosen_algorithm) ->>
+add_abtest 'frequency_of_choose_difficulty', ['0.5'], (chosen_algorithm) ->>
   localStorage.setItem('frequency_of_choose_difficulty', chosen_algorithm)
   return
 
@@ -158,14 +158,14 @@ add_abtest 'difficulty_selection_screen', ['nodefault_forcedchoice'], (chosen_al
   localStorage.setItem('difficulty_selection_screen', chosen_algorithm)
   return
 
-add_abtest 'intervention_suggestion_optout', ['off', 'on'], (chosen_algorithm) ->>
+add_abtest 'intervention_suggestion_optout', ['off'], (chosen_algorithm) ->>
   if chosen_algorithm == 'off'
     localStorage.setItem('suggestion_mode_optout', false)
   else
     localStorage.setItem('suggestion_mode_optout', true)
   return
 
-add_abtest 'intervention_suggestion_algorithm', ['off', 'always', '1day', '3day', '5day', '7day'], (chosen_algorithm) ->>
+add_abtest 'intervention_suggestion_algorithm', ['off'], (chosen_algorithm) ->>
   if chosen_algorithm == 'off'
     localStorage.setItem('suggest_interventions', false)
   else
@@ -173,11 +173,11 @@ add_abtest 'intervention_suggestion_algorithm', ['off', 'always', '1day', '3day'
   localStorage.setItem('intervention_suggestion_algorithm', chosen_algorithm)
   return
 
-add_abtest 'goal_suggestion_threshold', [0, 180, 300, 600, 1200, 1800, 3600], (chosen_algorithm) ->>
+add_abtest 'goal_suggestion_threshold', [0], (chosen_algorithm) ->>
   localStorage.setItem('goal_suggestion_threshold', chosen_algorithm)
   return
 
-add_abtest 'onboarding_ideavoting_abtest', ['on'], (chosen_algorithm) ->>
+add_abtest 'onboarding_ideavoting_abtest', ['off'], (chosen_algorithm) ->>
   if chosen_algorithm == 'off'
     localStorage.setItem('idea_voting_disabled', true)
   else
@@ -200,7 +200,7 @@ add_abtest 'reward_gifs_abtest', ['off'], (chosen_algorithm) ->>
     send_feature_disabled({page: 'background', feature: 'allow_reward_gifs', manual: false, reason: 'reward_gifs_abtest'})
   return
 
-add_abtest 'intervention_intensity_polling_abtest', ['on', 'off'], (chosen_algorithm) ->>
+add_abtest 'intervention_intensity_polling_abtest', ['off'], (chosen_algorithm) ->>
   if chosen_algorithm == 'off'
     localStorage.setItem('intervention_intensity_polling', false)
     send_feature_disabled({page: 'background', feature: 'intervention_intensity_polling', manual: false, reason: 'intervention_intensity_polling_abtest'})
@@ -222,7 +222,7 @@ add_abtest 'idea_contribution_money', ['on'], (chosen_algorithm) ->>
     localStorage.setItem('idea_contribution_money', true)
   return
 
-add_abtest 'ideavoting_submit_prompt', ['on', 'off'], (chosen_algorithm) ->>
+add_abtest 'ideavoting_submit_prompt', ['on'], (chosen_algorithm) ->>
   if chosen_algorithm == 'off'
     localStorage.setItem('ideavoting_submit_prompt', true)
   else

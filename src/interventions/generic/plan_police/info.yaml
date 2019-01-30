@@ -1,0 +1,14 @@
+description: Asks you to write a detailed plan on how you will aim to reduce your time online
+# description: Makes you wait a few seconds [and reminds you of a positive goal] before visiting.
+difficulty: hard
+displayname: Plan Police
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+parameters:
+  - name: seconds
+    description: Seconds that the user must wait before the page loads
+    default: 5
+    type: int
+categories:
+  - interstitial

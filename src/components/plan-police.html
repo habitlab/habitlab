@@ -1,0 +1,145 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<dom-module id="plan-police">
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        :host {
+          font-size: 20px;
+          line-height: 25px;
+          color: #506976;
+          width: 100%;
+          text-align: center;
+          position: fixed;
+          top: 10px;
+          left: 0px;
+          z-index: 9007199254740991;
+
+          --paper-button : {
+             min-width: 1.9em !important;
+          };
+
+          --paper-input-container-input : {
+            height: 40px;
+            background-color: #fff;
+            border: 1px solid transparent;
+            margin: 10px 0px;
+          };
+
+          --paper-input-container-underline : { 
+            display: none;
+            height: 0;
+          };
+
+          --paper-input-container-underline-focus:{ 
+            display: none; 
+          };
+
+          --paper-input-container : {
+            padding: 0 !important;
+          };
+
+          --paper-input-container-label : {
+            color: #b4bec1;
+            font-size: 20px;
+            font-weight: 700;
+            z-index: 1;
+            top: 17px;
+          };
+        }
+
+        .index_body {
+          background-color: rgb(81, 167, 249);
+        }
+
+        .plan_button {
+          cursor: pointer;
+          padding: 10px;
+          background-color: #465c65;
+          color: white;
+          font-weight: normal;
+          box-shadow: 2px 2px 2px #888888;
+          margin-top: 5px;
+          width: 45%;
+        }
+
+        .close_button {
+          cursor: pointer;
+          padding: 5px;
+          background-color: #465c65;
+          color: white;
+          font-weight: normal;
+          float: right;
+        }
+
+        .setting_button {
+          float: right;
+          background-color: #fff;
+          padding: 3px;
+          height: 35px;
+          width: 35px;
+        }
+
+        .container {
+          margin: 0 auto;
+          width: 500px;
+          padding: 10px;
+          background-color: #9eccea;
+        }
+
+        .customBox {
+          display: inline-block;
+          color: white;
+          width: 93%;
+        }
+
+        .body-text {
+          font-weight: 600;
+          font-size: 24px;
+          line-height: 30px;
+        }
+
+        .logo {
+          height: 40px;
+          width: 40px;
+          background: white;
+          float: left;
+          left: 5px;
+        }
+
+        .modal-title {
+          margin: 0px 11px 0px 18px;
+        }
+
+        .title {
+          display: inline-block;
+          margin-top: 0px;
+          font-weight: 500;
+          font-size: 33px;
+        }
+      </style>
+    </custom-style>
+
+    <div class="container">
+      <div class="modal-title">
+        <img class="logo" src="{{logo}}" />
+        <h3 class="title">Plan Police</h3>
+        <paper-button class="close_button" on-click="feedback_button_clicked">X</paper-button>
+        <paper-icon-button class="setting_button" src="{{setting_icon}}"></paper-icon-button>
+      </div>
+      <div class="body-text">
+        What is your plan to spend less <br/> time online?
+      </div>
+      <paper-input on-input="setCustomMinutes" no-label-float allowed-pattern="[0-9]" label="e.g. exit site after 10 minutes" class="customBox" id="custom_time_value"></paper-input>
+      <div>
+          <paper-button class="plan_button" on-click="feedback_button_clicked">Set Plan</paper-button>
+          <paper-button class="plan_button" on-click="feedback_button_clicked">Close</paper-button>
+      </div>
+    </div>
+
+  </template>
+  <script src="plan-police.js"></script>
+</dom-module>

@@ -45,7 +45,7 @@ polymer_ext({
       // Should be max 21 characters
       return goal.call_to_action
     } else if (!goal.is_positive) {
-      var sitename_printable = get_intervention().sitename_printable
+      var sitename_printable = get_goal_info().sitename_printable
       return "Close " + sitename_printable
     } else {
       // Positive goal with no call to action text set -> just use its description for now

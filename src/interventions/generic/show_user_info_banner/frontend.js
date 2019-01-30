@@ -21,7 +21,8 @@ const {
 } = require('libs_common/domain_utils')
 
 const {
-  get_intervention
+  get_intervention,
+  get_goal_info,
 } = require('libs_common/intervention_info');
 
 var shadow_div;
@@ -34,7 +35,7 @@ var shadow_div;
   var domain = url_to_domain(window.location.href)
   var numMins = await get_minutes_spent_on_domain_today(domain)
   var numVisits = await get_visits_to_domain_today(domain)
-  var sitename_printable = get_intervention().sitename_printable
+  var sitename_printable = get_goal_info().sitename_printable
   var buttonText = `Click to continue to ${sitename_printable}`
   var buttonText2 = `Close ${sitename_printable}`
 

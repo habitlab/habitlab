@@ -3,7 +3,8 @@ const {
 } = require('libs_common/time_spent_utils')
 
 const {
-  get_intervention
+  get_intervention,
+  get_goal_info,
 } = require('libs_common/intervention_info')
 
 Polymer({
@@ -24,7 +25,7 @@ Polymer({
     },
     sitename_printable: {
       type: String,
-      value: get_intervention().sitename_printable //'Iqiyi'
+      value: get_goal_info().sitename_printable //'Iqiyi'
     }
   },
   watch_button_clicked: function(evt) {

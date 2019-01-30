@@ -20,7 +20,8 @@ const {
 } = require('libs_frontend/polymer_utils');
 
 const {
-  get_intervention
+  get_intervention,
+  get_goal_info,
 } = require('libs_common/intervention_info');
 
 
@@ -35,7 +36,7 @@ polymer_ext({
       type: String,
       //value: url_to_domain(window.location.hostname),
       //value: document.title,
-      value: get_intervention().sitename_printable
+      value: get_goal_info().sitename_printable
     },
     visits: {
       type: Number,

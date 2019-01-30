@@ -83,6 +83,14 @@ do !->>
   start_page_index = ->>
     interventions = await get_interventions()
     window.intervention = interventions['debug/fake_intervention']
+    window.goal_info = {
+      name: 'debug/fake_goal'
+      domain: 'habitlab.stanford.edu'
+      homepage: 'https://habitlab.stanford.edu'
+      sitename: 'goal'
+      sitename_printable: 'Goal'
+      description: 'Fake goal'
+    }
     params = getUrlParameters()
     tagname = params.tag
     {index_body_width, index_body_height} = params

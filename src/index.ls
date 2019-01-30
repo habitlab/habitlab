@@ -138,6 +138,14 @@ start_page_index = ->>
   document.title = window.location.href.replace(chrome.extension.getURL(''), '').replace('index.html?tag=', '')
   interventions = await get_interventions()
   window.intervention = interventions['debug/fake_intervention']
+  window.goal_info = {
+    name: 'debug/fake_goal'
+    domain: 'habitlab.stanford.edu'
+    homepage: 'https://habitlab.stanford.edu'
+    sitename: 'goal'
+    sitename_printable: 'Goal'
+    description: 'Fake goal'
+  }
   require 'components/components.deps'
   #set_intervention window.intervention
   tagname = params.tag

@@ -97,7 +97,7 @@ add_abtest 'intervention_firstimpression_notice', ['power'], (chosen_algorithm) 
   localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
   return
 
-add_abtest 'choose_difficulty_interface', ['this_intervention'], (chosen_algorithm) ->>
+add_abtest 'choose_difficulty_interface', ['this_intervention_toast'], (chosen_algorithm) ->>
   localStorage.setItem('choose_difficulty_interface', chosen_algorithm)
   return
 
@@ -177,7 +177,7 @@ add_abtest 'goal_suggestion_threshold', [0], (chosen_algorithm) ->>
   localStorage.setItem('goal_suggestion_threshold', chosen_algorithm)
   return
 
-add_abtest 'onboarding_ideavoting_abtest', ['off'], (chosen_algorithm) ->>
+add_abtest 'onboarding_ideavoting_abtest', ['on'], (chosen_algorithm) ->>
   if chosen_algorithm == 'off'
     localStorage.setItem('idea_voting_disabled', true)
   else

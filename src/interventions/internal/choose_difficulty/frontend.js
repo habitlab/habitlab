@@ -30,17 +30,21 @@ const {
 
 var interst_screen = null
 
-var choose_difficulty_interface = parameters.choose_difficulty_interface
-if (choose_difficulty_interface == 'time_afford') {
-  require_component('interstitial-screen-choose-difficulty-v2')
-  interst_screen = $('<interstitial-screen-choose-difficulty-v2>')
-} else if (choose_difficulty_interface == 'settings_update') {
-  require_component('interstitial-screen-choose-difficulty-v3')
-  interst_screen = $('<interstitial-screen-choose-difficulty-v3>')
-} else {
-  require_component('interstitial-screen-choose-difficulty')
-  interst_screen = $('<interstitial-screen-choose-difficulty>')
-}
+// var choose_difficulty_interface = parameters.choose_difficulty_interface
+// if (choose_difficulty_interface == 'time_afford') {
+//   require_component('interstitial-screen-choose-difficulty-v2')
+//   interst_screen = $('<interstitial-screen-choose-difficulty-v2>')
+// } else if (choose_difficulty_interface == 'settings_update') {
+//   require_component('interstitial-screen-choose-difficulty-v3')
+//   interst_screen = $('<interstitial-screen-choose-difficulty-v3>')
+// } else {
+//   require_component('interstitial-screen-choose-difficulty')
+//   interst_screen = $('<interstitial-screen-choose-difficulty>')
+// }
+
+var choose_difficulty_interface = 'this_intervention_toast'
+require_component('interstitial-screen-choose-difficulty-v4')
+interst_screen = $('<interstitial-screen-choose-difficulty-v4>')
 
 /*
 if () {
@@ -61,17 +65,18 @@ if (is_new_session) {
     })
     interst_screen[0].addEventListener('difficulty_chosen', async function(evt) {
       let difficulty = evt.detail.difficulty
+      let is_random = evt.detail.is_random
       $(shadow_div).remove()
 
       set_temporary_difficulty(difficulty)
       if (difficulty == 'nothing') {
-        log_action({'difficulty': difficulty, 'new_session': true, 'choose_difficulty_interface': choose_difficulty_interface})
-        set_intervention_session_var('chosen_intervention_info', JSON.stringify({difficulty: 'nothing'}))
+        log_action({'difficulty': difficulty, 'new_session': true, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': is_random})
+        set_intervention_session_var('chosen_intervention_info', JSON.stringify({difficulty: 'nothing', is_random: is_random}))
         return
       }
       let intervention_name = difficulty_to_chosen_intervention[difficulty]
-      log_action({'difficulty': difficulty, 'intervention_name': intervention_name, 'new_session': true, 'choose_difficulty_interface': choose_difficulty_interface})
-      set_intervention_session_var('chosen_intervention_info', JSON.stringify({name: intervention_name, difficulty: difficulty}))
+      log_action({'difficulty': difficulty, 'intervention_name': intervention_name, 'new_session': true, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': is_random})
+      set_intervention_session_var('chosen_intervention_info', JSON.stringify({name: intervention_name, difficulty: difficulty, is_random: is_random}))
       load_intervention_by_name(intervention_name)
     })
   })
@@ -82,10 +87,10 @@ if (is_new_session) {
     }
     chosen_intervention_info = JSON.parse(chosen_intervention_info)
     if (chosen_intervention_info.name == null) {
-      log_action({'difficulty': chosen_intervention_info.difficulty, 'new_session': false, 'choose_difficulty_interface': choose_difficulty_interface})
+      log_action({'difficulty': chosen_intervention_info.difficulty, 'new_session': false, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': chosen_intervention_info.is_random})
       return
     }
-    log_action({'difficulty': chosen_intervention_info.difficulty, 'intervention_name': chosen_intervention_info.name, 'new_session': false, 'choose_difficulty_interface': choose_difficulty_interface})
+    log_action({'difficulty': chosen_intervention_info.difficulty, 'intervention_name': chosen_intervention_info.name, 'new_session': false, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': chosen_intervention_info.is_random})
     load_intervention_by_name(chosen_intervention_info.name)
   })
 }

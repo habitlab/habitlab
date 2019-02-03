@@ -1,0 +1,13 @@
+description: Tell you how many days in a row you've met your goal of saving X amount of time on site and reset the goal
+difficulty: hard
+displayname: Goal Gauger
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+parameters:
+  - name: time
+    description: goal of saving X amount of time on site
+    default: 5
+    type: int
+categories:
+  - interstitial

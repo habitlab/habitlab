@@ -1,0 +1,139 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+
+<dom-module id="goal-gauger">
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        :host {
+          font-size: 20px;
+          line-height: 25px;
+          color: #506976;
+          width: 100%;
+          text-align: center;
+          position: fixed;
+          top: 10px;
+          left: 0px;
+          z-index: 9007199254740991;
+
+          --paper-button : {
+             min-width: 1.9em !important;
+          };
+
+          --paper-slider : {
+            #sliderKnobInner {
+              border-radius: 0% !important;
+            }
+          }
+        }
+
+        .index_body {
+          background-color: rgb(81, 167, 249);
+        }
+
+        .update_goal_button {
+          cursor: pointer;
+          padding: 10px;
+          background-color: #465c65;
+          color: white;
+          font-weight: normal;
+          box-shadow: 2px 2px 2px #888888;
+          width: 45%;
+          text-transform:capitalize;
+          font-size: 25px;
+        }
+
+        .close_button {
+          cursor: pointer;
+          padding: 5px;
+          background-color: #465c65;
+          color: white;
+          font-weight: normal;
+          float: right;
+        }
+
+        .setting_button {
+          float: right;
+          background-color: #fff;
+          padding: 3px;
+          height: 35px;
+          width: 35px;
+        }
+
+        .container {
+          margin: 0 auto;
+          width: 450px;
+          padding: 10px;
+          background-color: #9eccea;
+        }
+
+        .customBox {
+          display: inline-block;
+          color: white;
+          width: 93%;
+        }
+
+        .body-text {
+          font-size: 24px;
+          line-height: 30px;
+          margin: 15px 0px 10px 0px;
+        }
+
+        .logo {
+          height: 40px;
+          width: 40px;
+          background: white;
+          float: left;
+          left: 5px;
+        }
+
+        .modal-title {
+          margin: 0px 11px 0px 18px;
+        }
+
+        .title {
+          display: inline-block;
+          margin-top: 0px;
+          font-weight: 500;
+          font-size: 38px;
+          font-family: serif;
+        }
+
+        .slider1 {
+          --paper-slider-height: 8px;
+          --paper-slider-active-color: #465c65;
+          --paper-slider-container-color: #D8D8D8;
+          width: 300px;
+          margin: 0 auto;
+        }
+
+        .slider-body {
+          margin: 15px 15px;
+        }
+      </style>
+    </custom-style>
+
+    <div class="container">
+      <div class="modal-title">
+        <img class="logo" src="{{logo}}" />
+        <h3 class="title">Goal Gauger</h3>
+        <paper-button class="close_button" on-click="feedback_button_clicked">X</paper-button>
+        <paper-icon-button class="setting_button" src="{{setting_icon}}"></paper-icon-button>
+      </div>
+      <div class="body-text">
+        5 days of meeting all your <br/> goals! Adjust your goal?
+      </div>
+      <div class="slider-body">
+        <paper-slider class="slider1" min="0" max="10" value="{{time}}"></paper-slider> 
+        <span>{{time}} minutes </span>
+      </div>
+      <div>
+          <paper-button class="update_goal_button" on-click="update_goal">Update Goal</paper-button>
+      </div>
+    </div>
+
+  </template>
+  <script src="goal-gauger.js"></script>
+</dom-module>

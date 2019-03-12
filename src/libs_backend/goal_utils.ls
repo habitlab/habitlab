@@ -271,6 +271,17 @@ export list_goals_for_location = (domain) ->>
       output.push(goal_name)
   return output
 
+export list_nonpositive_goals_for_location = (domain) ->>
+  # domain example: www.reddit.com
+  all_goals = await get_goals()
+  output = []
+  for goal_name,goal_info of all_goals
+    if goal_info.is_positive
+      continue
+    if domain.indexOf(goal_info.domain) != -1
+      output.push(goal_name)
+  return output
+
 export list_goals_for_site = (sitename) ->>
   # sitename example: facebook
   site_to_goals = await get_site_to_goals()

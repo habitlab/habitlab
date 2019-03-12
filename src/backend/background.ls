@@ -81,6 +81,7 @@ do !->>
     get_have_suggested_domain_as_goal
     is_domain_unproductive
     list_goals_for_location
+    list_nonpositive_goals_for_location
   } = require 'libs_backend/goal_utils'
 
   {
@@ -907,7 +908,7 @@ do !->>
       frequency_of_choose_difficulty = localStorage.frequency_of_choose_difficulty # todo get this from localstorage
       frequency_of_choose_difficulty = parseFloat(frequency_of_choose_difficulty)
       all_interventions = await get_interventions()
-      goals_list = await list_goals_for_location(location)
+      goals_list = await list_nonpositive_goals_for_location(location)
       choose_by_temporary_difficulty = not (Math.random() < frequency_of_choose_difficulty)
       temporary_difficulty = localStorage.getItem 'temporary_difficulty'
       if not temporary_difficulty?

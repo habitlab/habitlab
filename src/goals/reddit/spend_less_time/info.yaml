@@ -14,7 +14,6 @@ interventions:
   - generic/close_tab_timer
   - generic/block_after_interval_per_visit
   - generic/prompt_reason
-  - generic/plan_police
 default_interventions:
   - generic/toast_notifications
   - generic/show_timer_banner

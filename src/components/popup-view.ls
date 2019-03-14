@@ -41,7 +41,7 @@ get_screenshot_utils = ->>
   set_intervention_disabled_permanently
   get_enabled_interventions
   set_intervention_enabled  
-  get_goals_and_interventions
+  get_nonpositive_goals_and_interventions
   list_available_interventions_for_location
   get_interventions
   is_it_outside_work_hours
@@ -286,7 +286,7 @@ polymer_ext {
     sites_promise = list_sites_for_which_goals_are_enabled()
     enabledInterventions_promise = list_currently_loaded_interventions()
     intervention_name_to_info_promise = get_interventions()
-    all_goals_and_interventions_promise = get_goals_and_interventions()
+    all_goals_and_interventions_promise = get_nonpositive_goals_and_interventions()
     url_promise = get_active_tab_url()
     
     [

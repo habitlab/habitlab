@@ -1440,6 +1440,10 @@ export get_goals_and_interventions = ->>
     list_of_goals_and_interventions.push current_item
   return list_of_goals_and_interventions
 
+export get_nonpositive_goals_and_interventions = ->>
+  list_of_goals_and_interventions = await get_goals_and_interventions()
+  return list_of_goals_and_interventions.filter(-> !it.goal.is_positive)
+
 /**
  * Gets the time in milliseconds since the intervention was most recently given.
  * If this intervention corresponds to a generic intervention, then we choose

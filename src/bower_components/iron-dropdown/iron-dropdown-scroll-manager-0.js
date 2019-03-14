@@ -149,7 +149,7 @@
           return true;
         }
 
-        contentElements = Polymer.dom(element).querySelectorAll('content');
+        contentElements = Polymer.dom(element).querySelectorAll('slot');
 
         for (contentIndex = 0; contentIndex < contentElements.length; ++contentIndex) {
 

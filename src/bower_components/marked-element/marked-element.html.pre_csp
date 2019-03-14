@@ -71,7 +71,7 @@ as you would a regular DOM element:
         display: none !important;
       }
     </style>
-    <content select=".markdown-html"></content>
+    <slot select=".markdown-html"></slot>
     <div id="content" class="hidden"></div>
   </template>
 

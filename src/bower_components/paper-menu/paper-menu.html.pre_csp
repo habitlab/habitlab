@@ -82,7 +82,7 @@ of a menu item will also focus it.
     </style>
 
     <div class="selectable-content">
-      <content></content>
+      <slot></slot>
     </div>
   </template>
 

@@ -32,7 +32,7 @@
 <dom-module id="x-fixed">
   <template>
     <div style="position:fixed">
-      <content></content>
+      <slot></slot>
     </div>
   </template>
   <script>

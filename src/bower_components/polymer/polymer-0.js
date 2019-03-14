@@ -108,7 +108,7 @@ var annote = {
 bindings: [],
 events: []
 };
-if (element.localName === 'content') {
+if (element.localName === 'slot') {
 list._hasContent = true;
 }
 this._parseChildNodesAnnotations(element, annote, list, stripWhiteSpace);
@@ -161,7 +161,7 @@ i++;
 }
 },
 _replaceSlotWithContent: function (slot) {
-var content = slot.ownerDocument.createElement('content');
+var content = slot.ownerDocument.createElement('slot');
 while (slot.firstChild) {
 content.appendChild(slot.firstChild);
 }
@@ -1266,7 +1266,7 @@ queryAllEffectiveChildren: function (slctr) {
 return Polymer.dom(this).queryDistributedElements(slctr);
 },
 getContentChildNodes: function (slctr) {
-var content = Polymer.dom(this.root).querySelector(slctr || 'content');
+var content = Polymer.dom(this.root).querySelector(slctr || 'slot');
 return content ? Polymer.dom(content).getDistributedNodes() : [];
 },
 getContentChildren: function (slctr) {
@@ -2994,8 +2994,8 @@ var ROOT = ':root';
 var HOST_PAREN = /(:host)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/;
 var HOST_CONTEXT = ':host-context';
 var HOST_CONTEXT_PAREN = /(.*)(?::host-context)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))(.*)/;
-var CONTENT = '::content';
-var SCOPE_JUMP = /::content|::shadow|\/deep\//;
+var CONTENT = '::slotted';
+var SCOPE_JUMP = /::slotted|::shadow|\/deep\//;
 var CSS_CLASS_PREFIX = '.';
 var CSS_ATTR_PREFIX = '[' + SCOPE_NAME + '~=';
 var CSS_ATTR_SUFFIX = ']';
@@ -3003,7 +3003,7 @@ var PSEUDO_PREFIX = ':';
 var CLASS = 'class';
 var CONTENT_START = new RegExp('^(' + CONTENT + ')');
 var SELECTOR_NO_MATCH = 'should_not_match';
-var SLOTTED_PAREN = /(?:::slotted)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/g;
+var SLOTTED_PAREN = /(?:::slottedted)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/g;
 var HOST_OR_HOST_GT_STAR = /:host(?:\s*>\s*\*)?/;
 return api;
 }();Polymer.StyleExtends = function () {

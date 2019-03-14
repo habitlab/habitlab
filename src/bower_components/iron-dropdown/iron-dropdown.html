@@ -48,17 +48,17 @@ method is called on the element.
         position: fixed;
       }
 
-      #contentWrapper ::content > * {
+      #contentWrapper ::slotted > * {
         overflow: auto;
       }
 
-      #contentWrapper.animating ::content > * {
+      #contentWrapper.animating ::slotted > * {
         overflow: hidden;
       }
     </style>
 
     <div id="contentWrapper">
-      <content id="content" select=".dropdown-content"></content>
+      <slot id="content" select=".dropdown-content"></slot>
     </div>
   </template>
 

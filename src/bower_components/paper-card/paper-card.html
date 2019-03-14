@@ -110,14 +110,14 @@ Custom property | Description | Default
         @apply(--paper-card-header-image-text);
       }
 
-      :host ::content .card-content {
+      :host ::slotted .card-content {
         padding: 16px;
         position:relative;
 
         @apply(--paper-card-content);
       }
 
-      :host ::content .card-actions {
+      :host ::slotted .card-actions {
         border-top: 1px solid #e8e8e8;
         padding: 5px 16px;
         position:relative;
@@ -131,7 +131,7 @@ Custom property | Description | Default
       <div hidden$="[[!heading]]" class$="[[_computeHeadingClass(image)]]">[[heading]]</div>
     </div>
 
-    <content></content>
+    <slot></slot>
   </template>
 
   <script src="paper-card-0.js"></script>

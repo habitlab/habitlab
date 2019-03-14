@@ -147,7 +147,7 @@ Custom property | Description | Default
         min-width: 100%;
       }
 
-      #tabsContent.scrollable.fit-container > ::content > * {
+      #tabsContent.scrollable.fit-container > ::slotted > * {
         /* IE - prevent tabs from compressing when they should scroll. */
         -ms-flex: 1 0 auto;
         -webkit-flex: 1 0 auto;
@@ -202,7 +202,7 @@ Custom property | Description | Default
         transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
       }
 
-      #tabsContent > ::content > *:not(#selectionBar) {
+      #tabsContent > ::slotted > *:not(#selectionBar) {
         height: 100%;
       }
     </style>
@@ -212,7 +212,7 @@ Custom property | Description | Default
     <div id="tabsContainer" on-track="_scroll" on-down="_down">
       <div id="tabsContent" class$="[[_computeTabsContentClass(scrollable, fitContainer)]]">
         <div id="selectionBar" class$="[[_computeSelectionBarClass(noBar, alignBottom)]]" on-transitionend="_onBarTransitionEnd"></div>
-        <content select="*"></content>
+        <slot select="*"></slot>
       </div>
     </div>
 

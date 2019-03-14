@@ -14,13 +14,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="o-list">
   <template>
     <iron-list id="list" items="{{items}}">
-      <content>
+      <slot>
         <template>
           <div class="default-template">
             [[item.index]]
           </div>
         </template>
-      </content>
+      </slot>
     </iron-list>
   </template>
 </dom-module>

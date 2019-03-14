@@ -42,7 +42,7 @@
       // Prevent item action if cell itself is not focused.
       if (this._cellClick) {
         var target = Polymer.dom(e).localTarget;
-        // Polymer.dom(e).localTarget usually returns <content> element in shady
+        // Polymer.dom(e).localTarget usually returns <slot> element in shady
         // DOM. We'll get and use the cell-content wrapper in that case.
         if (target.getDistributedNodes) {
           target = Polymer.dom(target).getDistributedNodes()[0];

@@ -740,7 +740,7 @@ return result;
 this._queryElements(TreeApi.Logical.getChildNodes(node), matcher, halter, list);
 }
 };
-var CONTENT = DomApi.CONTENT = 'content';
+var CONTENT = DomApi.CONTENT = 'slot';
 var dom = DomApi.factory = function (node) {
 node = node || document;
 if (!node.__domApi) {
@@ -1600,7 +1600,7 @@ n.__observeNodesMap.delete(this);
 }
 },
 _isContent: function (node) {
-return node.localName === 'content';
+return node.localName === 'slot';
 },
 _callListeners: function () {
 var o$ = this._listeners;
@@ -1793,7 +1793,7 @@ this.shadyRoot._distributionClean = false;
 this.shadyRoot._hasDistributed = false;
 this.shadyRoot._isShadyRoot = true;
 this.shadyRoot._dirtyRoots = [];
-var i$ = this.shadyRoot._insertionPoints = !this._notes || this._notes._hasContent ? this.shadyRoot.querySelectorAll('content') : [];
+var i$ = this.shadyRoot._insertionPoints = !this._notes || this._notes._hasContent ? this.shadyRoot.querySelectorAll('slot') : [];
 TreeApi.Logical.saveChildNodes(this.shadyRoot);
 for (var i = 0, c; i < i$.length; i++) {
 c = i$[i];
@@ -2029,7 +2029,7 @@ var points = node._destinationInsertionPoints;
 return points && points[points.length - 1] === insertionPoint;
 }
 function isInsertionPoint(node) {
-return node.localName == 'content';
+return node.localName == 'slot';
 }
 function getTopDistributingHost(host) {
 while (host && hostNeedsRedistribution(host)) {
@@ -2041,7 +2041,7 @@ function hostNeedsRedistribution(host) {
 var c$ = TreeApi.Logical.getChildNodes(host);
 for (var i = 0, c; i < c$.length; i++) {
 c = c$[i];
-if (c.localName && c.localName === 'content') {
+if (c.localName && c.localName === 'slot') {
 return host.domHost;
 }
 }
@@ -2080,7 +2080,7 @@ _distributeContent: function () {
 _finishDistribute: function () {
 },
 _createLocalRoot: function () {
-this.createShadowRoot();
+this.attachShadow({mode: 'open'});
 this.shadowRoot.appendChild(this.root);
 this.root = this.shadowRoot;
 }

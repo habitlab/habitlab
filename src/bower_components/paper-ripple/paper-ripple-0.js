@@ -519,6 +519,10 @@
       addRipple: function() {
         var ripple = new Ripple(this);
 
+        console.log('in addRipple waves is')
+        console.log(this)
+        console.log(this.$.waves)
+
         Polymer.dom(this.$.waves).appendChild(ripple.waveContainer);
         this.$.background.style.backgroundColor = ripple.color;
         this.ripples.push(ripple);
@@ -529,7 +533,11 @@
       },
 
       removeRipple: function(ripple) {
+
+        console.log('removeRipple running')
+        console.log(ripple)
         var rippleIndex = this.ripples.indexOf(ripple);
+        console.log(rippleIndex)
 
         if (rippleIndex < 0) {
           return;
@@ -545,6 +553,8 @@
       },
 
       animate: function() {
+        console.log('paper-ripple animate for ripples')
+        console.log(this.ripples)
         var index;
         var ripple;
 

@@ -140,7 +140,7 @@ Custom property | Description | Default
       }
     </style>
 
-    <content></content>
+    <slot></slot>
     <vaadin-context-menu-overlay id="overlay" opened="[[opened]]"
         on-iron-overlay-opened="_onOverlayOpened" on-iron-overlay-closed="_onOverlayClosed"
         with-backdrop>

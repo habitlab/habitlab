@@ -30,7 +30,7 @@ o[0] && (settings[o[0]] = o[1] || true);
 }
 }
 settings.wantShadow = settings.dom === 'shadow';
-settings.hasShadow = Boolean(Element.prototype.createShadowRoot);
+settings.hasShadow = Boolean(Element.prototype.attachShadow);
 settings.nativeShadow = settings.hasShadow && !window.ShadowDOMPolyfill;
 settings.useShadow = settings.wantShadow && settings.hasShadow;
 settings.hasNativeImports = Boolean('import' in document.createElement('link'));

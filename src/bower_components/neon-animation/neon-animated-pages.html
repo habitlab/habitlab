@@ -33,7 +33,7 @@ animations to be run when switching to or switching out of the page.
       position: relative;
     }
 
-    :host > ::content > * {
+    :host > ::slotted > * {
       position: absolute;
       top: 0;
       left: 0;
@@ -41,18 +41,18 @@ animations to be run when switching to or switching out of the page.
       right: 0;
     }
 
-    :host > ::content > :not(.iron-selected):not(.neon-animating) {
+    :host > ::slotted > :not(.iron-selected):not(.neon-animating) {
       display: none !important;
     }
 
-    :host > ::content > .neon-animating {
+    :host > ::slotted > .neon-animating {
       pointer-events: none;
     }
 
   </style>
 
   <template>
-    <content id="content"></content>
+    <slot id="content"></slot>
   </template>
 
 </dom-module>

@@ -202,11 +202,11 @@ be used as the label of the toolbar via `aria-labelledby`.
        * absorb events. All children must have pointer events re-enabled to work as
        * expected.
        */
-      .toolbar-tools > ::content > *:not([disabled]) {
+      .toolbar-tools > ::slotted > *:not([disabled]) {
         pointer-events: auto;
       }
 
-      .toolbar-tools > ::content .title {
+      .toolbar-tools > ::slotted .title {
         @apply(--paper-font-common-base);
 
         white-space: nowrap;
@@ -220,11 +220,11 @@ be used as the label of the toolbar via `aria-labelledby`.
         @apply(--layout-flex);
       }
 
-      .toolbar-tools > ::content > .title {
+      .toolbar-tools > ::slotted > .title {
         margin-left: 56px;
       }
 
-      .toolbar-tools > ::content > paper-icon-button + .title {
+      .toolbar-tools > ::slotted > paper-icon-button + .title {
         margin-left: 0;
       }
 
@@ -232,15 +232,15 @@ be used as the label of the toolbar via `aria-labelledby`.
        * The --paper-toolbar-title mixin is applied here instead of above to
        * fix the issue with margin-left being ignored due to css ordering.
        */
-      .toolbar-tools > ::content .title {
+      .toolbar-tools > ::slotted .title {
         @apply(--paper-toolbar-title);
       }
 
-      .toolbar-tools > ::content paper-icon-button[icon=menu] {
+      .toolbar-tools > ::slotted paper-icon-button[icon=menu] {
         margin-right: 24px;
       }
 
-      .toolbar-tools > ::content > .fit {
+      .toolbar-tools > ::slotted > .fit {
         position: absolute;
         top: auto;
         right: 0;
@@ -275,15 +275,15 @@ be used as the label of the toolbar via `aria-labelledby`.
     </style>
 
     <div id="topBar" class$="toolbar-tools [[_computeBarExtraClasses(justify)]]">
-      <content select=":not(.middle):not(.bottom)"></content>
+      <slot select=":not(.middle):not(.bottom)"></slot>
     </div>
 
     <div id="middleBar" class$="toolbar-tools [[_computeBarExtraClasses(middleJustify)]]">
-      <content select=".middle"></content>
+      <slot select=".middle"></slot>
     </div>
 
     <div id="bottomBar" class$="toolbar-tools [[_computeBarExtraClasses(bottomJustify)]]">
-      <content select=".bottom"></content>
+      <slot select=".bottom"></slot>
     </div>
   </template>
 

@@ -47,7 +47,7 @@ Here's an example of a custom element when Scoping Shim is not needed.
   :host {
     display: block;
   }
-  #container slot::slottedted(*) {
+  #container slot::slotted(*) {
     color: gray;
   }
   #foo {
@@ -216,7 +216,7 @@ The following example uses ShadyCSS and ShadyDOM to define a custom element.
       background-color: var(--content-color);
     }
 
-    .slot-container ::slottedted(*) {
+    .slot-container ::slotted(*) {
       border: 1px solid steelblue;
       margin: 4px;
     }
@@ -262,7 +262,7 @@ element name to `prepareTemplate` as a third argument.
       background-color: var(--content-color);
     }
 
-    .slot-container ::slottedted(*) {
+    .slot-container ::slotted(*) {
       border: 1px solid steelblue;
       margin: 4px;
     }
@@ -315,7 +315,7 @@ ShadyCSS.styleSubtree(el, {'--content-color' : 'red'});
 
 ### Selector scoping
 
-You must have a selector to the left of the `::slottedted`
+You must have a selector to the left of the `::slotted`
 pseudo-element.
 
 ### Custom properties and `@apply`

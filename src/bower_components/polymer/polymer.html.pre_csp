@@ -2998,7 +2998,7 @@ var PSEUDO_PREFIX = ':';
 var CLASS = 'class';
 var CONTENT_START = new RegExp('^(' + CONTENT + ')');
 var SELECTOR_NO_MATCH = 'should_not_match';
-var SLOTTED_PAREN = /(?:::slottedted)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/g;
+var SLOTTED_PAREN = /(?:::slotted)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/g;
 var HOST_OR_HOST_GT_STAR = /:host(?:\s*>\s*\*)?/;
 return api;
 }();Polymer.StyleExtends = function () {

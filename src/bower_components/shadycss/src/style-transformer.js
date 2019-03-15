@@ -27,7 +27,7 @@ import {nativeShadow} from './style-settings.js'
 
 * :host(...) -> scopeName...
 
-* ::slottedted(...) -> scopeName > ...
+* ::slotted(...) -> scopeName > ...
 
 * ...:dir(ltr|rtl) -> [dir="ltr|rtl"] ..., ...[dir="ltr|rtl"]
 
@@ -214,7 +214,7 @@ class StyleTransformer {
       selector = scope ? this._transformSimpleSelector(selector, scope) :
         selector;
     }
-    // mark ::slottedted() scope jump to replace with descendant selector + arg
+    // mark ::slotted() scope jump to replace with descendant selector + arg
     // also ignore left-side combinator
     let slotted = false;
     if (slottedIndex >= 0) {
@@ -226,7 +226,7 @@ class StyleTransformer {
     if (slotted) {
       stop = true;
       if (slotted) {
-        // .zonk ::slottedted(.foo) -> .zonk.scope > .foo
+        // .zonk ::slotted(.foo) -> .zonk.scope > .foo
         selector = selector.replace(SLOTTED_PAREN, (m, paren) => ` > ${paren}`);
       }
     }
@@ -310,14 +310,14 @@ let SIMPLE_SELECTOR_SEP = /(^|[\s>+~]+)((?:\[.+?\]|[^\s>+~=[])+)/g;
 let SIMPLE_SELECTOR_PREFIX = /[[.:#*]/;
 let HOST = ':host';
 let ROOT = ':root';
-let SLOTTED = '::slottedted';
+let SLOTTED = '::slotted';
 let SLOTTED_START = new RegExp(`^(${SLOTTED})`);
 // NOTE: this supports 1 nested () pair for things like
 // :host(:not([selected]), more general support requires
 // parsing which seems like overkill
 let HOST_PAREN = /(:host)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/;
 // similar to HOST_PAREN
-let SLOTTED_PAREN = /(?:::slottedted)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/;
+let SLOTTED_PAREN = /(?:::slotted)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/;
 let DIR_PAREN = /(.*):dir\((?:(ltr|rtl))\)/;
 let CSS_CLASS_PREFIX = '.';
 let PSEUDO_PREFIX = ':';

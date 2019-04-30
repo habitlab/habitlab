@@ -55,7 +55,7 @@ need to define the name of value property using the `attrForValue` property.
       }
 
     </style>
-    <slot></slot>
+    <content></content>
 
     <iron-dropdown
         id="dropdown"

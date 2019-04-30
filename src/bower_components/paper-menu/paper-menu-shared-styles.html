@@ -16,24 +16,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>
       /* need a wrapper element to make this higher specificity than the :host rule in paper-item */
-      .selectable-content > ::slotted > .iron-selected {
+      .selectable-content > ::content > .iron-selected {
         font-weight: bold;
 
         @apply(--paper-menu-selected-item);
       }
 
-      .selectable-content > ::slotted > [disabled] {
+      .selectable-content > ::content > [disabled] {
         color: var(--paper-menu-disabled-color, --disabled-text-color);
       }
 
-      .selectable-content > ::slotted > *:focus {
+      .selectable-content > ::content > *:focus {
         position: relative;
         outline: 0;
 
         @apply(--paper-menu-focused-item);
       }
 
-      .selectable-content > ::slotted > *:focus:after {
+      .selectable-content > ::content > *:focus:after {
         @apply(--layout-fit);
         background: currentColor;
         opacity: var(--dark-divider-opacity);
@@ -43,7 +43,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--paper-menu-focused-item-after);
       }
 
-      .selectable-content > ::slotted > *[colored]:focus:after {
+      .selectable-content > ::content > *[colored]:focus:after {
         opacity: 0.26;
       }
     </style>

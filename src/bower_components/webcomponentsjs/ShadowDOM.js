@@ -2075,7 +2075,7 @@ window.ShadowDOMPolyfill = {};
     return String(selector).replace(/\/deep\/|::shadow|>>>/g, " ");
   }
   function shimMatchesSelector(selector) {
-    return String(selector).replace(/:host\(([^\s]+)\)/g, "$1").replace(/([^\s]):host/g, "$1").replace(":host", "*").replace(/\^|\/shadow\/|\/shadow-deep\/|::shadow|\/deep\/|::slotted|>>>/g, " ");
+    return String(selector).replace(/:host\(([^\s]+)\)/g, "$1").replace(/([^\s]):host/g, "$1").replace(":host", "*").replace(/\^|\/shadow\/|\/shadow-deep\/|::shadow|\/deep\/|::content|>>>/g, " ");
   }
   function findOne(node, selector) {
     var m, el = node.firstElementChild;

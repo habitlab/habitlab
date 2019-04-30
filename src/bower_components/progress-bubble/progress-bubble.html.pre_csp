@@ -73,7 +73,7 @@
           transform$="[[_transform]]" />
     </svg>
     <div id="reflection"></div>
-    <div id="content"><slot></slot></div>
+    <div id="content"><content></content></div>
   </template>
 </dom-module>
 <script>

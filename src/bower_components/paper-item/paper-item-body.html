@@ -55,13 +55,13 @@ Custom property | Description | Default
         min-height: var(--paper-item-body-three-line-min-height, 88px);
       }
 
-      :host > ::slotted > * {
+      :host > ::content > * {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      :host > ::slotted [secondary] {
+      :host > ::content [secondary] {
         @apply(--paper-font-body1);
 
         color: var(--paper-item-body-secondary-color, --secondary-text-color);
@@ -70,7 +70,7 @@ Custom property | Description | Default
       }
     </style>
 
-    <slot></slot>
+    <content></content>
   </template>
 
   <script src="paper-item-body-0.js"></script>

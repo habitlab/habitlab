@@ -245,11 +245,11 @@ Custom property | Description | Default
       }
     </style>
 
-    <slot id="headerContent" select="paper-toolbar, .paper-header"></slot>
+    <content id="headerContent" select="paper-toolbar, .paper-header"></content>
 
     <div id="mainPanel">
       <div id="mainContainer" class$="[[_computeMainContainerClass(mode)]]">
-        <slot id="mainContent" select="*"></slot>
+        <content id="mainContent" select="*"></content>
       </div>
       <div id="dropShadow"></div>
     </div>

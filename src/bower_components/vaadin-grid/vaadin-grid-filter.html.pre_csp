@@ -26,9 +26,9 @@ and handlers for filtering the grid data.
       }
     </style>
 
-    <slot select="*">
+    <content select="*">
       <input id="filter" value="{{value::input}}">
-    </slot>
+    </content>
 
   </template>
   <script>

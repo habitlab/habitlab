@@ -42,12 +42,12 @@ Example:
         display: block;
       }
 
-      :host > ::slotted > :not(.iron-selected) {
+      :host > ::content > :not(.iron-selected) {
         display: none !important;
       }
     </style>
 
-    <slot></slot>
+    <content></content>
   </template>
 
   <script src="iron-pages-0.js"></script>

@@ -59,12 +59,12 @@ Custom property | Description | Default
         display: inline-block;
       }
 
-      :host ::slotted > * {
+      :host ::content > * {
         padding: var(--paper-radio-group-item-padding, 12px);
       }
     </style>
 
-    <slot id="items" select="*"></slot>
+    <content id="items" select="*"></content>
   </template>
 </dom-module>
 

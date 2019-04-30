@@ -57,7 +57,6 @@
      * ripple.
      */
     ensureRipple: function(optTriggeringEvent) {
-      console.log('ensureRipple being called')
       if (!this.hasRipple()) {
         this._ripple = this._createRipple();
         this._ripple.noink = this.noink;
@@ -71,9 +70,7 @@
           // nodes are not valid event targets
           var domContainer = Polymer.dom(this._rippleContainer || this);
           var target = Polymer.dom(optTriggeringEvent).rootTarget;
-          console.log('deepcontains running')
           if (domContainer.deepContains( /** @type {Node} */(target))) {
-            console.log('deegcontains true')
             this._ripple.uiDownAction(optTriggeringEvent);
           }
         }

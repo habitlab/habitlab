@@ -62,7 +62,7 @@
 
       _updateAriaLabelledBy: function() {
         var labelledBy = [];
-        var contents = Polymer.dom(this.root).querySelectorAll('slot');
+        var contents = Polymer.dom(this.root).querySelectorAll('content');
         for (var content, index = 0; content = contents[index]; index++) {
           var nodes = Polymer.dom(content).getDistributedNodes();
           for (var node, jndex = 0; node = nodes[jndex]; jndex++) {

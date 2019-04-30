@@ -57,43 +57,43 @@ Custom property | Description | Default
       display: block;
     }
 
-    ::slotted li, ::slotted paper-item{
+    ::content li, ::content paper-item{
       display: block;
       color: var(--context-text-color, #333);
       padding: 2px;
     }
 
-    ::slotted paper-item {
+    ::content paper-item {
       cursor: pointer;
     }
 
-    ::slotted li:last-child {
+    ::content li:last-child {
       margin-bottom: 0;
     }
 
-    ::slotted a {
+    ::content a {
       display: block;
       color: var(--context-link-text-color, #0066aa);
       padding: 4px 12px;
       text-decoration: none;
     }
 
-    ::slotted a:hover {
+    ::content a:hover {
       background-color: var(--context-link-text-color, #0066aa);
       color: var(--context-background-color, #fff);
     }
 
-    ::slotted hr {
+    ::content hr {
       border-color: var(--context-horizontal-rule-color, #bcbcbc);
     }
 
-    ::slotted .paper-menu-0{
+    ::content .paper-menu-0{
       background-color: var(--context-background-color, #fff);
     }                                       
   </style>
   <template>
     <paper-menu id="context-menu" class="context-menu">
-      <slot></slot>
+      <content></content>
     </paper-menu>
   </template>
 </dom-module>

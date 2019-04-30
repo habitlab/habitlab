@@ -671,10 +671,10 @@ window.CustomElements.addModule(function(scope) {
   function upgradeDocumentTree(doc) {
     forDocumentTree(doc, upgradeDocument);
   }
-  var originalCreateShadowRoot = Element.prototype.attachShadow;
+  var originalCreateShadowRoot = Element.prototype.createShadowRoot;
   if (originalCreateShadowRoot) {
     Element.prototype.createShadowRoot = function() {
-      var root = originalCreateShadowRoot.call(this, {mode: 'open'});
+      var root = originalCreateShadowRoot.call(this);
       window.CustomElements.watchShadow(this);
       return root;
     };

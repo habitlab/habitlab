@@ -43,24 +43,24 @@ Custom property | Description | Default
         @apply(--paper-dialog);
       }
 
-      :host > ::slotted > * {
+      :host > ::content > * {
         margin-top: 20px;
         padding: 0 24px;
       }
 
-      :host > ::slotted > .no-padding {
+      :host > ::content > .no-padding {
         padding: 0;
       }
 
-      :host > ::slotted > *:first-child {
+      :host > ::content > *:first-child {
         margin-top: 24px;
       }
 
-      :host > ::slotted > *:last-child {
+      :host > ::content > *:last-child {
         margin-bottom: 24px;
       }
 
-      :host > ::slotted h2 {
+      :host > ::content h2 {
         position: relative;
         margin: 0;
         @apply(--paper-font-title);
@@ -68,7 +68,7 @@ Custom property | Description | Default
         @apply(--paper-dialog-title);
       }
 
-      :host > ::slotted .buttons {
+      :host > ::content .buttons {
         position: relative;
         padding: 8px 8px 8px 24px;
         margin: 0;

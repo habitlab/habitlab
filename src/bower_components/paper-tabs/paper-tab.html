@@ -93,7 +93,7 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
         color: var(--paper-tab-ink, --paper-yellow-a100);
       }
 
-      .tab-content > ::slotted > a {
+      .tab-content > ::content > a {
         @apply(--layout-flex-auto);
 
         height: 100%;
@@ -101,7 +101,7 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
     </style>
 
     <div class="tab-content">
-      <slot></slot>
+      <content></content>
     </div>
   </template>
 

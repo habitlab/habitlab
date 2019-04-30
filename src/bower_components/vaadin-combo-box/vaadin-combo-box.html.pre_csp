@@ -96,8 +96,8 @@ Custom property | Description | Default
 
       paper-icon-button.clear-button,
       paper-icon-button.toggle-button,
-      :host ::slotted paper-icon-button.clear-button,
-      :host ::slotted paper-icon-button.toggle-button {
+      :host ::content paper-icon-button.clear-button,
+      :host ::content paper-icon-button.toggle-button {
         position: absolute;
         bottom: -4px;
         right: -4px;
@@ -115,18 +115,18 @@ Custom property | Description | Default
       }
 
       paper-input-container paper-icon-button.clear-button,
-      paper-input-container ::slotted paper-icon-button.clear-button {
+      paper-input-container ::content paper-icon-button.clear-button {
         right: 28px;
       }
 
       paper-input-container paper-icon-button:hover,
-      paper-input-container ::slotted paper-icon-button:hover,
+      paper-input-container ::content paper-icon-button:hover,
       :host([opened]) paper-input-container paper-icon-button,
-      :host([opened]) paper-input-container ::slotted paper-icon-button {
+      :host([opened]) paper-input-container ::content paper-icon-button {
         color: rgba(0, 0, 0, .54);
       }
 
-      :host([opened]) paper-input-container ::slotted paper-icon-button:hover,
+      :host([opened]) paper-input-container ::content paper-icon-button:hover,
       :host([opened]) paper-input-container paper-icon-button:hover {
         color: rgba(0, 0, 0, .86);
       }
@@ -161,7 +161,7 @@ Custom property | Description | Default
           invalid="[[invalid]]">
       <label on-down="_preventDefault" id="label" hidden$="[[!label]]" aria-hidden="true" on-tap="_openAsync">[[label]]</label>
 
-      <slot select="[prefix]"></slot>
+      <content select="[prefix]"></content>
 
       <input
           is="iron-input"
@@ -191,9 +191,9 @@ Custom property | Description | Default
           on-change="_stopPropagation"
           key-event-target>
 
-      <slot select="[suffix]"></slot>
+      <content select="[suffix]"></content>
 
-      <slot select=".clear-button">
+      <content select=".clear-button">
         <paper-icon-button
             id="clearIcon"
             tabindex="-1"
@@ -201,9 +201,9 @@ Custom property | Description | Default
             icon="vaadin-combo-box:clear"
             class="clear-button small">
         </paper-icon-button>
-      </slot>
+      </content>
 
-      <slot select=".toggle-button">
+      <content select=".toggle-button">
         <paper-icon-button
             id="toggleIcon"
             tabindex="-1"
@@ -212,7 +212,7 @@ Custom property | Description | Default
             aria-expanded$="[[_getAriaExpanded(opened)]]"
             class="toggle-button rotate-on-open">
         </paper-icon-button>
-      </slot>
+      </content>
 
       <template is="dom-if" if="[[errorMessage]]">
         <paper-input-error>[[errorMessage]]</paper-input-error>

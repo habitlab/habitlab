@@ -196,8 +196,8 @@ This element is `display:block` by default, but you can set the `inline` attribu
         position: relative;
       }
 
-      .input-content ::slotted label,
-      .input-content ::slotted .paper-input-label {
+      .input-content ::content label,
+      .input-content ::content .paper-input-label {
         position: absolute;
         top: 0;
         right: 0;
@@ -218,8 +218,8 @@ This element is `display:block` by default, but you can set the `inline` attribu
         @apply(--paper-transition-easing);
       }
 
-      .input-content.label-is-floating ::slotted label,
-      .input-content.label-is-floating ::slotted .paper-input-label {
+      .input-content.label-is-floating ::content label,
+      .input-content.label-is-floating ::content .paper-input-label {
         -webkit-transform: translateY(-75%) scale(0.75);
         transform: translateY(-75%) scale(0.75);
 
@@ -230,8 +230,8 @@ This element is `display:block` by default, but you can set the `inline` attribu
         @apply(--paper-input-container-label-floating);
       }
 
-      :host-context([dir="rtl"]) .input-content.label-is-floating ::slotted label,
-      :host-context([dir="rtl"]) .input-content.label-is-floating ::slotted .paper-input-label {
+      :host-context([dir="rtl"]) .input-content.label-is-floating ::content label,
+      :host-context([dir="rtl"]) .input-content.label-is-floating ::content .paper-input-label {
         /* TODO(noms): Figure out why leaving the width at 133% before the animation
          * actually makes
          * it wider on the right side, not left side, as you would expect in RTL */
@@ -240,27 +240,27 @@ This element is `display:block` by default, but you can set the `inline` attribu
         transform-origin: right top;
       }
 
-      .input-content.label-is-highlighted ::slotted label,
-      .input-content.label-is-highlighted ::slotted .paper-input-label {
+      .input-content.label-is-highlighted ::content label,
+      .input-content.label-is-highlighted ::content .paper-input-label {
         color: var(--paper-input-container-focus-color, --primary-color);
 
         @apply(--paper-input-container-label-focus);
       }
 
-      .input-content.is-invalid ::slotted label,
-      .input-content.is-invalid ::slotted .paper-input-label {
+      .input-content.is-invalid ::content label,
+      .input-content.is-invalid ::content .paper-input-label {
         color: var(--paper-input-container-invalid-color, --error-color);
       }
 
-      .input-content.label-is-hidden ::slotted label,
-      .input-content.label-is-hidden ::slotted .paper-input-label {
+      .input-content.label-is-hidden ::content label,
+      .input-content.label-is-hidden ::content .paper-input-label {
         visibility: hidden;
       }
 
-      .input-content ::slotted input,
-      .input-content ::slotted textarea,
-      .input-content ::slotted iron-autogrow-textarea,
-      .input-content ::slotted .paper-input-input {
+      .input-content ::content input,
+      .input-content ::content textarea,
+      .input-content ::content iron-autogrow-textarea,
+      .input-content ::content .paper-input-input {
         position: relative; /* to make a stacking context */
         outline: none;
         box-shadow: none;
@@ -277,14 +277,14 @@ This element is `display:block` by default, but you can set the `inline` attribu
         @apply(--paper-input-container-input);
       }
 
-      ::slotted [prefix] {
+      ::content [prefix] {
         @apply(--paper-font-subhead);
 
         @apply(--paper-input-prefix);
         @apply(--layout-flex-none);
       }
 
-      ::slotted [suffix] {
+      ::content [suffix] {
         @apply(--paper-font-subhead);
 
         @apply(--paper-input-suffix);
@@ -292,11 +292,11 @@ This element is `display:block` by default, but you can set the `inline` attribu
       }
 
       /* Firefox sets a min-width on the input, which can cause layout issues */
-      .input-content ::slotted input {
+      .input-content ::content input {
         min-width: 0;
       }
 
-      .input-content ::slotted textarea {
+      .input-content ::content textarea {
         resize: none;
       }
 
@@ -304,11 +304,11 @@ This element is `display:block` by default, but you can set the `inline` attribu
         position: relative;
       }
 
-      .add-on-content.is-invalid ::slotted * {
+      .add-on-content.is-invalid ::content * {
         color: var(--paper-input-container-invalid-color, --error-color);
       }
 
-      .add-on-content.is-highlighted ::slotted * {
+      .add-on-content.is-highlighted ::content * {
         color: var(--paper-input-container-focus-color, --primary-color);
       }
     </style>
@@ -318,13 +318,13 @@ This element is `display:block` by default, but you can set the `inline` attribu
     </template>
 
     <div class$="[[_computeInputContentClass(noLabelFloat,alwaysFloatLabel,focused,invalid,_inputHasContent)]]">
-      <slot select="[prefix]" id="prefix"></slot>
+      <content select="[prefix]" id="prefix"></content>
 
       <div class="label-and-input-container" id="labelAndInputContainer">
-        <slot select=":not([add-on]):not([prefix]):not([suffix])"></slot>
+        <content select=":not([add-on]):not([prefix]):not([suffix])"></content>
       </div>
 
-      <slot select="[suffix]"></slot>
+      <content select="[suffix]"></content>
     </div>
 
     <div class$="[[_computeUnderlineClass(focused,invalid)]]">
@@ -333,7 +333,7 @@ This element is `display:block` by default, but you can set the `inline` attribu
     </div>
 
     <div class$="[[_computeAddOnContentClass(focused,invalid)]]">
-      <slot id="addOnContent" select="[add-on]"></slot>
+      <content id="addOnContent" select="[add-on]"></content>
     </div>
   </template>
 </dom-module>

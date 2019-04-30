@@ -55,7 +55,7 @@ two `<paper-button>`s to act as the clear and toggle controls.
       }
     </style>
 
-    <slot></slot>
+    <content></content>
 
     <vaadin-combo-box-overlay
         id="overlay"

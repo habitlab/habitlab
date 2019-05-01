@@ -42,9 +42,12 @@ var interst_screen = null
 //   interst_screen = $('<interstitial-screen-choose-difficulty>')
 // }
 
-var choose_difficulty_interface = 'this_intervention_toast'
-require_component('interstitial-screen-choose-difficulty-v4')
-interst_screen = $('<interstitial-screen-choose-difficulty-v4>')
+// var choose_difficulty_interface = 'this_intervention_toast'
+// require_component('interstitial-screen-choose-difficulty-v4')
+// interst_screen = $('<interstitial-screen-choose-difficulty-v4>')
+var choose_difficulty_interface = 'this_intervention_toast_select_frequency'
+require_component('interstitial-screen-choose-difficulty-v5')
+interst_screen = $('<interstitial-screen-choose-difficulty-v5>')
 
 /*
 if () {

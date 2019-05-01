@@ -97,7 +97,7 @@ add_abtest 'intervention_firstimpression_notice', ['power'], (chosen_algorithm) 
   localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
   return
 
-add_abtest 'choose_difficulty_interface', ['this_intervention_toast'], (chosen_algorithm) ->>
+add_abtest 'choose_difficulty_interface', ['this_intervention_toast', 'this_intervention_toast_select_frequency'], (chosen_algorithm) ->>
   localStorage.setItem('choose_difficulty_interface', chosen_algorithm)
   return
 

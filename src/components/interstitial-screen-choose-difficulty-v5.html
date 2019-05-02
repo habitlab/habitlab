@@ -1,7 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
-<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 <dom-module id="interstitial-screen-choose-difficulty-v5">
@@ -48,31 +46,8 @@
         text-align: center;
       }
 
-      .difficultyradiogroup {
-        padding: 0px;
-        /* background-color: #415D67; */
-        color: white;
-        /* padding: 5px;
-        box-shadow: 2px 2px 2px #888888;
-        border-radius: 5px; */
-      }
-
-      .difficultyradio {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        padding-left: 25px;
-
-        background-color: #415D67;
-        width: 100%;
-        color: white;
-        box-shadow: 2px 2px 2px #888888;
-        border-radius: 5px;
-
-        --paper-radio-button-checked-color: red;
-        --paper-radio-button-checked-ink-color: red;
-        --paper-radio-button-unchecked-color: red;
-        --paper-radio-button-unchecked-ink-color: red;
-        --paper-radio-button-label-color: red;
+      #secondpart {
+        text-align: center;
       }
 
       .difficultybutton {
@@ -94,49 +69,24 @@
       }
 
       .buttontop {
-        width: 430px;
-        margin-top: 5px;
-        text-align: center;
-        color: white;
         font-size: 30px;
         text-transform: none;
       }
 
       .buttonbottom {
-        width: 430px;
-        margin-top: 5px;
-        margin-bottom: 10px;
-        text-align: center;
-        color: white;
-        font-size: 12px;
-        text-transform: uppercase;
-      }
-
-      .intervalbutton {
-        margin: 5px;
-        cursor: pointer;
-        padding: 5px;
-        background-color: #415D67;
-        color: white;
         font-size: 14px;
-        box-shadow: 2px 2px 2px #888888;
       }
 
-      .intervalbuttontext {
-        font-size: 20px;
-        text-transform: none;
-      }
-
-      #askagaincontainer {
-        /* display: none; */
+      #secondpart {
+        display: none;
       }
     </style>
 
 
 
     <paper-toast id="sample_toast" text="" duration="0" vertical-align="top" horizontal-align="right">
-      <div style="width: 530px">
-      <div id="block_container" style="width: 100%; font-size: 30px">
+      <div id="block_container" style="width: 530px">
+      <div style="width: 100%; font-size: 30px">
         <!-- Settings update: How aggressive would you like HabitLab to be in helping you reduce your time next visit?<br>
         This visit you will get the following intervention:<br>
         Feed Eater: Hides the Facebook Feed -->
@@ -145,31 +95,8 @@
       <br><br>
 
       <div>
-          <div style="width: 100%; text-align: left">
-      <div style="width: 100%; margin-left: 0px; display: inline-block">
-        <paper-radio-group id="difficultyradiogroup" class="difficultyradiogroup">
-          <paper-radio-button name="nothing" class="difficultyradio">
-            <div class="buttontop">Don't do anything</div>
-            <div class="buttonbottom">Just track time</div>
-          </paper-radio-button>
-          <br><br>
-          <paper-radio-button name="easy" class="difficultyradio">
-            <div class="buttontop">Light touch</div>
-            <div class="buttonbottom">e.g., show a timer when you visit Facebook</div>
-          </paper-radio-button>
-          <br><br>
-          <paper-radio-button name="medium" class="difficultyradio">
-            <div class="buttontop">Medium</div>
-            <div class="buttonbottom">e.g., remove your Facebook feed until you click to show it</div>
-          </paper-radio-button>
-          <br><br>
-          <paper-radio-button name="hard" class="difficultyradio">
-            <div class="buttontop">Hard</div>
-            <div class="buttonbottom">e.g., close the site after 60 seconds</div>
-          </paper-radio-button>
-        </paper-radio-group>
-        </div>
-        <!-- <paper-button on-click="difficulty_chosen" class="difficultybutton" difficulty="nothing">
+      <div style="text-align: left; display: inline-block">
+        <paper-button on-click="difficulty_chosen" class="difficultybutton" difficulty="nothing">
           <div class="buttoncontainer" difficulty="nothing">
             <div class="buttontop" difficulty="nothing">Don't do anything</div>
             <br difficulty="nothing">
@@ -199,29 +126,52 @@
             <br difficulty="hard">
             <div class="buttonbottom" difficulty="hard">e.g., close the site after 60 seconds</div>
           </div>
-        </paper-button> -->
+        </paper-button>
         <br><br>
-        <div id="askagaincontainer">
-        <div style="text-align: center; font-size: 30px; margin-top: 10px">Ask me again:</div>
-        <br>
-        <div style="width: 100%; text-align: center">
-          <paper-button on-click="difficulty_chosen" class="intervalbutton" askagain="nextvisit">
-            <div class="intervalbuttontext" askagain="nextvisit">Next visit</div>
-          </paper-button>
-          <paper-button on-click="difficulty_chosen" class="intervalbutton" askagain="nextvisit">
-            <div class="intervalbuttontext" askagain="nextvisit">In 1 hour</div>
-          </paper-button>
-          <paper-button on-click="difficulty_chosen" class="intervalbutton" askagain="nextvisit">
-            <div class="intervalbuttontext" askagain="nextvisit">In 1 day</div>
-          </paper-button>
-          <paper-button on-click="difficulty_chosen" class="intervalbutton" askagain="nextvisit">
-            <div class="intervalbuttontext" askagain="nextvisit">In 1 week</div>
-          </paper-button>
-        </div>
-        </div>
       </div>
       </div>
+    </div>
+
+
+      <div id="secondpart"  style="width: 530px">
+      <div style="width: 100%; font-size: 30px">Ask me again about difficulty:</div>
+
+      <br><br>
+
+      <div>
+      <div style="text-align: left; display: inline-block">
+        <paper-button on-click="interval_chosen" class="difficultybutton" difficulty="nothing">
+          <div class="buttoncontainer" difficulty="nothing">
+            <div class="buttontop" difficulty="nothing">Next visit</div>
+          </div>
+        </paper-button>
+        <br><br>
+        <paper-button on-click="interval_chosen" class="difficultybutton" difficulty="easy">
+          <div class="buttoncontainer" difficulty="easy">
+            <div class="buttontop" difficulty="easy">1 hour later</div>
+          </div>
+        </paper-button>
+        <br><br>
+        <paper-button on-click="interval_chosen" class="difficultybutton" difficulty="medium">
+          <div class="buttoncontainer" difficulty="medium">
+            <div class="buttontop" difficulty="medium">1 day later</div>
+          </div>
+        </paper-button>
+        <br><br>
+        <paper-button on-click="interval_chosen" class="difficultybutton" difficulty="hard">
+          <div class="buttoncontainer" difficulty="hard">
+            <div class="buttontop" difficulty="hard">1 week later</div>
+          </div>
+        </paper-button>
+        <br><br>
       </div>
+
+      </div>
+      </div>
+
+
+
+
   </paper-toast>
 
   </template>

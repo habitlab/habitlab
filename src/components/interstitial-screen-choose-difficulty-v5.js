@@ -3,22 +3,14 @@ Polymer({
   doc: 'A screen that asks users to choose the difficulty of intervention they want this visit.',
   properties: {
     seconds_remaining: {
-      type: Number,
+      type: Boolean,
       value: 3600,
     }
   },
   ready: function() {
     let self = this
-    // let radiogroup = this.$.sample_toast.difficultyradiogroup
-    // radiogroup['--paper-radio-button-checked-color'] = 'white'
-    // radiogroup.updateStyles()
-    let radios = this.querySelectorAll('.difficultyradio')
-    for (let x of radios) {
-      x.customStyle['--paper-radio-button-checked-color'] = 'white'
-      x.customStyle['--paper-radio-button-unchecked-color'] = 'white'
-      x.updateStyles()
-    }
     this.$$('#sample_toast').show()
+    /*
     let interval = setInterval(function() {
       if (self.seconds_remaining <= 0) {
         return
@@ -29,10 +21,18 @@ Polymer({
         self.choose_random()
       }
     }, 1000)
+    */
   },
   difficulty_chosen: function(evt) {
+    /*
     let difficulty = evt.target.getAttribute('difficulty')
     this.fire('difficulty_chosen', {difficulty: difficulty, is_random: false})
+    this.$$('#sample_toast').hide()
+    */
+   this.$$('#block_container').style.display = 'none'
+   this.$$('#secondpart').style.display = 'block'
+  },
+  interval_chosen: function(evt) {
     this.$$('#sample_toast').hide()
   },
   choose_random: function(evt) {

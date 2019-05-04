@@ -1138,6 +1138,12 @@ export set_temporary_difficulty = (difficulty) ->>
   localStorage.setItem('temporary_difficulty', difficulty)
   setvar_experiment('temporary_difficulty', difficulty)
   return
+
+export set_asknext_time = (asknext_time) ->>
+  localStorage.setItem('asknext_time', asknext_time)
+  setvar_experiment('asknext_time', asknext_time)
+  return
+
 /*
 export get_enabled_intervention_for_goal_by_difficulty = (goal, difficulty) ->>
   all_interventions = await get_interventions()

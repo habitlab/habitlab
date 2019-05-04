@@ -97,7 +97,6 @@ do !->>
     enabledisable_interventions_based_on_difficulty
     get_intensity_level_for_intervention
     is_video_domain
-    set_temporary_difficulty
     choose_intervention_for_difficulty_level_and_goal
   } = require 'libs_backend/intervention_utils'
 
@@ -905,11 +904,24 @@ do !->>
     #  await setvar_experiment('moved_into_choose_difficulty_experiment', 'true')
     is_preview_mode = override_enabled_interventions?
     if is_new_session and intervention? and (not is_preview_mode) and (not is_suggestion_mode) and localStorage.frequency_of_choose_difficulty? # todo this is where we auto deploy them
+      choose_difficulty_interface = localStorage.choose_difficulty_interface
       frequency_of_choose_difficulty = localStorage.frequency_of_choose_difficulty # todo get this from localstorage
-      frequency_of_choose_difficulty = parseFloat(frequency_of_choose_difficulty)
+      choose_by_temporary_difficulty = false
+      if frequency_of_choose_difficulty == 'daily' or frequency_of_choose_difficulty == 'survey'
+        asknext_time = localStorage.asknext_time
+        if not isFinite(parseInt(asknext_time))
+          choose_by_temporary_difficulty = false
+        else
+          asknext_time = parseInt(asknext_time)
+          if Date.now() < asknext_time # have not yet hit reached asknext_time
+            choose_by_temporary_difficulty = true
+          else
+            choose_by_temporary_difficulty = false
+      else if isFinite(parseFloat(frequency_of_choose_difficulty))
+        frequency_of_choose_difficulty = parseFloat(frequency_of_choose_difficulty)
+        choose_by_temporary_difficulty = not (Math.random() < frequency_of_choose_difficulty)
       all_interventions = await get_interventions()
       goals_list = await list_nonpositive_goals_for_location(location)
-      choose_by_temporary_difficulty = not (Math.random() < frequency_of_choose_difficulty)
       temporary_difficulty = localStorage.getItem 'temporary_difficulty'
       if not temporary_difficulty?
         temporary_difficulty = localStorage.user_chosen_difficulty_survey
@@ -927,7 +939,7 @@ do !->>
         interventions_to_load = [chosen_intervention_name]
         intervention_info_new = all_interventions[chosen_intervention_name]
         await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
-        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode, {'choose_difficulty_screen': 'foobar'}
+        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode, {'choose_difficulty_screen': choose_difficulty_interface, 'frequency_of_choose_difficulty': frequency_of_choose_difficulty}
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         return
       else
@@ -943,7 +955,7 @@ do !->>
         choose_difficulty_interface = 'this_intervention'
         if localStorage.choose_difficulty_interface?
           choose_difficulty_interface = localStorage.choose_difficulty_interface
-        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode, {choose_difficulty_interface: choose_difficulty_interface}
+        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode, {'choose_difficulty_interface': choose_difficulty_interface, 'frequency_of_choose_difficulty': frequency_of_choose_difficulty}
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
         return
     if should_set_active_interventions

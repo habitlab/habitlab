@@ -97,11 +97,11 @@ add_abtest 'intervention_firstimpression_notice', ['power'], (chosen_algorithm) 
   localStorage.setItem('intervention_firstimpression_notice', chosen_algorithm)
   return
 
-add_abtest 'choose_difficulty_interface', ['this_intervention_toast', 'this_intervention_toast_select_frequency'], (chosen_algorithm) ->>
+add_abtest 'choose_difficulty_interface', ['this_intervention_toast_v5'], (chosen_algorithm) ->>
   localStorage.setItem('choose_difficulty_interface', chosen_algorithm)
   return
 
-add_abtest 'frequency_of_choose_difficulty', ['0.5'], (chosen_algorithm) ->>
+add_abtest 'frequency_of_choose_difficulty', ['0.5', 'daily', 'survey'], (chosen_algorithm) ->>
   localStorage.setItem('frequency_of_choose_difficulty', chosen_algorithm)
   return
 

@@ -128,6 +128,9 @@
           </div>
         </paper-button>
         <br><br>
+        <template is="dom-if" if="{{have_counter}}">
+          <div style="text-align: center; font-size: 30px; margin-top: 10px">If you don't choose, an option will be randomly chosen in {{seconds_remaining}} seconds</div>
+        </template>
       </div>
       </div>
     </div>
@@ -140,27 +143,27 @@
 
       <div>
       <div style="text-align: left; display: inline-block">
-        <paper-button on-click="interval_chosen" class="difficultybutton" difficulty="nothing">
-          <div class="buttoncontainer" difficulty="nothing">
-            <div class="buttontop" difficulty="nothing">Next visit</div>
+        <paper-button on-click="asknext_chosen" class="difficultybutton" asknext="nextvisit">
+          <div class="buttoncontainer" asknext="nextvisit">
+            <div class="buttontop" asknext="nextvisit">Next visit</div>
           </div>
         </paper-button>
         <br><br>
-        <paper-button on-click="interval_chosen" class="difficultybutton" difficulty="easy">
-          <div class="buttoncontainer" difficulty="easy">
-            <div class="buttontop" difficulty="easy">1 hour later</div>
+        <paper-button on-click="asknext_chosen" class="difficultybutton" asknext="hour">
+          <div class="buttoncontainer" asknext="hour">
+            <div class="buttontop" asknext="hour">1 hour later</div>
           </div>
         </paper-button>
         <br><br>
-        <paper-button on-click="interval_chosen" class="difficultybutton" difficulty="medium">
-          <div class="buttoncontainer" difficulty="medium">
-            <div class="buttontop" difficulty="medium">1 day later</div>
+        <paper-button on-click="asknext_chosen" class="difficultybutton" asknext="day">
+          <div class="buttoncontainer" asknext="day">
+            <div class="buttontop" asknext="day">1 day later</div>
           </div>
         </paper-button>
         <br><br>
-        <paper-button on-click="interval_chosen" class="difficultybutton" difficulty="hard">
-          <div class="buttoncontainer" difficulty="hard">
-            <div class="buttontop" difficulty="hard">1 week later</div>
+        <paper-button on-click="asknext_chosen" class="difficultybutton" asknext="week">
+          <div class="buttoncontainer" asknext="week">
+            <div class="buttontop" asknext="week">1 week later</div>
           </div>
         </paper-button>
         <br><br>

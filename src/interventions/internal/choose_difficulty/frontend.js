@@ -26,6 +26,7 @@ const {
 const {
   choose_intervention_for_each_difficulty_level_and_goal,
   set_temporary_difficulty,
+  set_asknext_time,
 } = require('libs_frontend/intervention_utils')
 
 var interst_screen = null
@@ -45,9 +46,18 @@ var interst_screen = null
 // var choose_difficulty_interface = 'this_intervention_toast'
 // require_component('interstitial-screen-choose-difficulty-v4')
 // interst_screen = $('<interstitial-screen-choose-difficulty-v4>')
-var choose_difficulty_interface = 'this_intervention_toast_select_frequency'
+var choose_difficulty_interface = parameters.choose_difficulty_interface
+var frequency_of_choose_difficulty = parameters.frequency_of_choose_difficulty
+console.log('choose difficulty interface is')
+console.log(choose_difficulty_interface)
+console.log('frequency_of_choose_difficulty is')
+console.log(frequency_of_choose_difficulty)
 require_component('interstitial-screen-choose-difficulty-v5')
 interst_screen = $('<interstitial-screen-choose-difficulty-v5>')
+interst_screen[0].asknext_strategy = frequency_of_choose_difficulty
+if (frequency_of_choose_difficulty != 'daily' && frequency_of_choose_difficulty != 'survey') {
+  interst_screen[0].have_counter = true
+}
 
 /*
 if () {
@@ -57,6 +67,8 @@ if () {
 var shadow_div = null
 
 var difficulty_to_chosen_intervention = null
+
+var intervention_name_chosen = null
 
 const is_new_session = get_is_new_session();
 if (is_new_session) {
@@ -69,18 +81,85 @@ if (is_new_session) {
     interst_screen[0].addEventListener('difficulty_chosen', async function(evt) {
       let difficulty = evt.detail.difficulty
       let is_random = evt.detail.is_random
-      $(shadow_div).remove()
+      let have_counter = evt.detail.have_counter
+      let asknext_strategy = evt.detail.asknext_strategy
 
       set_temporary_difficulty(difficulty)
       if (difficulty == 'nothing') {
-        log_action({'difficulty': difficulty, 'new_session': true, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': is_random})
+        log_action({
+          'difficulty': difficulty,
+          'new_session': true,
+          'choose_difficulty_interface': choose_difficulty_interface,
+          'is_random': is_random,
+          'asknext_strategy': asknext_strategy,
+        })
         set_intervention_session_var('chosen_intervention_info', JSON.stringify({difficulty: 'nothing', is_random: is_random}))
         return
       }
       let intervention_name = difficulty_to_chosen_intervention[difficulty]
-      log_action({'difficulty': difficulty, 'intervention_name': intervention_name, 'new_session': true, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': is_random})
+      log_action({
+        'difficulty': difficulty,
+        'intervention_name': intervention_name,
+        'new_session': true,
+        'choose_difficulty_interface': choose_difficulty_interface,
+        'is_random': is_random,
+        'asknext_strategy': asknext_strategy,
+      })
       set_intervention_session_var('chosen_intervention_info', JSON.stringify({name: intervention_name, difficulty: difficulty, is_random: is_random}))
+      intervention_name_chosen = intervention_name
+
+      console.log('difficulty chosen')
+      console.log(evt)
+
+      if (asknext_strategy == 'survey') {
+        return
+      }
+      $(shadow_div).remove()
       load_intervention_by_name(intervention_name)
+    })
+    interst_screen[0].addEventListener('asknext_auto', async function(evt) {
+      let difficulty = evt.detail.difficulty
+      let is_random = evt.detail.is_random
+      let have_counter = evt.detail.have_counter
+      let asknext_strategy = evt.detail.asknext_strategy
+      let asknext = evt.detail.asknext
+      let asknext_time = evt.detail.asknext_time
+      set_asknext_time(asknext_time)
+      log_action({
+        'action_type': 'asknext_auto',
+        'difficulty': difficulty,
+        'new_session': true,
+        'choose_difficulty_interface': choose_difficulty_interface,
+        'is_random': is_random,
+        'asknext_strategy': asknext_strategy,
+        'asknext': asknext,
+        'asknext_time': asknext_time,
+      })
+      console.log('asknext_auto')
+      console.log(evt)
+    })
+    interst_screen[0].addEventListener('asknext_chosen', async function(evt) {
+      let difficulty = evt.detail.difficulty
+      let is_random = evt.detail.is_random
+      let have_counter = evt.detail.have_counter
+      let asknext_strategy = evt.detail.asknext_strategy
+      let asknext = evt.detail.asknext
+      let asknext_time = evt.detail.asknext_time
+      set_asknext_time(asknext_time)
+      log_action({
+        'action_type': 'asknext_chosen',
+        'difficulty': difficulty,
+        'new_session': true,
+        'choose_difficulty_interface': choose_difficulty_interface,
+        'is_random': is_random,
+        'asknext_strategy': asknext_strategy,
+        'asknext': asknext,
+        'asknext_time': asknext_time,
+      })
+      console.log('asknext_chosen')
+      console.log(evt)
+      $(shadow_div).remove()
+      load_intervention_by_name(intervention_name_chosen)
     })
   })
 } else {

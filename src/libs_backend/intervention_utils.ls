@@ -182,8 +182,15 @@ export set_intervention_disabled = (intervention_name) ->>
 */
 
 default_generic_interventions_list = [
-  'generic/toast_notifications'
+  'generic/block_after_interval_per_visit'
+  'generic/close_tab_timer'
+  'generic/make_user_wait'
+  'generic/prompt_reason'
+  'generic/scroll_blocker'
   'generic/show_timer_banner'
+  'generic/show_user_info_banner'
+  'generic/show_user_info_interstitial'
+  'generic/toast_notifications'
 ]
 
 default_generic_positive_interventions_list = [

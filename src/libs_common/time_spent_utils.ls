@@ -66,7 +66,7 @@ export get_minutes_spent_on_domain_today = (domain) ->>
 * @return {integer} seconds spent
 */
 export get_seconds_spent_on_current_domain_today = ->>
-  current_domain = window.location.hostname
+  current_domain = window.location.host
   result = await get_seconds_spent_on_domain_today current_domain
   return result ? 0
 
@@ -90,7 +90,7 @@ export get_visits_to_domain_days_before_today = (domain, days_ago) ->>
 * @return {integer} seconds spent
 */
 export get_visits_to_current_domain_today = ->>
-  current_domain = window.location.hostname
+  current_domain = window.location.host
   result = await get_visits_to_domain_today current_domain
   return result ? 0
 
@@ -113,7 +113,7 @@ export get_new_session_id_for_domain = (domain) ->>
   return result + 1
 
 export get_seconds_spent_on_current_domain_in_session = (session_id) ->>
-  current_domain = window.location.hostname
+  current_domain = window.location.host
   result = await get_seconds_spent_on_domain_in_session current_domain, session_id
   return result ? 0
 
@@ -127,7 +127,7 @@ export get_seconds_spent_on_domain_in_session = (domain, session_id) ->>
 */
 export get_seconds_spent_on_current_domain_in_current_session = ->>
   session_id = get_session_id()
-  current_domain = window.location.hostname
+  current_domain = window.location.host
   result = await get_seconds_spent_on_domain_in_session current_domain, session_id
   return result ? 0
 

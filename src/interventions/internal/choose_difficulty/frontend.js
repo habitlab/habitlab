@@ -55,7 +55,7 @@ console.log(frequency_of_choose_difficulty)
 require_component('interstitial-screen-choose-difficulty-v5')
 interst_screen = $('<interstitial-screen-choose-difficulty-v5>')
 interst_screen[0].asknext_strategy = frequency_of_choose_difficulty
-if (frequency_of_choose_difficulty != 'daily' && frequency_of_choose_difficulty != 'survey') {
+if (frequency_of_choose_difficulty != 'day' && frequency_of_choose_difficulty != 'survey') {
   interst_screen[0].have_counter = true
 }
 

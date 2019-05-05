@@ -101,7 +101,7 @@ add_abtest 'choose_difficulty_interface', ['this_intervention_toast_v5'], (chose
   localStorage.setItem('choose_difficulty_interface', chosen_algorithm)
   return
 
-add_abtest 'frequency_of_choose_difficulty', ['0.5', 'daily', 'survey'], (chosen_algorithm) ->>
+add_abtest 'frequency_of_choose_difficulty', ['0.5', 'day', 'survey'], (chosen_algorithm) ->>
   localStorage.setItem('frequency_of_choose_difficulty', chosen_algorithm)
   return
 

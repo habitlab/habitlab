@@ -8,7 +8,9 @@ interventions:
   #- duolingo/youtube_sidebar_lesson
   - duolingo/iqiyi_sidebar_lesson
 default_interventions:
+  - duolingo/facebook_replace_ads_with_lesson
   - duolingo/facebook_feed_lesson_injection
+  #- duolingo/youtube_sidebar_lesson
   - duolingo/iqiyi_sidebar_lesson
 disabled: false
 domain: www.duolingo.com

@@ -7,6 +7,7 @@ interventions:
   - generic_positive/suggest_positive_site_interstitial
 default_interventions:
   - generic_positive/feed_injection_positive_goal_widget
+  - generic_positive/suggest_positive_site_interstitial
 measurement: time_spent_on_domain
 domain: www.calm.com
 target:

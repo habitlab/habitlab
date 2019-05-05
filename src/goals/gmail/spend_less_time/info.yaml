@@ -15,8 +15,17 @@ interventions:
   #- gmail/no_new_emails
   #- gmail/time_writing_email
 default_interventions:
+  #- gmail/delay_new_emails
   - generic/toast_notifications
   - generic/show_timer_banner
+  - generic/scroll_blocker
+  - generic/show_user_info_interstitial
+  - generic/make_user_wait
+  - generic/close_tab_timer
+  - generic/block_after_interval_per_visit
+  - generic/prompt_reason
+  #- gmail/no_new_emails
+  #- gmail/time_writing_email
 measurement: time_spent_on_domain
 domain: mail.google.com
 target:

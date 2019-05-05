@@ -15,8 +15,17 @@ interventions:
   - generic/block_after_interval_per_visit
   - generic/prompt_reason
 default_interventions:
+  #- reddit/remove-comment-links
+  #- reddit/comment_removal
   - generic/toast_notifications
   - generic/show_timer_banner
+  - generic/scroll_blocker
+  - generic/show_user_info_interstitial
+  - generic/show_user_info_banner
+  - generic/make_user_wait
+  - generic/close_tab_timer
+  - generic/block_after_interval_per_visit
+  - generic/prompt_reason
 measurement: time_spent_on_domain
 domain: www.reddit.com
 target:

@@ -48,14 +48,10 @@ var interst_screen = null
 // interst_screen = $('<interstitial-screen-choose-difficulty-v4>')
 var choose_difficulty_interface = parameters.choose_difficulty_interface
 var frequency_of_choose_difficulty = parameters.frequency_of_choose_difficulty
-console.log('choose difficulty interface is')
-console.log(choose_difficulty_interface)
-console.log('frequency_of_choose_difficulty is')
-console.log(frequency_of_choose_difficulty)
 require_component('interstitial-screen-choose-difficulty-v5')
 interst_screen = $('<interstitial-screen-choose-difficulty-v5>')
 interst_screen[0].asknext_strategy = frequency_of_choose_difficulty
-if (frequency_of_choose_difficulty != 'day' && frequency_of_choose_difficulty != 'survey') {
+if (frequency_of_choose_difficulty != 'nextvisit' && frequency_of_choose_difficulty != 'day' && frequency_of_choose_difficulty != 'survey') {
   interst_screen[0].have_counter = true
 }
 
@@ -78,6 +74,12 @@ if (is_new_session) {
     choose_intervention_for_each_difficulty_level_and_goal(goal_name).then(function(result) {
       difficulty_to_chosen_intervention = result
     })
+    log_action({
+      'action_type': 'difficulty_chooser_shown',
+      'new_session': true,
+      'choose_difficulty_interface': choose_difficulty_interface,
+      'asknext_strategy': frequency_of_choose_difficulty,
+    })
     interst_screen[0].addEventListener('difficulty_chosen', async function(evt) {
       let difficulty = evt.detail.difficulty
       let is_random = evt.detail.is_random
@@ -87,6 +89,7 @@ if (is_new_session) {
       set_temporary_difficulty(difficulty)
       if (difficulty == 'nothing') {
         log_action({
+          'action_type': 'difficulty_chosen',
           'difficulty': difficulty,
           'new_session': true,
           'choose_difficulty_interface': choose_difficulty_interface,
@@ -98,6 +101,7 @@ if (is_new_session) {
       }
       let intervention_name = difficulty_to_chosen_intervention[difficulty]
       log_action({
+        'action_type': 'difficulty_chosen',
         'difficulty': difficulty,
         'intervention_name': intervention_name,
         'new_session': true,
@@ -107,9 +111,6 @@ if (is_new_session) {
       })
       set_intervention_session_var('chosen_intervention_info', JSON.stringify({name: intervention_name, difficulty: difficulty, is_random: is_random}))
       intervention_name_chosen = intervention_name
-
-      console.log('difficulty chosen')
-      console.log(evt)
 
       if (asknext_strategy == 'survey') {
         return
@@ -135,8 +136,6 @@ if (is_new_session) {
         'asknext': asknext,
         'asknext_time': asknext_time,
       })
-      console.log('asknext_auto')
-      console.log(evt)
     })
     interst_screen[0].addEventListener('asknext_chosen', async function(evt) {
       let difficulty = evt.detail.difficulty
@@ -156,8 +155,6 @@ if (is_new_session) {
         'asknext': asknext,
         'asknext_time': asknext_time,
       })
-      console.log('asknext_chosen')
-      console.log(evt)
       $(shadow_div).remove()
       load_intervention_by_name(intervention_name_chosen)
     })

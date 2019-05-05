@@ -65,8 +65,6 @@ Polymer({
     let difficulty = evt.target.getAttribute('difficulty')
     let have_counter = this.have_counter
     let asknext_strategy = this.asknext_strategy
-    console.log('asknext_strategy is')
-    console.log(asknext_strategy)
     if (asknext_strategy == 'survey') {
       this.$$('#block_container').style.display = 'none'
       this.$$('#secondpart').style.display = 'block'
@@ -81,6 +79,15 @@ Polymer({
           asknext: 'day',
           asknext_strategy: asknext_strategy,
           asknext_time: Date.now() + 24*3600*1000,
+        })
+      } else if (asknext_strategy == 'nextvisit') {
+        this.fire('asknext_auto', {
+          difficulty: difficulty,
+          is_random: false,
+          have_counter: have_counter,
+          asknext: 'nextvisit',
+          asknext_strategy: asknext_strategy,
+          asknext_time: Date.now(),
         })
       }
     }
@@ -98,6 +105,9 @@ Polymer({
     let asknext_strategy = this.asknext_strategy
     let curtime = Date.now()
     let asknext_time = curtime
+    if (asknext_time == 'nextvisit') {
+      asknext_time = curtime
+    }
     if (asknext == 'hour') {
       asknext_time = curtime + 3600*1000
     } else if (asknext == 'day') {

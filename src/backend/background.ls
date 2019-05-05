@@ -907,7 +907,7 @@ do !->>
       choose_difficulty_interface = localStorage.choose_difficulty_interface
       frequency_of_choose_difficulty = localStorage.frequency_of_choose_difficulty # todo get this from localstorage
       choose_by_temporary_difficulty = false
-      if frequency_of_choose_difficulty == 'day' or frequency_of_choose_difficulty == 'survey'
+      if frequency_of_choose_difficulty == 'nextvisit' or frequency_of_choose_difficulty == 'day' or frequency_of_choose_difficulty == 'survey' 
         asknext_time = localStorage.asknext_time
         if not isFinite(parseInt(asknext_time))
           choose_by_temporary_difficulty = false

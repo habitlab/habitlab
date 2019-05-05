@@ -34,7 +34,7 @@ async function show_first_impression_notice_if_needed () {
   const {show_firstimpression_message_for_intervention} = require('libs_common/intervention_first_impression_utils_backend')
   let notice_to_show = await show_firstimpression_message_for_intervention(intervention_name)
 
-  if (intervention_name == 'generic/toast_notifications') {
+  if (intervention_name == 'generic/toast_notifications' || intervention_name == 'generic/show_user_info_banner') {
     setTimeout(function() {
       if (notice_to_show == 'power') {
         show_first_impression_notice_power()

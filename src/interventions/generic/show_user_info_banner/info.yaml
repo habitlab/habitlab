@@ -1,6 +1,6 @@
 description: Show time spent and visit count each visit
 # description: Show time spent and visit count[and reminds you of a positive goal] each visit
-displayname: Stat Whiz banner 
+displayname: Stat Banner 
 difficulty: medium
 content_scripts:
   - path: frontend.js

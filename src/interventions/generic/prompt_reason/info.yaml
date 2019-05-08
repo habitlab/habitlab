@@ -1,5 +1,5 @@
-description: Asks what you aim to do this visit and puts a reminder up
-displayname: Mission Objective
+description: Asks what you aim to do this visit and reminds you
+displayname: Mission Goal
 difficulty: hard
 content_scripts:
   - path: frontend.js

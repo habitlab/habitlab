@@ -48,12 +48,8 @@ var interst_screen = null
 // interst_screen = $('<interstitial-screen-choose-difficulty-v4>')
 var choose_difficulty_interface = parameters.choose_difficulty_interface
 var frequency_of_choose_difficulty = parameters.frequency_of_choose_difficulty
+
 require_component('interstitial-screen-choose-difficulty-v5')
-interst_screen = $('<interstitial-screen-choose-difficulty-v5>')
-interst_screen[0].asknext_strategy = frequency_of_choose_difficulty
-if (frequency_of_choose_difficulty != 'nextvisit' && frequency_of_choose_difficulty != 'day' && frequency_of_choose_difficulty != 'survey') {
-  interst_screen[0].have_counter = true
-}
 
 /*
 if () {
@@ -67,8 +63,14 @@ var difficulty_to_chosen_intervention = null
 var intervention_name_chosen = null
 
 const is_new_session = get_is_new_session();
-if (is_new_session) {
-  once_body_available().then(function() {
+once_body_available().then(function() {
+  interst_screen = $('<interstitial-screen-choose-difficulty-v5>')  
+  interst_screen[0].asknext_strategy = frequency_of_choose_difficulty
+  if (frequency_of_choose_difficulty != 'nextvisit' && frequency_of_choose_difficulty != 'day' && frequency_of_choose_difficulty != 'survey') {
+    interst_screen[0].have_counter = true
+  }
+
+  if (is_new_session) {
     shadow_div = append_to_body_shadow(interst_screen);
     let goal_name = get_goal_name()
     choose_intervention_for_each_difficulty_level_and_goal(goal_name).then(function(result) {
@@ -158,21 +160,23 @@ if (is_new_session) {
       $(shadow_div).remove()
       load_intervention_by_name(intervention_name_chosen)
     })
-  })
-} else {
-  get_intervention_session_var('chosen_intervention_info').then(function(chosen_intervention_info) {
-    if (chosen_intervention_info == null) {
-      return
-    }
-    chosen_intervention_info = JSON.parse(chosen_intervention_info)
-    if (chosen_intervention_info.name == null) {
-      log_action({'difficulty': chosen_intervention_info.difficulty, 'new_session': false, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': chosen_intervention_info.is_random})
-      return
-    }
-    log_action({'difficulty': chosen_intervention_info.difficulty, 'intervention_name': chosen_intervention_info.name, 'new_session': false, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': chosen_intervention_info.is_random})
-    load_intervention_by_name(chosen_intervention_info.name)
-  })
-}
+  } else {
+    get_intervention_session_var('chosen_intervention_info').then(function(chosen_intervention_info) {
+      if (chosen_intervention_info == null) {
+        return
+      }
+      chosen_intervention_info = JSON.parse(chosen_intervention_info)
+      if (chosen_intervention_info.name == null) {
+        log_action({'difficulty': chosen_intervention_info.difficulty, 'new_session': false, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': chosen_intervention_info.is_random})
+        return
+      }
+      log_action({'difficulty': chosen_intervention_info.difficulty, 'intervention_name': chosen_intervention_info.name, 'new_session': false, 'choose_difficulty_interface': choose_difficulty_interface, 'is_random': chosen_intervention_info.is_random})
+      load_intervention_by_name(chosen_intervention_info.name)
+    })
+  }
+
+});
+
 
 window.on_intervention_disabled = () => {
   $(shadow_div).remove()

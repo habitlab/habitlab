@@ -590,10 +590,23 @@ do !->>
         })
         */
       content_script_code = """
+  var replacing_current_intervention = false
+  if ('#{intervention_info_copy.name}' != 'internal/choose_difficulty') {
+    if (window.allowed_interventions != null) {
+      var allowed_interventions_list = Object.keys(window.allowed_interventions)
+      if (allowed_interventions_list.length == 1 && allowed_interventions_list[0] == 'internal/choose_difficulty') {
+        replacing_current_intervention = true
+      }
+    }
+  }
   
-  //if (!window.allowed_interventions) {
-  if (!window.loaded_interventions) {
-    //window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
+  if (replacing_current_intervention) {
+    for (var intervention_name of #{JSON.stringify(intervention_list)}) {
+      window.allowed_interventions[intervention_name] = true
+    }
+  } else if (!window.allowed_interventions) {
+  //if (!window.loaded_interventions) {
+    window.allowed_interventions = #{JSON.stringify(as_dictset(intervention_list))};
 
     window.onunhandledrejection = function(evt) {
       throw evt.reason;
@@ -603,11 +616,11 @@ do !->>
     window.loaded_content_scripts = {};
   }
 
-  if (/*window.allowed_interventions['#{intervention_info_copy.name}'] &&*/ !window.loaded_interventions['#{intervention_info_copy.name}']) {
+  if (replacing_current_intervention || (window.allowed_interventions['#{intervention_info_copy.name}'] && !window.loaded_interventions['#{intervention_info_copy.name}'])) {
     window.loaded_interventions['#{intervention_info_copy.name}'] = true;
 
-    //if (!window.loaded_content_scripts['#{options.path}']) {
-    if (true) {
+    if (!window.loaded_content_scripts['#{options.path}']) {
+    //if (true) {
       window.loaded_content_scripts['#{options.path}'] = true;
       const intervention = #{JSON.stringify(intervention_info_copy)};
       const goal_info = #{JSON.stringify(goal_info)};

@@ -137,23 +137,23 @@ define_component(`
   },
   minutes_one: function() {
     this.time = 1
-    this.$$('#custom_time_value').value = 0
+    this.$$('#custom_time_value').value = 1
   },
   minutes_two: function() {
     this.time = 2
-    this.$$('#custom_time_value').value = 0
+    this.$$('#custom_time_value').value = 2
   },
   minutes_three: function() {
     this.time = 3
-    this.$$('#custom_time_value').value = 0
+    this.$$('#custom_time_value').value = 3
   },
   minutes_four: function() {
     this.time = 4
-    this.$$('#custom_time_value').value = 0
+    this.$$('#custom_time_value').value = 4
   },
   minutes_five: function() {
     this.time = 5
-    this.$$('#custom_time_value').value = 0
+    this.$$('#custom_time_value').value = 5
   },
   setCustomMinutes: function() {
     let custom_time = this.$$('#custom_time_value').value

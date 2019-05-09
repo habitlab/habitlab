@@ -22,7 +22,11 @@ Polymer({
     difficulty_chosen_before_asknext: {
       type: String,
       value: '',
-    }
+    },
+    difficulty_already_chosen: {
+      type: Boolean,
+      value: false,
+    },
   },
   ready: function() {
     let self = this
@@ -45,13 +49,19 @@ Polymer({
     if (have_counter && this.counter_started == false) {
       this.counter_started = true
       let interval = setInterval(function() {
+        if (self.difficulty_already_chosen) {
+          clearInterval(interval)
+          return
+        }
         if (self.seconds_remaining <= 0) {
           return
         }
         self.seconds_remaining -= 1
         if (self.seconds_remaining == 0) {
           clearInterval(interval)
-          self.choose_random()
+          if (!self.difficulty_already_chosen) {
+            self.choose_random()
+          }
         }
       }, 1000)
     }
@@ -62,6 +72,7 @@ Polymer({
     this.fire('difficulty_chosen', {difficulty: difficulty, is_random: false})
     this.$$('#sample_toast').hide()
     */
+    this.difficulty_already_chosen = true
     let difficulty = evt.target.getAttribute('difficulty')
     let have_counter = this.have_counter
     let asknext_strategy = this.asknext_strategy
@@ -126,6 +137,10 @@ Polymer({
     this.$$('#sample_toast').hide()
   },
   choose_random: function(evt) {
+    if (this.difficulty_already_chosen) {
+      return
+    }
+    this.difficulty_already_chosen = true
     let difficulty_options = ['nothing', 'easy', 'medium', 'hard']
     let difficulty = difficulty_options[Math.floor(difficulty_options.length * Math.random())]
     let have_counter = this.have_counter

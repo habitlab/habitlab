@@ -23,9 +23,12 @@ abtest_conditions = {}
 
 nondefault_abtest_list = [
   'internal_special_user'
+  'difficulty_selection_screen'
+  'frequency_of_choose_difficulty'
 ]
 
 blocking_abtest_list = [
+  'difficulty_selection_screen_and_choose_difficulty_frequency'
   'difficulty_selection_screen'
 ]
 
@@ -101,13 +104,25 @@ add_abtest 'choose_difficulty_interface', ['this_intervention_toast_v5'], (chose
   localStorage.setItem('choose_difficulty_interface', chosen_algorithm)
   return
 
+add_abtest 'difficulty_selection_screen_and_choose_difficulty_frequency', ['survey', 'nodefault_forcedchoice_userchoice', 'survey_nochoice_nothing', 'survey_nochoice_easy', 'survey_nochoice_medium', 'survey_nochoice_hard'], (chosen_algorithm) ->>
+  localStorage.setItem('difficulty_selection_screen_and_choose_difficulty_frequency', chosen_algorithm)
+  conditions = ['nodefault_forcedchoice', 'nodefault_forcedchoice_userchoice', 'survey_nochoice_nothing', 'survey_nochoice_easy', 'survey_nochoice_medium', 'survey_nochoice_hard']
+  if chosen_algorithm == 'survey'
+    await set_abtest('frequency_of_choose_difficulty', '0.0', ['0.0', 'survey'])
+    await set_abtest('difficulty_selection_screen', 'nodefault_forcedchoice', conditions)
+  else
+    await set_abtest('frequency_of_choose_difficulty', '0.0', ['0.0', 'survey'])
+    await set_abtest('difficulty_selection_screen', chosen_algorithm, conditions)
+  return
+
+# we want to be in the survey condition only for survey
 #add_abtest 'frequency_of_choose_difficulty', ['1.0', 'nextvisit', 'day', 'survey'], (chosen_algorithm) ->>
-add_abtest 'frequency_of_choose_difficulty', ['survey'], (chosen_algorithm) ->>
+add_abtest 'frequency_of_choose_difficulty', ['0.0', 'survey'], (chosen_algorithm) ->>
   localStorage.setItem('frequency_of_choose_difficulty', chosen_algorithm)
   return
 
 #add_abtest 'difficulty_selection_screen', ['nodefault_optional', 'survey_nochoice_nothing', 'survey_nochoice_easy', 'survey_nochoice_medium', 'survey_nochoice_hard'], (chosen_algorithm) ->>
-add_abtest 'difficulty_selection_screen', ['nodefault_forcedchoice'], (chosen_algorithm) ->>
+add_abtest 'difficulty_selection_screen', ['nodefault_forcedchoice', 'nodefault_forcedchoice_userchoice', 'survey_nochoice_nothing', 'survey_nochoice_easy', 'survey_nochoice_medium', 'survey_nochoice_hard'], (chosen_algorithm) ->>
   if chosen_algorithm == 'survey_nochoice_nothing'
     localStorage.setItem('difficulty_selector_survey', true)
     setvar_experiment('user_chosen_difficulty', 'nothing')
@@ -156,6 +171,10 @@ add_abtest 'difficulty_selection_screen', ['nodefault_forcedchoice'], (chosen_al
   if chosen_algorithm == 'nodefault_forcedchoice'
     localStorage.setItem('difficulty_selector_forcedchoice', true)
     localStorage.setItem('difficulty_selector_survey', false)
+  if chosen_algorithm == 'nodefault_forcedchoice_userchoice'
+    localStorage.setItem('difficulty_selector_forcedchoice', true)
+    localStorage.setItem('difficulty_selector_survey', false)
+    localStorage.setItem('difficulty_selector_userchoice', true)
   localStorage.setItem('difficulty_selection_screen', chosen_algorithm)
   return
 

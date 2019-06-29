@@ -28,7 +28,9 @@ polymer_ext({
     }
     let difficulty = evt.detail.value
     let prev_enabled_interventions = await get_enabled_interventions()
-    //await enabledisable_interventions_based_on_difficulty(difficulty)
+    if (localStorage.difficulty_selector_userchoice == 'true') {
+      await enabledisable_interventions_based_on_difficulty(difficulty)
+    }
     localStorage.user_chosen_difficulty = difficulty
     setvar_experiment('user_chosen_difficulty', difficulty)
     send_feature_option({feature: 'difficuty', page: 'onboarding-view', difficulty: difficulty})

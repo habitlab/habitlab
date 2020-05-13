@@ -16,7 +16,6 @@ permissions:
   - idle
   - notifications
   - identity
-  - <all_urls>
   - 'http://*/'
   - 'https://*/'
 optional_permissions:

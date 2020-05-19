@@ -5,21 +5,17 @@ default_locale: en
 description: >-
   Build better habits online! Tell HabitLab your goals, and it will determine
   the appropriate interventions via experimentation.
-version: 1.0.271
+version: 1.0.272
 minimum_chrome_version: 55.0.0.0
 permissions:
   - tabs
   - webNavigation
   - storage
-  - unlimitedStorage
   - history
   - idle
   - notifications
   - 'http://*/'
   - 'https://*/'
-optional_permissions:
-  - identity.email
-  - identity
 content_security_policy: >-
   script-src 'self' 'unsafe-eval'
   'sha256-llogd59gTcMY4UZWEuj+jeK8al0hVKblVHF2nYxVYEo='

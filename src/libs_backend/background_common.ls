@@ -21,6 +21,26 @@ chrome_tabs_sendmessage = (tab_id, data, options) ->
       resolve(result)
       return true
 
+have_chrome_storage_sync = chrome.storage.sync !== undefined
+
+export chrome_storage_sync_set = (x, cb) ->
+  if have_chrome_storage_sync
+    return chrome.storage.sync.set(x, cb)
+  else
+    return chrome.storage.local.set(x, cb)
+
+export chrome_storage_sync_get = (x, cb) ->
+  if have_chrome_storage_sync
+    return chrome.storage.sync.get(x, cb)
+  else
+    return chrome.storage.local.get(x, cb)
+
+export chrome_storage_sync_remove = (x, cb) ->
+  if have_chrome_storage_sync
+    return chrome.storage.sync.remove(x, cb)
+  else
+    return chrome.storage.local.remove(x, cb)
+
 chrome_storage_sync = chrome.storage?sync ? chrome.storage?local
 
 cached_user_id = null
@@ -32,7 +52,7 @@ export get_user_id = memoizeSingleAsync ->>
   else
     cached_user_id := null
     localStorage.removeItem('userid')
-    await new Promise -> chrome_storage_sync.remove 'userid', it
+    await new Promise -> chrome_storage_sync_remove 'userid', it
     return await get_user_id_real()
 
 cached_install_id = null
@@ -79,7 +99,7 @@ get_user_id_real = ->>
   if userid?
     cached_user_id := userid
     return userid
-  items = await new Promise -> chrome_storage_sync.get 'userid', it
+  items = await new Promise -> chrome_storage_sync_get 'userid', it
   userid = items?userid
   if userid?
     cached_user_id := userid
@@ -91,7 +111,7 @@ get_user_id_real = ->>
     await set_user_id_in_history(userid)
   cached_user_id := userid
   localStorage.setItem('userid', userid)
-  await new Promise -> chrome_storage_sync.set {userid}, it
+  await new Promise -> chrome_storage_sync_set {userid}, it
   return userid
 
 cached_user_secret = null
@@ -103,7 +123,7 @@ export get_user_secret = memoizeSingleAsync ->>
   else
     cached_user_secret := null
     localStorage.removeItem('user_secret')
-    await new Promise -> chrome_storage_sync.remove 'user_secret', it
+    await new Promise -> chrome_storage_sync_remove 'user_secret', it
     return await get_user_secret_real()
 
 get_user_secret_real = ->>
@@ -113,7 +133,7 @@ get_user_secret_real = ->>
   if user_secret?
     cached_user_secret := user_secret
     return user_secret
-  items = await new Promise -> chrome_storage_sync.get 'user_secret', it
+  items = await new Promise -> chrome_storage_sync_get 'user_secret', it
   user_secret = items.user_secret
   if user_secret?
     cached_user_secret := user_secret
@@ -122,7 +142,7 @@ get_user_secret_real = ->>
   user_secret = generate_random_id()
   cached_user_secret := user_secret
   localStorage.setItem('user_secret', user_secret)
-  await new Promise -> chrome_storage_sync.set {user_secret}, it
+  await new Promise -> chrome_storage_sync_set {user_secret}, it
   return user_secret
 
 export send_message_to_active_tab = (type, data) ->>

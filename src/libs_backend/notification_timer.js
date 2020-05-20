@@ -5,12 +5,13 @@ const {
   get_num_goals_met_yesterday
 } = require ('libs_backend/goal_progress')
 
-document.addEventListener('DOMContentLoaded', function () {
-  if (Notification.permission !== "granted")
-    Notification.requestPermission();
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//   if (Notification.permission !== "granted")
+//     Notification.requestPermission();
+// });
 
 function make_notification(num_met, num_goals) {
+  /*
   if (Notification.permission !== "granted")
     Notification.requestPermission();
   else {
@@ -22,6 +23,14 @@ function make_notification(num_met, num_goals) {
       chrome.tabs.create({url: chrome.extension.getURL('index.html?tag=goals-met-over-time')});
     };
   }
+  */
+ chrome.notifications.create(
+    'habitlab-goal-notification', {   
+    type: 'basic', 
+    iconUrl: chrome.extension.getURL('icons/icon_128.png'),
+    title: 'HabitLab Goal Checkup', 
+    message: "You met " + num_met + " out of " + num_goals + " goal(s).",
+  })
 }
 
 var prev_date = new Date();

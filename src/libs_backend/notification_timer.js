@@ -24,13 +24,13 @@ function make_notification(num_met, num_goals) {
     };
   }
   */
- chrome.notifications.create(
-    'habitlab-goal-notification', {   
-    type: 'basic', 
-    iconUrl: chrome.extension.getURL('icons/icon_128.png'),
-    title: 'HabitLab Goal Checkup', 
-    message: "You met " + num_met + " out of " + num_goals + " goal(s).",
-  })
+//  chrome.notifications.create(
+//     'habitlab-goal-notification', {   
+//     type: 'basic', 
+//     iconUrl: chrome.extension.getURL('icons/icon_128.png'),
+//     title: 'HabitLab Goal Checkup', 
+//     message: "You met " + num_met + " out of " + num_goals + " goal(s).",
+//   })
 }
 
 var prev_date = new Date();

@@ -12,8 +12,6 @@ permissions:
   - webNavigation
   - storage
   - history
-  - idle
-  - notifications
   - 'http://*/'
   - 'https://*/'
 content_security_policy: >-

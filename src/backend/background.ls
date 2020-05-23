@@ -1297,15 +1297,15 @@ do !->>
   chrome.history.onVisited.addListener (info) ->
     add_log_history info
 
-  chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
-    #if info.tabId? and info.url?
-    #  tab_id_to_url[info.tabId] = info.url
-    send_message_to_tabid info.tabId, 'navigation_occurred', {
-      url: info.url
-      tabId: info.tabId
-      is_from_history: true
-    }
-    navigation_occurred info.url, info.tabId, true, {}
+  # chrome.webNavigation.onHistoryStateUpdated.addListener (info) ->
+  #   #if info.tabId? and info.url?
+  #   #  tab_id_to_url[info.tabId] = info.url
+  #   send_message_to_tabid info.tabId, 'navigation_occurred', {
+  #     url: info.url
+  #     tabId: info.tabId
+  #     is_from_history: true
+  #   }
+  #   navigation_occurred info.url, info.tabId, true, {}
 
   message_handlers_requiring_tab = {
     'load_css_file': true
@@ -1354,9 +1354,9 @@ do !->>
   current_idlestate = 'active'
 
   # not supported by firefox
-  chrome.idle?onStateChanged?addListener? (idlestate) ->
-    current_idlestate := idlestate
-    dlog "idle state changed: #{idlestate}"
+  # chrome.idle.onStateChanged.addListener (idlestate) ->
+  #   current_idlestate := idlestate
+  #   dlog "idle state changed: #{idlestate}"
 
   prev_browser_focused = false
   setInterval ->

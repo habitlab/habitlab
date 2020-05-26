@@ -40,7 +40,7 @@ get_screenshot_utils = ->>
   list_enabled_interventions_for_location
   set_intervention_disabled_permanently
   get_enabled_interventions
-  set_intervention_enabled  
+  set_intervention_enabled
   get_nonpositive_goals_and_interventions
   list_available_interventions_for_location
   get_interventions
@@ -127,7 +127,7 @@ polymer_ext {
 
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
     return intervention_name_to_info[intervention_name].description
-  
+
   noValidInterventions: ->
     return this.goals_and_interventions.length === 0
 
@@ -142,7 +142,7 @@ polymer_ext {
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
     await disable_interventions_in_active_tab()
-    this.fire 'disable_intervention' 
+    this.fire 'disable_intervention'
     add_log_interventions {
       type: 'intervention_set_temporarily_disabled'
       page: 'popup-view'
@@ -210,13 +210,13 @@ polymer_ext {
   compute_html_for_shown_graphs: (shownGraphs, blacklist, sites) ->
     self = this
     shownGraphs = shownGraphs.filter((x) -> !self.blacklist[x])
-    
-    
+
+
     html = "<div class=\"card-content\">"
     for x in shownGraphs
       if x == 'site-goal-view'
         for site in sites
-          
+
           html += "<#{x} site=\"#{site}\"></#{x}><br>"
       else
         html += "<#{x}></#{x}><br>"
@@ -256,6 +256,9 @@ polymer_ext {
         loaded_interventions: loaded_interventions
       })
 
+
+  post_intervention_click: ->>
+    this.post_intervention = false
   enable_habitlab_button_clicked: ->>
     this.is_habitlab_disabled = false
     enable_habitlab()
@@ -288,7 +291,7 @@ polymer_ext {
     intervention_name_to_info_promise = get_interventions()
     all_goals_and_interventions_promise = get_nonpositive_goals_and_interventions()
     url_promise = get_active_tab_url()
-    
+
     [
       sites
       enabledInterventions
@@ -308,9 +311,9 @@ polymer_ext {
     this.intervention_name_to_info = intervention_name_to_info
 
     domain = url_to_domain url
-    
+
     filtered_goals_and_interventions = all_goals_and_interventions.filter (obj) ->
-    
+
       return (obj.goal.domain == domain) # and obj.enabled
 
     if filtered_goals_and_interventions.length == 0
@@ -327,6 +330,9 @@ polymer_ext {
 
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
+
+  get_thumbs_icon_src:->
+    return chrome.extension.getURL('icons/thumbs_i')
 
   debug_button_clicked: ->>
     tab_id = await get_active_tab_id()
@@ -361,6 +367,25 @@ polymer_ext {
       #confirmButtonText: 'Visit Facebook to see an intervention in action'
       #cancelButtonText: 'Close'
     }
+
+  get_new_intervention: ->
+    this.intervention = true
+
+  postIntervention_button_clicked: ->>
+    this.post_intervention = false
+
+  stressInterventionLINK_button_clicked: ->>
+    this.intervention = false
+    this.post_intervention = true
+    chrome.windows.create(url: 'https://www.instagram.com', top: 300px, left: 500px, width:500px, height:500px)
+
+  stressInterventionTAB_button_clicked: ->>
+    this.intervention = false
+    this.post_intervention = true
+    chrome.tabs.create(url: 'https://www.instagram.com', active: false)
+
+  covidSurvey_button_clicked: ->
+    chrome.tabs.create(url: 'https://qualtrics.com')
   results_button_clicked: ->
     chrome.tabs.create {url: 'options.html#overview'}
   settings_button_clicked: ->

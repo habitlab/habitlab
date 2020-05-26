@@ -1,0 +1,7 @@
+description: Send users to instagram to complete wellness task
+displayname: Instagram Redirect
+difficulty: easy
+matches:
+  - www.youtube.com
+content_scripts:
+  - frontend.js

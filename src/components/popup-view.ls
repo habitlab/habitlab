@@ -125,8 +125,18 @@ polymer_ext {
     }
   }
 
+  this.interventions = [["Everyone has something they do really well" , "Find an example on your facebook timeline that showcases one of your strengths"],["Being kind improves your mental health" , "Send a sweet message to one of your friends"] ]
+
+  this.count = 0
+
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
     return intervention_name_to_info[intervention_name].description
+
+  get_stress_intervention_info: (evt) ->
+    return this.interventions[this.count][0]
+
+  get_stress_intervention_action: (evt) ->
+    return this.interventions[this.count][1]
 
   noValidInterventions: ->
     return this.goals_and_interventions.length === 0
@@ -370,9 +380,22 @@ polymer_ext {
 
   get_new_intervention: ->
     this.intervention = true
+    node = document.querySelector("#stressInterventionContainer").cloneNode(true)
+    console.log(node)
+    curr_intervention = interventions[this.count]
+    console.log(curr_intervention)
+    node.querySelector(".info").textContent = curr_intervention
+    node.querySelector(".action").textContent = curr_intervention
+    document.querySelector("#displayContainer").appendChild(node);
+
 
   postIntervention_button_clicked: ->>
     this.post_intervention = false
+
+  stressInterventionAnother_button_clicked: ->>
+    this.count += 1
+    this.intervention_update = true
+
 
   stressInterventionLINK_button_clicked: ->>
     this.intervention = false

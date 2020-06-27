@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 
+
 <dom-module id="popup-view">
   <template>
     <custom-style>
@@ -128,6 +129,46 @@
           padding-top: 5px;
         }
 
+        .stressInterventions{
+          display: flex;
+          flex-directon: row;
+          justify-content: space-evenly;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+
+        #displayContainer{
+          display: flex;
+        }
+
+        #stressInterventionContainer{
+          display: flex;
+          flex-direction: column;
+          font-size: 20px;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .stressInterventionFeedbackContainer{
+          display: flex;
+          flex-direction: column;
+          font-size: 20px;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .info{
+          style="color:black";
+        }
+
+        .action{
+          style="color:#21B6A8";
+        }
+
       </style>
     </custom-style>
 
@@ -244,8 +285,9 @@
           </paper-card>
         </template>
 
-        <paper-toggle-button checked="{{intervention}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_new_intervention"><span style="color: white">Give me a stress intervention.</span></paper-toggle-button>
 
+
+        <!--
         <template is="dom-if" if="{{intervention}}">
           <paper-card>
             <div style="width: 100%">
@@ -256,19 +298,59 @@
             </div>
           </paper-card>
         </template>
-
-        <template is="dom-if" if="{{post_intervention}}">
+        -->
+        <template is="dom-if" if="{{intervention}}">
           <paper-card>
-            <div style="width: 100%">
-              <div style="margin: 10px; font-size: 20px; text-align: center">How was the intervention?</div>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: green; margin-left: 0; width:100%; margin-bottom: 10px" raised on-click="postIntervention_button_clicked">Good</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: red; margin-left: 0; width:100%; margin-bottom: 10px" raised on-click="postIntervention_button_clicked">Bad</paper-button>
+            <div style="width: 100%; height:100%">
+              <div id="stressInterventionContainer">
+                <span class="info"> {{get_stress_intervention_info()}}</span>
+                <span class="action" style="color: #21B6A8"> {{get_stress_intervention_action()}} </span>
+              </div>
+              <div id="displayContainer"></div>
+              <div class="stressInterventions">
+                <paper-button class="stressIntervention_button" style="color: white; background-color: #21B6A8; width:20%" raised on-click="stressInterventionLINK_button_clicked"> Let's do it! </paper-button>
+                <paper-button class="stressIntervention_button" style="color: white; background-color: #A9A9A9; width:20%" raised on-click="stressInterventionAnother_button_clicked"> Give me another sweet moment </paper-button>
+              </div>
             </div>
           </paper-card>
         </template>
 
+        <template is="dom-if" if="{{intervention_update}}">
+          <paper-card>
+            <div style="width: 100%; height:100%">
+              <div id="stressInterventionContainer">
+                <span class="info"> {{get_stress_intervention_info()}}</span>
+                <span class="action" style="color: #21B6A8"> {{get_stress_intervention_action()}} </span>
+              </div>
+              <div id="displayContainer"></div>
+              <div class="stressInterventions">
+                <paper-button class="stressIntervention_button" style="color: white; background-color: #21B6A8; width:20%" raised on-click="stressInterventionLINK_button_clicked"> Let's do it! </paper-button>
+                <paper-button class="stressIntervention_button" style="color: white; background-color: #A9A9A9; width:20%" raised on-click="stressInterventionAnother_button_clicked"> Give me another sweet moment </paper-button>
+              </div>
+            </div>
+          </paper-card>
+        </template>
 
+        <template is="dom-if" if="{{post_intervention}}">
+          <paper-card>
+            <div style="width: 100%">
+
+              <div class="stressInterventionFeedbackContainer">
+                <div style="color:black">How was the intervention?</div>
+              </div>
+
+              <div class="stressInterventions">
+                <paper-button class="stressIntervention_button" style="color: white; background-color: green; width:20%" raised on-click="postIntervention_button_clicked">Good</paper-button>
+                <paper-button class="stressIntervention_button" style="color: white; background-color: red; width:20%" raised on-click="postIntervention_button_clicked">Bad</paper-button>
+              </div>
+
+            </div>
+          </paper-card>
+        </template>
         </div>
+        <paper-toggle-button checked="{{intervention}}" id="stressID" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_new_intervention"><span style="color: white">Give me a stress intervention.</span></paper-toggle-button>
+
+
       </div>
     </template>
   <script src="popup-view.js"></script>

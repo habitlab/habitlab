@@ -1,0 +1,24 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="stressIntervention-button">
+  <template>
+    <style>
+       :host {
+        display: inline-block;
+        align: center;
+        height: 50px;
+      }
+      .stressIntervention_button {
+        color: white;
+        background-color: purple;
+        align:center;
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+        box-shadow: 2px 2px 2px #888888;
+      }
+    </style>
+    <paper-button class="stressIntervention_button" on-click="buttonClicked">{{text}}</paper-button>
+
+  </template>
+</dom-module>

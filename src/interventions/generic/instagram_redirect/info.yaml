@@ -1,0 +1,13 @@
+description: Sends user to instagram to complete wellness task
+displayname: Instagram Redirect
+difficulty: hard
+content_scripts:
+  - path: frontend.js
+    run_at: document_start
+parameters:
+  - name: cheatseconds
+    description: Seconds to cheat for after time is up
+    default: 30
+    type: int
+categories:
+  - interstitial

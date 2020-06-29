@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 
+
 <dom-module id="popup-view">
   <template>
     <custom-style>
@@ -20,13 +21,13 @@
           */
           width:600px;
           height:580px;
-          
+
           --paper-card: {
-            
+
             margin-bottom: 10px;
             display: block;
             padding: 5px 5px 5px 5px;
-          };      
+          };
         }
 
         .popup_view_outer_div {
@@ -59,7 +60,7 @@
           padding-top: 0.3em;
           padding-bottom: 0.3em;
           padding-left: 0.3em;
-          
+
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           margin: 0.3em;
           margin-top: 0.5em;
@@ -75,7 +76,7 @@
           padding-top: 0.3em;
           padding-bottom: 0.3em;
           padding-left: 0.3em;
-          
+
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           margin: 0.3em;
           margin-top: 0.5em;
@@ -86,13 +87,13 @@
           padding-top: 0.3em;
           padding-bottom: 0.3em;
           padding-left: 0.3em;
-          
+
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           margin: 0.3em;
           margin-top: 0.5em;
           font-size: 12px;
         }
-        
+
         .interventionName {
           margin-left: 10px;
         }
@@ -107,7 +108,7 @@
           margin-bottom: 10px;
           --paper-button: {
             color: white;
-            background-color: white;        
+            background-color: white;
           };
 
           --paper-button-flat-keyboard-focus: {
@@ -128,20 +129,63 @@
           padding-top: 5px;
         }
 
+        .stressInterventions{
+          display: flex;
+          flex-directon: row;
+          justify-content: space-evenly;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+
+        #displayContainer{
+          display: flex;
+        }
+
+        #stressInterventionContainer{
+          display: flex;
+          flex-direction: column;
+          font-size: 20px;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .stressInterventionFeedbackContainer{
+          display: flex;
+          flex-direction: column;
+          font-size: 20px;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .info{
+          style="color:black";
+        }
+
+        .action{
+          style="color:#21B6A8";
+        }
+
       </style>
     </custom-style>
-    
+
     <div class="popup_view_outer_div">
 
       <div class="box">
         <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed"><span style="color: white">Turn Off HabitLab Today</span></paper-toggle-button>
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="debugButton" style="display: none" on-click="debug_button_clicked">Debug</paper-button>
-          <paper-button class="paperbuttons" raised id="feedbackButton" on-click="submit_feedback_clicked">Feedback</paper-button> 
+          <paper-button class="paperbuttons" raised id="feedbackButton" on-click="submit_feedback_clicked">Feedback</paper-button>
           <paper-button class="paperbuttons" raised on-click="results_button_clicked">Results</paper-button>
           <paper-button class="paperbuttons" raised on-click="settings_button_clicked">Settings</paper-button>
         </div>
 
+        <paper-button class="covidSurvey_button" style="color: white; background-color: red; margin-left: 0; width:100%; margin-bottom: 10px" raised on-click="covidSurvey_button_clicked">HELP US WITH COVID-19. TAKE OUR SURVEY.</paper-button>
+
+        <template is="dom-if" if="{{!intervention}}">
         <template is="dom-if" if="{{!is_habitlab_disabled}}">
 
         <paper-card>
@@ -171,7 +215,7 @@
                       <h4>No nudges enabled, please enable some goals</h4>
                     </div>
                   </template>
-                </template>        
+                </template>
               </div>
             </iron-page>
 
@@ -190,13 +234,13 @@
                     <br>
                   </template>
                 </template>
-                
+
               </template>
             </iron-page>
 
           </iron-pages>
         </paper-card>
-        
+
         <paper-card>
           <graph-donut-top-sites style="margin-bottom: 10px"></graph-donut-top-sites>
           <!--
@@ -208,7 +252,7 @@
 
           <iron-pages selected="{{selected_graph_tab}}">
             <iron-page>
-              <div class="chartelement"> 
+              <div class="chartelement">
                 <html-echo html="{{html_for_shown_graphs}}"></html-echo>
               </div>
             </iron-page>
@@ -220,15 +264,14 @@
                     <div>
                       <paper-checkbox checked="{{is_not_in_blacklist(graph, blacklist, graphNamesToOptions)}}" graph="{{graph}}" on-change="checkbox_checked_handler">{{graph}}</paper-checkbox>
                     </div>
-                  </template>         
-                </sortable-js> 
-              </div> 
+                  </template>
+                </sortable-js>
+              </div>
             </iron-page>
           -->
-        </paper-card>       
+        </paper-card>
 
-        
-
+        </template>
         </template>
 
         <template is="dom-if" if="{{is_habitlab_disabled}}">
@@ -242,10 +285,73 @@
           </paper-card>
         </template>
 
+
+
+        <!--
+        <template is="dom-if" if="{{intervention}}">
+          <paper-card>
+            <div style="width: 100%">
+              <div style="margin-bottom: 10px; font-size: 20px; text-align: center">This is an example intervention<br>Go to Instagram and like three pictures of your friends.</div>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: purple; margin-left: 0; width:100%; margin-bottom: 10px" raised on-click="stressInterventionLINK_button_clicked">Go To Instagram LINK</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: purple; margin-left: 0; width:100%; margin-bottom: 10px" raised on-click="stressInterventionTAB_button_clicked">Go To Instagram TAB</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: blue; margin-left: 0; width:100%; margin-bottom: 10px" raised on-click="stressIntervention_button_clicked">Give Me Another Intervention</paper-button>
+            </div>
+          </paper-card>
+        </template>
+        -->
+        <template is="dom-if" if="{{intervention}}">
+          <paper-card>
+            <div style="width: 100%; height:100%">
+              <div id="stressInterventionContainer">
+                <span class="info"> {{get_stress_intervention_info()}}</span>
+                <span class="action" style="color: #21B6A8"> {{get_stress_intervention_action()}} </span>
+              </div>
+              <div id="displayContainer"></div>
+              <div class="stressInterventions">
+                <paper-button class="stressIntervention_button" style="color: white; background-color: #21B6A8; width:20%" raised on-click="stressInterventionLINK_button_clicked"> Let's do it! </paper-button>
+                <paper-button class="stressIntervention_button" style="color: white; background-color: #A9A9A9; width:20%" raised on-click="stressInterventionAnother_button_clicked"> Give me another sweet moment </paper-button>
+              </div>
+            </div>
+          </paper-card>
+        </template>
+
+        <template is="dom-if" if="{{intervention_update}}">
+          <paper-card>
+            <div style="width: 100%; height:100%">
+              <div id="stressInterventionContainer">
+                <span class="info"> {{get_stress_intervention_info()}}</span>
+                <span class="action" style="color: #21B6A8"> {{get_stress_intervention_action()}} </span>
+              </div>
+              <div id="displayContainer"></div>
+              <div class="stressInterventions">
+                <paper-button class="stressIntervention_button" style="color: white; background-color: #21B6A8; width:20%" raised on-click="stressInterventionLINK_button_clicked"> Let's do it! </paper-button>
+                <paper-button class="stressIntervention_button" style="color: white; background-color: #A9A9A9; width:20%" raised on-click="stressInterventionAnother_button_clicked"> Give me another sweet moment </paper-button>
+              </div>
+            </div>
+          </paper-card>
+        </template>
+
+        <template is="dom-if" if="{{post_intervention}}">
+          <paper-card>
+            <div style="width: 100%">
+
+              <div class="stressInterventionFeedbackContainer">
+                <div style="color:black">How was the intervention?</div>
+              </div>
+
+              <div class="stressInterventions">
+                <paper-button class="stressIntervention_button" style="color: white; background-color: green; width:20%" raised on-click="postIntervention_button_clicked">Good</paper-button>
+                <paper-button class="stressIntervention_button" style="color: white; background-color: red; width:20%" raised on-click="postIntervention_button_clicked">Bad</paper-button>
+              </div>
+
+            </div>
+          </paper-card>
+        </template>
+        </div>
+        <paper-toggle-button checked="{{intervention}}" id="stressID" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_new_intervention"><span style="color: white">Give me a stress intervention.</span></paper-toggle-button>
+
+
       </div>
-
-
-    </div>
-  </template>
+    </template>
   <script src="popup-view.js"></script>
 </dom-module>

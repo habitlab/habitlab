@@ -1,0 +1,18 @@
+description: Spend less time on Instagram
+goal_statement_to_fill_in: Spend no more than TARGET UNITS on Instagram each day
+progress_description: Time spent on Instagram
+call_to_action: Close Instagram
+interventions:
+  #- stress_interventions/redirect_to_instagram
+  - generic/prompt_reason
+  - generic/block_after_interval_per_visit
+  #- generic/show_timer_banner
+default_interventions:
+  - stress_interventions/redirect_to_instagram
+  - generic/block_after_interval_per_visit
+measurement: time_spent_on_domain
+domain: www.instagram.com
+target:
+  default: 5
+  units: minutes
+color: '#f96934'

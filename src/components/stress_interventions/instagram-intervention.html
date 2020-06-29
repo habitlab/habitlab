@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="instagram-intervention">
+  <template>
+    <style>
+       :host {
+        opacity: 1;
+        background-color: white;
+        color: black;
+      }
+      .stressIntervention_buttonWhite{
+        color: white;
+        background-color: LightBlue;
+        margin-left:25%;
+        width:50%;
+        margin-bottom: 10px
+      }
+      .stressIntervention_buttonGray{
+        color: white;
+        background-color: Gray;
+        margin-left:25%;
+        width:50%;
+        margin-bottom: 10px
+      }
+
+    </style>
+    <paper-card>
+      <div style="width: 100%; padding: 100px 5px 100px 5px;">
+        <div style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center">Appreciating others makes one feel better. <br> <span style="color: LightBlue">Go to Instagram and like 3 pictures of your friends.</span></div>
+        <paper-button class="stressIntervention_buttonWhite" raised on-click="instagram_intervention_button_clicked">Let's do it</paper-button>
+        <paper-button class="stressIntervention_buttonGray" raised on-click="get_new_intervention">Give me another sweet moment</paper-button>
+      </div>
+    </paper-card>
+  </template>
+  <script src="instagram-intervention.js"></script>
+
+</dom-module>

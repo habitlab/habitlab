@@ -123,6 +123,15 @@ polymer_ext {
     is_habitlab_disabled: {
       type: Boolean
     }
+    visited_instagram: {
+      type: Boolean
+    }
+    intervention: {
+      type: Boolean
+    }
+    post_intervention: {
+      type: Boolean
+    }
   }
 
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
@@ -259,6 +268,7 @@ polymer_ext {
 
   post_intervention_click: ->>
     this.post_intervention = false
+
   enable_habitlab_button_clicked: ->>
     this.is_habitlab_disabled = false
     enable_habitlab()
@@ -369,15 +379,35 @@ polymer_ext {
     }
 
   get_new_intervention: ->
+    this.post_intervention = false
     this.intervention = true
 
   postIntervention_button_clicked: ->>
+    this.visited_instagram = true
     this.post_intervention = false
 
   stressInterventionLINK_button_clicked: ->>
+    this.visited_instagram = true
     this.intervention = false
     this.post_intervention = true
-    chrome.windows.create(url: 'https://www.instagram.com', top: 300px, left: 500px, width:500px, height:500px)
+    chrome.windows.create(url: 'https://www.instagram.com', top: 200px, left: 300px, width:800px, height:900px)
+    /*alert("Instagram opened in new window")*/
+
+  translate_onclick: ->>
+    this.intervention = false
+    this.post_intervention = true
+    chrome.windows.create(url: 'https://translate.google.com', top: 200px, left: 300px, width:800px, height:900px)
+
+  futureTrait_onclick: ->>
+    this.intervention = false
+    this.post_intervention = true
+    chrome.windows.create(url: 'https://keep.google.com', top: 200px, left: 300px, width:800px, height:900px)
+
+  facebook_onclick: ->>
+    this.intervention = false
+    this.post_intervention = true
+    chrome.windows.create(url: 'https://www.facebook.com/me', top: 200px, left: 300px, width:800px, height:900px)
+
 
   stressInterventionTAB_button_clicked: ->>
     this.intervention = false

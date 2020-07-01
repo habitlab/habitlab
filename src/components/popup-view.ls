@@ -123,13 +123,25 @@ polymer_ext {
     is_habitlab_disabled: {
       type: Boolean
     }
-    visited_instagram: {
+    stress_intervention: {
       type: Boolean
     }
-    intervention: {
+    stress_intervention_display: {
       type: Boolean
     }
-    post_intervention: {
+    stress_intervention_selected: {
+      type: Boolean
+    }
+    ask_intervention_done: {
+      type: Boolean
+    }
+    stress_intervention_feedback: {
+      type: Boolean
+    }
+    intervention_feedback_neg: {
+      type: Boolean
+    }
+    intervetion_feedback_pos: {
       type: Boolean
     }
   }
@@ -266,8 +278,6 @@ polymer_ext {
       })
 
 
-  post_intervention_click: ->>
-    this.post_intervention = false
 
   enable_habitlab_button_clicked: ->>
     this.is_habitlab_disabled = false
@@ -378,41 +388,104 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
 
-  get_new_intervention: ->
-    this.post_intervention = false
-    this.intervention = true
+  get_stress_intervention: ->>
+    this.stress_intervention = true
+    this.stress_intervention_display = true
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = false
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
 
-  postIntervention_button_clicked: ->>
-    this.visited_instagram = true
-    this.post_intervention = false
+  select_stress_intervention: ->>
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = true
+    this.ask_intervention_done = false
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
 
   stressInterventionLINK_button_clicked: ->>
-    this.visited_instagram = true
-    this.intervention = false
-    this.post_intervention = true
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = true
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
     chrome.windows.create(url: 'https://www.instagram.com', top: 200px, left: 300px, width:800px, height:900px)
     /*alert("Instagram opened in new window")*/
 
   translate_onclick: ->>
-    this.intervention = false
-    this.post_intervention = true
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = true
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
     chrome.windows.create(url: 'https://translate.google.com', top: 200px, left: 300px, width:800px, height:900px)
 
   futureTrait_onclick: ->>
-    this.intervention = false
-    this.post_intervention = true
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = true
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
     chrome.windows.create(url: 'https://keep.google.com', top: 200px, left: 300px, width:800px, height:900px)
 
   facebook_onclick: ->>
-    this.intervention = false
-    this.post_intervention = true
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = true
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
     chrome.windows.create(url: 'https://www.facebook.com/me', top: 200px, left: 300px, width:800px, height:900px)
 
-
   stressInterventionTAB_button_clicked: ->>
-    this.intervention = false
-    this.post_intervention = true
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = true
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
     chrome.tabs.create(url: 'https://www.instagram.com', active: false)
+
+  get_stress_intervention_feedback: ->>
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = false
+    this.stress_intervention_feedback = true
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
+
+  log_intervention_feedback_neg: ->>
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = false
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = true
+    this.intervention_feedback_pos = false
+
+  log_intervention_feedback_pos: ->>
+    this.stress_intervention = false
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = false
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = true
+
+  written_intervention_feedback: ->>
+    this.stress_intervention = false
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = false
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
+    prompt("Intervention Feedback")
+
 
   covidSurvey_button_clicked: ->
     chrome.tabs.create(url: 'https://qualtrics.com')
@@ -420,6 +493,7 @@ polymer_ext {
     chrome.tabs.create {url: 'options.html#overview'}
   settings_button_clicked: ->
     chrome.tabs.create {url: 'options.html#settings'}
+
   ready: ->>
     #chrome.browserAction.setBadgeText {text: ''}
     #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}

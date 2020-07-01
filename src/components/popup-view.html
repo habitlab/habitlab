@@ -135,10 +135,10 @@
     <div class="popup_view_outer_div">
 
       <div class="box">
-        <paper-toggle-button checked="{{intervention}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_new_intervention"><span style="color: white">.</span></paper-toggle-button>
-        <paper-toggle-button checked="{{!post_intervention}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_new_intervention"><span style="color: white">.</span></paper-toggle-button>
 
         <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed"><span style="color: white">Turn Off HabitLab Today</span></paper-toggle-button>
+        <paper-toggle-button checked="{{stress_intervention}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_stress_intervention"><span style="color: white">stress interv</span></paper-toggle-button>
+
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="debugButton" style="display: none" on-click="debug_button_clicked">Debug</paper-button>
           <paper-button class="paperbuttons" raised id="feedbackButton" on-click="submit_feedback_clicked">Feedback</paper-button>
@@ -148,9 +148,16 @@
 
         <paper-button class="covidSurvey_button" style="color: white; background-color: red; margin-left: 0; width:100%; margin-bottom: 10px" raised on-click="covidSurvey_button_clicked">HELP US WITH COVID-19. TAKE OUR SURVEY.</paper-button>
 
-        <template is="dom-if" if="{{!intervention}}">
         <template is="dom-if" if="{{!is_habitlab_disabled}}">
-        <template is="dom-if" if="{{!post_intervention}}">
+        <template is="dom-if" if="{{!stress_intervention}}">
+
+        <paper-card>
+          <div style="width: 100%">
+            <div style="margin-top: 20px; margin-botton: 20px; font-size: 15px; text-align: center">Feeling stressed. Help me</div>
+            <paper-button style="margin-left: 250px; margin-top: 20px" class="paperbuttons" raised on-click="get_stress_intervention">LET'S GO</paper-button>
+          </div>
+        </paper-card>
+
         <paper-card>
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Active Nudge</paper-tab>
@@ -235,23 +242,6 @@
 
         </paper-card>
 
-
-          <template is="dom-if" if="{{!post_intervention}}">
-          <template is="dom-if" if="{{!intervention}}">
-          <paper-card>
-            <div style="width: 100%">
-              <div style="margin-top: 20px; margin-botton: 20px; font-size: 15px; text-align: center">Feeling stressed. Help me</div>
-              <paper-button style="margin-left: 250px; margin-top: 20px" class="paperbuttons" raised on-click="get_new_intervention">LET'S GO</paper-button>
-            </div>
-          </paper-card>
-
-
-
-          </template>
-          </template>
-
-
-        </template>
         </template>
         </template>
 
@@ -269,12 +259,12 @@
 
 
 
-        <template is="dom-if" if="{{intervention}}">
+        <template is="dom-if" if="{{stress_intervention_display}}">
           <paper-card>
             <div style="width: 100%; padding: 100px 5px 100px 5px;">
               <div style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center">Appreciating others makes one feel better. <br> <span style="color: #65A7F2">Go to Instagram and like 3 pictures of your friends</span></div>
               <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="stressInterventionLINK_button_clicked">Let's do it</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_new_intervention">Give me another sweet moment</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Give me another sweet moment</paper-button>
             </div>
           </paper-card>
 
@@ -282,7 +272,7 @@
             <div style="width: 100%; padding: 100px 5px 100px 5px;">
               <div style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center">The World is so diverse, learn 3 words in a language you’ve always wanted to learn</div>
               <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="translate_onclick">Let's do it</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_new_intervention">Give me another sweet moment</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Give me another sweet moment</paper-button>
             </div>
           </paper-card>
 
@@ -290,7 +280,7 @@
             <div style="width: 100%; padding: 100px 5px 100px 5px;">
               <div style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center">What is one trait you want your future self to have? <br> <span style="color: #65A7F2">Write down one way you can work towards it</span></div>
               <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="futureTrait_onclick">Let's do it</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_new_intervention">Give me another sweet moment</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Give me another sweet moment</paper-button>
             </div>
           </paper-card>
 
@@ -298,61 +288,45 @@
             <div style="width: 100%; padding: 100px 5px 100px 5px;">
               <div style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center">Everyone has something they do really well... <br> <span style="color: #65A7F2">Find an example on your FB timeline that showcases one of your strengths.</span></div>
               <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="facebook_onclick">Let's do it</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_new_intervention">Give me another sweet moment</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Give me another sweet moment</paper-button>
             </div>
           </paper-card>
-
         </template>
 
 
-        <template is="dom-if" if="{{!intervention}}">
-        <template is="dom-if" if="{{post_intervention}}">
-
+        <template is="dom-if" if="{{ask_intervention_done}}">
           <paper-card>
             <div style="width: 100%; padding: 100px 5px 100px 5px;">
               <div style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center"><span style="font-weight: bold">We are proud of you for taking the step</span><br> [Everyone has something they do really well... <br> <span style="color: #65A7F2">Find an example on your FB timeline that showcases one of your strengths.]</span><br> Let us know when you're done and we'll continue.</div>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised >Continue</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention_feedback">Continue</paper-button>
             </div>
           </paper-card>
+        </template>
 
+
+        <template is="dom-if" if="{{stress_intervention_feedback}}">
           <paper-card>
             <div style="width: 100%">
               <div style="margin: 10px; font-size: 20px; text-align: center"><span style="font-weight: bold">Hey John.</span><br>Checking in again. How are you feeling after that intervention?</br></div>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="postIntervention_button_clicked">Wonderful</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised>Eh, It didn't make a difference.</paper-button>
-              <paper-button class="stressIntervention_button" style=" text-align: center; color: Black; background-color: White; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_new_intervention">Not enough! Give me another intervention</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="log_intervention_feedback_pos">Wonderful</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="log_intervention_feedback_neg">Eh, It didn't make a difference.</paper-button>
+              <paper-button class="stressIntervention_button" style=" text-align: center; color: Black; background-color: White; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Not enough! Give me another intervention</paper-button>
 
             </div>
           </paper-card>
+        </template>
 
+
+        <template is="dom-if" if="{{intervention_feedback_neg}}">
           <paper-card>
             <div style="width: 100%">
               <div style="margin: 10px; font-size: 20px; text-align: center">We are sorry that didn't work.</div>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="postIntervention_button_clicked">Tell us why it didn't work.</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_new_intervention">Try another intervention</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="written_intervention_feedback">Tell us why it didn't work.</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Try another intervention</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="no_stress_intervention">Dismiss</paper-button>
             </div>
           </paper-card>
-
-
-
-
-
-
         </template>
-        </template>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

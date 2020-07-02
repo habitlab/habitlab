@@ -486,6 +486,15 @@ polymer_ext {
     this.intervention_feedback_pos = false
     prompt("Intervention Feedback")
 
+  end_stress_intervention: ->>
+    this.stress_intervention = false
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = false
+    this.stress_intervention_feedback = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
+
 
   covidSurvey_button_clicked: ->
     chrome.tabs.create(url: 'https://qualtrics.com')

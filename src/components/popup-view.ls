@@ -1,3 +1,5 @@
+######### Libraries
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
@@ -72,6 +74,11 @@ get_screenshot_utils = ->>
   localstorage_setbool
 } = require 'libs_common/localstorage_utils'
 
+{
+  post_json
+  get_json
+} = require 'libs_backend/ajax_utils'
+
 polymer_ext {
   is: 'popup-view'
   properties: {
@@ -123,7 +130,7 @@ polymer_ext {
     is_habitlab_disabled: {
       type: Boolean
     }
-    stress_intervention: {
+    stress_intervention_active: {
       type: Boolean
     }
     stress_intervention_display: {
@@ -143,6 +150,10 @@ polymer_ext {
     }
     intervetion_feedback_pos: {
       type: Boolean
+    }
+    stress_intervention_data: {
+      type: String,
+      value: null
     }
   }
 
@@ -388,68 +399,32 @@ polymer_ext {
       #cancelButtonText: 'Close'
     }
 
-  get_stress_intervention: ->>
-    this.stress_intervention = true
+############# STRESS INTERVENTION FUNCTIONS
+
+  show_stress_intervention: ->>
+    this.stress_intervention_active = true
+    console.log(this.stress_intervention_active)
     this.stress_intervention_display = true
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
     this.stress_intervention_feedback = false
     this.intervention_feedback_neg = false
     this.intervention_feedback_pos = false
+    data = JSON.parse(await get_json("http://localhost:3000/getIntervention", []))
+    this.stress_intervention_data = data
+    this.$$('#intervention_text').innerHTML = data.text
 
-  select_stress_intervention: ->>
-    this.stress_intervention_display = false
-    this.stress_intervention_selected = true
-    this.ask_intervention_done = false
-    this.stress_intervention_feedback = false
-    this.intervention_feedback_neg = false
-    this.intervention_feedback_pos = false
-
-  stressInterventionLINK_button_clicked: ->>
+  click_intervention_link: ->>
+    this.ask_intervention_done = true
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
-    this.ask_intervention_done = true
     this.stress_intervention_feedback = false
     this.intervention_feedback_neg = false
     this.intervention_feedback_pos = false
-    chrome.windows.create(url: 'https://www.instagram.com', top: 200px, left: 300px, width:800px, height:900px)
-    /*alert("Instagram opened in new window")*/
+    # Address edge case: url is null bc not necessary for intervention
+    await chrome.windows.create(url: this.stress_intervention_data.url, top: 200px, left: 300px, width:800px, height:900px)
+    this.$$('#intervention_conf').innerHTML = this.stress_intervention_data.text
 
-  translate_onclick: ->>
-    this.stress_intervention_display = false
-    this.stress_intervention_selected = false
-    this.ask_intervention_done = true
-    this.stress_intervention_feedback = false
-    this.intervention_feedback_neg = false
-    this.intervention_feedback_pos = false
-    chrome.windows.create(url: 'https://translate.google.com', top: 200px, left: 300px, width:800px, height:900px)
-
-  futureTrait_onclick: ->>
-    this.stress_intervention_display = false
-    this.stress_intervention_selected = false
-    this.ask_intervention_done = true
-    this.stress_intervention_feedback = false
-    this.intervention_feedback_neg = false
-    this.intervention_feedback_pos = false
-    chrome.windows.create(url: 'https://keep.google.com', top: 200px, left: 300px, width:800px, height:900px)
-
-  facebook_onclick: ->>
-    this.stress_intervention_display = false
-    this.stress_intervention_selected = false
-    this.ask_intervention_done = true
-    this.stress_intervention_feedback = false
-    this.intervention_feedback_neg = false
-    this.intervention_feedback_pos = false
-    chrome.windows.create(url: 'https://www.facebook.com/me', top: 200px, left: 300px, width:800px, height:900px)
-
-  stressInterventionTAB_button_clicked: ->>
-    this.stress_intervention_display = false
-    this.stress_intervention_selected = false
-    this.ask_intervention_done = true
-    this.stress_intervention_feedback = false
-    this.intervention_feedback_neg = false
-    this.intervention_feedback_pos = false
-    chrome.tabs.create(url: 'https://www.instagram.com', active: false)
 
   get_stress_intervention_feedback: ->>
     this.stress_intervention_display = false
@@ -460,6 +435,10 @@ polymer_ext {
     this.intervention_feedback_pos = false
 
   log_intervention_feedback_neg: ->>
+    ##
+    #  Add POST request here to mongodb
+    #
+    post_json("http://localhost:3000/postNeg", [])
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
@@ -468,7 +447,12 @@ polymer_ext {
     this.intervention_feedback_pos = false
 
   log_intervention_feedback_pos: ->>
-    this.stress_intervention = false
+    ##
+    #  Add POST request here to mongodb
+    #
+    post_json("http://localhost:3000/postPos", []);
+
+    this.stress_intervention_active = false
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
@@ -477,7 +461,7 @@ polymer_ext {
     this.intervention_feedback_pos = true
 
   written_intervention_feedback: ->>
-    this.stress_intervention = false
+    this.stress_intervention_active = false
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
@@ -487,7 +471,7 @@ polymer_ext {
     prompt("Intervention Feedback")
 
   end_stress_intervention: ->>
-    this.stress_intervention = false
+    this.stress_intervention_active = false
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
@@ -497,9 +481,11 @@ polymer_ext {
 
 
   covidSurvey_button_clicked: ->
-    chrome.tabs.create(url: 'https://qualtrics.com')
+    chrome.tabs.create {url: 'https://qualtrics.com'}
+
   results_button_clicked: ->
     chrome.tabs.create {url: 'options.html#overview'}
+
   settings_button_clicked: ->
     chrome.tabs.create {url: 'options.html#settings'}
 

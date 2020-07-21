@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "chai": "~1.7.2",
-    "codecov": "^1.0.1",
+    "codecov": "^3.7.1",
     "istanbul": "^0.4.5",
     "mkdirp": "^0.5.1",
     "mocha": "~1.13.0",

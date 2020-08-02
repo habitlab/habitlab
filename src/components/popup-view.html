@@ -8,9 +8,8 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="stress_interventions/instagram-intervention.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
 
 <dom-module id="popup-view">
   <template>
@@ -139,7 +138,7 @@
       <div class="box">
 
         <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed"><span style="color: white">Turn Off HabitLab Today</span></paper-toggle-button>
-        <paper-toggle-button checked="{{stress_intervention_active}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="show_stress_intervention"><span style="color: white">stress interv</span></paper-toggle-button>
+        <paper-toggle-button checked="{{stress_intervention_active}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_stress_intervention"><span style="color: white">stress interv</span></paper-toggle-button>
 
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="debugButton" style="display: none" on-click="debug_button_clicked">Debug</paper-button>
@@ -156,7 +155,7 @@
         <paper-card>
           <div style="width: 100%">
             <div style="margin-top: 20px; margin-botton: 20px; font-size: 15px; text-align: center">Feeling stressed. Help me</div>
-            <paper-button style="margin-left: 250px; margin-top: 20px" class="paperbuttons" raised on-click="show_stress_intervention">LET'S GO</paper-button>
+            <paper-button style="margin-left: 250px; margin-top: 20px" class="paperbuttons" raised on-click="start_stress_intervention">LET'S GO</paper-button>
           </div>
         </paper-card>
 
@@ -248,6 +247,7 @@
         </template>
 
 
+
         <template is="dom-if" if="{{is_habitlab_disabled}}">
           <paper-card style="cursor: pointer" on-click="enable_habitlab_button_clicked">
             <div style="width: 100%">
@@ -260,15 +260,17 @@
         </template>
 
 
-
         <template is="dom-if" if="{{stress_intervention_display}}">
           <paper-card>
-            <div style="width: 100%; padding: 100px 5px 100px 5px;">
-              <div id="intervention_text" style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center"><b>Loading...</b></div>
-              <paper-button id="intervention_go_button" class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="click_intervention_link">Let's do it</paper-button>
-              <paper-button id="intervention_another_button" class="stressIntervention_button" style="color: black; background-color: white; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="show_stress_intervention">Give me another sweet moment</paper-button>
-              <paper-button id="intervention_dismiss_button" class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="end_stress_intervention">Dismiss</paper-button>
+            <iron-icon src="../icons/back_arrow.png"></iron-icon>
+            <iron-icon src="../icons/close_icon.png" style="float: right;" raised on-click="end_stress_intervention"></iron-icon>
 
+            <div style="width: 100%; padding: 100px 5px 100px 5px;">
+              <div id="intervention_title" style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center"><b>Loading...</b></div>
+              <div id="intervention_icon" style="margin-bottom: 20px; margin-top: 20px;text-align: center">[Icon]</div>
+              <div id="intervention_text" style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center"></div>
+              <paper-button id="intervention_go_button" class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="click_intervention_link">Let's do it</paper-button>
+              <paper-button id="intervention_another_button" class="stressIntervention_button" style="color: black; background-color: white; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Give me another sweet moment</paper-button>
             </div>
           </paper-card>
         </template>
@@ -276,9 +278,12 @@
 
         <template is="dom-if" if="{{ask_intervention_done}}">
           <paper-card>
+            <iron-icon src="../icons/close_icon.png" style="float: right;" raised on-click="end_stress_intervention"></iron-icon>
+
             <div style="width: 100%; padding: 100px 5px 100px 5px;">
+
               <div style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center"><b>We are proud of you for taking the step</b><br><br></div>
-              <div id="intervention_conf" style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center"><b>Loading...</b></div>
+              <div id="intervention_text" style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center"><b>Loading...</b></div>
               <div style="margin-bottom: 20px; margin-top: 20px; font-size: 20px; text-align: center"><br><b>Let us know when you are done and we'll continue</b></div>
 
               <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention_feedback">Continue</paper-button>
@@ -286,14 +291,29 @@
           </paper-card>
         </template>
 
-
-        <template is="dom-if" if="{{stress_intervention_feedback}}">
+        <template is="dom-if" if="{{intervention_stress_before}}">
           <paper-card>
+            <iron-icon src="../icons/close_icon.png" style="float: right;" raised on-click="end_stress_intervention"></iron-icon>
+
             <div style="width: 100%">
+              <div style="margin: 10px; font-size: 20px; text-align: center">Before we take a moment to destress, let us know how stressed you are.</div>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Measurement Slider Here</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Continue</paper-button>
+            </div>
+          </paper-card>
+        </template>
+
+
+        <template is="dom-if" if="{{intervention_stress_after}}">
+          <paper-card>
+            <iron-icon src="../icons/close_icon.png" style="float: right;" raised on-click="end_stress_intervention"></iron-icon>
+
+            <div style="width: 100%">
+
               <div style="margin: 10px; font-size: 20px; text-align: center"><span style="font-weight: bold">Hey</span><br>Checking in again. How are you feeling after that intervention?</br></div>
               <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="log_intervention_feedback_pos">Wonderful</paper-button>
               <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="log_intervention_feedback_neg">Eh, It didn't make a difference.</paper-button>
-              <paper-button class="stressIntervention_button" style=" text-align: center; color: Black; background-color: White; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="show_stress_intervention">Not enough! Give me another intervention</paper-button>
+              <paper-button class="stressIntervention_button" style=" text-align: center; color: Black; background-color: White; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Not enough! Give me another intervention</paper-button>
 
             </div>
           </paper-card>
@@ -302,17 +322,15 @@
 
         <template is="dom-if" if="{{intervention_feedback_neg}}">
           <paper-card>
+            <iron-icon src="../icons/close_icon.png" style="text-align: left;" raised on-click="end_stress_intervention"></iron-icon>
+
             <div style="width: 100%">
               <div style="margin: 10px; font-size: 20px; text-align: center">We are sorry that didn't work.</div>
               <paper-button class="stressIntervention_button" style="color: white; background-color: #65A7F2; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="written_intervention_feedback">Tell us why it didn't work.</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="show_stress_intervention">Try another intervention</paper-button>
-              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="end_stress_intervention">Dismiss</paper-button>
+              <paper-button class="stressIntervention_button" style="color: white; background-color: Gray; margin-left: 25%; width:50%; margin-bottom: 10px" raised on-click="get_stress_intervention">Try another intervention</paper-button>
             </div>
           </paper-card>
         </template>
-
-
-
 
         </div>
       </div>

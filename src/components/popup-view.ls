@@ -79,6 +79,12 @@ get_screenshot_utils = ->>
   get_json
 } = require 'libs_backend/ajax_utils'
 
+{
+  get_user_id
+} = require 'libs_backend/background_common'
+
+
+
 polymer_ext {
   is: 'popup-view'
   properties: {
@@ -142,7 +148,10 @@ polymer_ext {
     ask_intervention_done: {
       type: Boolean
     }
-    stress_intervention_feedback: {
+    intervention_stress_before: {
+      type: Boolean
+    }
+    intervention_stress_after: {
       type: Boolean
     }
     intervention_feedback_neg: {
@@ -401,36 +410,50 @@ polymer_ext {
 
 ############# STRESS INTERVENTION FUNCTIONS
 
-  show_stress_intervention: ->>
+  start_stress_intervention: ->>
     this.stress_intervention_active = true
-    console.log(this.stress_intervention_active)
+    this.stress_intervention_display = false
+    this.stress_intervention_selected = false
+    this.ask_intervention_done = false
+    this.intervention_stress_before = true
+    this.intervention_stress_after = false
+    this.intervention_feedback_neg = false
+    this.intervention_feedback_pos = false
+
+  get_stress_intervention: ->>
+    this.stress_intervention_active = true
     this.stress_intervention_display = true
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
-    this.stress_intervention_feedback = false
+    this.intervention_stress_before = false
+    this.intervention_stress_after = false
     this.intervention_feedback_neg = false
     this.intervention_feedback_pos = false
     data = JSON.parse(await get_json("http://localhost:3000/getIntervention", []))
     this.stress_intervention_data = data
     this.$$('#intervention_text').innerHTML = data.text
+    this.$$('#intervention_title').innerHTML = data.name
+
 
   click_intervention_link: ->>
     this.ask_intervention_done = true
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
-    this.stress_intervention_feedback = false
+    this.intervention_stress_before = false
+    this.intervention_stress_after = false
     this.intervention_feedback_neg = false
     this.intervention_feedback_pos = false
     # Address edge case: url is null bc not necessary for intervention
     await chrome.windows.create(url: this.stress_intervention_data.url, top: 200px, left: 300px, width:800px, height:900px)
-    this.$$('#intervention_conf').innerHTML = this.stress_intervention_data.text
+    this.$$('#intervention_text').innerHTML = this.stress_intervention_data.text
 
 
   get_stress_intervention_feedback: ->>
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
-    this.stress_intervention_feedback = true
+    this.intervention_stress_before = false
+    this.intervention_stress_after = true
     this.intervention_feedback_neg = false
     this.intervention_feedback_pos = false
 
@@ -442,7 +465,8 @@ polymer_ext {
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
-    this.stress_intervention_feedback = false
+    this.intervention_stress_before = false
+    this.intervention_stress_after = false
     this.intervention_feedback_neg = true
     this.intervention_feedback_pos = false
 
@@ -456,7 +480,8 @@ polymer_ext {
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
-    this.stress_intervention_feedback = false
+    this.intervention_feedback_before = false
+    this.intervention_feedback_after = false
     this.intervention_feedback_neg = false
     this.intervention_feedback_pos = true
 
@@ -465,7 +490,8 @@ polymer_ext {
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
-    this.stress_intervention_feedback = false
+    this.intervention_feedback_before = false
+    this.intervention_feedback_after = false
     this.intervention_feedback_neg = false
     this.intervention_feedback_pos = false
     prompt("Intervention Feedback")
@@ -475,13 +501,18 @@ polymer_ext {
     this.stress_intervention_display = false
     this.stress_intervention_selected = false
     this.ask_intervention_done = false
-    this.stress_intervention_feedback = false
+    this.intervention_feedback_before = false
+    this.intervention_feedback_after = false
     this.intervention_feedback_neg = false
     this.intervention_feedback_pos = false
 
 
-  covidSurvey_button_clicked: ->
-    chrome.tabs.create {url: 'https://qualtrics.com'}
+  covidSurvey_button_clicked: ->>
+    survey_metadata = JSON.parse(await get_json("http://localhost:3000/getSurvey", []))
+    userid = await get_user_id()
+    console.log(survey_metadata)
+    survey_url = survey_metadata.url
+    chrome.tabs.create {url: survey_url + '?habitlab_userid=' + userid}
 
   results_button_clicked: ->
     chrome.tabs.create {url: 'options.html#overview'}

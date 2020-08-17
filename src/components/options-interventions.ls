@@ -39,6 +39,24 @@ prelude = require 'prelude-ls'
 } = require 'libs_common/domain_utils'
 
 {
+  localstorage_getjson
+  localstorage_setjson
+  localstorage_getbool
+  localstorage_setbool
+  localstorage_setstring
+  localstorage_getstring
+} = require 'libs_common/localstorage_utils'
+
+{
+  post_json
+  get_json
+} = require 'libs_backend/ajax_utils'
+
+{
+  get_user_id
+} = require 'libs_backend/background_common'
+
+{
   get_canonical_domain
 } = require 'libs_backend/canonical_url_utils'
 
@@ -136,12 +154,12 @@ polymer_ext {
       localStorage.activedaysarray = JSON.stringify(@activedaysarray)
       console.log(@activedaysarray)
       return
-  
+
   goals_set: (evt) ->
-    if (Object.keys this.enabled_goals).length > 0 
+    if (Object.keys this.enabled_goals).length > 0
       evt.target.style.display = "none"
       this.$$('#intro1').style.display = "block"
-    
+
   intro1_read: (evt) ->
     evt.target.style.display = "none"
     # this.$$('#intro2').style.display = "block"
@@ -172,11 +190,11 @@ polymer_ext {
 
   intro4_read: (evt) ->
     evt.target.style.display = "none"
-    
+
     # this.$$('#intro6').style.display = "block"
     window.scrollTo 0, document.body.scrollHeight
 
-  
+
 
   intro5_read: (evt) ->
     evt.target.style.display = "none"
@@ -209,13 +227,72 @@ polymer_ext {
    if window.location.hash != '#introduction'
     for elem in Polymer.dom(this.root).querySelectorAll('.intro')
       elem.style.display = 'inline-flex';
-  ready: ->
+
+  ready: ->>
     this.rerender()
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+    #await this.check_for_survey()
+    #console.log(localstorage_getjson("survey_data"))
+    # Check localstorage for survey  data
+    if typeof(localstorage_getjson("survey_data")) === 'undefined'
+      await this.check_for_survey()
+      console.log("survey data undefined")
+      localstorage_setjson("survey_data", {})
+    else if localstorage_getjson("survey_data") !== {}
+      console.log("survey link found in localstorage")
+      this.enable_survey_button()
+    else
+      await this.check_for_survey()
+
+  check_for_survey: ->>
+    userid = await get_user_id()
+    console.log("Sending request for survey link")
+    survey_data = await JSON.parse(await get_json("http://localhost:3000/getSurvey", "userid=" + userid))
+    if survey_data !== {}
+      console.log("Got following survey data from server")
+      console.log(survey_data)
+      localstorage_setjson("survey_data", survey_data)
+      this.enable_survey_button()
+    else:
+      console.log("No survey data available from server")
+
+  enable_survey_button: ->>
+    survey_data = localstorage_getjson("survey_data")
+    survey_button = document.getElementById("survey_button")
+    console.log(survey_button)
+    survey_button.innerHTML = survey_data.button_text
+    survey_button.style.background-color = "red"
+    survey_button.style.border-style = "hidden"
+    survey_button.disabled = false
+
+  disable_survey_button: ->>
+    localstorage_setjson("survey_data", {})
+    survey_button = document.getElementById("survey_button")
+    console.log(survey_button)
+    survey_button.innerHTML = "No surveys available. Check in later."
+    survey_button.style.background-color = "#65A7F2"
+    survey_button.style.border-style = "dashed"
+    survey_button.style.border-color = "white"
+    survey_button.style.color = "white"
+    survey_button.disabled = true
+
+  survey_button_clicked: ->>
+    survey_data = localstorage_getjson("survey_data")
+    if survey_data !== {}
+      userid = await get_user_id()
+      chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=settings'}
+      #console.log("Enabling survey with link " + survey_data.url)
+      # Send post request to database
+      post_json("http://localhost:3000/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"settings"})
+      this.disable_survey_button()
+    else
+      this.disable_survey_button()
+
+
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->
-    
+
     return goals_and_interventions and goals_and_interventions.length > 0
   show_dialog: (evt) ->
     if evt.target.id == 'start-time'
@@ -223,8 +300,9 @@ polymer_ext {
     else
       this.$$('#end-dialog').toggle!
 
+
   toggle_timepicker_idx: (evt) ->
-   
+
     buttonidx = evt.detail.buttonidx
     if buttonidx == 1
       localStorage.work_hours_only = true;
@@ -239,15 +317,15 @@ polymer_ext {
   toggle_timepicker: (evt) ->
     if evt.target.checked # if evt.target.checked is true, elem was just changed
       if this.$$('paper-radio-group').selected == 'always' #bizarre error, means currently selected is work_hours
-        
+
         localStorage.work_hours_only = true;
         @always_active = false
         localStorage.start_mins_since_midnight = @start_time_mins#this.$$('#start-picker').rawValue
-      
+
         localStorage.end_mins_since_midnight = @end_time_mins#this.$$('#end-picker').rawValue
         localStorage.start_as_string = @start_time_string#this.$$('#start-picker').time
         localStorage.end_as_string = @end_time_string#this.$$('#end-picker').time
-      else        
+      else
         localStorage.work_hours_only = false;
         @always_active = true
 
@@ -282,13 +360,13 @@ polymer_ext {
   determine_selected: (always_active) ->
     if always_active
       return 'always'
-    else 
+    else
       return 'workday'
 
   determine_selected_idx: (always_active) ->
     if always_active
       return 0
-    else 
+    else
       return 1
   sort_custom_goals_and_interventions_after: (goals_and_interventions) ->
     [custom_goals_and_interventions,normal_goals_and_interventions] = prelude.partition (.goal.custom), goals_and_interventions
@@ -318,6 +396,11 @@ polymer_ext {
     await this.$$('#goal_selector').set_sites_and_goals()
     if this.$$('#positive_goal_selector')?
       await this.$$('#positive_goal_selector').set_sites_and_goals()
+
+
+
+
+
 }, [
   {
     source: require 'libs_common/localization_utils'

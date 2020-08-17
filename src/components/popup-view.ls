@@ -1,5 +1,7 @@
 ######### Libraries
 
+hso_server_url = 'https://green-antonym-197023.wl.r.appspot.com'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
@@ -469,13 +471,14 @@ polymer_ext {
       productivity: 'Productivity.png'
       somatic: 'Somatic.png'
     localstorage_setstring("current_panel", "intervention_display")
-    this.intervention_data_received = await JSON.parse(await get_json("http://localhost:3000/getIntervention", []))
+    this.intervention_data_received = await JSON.parse(await get_json(hso_server_url + "/getIntervention", []))
     localstorage_setjson("selected_intervention_data", this.intervention_data_received)
     data = this.intervention_data_received
     to_send = localstorage_getjson("intervention_data_tosend")
     to_send["interventions_shown"].push(data._id)
     localstorage_setjson("intervention_data_tosend", to_send)
     this.$$('#intervention_text').innerHTML = data.text
+    this.$$('#intervention_duration').innerHTML = data.duration
     this.$$('#intervention_title').innerHTML = "<b>Task: " + data.name + "<b>"
     this.$$('#intervention_icon').src = "../icons/HSO_icons/" + this.icons[data.type]
 
@@ -494,6 +497,7 @@ polymer_ext {
       somatic: 'Somatic.png'
     data = await localstorage_getjson("selected_intervention_data")
     this.$$('#intervention_text').innerHTML = data.text
+    this.$$('#intervention_duration').innerHTML = data.duration
     this.$$('#intervention_title').innerHTML = "<b>Task: " + data.name + "<b>"
     console.log("../icons/HSO_icons/" + this.icons[data.type])
     this.$$('#intervention_icon').src = "../icons/HSO_icons/" + this.icons[data.type]
@@ -572,6 +576,12 @@ polymer_ext {
     this.intervention_stress_before = false
     this.intervention_stress_after = false
     this.intervention_end = false
+    localstorage_setstring("current_panel", "home")
+    this.send_intervention_data()
+    to_send = localstorage_getjson("intervention_data_tosend")
+    to_send["intervention_completed"] = 1
+    to_send["intervention_cancelled"] = 0
+    localstorage_setjson("intervention_data_tosend", to_send)
     this.send_intervention_data()
 
   written_intervention_feedback: ->>
@@ -595,7 +605,7 @@ polymer_ext {
     this.get_stress_intervention()
 
   send_intervention_data: ->>
-    post_json("http://localhost:3000/postInterventionData", localstorage_getjson("intervention_data_tosend"))
+    post_json(hso_server_url + "/postInterventionData", localstorage_getjson("intervention_data_tosend"))
     console.log("Data sent: " + await localstorage_getjson("intervention_data_tosend"))
     localstorage_setjson("intervention_data_tosend", {})
 
@@ -612,13 +622,11 @@ polymer_ext {
     to_send["intervention_cancelled"] = 1
     localstorage_setjson("intervention_data_tosend", to_send)
     this.send_intervention_data()
-    localstorage_setstring("current_panel", "home")
-    console.log(localstorage_getstring("current_panel"))
 
   check_for_survey: ->>
     userid = await get_user_id()
     console.log("Sending request for survey link")
-    survey_data = await JSON.parse(await get_json("http://localhost:3000/getSurvey", "userid=" + userid))
+    survey_data = await JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
     if survey_data !== {}
       console.log("Got following survey data from server")
       console.log(survey_data)
@@ -649,12 +657,15 @@ polymer_ext {
 
   survey_button_clicked: ->>
     survey_data = localstorage_getjson("survey_data")
-    userid = await get_user_id()
-    chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
-    #console.log("Enabling survey with link " + survey_data.url)
-    # Send post request to database
-    post_json("http://localhost:3000/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
-    this.disable_survey_button()
+    if survey_data !== {}
+      userid = await get_user_id()
+      chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
+      #console.log("Enabling survey with link " + survey_data.url)
+      # Send post request to database
+      post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
+      this.disable_survey_button()
+    else
+      this.disable_survey_button()
 
   results_button_clicked: ->
     chrome.tabs.create {url: 'options.html#overview'}

@@ -86,10 +86,20 @@ content_scripts:
       - 'http://habitlab.github.io/'
       - 'https://habitlab.github.io/'
 icons:
-  '128': icons/HSO_icons/HSO_icon_blue.png
+  '19': icons/icon_19.png
+  '32': icons/icon_32.png
+  '38': icons/icon_38.png
+  '48': icons/icon_48.png
+  '64': icons/icon_64.png
+  '128': icons/icon_128.png
 browser_action:
   default_icon:
-    '128': icons/HSO_icons/HSO_icon_blue.png
+    '19': icons/icon_19.png
+    '32': icons/icon_32.png
+    '38': icons/icon_38.png
+    '48': icons/icon_48.png
+    '64': icons/icon_64.png
+    '128': icons/icon_128.png
   default_popup: popup.html
 options_ui:
   page: options.html

@@ -691,6 +691,18 @@ polymer_ext {
 
     localstorage_setbool('popup_view_has_been_opened', true)
 
+    setTimeout ->>
+      require('../bower_components/iron-icon/iron-icon.deps')
+      require('../bower_components/iron-icons/iron-icons.deps')
+      require('components/graph-donut-top-sites.deps')
+      require('components/intervention-view-single-compact.deps')
+      require('components/feedback-form.deps')
+
+      await get_screenshot_utils()
+      await get_swal()
+    , 1
+
+
     # Check localstorage for current panel
     panel = ""
     if typeof(localstorage_getstring("current_panel")) === 'undefined'
@@ -745,17 +757,6 @@ polymer_ext {
       this.enable_survey_button()
     else
       await this.check_for_survey()
-
-    setTimeout ->>
-      require('../bower_components/iron-icon/iron-icon.deps')
-      require('../bower_components/iron-icons/iron-icons.deps')
-      require('components/graph-donut-top-sites.deps')
-      require('components/intervention-view-single-compact.deps')
-      require('components/feedback-form.deps')
-
-      await get_screenshot_utils()
-      await get_swal()
-    , 1
 
 }, {
   source: require 'libs_frontend/polymer_methods'

@@ -138,8 +138,9 @@
       <div class="box">
 
         <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed"><span style="color: white">Turn Off HabitLab Today</span></paper-toggle-button>
+        <!--
         <paper-toggle-button checked="{{stress_intervention_active}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_stress_intervention"><span style="color: white">stress interv</span></paper-toggle-button>
-
+        -->
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="debugButton" style="display: none" on-click="debug_button_clicked">Debug</paper-button>
           <paper-button class="paperbuttons" raised id="feedbackButton" on-click="submit_feedback_clicked">Feedback</paper-button>
@@ -152,6 +153,7 @@
         <template is="dom-if" if="{{!is_habitlab_disabled}}">
         <template is="dom-if" if="{{!stress_intervention_active}}">
 
+        <!--
         <paper-card>
           <div style="width: 100%">
             <div style="margin: 5px 0 0 5px; font-size: 12px; text-align: left; font-weight: bold">Stress Management</div>
@@ -159,6 +161,7 @@
             <paper-button style="margin-left: 250px; margin-top: 20px" class="paperbuttons" raised on-click="start_stress_intervention">GO</paper-button>
           </div>
         </paper-card>
+        -->
 
         <paper-card>
           <div style="margin: 5px 0 0 5px; font-size: 12px; text-align: left; font-weight: bold">Productivity</div>

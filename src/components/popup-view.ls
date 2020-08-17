@@ -703,10 +703,12 @@ polymer_ext {
     , 1
 
 
+
+
     # Check localstorage for current panel
     panel = ""
     if typeof(localstorage_getstring("current_panel")) === 'undefined'
-      localstroage_setstring("current_panel", "home")
+      localstorage_setstring("current_panel", "home")
       panel = "home"
     else
       panel = localstorage_getstring("current_panel")
@@ -757,6 +759,8 @@ polymer_ext {
       this.enable_survey_button()
     else
       await this.check_for_survey()
+
+
 
 }, {
   source: require 'libs_frontend/polymer_methods'

@@ -1,5 +1,7 @@
 prelude = require 'prelude-ls'
 
+hso_server_url = 'https://green-antonym-197023.wl.r.appspot.com'
+
 {
   get_interventions
   get_enabled_interventions
@@ -247,7 +249,7 @@ polymer_ext {
   check_for_survey: ->>
     userid = await get_user_id()
     console.log("Sending request for survey link")
-    survey_data = await JSON.parse(await get_json("http://localhost:3000/getSurvey", "userid=" + userid))
+    survey_data = await JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
     if survey_data !== {}
       console.log("Got following survey data from server")
       console.log(survey_data)
@@ -283,7 +285,7 @@ polymer_ext {
       chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=settings'}
       #console.log("Enabling survey with link " + survey_data.url)
       # Send post request to database
-      post_json("http://localhost:3000/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"settings"})
+      post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"settings"})
       this.disable_survey_button()
     else
       this.disable_survey_button()

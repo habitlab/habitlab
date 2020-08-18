@@ -128,33 +128,19 @@ polymer_ext {
   on_goal_changed: (evt) ->
     this.rerender()
   is_active_for_day_idx: (dayidx, activedaysarray) ->
-    console.log 'called is_active_for_day_idx'
-    console.log dayidx
-    console.log activedaysarray
     return activedaysarray.includes(dayidx)
   change_intervention_activeness: (evt) ->
-    console.log(evt.target)
-    console.log('change_intervention_activeness called')
-    console.log(evt.target.data-day)
     localStorage.work_hours_only = true;
     day_index = evt.target.data-day
-    console.log('day_index is')
-    console.log day_index
-    console.log('id attriute is')
-    console.log evt.target.isdayenabled
     if !evt.target.isdayenabled
       @activedaysarray.push day_index
       @activedaysarray = JSON.parse JSON.stringify @activedaysarray
-      console.log(evt.target)
       localStorage.activedaysarray = JSON.stringify(@activedaysarray)
-      console.log(@activedaysarray)
       return
     else
       @activedaysarray = @activedaysarray.filter(-> it != day_index)
       @activedaysarray = JSON.parse JSON.stringify @activedaysarray
-      console.log(evt.target)
       localStorage.activedaysarray = JSON.stringify(@activedaysarray)
-      console.log(@activedaysarray)
       return
 
   goals_set: (evt) ->
@@ -238,30 +224,22 @@ polymer_ext {
     # Check localstorage for survey  data
     if typeof(localstorage_getjson("survey_data")) === 'undefined'
       await this.check_for_survey()
-      console.log("survey data undefined")
       localstorage_setjson("survey_data", {})
     else if localstorage_getjson("survey_data") !== {}
-      console.log("survey link found in localstorage")
       this.enable_survey_button()
     else
       await this.check_for_survey()
 
   check_for_survey: ->>
     userid = await get_user_id()
-    console.log("Sending request for survey link")
     survey_data = await JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
     if survey_data !== {}
-      console.log("Got following survey data from server")
-      console.log(survey_data)
       localstorage_setjson("survey_data", survey_data)
       this.enable_survey_button()
-    else:
-      console.log("No survey data available from server")
 
   enable_survey_button: ->>
     survey_data = localstorage_getjson("survey_data")
     survey_button = document.getElementById("survey_button")
-    console.log(survey_button)
     survey_button.innerHTML = survey_data.button_text
     survey_button.style.background-color = "red"
     survey_button.style.border-style = "hidden"
@@ -270,7 +248,6 @@ polymer_ext {
   disable_survey_button: ->>
     localstorage_setjson("survey_data", {})
     survey_button = document.getElementById("survey_button")
-    console.log(survey_button)
     survey_button.innerHTML = "No surveys available. Check in later."
     survey_button.style.background-color = "#65A7F2"
     survey_button.style.border-style = "dashed"
@@ -335,7 +312,6 @@ polymer_ext {
 
 
   dismiss_dialog: (evt) ->
-    console.log evt
     if evt.detail.confirmed
       if evt.target.id == 'start-dialog'
         @start_time_string = this.$$('#start-picker').time

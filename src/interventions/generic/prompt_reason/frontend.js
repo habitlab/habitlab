@@ -45,7 +45,6 @@ var shadow_root;
 var shadow_div;
 
 function addBeginDialog(message) {
-  console.log('addBeginDialog called')
   if (window.intervention_disabled) {
     return
   }
@@ -301,7 +300,6 @@ function displayPurpose(purpose) {
   purpose_banner_display.attr('purpose', purpose)
   shadow_div.append(purpose_banner_display)
   // purpose_banner = append_to_body_shadow(purpose_banner_display);
-  console.log('Displaying it: ' + purpose)
 }
 
 
@@ -315,7 +313,6 @@ function main() {
   //if (on_same_domain_and_same_tab) {
   //  return
   //}
-  console.log('prompt for purpose code')
   const is_new_session = get_is_new_session();
   await once_body_available()
   shadow_div = create_shadow_div_on_body();

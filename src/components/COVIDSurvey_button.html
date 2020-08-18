@@ -1,0 +1,26 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="covidSurvey-button">
+  <template>
+    <style>
+       :host {
+        display: inline-block;
+        align: center;
+        height: 50px;
+      }
+
+      .covidSurvey_button {
+        color: white;
+        background-color: red;
+        align:center;
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+        box-shadow: 2px 2px 2px #888888;
+      }
+    </style>
+
+    <paper-button class="covidSurvey_button" on-click="covidSurvey_button_clicked">{{text}}</paper-button>
+
+  </template>
+</dom-module>

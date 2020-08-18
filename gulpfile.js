@@ -864,7 +864,7 @@
   gulp.task('mkzip_release', gulp.series('buildmanifest_release', 'mkzip_release'));
   get_latest_published_version = async function(){
     var latest_published_version, i$, ref$, len$, extension_id, chrome_store_item, published_version;
-    return '1.0.273';
+    return '1.0.272';
     latest_published_version = '0.0.0';
     for (i$ = 0, len$ = (ref$ = ['obghclocpdgcekcognpkblghkedcpdgd', 'bleifeoekkfhicamkpadfoclfhfmmina']).length; i$ < len$; ++i$) {
       extension_id = ref$[i$];

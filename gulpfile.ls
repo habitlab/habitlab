@@ -990,7 +990,7 @@ gulp.task 'mkzip_beta', gulp.series('buildmanifest_beta', 'mkzip_beta')
 gulp.task 'mkzip_release', gulp.series('buildmanifest_release', 'mkzip_release')
 
 get_latest_published_version = ->>
-  return '1.0.273'
+  return '1.0.272'
   latest_published_version = '0.0.0'
   for extension_id in ['obghclocpdgcekcognpkblghkedcpdgd', 'bleifeoekkfhicamkpadfoclfhfmmina']
     chrome_store_item = await chrome-web-store-item-property(extension_id)

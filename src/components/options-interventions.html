@@ -232,7 +232,15 @@
         #day{
           background-color: rgb(35,70,110);
         }
-
+        #survey_button {
+          display: none;
+          max-height: 70 px;
+          margin:auto;
+          font-size: 20px;
+          color: white;
+          background-color: red;
+          disabled: true;
+        }
       </style>
     </custom-style>
 
@@ -240,9 +248,14 @@
       <div id="intro1" class="intro" style="display: none;">
         <paper-card id = "title" style = "color:white" class="papercard">
 
-          <paper-button class="paperbuttons" id="survey_button" disabled style="border-style: dashed; border-color: white; background-color: #65A7F2; color: white; margin: 10px 0 30px 10px; width:95%;" raised on-click="survey_button_clicked" >No surveys available. Check in later.</paper-button>
 
-          <div>When should nudges be active?</div>
+          <paper-card style ="color:white; padding-bottom: 10px" class="papercard">
+            <div> Study Surveys </div>
+            <div class="card-content" style="padding-bottom: 10px"> Optional surveys for academic research will be shown here if available.</div>
+            <paper-button class="paperbuttons" raised id="survey_button" on-click="survey_button_clicked"></paper-button>
+          </paper-card>
+
+          <div style="padding-top: 10px">When should nudges be active?</div>
           <div class="card-content" >You can set nudges to be always on, or only active during work hours.
             <br>
             <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->

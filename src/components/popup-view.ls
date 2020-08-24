@@ -87,6 +87,10 @@ get_screenshot_utils = ->>
   get_user_id
 } = require 'libs_backend/background_common'
 
+{
+  once_available
+} = require 'libs_frontend/frontend_libs'
+
 
 
 polymer_ext {
@@ -409,263 +413,32 @@ polymer_ext {
 
 ############# STRESS INTERVENTION FUNCTIONS
 
-  select_stress: (img) ->
-    console.log(img)
-    img.src = '../icons/HSO_icons/Component 1.png'
-
-  deselect_stress: (img) ->
-    console.log(img)
-    img.src = '../icons/HSO_icons/Ellipse 8.png'
-
-  start_stress_intervention: ->>
-    this.stress_intervention_active = true
-    this.stress_intervention_display = false
-    this.ask_intervention_done = false
-    this.intervention_stress_before = true
-    this.intervention_stress_after = false
-    this.intervention_end = false
-    localstorage_setstring("current_panel", "stress_before")
-    console.log(localstorage_getstring("current_panel", "stress_before"))
-    # Create object to send to database
-    console.log("Data to send: ")
-    console.log(localstorage_getjson("intervention_data_tosend"))
-    to_send = localstorage_getjson("intervention_data_tosend")
-    # Add contextual data
-    to_send["contextual_info"] = {}
-    to_send["date"] = new Date()
-    to_send["userid"] = await get_user_id()
-    to_send["interventions_shown"] = []
-    localstorage_setjson("intervention_data_tosend", to_send)
-    console.log(localstorage_getjson("intervention_data_tosend"))
-
-
-  returnto_stress_before:->>
-    this.stress_intervention_active = true
-    this.stress_intervention_display = false
-    this.ask_intervention_done = false
-    this.intervention_stress_before = true
-    this.intervention_stress_after = false
-    this.intervention_end = false
-    localstorage_setstring("current_panel", "stress_before")
-
-  returnto_stress_after:->>
-    this.stress_intervention_active = true
-    this.stress_intervention_display = false
-    this.ask_intervention_done = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = true
-    this.intervention_end = false
-    localstorage_setstring("current_panel", "stress_after")
-
-  get_stress_intervention: ->>
-    this.stress_intervention_active = true
-    this.stress_intervention_display = true
-    this.ask_intervention_done = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = false
-    this.intervention_end = false
-    this.icons =
-      cognitive_behavioral: 'Cognitive Behavioral.png'
-      meta_cognitive: 'Meta-Cognitive.png'
-      positive_psychology: 'Positive Psychology.png'
-      productivity: 'Productivity.png'
-      somatic: 'Somatic.png'
-    localstorage_setstring("current_panel", "intervention_display")
-    this.intervention_data_received = await JSON.parse(await get_json(hso_server_url + "/getIntervention", []))
-    localstorage_setjson("selected_intervention_data", this.intervention_data_received)
-    data = this.intervention_data_received
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["interventions_shown"].push(data._id)
-    localstorage_setjson("intervention_data_tosend", to_send)
-    this.$$('#intervention_text').innerHTML = data.text
-    this.$$('#intervention_duration').innerHTML = data.duration
-    this.$$('#intervention_title').innerHTML = "<b>Task: " + data.name + "<b>"
-    this.$$('#intervention_icon').src = "../icons/HSO_icons/" + this.icons[data.type]
-
-  show_stress_intervention: ->>
-    this.stress_intervention_active = true
-    this.stress_intervention_display = true
-    this.ask_intervention_done = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = false
-    this.intervention_end = false
-    this.icons =
-      cognitive_behavioral: 'Cognitive Behavioral.png'
-      meta_cognitive: 'Meta-Cognitive.png'
-      positive_psychology: 'Positive Psychology.png'
-      productivity: 'Productivity.png'
-      somatic: 'Somatic.png'
-    data = await localstorage_getjson("selected_intervention_data")
-    this.$$('#intervention_text').innerHTML = data.text
-    this.$$('#intervention_duration').innerHTML = data.duration
-    this.$$('#intervention_title').innerHTML = "<b>Task: " + data.name + "<b>"
-    console.log("../icons/HSO_icons/" + this.icons[data.type])
-    this.$$('#intervention_icon').src = "../icons/HSO_icons/" + this.icons[data.type]
-
-  record_stress_before: ->>
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["stress_before"] = this.$$("input[name=stress_level]:checked").value
-    localstorage_setjson("intervention_data_tosend", to_send)
-    console.log(localstorage_getjson("intervention_data_tosend"))
-    this.get_stress_intervention()
-
-  record_stress_after: ->>
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["stress_after"] = this.$$("input[name=stress_level]:checked").value
-    localstorage_setjson("intervention_data_tosend", to_send)
-    console.log(localstorage_getjson("intervention_data_tosend"))
-    this.get_final_action()
-
-  click_intervention_link: ->>
-    this.ask_intervention_done = true
-    this.stress_intervention_display = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = false
-    this.intervention_end = false
-    localstorage_setstring("current_panel", "ask_intervention_done")
-    this.intervention_timer = new Date() # TODO:  Change to localstorage variable
-    console.log(this.intervention_timer)
-    await if this.intervention_data_received.url !== "" then
-      chrome.windows.create(url: this.intervention_data_received.url, top: 200px, left: 300px, width:800px, height:900px)
-
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["intervention_selected"] = this.intervention_data_received["_id"]
-    localstorage_setjson("intervention_data_tosend", to_send)
-    #console.log(this.intervention_data_received.text)
-    this.$$('#confirmation_text').innerHTML = localstorage_getjson("selected_intervention_data").text
-
-  intervention_confirmation: ->>
-    console.log("Ask intervention done again!")
-    intervention_text =  await localstorage_getjson("selected_intervention_data").text
-    console.log(intervention_text)
-    this.$$('#confirmation_text').innerHTML = intervention_text
-
-
-  confirm_intervention_done: ->>
-    this.stress_intervention_display = false
-    this.ask_intervention_done = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = true
-    this.intervention_end = false
-    localstorage_setstring("current_panel", "stress_after")
-
-    timer_done = new Date()
-    timer_diff = Math.abs(this.intervention_timer - timer_done) / 1000
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["seconds_to_complete"] = timer_diff
-    console.log(timer_diff)
-    localstorage_setjson("intervention_data_tosend", to_send)
-
-  get_final_action: ->>
-    this.stress_intervention_display = false
-    this.ask_intervention_done = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = false
-    this.intervention_end = true
-
-    to_send = localstorage_getjson("intervention_data_tosend")
-    localstorage_setstring("current_panel", "intervention_end")
-    to_send["intervention_completed"] = 1
-    to_send["intervention_cancelled"] = 0
-    localstorage_setjson("intervention_data_tosend", to_send)
-
-  end_stress_intervention: ->>
-    this.stress_intervention_active = false
-    this.stress_intervention_display = false
-    this.ask_intervention_done = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = false
-    this.intervention_end = false
-    localstorage_setstring("current_panel", "home")
-    this.send_intervention_data()
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["intervention_completed"] = 1
-    to_send["intervention_cancelled"] = 0
-    localstorage_setjson("intervention_data_tosend", to_send)
-    this.send_intervention_data()
-
-  written_intervention_feedback: ->>
-    this.stress_intervention_active = false
-    this.stress_intervention_display = false
-    this.ask_intervention_done = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = false
-    this.intervention_end = false
-    localstorage_setstring("current_panel", "home")
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["written_feedback"] = prompt("Intervention Feedback")
-    localstorage_setjson("intervention_data_tosend", to_send)
-    this.send_intervention_data()
-
-  ask_another_intervention: ->>
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["requested_another"] = 1
-    localstorage_setjson("intervention_data_tosend", to_send)
-    this.send_intervention_data()
-    this.get_stress_intervention()
-
-  send_intervention_data: ->>
-    post_json(hso_server_url + "/postInterventionData", localstorage_getjson("intervention_data_tosend"))
-    console.log("Data sent: " + await localstorage_getjson("intervention_data_tosend"))
-    localstorage_setjson("intervention_data_tosend", {})
-
-  cancel_stress_intervention: ->>
-    this.stress_intervention_active = false
-    this.stress_intervention_display = false
-    this.ask_intervention_done = false
-    this.intervention_stress_before = false
-    this.intervention_stress_after = false
-    this.intervention_end = false
-    localstorage_setstring("current_panel", "home")
-    to_send = localstorage_getjson("intervention_data_tosend")
-    to_send["intervention_completed"] = 0
-    to_send["intervention_cancelled"] = 1
-    localstorage_setjson("intervention_data_tosend", to_send)
-    this.send_intervention_data()
-
   check_for_survey: ->>
     userid = await get_user_id()
-    console.log("Sending request for survey link")
-    survey_data = await JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
+    survey_data = JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
     if survey_data !== {}
-      console.log("Got following survey data from server")
-      console.log(survey_data)
       localstorage_setjson("survey_data", survey_data)
-      this.enable_survey_button()
-    else:
-      console.log("No survey data available from server")
+      once_available("survey_button", this.enable_survey_button())
 
   enable_survey_button: ->>
-    survey_data = localstorage_getjson("survey_data")
-    survey_button = document.getElementById("survey_button")
-    console.log(survey_button)
-    survey_button.innerHTML = survey_data.button_text
-    survey_button.style.background-color = "red"
-    survey_button.style.border-style = "hidden"
-    survey_button.disabled = false
+    survey_data = await localstorage_getjson("survey_data")
+    button = document.getElementById("survey_button")
+    button.innerHTML = survey_data.button_text
+    button.style.display = "flex"
+    button.disabled = false
 
   disable_survey_button: ->>
     localstorage_setjson("survey_data", {})
-    survey_button = document.getElementById("survey_button")
-    console.log(survey_button)
-    survey_button.innerHTML = "No surveys available. Check in later."
-    survey_button.style.background-color = "#65A7F2"
-    survey_button.style.border-style = "dashed"
-    survey_button.style.border-color = "white"
-    survey_button.style.color = "white"
-    survey_button.disabled = true
+    button = document.getElementById("survey_button")
+    button.style.display = "none"
+    button.disabled = true
 
   survey_button_clicked: ->>
     survey_data = localstorage_getjson("survey_data")
-    if survey_data !== {}
-      userid = await get_user_id()
-      chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
-      #console.log("Enabling survey with link " + survey_data.url)
-      # Send post request to database
-      post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
-      this.disable_survey_button()
-    else
-      this.disable_survey_button()
+    userid = await get_user_id()
+    chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
+    post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
+    this.disable_survey_button()
 
   results_button_clicked: ->
     chrome.tabs.create {url: 'options.html#overview'}
@@ -691,6 +464,16 @@ polymer_ext {
 
     localstorage_setbool('popup_view_has_been_opened', true)
 
+    survey_data = localstorage_getjson("survey_data")
+
+    if typeof(survey_data) === 'undefined'
+      localstorage_setjson("survey_data",{})
+      this.check_for_survey
+    else if survey_data !== {}
+      once_available("survey_button", this.enable_survey_button())
+    else
+      this.check_for_survey()
+
     setTimeout ->>
       require('../bower_components/iron-icon/iron-icon.deps')
       require('../bower_components/iron-icons/iron-icons.deps')
@@ -701,66 +484,6 @@ polymer_ext {
       await get_screenshot_utils()
       await get_swal()
     , 1
-
-
-
-
-    # Check localstorage for current panel
-    panel = ""
-    if typeof(localstorage_getstring("current_panel")) === 'undefined'
-      localstorage_setstring("current_panel", "home")
-      panel = "home"
-    else
-      panel = localstorage_getstring("current_panel")
-
-    #console.log("data storage json: " + localstorage_getjson("intervention_data_tosend"))
-
-    # If intervention data undefined, set to empty object
-    if localstorage_getjson("intervention_data_tosend") === null
-      console.log("Data to send undefined")
-      localstorage_setjson("intervention_data_tosend", {})
-
-    # Show appropriate panel
-    if panel === "home"
-      console.log("Showing home panel")
-      this.stress_intervention_active = false
-    else if panel === "stress_before"
-      console.log("Showing stress before panel")
-      this.stress_intervention_active = true
-      this.intervention_stress_before = true
-    else if panel === "stress_after"
-      console.log("Showing stress after panel")
-      this.stress_intervention_active = true
-      this.intervention_stress_after = true
-    else if panel === "intervention_display"
-      console.log("Showing intervention display")
-      this.stress_intervention_active = true
-      this.stress_intervention_display = true
-      this.show_stress_intervention()
-    else if panel === "ask_intervention_done"
-      console.log("Showing ask intervention done")
-      this.stress_intervention_active = true
-      this.ask_intervention_done = true
-      this.intervention_confirmation()
-    else if panel === "intervention_end"
-      console.log("Showing intervention end")
-      this.stress_intervention_active = true
-      this.intervention_end = true
-
-    #await this.check_for_survey()
-    console.log(localstorage_getjson("survey_data"))
-    # Check localstorage for survey  data
-    if typeof(localstorage_getjson("survey_data")) === 'undefined'
-      await this.check_for_survey()
-      console.log("survey data undefined")
-      localstorage_setjson("survey_data", {})
-    else if localstorage_getjson("survey_data") !== {}
-      console.log("survey link found in localstorage")
-      this.enable_survey_button()
-    else
-      await this.check_for_survey()
-
-
 
 }, {
   source: require 'libs_frontend/polymer_methods'

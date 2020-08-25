@@ -227,7 +227,7 @@ polymer_ext {
     survey_data = localstorage_getjson("survey_data")
     if typeof(survey_data) === 'undefined'
       localstorage_setjson("survey_data",{})
-      this.check_for_survey
+      this.check_for_survey()
     else if survey_data !== {}
       once_available("survey_button", this.enable_survey_button())
     else

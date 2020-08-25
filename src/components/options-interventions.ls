@@ -261,6 +261,8 @@ polymer_ext {
     post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
     this.disable_survey_button()
 
+
+
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->

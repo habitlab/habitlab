@@ -466,7 +466,7 @@ polymer_ext {
 
     survey_data = localstorage_getjson("survey_data")
 
-    if typeof(survey_data) === 'undefined'
+    if typeof(survey_data) === 'undefined' or survey_data === 'null'
       localstorage_setjson("survey_data",{})
       this.check_for_survey
     else if survey_data !== {}

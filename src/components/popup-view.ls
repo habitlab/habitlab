@@ -1,3 +1,7 @@
+######### Libraries
+
+hso_server_url = 'https://green-antonym-197023.wl.r.appspot.com'
+
 {polymer_ext} = require 'libs_frontend/polymer_utils'
 
 {load_css_file} = require 'libs_common/content_script_utils'
@@ -40,7 +44,7 @@ get_screenshot_utils = ->>
   list_enabled_interventions_for_location
   set_intervention_disabled_permanently
   get_enabled_interventions
-  set_intervention_enabled  
+  set_intervention_enabled
   get_nonpositive_goals_and_interventions
   list_available_interventions_for_location
   get_interventions
@@ -70,6 +74,8 @@ get_screenshot_utils = ->>
   localstorage_setjson
   localstorage_getbool
   localstorage_setbool
+  localstorage_setstring
+  localstorage_getstring
 } = require 'libs_common/localstorage_utils'
 
 {
@@ -138,11 +144,34 @@ polymer_ext {
     is_habitlab_disabled: {
       type: Boolean
     }
+    stress_intervention_active: {
+      type: Boolean
+    }
+    stress_intervention_display: {
+      type: Boolean
+    }
+    ask_intervention_done: {
+      type: Boolean
+    }
+    intervention_stress_before: {
+      type: Boolean
+    }
+    intervention_stress_after: {
+      type: Boolean
+    }
+    stress_intervention_data: {
+      type: String,
+      value: null
+    }
+    stress_intervention_end: {
+      type: String,
+      value: null
+    }
   }
 
   get_intervention_description: (intervention_name, intervention_name_to_info) ->
     return intervention_name_to_info[intervention_name].description
-  
+
   noValidInterventions: ->
     return this.goals_and_interventions.length === 0
 
@@ -157,7 +186,7 @@ polymer_ext {
     enabledInterventions = [x for x in enabledInterventions when x != intervention]
     self.enabledInterventions = enabledInterventions
     await disable_interventions_in_active_tab()
-    this.fire 'disable_intervention' 
+    this.fire 'disable_intervention'
     add_log_interventions {
       type: 'intervention_set_temporarily_disabled'
       page: 'popup-view'
@@ -225,13 +254,13 @@ polymer_ext {
   compute_html_for_shown_graphs: (shownGraphs, blacklist, sites) ->
     self = this
     shownGraphs = shownGraphs.filter((x) -> !self.blacklist[x])
-    
-    
+
+
     html = "<div class=\"card-content\">"
     for x in shownGraphs
       if x == 'site-goal-view'
         for site in sites
-          
+
           html += "<#{x} site=\"#{site}\"></#{x}><br>"
       else
         html += "<#{x}></#{x}><br>"
@@ -271,6 +300,8 @@ polymer_ext {
         loaded_interventions: loaded_interventions
       })
 
+
+
   enable_habitlab_button_clicked: ->>
     this.is_habitlab_disabled = false
     enable_habitlab()
@@ -303,7 +334,7 @@ polymer_ext {
     intervention_name_to_info_promise = get_interventions()
     all_goals_and_interventions_promise = get_nonpositive_goals_and_interventions()
     url_promise = get_active_tab_url()
-    
+
     [
       sites
       enabledInterventions
@@ -323,9 +354,9 @@ polymer_ext {
     this.intervention_name_to_info = intervention_name_to_info
 
     domain = url_to_domain url
-    
+
     filtered_goals_and_interventions = all_goals_and_interventions.filter (obj) ->
-    
+
       return (obj.goal.domain == domain) # and obj.enabled
 
     if filtered_goals_and_interventions.length == 0
@@ -342,6 +373,9 @@ polymer_ext {
 
   get_power_icon_src: ->
     return chrome.extension.getURL('icons/power_button.svg')
+
+  get_thumbs_icon_src:->
+    return chrome.extension.getURL('icons/thumbs_i')
 
   debug_button_clicked: ->>
     tab_id = await get_active_tab_id()
@@ -382,7 +416,7 @@ polymer_ext {
   check_for_survey: ->>
     userid = await get_user_id()
     survey_data = JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
-    if Object.keys(survey_data).length !== 0
+    if survey_data !== {}
       localstorage_setjson("survey_data", survey_data)
       once_available("survey_button", this.enable_survey_button())
 
@@ -400,7 +434,7 @@ polymer_ext {
     button.disabled = true
 
   survey_button_clicked: ->>
-    survey_data = await localstorage_getjson("survey_data")
+    survey_data = localstorage_getjson("survey_data")
     userid = await get_user_id()
     chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
     post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
@@ -408,8 +442,10 @@ polymer_ext {
 
   results_button_clicked: ->
     chrome.tabs.create {url: 'options.html#overview'}
+
   settings_button_clicked: ->
     chrome.tabs.create {url: 'options.html#settings'}
+
   ready: ->>
     #chrome.browserAction.setBadgeText {text: ''}
     #chrome.browserAction.setBadgeBackgroundColor {color: '#000000'}
@@ -428,12 +464,12 @@ polymer_ext {
 
     localstorage_setbool('popup_view_has_been_opened', true)
 
-    survey_data = await localstorage_getjson("survey_data")
+    survey_data = localstorage_getjson("survey_data")
 
-    if typeof(survey_data) === 'undefined' or survey_data === null
+    if typeof(survey_data) === 'undefined'
       localstorage_setjson("survey_data",{})
-      this.check_for_survey()
-    else if Object.keys(survey_data).length !== 0
+      this.check_for_survey
+    else if survey_data !== {}
       once_available("survey_button", this.enable_survey_button())
     else
       this.check_for_survey()

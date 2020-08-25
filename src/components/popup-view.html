@@ -8,6 +8,8 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
 
 <dom-module id="popup-view">
   <template>
@@ -20,13 +22,13 @@
           */
           width:600px;
           height:580px;
-          
+
           --paper-card: {
-            
+
             margin-bottom: 10px;
             display: block;
             padding: 5px 5px 5px 5px;
-          };      
+          };
         }
 
         .popup_view_outer_div {
@@ -59,7 +61,7 @@
           padding-top: 0.3em;
           padding-bottom: 0.3em;
           padding-left: 0.3em;
-          
+
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           margin: 0.3em;
           margin-top: 0.5em;
@@ -75,7 +77,7 @@
           padding-top: 0.3em;
           padding-bottom: 0.3em;
           padding-left: 0.3em;
-          
+
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           margin: 0.3em;
           margin-top: 0.5em;
@@ -86,13 +88,13 @@
           padding-top: 0.3em;
           padding-bottom: 0.3em;
           padding-left: 0.3em;
-          
+
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           margin: 0.3em;
           margin-top: 0.5em;
           font-size: 12px;
         }
-        
+
         .interventionName {
           margin-left: 10px;
         }
@@ -107,7 +109,7 @@
           margin-bottom: 10px;
           --paper-button: {
             color: white;
-            background-color: white;        
+            background-color: white;
           };
 
           --paper-button-flat-keyboard-focus: {
@@ -141,14 +143,18 @@
 
       </style>
     </custom-style>
-    
+
     <div class="popup_view_outer_div">
 
       <div class="box">
+
         <paper-toggle-button checked="{{is_habitlab_disabled}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="disable_habitlab_changed"><span style="color: white">Turn Off HabitLab Today</span></paper-toggle-button>
+        <!--
+        <paper-toggle-button checked="{{stress_intervention_active}}" style="float: left; margin-top: 5px; margin-left: 5px" on-change="get_stress_intervention"><span style="color: white">stress interv</span></paper-toggle-button>
+        -->
         <div class="flexcontainer">
           <paper-button class="paperbuttons" raised id="debugButton" style="display: none" on-click="debug_button_clicked">Debug</paper-button>
-          <paper-button class="paperbuttons" raised id="feedbackButton" on-click="submit_feedback_clicked">Feedback</paper-button> 
+          <paper-button class="paperbuttons" raised id="feedbackButton" on-click="submit_feedback_clicked">Feedback</paper-button>
           <paper-button class="paperbuttons" raised on-click="results_button_clicked">Results</paper-button>
           <paper-button class="paperbuttons" raised on-click="settings_button_clicked">Settings</paper-button>
         </div>
@@ -158,6 +164,7 @@
         <template is="dom-if" if="{{!is_habitlab_disabled}}">
 
         <paper-card>
+          <div style="margin: 5px 0 0 5px; font-size: 12px; text-align: left; font-weight: bold">Productivity</div>
           <paper-tabs selected="{{selected_tab_idx}}">
             <paper-tab>Active Nudge</paper-tab>
             <paper-tab>Available Goals and Nudges</paper-tab>
@@ -184,7 +191,7 @@
                       <h4>No nudges enabled, please enable some goals</h4>
                     </div>
                   </template>
-                </template>        
+                </template>
               </div>
             </iron-page>
 
@@ -203,13 +210,13 @@
                     <br>
                   </template>
                 </template>
-                
+
               </template>
             </iron-page>
 
           </iron-pages>
         </paper-card>
-        
+
         <paper-card>
           <graph-donut-top-sites style="margin-bottom: 10px"></graph-donut-top-sites>
           <!--
@@ -221,7 +228,7 @@
 
           <iron-pages selected="{{selected_graph_tab}}">
             <iron-page>
-              <div class="chartelement"> 
+              <div class="chartelement">
                 <html-echo html="{{html_for_shown_graphs}}"></html-echo>
               </div>
             </iron-page>
@@ -233,12 +240,11 @@
                     <div>
                       <paper-checkbox checked="{{is_not_in_blacklist(graph, blacklist, graphNamesToOptions)}}" graph="{{graph}}" on-change="checkbox_checked_handler">{{graph}}</paper-checkbox>
                     </div>
-                  </template>         
-                </sortable-js> 
-              </div> 
+                  </template>
+                </sortable-js>
+              </div>
             </iron-page>
           -->
-        </paper-card>       
 
         </paper-card>
         </template>
@@ -256,7 +262,6 @@
           </paper-card>
         </template>
 
-      </div>
 
         </div>
       </div>

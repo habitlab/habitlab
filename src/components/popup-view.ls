@@ -416,7 +416,7 @@ polymer_ext {
   check_for_survey: ->>
     userid = await get_user_id()
     survey_data = JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
-    if survey_data !== {}
+    if Object.keys(survey_data).length !== 0
       localstorage_setjson("survey_data", survey_data)
       once_available("survey_button", this.enable_survey_button())
 
@@ -434,7 +434,7 @@ polymer_ext {
     button.disabled = true
 
   survey_button_clicked: ->>
-    survey_data = localstorage_getjson("survey_data")
+    survey_data = await localstorage_getjson("survey_data")
     userid = await get_user_id()
     chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
     post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
@@ -464,12 +464,12 @@ polymer_ext {
 
     localstorage_setbool('popup_view_has_been_opened', true)
 
-    survey_data = localstorage_getjson("survey_data")
+    survey_data = await localstorage_getjson("survey_data")
 
-    if typeof(survey_data) === 'undefined' or survey_data === 'null'
+    if typeof(survey_data) === 'undefined' or survey_data === null
       localstorage_setjson("survey_data",{})
-      this.check_for_survey
-    else if survey_data !== {}
+      this.check_for_survey()
+    else if Object.keys(survey_data).length !== 0
       once_available("survey_button", this.enable_survey_button())
     else
       this.check_for_survey()

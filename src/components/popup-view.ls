@@ -72,6 +72,21 @@ get_screenshot_utils = ->>
   localstorage_setbool
 } = require 'libs_common/localstorage_utils'
 
+{
+  post_json
+  get_json
+} = require 'libs_backend/ajax_utils'
+
+{
+  get_user_id
+} = require 'libs_backend/background_common'
+
+{
+  once_available
+} = require 'libs_frontend/frontend_libs'
+
+
+
 polymer_ext {
   is: 'popup-view'
   properties: {
@@ -361,6 +376,36 @@ polymer_ext {
       #confirmButtonText: 'Visit Facebook to see an intervention in action'
       #cancelButtonText: 'Close'
     }
+
+############# STRESS INTERVENTION FUNCTIONS
+
+  check_for_survey: ->>
+    userid = await get_user_id()
+    survey_data = JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
+    if Object.keys(survey_data).length !== 0
+      localstorage_setjson("survey_data", survey_data)
+      once_available("survey_button", this.enable_survey_button())
+
+  enable_survey_button: ->>
+    survey_data = await localstorage_getjson("survey_data")
+    button = document.getElementById("survey_button")
+    button.innerHTML = survey_data.button_text
+    button.style.display = "flex"
+    button.disabled = false
+
+  disable_survey_button: ->>
+    localstorage_setjson("survey_data", {})
+    button = document.getElementById("survey_button")
+    button.style.display = "none"
+    button.disabled = true
+
+  survey_button_clicked: ->>
+    survey_data = await localstorage_getjson("survey_data")
+    userid = await get_user_id()
+    chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
+    post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
+    this.disable_survey_button()
+
   results_button_clicked: ->
     chrome.tabs.create {url: 'options.html#overview'}
   settings_button_clicked: ->
@@ -382,6 +427,16 @@ polymer_ext {
       self.selected_tab_idx = 1
 
     localstorage_setbool('popup_view_has_been_opened', true)
+
+    survey_data = await localstorage_getjson("survey_data")
+
+    if typeof(survey_data) === 'undefined' or survey_data === null
+      localstorage_setjson("survey_data",{})
+      this.check_for_survey()
+    else if Object.keys(survey_data).length !== 0
+      once_available("survey_button", this.enable_survey_button())
+    else
+      this.check_for_survey()
 
     setTimeout ->>
       require('../bower_components/iron-icon/iron-icon.deps')

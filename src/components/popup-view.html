@@ -128,6 +128,17 @@
           padding-top: 5px;
         }
 
+        #survey_button {
+          display: none;
+          width: 100%;
+          margin-left: 0;
+          color: white;
+          font-weight: bold;
+          background-color: red;
+          disabled: true;
+        }
+
+
       </style>
     </custom-style>
     
@@ -141,6 +152,8 @@
           <paper-button class="paperbuttons" raised on-click="results_button_clicked">Results</paper-button>
           <paper-button class="paperbuttons" raised on-click="settings_button_clicked">Settings</paper-button>
         </div>
+
+        <paper-button class="paperbuttons" raised id="survey_button" on-click="survey_button_clicked"></paper-button>
 
         <template is="dom-if" if="{{!is_habitlab_disabled}}">
 
@@ -227,9 +240,10 @@
           -->
         </paper-card>       
 
-        
-
+        </paper-card>
         </template>
+
+
 
         <template is="dom-if" if="{{is_habitlab_disabled}}">
           <paper-card style="cursor: pointer" on-click="enable_habitlab_button_clicked">
@@ -244,8 +258,8 @@
 
       </div>
 
-
-    </div>
-  </template>
+        </div>
+      </div>
+    </template>
   <script src="popup-view.js"></script>
 </dom-module>

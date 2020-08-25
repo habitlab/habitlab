@@ -39,6 +39,28 @@ prelude = require 'prelude-ls'
 } = require 'libs_common/domain_utils'
 
 {
+  localstorage_getjson
+  localstorage_setjson
+  localstorage_getbool
+  localstorage_setbool
+  localstorage_setstring
+  localstorage_getstring
+} = require 'libs_common/localstorage_utils'
+
+{
+  post_json
+  get_json
+} = require 'libs_backend/ajax_utils'
+
+{
+  once_available
+} = require 'libs_frontend/frontend_libs'
+
+{
+  get_user_id
+} = require 'libs_backend/background_common'
+
+{
   get_canonical_domain
 } = require 'libs_backend/canonical_url_utils'
 
@@ -108,33 +130,19 @@ polymer_ext {
   on_goal_changed: (evt) ->
     this.rerender()
   is_active_for_day_idx: (dayidx, activedaysarray) ->
-    console.log 'called is_active_for_day_idx'
-    console.log dayidx
-    console.log activedaysarray
     return activedaysarray.includes(dayidx)
   change_intervention_activeness: (evt) ->
-    console.log(evt.target)
-    console.log('change_intervention_activeness called')
-    console.log(evt.target.data-day)
     localStorage.work_hours_only = true;
     day_index = evt.target.data-day
-    console.log('day_index is')
-    console.log day_index
-    console.log('id attriute is')
-    console.log evt.target.isdayenabled
     if !evt.target.isdayenabled
       @activedaysarray.push day_index
       @activedaysarray = JSON.parse JSON.stringify @activedaysarray
-      console.log(evt.target)
       localStorage.activedaysarray = JSON.stringify(@activedaysarray)
-      console.log(@activedaysarray)
       return
     else
       @activedaysarray = @activedaysarray.filter(-> it != day_index)
       @activedaysarray = JSON.parse JSON.stringify @activedaysarray
-      console.log(evt.target)
       localStorage.activedaysarray = JSON.stringify(@activedaysarray)
-      console.log(@activedaysarray)
       return
   
   goals_set: (evt) ->
@@ -212,6 +220,46 @@ polymer_ext {
   ready: ->
     this.rerender()
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
+
+    survey_data = localstorage_getjson("survey_data")
+    if typeof(survey_data) === 'undefined'
+      localstorage_setjson("survey_data",{})
+      this.check_for_survey
+    else if survey_data !== {}
+      once_available("survey_button", this.enable_survey_button())
+    else
+      this.check_for_survey()
+
+
+  check_for_survey: ->>
+    userid = await get_user_id()
+    survey_data = JSON.parse(await get_json(hso_server_url + "/getSurvey", "userid=" + userid))
+    if survey_data !== {}
+      localstorage_setjson("survey_data", survey_data)
+      once_available("survey_button", this.enable_survey_button())
+
+  enable_survey_button: ->>
+    survey_data = await localstorage_getjson("survey_data")
+    button = document.getElementById("survey_button")
+    button.innerHTML = survey_data.button_text
+    button.style.display = "inline-block"
+    button.disabled = false
+
+  disable_survey_button: ->>
+    localstorage_setjson("survey_data", {})
+    button = document.getElementById("survey_button")
+    button.style.display = "none"
+    button.disabled = true
+
+  survey_button_clicked: ->>
+    survey_data = localstorage_getjson("survey_data")
+    userid = await get_user_id()
+    chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
+    post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
+    this.disable_survey_button()
+
+
+
   show_randomize_button: ->
     return localStorage.getItem('intervention_view_show_randomize_button') == 'true'
   have_interventions_available: (goals_and_interventions) ->
@@ -255,7 +303,6 @@ polymer_ext {
 
 
   dismiss_dialog: (evt) ->
-    console.log evt
     if evt.detail.confirmed
       if evt.target.id == 'start-dialog'
         @start_time_string = this.$$('#start-picker').time

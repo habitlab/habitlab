@@ -34,10 +34,10 @@
           overflow-x: hidden;
           width: 100%;
           height: 100%;
-          min-height: 100vh;
+          min-height: 100vh;     
           background-color: rgb(81, 167,249);
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-
+          
           --paper-item: {
             min-height: 36px;
           };
@@ -49,7 +49,7 @@
             --paper-radio-button-unchecked-ink-color:rgb(35,70,110);
             --paper-radio-button-label-color: rgb(35,70,110);
           }
-
+  
           --paper-input-container: {
             padding-top: 0px;
             padding-bottom: 0px;
@@ -61,7 +61,7 @@
             width: 100%;
             font-weight: 400;
             padding:0px;
-
+            
           };
           --paper-card-content: {
             font-size: 16px;
@@ -70,15 +70,15 @@
             padding-top: 0px;
             padding-left: 0px;
           };
-
+  
         }
-
-
-
+  
+  
+  
         #goals-button {
           display: none;
         }
-
+        
         .next-button {
           color: white;
           background-color: #415D67;
@@ -89,7 +89,7 @@
           text-transform: none;
           -webkit-font-smoothing: subpixel-antialiased;
         }
-
+          
         .works-button {
           color: white;
           background-color: #415D67;
@@ -100,15 +100,15 @@
           text-transform: none;
           -webkit-font-smoothing: subpixel-antialiased;
         }
-
+  
         #timepicker {
           margin-bottom: 16px;
         }
-
+  
         #intro1 {
           display: none;
         }
-
+  
         .time-string {
           font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           font-size: 14px;
@@ -120,7 +120,7 @@
           cursor: pointer;
           color: #777777;
         }
-
+        
         .card-container {
           text-align: center;
           display: flex;
@@ -128,45 +128,45 @@
           align-items: center;
           justify-content: center;
           background-color: rgb(81, 167,249);
-          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
           color: white;
           padding-top: 10px;
         }
-
+  
         .card-content {
           color:white;
-          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
           font-size: 20px;
         }
-
+  
         .radio-button {
           color:rgb(35,70,110);
           --paper-radio-button-label-color: rgb(35,70,110);
         }
-
+  
         .radio-group {
           padding-left: 0px;
           color:white;
         }
-
+  
         #title{
           color:white;
-          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-family: Verdana, Geneva, Tahoma, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
           font-size: 30px;
           padding-top: 30px;
-          padding-bottom: 20px;
+          padding-bottom: 20px; 
           text-align:center;
           font-weight:400;
           /*text-shadow: 1px 1px 2px #346da3; */
         }
-
+  
         #iconimg {
           padding-left: 1px;
           padding-right: 4px;
           top: 3px;
           position: relative;
         }
-
+        
         habitlab-logo {
           display: inline-block;
           position: relative;
@@ -181,7 +181,7 @@
           margin: 5px;
           padding: 15px;
           right: 3px;
-          position: fixed;
+          position: fixed; 
           top: 0px;
           border-radius: 5px
         }
@@ -198,14 +198,14 @@
         .days-container{
           display: block;
         }
-
+  
         .dayicon{
           cursor: pointer;
           width:40px;
           height:40px;
           margin:auto;
           margin-top:10px;
-          margin-left:5px;
+          margin-left:5px; 
           margin-right:5px;
           margin-bottom:10px;
           border-radius:10px;
@@ -214,33 +214,31 @@
           padding:5px;
           cursor:pointer;
         }
-
+  
         .dayiconactive {
           background-color: rgb(35,70,110);
         }
-
+  
         .dayiconinactive {
           background-color: transparent;
         }
-
+  
         #disabled {
           background-color: transparent;
         }
         #enabled{
-          background-color: rgb(35,70,110);
+          background-color: rgb(35,70,110); 
         }
         #day{
           background-color: rgb(35,70,110);
         }
-
+  
       </style>
     </custom-style>
-
+    
     <div class="card-container">
       <div id="intro1" class="intro" style="display: none;">
         <paper-card id = "title" style = "color:white" class="papercard">
-
-          <paper-button class="paperbuttons" id="survey_button" disabled style="border-style: dashed; border-color: white; background-color: #65A7F2; color: white; margin: 10px 0 30px 10px; width:95%;" raised on-click="survey_button_clicked" >No surveys available. Check in later.</paper-button>
 
           <div>When should nudges be active?</div>
           <div class="card-content" >You can set nudges to be always on, or only active during work hours.
@@ -249,7 +247,7 @@
              <paper-radio-group class="radio-group" selected="{{determine_selected(always_active)}}" on-change="toggle_timepicker">
               <paper-radio-button class = "radio-button" name="always" >Always On</paper-radio-button>
               <paper-radio-button class = "radio-button" name="workday">Only Work Hours</paper-radio-button>
-            </paper-radio-group>
+            </paper-radio-group> 
 
             <!-- <pill-button-group selected_idx="{{determine_selected_idx(always_active)}}" buttons='["Always On", "Only Work Hours"]' on-pill-button-selected="toggle_timepicker_idx"></pill-button-group> -->
             <template is="dom-if" if="{{!always_active}}">
@@ -306,7 +304,7 @@
 
               </div>
             </template>
-
+            
           </div>
           <!--
           <br>
@@ -321,7 +319,7 @@
 
         </paper-card>
       </div>
-
+    
     <paper-card class="papercard" heading="{{title_text}}">
       <!--<div style="padding: 16px; font-size: 24px; font-weight: 400; color: black">What goals should HabitLab help you achieve? <iron-icon icon="help-outline" on-click="goals_help_icon_clicked" style="margin-bottom: 5px; cursor: pointer"></iron-icon></div>-->
       <initial-goal-selector id="goal_selector" />
@@ -343,7 +341,7 @@
     </template>
 
       <!--<div id="intro3" class="intro" style="display:none;">
-        <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard">
+        <paper-card heading="How will HabitLab help me achieve these goals?" class="papercard"> 
           <div class="card-content" id="intro1_content">
           HabitLab will help you achieve these goals by showing you a different <i>nudge</i>, like a news feed blocker or a delayed page loader, each time you visit your goal sites.
           </div>
@@ -353,15 +351,15 @@
       </div>-->
 
       <!--<div id="intro2" class="intro" style="display:none;">
-        <paper-card heading="Which nudges will HabitLab show me?" class="papercard">
+        <paper-card heading="Which nudges will HabitLab show me?" class="papercard"> 
           <div class="card-content">
-
+           
            At first, HabitLab will show you a random nudge each visit, and over time it will learn what works most effectively for you.
            <div style="display: none;" id="how_hl_works">
            <br>Each visit, HabitLab will test a new intervention and measure how much time you spend on the site. Then it determines the efficacy of each intervention by comparing the time spent per visit when that intervention was deployed, compared to when other interventions are deployed. HabitLab uses an algorithmic technique called <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" target="_blank">multi-armed-bandit</a> to learn which interventions work best and choose which interventions to deploy, to minimize your time wasted online.
            </div>
           </div>-->
-
+          
           <!--<paper-button class="works-button" on-click="show_how_hl_works">Tell me how this works</paper-button>
           <paper-button class="next-button" on-click="intro2_read">Next</paper-button>
         </paper-card>
@@ -373,7 +371,7 @@
             You can access the dashboard and settings page by clicking the <img id="iconimg" src="{{get_icon()}}">in the Chrome toolbar, where you also can see progress on your goals.<br><br>
           </div>
           <paper-button disabled id="popup-button" class="next-button" on-click="show_swal">Click the icon in the toolbar to continue</paper-button>
-        </paper-card>
+        </paper-card>        
           <div id="pointer-div" >Click the <img id="iconimg" src="{{get_icon()}}"> icon in the toolbar above!</div>
       </div>
       -->
@@ -382,9 +380,9 @@
       <div id="intro5" class="intro" style="display: none; padding-top: 0px;">
         <paper-card heading="Disabling interventions" class="papercard">
           <div class="card-content" style="padding-top: 0px;">
-            In each intervention, you will find a "HabitLab Options" button:
+            In each intervention, you will find a "HabitLab Options" button: 
             <habitlab-logo-v2 unclickable style="padding-top: 0px; position: relative; top: 10px;"></habitlab-logo-v2> <br><br>
-            You can click the button to disable the intervention or access more information about it.
+            You can click the button to disable the intervention or access more information about it. 
 
           </div>
           <paper-button class="next-button" on-click="intro5_read">Next</paper-button>
@@ -395,9 +393,9 @@
         <paper-card heading="Dashboard" class="papercard">
           <div class="card-content">
             In addition to this tab, Manage Goals and Interventions, you can also view graphs and statistics in the View Results tab at the top.
-
+            
           </div>
-
+          
         </paper-card>
 
       </div>
@@ -416,7 +414,7 @@
           <idea-generation-panel id="idea_generation"></idea-generation-panel>
         </paper-card>
       </div>
-
+      
 
       <div id="intro7" class="intro" style="display: none;">
         <paper-card style ="color:white;" class="papercard">
@@ -445,7 +443,7 @@
           <privacy-options id="privacy_options"></privacy-options>
         </paper-card>
       </div>
-
+      
     </div>
   </template>
   <script src="options-interventions.js"></script>

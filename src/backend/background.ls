@@ -162,7 +162,7 @@ do !->>
     notification.onclick = ->
       chrome.tabs.create({url: chrome.extension.getURL('options.html#onboarding')})
       close_notification()
-
+ 
   export get_last_visit_to_website_timestamp = ->>
     history_search_results = await new Promise -> chrome.history.search({text: 'https://habitlab.stanford.edu', startTime: 0}, it)
     last_visit_timestamp = -1
@@ -182,7 +182,7 @@ do !->>
     return last_visit_timestamp
 
   do !->>
-
+    
     # open the options page on first run
     if localStorage.getItem('notfirstrun')
       await setup_abtest_olduser()
@@ -599,7 +599,7 @@ do !->>
       }
     }
   }
-
+  
   if (replacing_current_intervention) {
     for (var intervention_name of #{JSON.stringify(intervention_list)}) {
       window.allowed_interventions[intervention_name] = true
@@ -741,7 +741,7 @@ do !->>
       return
 
     while(index < end)
-
+      
       innerIndex = cutCode.indexOf(".e(", index) + 3
       numberEnd = cutCode.indexOf(")", innerIndex)
       if innerIndex < index or innerIndex == -1 or numberEnd == -1
@@ -753,7 +753,7 @@ do !->>
       if isFinite(number_parsed)
         chunks.push(number_parsed)
       index = numberEnd
-
+    
     return chunks
 
   load_intervention_for_session_id = (intervention_name, tabId, session_id, is_new_session) ->>
@@ -920,7 +920,7 @@ do !->>
       choose_difficulty_interface = localStorage.choose_difficulty_interface
       frequency_of_choose_difficulty = localStorage.frequency_of_choose_difficulty # todo get this from localstorage
       choose_by_temporary_difficulty = false
-      if frequency_of_choose_difficulty == 'nextvisit' or frequency_of_choose_difficulty == 'day' or frequency_of_choose_difficulty == 'survey'
+      if frequency_of_choose_difficulty == 'nextvisit' or frequency_of_choose_difficulty == 'day' or frequency_of_choose_difficulty == 'survey' 
         asknext_time = localStorage.asknext_time
         if not isFinite(parseInt(asknext_time))
           choose_by_temporary_difficulty = false
@@ -1101,7 +1101,7 @@ do !->>
       tabs_to_listen_for_focus.add(tab.id)
       return
     'remove_listener_for_tab_focus': (data, sender) ->>
-      {tab} = data
+      {tab} = data  
       if tabs_to_listen_for_focus.has(tab.id)
         tabs_to_listen_for_focus.delete(tab.id)
       return
@@ -1183,7 +1183,7 @@ do !->>
   # A bit naive and over-conservative, but a start
   chrome.windows.onFocusChanged.addListener (windowId) ->
     iframed_domain_to_track := null
-
+  
   chrome.windows.onRemoved.addListener (windowId) ->
     iframed_domain_to_track := null
 
@@ -1529,7 +1529,7 @@ do !->>
         '    uselib(\'sweetalert2\', \'swal\')'
         '    swal(\'hello world\')'
       ].join('\n'))
-
+      
 
   ensure_history_utils_data_cached()
 
@@ -1587,7 +1587,7 @@ do !->>
     if not set_uninstall_url_if_valid()
       return uninstall_url
     return uninstall_url
-
+  
   decode_habitlab_uninstall_url_data = (url) ->>
     data = url.substr(url.indexOf('/bye#') + 5) # 'https://habitlab.github.io/bye#'.length
     base64_js = require('base64-js')
@@ -1599,7 +1599,7 @@ do !->>
   set_habitlab_uninstall_url = ->>
     habitlab_uninstall_url = await get_habitlab_uninstall_url()
     chrome.runtime.setUninstallURL(habitlab_uninstall_url)
-
+  
   export open_habitlab_uninstall_url = ->>
     uninstall_url = await get_habitlab_uninstall_url()
     chrome.tabs.create {url: uninstall_url}
@@ -1686,7 +1686,7 @@ do !->>
       localStorage.removeItem('extension_update_available_version')
     if semver.gte(habitlab_version, update_available_version)
       localStorage.removeItem('extension_update_available_version')
-
+  
   chrome.runtime.onUpdateAvailable.addListener (update_details) ->
     if semver.valid(update_details.version)
       localStorage.setItem('extension_update_available_version', update_details.version)
@@ -1700,3 +1700,5 @@ do !->>
   if url_to_open_on_next_start?
     localStorage.removeItem('habitlab_open_url_on_next_start')
     chrome.tabs.create {url: url_to_open_on_next_start}
+
+

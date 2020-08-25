@@ -247,6 +247,7 @@ polymer_ext {
     button.innerHTML = survey_data.button_text
     button.style.display = "inline-block"
     button.disabled = false
+    this.$$('#surveycard').style.display = 'block'
 
   disable_survey_button: ->>
     localstorage_setjson("survey_data", {})

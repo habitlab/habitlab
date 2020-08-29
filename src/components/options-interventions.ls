@@ -225,7 +225,7 @@ polymer_ext {
     load_css_file('bower_components/sweetalert2/dist/sweetalert2.css')
 
     survey_data = localstorage_getjson("survey_data")
-    if typeof(survey_data) === 'undefined'
+    if survey_data === undefined or survey_data === null
       localstorage_setjson("survey_data",{})
       this.check_for_survey()
     else if survey_data !== {}
@@ -258,8 +258,8 @@ polymer_ext {
   survey_button_clicked: ->>
     survey_data = localstorage_getjson("survey_data")
     userid = await get_user_id()
-    chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=dropdown'}
-    post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"dropdown"})
+    chrome.tabs.create {url: survey_data.url + '?habitlab_userid=' + userid + '&click_location=settings'}
+    post_json(hso_server_url + "/surveyClicked", {"_id": survey_data._id, "userid":userid,"click_location":"settings"})
     this.disable_survey_button()
 
 

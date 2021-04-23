@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "acorn": "2.1.0",
-    "angular": "1.4.3",
+    "angular": "1.8.0",
     "babel-cli": "6.3.13",
     "babel-register": "6.3.13",
     "babel-preset-es2015": "6.3.13",

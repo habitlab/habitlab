@@ -24,7 +24,7 @@
     "coveralls": "^2.11.4",
     "isparta": "^3.0.4",
     "rimraf": "^2.4.3",
-    "standard-version": "^4.2.0",
+    "standard-version": "^8.0.1",
     "tap-spec": "^4.1.0",
     "tape": "^3.4.0"
   }

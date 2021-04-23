@@ -150,8 +150,8 @@ export create_shadow_div = (options) ->
   for k,v of default_options
     options[k] = options[k] ? v
   shadow_host = document.createElement('div')
-  #shadow_root = shadow_host.attachShadow({mode: 'open'})
-  shadow_root = shadow_host.createShadowRoot()
+  shadow_root = shadow_host.attachShadow({mode: 'open'})
+  #shadow_root = shadow_host.createShadowRoot()
   for k,v of options
     shadow_div.style[k] = v
   shadow_root.appendChild(shadow_div)

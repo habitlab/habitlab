@@ -653,7 +653,7 @@ export add_custom_goal_involving_time_on_domain = (domain, is-positive) ->>
     custom: true
     description: description
     call_to_action: call_to_action
-    homepage: "http://#{domain}/"
+    homepage: "https://#{domain}/"
     progress_description: "Time spent on #{domain_printable}"
     sitename: domain
     sitename_printable: domain_printable

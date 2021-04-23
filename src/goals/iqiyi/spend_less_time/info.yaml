@@ -26,7 +26,7 @@ default_interventions:
   #- generic/block_after_interval_per_visit
 measurement: time_spent_on_domain
 domain: www.iqiyi.com
-preview: http://www.iqiyi.com/v_19rrb6fwsg.html
+preview: https://www.iqiyi.com/v_19rrb6fwsg.html
 target:
   default: 20
   units: minutes

@@ -1111,6 +1111,8 @@ gulp.task 'watch', ['build'], (done) ->
 
 gulp.task 'release', gulp.series 'newver', 'clean', 'build_release', 'mkzip_beta', 'mkzip_release'
 
+gulp.task 'releasenew', gulp.series 'clean', 'build_release', 'mkzip_beta', 'mkzip_release'
+
 gulp.task 'fakerelease', gulp.series 'build', 'mkzip_fake'
 
 gulp.task 'watch', gulp.series('build_base', gulp.parallel('watch_base', 'lint', 'lint_watch', 'make_docs_markdown'))

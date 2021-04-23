@@ -53,19 +53,19 @@ Polymer({
       value: [
         {
           text: '“An 18-year study of 86,000 people has found that the more TV you watch, the greater the risk of suffering a pulmonary embolism”',
-          link: 'http://www.independent.co.uk/life-style/health-and-families/health-news/watching-too-much-tv-can-kill-you-researchers-warn-10478297.html'
+          link: 'https://www.independent.co.uk/life-style/health-and-families/health-news/watching-too-much-tv-can-kill-you-researchers-warn-10478297.html'
         },
         {
           text: '“Those who indulge in marathon TV sessions should take the same precautions against developing deadly blood clots as they would on a long-distance flight, warns the research, which was presented at the European Society of Cardiology conference in London.”',
-          link: 'http://www.independent.co.uk/life-style/health-and-families/health-news/watching-too-much-tv-can-kill-you-researchers-warn-10478297.html'
+          link: 'https://www.independent.co.uk/life-style/health-and-families/health-news/watching-too-much-tv-can-kill-you-researchers-warn-10478297.html'
         },
         {
           text: '“People who sit in front of the television for five hours or more a day have more than twice the risk of suffering a deadly blood clot as those watching less than two and a half hours per day”',
-          link: 'http://www.independent.co.uk/life-style/health-and-families/health-news/watching-too-much-tv-can-kill-you-researchers-warn-10478297.html'
+          link: 'https://www.independent.co.uk/life-style/health-and-families/health-news/watching-too-much-tv-can-kill-you-researchers-warn-10478297.html'
         },
         {
           text: '“Adults who watch TV three hours or more a day may be twice as likely to die prematurely than those who watch an hour or less.”',
-          link: 'http://www.cbsnews.com/news/watching-too-much-tv-could-shorten-your-life/'
+          link: 'https://www.cbsnews.com/news/watching-too-much-tv-could-shorten-your-life/'
         }, 
         {
           text: '“Young adults who watch a lot of television and have a low physical activity level tended to have worse cognitive function as measured by standardized tests when they hit middle age”',
@@ -77,23 +77,23 @@ Polymer({
         }, 
         {
           text: '“Evidence from a spate of recent studies suggests that the more TV you watch, the more likely you are to develop a host of health problems and to die at an earlier age.”',
-          link: 'http://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
+          link: 'https://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
         }, 
         {
           text: '“New analysis published this week in the Journal of the American Medical Association… For every additional two hours people spend glued to the tube on a typical day, their risk of developing type 2 diabetes increases by 20% and their risk of heart disease increases by 15%.”',
-          link: 'http://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
+          link: 'https://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
         }, 
         {
           text: '“New analysis published this week in the Journal of the American Medical Association…for every additional three hours the study participants spent in front of the TV, their risk of dying from any cause during the respective studies jumped 13%, on average.”',
-          link: 'http://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
+          link: 'https://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
         }, 
         {
           text: '“The increased risk of disease tied to TV watching "is similar to what you see with high cholesterol or blood pressure or smoking," says Stephen Kopecky, M.D., a cardiologist and professor of medicine at the Mayo Clinic in Rochester, Minnesota”',
-          link: 'http://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
+          link: 'https://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
         }, 
         {
           text: '“Some studies suggest that prolonged sitting, over and above its impact on eating habits and exercise, may cause metabolism changes that contribute to unhealthy cholesterol levels and obesity”',
-          link: 'http://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
+          link: 'https://www.cnn.com/2011/HEALTH/06/14/tv.watching.unhealthy/'
         }, 
 
       ]

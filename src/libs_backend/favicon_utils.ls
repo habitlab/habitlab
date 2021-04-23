@@ -81,7 +81,7 @@ export fetchFavicons = (domain) ->>
     if x.startsWith('http://') or x.startsWith('https://')
       return x
     if x.startsWith('//')
-      return 'http:' + x
+      return 'https:' + x
     domain_without_slash = domain
     if domain.endsWith('/') and x.startsWith('/')
       domain_without_slash = domain.substr(0, domain.length - 1)
@@ -151,9 +151,9 @@ export get_favicon_data_for_url = (domain) ->>
     favicon_path = domain
   else
     if not (domain.startsWith('http://') or domain.startsWith('https://') or domain.startsWith('//'))
-      domain = 'http://' + domain
+      domain = 'https://' + domain
     else if domain.startsWith('//')
-      domain = 'http:' + domain
+      domain = 'https:' + domain
     all_favicon_paths = await fetch_favicon.fetchFavicons(domain)
     filter_functions = [
       does_file_exist
@@ -204,9 +204,9 @@ export get_png_data_for_url = (domain) ->>
     favicon_path = domain
   else
     if not (domain.startsWith('http://') or domain.startsWith('https://') or domain.startsWith('//'))
-      domain = 'http://' + domain
+      domain = 'https://' + domain
     else if domain.startsWith('//')
-      domain = 'http:' + domain
+      domain = 'https:' + domain
     all_favicon_paths = await fetch_favicon.fetchFavicons(domain)
     filter_functions = [
       does_file_exist

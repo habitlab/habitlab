@@ -348,7 +348,7 @@ function main() {
   }
 }
 
-//Link to Fix: http://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
+//Link to Fix: https://stackoverflow.com/questions/18397962/chrome-extension-is-not-loading-on-browser-navigation-at-youtube
 function afterNavigate() {
   if (video_pauser != null) { 
     clearInterval(video_pauser);

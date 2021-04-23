@@ -39,7 +39,7 @@
     return domain;
   };
   domain_to_url = function(domain){
-    return "http://" + url_to_domain(domain) + '/';
+    return "https://" + url_to_domain(domain) + '/';
   };
   favicon_patterns_href = ['link[rel=apple-touch-icon-precomposed]', 'link[rel=apple-touch-icon]', 'link[rel="shortcut icon"]', 'link[rel=icon]'];
   domain_to_favicons_cache = {};
@@ -70,7 +70,7 @@
         return x;
       }
       if (x.startsWith('//')) {
-        return 'http:' + x;
+        return 'https:' + x;
       }
       domain_without_slash = domain;
       if (domain.endsWith('/') && x.startsWith('/')) {
@@ -145,9 +145,9 @@
       favicon_path = domain;
     } else {
       if (!(domain.startsWith('http://') || domain.startsWith('https://') || domain.startsWith('//'))) {
-        domain = 'http://' + domain;
+        domain = 'https://' + domain;
       } else if (domain.startsWith('//')) {
-        domain = 'http:' + domain;
+        domain = 'https:' + domain;
       }
       all_favicon_paths = (yield fetch_favicon.fetchFavicons(domain));
       filter_functions = [does_file_exist];

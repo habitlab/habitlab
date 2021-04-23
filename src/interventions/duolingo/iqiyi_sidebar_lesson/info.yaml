@@ -3,6 +3,6 @@ displayname: Learn on the Side
 difficulty: easy
 matches:
   - www.iqiyi.com
-preview: http://www.iqiyi.com/v_19rrb6fwsg.html
+preview: https://www.iqiyi.com/v_19rrb6fwsg.html
 content_scripts:
   - frontend.js

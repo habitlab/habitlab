@@ -5,7 +5,7 @@ default_locale: en
 description: >-
   Build better habits online! Tell HabitLab your goals, and it will determine
   the appropriate interventions via experimentation.
-version: 1.0.276
+version: 1.0.277
 minimum_chrome_version: 55.0.0.0
 permissions:
   - tabs

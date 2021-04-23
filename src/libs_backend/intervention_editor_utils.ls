@@ -51,7 +51,7 @@ export compile_intervention_code = (intervention_info) ->>
     compiled_intervention_info = await new Promise (resolve, reject) ->
       $.ajax({
         type: 'POST'
-        url: 'http://hnudge.dynu.net:47914/'
+        url: 'https://hnudge.dynu.net:47914/'
         data: {js: js_code }
         #dataType: 'json'
         success: (data, textStatus, jqXHR) ->
@@ -64,7 +64,7 @@ export compile_intervention_code = (intervention_info) ->>
     /*
     compiled_code = await $.ajax({
       type: 'POST'
-      url: 'http://hnudge.dynu.net:47914/'
+      url: 'https://hnudge.dynu.net:47914/'
       data: {js: '(async function() {' + code + '})();' }
       dataType: 'json'
     })
@@ -77,7 +77,7 @@ export compile_intervention_code = (intervention_info) ->>
     #compiled_code = await sweetjs_utils.compile(code)
     options =
       method: 'POST'
-      uri: 'http://hnudge.dynu.net:47914/'
+      uri: 'https://hnudge.dynu.net:47914/'
       body: {js: '(async function() {' + code + '})();' }
       json: true 
     

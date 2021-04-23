@@ -225,7 +225,7 @@
   "scripts": {
     "test": "karma start"
   },
-  "author": "Geza Kovacs (http://gkovacs.github.com)",
+  "author": "Geza Kovacs (https://gkovacs.github.com)",
   "license": "GPL",
   "bugs": {
     "url": "https://github.com/habitlab/habitlab-chrome/issues"

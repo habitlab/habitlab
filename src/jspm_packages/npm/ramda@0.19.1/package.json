@@ -56,7 +56,7 @@
     "envvar": "1.x.x",
     "escodegen": "1.4.x",
     "eslint": "^1.10.1",
-    "handlebars": "3.0.x",
+    "handlebars": "4.5.x",
     "js-yaml": "^3.2.5",
     "mocha": "2.x.x",
     "q": "^1.1.1",

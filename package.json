@@ -28,7 +28,7 @@
     "livescript-async-loader": "^0.1.7",
     "localforage": "^1.4.3",
     "lz-string": "^1.4.4",
-    "marked": "^0.3.6",
+    "marked": "^4.0.10",
     "mathjs": "^3.9.0",
     "moment": "^2.13.0",
     "msgpack-lite": "^0.1.26",

@@ -2147,7 +2147,7 @@ chrome-trace-event@^1.0.0:
 
 chrome-web-store-item-property@^1.1.2:
   version "1.1.2"
-  resolved "http://registry.npmjs.org/chrome-web-store-item-property/-/chrome-web-store-item-property-1.1.2.tgz#237df356c7fc2bd13dded6d446f7124b53f38f52"
+  resolved "https://registry.npmjs.org/chrome-web-store-item-property/-/chrome-web-store-item-property-1.1.2.tgz#237df356c7fc2bd13dded6d446f7124b53f38f52"
   dependencies:
     array-includes "^3.0.1"
     cheerio "^0.20.0"
@@ -2555,7 +2555,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2:
 
 crisper@^2.0.0:
   version "2.0.2"
-  resolved "http://registry.npmjs.org/crisper/-/crisper-2.0.2.tgz#188a7da3d00dcf0c64eff7f253d23dacffba7197"
+  resolved "https://registry.npmjs.org/crisper/-/crisper-2.0.2.tgz#188a7da3d00dcf0c64eff7f253d23dacffba7197"
   dependencies:
     command-line-args "^2.0.2"
     dom5 "^1.0.1"
@@ -5104,7 +5104,7 @@ is-plain-object@^2.0.1, is-plain-object@^2.0.3, is-plain-object@^2.0.4:
 
 is-posix-bracket@^0.1.0:
   version "0.1.1"
-  resolved "http://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
+  resolved "https://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
 
 is-primitive@^2.0.0:
   version "2.0.0"
@@ -6026,9 +6026,9 @@ markdown-table@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-1.1.0.tgz#1f5ae61659ced8808d882554c32e8b3f38dd1143"
 
-marked@^0.3.6:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
+marked@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.10.tgz#423e295385cc0c3a70fa495e0df68b007b879423"
 
 matchdep@^1.0.0:
   version "1.0.1"

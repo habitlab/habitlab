@@ -43,7 +43,7 @@
     "remove": "^0.1.5",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
-    "shelljs": "^0.7.8",
+    "shelljs": "^0.8.5",
     "shuffled": "^1.0.0",
     "sortablejs": "^1.5.0-rc1",
     "sweetalert2": "^6.3.2",

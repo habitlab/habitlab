@@ -30,7 +30,7 @@
     "lz-string": "^1.4.4",
     "marked": "^0.3.6",
     "mathjs": "^3.9.0",
-    "moment": "^2.13.0",
+    "moment": "^2.29.2",
     "msgpack-lite": "^0.1.26",
     "net": "^1.0.2",
     "netlify": "^1.2.0",

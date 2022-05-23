@@ -10,7 +10,7 @@
     "cloner": "^0.4.0",
     "css-element-queries": "^0.4.0",
     "deepmerge": "^2.1.1",
-    "dexie": "^1.4.1",
+    "dexie": "^3.2.2",
     "documentation-habitlab": "^4.0.0-beta.19.4",
     "enable-webcomponents-in-content-scripts": "^1.0.7",
     "eslint": "^4.8.0",

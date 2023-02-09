@@ -44,11 +44,8 @@ function removeSidebar(sidebar_selector) {
 		link.parentNode.removeChild(link)
 	}
   */
-  for (let sidebar of $(sidebar_selector)) {
-    for (let child of $(sidebar).children()) {
-      $(child).css({display: 'none', opacity: 0})
-    }
-  }
+  $(sidebar_selector).hide();
+  
   let habitlab_inserted_div = $('<div style="width: 100%; text-align: center">')
   habitlab_inserted_div.append($('<habitlab-logo-v2>'))
   habitlab_inserted_div.append($('<br>'))
@@ -58,7 +55,8 @@ function removeSidebar(sidebar_selector) {
   })
   show_sidebar_button.appendTo(habitlab_inserted_div)
   let habitlab_inserted_div_wrapper = $(wrap_in_shadow(habitlab_inserted_div)).addClass('habitlab_inserted_div')
-  $(sidebar_selector).prepend(habitlab_inserted_div_wrapper)
+  
+  $('#secondary').append(habitlab_inserted_div_wrapper)
 }
 
 //Nukes links on the sidebar
@@ -77,11 +75,8 @@ function removeSidebarOld(sidebar_selector) {
 		link.parentNode.removeChild(link)
 	}
   */
-  for (let sidebar of $(sidebar_selector)) {
-    for (let child of $(sidebar).children()) {
-      $(child).css({display: 'none', opacity: 0})
-    }
-  }
+  $(sidebar_selector).hide();
+
   let habitlab_inserted_div = $('<div style="width: 100%; text-align: center">')
   habitlab_inserted_div.append($('<habitlab-logo-v2>'))
   habitlab_inserted_div.append($('<br>'))
@@ -91,7 +86,8 @@ function removeSidebarOld(sidebar_selector) {
   })
   show_sidebar_button.appendTo(habitlab_inserted_div)
   let habitlab_inserted_div_wrapper = $(wrap_in_shadow(habitlab_inserted_div)).addClass('habitlab_inserted_div')
-  $(sidebar_selector).prepend(habitlab_inserted_div_wrapper)
+  
+  $('#secondary').append(habitlab_inserted_div_wrapper)
 }
 
 removeSidebarOnceAvailable()
@@ -101,17 +97,10 @@ on_url_change(() => {
 })
 
 function disable_intervention() {
-  $('.habitlab_inserted_div').remove()
-  for (let sidebar of $('#watch7-sidebar-contents')) {
-    for (let child of $(sidebar).children()) {
-      $(child).css({display: 'block', opacity: 1})
-    }
-  }
-  for (let sidebar of $('#related')) {
-    for (let child of $(sidebar).children()) {
-      $(child).css({display: 'block', opacity: 1})
-    }
-  }
+  $('.habitlab_inserted_div').remove();
+
+  $('#watch7-sidebar-contents').show();
+  $('#related').show();
 }
 
 window.on_intervention_disabled = () => {

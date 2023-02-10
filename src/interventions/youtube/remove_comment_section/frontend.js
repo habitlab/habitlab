@@ -17,16 +17,14 @@ function hide_comments() {
   if ($('#habitlab_show_comments').length > 0) {
     return
   }
-  for (let comments_section of $('#comments')) {
-    for (let child of $(comments_section).children()) {
-      $(child).hide()
-    }
-  }
+  $('#comments').hide();
+
+
   //Cheat button
   const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: inline-block; margin: 10px auto 0px auto; color: #fff; background-color: #415D67; text-align: center; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888">')
   $show_comments.text("Show Comments")
-  $show_comments.css({'cursor': 'pointer', 'padding': '12px'});
-  $show_comments.click(() => {
+  $show_comments.css({ 'cursor': 'pointer', 'padding': '12px' });
+  $show_comments.on("click", () => {
     show_comments();
   })
 
@@ -40,7 +38,7 @@ function hide_comments() {
     $show_comments,
   ])
   var show_comments_wrapper = $(wrap_in_shadow(show_comments_div)).attr('id', 'habitlab_show_comments')
-  $('#comments').append(show_comments_wrapper)
+  $('#primary').append(show_comments_wrapper)
 }
 
 function hide_comments_old() {
@@ -54,7 +52,7 @@ function hide_comments_old() {
   //Cheat button
   const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: inline-block; margin: 10px auto 0px auto; color: #fff; background-color: #415D67; text-align: center; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888">')
   $show_comments.text("Show Comments")
-  $show_comments.css({'cursor': 'pointer', 'padding': '12px'});
+  $show_comments.css({ 'cursor': 'pointer', 'padding': '12px' });
   $show_comments.click(() => {
     show_comments();
   })
@@ -100,11 +98,7 @@ require_component('habitlab-logo-v2')
 function show_comments() {
   $('#habitlab_show_comments').remove();
   $('#watch-discussion').show();
-  for (let comments_section of $('#comments')) {
-    for (let child of $(comments_section).children()) {
-      $(child).show()
-    }
-  }
+  $('#comments').show();
 }
 
 window.on_intervention_disabled = () => {

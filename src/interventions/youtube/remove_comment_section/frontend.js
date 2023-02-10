@@ -21,7 +21,7 @@ function hide_comments() {
 
 
   //Cheat button
-  const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: inline-block; margin: 10px auto 0px auto; color: #fff; background-color: #415D67; text-align: center; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888">')
+  const $show_comments = $('<paper-button raised id="show_comment_btn" style="display: inline-block; margin: 10px auto 0px auto; color: #fff; text-align: center; -webkit-font-smoothing: antialiased; font-size: 14px; box-shadow: 2px 2px 2px #888888">')
   $show_comments.text("Show Comments")
   $show_comments.css({ 'cursor': 'pointer', 'padding': '12px' });
   $show_comments.on("click", () => {
@@ -33,12 +33,12 @@ function hide_comments() {
     'text-align': 'center'
   })
   show_comments_div.append([
-    $('<habitlab-logo-v2 id="hb_logo" style="display: inline-block; margin: 10px auto 0px auto;">'),
+    $('The Comments have been Hidden'),
     '<br>',
     $show_comments,
   ])
   var show_comments_wrapper = $(wrap_in_shadow(show_comments_div)).attr('id', 'habitlab_show_comments')
-  $('#primary').append(show_comments_wrapper)
+  $('#below').append(show_comments_wrapper)
 }
 
 function hide_comments_old() {

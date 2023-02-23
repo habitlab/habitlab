@@ -18,8 +18,6 @@ function hide_comments() {
     return
   }
   $('#comments').hide();
-
-
   //Cheat button
   const $show_comments = $('<paper-button  id="show_comment_btn">')
   $show_comments.text("Show Comments")
@@ -36,6 +34,15 @@ function hide_comments() {
   show_comments_div.css({
     'text-align': 'center', 'color': 'white', 'font-size': '20px',
   })
+  if (window.matchMedia && !window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    show_comments_div.css({
+      'color': 'black',
+    })
+    $show_comments.css({
+      'color': 'black',
+      'border': '1px solid black',
+    })
+  }
   show_comments_div.append([
     $('<p>The Comments have been Hidden</p>'),
     $('<br>'),

@@ -10,6 +10,7 @@ prelude = require 'prelude-ls'
   get_manually_managed_interventions
   get_manually_managed_interventions_localstorage
   list_all_interventions
+  list_enabled_interventions
   get_enabled_interventions
   get_number_sessions_for_each_intervention
   is_intervention_enabled
@@ -43,6 +44,10 @@ prelude = require 'prelude-ls'
   train_multi_armed_bandit_for_goal
   ThompsonMAB
 } = require 'libs_backend/multi_armed_bandit_thompson'
+
+/*{
+  url_to_domain_name
+} = require 'libs_common/domain_utils'*/
 
 {
   gexport
@@ -604,6 +609,36 @@ export thompson_novelty = (weight) ->
       output.push selected_intervention
     return prelude.sort(output)
 
+export all_enabled = (enabled_goals) ->>
+  enabled_interventions_list = await list_enabled_interventions()
+
+  domain = ''
+  # get current active tab (hostname)
+  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
+    url = new URL(tabs[0].url);
+    url_hostname = url.hostname
+
+    # get the number of periods in the hostname
+    number_of_periods = 0
+    for i from 0 to url_hostname.length by 1
+      if url_hostname[i] === '.'
+        number_of_periods++
+    
+    split_url_hostname = url_hostname.split('.')
+    # correctly get the domain based off the number of periods in the hostname
+    domain = split_url_hostname[number_of_periods == 1 ? 0 : 1]
+
+  # add all enabled interventions that are for the current tab
+  interventions_list = [] # TODO: remove - for testing: ['youtube/remove_sidebar_links', 'youtube/remove_comment_section']
+  for enabled_intervention in enabled_interventions_list
+    if enabled_intervention.includes(domain)
+      interventions_list.push(enabled_intervention)
+  
+  console.log("selected interventions from all_enabled:")
+  console.log(interventions_list)
+  return enabled_interventions_list
+
+
 selection_algorithms_for_visit = {
   'thompsonnovelty05': thompson_novelty(0.5)
   'thompsonnovelty075': thompson_novelty(0.75)
@@ -613,7 +648,8 @@ selection_algorithms_for_visit = {
   'random': one_random_intervention_per_enabled_goal
   'one_random_intervention_per_enabled_goal': one_random_intervention_per_enabled_goal
   'one_random_intervention_per_enabled_goal_with_frequency': one_random_intervention_per_enabled_goal # one_random_intervention_per_enabled_goal_with_frequency
-  'default': one_random_intervention_per_enabled_goal
+  'all_enabled': all_enabled
+  'default': all_enabled # used to be: one_random_intervention_per_enabled_goal
   'experiment_always_same': experiment_always_same
   'experiment_oneperday': experiment_oneperday
   'experiment_onepertwodays': experiment_onepertwodays
@@ -623,10 +659,14 @@ selection_algorithms_for_visit = {
   'experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare': experiment_alternate_between_same_vs_random_varlength_deterministic_latinsquare
 }
 
+# function that selects the intervention algorithm
 export get_intervention_selection_algorithm_for_visit = ->>
-  algorithm_name = localStorage.getItem('selection_algorithm_for_visit')
-  if not (algorithm_name? and selection_algorithms_for_visit[algorithm_name]?)
-    algorithm_name = 'default'
+  algorithm_name = 'all_enabled'
+  # algorithm_name = localStorage.getItem('selection_algorithm_for_visit')
+  # if not (algorithm_name? and selection_algorithms_for_visit[algorithm_name]?)
+  #   algorithm_name = 'default'
+  console.log("selected algorithm:")
+  console.log (algorithm_name)
   return selection_algorithms_for_visit[algorithm_name]
 
 multi_armed_bandit = require('libs_backend/multi_armed_bandit').get_multi_armed_bandit_algorithm('thompson')

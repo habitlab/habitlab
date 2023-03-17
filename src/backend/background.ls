@@ -766,6 +766,7 @@ do !->>
 
   load_intervention_list = (intervention_list, tabId, is_new_session, session_id, is_preview_mode, is_suggestion_mode) ->>
     if intervention_list.length == 0
+      dlog 'failed to load intervention list since length of intervention list is 0'
       return
 
     all_interventions = await get_interventions()
@@ -787,6 +788,7 @@ do !->>
     # load content scripts
     for intervention_info in intervention_info_list
       await execute_content_scripts_for_intervention intervention_info, tabId, intervention_list, is_new_session, session_id, is_preview_mode, is_suggestion_mode, {'difficulty_selector_screen': ''}
+      dlog 'loaded intervention: ' + intervention_info.name
     return
 
   #load_intervention = (intervention_name, tabId) ->>
@@ -851,10 +853,10 @@ do !->>
         possible_interventions = as_array(JSON.parse(override_enabled_interventions))
       else
         possible_interventions = await list_enabled_nonconflicting_interventions_for_location(domain)
-      intervention = possible_interventions[Math.floor(Math.random() * possible_interventions.length)]
+      interventions = possible_interventions
       intervention_suggestion = await get_suggested_intervention_if_needed_for_url(location)
       if intervention_suggestion?
-        intervention = intervention_suggestion
+        interventions = [intervention_suggestion]
         is_suggestion_mode = true
       should_set_active_interventions = true
       #if intervention?
@@ -864,15 +866,17 @@ do !->>
       localStorage.removeItem('override_enabled_interventions_once')
     else
       active_interventions = JSON.parse active_interventions
-      intervention = active_interventions[Math.floor(Math.random() * active_interventions.length)]
+      interventions = active_interventions
       intervention_no_longer_enabled = false
       need_new_session_id = false
       #if page_was_just_refreshed
       #  need_new_session_id = true
-      if intervention?
-        intervention_no_longer_enabled = all_enabled_interventions.length > 0 and all_enabled_interventions.indexOf(intervention) == -1
-        if intervention_no_longer_enabled
-          need_new_session_id = true
+      if interventions?
+        for intervention in interventions
+          if all_enabled_interventions.indexOf(intervention) == -1 and all_enabled_interventions.length > 0
+            if intervention_no_longer_enabled
+              need_new_session_id = true
+      
       #else
       #  if enabled_intervention_set_changed
       #    need_new_session_id = true
@@ -894,10 +898,10 @@ do !->>
           possible_interventions = as_array(JSON.parse(override_enabled_interventions))
         else
           possible_interventions = await list_enabled_nonconflicting_interventions_for_location(location)
-        intervention = possible_interventions[0]
+        interventions = possible_interventions
         intervention_suggestion = await get_suggested_intervention_if_needed_for_url(location)
         if intervention_suggestion?
-          intervention = intervention_suggestion
+          interventions = [intervention_suggestion]
           is_suggestion_mode = true
 
         #domain_to_session_id_to_intervention[domain][session_id] = intervention
@@ -909,14 +913,16 @@ do !->>
         localStorage.removeItem('override_enabled_interventions_once')
     page_was_just_refreshed := false
     interventions_to_load = []
-    if intervention?
-      interventions_to_load.push intervention
+    if interventions?
+      interventions_to_load = interventions
+    dlog "interventions_to_load:"
+    dlog interventions_to_load
     #if not localStorage.frequency_of_choose_difficulty?
     #  # todo set the abtest for this on existing users
     #  await run_abtest('frequency_of_choose_difficulty')
     #  await setvar_experiment('moved_into_choose_difficulty_experiment', 'true')
     is_preview_mode = override_enabled_interventions?
-    if is_new_session and intervention? and (not is_preview_mode) and (not is_suggestion_mode) and localStorage.frequency_of_choose_difficulty? # todo this is where we auto deploy them
+    if is_new_session and interventions? and (not is_preview_mode) and (not is_suggestion_mode) and localStorage.frequency_of_choose_difficulty? # todo this is where we auto deploy them
       choose_difficulty_interface = localStorage.choose_difficulty_interface
       frequency_of_choose_difficulty = localStorage.frequency_of_choose_difficulty # todo get this from localstorage
       choose_by_temporary_difficulty = false
@@ -947,13 +953,11 @@ do !->>
         if (goals_list.length == 0) or ['easy', 'medium', 'hard'].indexOf(temporary_difficulty) == -1 # temporary difficulty not set, or is nothing
           await set_active_interventions_for_domain_and_session domain, session_id, []
           chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
+          dlog 'disabled interventions since theree were no goals or temporary difficulty not set/is nothing'
           return
-        chosen_intervention_name = await choose_intervention_for_difficulty_level_and_goal(temporary_difficulty, goals_list[0])
-        interventions_to_load = [chosen_intervention_name]
-        intervention_info_new = all_interventions[chosen_intervention_name]
-        await set_active_interventions_for_domain_and_session domain, session_id, interventions_to_load
-        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode, {'choose_difficulty_screen': choose_difficulty_interface, 'frequency_of_choose_difficulty': frequency_of_choose_difficulty}
+        await load_intervention_list interventions_to_load, tabId, is_new_session, session_id, false, is_suggestion_mode
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
+        dlog 'loaded interventions when choose_by_temporary_difficulty is true'
         return
       else
         interventions_to_load = ['internal/choose_difficulty']
@@ -968,12 +972,13 @@ do !->>
         choose_difficulty_interface = 'this_intervention'
         if localStorage.choose_difficulty_interface?
           choose_difficulty_interface = localStorage.choose_difficulty_interface
-        await execute_content_scripts_for_intervention intervention_info_new, tabId, interventions_to_load, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode, {'choose_difficulty_interface': choose_difficulty_interface, 'frequency_of_choose_difficulty': frequency_of_choose_difficulty}
+        await load_intervention_list interventions_to_load, tabId, is_new_session, session_id, false, is_suggestion_mode
         chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
+        dlog 'loaded interventions when choose_by_temporary_difficulty is false'
         return
     if should_set_active_interventions
-      if intervention?
-        await set_active_interventions_for_domain_and_session domain, session_id, [intervention]
+      if interventions?
+        await set_active_interventions_for_domain_and_session domain, session_id, interventions
       else
         await set_active_interventions_for_domain_and_session domain, session_id, []
     #if not intervention?
@@ -987,17 +992,16 @@ do !->>
         all_available_interventions = as_dictset(all_available_interventions)
         permanently_enabled_interventions = permanently_enabled_interventions.filter (x) -> all_available_interventions[x]
         for permanently_enabled_intervention in permanently_enabled_interventions
-          if permanently_enabled_intervention != intervention
+          if not interventions.includes permanently_enabled_intervention
             interventions_to_load.push permanently_enabled_intervention
             #await load_intervention permanently_enabled_intervention, tabId
     tab_id_to_loaded_interventions[tabId] = interventions_to_load
-    dlog 'interventions to load is:'
-    dlog interventions_to_load
     await load_intervention_list interventions_to_load, tabId, is_new_session, session_id, override_enabled_interventions?, is_suggestion_mode
     if interventions_to_load.length > 0
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_active.svg')}
     else
       chrome.browserAction.setIcon {tabId: tabId, path: chrome.extension.getURL('icons/icon_disabled.svg')}
+    dlog 'loaded interventions if not override_enabled_interventions'
     return
 
   /*

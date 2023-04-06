@@ -56,6 +56,9 @@ const remove_feed_once_available = run_only_one_at_a_time((callback) => {
     show_buttons('#related')
     callback()
   })
+
+  //Remove chips
+  $('#chips-wrapper').remove()
 })
 
 function show_buttons(target_selector) {
@@ -66,13 +69,36 @@ function show_buttons(target_selector) {
     return
   }
   let habitlab_div = $('<div style="width: 100%; text-align: center">')
-  habitlab_div.append($('<habitlab-logo-v2>'))
+  habitlab_div.css({
+    'text-align': 'center', 'color': 'white', 'font-size': '20px',
+  })
   habitlab_div.append($('<br>'))
-  let showFeedButton = $('<paper-button style="background-color: #415D67; color: white; -webkit-font-smoothing: antialiased; font-size: 8px; margin-top: 10px; box-shadow: 2px 2px 2px #888888;">Show Feed This One Time</paper-button>')
+
+  let showFeedButton = $('<paper-button id="show_feed_btn">')
+  showFeedButton.text("Show Feed")
+  showFeedButton.css({
+    'cursor': 'pointer', 'padding': '12px', 'border': '1px solid white',
+    'border-radius': '10px',
+    'color': 'white',
+  });
   showFeedButton.on('click', disable_intervention)
+
+  habitlab_div.append($('<p>The Feed has been Hidden</p>'))
+  habitlab_div.append($('<br>'))
   habitlab_div.append(showFeedButton)
+
+  if (window.matchMedia && !window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    habitlab_div.css({
+      'color': 'black',
+    })
+    showFeedButton.css({
+      'color': 'black',
+      'border': '1px solid black',
+    })
+  }
+
   let habitlab_div_wrapper = $(wrap_in_shadow(habitlab_div))
-      .addClass('habitlab_inserted_div').css('margin-top', '100px')
+    .addClass('habitlab_inserted_div').css('margin-top', '100px')
   $(target_selector).prepend(habitlab_div_wrapper)
 }
 

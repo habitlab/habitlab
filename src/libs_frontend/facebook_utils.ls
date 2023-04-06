@@ -11,7 +11,7 @@ sleep = (time) ->>
  * @return {jQuery object} facebook's news feeds
  */
 export get_news_feed = ->
-  return $('[id^=topnews_main_stream], [id^=mostrecent_main_stream], [id^=pagelet_home_stream]')
+  return $('[role="feed"]')
 
 /**
  * Inject an HTMLElement into facebook news feeds. 

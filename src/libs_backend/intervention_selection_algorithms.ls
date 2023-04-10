@@ -610,33 +610,40 @@ export thompson_novelty = (weight) ->
     return prelude.sort(output)
 
 export all_enabled = (enabled_goals) ->>
-  enabled_interventions_list = await list_enabled_interventions()
+  if not enabled_goals?
+    enabled_goals = await get_enabled_goals()
+  enabled_interventions = await get_enabled_interventions()
 
-  domain = ''
-  # get current active tab (hostname)
-  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
-    url = new URL(tabs[0].url);
-    url_hostname = url.hostname
+  # domain = ''
+  # # get current active tab (hostname)
+  # chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
+  #   url = new URL(tabs[0].url);
+  #   url_hostname = url.hostname
 
-    # get the number of periods in the hostname
-    number_of_periods = 0
-    for i from 0 to url_hostname.length by 1
-      if url_hostname[i] === '.'
-        number_of_periods++
+  #   # get the number of periods in the hostname
+  #   number_of_periods = 0
+  #   for i from 0 to url_hostname.length by 1
+  #     if url_hostname[i] === '.'
+  #       number_of_periods++
     
-    split_url_hostname = url_hostname.split('.')
-    # correctly get the domain based off the number of periods in the hostname
-    domain = split_url_hostname[number_of_periods == 1 ? 0 : 1]
+  #   split_url_hostname = url_hostname.split('.')
+  #   # correctly get the domain based off the number of periods in the hostname
+  #   domain = split_url_hostname[number_of_periods == 1 ? 0 : 1]
 
   # add all enabled interventions that are for the current tab
-  interventions_list = [] # TODO: remove - for testing: ['youtube/remove_sidebar_links', 'youtube/remove_comment_section']
-  for enabled_intervention in enabled_interventions_list
-    if enabled_intervention.includes(domain)
-      interventions_list.push(enabled_intervention)
+  all_enabled_interventions = {}
+  output = [] # TODO: remove - for testing: ['youtube/remove_sidebar_links', 'youtube/remove_comment_section'])
+  for intervention_name, enabled of enabled_interventions
+    intervention = await get_intervention_info(intervention_name)
+    for goal_name in intervention.goals
+      # Check if this intervention is less recent than the specified intervention for that goal.
+      if goal_name of enabled_goals and enabled
+        output.push intervention_name
+
   
   console.log("selected interventions from all_enabled:")
-  console.log(interventions_list)
-  return enabled_interventions_list
+  console.log(output)
+  return output
 
 
 selection_algorithms_for_visit = {
